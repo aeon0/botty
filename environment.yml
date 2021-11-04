@@ -1,0 +1,15 @@
+name: botty
+dependencies:
+  - python=3.8
+  - pywin32
+  - pip
+  - pip:
+    - nuitka
+    - matplotlib
+    - opencv-python
+    - transitions
+    - mss
+    - numpy
+    - mouse
+    - keyboard
+    - graphviz
