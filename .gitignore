@@ -1,0 +1,14 @@
+__pycache__/
+*_generated.py
+playground.py
+*.pyc
+*.pyo
+*.log
+*.spec
+dist/
+build/
+run.build/
+run.dist/
+run.onefile-build/
+generated/
+botty_v*/
