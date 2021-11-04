@@ -3,7 +3,8 @@ from template_finder import TemplateFinder
 from screen import Screen
 from config import Config
 import mouse
-from utils import custom_mouse, custom_keyboard
+from utils import custom_mouse
+import keyboard
 import cv2
 from logger import Logger
 import time
@@ -55,7 +56,6 @@ class DeathManager:
 
 # Testing:
 if __name__ == "__main__":
-    import keyboard
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
