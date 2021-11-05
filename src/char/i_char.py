@@ -46,7 +46,7 @@ class IChar:
             wait(0.1, 0.2)
         if self._ui_manager.can_teleport():
             custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.01 + 0.06))
-            mouse.double_click(button="right")
+            mouse.click(button="right")
             wait_min = self._char_config["casting_frames"] * 0.036
             wait(wait_min, wait_min + 0.02)
         else:
