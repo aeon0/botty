@@ -28,6 +28,8 @@ All settings will automatically be set when you execute `run.exe` and press the 
 - Item Label Display: Hold
 - Large Font Mode: on
 
+**Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running the bot.
+
 ### 2) Supported builds
 #### Soceress
 You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
