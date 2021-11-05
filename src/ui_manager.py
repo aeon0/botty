@@ -247,6 +247,29 @@ class UiManager():
         wait(0.5, 0.6)
         keyboard.send("esc")
 
+    def fill_up_belt_from_inventory(self, num_loot_columns):
+        # Find all pots in the inventory
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.7, 1.0)
+        img = self._screen.grab()
+        pot_positions = []
+        for column, row in itertools.product(range(num_loot_columns), range(4)):
+            center_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
+            found = self._template_finder.search("SUPER_HEALING_POTION", slot_img, threshold=0.9)[0]
+            found |= self._template_finder.search("SUPER_MANA_POTION", slot_img, threshold=0.9)[0]
+            if found:
+                pot_positions.append(center_pos)
+        keyboard.press("shift")
+        for pos in pot_positions:
+            x, y = self._screen.convert_screen_to_monitor(pos)
+            custom_mouse.move(x, y, duration=0.15, randomize=3)
+            wait(0.1)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
+        keyboard.release("shift")
+        wait(0.2, 0.25)
+        keyboard.send(self._config.char["inventory_screen"])
+
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
@@ -258,5 +281,6 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(6)
+    # ui_manager.stash_all_items(6)
     # ui_manager.use_wp(4, 1)
+    ui_manager.fill_up_belt_from_inventory(10)

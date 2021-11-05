@@ -52,6 +52,8 @@ class TemplateFinder:
             "MERC": [load_template("assets/templates/merc.png", 1.0), 1.0],
             "TELE_ACTIVE": [load_template("assets/templates/tele_active.png", 1.0), 1.0],
             "TELE_INACTIVE": [load_template("assets/templates/tele_inactive.png", 1.0), 1.0],
+            "SUPER_HEALING_POTION": [load_template("assets/templates/super_healing_potion.png", 1.0), 1.0],
+            "SUPER_MANA_POTION": [load_template("assets/templates/super_mana_potion.png", 1.0), 1.0],
             # NPC: Qual-Kehk
             "QUAL_FRONT": [load_template("assets/npc/qual_kehk/qual_front.png", 1.0), 1.0],
             "QUAL_SIDE": [load_template("assets/npc/qual_kehk/qual_side.png", 1.0), 1.0],

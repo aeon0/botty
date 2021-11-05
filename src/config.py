@@ -24,6 +24,7 @@ class Config:
         self.char = {
             "type": config["char"]["type"],
             "show_items": config["char"]["show_items"],
+            "inventory_screen": config["char"]["inventory_screen"],
             "stand_still": config["char"]["stand_still"],
             "num_loot_columns": int(config["char"]["num_loot_columns"]),
             "take_health_potion": float(config["char"]["take_health_potion"]),

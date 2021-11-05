@@ -68,6 +68,7 @@ take_mana_potion | Mana percentage when mana potion will be used. Currently belt
 heal_merc | Merc health percentage when giving healing potion to merc
 chicken | Health percentage when chicken (leaving game)
 show_items | Hotkey for "show items"
+inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
 show_belt | Hotkey for "show belt"
 potion1 | Hotkey to take poition in slot 1

@@ -103,13 +103,14 @@ class Bot:
 
     def on_maintenance(self):
         time.sleep(0.6)
-        # wait(16, 23)
+
         if self._death_manager.died() or self._health_manager.did_chicken():
             # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
             # the death manager could determine if we were dead
             self._death_manager.pick_up_corpse()
             # TODO: maybe it is time for a special BeltManager?
-            # self._ui_manager.potions_from_inv_to_belt()
+            wait(1.2, 1.5)
+            self._ui_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
 
         # Check if healing is needed, TODO: add shoping e.g. for potions
         img = self._screen.grab()
