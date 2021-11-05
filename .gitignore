@@ -12,3 +12,4 @@ run.dist/
 run.onefile-build/
 generated/
 botty_v*/
+custom.ini

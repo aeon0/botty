@@ -1,64 +1,86 @@
 import configparser
 import numpy as np
+import os
 
 
 class Config:
+    def _select_val(self, section: str, key: str = None):
+        if section in self._custom and key in self._custom[section]:
+            return self._custom[section][key]
+        elif section in self._config:
+            return self._config[section][key]
+        else:
+            return self._ui_config[section][key]
+
     def __init__(self):
-        config = configparser.ConfigParser()
-        config.read('params.ini')
-        ui_config = configparser.ConfigParser()
-        ui_config.read('ui.ini')
+        self._config = configparser.ConfigParser()
+        self._config.read('params.ini')
+        self._ui_config = configparser.ConfigParser()
+        self._ui_config.read('ui.ini')
+        self._custom = configparser.ConfigParser()
+        if os.path.exists('custom.ini'):
+             self._custom.read('custom.ini')
 
         self.general = {
-            "monitor": int(config["general"]["monitor"]),
-            "min_game_length_s": float(config["general"]["min_game_length_s"]),
-            "exit_key": config["general"]["exit_key"],
-            "resume_key": config["general"]["resume_key"],
-            "auto_settings_key": config["general"]["auto_settings_key"],
-            "color_checker_key": config["general"]["color_checker_key"],
+            "monitor": int(self._select_val("general", "monitor")),
+            "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
+            "exit_key": self._select_val("general", "exit_key"),
+            "resume_key": self._select_val("general", "resume_key"),
+            "auto_settings_key": self._select_val("general", "auto_settings_key"),
+            "color_checker_key": self._select_val("general", "color_checker_key"),
         }
         self.routes = {
-            "run_pindle": bool(int(config["routes"]["run_pindle"])),
-            "run_shenk": bool(int(config["routes"]["run_shenk"])) if "run_shenk" in config["routes"] else False,
+            "run_pindle": bool(int(self._select_val("routes", "run_pindle"))),
+            "run_shenk": bool(int(self._select_val("routes", "run_shenk"))),
         }
         self.char = {
-            "type": config["char"]["type"],
-            "show_items": config["char"]["show_items"],
-            "inventory_screen": config["char"]["inventory_screen"],
-            "stand_still": config["char"]["stand_still"],
-            "num_loot_columns": int(config["char"]["num_loot_columns"]),
-            "take_health_potion": float(config["char"]["take_health_potion"]),
-            "take_mana_potion": float(config["char"]["take_mana_potion"]),
-            "heal_merc": float(config["char"]["heal_merc"]),
-            "chicken": float(config["char"]["chicken"]),
-            "tp": config["char"]["tp"],
-            "show_belt": config["char"]["show_belt"],
-            "potion1": config["char"]["potion1"],
-            "potion2": config["char"]["potion2"],
-            "potion3": config["char"]["potion3"],
-            "potion4": config["char"]["potion4"],
-            "cta_available": bool(int(config["char"]["cta_available"])),
-            "weapon_switch": config["char"]["weapon_switch"],
-            "battle_orders": config["char"]["battle_orders"],
-            "battle_command": config["char"]["battle_command"],
-            "casting_frames": int(config["char"]["casting_frames"])
+            "type": self._select_val("char", "type"),
+            "show_items": self._select_val("char", "show_items"),
+            "inventory_screen": self._select_val("char", "inventory_screen"),
+            "stand_still": self._select_val("char", "stand_still"),
+            "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
+            "take_health_potion": float(self._select_val("char", "take_health_potion")),
+            "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
+            "heal_merc": float(self._select_val("char", "heal_merc")),
+            "chicken": float(self._select_val("char", "chicken")),
+            "tp": self._select_val("char", "tp"),
+            "show_belt": self._select_val("char", "show_belt"),
+            "potion1": self._select_val("char", "potion1"),
+            "potion2": self._select_val("char", "potion2"),
+            "potion3": self._select_val("char", "potion3"),
+            "potion4": self._select_val("char", "potion4"),
+            "cta_available": bool(int(self._select_val("char", "cta_available"))),
+            "weapon_switch": self._select_val("char", "weapon_switch"),
+            "battle_orders": self._select_val("char", "battle_orders"),
+            "battle_command": self._select_val("char", "battle_command"),
+            "casting_frames": int(self._select_val("char", "casting_frames"))
         }
 
-        self.sorceress = config["sorceress"]
+        self.sorceress = dict(self._config["sorceress"])
+        if "sorceress" in self._custom:
+            self.sorceress.update(dict(self._custom["sorceress"]))
 
-        self.hammerdin = config["hammerdin"]
+        self.hammerdin = self._config["hammerdin"]
+        if "hammerdin" in self._custom:
+            self.hammerdin.update(self._custom["hammerdin"])
 
         self.items = {}
-        for key in config["items"]:
-            self.items[key] = bool(int(config["items"][key]))
+        for key in self._config["items"]:
+            self.items[key] = bool(int(self._select_val("items", key)))
 
         self.colors = {}
-        for key in ui_config["colors"]:
-            self.colors[key] = np.split(np.array([int(x) for x in ui_config["colors"][key].split(",")]), 2)
+        for key in self._ui_config["colors"]:
+            self.colors[key] = np.split(np.array([int(x) for x in self._ui_config["colors"][key].split(",")]), 2)
+        if "colors" in self._custom:
+            custom_colors = {}
+            for key in self._custom["colors"]:
+                custom_colors[key] = np.split(np.array([int(x) for x in self._custom["colors"][key].split(",")]), 2)
+            self.colors.update(custom_colors)
 
         self.ui_pos = {}
-        for key in ui_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(ui_config["ui_pos_1920_1080"][key])
+        for key in self._ui_config["ui_pos_1920_1080"]:
+            self.ui_pos[key] = int(self._select_val("ui_pos_1920_1080", key))
+
 
 if __name__ == "__main__":
     config = Config()
