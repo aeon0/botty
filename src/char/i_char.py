@@ -73,7 +73,7 @@ class IChar:
         start = time.time()
         while (time.time() - start)  < 7:
             img = self._screen.grab()
-            success1, pos1 = self._template_finder.search("BLUE_PORTAL", img, threshold=0.7, roi=roi)
+            success1, pos1 = self._template_finder.search("BLUE_PORTAL", img, threshold=0.66, roi=roi)
             success2, pos2 = self._template_finder.search("BLUE_PORTAL_2", img, threshold=0.7, roi=roi)
             if success1 or success2:
                 pos = pos1 if success1 else pos2
