@@ -39,6 +39,9 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 ### 5) Start Botty
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder, go to D2R window and press the "resume" key. Move to your D2R window and press "f11". You can always force stop botty with f12.
 
+## Development
+Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
+
 ## param.ini
  [general]                      | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -94,9 +97,9 @@ redemption | Hotkey for redemption
 --------------------------------|---------------------------------------------
 item_type | Select "1" if item should be picked up, "0" if not.
 
-# Some distant future plans
+## Some distant future plans
 - Running chaos with AI algo
 - Emulating Keyboard and Mouse with Arduino
 
-# Support this project
+## Support this project
 This project is free. Support it by contributing in any technical way, giving feedback, PRs or by submitting issues. That being said, I am not above accepting some pixel currency :) So if you want to send some fg my way to keep my dopamine high, here is my jsp: [jojo22](https://forums.d2jsp.org/user.php?i=768967).
