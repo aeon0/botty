@@ -262,7 +262,7 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         if success:
-            success, _= self._template_finder.search_and_wait("A5_TOWN_1", time_out=4)
+            success, _= self._template_finder.search_and_wait("A5_TOWN_1", time_out=10)
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START
