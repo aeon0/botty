@@ -1,7 +1,6 @@
 import os
 import shutil
 from pathlib import Path
-import glob
 from src.version import __version__
 
 # Note: Before building you must add cv2 to python path:

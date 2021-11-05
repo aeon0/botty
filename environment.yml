@@ -13,3 +13,4 @@ dependencies:
     - mouse
     - keyboard
     - graphviz
+    - beautifultable

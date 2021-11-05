@@ -14,6 +14,7 @@ class Config:
             "min_game_length_s": float(config["general"]["min_game_length_s"]),
             "exit_key": config["general"]["exit_key"],
             "resume_key": config["general"]["resume_key"],
+            "auto_settings_key": config["general"]["auto_settings_key"],
             "color_checker_key": config["general"]["color_checker_key"],
         }
         self.routes = {

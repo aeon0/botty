@@ -20,11 +20,13 @@ Join the [**Discord Channel**](https://discord.gg/CnkfsjqN) for help and discuss
 - Runs in Hyper-V
 
 ## Getting started
-### 1) Settings
-- Resolution: 1920x1080, Graphic Preset: Low (see [screenshot](assets/docs/graphic_settings.png) for full settings)
-- Brightness: as in shown in [gamma settings](assets/docs/gamma_settings.png)
-- Item Label Display: Hold ([screenshot]("assets/docs/gameplay_settings_show_item.png"))
-- Large Font Mode: on ([screenshot]("assets/docs/gameplay_settings_font_size.png"))
+### 1) Graphics and Gameplay Settings
+All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. The important ones are listed here:
+
+- Resolution: 1920x1080 (Fullscreen)
+- Gamma: 155
+- Item Label Display: Hold
+- Large Font Mode: on
 
 ### 2) Supported builds
 #### Soceress
