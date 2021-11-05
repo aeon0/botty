@@ -61,6 +61,7 @@ run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out
  [char]                         | Descriptions                                
 --------------------------------|---------------------------------------------
 type | Build type. Currently only "sorceress" or "hammerdin" is supported
+casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
 num_loot_columns | Number of columns in inventory used for loot (from left!). Remaining space can be used for charms
 take_health_potion | Health percentage when healing potion will be used
 take_mana_potion | Mana percentage when mana potion will be used. Currently belt managment is not very clever and it is safest to only pick up health pots and make sure mana reg is enough for pindle to not need mana pots.
@@ -77,23 +78,22 @@ cta_available | 0: no cta available, 1: cta is available and should be used duri
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
-casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
 
  [sorceress]                    | Descriptions                                
 --------------------------------|---------------------------------------------
 teleport | Hotkey for teleport
-skill_right | Hotkey for skill that is used on right mouse btn (e.g. Blizzard)
 skill_left | Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike)
+skill_right | Hotkey for skill that is used on right mouse btn (e.g. Blizzard)
 forzen_armor | Hotkey for frozen armor (or any of the other armors)
 telekinesis | Hotkey for telekinesis
 
  [hammerdin]                    | Descriptions                                
 --------------------------------|---------------------------------------------
 teleport | Hotkey for teleport
-blessed_hammer | Hotkey for Blessed Hammer
 concentration | Hotkey for Concentration
-holy_shield | Hotkey for Holy Shield
 redemption | Hotkey for redemption
+holy_shield | Hotkey for Holy Shield
+blessed_hammer | Hotkey for Blessed Hammer
 
  [items]                        | Descriptions                                
 --------------------------------|---------------------------------------------
