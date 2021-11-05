@@ -29,9 +29,6 @@ class HealthManager:
     def did_chicken(self):
         return self._did_chicken
 
-    def reset_chicken_flag(self):
-        self._did_chicken = False
-
     def _drink_poition(self, img: np.ndarray, potion_type: str, merc: bool = False):
         for i in range(4):
             roi = [

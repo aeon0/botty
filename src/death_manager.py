@@ -43,15 +43,19 @@ class DeathManager:
             res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
             _, max_val, _, _ = cv2.minMaxLoc(res)
             if max_val > 0.94:
-                Logger.warning("You have died!")
+                Logger.warning("You have died! Waiting 30 sec to make sure chicken does not do any funny during with this logic.")
                 # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
                 kill_thread(run_thread)
-                time.sleep(5)
+                time.sleep(30)
                 self._died = True
-                keyboard.send("esc")
-                self._template_finder.search_and_wait("A5_TOWN_1")
-                time.sleep(2)
-                self._do_monitor = False
+                if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:
+                    # in this case chicken executed and left the game, but we were still dead.
+                    return
+                else:
+                    keyboard.send("esc")
+                    self._template_finder.search_and_wait("A5_TOWN_1")
+                    time.sleep(2)
+                    self._do_monitor = False
 
 
 # Testing:

@@ -15,6 +15,7 @@ from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
 from utils.misc import wait
+import keyboard
 import threading
 import time
 import os
@@ -97,12 +98,15 @@ class Bot:
         self._template_finder.search_and_wait("A5_TOWN_1")
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
+        keyboard.send(self._config.char["stand_still"]) # just in case the key is still locked
         self.trigger("maintenance")
 
     def on_maintenance(self):
         time.sleep(0.6)
         # wait(16, 23)
-        if self._death_manager.died():
+        if self._death_manager.died() or self._health_manager.did_chicken():
+            # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
+            # the death manager could determine if we were dead
             self._death_manager.pick_up_corpse()
             # TODO: maybe it is time for a special BeltManager?
             # self._ui_manager.potions_from_inv_to_belt()
@@ -249,15 +253,32 @@ class Bot:
         self._start_run("run_shenk", run)
 
     def on_end_game(self):
-        if self._health_manager.did_chicken():
-            self._health_manager.reset_chicken_flag()
+        if self._health_manager.did_chicken() or self._death_manager.died():
+            # This is a tricky state as we send different actions in different threads.
+            # Chicken could have been succesfull which means we are at hero selection screen
+            # Chicken could have been unsuccesfull, which means we are naked in a5_town
+            time.sleep(3) # just to take our time here
+            is_loading = True
+            while is_loading:
+                is_loading = self._template_finder.search("LOADING", self._screen.grab())[0]
+                time.sleep(0.5)
+            # Okay we are sure we are not in loading screen, let's check if we are in hero selection or in a5 town
+            img = self._screen.grab()
+            if self._template_finder.search("A5_TOWN_1", img)[0]:
+                self._ui_manager.save_and_exit()
+            elif self._template_finder.search("D2_LOGO_HS", img)[0]:
+                pass # no need to do anything
+            else:
+                Logger.error("Could not determine location after chicken / death. Can not continue...")
+                os._exit(1)
         else:
-            if self._timer is not None:
-                elapsed_time = time.time() - self._timer
-                Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
-            for key in self._do_runs:
-                self._do_runs[key] = self._route_config[key]
             self._ui_manager.save_and_exit()
+
+        if self._timer is not None:
+            elapsed_time = time.time() - self._timer
+            Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
+        for key in self._do_runs:
+            self._do_runs[key] = self._route_config[key]
         wait(0.2, 0.5)
         self.trigger("create_game")
 
