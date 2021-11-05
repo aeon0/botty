@@ -9,6 +9,8 @@ import os
 import random
 from typing import Tuple
 import cv2
+from config import Config
+from utils.misc import wait
 
 
 class Location:
@@ -22,11 +24,16 @@ class Location:
 
 class Pather:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
+        self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
         # TODO: params based on 1920x1080 (in rel coordinates to ref point)
         self._range_x = [-950, 950]
         self._range_y = [-530, 440]
+        # health/mana globe coordinates:
+        self._hg_rect = [245, 245 + 320] # s-left, x-right
+        self._mg_rect = [1350, 1350 + 320] # x-left, x-right
+        self._globe_top_abs_pos = 345
         self._nodes = {
             # A5 town
             0: {"A5_TOWN_0": (110-70, 373), "A5_TOWN_1": (-68-70, -205)},
@@ -107,11 +114,6 @@ class Pather:
     def _convert_rel_to_abs(rel_loc, pos_abs):
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def _check_abs_range_to_screen(self, pos_abs: Tuple[float, float]) -> Tuple[float, float]:
-        is_in_x_range = self._range_x[0] < pos_abs[0] < self._range_x[1]
-        is_in_y_range = self._range_y[0] < pos_abs[1] < self._range_y[1]
-        return is_in_x_range and is_in_y_range
-
     def traverse_nodes_fixed(self, key: str, char: IChar):
         path = self._fixed_tele_path[key][0]
         for pos in path:
@@ -119,6 +121,25 @@ class Pather:
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
             char.move((x_m, y_m))
+
+    def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
+        f = 1.0
+        if abs_pos[0] > self._range_x[1]:
+            f = min(f, abs(self._range_x[1] / float(abs_pos[0])))
+        elif abs_pos[0] < self._range_x[0]:
+            f = min(f, abs(self._range_x[0] / float(abs_pos[0])))
+        if abs_pos[1] < self._range_y[0]:
+            f = min(f, abs(self._range_y[0] / float(abs_pos[1])))
+        # also accout for globes
+        range_y_bottom = self._range_y[1]
+        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
+        if self._hg_rect[0] < screen_pos[0] < self._hg_rect[1] or self._mg_rect[0] < screen_pos[0] < self._mg_rect[1]:
+            range_y_bottom = self._globe_top_abs_pos
+        if abs_pos[1] > range_y_bottom:
+            f = min(f, abs(self._range_y[1] / float(abs_pos[1])))
+        if f < 1.0:
+            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
+        return abs_pos
 
     def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, debug: bool = False) -> bool:
         Logger.debug(f"Traverse from {start_location} to {end_location}")
@@ -154,17 +175,19 @@ class Pather:
                         _debug_node_pos_abs_list.append(node_pos_abs)
                         if debug:
                             self._draw_debug(img, _debug_node_pos_abs_list, _debug_ref_pos_abs_list)
-                        if self._check_abs_range_to_screen(node_pos_abs):
-                            dist = math.dist(node_pos_abs, (0, 0))
-                            # TODO: param based on 1920x1080
-                            if dist < 150:
-                                continue_to_next_node = True
-                            else:
-                                # Move the char
-                                x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
-                                char.move((x_m, y_m))
-                                last_move = time.time()
-                            break
+                        node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                        dist = math.dist(node_pos_abs, (0, 0))
+                        # TODO: param based on 1920x1080
+                        if dist < 150:
+                            continue_to_next_node = True
+                        else:
+                            # Move the char
+                            x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
+                            char.move((x_m, y_m))
+                            last_move = time.time()
+                            if self._config.char["slow_walk"]:
+                                wait(1.2, 1.4)
+                        break
         return True
 
 
@@ -183,5 +206,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, None, ui_manager)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    # pather.traverse_nodes(Location.QUAL_KEHK, Location.NIHLATHAK_PORTAL, char, debug=True)
-    pather._display_all_nodes()
+    pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char, debug=True)
+    # pather._display_all_nodes()

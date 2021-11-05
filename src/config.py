@@ -53,7 +53,8 @@ class Config:
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
-            "casting_frames": int(self._select_val("char", "casting_frames"))
+            "casting_frames": int(self._select_val("char", "casting_frames")),
+            "slow_walk": bool(int(self._select_val("char", "slow_walk"))),
         }
 
         self.sorceress = dict(self._config["sorceress"])

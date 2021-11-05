@@ -54,7 +54,7 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            adjust_factor = (dist - 60) / dist
+            adjust_factor = (dist - 50) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             custom_mouse.move(x, y, duration=(random.random() * 0.03 + 0.05))
