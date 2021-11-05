@@ -19,6 +19,7 @@ Edit System environment variables -> Enfironment Vriables... -> PYTHONPATH -> C:
 # building .exe and bundeling all needed resource into one folder
 python release.py
 ```
+For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
 
 ## Folder Structure
 **/**</br>
