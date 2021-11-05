@@ -199,8 +199,10 @@ class Bot:
                     return
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
-                bot._char.select_by_template("A5_RED_PORTAL")
-                bot._template_finder.search_and_wait("PINDLE_STONE")
+                self.success &= bot._char.select_by_template("A5_RED_PORTAL")
+                self.success &= bot._template_finder.search_and_wait("PINDLE_STONE", time_out=15)[0]
+                if not self.success:
+                    return
                 bot._char.pre_buff()
                 wait(0.2, 0.4)
                 bot._pather.traverse_nodes_fixed("PINDLE", bot._char)
