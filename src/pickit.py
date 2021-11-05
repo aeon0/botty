@@ -43,8 +43,8 @@ class PickIt:
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
                 # TODO: 1920x1080 specific param
                 if closest_item.dist < 400:
-                    # no need to stash poitions
-                    if "potion" not in closest_item.name:
+                    # no need to stash poitions and scrolls
+                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name:
                         found_items = True
                     Logger.info(f"Picking up {closest_item.name}")
                     custom_mouse.move(x_m, y_m, duration=(random.random() * 0.01 + 0.02))
