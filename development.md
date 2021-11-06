@@ -9,6 +9,7 @@
 git clone https://github.com/aeon0/botty.git
 cd botty
 conda env create environment.yml
+conda activate botty
 python src/run.py
 ```
 
