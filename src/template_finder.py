@@ -5,6 +5,7 @@ from typing import Tuple, Union, List
 import numpy as np
 from logger import Logger
 import time
+from config import Config
 
 
 def load_template(path, scale_factor):
@@ -21,6 +22,7 @@ class TemplateFinder:
         self.debug_last_score = -1.0
         self._screen = screen
         self._scale_factor = scale_factor
+        self._config = Config()
         self._templates = {
             # Templates for node in A5 Town
             "A5_TOWN_0": [load_template("assets/templates/a5_town/a5_town_0.png", self._scale_factor), self._scale_factor],

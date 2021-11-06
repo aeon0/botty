@@ -186,7 +186,7 @@ class UiManager():
         if x_range[0] < pos[0] < x_range[1]:
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
             Logger.debug("Found Hell Btn -> clicking it")
-            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.5), randomize=5)
+            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 1.0), randomize=5)
             mouse.click(button="left")
         else:
             Logger.debug("Sanity position check on hell btn failed")
@@ -198,7 +198,7 @@ class UiManager():
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
-            custom_mouse.move(x, y, duration=(random.random() * 0.4 + 0.5), randomize=5)
+            custom_mouse.move(x, y, duration=(random.random() * 0.4 + 1.0), randomize=5)
             mouse.click(button="left")
             wait(1, 2)
             keyboard.send("esc")
@@ -347,6 +347,7 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(6)
+    ui_manager.start_hell_game()
+    # ui_manager.stash_all_items(6)
     # ui_manager.use_wp(4, 1)
     # ui_manager.fill_up_belt_from_inventory(10)

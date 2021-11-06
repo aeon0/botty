@@ -10,6 +10,7 @@ from utils.remove_mouse_flags import remove_mouse_flag
 from utils.auto_settings import adjust_settings
 import threading
 from beautifultable import BeautifulTable
+import time
 
 
 def start_bot():
@@ -54,6 +55,7 @@ if __name__ == "__main__":
         elif keyboard.is_pressed(config.general['color_checker_key']):
             run_color_checker()
             break
+        time.sleep(0.02)
 
     remove_flags_thread.join()
     print("Press Enter to exit ...")
