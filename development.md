@@ -14,7 +14,7 @@ python src/run.py
 ```
 
 ## Building from source
-If you want to build a .exe from source you will have to first add the cv2 path to your PYTHONPATH to System variables or User variables for current user:</br>
+If you want to build a .exe from source you will have to first add the cv2 path to your PYTHONPATH in System variables or User variables for current user:</br>
 Edit the system environment variables -> Environment Variables... -> New... 
 Variable name: PYTHONPATH 
 Variable value: C:\Users\%USERPROFILE%\miniconda3\envs\botty\Lib\site-packages\cv2 
