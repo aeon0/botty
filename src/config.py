@@ -29,10 +29,11 @@ class Config:
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
             "color_checker_key": self._select_val("general", "color_checker_key"),
         }
-        self.routes = {
-            "run_pindle": bool(int(self._select_val("routes", "run_pindle"))),
-            "run_shenk": bool(int(self._select_val("routes", "run_shenk"))),
-        }
+
+        self.routes = {}
+        for key in self._config["routes"]:
+            self.routes[key] = bool(int(self._select_val("routes", key)))
+
         self.char = {
             "type": self._select_val("char", "type"),
             "show_items": self._select_val("char", "show_items"),

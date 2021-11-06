@@ -41,9 +41,12 @@ class Bot:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
         self._route_config = self._config.routes
+        if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
+            Logger.error("Running shenk without eldtritch is not supported. Either run none, both or eldritch only.")
+            os._exit(1)
         self._do_runs = {
             "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"]
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
         }
         self._picked_up_items = False
         self._tp_is_up = False
@@ -243,11 +246,12 @@ class Bot:
                 wait(0.5)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 # shenk
-                bot._pather.traverse_nodes_fixed("SHENK", bot._char)
-                wait(0.15, 0.2)
-                bot._char.kill_shenk(bot._pather.get_fixed_path("SHENK")[1])
-                wait(0.5)
-                bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
+                if bot._route_config["run_shenk"]:
+                    bot._pather.traverse_nodes_fixed("SHENK", bot._char)
+                    wait(0.15, 0.2)
+                    bot._char.kill_shenk(bot._pather.get_fixed_path("SHENK")[1])
+                    wait(0.5)
+                    bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
                 self.success = True
                 return
         run = RunShenk()
