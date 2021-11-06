@@ -49,6 +49,7 @@ class TemplateFinder:
             "D2_LOGO_HS": [load_template("assets/templates/d2_logo_hs.png", 1.0), 1.0],
             "LOADING": [load_template("assets/templates/loading.png", 1.0), 1.0],
             "PLAY_BTN": [load_template("assets/templates/play_btn.png", 1.0), 1.0],
+            "PLAY_BTN_GRAY": [load_template("assets/templates/play_btn_gray.png", 1.0), 1.0],
             "HELL_BTN": [load_template("assets/templates/hell_btn.png", 1.0), 1.0],
             "SAVE_AND_EXIT": [load_template("assets/templates/save_and_exit.png", 1.0), 1.0],
             "SERVER_ISSUES": [load_template("assets/templates/server_issues.png", 1.0), 1.0],

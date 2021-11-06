@@ -137,7 +137,7 @@ class UiManager():
             keyboard.send("esc")
             wait(0.1)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
-            found, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT", roi=self._config.ui_roi["save_and_exit"], time_out=3)
+            found, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT", roi=self._config.ui_roi["save_and_exit"], time_out=7)
             if found:
                 x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
                 custom_mouse.move(x_m, y_m, duration=0.2, randomize=12)
@@ -151,6 +151,9 @@ class UiManager():
         Starting a game in hell mode. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
+        while self._template_finder.search("PLAY_BTN_GRAY", self._screen.grab(), roi=self._config.ui_roi["play_btn"], threshold=0.95)[0]:
+            time.sleep(2)
+
         Logger.debug(f"Searching for Play Btn...")
         found, pos = self._template_finder.search_and_wait("PLAY_BTN", roi=self._config.ui_roi["play_btn"], time_out=8)
         if not found:
