@@ -151,46 +151,42 @@ class UiManager():
         Starting a game in hell mode. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
-        while self._template_finder.search("PLAY_BTN_GRAY", self._screen.grab(), roi=self._config.ui_roi["play_btn"], threshold=0.95)[0]:
-            time.sleep(2)
-
-        Logger.debug(f"Searching for Play Btn...")
-        found, pos = self._template_finder.search_and_wait("PLAY_BTN", roi=self._config.ui_roi["play_btn"], time_out=8)
-        if not found:
-            return False
-        # sanity x, y check and determine if offline or online
-        x_range_offline = [self._config.ui_pos["play_x_offline"] - 50, self._config.ui_pos["play_x_offline"] + 50]
-        x_range_online = [self._config.ui_pos["play_x_online"] - 50, self._config.ui_pos["play_x_online"] + 50]
-        y_range = [self._config.ui_pos["play_y"] - 50, self._config.ui_pos["play_y"] + 50]
-        in_offline_range = x_range_offline[0] < pos[0] < x_range_offline[1]
-        in_online_range = x_range_online[0] < pos[0] < x_range_online[1]
-        mode_info = "online mode" if in_online_range else "offline mode"
-        if (in_offline_range or in_online_range) and y_range[0] < pos[1] < y_range[1]:
-            pos = [pos[0], self._config.ui_pos["play_y"]]
-            x, y = self._screen.convert_screen_to_monitor(pos)
-            Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
-            if mode_info == "online mode":
-                Logger.warning("You are creating a game in online mode!")
-            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.5), randomize=5)
-            mouse.click(button="left")
-        else:
-            Logger.debug("Sanity position check on play btn failed")
-            return False
+        while 1:
+            _, pos = self._template_finder.search_and_wait("PLAY_BTN", roi=self._config.ui_roi["play_btn"], threshold=0.91)
+            # sanity x, y check and determine if offline or online
+            x_range_offline = [self._config.ui_pos["play_x_offline"] - 50, self._config.ui_pos["play_x_offline"] + 50]
+            x_range_online = [self._config.ui_pos["play_x_online"] - 50, self._config.ui_pos["play_x_online"] + 50]
+            y_range = [self._config.ui_pos["play_y"] - 50, self._config.ui_pos["play_y"] + 50]
+            in_offline_range = x_range_offline[0] < pos[0] < x_range_offline[1]
+            in_online_range = x_range_online[0] < pos[0] < x_range_online[1]
+            mode_info = "online mode" if in_online_range else "offline mode"
+            if (in_offline_range or in_online_range) and y_range[0] < pos[1] < y_range[1]:
+                pos = [pos[0], self._config.ui_pos["play_y"]]
+                x, y = self._screen.convert_screen_to_monitor(pos)
+                Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
+                if mode_info == "online mode":
+                    Logger.warning("You are creating a game in online mode!")
+                custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.5), randomize=5)
+                mouse.click(button="left")
+                break
+            time.sleep(3.0)
 
         Logger.debug("Searching for Hell Btn...")
-        found, pos = self._template_finder.search_and_wait("HELL_BTN", roi=self._config.ui_roi["hell_btn"], time_out=8)
-        if not found:
-            return False
-        # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
-        x_range = [self._config.ui_pos["hell_x"] - 50, self._config.ui_pos["hell_x"] + 50]
-        if x_range[0] < pos[0] < x_range[1]:
-            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
-            Logger.debug("Found Hell Btn -> clicking it")
-            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 1.0), randomize=5)
-            mouse.click(button="left")
-        else:
-            Logger.debug("Sanity position check on hell btn failed")
-            return False
+        while 1:
+            found, pos = self._template_finder.search_and_wait("HELL_BTN", roi=self._config.ui_roi["hell_btn"], time_out=8)
+            if not found:
+                Logger.debug("Could not find hell btn, try from start again")
+                return self.start_hell_game()
+            # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
+            x_range = [self._config.ui_pos["hell_x"] - 50, self._config.ui_pos["hell_x"] + 50]
+            if x_range[0] < pos[0] < x_range[1]:
+                x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
+                Logger.debug("Found Hell Btn -> clicking it")
+                custom_mouse.move(x, y, duration=(random.random() * 0.2 + 1.0), randomize=5)
+                mouse.click(button="left")
+                break
+            else:
+                time.sleep(3.0)
 
         # check for server issue
         wait(2.0)
