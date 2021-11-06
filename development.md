@@ -15,7 +15,9 @@ python src/run.py
 
 ## Building from source
 If you want to build a .exe from source you will have to first add the cv2 path to your PYTHONPATH:</br>
-Edit System environment variables -> Enfironment Vriables... -> PYTHONPATH -> C:\Users\\$USER\miniconda3\envs\botty\lib\site-packages\cv2
+Edit System environment variables -> Enfironment Vriables... -> PYTHONPATH -> C:\Users\\$USER\miniconda3\envs\botty\lib\site-packages\cv2.
+
+Note that you will have to replace `$USER` with your windows user. e.g. C:\Users\aeon\...
 ```python
 # building .exe and bundeling all needed resource into one folder
 python release.py
