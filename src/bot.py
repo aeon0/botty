@@ -279,8 +279,10 @@ class Bot:
         if self._timer is not None:
             elapsed_time = time.time() - self._timer
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
-        for key in self._do_runs:
-            self._do_runs[key] = self._route_config[key]
+        self._do_runs = {
+            "run_pindle": self._route_config["run_pindle"],
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
+        }
         wait(0.2, 0.5)
         self.trigger("create_game")
 
