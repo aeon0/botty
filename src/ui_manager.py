@@ -262,7 +262,9 @@ class UiManager():
         # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
-        self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"])
+        if not self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)[0]:
+            Logger.error("Could not determine to be in stash menu. Continue...")
+            return
         Logger.debug("Found inventory gold btn")
         # select the start stash
         personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])

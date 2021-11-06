@@ -92,9 +92,9 @@ class Bot:
                 wait(delay, delay + 5.0)
         Logger.info("Start new game")
         self._timer = time.time()
-        found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=100)
+        found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=70)
         if not found:
-            Logger.error("Something went wrong here, probably died. Exit game and closing down bot.")
+            Logger.error("Something went wrong here, bot is unsure about current location. Exit game and closing down bot.")
             self._ui_manager.save_and_exit()
             os._exit(1)
         self._ui_manager.start_hell_game()
@@ -120,14 +120,12 @@ class Bot:
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
             Logger.info("Need some healing first. Go talk to Malah")
-            success = self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char)
-            if not success:
+            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
                 self.trigger("end_game")
                 return
             self._curr_location = Location.MALAH
             self._npc_manager.open_npc_menu(Npc.MALAH)
-            success = self._pather.traverse_nodes(self._curr_location, Location.A5_TOWN_START, self._char)
-            if not success:
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_TOWN_START, self._char):
                 self.trigger("end_game")
                 return
             self._curr_location = Location.A5_TOWN_START
@@ -135,15 +133,13 @@ class Bot:
         # Stash stuff
         if self._picked_up_items:
             Logger.info("Stashing picked up items")
-            success = self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char)
-            if not success:
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char):
                 self.trigger("end_game")
                 return
             self._curr_location = Location.A5_STASH
             time.sleep(1.5)
             # sometimes waypoint is opened and stash not found because of that, check for that
-            found, _ = self._template_finder.search("WAYPOINT_MENU", self._screen.grab())
-            if found:
+            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
                 keyboard.send("esc")
             if self._char.select_by_template("A5_STASH"):
                 self._ui_manager.stash_all_items(self._config.char["num_loot_columns"])
@@ -156,13 +152,12 @@ class Bot:
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
             Logger.info("Reviveing merc")
-            success = self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char)
-            if not success:
+            if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
                 self.trigger("end_game")
                 return
             self._curr_location = Location.QUAL_KEHK
-            self._npc_manager.open_npc_menu(Npc.QUAL_KEHK)
-            self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
+            if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
+                self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             time.sleep(2)
 
         # Start a new run
@@ -208,7 +203,7 @@ class Bot:
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
                 self.success &= bot._char.select_by_template("A5_RED_PORTAL")
-                self.success &= bot._template_finder.search_and_wait("PINDLE_STONE", time_out=15)[0]
+                self.success &= bot._template_finder.search_and_wait("PINDLE_STONE", time_out=20)[0]
                 if not self.success:
                     return
                 bot._char.pre_buff()
@@ -238,7 +233,9 @@ class Bot:
                 bot._char.select_by_template("A5_WP")
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)
-                bot._template_finder.search_and_wait("SHENK_FLAME")
+                self.success = bot._template_finder.search_and_wait("SHENK_FLAME", time_out=20)[0]
+                if not self.success:
+                    return
                 bot._char.pre_buff()
                 # eldritch
                 bot._pather.traverse_nodes_fixed("ELDRITCH", bot._char)
