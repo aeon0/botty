@@ -14,6 +14,10 @@ def load_template(path, scale_factor):
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = 0.5):
+        """
+        :param screen: Screen object
+        :param scale_factor: Scale factor that is used for templates. Note: UI and NPC templates will always have scale of 1.0
+        """
         self.debug_last_score = -1.0
         self._screen = screen
         self._scale_factor = scale_factor
@@ -79,6 +83,14 @@ class TemplateFinder:
         return self._templates[key][0]
 
     def search(self, ref: Union[str, np.ndarray], inp_img: np.ndarray, threshold: float = 0.7, roi: List[float] = None) -> Tuple[bool, Tuple[float, float]]:
+        """
+        Search for a template in an image
+        :param ref: Either key of a already loaded template or a image which is used as template
+        :param inp_img: Image in which the template will be searched
+        :param threshold: Threshold which determines if a template is found or not
+        :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
+        :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
+        """
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -109,6 +121,12 @@ class TemplateFinder:
         return False, None
 
     def search_and_wait(self, ref: str, roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
+        """
+        Helper function that will loop and keep searching for a template
+        :param ref: Key of template which has been loaded beforehand
+        :param time_out: After this amount of time the search will stop and it will return [False, None]
+        Rest of params same as TemplateFinder.search()
+        """
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:

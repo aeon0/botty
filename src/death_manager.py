@@ -9,6 +9,7 @@ import cv2
 from logger import Logger
 import time
 import random
+from threading import Thread
 
 
 class DeathManager:
@@ -17,7 +18,6 @@ class DeathManager:
         self._screen = screen
         self._template_finder = template_finder
         _, self._you_have_died_filtered = color_filter(cv2.imread("assets/templates/you_have_died.png"), self._config.colors["red"])
-        self._search_roi = [self._config.ui_pos["death_roi_left"], self._config.ui_pos["death_roi_top"], self._config.ui_pos["death_roi_width"], self._config.ui_pos["death_roi_height"]]
         self._died = False
         self._do_monitor = False
 
@@ -34,11 +34,11 @@ class DeathManager:
         mouse.click(button="left")
         self._died = False
 
-    def start_monitor(self, run_thread):
+    def start_monitor(self, run_thread: Thread):
         self._do_monitor = True
         while self._do_monitor:
             time.sleep(1.0) # no need to do this too frequent, when we died we are not in a hurry...
-            roi_img = cut_roi(self._screen.grab(), self._search_roi)
+            roi_img = cut_roi(self._screen.grab(), self._config.ui_roi["death"])
             _, filtered_roi_img = color_filter(roi_img, self._config.colors["red"])
             res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
             _, max_val, _, _ = cv2.minMaxLoc(res)

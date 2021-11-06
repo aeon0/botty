@@ -19,6 +19,11 @@ class PickIt:
         self._config = Config()
 
     def pick_up_items(self, char: IChar) -> bool:
+        """
+        Pick up all items with specified char
+        :param char: The character used to pick up the item
+        :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
+        """
         found_items = False
         keyboard.send(self._config.char["show_items"], do_press=True, do_release=False)
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
@@ -41,16 +46,15 @@ class PickIt:
                     if closest_item.dist > item.dist:
                         closest_item = item
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
-                # TODO: 1920x1080 specific param
-                if closest_item.dist < 400:
+                if closest_item.dist < self._config.ui_pos["item_dist"]:
                     # no need to stash poitions and scrolls
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name:
                         found_items = True
                     Logger.info(f"Picking up {closest_item.name}")
-                    custom_mouse.move(x_m, y_m, duration=(random.random() * 0.01 + 0.02))
+                    custom_mouse.move(x_m, y_m, duration=(random.random() * 0.03 + 0.08))
                     time.sleep(0.1)
                     mouse.click(button="left")
-                    time.sleep(0.6)
+                    time.sleep(0.5)
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: should go back to town and stash stuff then go back to picking up more stuff

@@ -39,22 +39,18 @@ class NpcManager:
         }
 
     def open_npc_menu(self, npc_key: Npc) -> bool:
-        # TODO: 1920x1080 specific. Cut off bottom skill bar
-        roi = [0, 0, 1920, 1000]
+        roi = self._config.ui_roi["cut_skill_bar"]
         start = time.time()
-        while (time.time() - start) < 40:
+        while (time.time() - start) < 35:
             img = self._screen.grab()
             for key in self._npcs[npc_key]["template_group"]:
-                # TODO: 1920x1080 specific params
-                res, pos = self._template_finder.search(key, img, threshold=0.35, roi=[0, 0, 1920, 1000])
+                res, pos = self._template_finder.search(key, img, threshold=0.35, roi=roi)
                 if res:
                     x_m, y_m = self._screen.convert_screen_to_monitor(pos)
                     custom_mouse.move(x_m, y_m, duration=0.05)
                     time.sleep(0.2)
                     _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                     _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    # TODO: 1920x1080 specific params
-                    # roi = [max(0, pos[0] - 200), max(0, pos[1] - 250), 400, 250]
                     res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.92, roi=roi)
                     res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.92, roi=roi)
                     if res_w:
@@ -69,11 +65,8 @@ class NpcManager:
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
-        # click resurrect btn
         _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["white"])
-        # TODO: 1920x1080 specific params
-        roi = [300, 0, 1400, 500]
-        res, pos = self._template_finder.search(self._npcs[npc_key]["action_btns"][action_btn_key], filtered_inp, 0.92, roi=roi)
+        res, pos = self._template_finder.search(self._npcs[npc_key]["action_btns"][action_btn_key], filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"])
         if res:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
             custom_mouse.move(x_m, y_m, duration=0.1)
@@ -85,7 +78,7 @@ class NpcManager:
             keyboard.send("esc")
 
 
-# Testing: Stand close to Qual-Kehk and run
+# Testing: Stand close to Qual-Kehk or Malah and run
 if __name__ == "__main__":
     from screen import Screen
     from config import Config

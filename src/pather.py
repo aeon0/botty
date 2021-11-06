@@ -7,10 +7,11 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple
+from typing import Tuple, List
 import cv2
 from config import Config
-from utils.misc import wait
+from utils.misc import wait, is_in_roi
+import numpy as np
 
 
 class Location:
@@ -23,22 +24,24 @@ class Location:
 
 
 class Pather:
+    """
+    Traverses 'dynamic' pathes with reference templates and relative coordinates or statically recorded pathes.
+    Check utils/node_recorder.py to generate templates/refpoints and relative coordinates to nodes. Once you have refpoints and
+    nodes you can specify in which order this nodes should be traversed in self._paths.
+    """
+
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
         # TODO: params based on 1920x1080 (in rel coordinates to ref point)
-        self._range_x = [-950, 950]
-        self._range_y = [-530, 440]
-        # health/mana globe coordinates:
-        self._hg_rect = [245, 245 + 320] # s-left, x-right
-        self._mg_rect = [1350, 1350 + 320] # x-left, x-right
-        self._globe_top_abs_pos = 345
+        self._range_x = [-self._config.ui_pos["center_x"] + 10, self._config.ui_pos["center_x"] - 10]
+        self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 10]
         self._nodes = {
             # A5 town
             0: {"A5_TOWN_0": (110-70, 373), "A5_TOWN_1": (-68-70, -205)},
             1: {"A5_TOWN_0": (-466, 287), "A5_TOWN_1": (-644, -291), "A5_TOWN_0.5": (717, 349)},
-            2: {"A5_TOWN_0": (-552, 42), "A5_TOWN_0.5": (659-25, 90+20)},
+            2: {"A5_TOWN_0": (-552, 42-100), "A5_TOWN_0.5": (659-25, 90+20-100)},
             3: {"A5_TOWN_1": (-414, 141), "A5_TOWN_2": (728, -90)},
             4: {"A5_TOWN_1": (-701, 400), "A5_TOWN_2": (440, 169), "A5_TOWN_3": (-400, -208), "A5_TOWN_4": (243, -244)},
             5: {"A5_TOWN_2": (555-100, 429-100), "A5_TOWN_3": (-285-100, 51-100), "A5_TOWN_4": (358-100, 15-100)},
@@ -75,7 +78,7 @@ class Pather:
     def get_fixed_path(self, key: str):
         return self._fixed_tele_path[key]
 
-    def _draw_debug(self, img, node_pos_abs_list, ref_pos_abs_list):
+    def _draw_debug(self, img: np.ndarray, node_pos_abs_list: List, ref_pos_abs_list: List):
         for node_pos_abs in node_pos_abs_list:
             pos_screen = self._screen.convert_abs_to_screen(node_pos_abs)
             cv2.circle(img, pos_screen, 10, (255, 0, 0), 10)
@@ -88,7 +91,7 @@ class Pather:
         cv2.imshow("x", img)
         cv2.waitKey(1)
 
-    def _display_all_nodes(self):
+    def _display_all_nodes_debug(self):
         while 1:
             img = self._screen.grab()
             for node_idx in self._nodes:
@@ -110,8 +113,8 @@ class Pather:
             cv2.imshow("debug", img)
             cv2.waitKey(1)
 
-    @staticmethod 
-    def _convert_rel_to_abs(rel_loc, pos_abs):
+    @staticmethod
+    def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str, char: IChar):
@@ -123,25 +126,42 @@ class Pather:
             char.move((x_m, y_m))
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
+        """
+        Adjust an absolute coordinate so it will not go out of screen or click on any ui which will not move the char
+        :param abs_pos: Absolute position of the desired position to move to
+        :return: Absolute position of a valid position that can be clicked on
+        """
         f = 1.0
+        # Check for x-range
         if abs_pos[0] > self._range_x[1]:
             f = min(f, abs(self._range_x[1] / float(abs_pos[0])))
         elif abs_pos[0] < self._range_x[0]:
             f = min(f, abs(self._range_x[0] / float(abs_pos[0])))
+        # Check top y-range
         if abs_pos[1] < self._range_y[0]:
             f = min(f, abs(self._range_y[0] / float(abs_pos[1])))
-        # also accout for globes
+        # check bottom y-range + globe roi which will also not allow a movement
         range_y_bottom = self._range_y[1]
         screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if self._hg_rect[0] < screen_pos[0] < self._hg_rect[1] or self._mg_rect[0] < screen_pos[0] < self._mg_rect[1]:
-            range_y_bottom = self._globe_top_abs_pos
+        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
+            # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
+            range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
         if abs_pos[1] > range_y_bottom:
-            f = min(f, abs(self._range_y[1] / float(abs_pos[1])))
+            f = min(f, abs(range_y_bottom / float(abs_pos[1])))
+        # Scale the position by the factor f
         if f < 1.0:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
     def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, debug: bool = False) -> bool:
+        """
+        Traverse from one location to another
+        :param start_location: Location the char is starting at
+        :param end_location: Location the char is supposed to end up
+        :param char: Char that is traversing the nodes
+        :param debug: Debug mode will display some images and stuff
+        :return: Bool if traversed succesfull or False if it got stuck
+        """
         Logger.debug(f"Traverse from {start_location} to {end_location}")
         path = self._paths[(start_location, end_location)]
         for i, node_idx in enumerate(path):
@@ -158,7 +178,7 @@ class Pather:
                         last_move = time.time()
                     else:
                         cv2.imwrite("info_pather_got_stuck.png", img)
-                        Logger.error("Got stuck exit")
+                        Logger.error("Got stuck exit pather")
                         return False
                 _debug_node_pos_abs_list = []
                 _debug_ref_pos_abs_list = []
@@ -177,8 +197,7 @@ class Pather:
                             self._draw_debug(img, _debug_node_pos_abs_list, _debug_ref_pos_abs_list)
                         node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                         dist = math.dist(node_pos_abs, (0, 0))
-                        # TODO: param based on 1920x1080
-                        if dist < 150:
+                        if dist < self._config.ui_pos["reached_node_dist"]:
                             continue_to_next_node = True
                         else:
                             # Move the char
@@ -204,7 +223,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, None, ui_manager)
+    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char, debug=True)
+    pather.traverse_nodes(Location.A5_TOWN_START, Location.MALAH, char, debug=True)
     # pather._display_all_nodes()

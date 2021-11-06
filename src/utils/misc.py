@@ -3,7 +3,7 @@ import random
 import ctypes
 from logger import Logger
 import cv2
-import uuid
+from typing import List, Tuple
 
 
 def wait(min_seconds, max_seconds = None):
@@ -11,11 +11,6 @@ def wait(min_seconds, max_seconds = None):
         max_seconds = min_seconds
     time.sleep(random.random() * (max_seconds - min_seconds) + min_seconds)
     return
-
-def get_mac():
-  mac_num = hex(uuid.getnode()).replace('0x', '').upper()
-  mac = ':'.join(mac_num[i: i + 2] for i in range(0, 11, 2))
-  return mac
 
 def kill_thread(thread):
     thread_id = thread.ident
@@ -27,6 +22,12 @@ def kill_thread(thread):
 def cut_roi(img, roi):
     x, y, width, height = roi 
     return img[y:y+height, x:x+width]
+
+def is_in_roi(roi: List[float], pos: Tuple[float, float]):
+    x, y, w, h = roi
+    is_in_x_range = x < pos[0] < x + w
+    is_in_y_range = y < pos[1] < y + h
+    return is_in_x_range and is_in_y_range
 
 def color_filter(img, color_range):
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)

@@ -10,12 +10,13 @@ from logger import Logger
 from screen import Screen
 from utils.misc import wait
 import random
+from typing import Tuple
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         Logger.info("Setting up Sorceress")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, item_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["frozen_armor"])
@@ -36,7 +37,7 @@ class Sorceress(IChar):
             keyboard.send(self._char_config["weapon_switch"])
             wait(0.25, 0.3)
 
-    def _left_attack(self, cast_pos, delay, spray = 10):
+    def _left_attack(self, cast_pos: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         custom_mouse.move(cast_pos[0], cast_pos[1], duration=(random.random() * 0.05 + 0.15))
         keyboard.send(self._skill_hotkeys["skill_left"])
@@ -48,7 +49,7 @@ class Sorceress(IChar):
             wait(delay[0], delay[1])
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _main_attack(self, cast_pos, delay, spray = 10):
+    def _main_attack(self, cast_pos: Tuple[float, float], delay: float, spray: float = 10):
         keyboard.send(self._skill_hotkeys["skill_right"])
         x = cast_pos[0] + (random.random() * 2*spray - spray)
         y = cast_pos[1] + (random.random() * 2*spray - spray)
@@ -56,7 +57,7 @@ class Sorceress(IChar):
         mouse.click(button="right")
         wait(delay[0], delay[1])
 
-    def kill_pindle(self, pindle_pos_screen):
+    def kill_pindle(self, pindle_pos_screen: Tuple[float, float]):
         delay = [0.2, 0.3]
         pindle_pos_abs = self._screen.convert_screen_to_abs(pindle_pos_screen)
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
@@ -75,7 +76,7 @@ class Sorceress(IChar):
         blizzard_cast_pos = self._screen.convert_abs_to_monitor([0, 0])
         self._main_attack(blizzard_cast_pos, delay)
 
-    def kill_shenk(self, shenk_pos_screen):
+    def kill_shenk(self, shenk_pos_screen: Tuple[float, float]):
         delay = [0.2, 0.3]
         pos_abs = self._screen.convert_screen_to_abs(shenk_pos_screen)
         cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
@@ -95,7 +96,7 @@ class Sorceress(IChar):
         custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
         mouse.click(button="right")
 
-    def kill_eldritch(self, eldritch_pos_screen):
+    def kill_eldritch(self, eldritch_pos_screen: Tuple[float, float]):
         delay = [0.2, 0.3]
         pos_abs = self._screen.convert_screen_to_abs(eldritch_pos_screen)
         cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
@@ -126,6 +127,6 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, None, ui_manager)
+    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager)
     # char.pre_buff()
     char.tp_town()

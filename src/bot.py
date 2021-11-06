@@ -34,9 +34,9 @@ class Bot:
         self._npc_manager = NpcManager(self._screen, self._template_finder)
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager)
         if self._config.char["type"] == "sorceress":
-            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._item_finder, self._ui_manager)
+            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._item_finder, self._ui_manager)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)

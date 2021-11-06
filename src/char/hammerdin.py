@@ -11,12 +11,13 @@ from screen import Screen
 from utils.misc import wait
 import random
 import time
+from typing import Tuple
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, item_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["holy_shield"])
@@ -37,7 +38,7 @@ class Hammerdin(IChar):
             keyboard.send(self._char_config["weapon_switch"])
             wait(0.25, 0.3)
 
-    def _cast_hammers(self, time_in_s):
+    def _cast_hammers(self, time_in_s: float):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         wait(0.05)
         keyboard.send(self._skill_hotkeys["blessed_hammer"])
@@ -55,7 +56,7 @@ class Hammerdin(IChar):
         keyboard.send(self._skill_hotkeys["redemption"])
         wait(1.5, 2.0)
 
-    def kill_pindle(self, pindle_pos_screen):
+    def kill_pindle(self, pindle_pos_screen: Tuple[float, float]):
         pos_monitor = self._screen.convert_screen_to_monitor(pindle_pos_screen)
         keyboard.send(self._skill_hotkeys["teleport"])
         custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
@@ -65,7 +66,7 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._do_redemption()
 
-    def kill_shenk(self, shenk_pos_screen):
+    def kill_shenk(self, shenk_pos_screen: Tuple[float, float]):
         pos_monitor = self._screen.convert_screen_to_monitor(shenk_pos_screen)
         keyboard.send(self._skill_hotkeys["teleport"])
         wait(0.05)
@@ -77,7 +78,7 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._do_redemption()
 
-    def kill_eldritch(self, eldritch_pos_screen):
+    def kill_eldritch(self, eldritch_pos_screen: Tuple[float, float]):
         pos_monitor = self._screen.convert_screen_to_monitor(eldritch_pos_screen)
         keyboard.send(self._skill_hotkeys["teleport"])
         custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))

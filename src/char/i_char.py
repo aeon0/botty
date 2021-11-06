@@ -12,6 +12,7 @@ import math
 import keyboard
 from logger import Logger
 import time
+from typing import Dict, Tuple
 
 
 def abstract(f):
@@ -20,11 +21,10 @@ def abstract(f):
     return _decorator
 
 class IChar:
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
         self._char_config = char_config
         self._template_finder = template_finder
-        self._item_finder = item_finder
         self._ui_manager = ui_manager
         self._screen = screen
 
@@ -33,14 +33,13 @@ class IChar:
         success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
         if success:
             x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
-            # TODO: check if telekinse can be used
-            custom_mouse.move(x_m, y_m, duration=(random.random() * 0.1 + 0.2))
-            wait(0.1, 0.2)
+            custom_mouse.move(x_m, y_m, duration=0.3)
+            wait(0.3, 0.4)
             mouse.click(button="left")
             return True
         return False
 
-    def move(self, pos_monitor):
+    def move(self, pos_monitor: Tuple[float, float]):
         if not self._ui_manager.is_teleport_selected():
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
@@ -81,14 +80,11 @@ class IChar:
                 x, y = self._screen.convert_screen_to_monitor(pos)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 #       Also move a bit left and right to get rid of possibly highlight other things such as items
-                custom_mouse.move(x - 20 * random.random() * 3, y + random.random() * 5, duration=0.1)
-                custom_mouse.move(x + 20 * random.random() * 3, y + random.random() * 5, duration=0.02)
-                custom_mouse.move(x + random.random() * 3, y + random.random() * 5, duration=0.02)
-                wait(0.09, 0.11)
+                custom_mouse.move(x - 20, y, duration=0.13, randomize=5)
+                custom_mouse.move(x + 20, y, duration=0.05, randomize=5)
+                custom_mouse.move(x, y, duration=0.05, randomize=5)
+                wait(0.1, 0.14)
                 mouse.click(button="left")
-                # # we sometimes pick up items instead... just to be safe
-                # wait(0.09, 0.11)
-                # mouse.click(button="left")
                 return True
         return False
 

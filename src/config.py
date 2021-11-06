@@ -71,16 +71,15 @@ class Config:
 
         self.colors = {}
         for key in self._ui_config["colors"]:
-            self.colors[key] = np.split(np.array([int(x) for x in self._ui_config["colors"][key].split(",")]), 2)
-        if "colors" in self._custom:
-            custom_colors = {}
-            for key in self._custom["colors"]:
-                custom_colors[key] = np.split(np.array([int(x) for x in self._custom["colors"][key].split(",")]), 2)
-            self.colors.update(custom_colors)
+            self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
         self.ui_pos = {}
         for key in self._ui_config["ui_pos_1920_1080"]:
             self.ui_pos[key] = int(self._select_val("ui_pos_1920_1080", key))
+
+        self.ui_roi = {}
+        for key in self._ui_config["ui_roi_1920_1080"]:
+            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
 
 if __name__ == "__main__":
