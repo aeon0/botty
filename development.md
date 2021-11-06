@@ -1,7 +1,7 @@
 # Dev Docu
 
 ## Dependencies
-- Install miniconda (https://docs.conda.io/en/latest/miniconda.html)
+- Install miniconda (https://docs.conda.io/en/latest/miniconda.html). Note: You will have to check "Add conda to my PATH environment variable" in order to access the conda command in the cmd.
 - Install git (https://gitforwindows.org/)
 
 ## Getting started
