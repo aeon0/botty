@@ -208,24 +208,24 @@ class UiManager():
         stash_btn_width = self._config.ui_pos["stash_btn_width"]
         next_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash, personal_stash_pos[1])
         x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
-        custom_mouse.move(x_m, y_m, duration=(random.random() * 0.2 + 0.6), randomize=5)
+        custom_mouse.move(x_m, y_m, duration=(random.random() * 0.2 + 0.6), randomize=15)
         mouse.click(button="left")
         wait(0.3, 0.4)
         # stash stuff
-        # TODO: Currenlty doesnt work with PostMessage (custom_keyboard) not sure why?!? investigate
         keyboard.send('ctrl', do_release=False)
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
             slot_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
             if self._slot_has_item(slot_img):
                 x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
-                custom_mouse.move(x_m, y_m, duration=(random.random() * 0.1 + 0.2), randomize=3)
+                custom_mouse.move(x_m, y_m, duration=(random.random() * 0.2 + 0.3), randomize=6)
+                wait(0.1, 0.15)
                 mouse.click(button="left")
                 wait(0.4, 0.6)
         keyboard.send('ctrl', do_press=False)
         Logger.debug("Check if stash is full")
         time.sleep(0.6)
-        # move mouse awai from inventory
+        # move mouse away from inventory, for some reason it was sometimes included in the grabed img
         top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
         move_to = (top_left_slot[0] - 250, top_left_slot[1] - 250)
         x, y = self._screen.convert_screen_to_monitor(move_to)
