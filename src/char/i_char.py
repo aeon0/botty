@@ -13,6 +13,7 @@ import keyboard
 from logger import Logger
 import time
 from typing import Dict, Tuple
+from config import Config
 
 
 def abstract(f):
@@ -27,6 +28,7 @@ class IChar:
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._screen = screen
+        self._config = Config()
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
@@ -67,8 +69,7 @@ class IChar:
         mouse.click(button="right")
         custom_mouse.move(1400 + random.randrange(0, 60), 300 + random.randrange(0, 60), duration=0.1)
         time.sleep(1.4) # takes quite a while for tp to be visible
-        # TODO: 1920x1080 specific params
-        roi=[530, 180, 820, 600]
+        roi = self._config.ui_roi["tp_search"]
         start = time.time()
         while (time.time() - start)  < 7:
             img = self._screen.grab()

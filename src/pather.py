@@ -34,7 +34,6 @@ class Pather:
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
-        # TODO: params based on 1920x1080 (in rel coordinates to ref point)
         self._range_x = [-self._config.ui_pos["center_x"] + 10, self._config.ui_pos["center_x"] - 10]
         self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 10]
         self._nodes = {

@@ -132,8 +132,7 @@ class TemplateFinder:
         start = time.time()
         while 1:
             img = self._screen.grab()
-            # TODO: 1920x1080 specific params
-            is_loading_black_roi = np.average(img[:, 0:500]) < 1.0
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             success, pos = self.search(ref, img, roi=roi, threshold=threshold)
             if not is_loading_black_roi and success:
                 return True, pos
