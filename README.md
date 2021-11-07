@@ -6,14 +6,14 @@ Join the [**Discord Channel**](https://discord.gg/CnkfsjqN) for help and discuss
 
 [![Watch the video](assets/docs/video_thumbnail.png)](https://vimeo.com/641410429)
 
-## Supported features
+## What it does
 - Run Pindle, Eldtritch, Shenk
-- Pickit with per item config.
+- Pickit with per item config
 - Stash picked up items (using all 4 stashes)
 - Prebuff
 - Revive Merc if dead
 - Heal at Malah if needed
-- Take potions and chicken if in trouble during fights
+- Take potions (health and mana) and chicken if in trouble during fights
 - Check for death. In this case start another game and pick up corpse.
 - Supported builds: Sorceress (Blizz, Light, Meteor), Hammerdin
 - Debug color checker to easily verify your settings
@@ -42,6 +42,10 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 ### 5) Start Botty
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder, go to D2R window and press the "resume" key. Move to your D2R window and press "f11". You can always force stop botty with f12.
+
+## Color Test Mode
+To check if you graphic settings are good and if the bot would pick up items there is a **Color Test Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and throw some items of different type on the ground. If you now bring forward the debug window all items should show up with their names while the background is black. If you throw an item on the ground that should be picked up, it will have a red circle.
+<img src="assets/docs/color_checker.png" width="370">
 
 ## Development
 Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
@@ -113,10 +117,6 @@ blessed_hammer | Hotkey for Blessed Hammer
  [items]                        | Descriptions                                
 --------------------------------|---------------------------------------------
 item_type | Select "1" if item should be picked up, "0" if not.
-
-## Some distant future plans
-- Running chaos with AI algo
-- Emulating Keyboard and Mouse with Arduino
 
 ## Support this project
 This project is free. Support it by contributing in any technical way, giving feedback, PRs or by submitting issues. That being said, I am not above accepting some pixel currency :) So if you want to send some fg my way to keep my dopamine high, here is my jsp: [jojo22](https://forums.d2jsp.org/user.php?i=768967).

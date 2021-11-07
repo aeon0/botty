@@ -17,7 +17,7 @@ python src/run.py
 If you want to build a .exe from source you will have to first add the cv2 path to your PYTHONPATH in System variables or User variables for current user:</br>
 Edit the system environment variables -> Environment Variables... -> New... </br>
 Variable name: PYTHONPATH </br>
-Variable value: %USERPROFILE%\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
+Variable value: C:\Users\YOUR_WINDOWS_USER_NAME\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
 
 If you installed your miniconda in another location you will of course have ot change it for that one.
 ```python
@@ -47,6 +47,9 @@ All python source files go here</br>
 Want to implement a new char or build. Check this folder out. You will have to inherit from IChar and go from there</br>
 **src/char**</br>
 Utilities functions and scripts e.g. for easily creating templates to traverse nodes and automatically generate code for it</br>
+
+## Adding Items
+To add items you can check the **assets/items** folder. Screenshot whatever you want to pick up in the same way (all settings must be as if you ran the bot). Then add the filename to the param.ini [items] section (e.g. if boots_rare.png add boots_rare=1)
 
 ## State Diagram
 The core logic of the bot is determined by a state machine with these states and transations. The bot.py which contains all of the transitions should have little implementation code which should be hidden as much as possible in the "manager" classes.
