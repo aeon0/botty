@@ -1,5 +1,4 @@
 from typing import Tuple
-from cv2 import threshold
 import mouse
 from utils import custom_mouse
 from template_finder import TemplateFinder
@@ -28,6 +27,8 @@ class IChar:
         self._ui_manager = ui_manager
         self._screen = screen
         self._config = Config()
+        self._last_tp = time.time()
+        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.02
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
@@ -47,8 +48,7 @@ class IChar:
         if self._ui_manager.can_teleport():
             custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.01 + 0.06))
             mouse.click(button="right")
-            wait_min = self._char_config["casting_frames"] * 0.036
-            wait(wait_min, wait_min + 0.02)
+            time.sleep(self._cast_duration)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
@@ -62,7 +62,6 @@ class IChar:
             wait(0.02, 0.03)
 
     def tp_town(self):
-        # TODO: Make robust against no more tps
         keyboard.send(self._char_config["tp"])
         wait(0.05, 0.1)
         mouse.click(button="right")

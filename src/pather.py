@@ -24,7 +24,7 @@ class Location:
     MALAH = "malah"
     NIHLATHAK_PORTAL = "nihlathak_portal"
     # Pindle
-    PINDLE_START = "pindle_aster"
+    PINDLE_START = "pindle_start"
     PINDLE_SAVE_DIST = "pindle_save_dist"
     PINDLE_END = "pindle_end"
     # Eldritch
@@ -257,5 +257,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    # pather.traverse_nodes(Location.A5_TOWN_START, Location.MALAH, char, debug=True)
-    pather._display_all_nodes_debug(filter="SHENK")
+    pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
+    # pather._display_all_nodes_debug(filter="SHENK")
