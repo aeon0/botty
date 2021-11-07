@@ -97,7 +97,7 @@ class IChar:
         pass
     
     @abstract
-    def kill_shenk(self, shenk_pos_screen):
+    def kill_shenk(self) -> bool:
         pass
     
     @abstract

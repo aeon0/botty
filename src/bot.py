@@ -246,9 +246,9 @@ class Bot:
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 # shenk
                 if bot._route_config["run_shenk"]:
-                    bot._pather.traverse_nodes_fixed("SHENK", bot._char)
+                    bot._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, bot._char)
                     wait(0.15, 0.2)
-                    bot._char.kill_shenk(bot._pather.get_fixed_path("SHENK")[1])
+                    bot._char.kill_shenk()
                     wait(0.5)
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
                 self.success = True

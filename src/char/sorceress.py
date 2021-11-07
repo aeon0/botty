@@ -78,12 +78,11 @@ class Sorceress(IChar):
             return True
         return False
 
-    def kill_shenk(self, shenk_pos_screen: Tuple[float, float]):
+    def kill_shenk(self):
         delay = [0.2, 0.3]
-        pos_abs = self._screen.convert_screen_to_abs(shenk_pos_screen)
+        pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
         cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-        pos_monitor = self._screen.convert_screen_to_monitor(shenk_pos_screen)
         # TODO: Not sure if we need so much attacks... maybe add a "number_attack_sequenze" to the param.ini
         self._main_attack(cast_pos_monitor, delay, 90)
         self._left_attack(cast_pos_monitor, delay, 90)
@@ -94,9 +93,7 @@ class Sorceress(IChar):
         self._left_attack(cast_pos_monitor, delay, 90)
         wait(0.2, 0.3)
         # Move to items
-        keyboard.send(self._skill_hotkeys["teleport"])
-        custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
-        mouse.click(button="right")
+        self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0)
 
     def kill_eldritch(self) -> bool:
         delay = [0.2, 0.3]
@@ -111,7 +108,7 @@ class Sorceress(IChar):
             self._left_attack(cast_pos_monitor, delay, 90)
             wait(0.2, 0.3)
             # Move to items
-            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self)
+            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=2.0)
             return True
         return False
 

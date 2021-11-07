@@ -44,12 +44,27 @@ class TemplateFinder:
             "PINDLE_4": [load_template("assets/templates/pindle/pindle_4.png", self._scale_factor), self._scale_factor],
             "PINDLE_5": [load_template("assets/templates/pindle/pindle_5.png", self._scale_factor), self._scale_factor],
             "PINDLE_6": [load_template("assets/templates/pindle/pindle_6.png", self._scale_factor), self._scale_factor],
-            # Teplates for nodes to Eldritch
+            # Templates for nodes to Eldritch
             "ELDRITCH_0": [load_template("assets/templates/eldritch/eldritch_0.png", self._scale_factor), self._scale_factor],
             "ELDRITCH_1": [load_template("assets/templates/eldritch/eldritch_1.png", self._scale_factor), self._scale_factor],
             "ELDRITCH_2": [load_template("assets/templates/eldritch/eldritch_2.png", self._scale_factor), self._scale_factor],
             "ELDRITCH_3": [load_template("assets/templates/eldritch/eldritch_3.png", self._scale_factor), self._scale_factor],
             "ELDRITCH_4": [load_template("assets/templates/eldritch/eldritch_4.png", self._scale_factor), self._scale_factor],
+            # Templates for nodes to Shenk (from Eldritch)
+            "SHENK_0": [load_template("assets/templates/shenk/shenk_0.png", self._scale_factor), self._scale_factor],
+            "SHENK_1": [load_template("assets/templates/shenk/shenk_1.png", self._scale_factor), self._scale_factor],
+            "SHENK_2": [load_template("assets/templates/shenk/shenk_2.png", self._scale_factor), self._scale_factor],
+            "SHENK_3": [load_template("assets/templates/shenk/shenk_3.png", self._scale_factor), self._scale_factor],
+            "SHENK_4": [load_template("assets/templates/shenk/shenk_4.png", self._scale_factor), self._scale_factor],
+            "SHENK_6": [load_template("assets/templates/shenk/shenk_6.png", self._scale_factor), self._scale_factor],
+            "SHENK_7": [load_template("assets/templates/shenk/shenk_7.png", self._scale_factor), self._scale_factor],
+            "SHENK_8": [load_template("assets/templates/shenk/shenk_8.png", self._scale_factor), self._scale_factor],
+            "SHENK_9": [load_template("assets/templates/shenk/shenk_9.png", self._scale_factor), self._scale_factor],
+            "SHENK_10": [load_template("assets/templates/shenk/shenk_10.png", self._scale_factor), self._scale_factor],
+            "SHENK_11": [load_template("assets/templates/shenk/shenk_11.png", self._scale_factor), self._scale_factor],
+            "SHENK_12": [load_template("assets/templates/shenk/shenk_12.png", self._scale_factor), self._scale_factor],
+            "SHENK_13": [load_template("assets/templates/shenk/shenk_13.png", self._scale_factor), self._scale_factor],
+            "SHENK_14": [load_template("assets/templates/shenk/shenk_14.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template("assets/templates/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template("assets/templates/a5_wp.png", self._scale_factor), self._scale_factor],

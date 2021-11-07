@@ -31,6 +31,10 @@ class Location:
     ELDRITCH_START = "eldritch_start"
     ELDRITCH_SAVE_DIST = "eldritch_save_dist"
     ELDRITCH_END = "eldritch_end"
+    # Shenk
+    SHENK_START = "shenk_start"
+    SHENK_SAVE_DIST = "shenk_save_dist"
+    SHENK_END = "shenk_end"
 
 
 class Pather:
@@ -45,7 +49,7 @@ class Pather:
         self._screen = screen
         self._template_finder = template_finder
         self._range_x = [-self._config.ui_pos["center_x"] + 10, self._config.ui_pos["center_x"] - 10]
-        self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 10]
+        self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 50]
         self._nodes = {
             # A5 town
             0: {"A5_TOWN_0": (110-70, 373), "A5_TOWN_1": (-68-70, -205)},
@@ -72,7 +76,19 @@ class Pather:
             120: {"ELDRITCH_0": (439, 236), "ELDRITCH_1": (-461, 314)},
             121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
-            123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)}
+            123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
+            # Shenk
+            140: {"SHENK_0": (-224, -340), "SHENK_1": (667, -242)},
+            141: {"SHENK_0": (-194, 66), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
+            142: {"SHENK_1": (876, 564), "SHENK_2": (-78, 352), "SHENK_3": (535, -194), "SHENK_4": (-665, -155)},
+            143: {"SHENK_2": (212, 758),"SHENK_3": (823, 209), "SHENK_4": (-377, 248), "SHENK_6": (-508, -103)},
+            144: {"SHENK_6": (-162, 185), "SHENK_7": (721, 226)},
+            145: {"SHENK_12": (146, -200), "SHENK_7": (1204, 558), "SHENK_6": (314, 520), "SHENK_8": (-367, 27)},
+            146: {"SHENK_12": (408, 166), "SHENK_9": (-497, -216), "SHENK_8": (-108, 387)},
+            147: {"SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
+            148: {"SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
+            149: {"SHENK_11": (532, 602), "SHENK_10": (882, 682), "SHENK_13": (730, 36), "SHENK_14": (510, 343)},
+
         }
         self._paths = {
             # A5 Town
@@ -93,13 +109,14 @@ class Pather:
             # Eldritch
             (Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST): [120, 121, 122],
             (Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END): [123],
+            # Shenk
+            (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
         }
         self._fixed_tele_path = {
             # 0: path to boss, 1: location of boss
             "PINDLE_END": ([(600, 40)], None), # to move away from items
-            "SHENK": ([(798, 869), (1112, 882), (1220, 860), (1330, 869), (1502, 836), (1247, 887), (1258, 901), (1463, 814), (1351, 778)], [1815, 772])
         }
-
 
     def get_fixed_path(self, key: str):
         return self._fixed_tele_path[key]
@@ -123,6 +140,7 @@ class Pather:
                                 cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                                 x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
                                 cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
+                                cv2.putText(img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             img = cv2.resize(img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", img)
             cv2.waitKey(1)
@@ -151,22 +169,22 @@ class Pather:
             f = min(f, abs(self._range_x[1] / float(abs_pos[0])))
         elif abs_pos[0] < self._range_x[0]:
             f = min(f, abs(self._range_x[0] / float(abs_pos[0])))
-        # Check top y-range
+        # Check y-range
+        if abs_pos[1] > self._range_y[1]:
+            f = min(f, abs(self._range_y[1] / float(abs_pos[1])))
         if abs_pos[1] < self._range_y[0]:
             f = min(f, abs(self._range_y[0] / float(abs_pos[1])))
-        # check bottom y-range + globe roi which will also not allow a movement
-        range_y_bottom = self._range_y[1]
-        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
-            # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
-        if abs_pos[1] > range_y_bottom:
-            f = min(f, abs(range_y_bottom / float(abs_pos[1])))
         # Scale the position by the factor f
         if f < 1.0:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
+        # Check if adjusted position is "inside globe"
+        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
+        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
+            # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
+            new_range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
+            f = abs(new_range_y_bottom / float(abs_pos[1]))
+            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
-
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
         node = self._nodes[node_idx]
@@ -182,13 +200,13 @@ class Pather:
                 return node_pos_abs
         return None
 
-    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar) -> bool:
+    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
         :param end_location: Location the char is supposed to end up
         :param char: Char that is traversing the nodes
-        :param debug: Debug mode will display some images and stuff
+        :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
         :return: Bool if traversed succesfull or False if it got stuck
         """
         Logger.debug(f"Traverse from {start_location} to {end_location}")
@@ -198,7 +216,7 @@ class Pather:
             last_move = time.time()
             while not continue_to_next_node:
                 img = self._screen.grab()
-                if (time.time() - last_move) > 7:
+                if (time.time() - last_move) > time_out:
                     success, _ = self._template_finder.search("WAYPOINT_MENU", img)
                     if success:
                         # sometimes bot opens waypoint menu, close it to find templates again
@@ -240,4 +258,4 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
     # pather.traverse_nodes(Location.A5_TOWN_START, Location.MALAH, char, debug=True)
-    pather._display_all_nodes_debug(filter="ELDRITCH")
+    pather._display_all_nodes_debug(filter="SHENK")
