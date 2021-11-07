@@ -252,6 +252,9 @@ class Bot:
                     wait(0.15, 0.2)
                     bot._char.kill_shenk()
                     wait(0.5)
+                    # do two pickups on shenk because flames sometimes mess up item search
+                    bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
+                    wait(1.5, 1.8)
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
                 self.success = True
                 return
