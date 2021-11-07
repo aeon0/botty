@@ -100,6 +100,9 @@ class HealthManager:
                     self._ui_manager.save_and_exit()
                     self._did_chicken = True
                     kill_thread(run_thread)
+                    # clean up key presses that might be pressed in the run_thread
+                    keyboard.release(self._config.char["stand_still"])
+                    keyboard.release(self._config.char["show_items"])
                     self._do_monitor = False
                     break
                 # check mana

@@ -46,6 +46,9 @@ class DeathManager:
                 Logger.warning("You have died! Waiting 30 sec to make sure chicken does not do any funny during with this logic.")
                 # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
                 kill_thread(run_thread)
+                # clean up key presses that might be pressed in the run_thread
+                keyboard.release(self._config.char["stand_still"])
+                keyboard.release(self._config.char["show_items"])
                 time.sleep(30)
                 self._died = True
                 if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:

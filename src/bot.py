@@ -101,7 +101,9 @@ class Bot:
         self._template_finder.search_and_wait("A5_TOWN_1")
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
-        keyboard.send(self._config.char["stand_still"]) # just in case the key is still locked
+        # Make sure these keys are released
+        keyboard.release(self._config.char["stand_still"])
+        keyboard.release(self._config.char["show_items"])
         self.trigger("maintenance")
 
     def on_maintenance(self):
