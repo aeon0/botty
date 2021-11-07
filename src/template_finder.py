@@ -36,8 +36,14 @@ class TemplateFinder:
             "A5_TOWN_7": [load_template("assets/templates/a5_town/a5_town_7.png", self._scale_factor), self._scale_factor],
             "A5_TOWN_8": [load_template("assets/templates/a5_town/a5_town_8.png", self._scale_factor), self._scale_factor],
             "A5_TOWN_9": [load_template("assets/templates/a5_town/a5_town_9.png", self._scale_factor), self._scale_factor],
-            # Template Pindle area (currently only used to check if we are at pindle, the walking is done statically)
-            "PINDLE_STONE": [load_template("assets/templates/pindle_stone.png", self._scale_factor), self._scale_factor],
+            # Templates for nod at Pindle
+            "PINDLE_0": [load_template("assets/templates/pindle/pindle_0.png", self._scale_factor), self._scale_factor],
+            "PINDLE_1": [load_template("assets/templates/pindle/pindle_1.png", self._scale_factor), self._scale_factor],
+            "PINDLE_2": [load_template("assets/templates/pindle/pindle_2.png", self._scale_factor), self._scale_factor],
+            "PINDLE_3": [load_template("assets/templates/pindle/pindle_3.png", self._scale_factor), self._scale_factor],
+            "PINDLE_4": [load_template("assets/templates/pindle/pindle_4.png", self._scale_factor), self._scale_factor],
+            "PINDLE_5": [load_template("assets/templates/pindle/pindle_5.png", self._scale_factor), self._scale_factor],
+            "PINDLE_6": [load_template("assets/templates/pindle/pindle_6.png", self._scale_factor), self._scale_factor],
             # Template Shenk area (currently only used to check if we are at shenk at wp, the walking is done statically)
             "SHENK_FLAME": [load_template("assets/templates/shenk_flame.png", self._scale_factor), self._scale_factor],
             # Template Selectables

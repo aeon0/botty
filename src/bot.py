@@ -34,9 +34,9 @@ class Bot:
         self._npc_manager = NpcManager(self._screen, self._template_finder)
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager)
         if self._config.char["type"] == "sorceress":
-            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager)
+            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -205,13 +205,13 @@ class Bot:
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
                 self.success &= bot._char.select_by_template("A5_RED_PORTAL")
-                self.success &= bot._template_finder.search_and_wait("PINDLE_STONE", time_out=20)[0]
+                self.success &= bot._template_finder.search_and_wait("PINDLE_0", time_out=20)[0]
                 if not self.success:
                     return
                 bot._char.pre_buff()
                 wait(0.2, 0.4)
-                bot._pather.traverse_nodes_fixed("PINDLE", bot._char)
-                bot._char.kill_pindle(bot._pather.get_fixed_path("PINDLE")[1])
+                bot._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, bot._char)
+                bot._char.kill_pindle()
                 wait(1.5, 1.8)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 # in order to move away for items and such to have a clear tp, move to the end of the hall

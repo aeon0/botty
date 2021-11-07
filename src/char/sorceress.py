@@ -11,12 +11,14 @@ from screen import Screen
 from utils.misc import wait
 import random
 from typing import Tuple
+from pather import Location, Pather
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Sorceress")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        self._pather = pather
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["frozen_armor"])
@@ -57,21 +59,18 @@ class Sorceress(IChar):
         mouse.click(button="right")
         wait(delay[0], delay[1])
 
-    def kill_pindle(self, pindle_pos_screen: Tuple[float, float]):
+    def kill_pindle(self):
         delay = [0.2, 0.3]
-        pindle_pos_abs = self._screen.convert_screen_to_abs(pindle_pos_screen)
+        pindle_pos_abs = self._pather.find_abs_node_pos(104, self._screen.grab())
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-        pindle_pos_monitor = self._screen.convert_screen_to_monitor(pindle_pos_screen)
         self._main_attack(cast_pos_monitor, delay)
         self._left_attack(cast_pos_monitor, delay)
         self._main_attack(cast_pos_monitor, delay)
         self._left_attack(cast_pos_monitor, delay)
         wait(0.1, 0.15)
         # Move to items
-        keyboard.send(self._skill_hotkeys["teleport"])
-        custom_mouse.move(pindle_pos_monitor[0], pindle_pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
-        mouse.click(button="right")
+        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
         wait(0.1, 0.15)
         blizzard_cast_pos = self._screen.convert_abs_to_monitor([0, 0])
         self._main_attack(blizzard_cast_pos, delay)

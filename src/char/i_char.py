@@ -3,7 +3,6 @@ from cv2 import threshold
 import mouse
 from utils import custom_mouse
 from template_finder import TemplateFinder
-from item_finder import ItemFinder
 from ui_manager import UiManager
 from screen import Screen
 from utils.misc import wait
@@ -94,7 +93,7 @@ class IChar:
         pass
 
     @abstract
-    def kill_pindle(self, pindle_pos_screen):
+    def kill_pindle(self):
         pass
     
     @abstract

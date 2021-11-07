@@ -3,7 +3,6 @@ import mouse
 from utils import custom_mouse
 from char.i_char import IChar
 from template_finder import TemplateFinder
-from item_finder import ItemFinder
 from ui_manager import UiManager
 from pather import Pather
 from logger import Logger
@@ -12,12 +11,14 @@ from utils.misc import wait
 import random
 import time
 from typing import Tuple
+from pather import Pather, Location
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        self._pather = pather
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["holy_shield"])
@@ -56,13 +57,13 @@ class Hammerdin(IChar):
         keyboard.send(self._skill_hotkeys["redemption"])
         wait(1.5, 2.0)
 
-    def kill_pindle(self, pindle_pos_screen: Tuple[float, float]):
-        pos_monitor = self._screen.convert_screen_to_monitor(pindle_pos_screen)
-        keyboard.send(self._skill_hotkeys["teleport"])
-        custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
-        mouse.click(button="right")
+    def kill_pindle(self):
         wait(0.1, 0.15)
-        self._cast_hammers(7)
+        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+        self._cast_hammers(1)
+        # pindle sometimes knocks back, get back in
+        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+        self._cast_hammers(6)
         wait(0.1, 0.15)
         self._do_redemption()
 

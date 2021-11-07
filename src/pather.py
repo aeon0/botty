@@ -1,3 +1,4 @@
+from char.i_char import IChar
 from screen import Screen
 from template_finder import TemplateFinder
 from logger import Logger
@@ -15,12 +16,17 @@ import numpy as np
 
 
 class Location:
+    # A5 Town
     A5_TOWN_START = "a5_town_start"
     A5_STASH = "a5_stash"
     A5_WP = "a5_wp"
     QUAL_KEHK = "qual_kehk"
     MALAH = "malah"
     NIHLATHAK_PORTAL = "nihlathak_portal"
+    # Pindle
+    PINDLE_START = "PINDLE_START"
+    PINDLE_SAVE_DIST = "PINDLE_SAVE_DIST"
+    PINDLE_END = "PINDLE_END"
 
 
 class Pather:
@@ -52,8 +58,15 @@ class Pather:
             12: {"A5_TOWN_8": (-209, -294), "A5_TOWN_9": (-248, 130)},
             13: {"A5_TOWN_3": (262, 210)},
             14: {"A5_TOWN_3": (694, 282)},
+            # Pindle
+            100: {"PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
+            101: {"PINDLE_1": (557, -68), "PINDLE_2": (27, -276), "PINDLE_3": (-185, 391)},
+            102: {"PINDLE_3": (334, 132), "PINDLE_4": (142, 323)},
+            103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
+            104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
         }
         self._paths = {
+            # A5 Town
             (Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
             (Location.A5_TOWN_START, Location.A5_STASH): [3, 4, 5],
             (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
@@ -65,6 +78,9 @@ class Pather:
             (Location.A5_STASH, Location.A5_WP): [],
             (Location.QUAL_KEHK, Location.NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
+            # Pindle
+            (Location.PINDLE_START, Location.PINDLE_SAVE_DIST): [100, 101, 102, 103],
+            (Location.PINDLE_SAVE_DIST, Location.PINDLE_END): [104],
         }
         self._fixed_tele_path = {
             # 0: path to boss, 1: location of boss
@@ -74,21 +90,9 @@ class Pather:
             "SHENK": ([(798, 869), (1112, 882), (1220, 860), (1330, 869), (1502, 836), (1247, 887), (1258, 901), (1463, 814), (1351, 778)], [1815, 772])
         }
 
+
     def get_fixed_path(self, key: str):
         return self._fixed_tele_path[key]
-
-    def _draw_debug(self, img: np.ndarray, node_pos_abs_list: List, ref_pos_abs_list: List):
-        for node_pos_abs in node_pos_abs_list:
-            pos_screen = self._screen.convert_abs_to_screen(node_pos_abs)
-            cv2.circle(img, pos_screen, 10, (255, 0, 0), 10)
-        for ref_pos_screen in ref_pos_abs_list:
-            pos_screen = self._screen.convert_abs_to_screen(ref_pos_screen)
-            cv2.circle(img, pos_screen, 10, (0, 255, 0), 10)
-        img = cv2.resize(img, None, fx=0.5, fy=0.5)
-        cv2.namedWindow("x")
-        cv2.moveWindow("x", 2000, 30)
-        cv2.imshow("x", img)
-        cv2.waitKey(1)
 
     def _display_all_nodes_debug(self):
         while 1:
@@ -102,12 +106,12 @@ class Pather:
                             # Calc the abs node position with the relative coordinates (relative to ref)
                             node_pos_rel = self._nodes[node_idx][template_type]
                             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                            if self._check_abs_range_to_screen(node_pos_abs):
-                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                cv2.circle(img, (x, y), 5, (255, 0, 0), 3)
-                                cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                                x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
-                                cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
+                            node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                            x, y = self._screen.convert_abs_to_screen(node_pos_abs)
+                            cv2.circle(img, (x, y), 5, (255, 0, 0), 3)
+                            cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                            x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
+                            cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
             img = cv2.resize(img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", img)
             cv2.waitKey(1)
@@ -116,7 +120,7 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str, char: IChar):
+    def traverse_nodes_fixed(self, key: str, char):
         path = self._fixed_tele_path[key][0]
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
@@ -152,7 +156,22 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
-    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, debug: bool = False) -> bool:
+
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
+        node = self._nodes[node_idx]
+        for template_type in node:
+            success, ref_pos_screen = self._template_finder.search(template_type, img)
+            if success:
+                # Get reference position of template in abs coordinates
+                ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
+                # Calc the abs node position with the relative coordinates (relative to ref)
+                node_pos_rel = node[template_type]
+                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                return node_pos_abs
+        return None
+
+    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
@@ -179,33 +198,18 @@ class Pather:
                         cv2.imwrite("info_pather_got_stuck.png", img)
                         Logger.error("Got stuck exit pather")
                         return False
-                _debug_node_pos_abs_list = []
-                _debug_ref_pos_abs_list = []
-                node = self._nodes[node_idx]
-                for template_type in node:
-                    success, ref_pos_screen = self._template_finder.search(template_type, img)
-                    if success:
-                        # Get reference position of template in abs coordinates
-                        ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
-                        _debug_ref_pos_abs_list.append(ref_pos_abs)
-                        # Calc the abs node position with the relative coordinates (relative to ref)
-                        node_pos_rel = node[template_type]
-                        node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                        _debug_node_pos_abs_list.append(node_pos_abs)
-                        if debug:
-                            self._draw_debug(img, _debug_node_pos_abs_list, _debug_ref_pos_abs_list)
-                        node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                        dist = math.dist(node_pos_abs, (0, 0))
-                        if dist < self._config.ui_pos["reached_node_dist"]:
-                            continue_to_next_node = True
-                        else:
-                            # Move the char
-                            x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
-                            char.move((x_m, y_m))
-                            last_move = time.time()
-                            if self._config.char["slow_walk"]:
-                                wait(1.2, 1.4)
-                        break
+                node_pos_abs = self.find_abs_node_pos(node_idx, img)
+                if node_pos_abs is not None:
+                    dist = math.dist(node_pos_abs, (0, 0))
+                    if dist < self._config.ui_pos["reached_node_dist"]:
+                        continue_to_next_node = True
+                    else:
+                        # Move the char
+                        x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
+                        char.move((x_m, y_m))
+                        last_move = time.time()
+                        if self._config.char["slow_walk"]:
+                            wait(1.2, 1.4)
         return True
 
 
