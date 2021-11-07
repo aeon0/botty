@@ -59,21 +59,24 @@ class Sorceress(IChar):
         mouse.click(button="right")
         wait(delay[0], delay[1])
 
-    def kill_pindle(self):
+    def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
         pindle_pos_abs = self._pather.find_abs_node_pos(104, self._screen.grab())
-        cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-        cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-        self._main_attack(cast_pos_monitor, delay)
-        self._left_attack(cast_pos_monitor, delay)
-        self._main_attack(cast_pos_monitor, delay)
-        self._left_attack(cast_pos_monitor, delay)
-        wait(0.1, 0.15)
-        # Move to items
-        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
-        wait(0.1, 0.15)
-        blizzard_cast_pos = self._screen.convert_abs_to_monitor([0, 0])
-        self._main_attack(blizzard_cast_pos, delay)
+        if pindle_pos_abs is not None:
+            cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
+            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
+            self._main_attack(cast_pos_monitor, delay)
+            self._left_attack(cast_pos_monitor, delay)
+            self._main_attack(cast_pos_monitor, delay)
+            self._left_attack(cast_pos_monitor, delay)
+            wait(0.1, 0.15)
+            # Move to items
+            self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+            wait(0.1, 0.15)
+            blizzard_cast_pos = self._screen.convert_abs_to_monitor([0, 0])
+            self._main_attack(blizzard_cast_pos, delay)
+            return True
+        return False
 
     def kill_shenk(self, shenk_pos_screen: Tuple[float, float]):
         delay = [0.2, 0.3]
@@ -95,22 +98,22 @@ class Sorceress(IChar):
         custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
         mouse.click(button="right")
 
-    def kill_eldritch(self, eldritch_pos_screen: Tuple[float, float]):
+    def kill_eldritch(self) -> bool:
         delay = [0.2, 0.3]
-        pos_abs = self._screen.convert_screen_to_abs(eldritch_pos_screen)
-        cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-        cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-        pos_monitor = self._screen.convert_screen_to_monitor(eldritch_pos_screen)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._left_attack(cast_pos_monitor, delay, 90)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._left_attack(cast_pos_monitor, delay, 90)
-        wait(0.2, 0.3)
-        # Move to items
-        keyboard.send(self._skill_hotkeys["teleport"])
-        custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
-        mouse.click(button="right")
+        pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
+        if pos_abs is not None:
+            cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
+            self._main_attack(cast_pos_monitor, delay, 90)
+            self._left_attack(cast_pos_monitor, delay, 90)
+            self._main_attack(cast_pos_monitor, delay, 90)
+            self._main_attack(cast_pos_monitor, delay, 90)
+            self._left_attack(cast_pos_monitor, delay, 90)
+            wait(0.2, 0.3)
+            # Move to items
+            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self)
+            return True
+        return False
 
 
 if __name__ == "__main__":

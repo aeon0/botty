@@ -44,8 +44,12 @@ class TemplateFinder:
             "PINDLE_4": [load_template("assets/templates/pindle/pindle_4.png", self._scale_factor), self._scale_factor],
             "PINDLE_5": [load_template("assets/templates/pindle/pindle_5.png", self._scale_factor), self._scale_factor],
             "PINDLE_6": [load_template("assets/templates/pindle/pindle_6.png", self._scale_factor), self._scale_factor],
-            # Template Shenk area (currently only used to check if we are at shenk at wp, the walking is done statically)
-            "SHENK_FLAME": [load_template("assets/templates/shenk_flame.png", self._scale_factor), self._scale_factor],
+            # Teplates for nodes to Eldritch
+            "ELDRITCH_0": [load_template("assets/templates/eldritch/eldritch_0.png", self._scale_factor), self._scale_factor],
+            "ELDRITCH_1": [load_template("assets/templates/eldritch/eldritch_1.png", self._scale_factor), self._scale_factor],
+            "ELDRITCH_2": [load_template("assets/templates/eldritch/eldritch_2.png", self._scale_factor), self._scale_factor],
+            "ELDRITCH_3": [load_template("assets/templates/eldritch/eldritch_3.png", self._scale_factor), self._scale_factor],
+            "ELDRITCH_4": [load_template("assets/templates/eldritch/eldritch_4.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template("assets/templates/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template("assets/templates/a5_wp.png", self._scale_factor), self._scale_factor],

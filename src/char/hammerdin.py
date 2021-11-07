@@ -57,15 +57,18 @@ class Hammerdin(IChar):
         keyboard.send(self._skill_hotkeys["redemption"])
         wait(1.5, 2.0)
 
-    def kill_pindle(self):
+    def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+        if not self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self):
+            return False
         self._cast_hammers(1)
         # pindle sometimes knocks back, get back in
-        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+        if not self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self):
+            return False
         self._cast_hammers(6)
         wait(0.1, 0.15)
         self._do_redemption()
+        return True
 
     def kill_shenk(self, shenk_pos_screen: Tuple[float, float]):
         pos_monitor = self._screen.convert_screen_to_monitor(shenk_pos_screen)
@@ -79,12 +82,11 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._do_redemption()
 
-    def kill_eldritch(self, eldritch_pos_screen: Tuple[float, float]):
-        pos_monitor = self._screen.convert_screen_to_monitor(eldritch_pos_screen)
-        keyboard.send(self._skill_hotkeys["teleport"])
-        custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.05 + 0.15))
-        mouse.click(button="right")
+    def kill_eldritch(self) -> bool:
+        if not self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self):
+            return False
         wait(0.1, 0.15)
         self._cast_hammers(6)
         wait(0.1, 0.15)
         self._do_redemption()
+        return True

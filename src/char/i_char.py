@@ -93,7 +93,7 @@ class IChar:
         pass
 
     @abstract
-    def kill_pindle(self):
+    def kill_pindle(self) -> bool:
         pass
     
     @abstract
@@ -101,5 +101,5 @@ class IChar:
         pass
     
     @abstract
-    def kill_eldritch(self, eldritch_pos_screen):
+    def kill_eldritch(self) -> bool:
         pass

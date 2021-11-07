@@ -24,9 +24,13 @@ class Location:
     MALAH = "malah"
     NIHLATHAK_PORTAL = "nihlathak_portal"
     # Pindle
-    PINDLE_START = "PINDLE_START"
-    PINDLE_SAVE_DIST = "PINDLE_SAVE_DIST"
-    PINDLE_END = "PINDLE_END"
+    PINDLE_START = "pindle_aster"
+    PINDLE_SAVE_DIST = "pindle_save_dist"
+    PINDLE_END = "pindle_end"
+    # Eldritch
+    ELDRITCH_START = "eldritch_start"
+    ELDRITCH_SAVE_DIST = "eldritch_save_dist"
+    ELDRITCH_END = "eldritch_end"
 
 
 class Pather:
@@ -64,6 +68,11 @@ class Pather:
             102: {"PINDLE_3": (334, 132), "PINDLE_4": (142, 323)},
             103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
             104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
+            # Eldritch
+            120: {"ELDRITCH_0": (439, 236), "ELDRITCH_1": (-461, 314)},
+            121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
+            122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
+            123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)}
         }
         self._paths = {
             # A5 Town
@@ -81,12 +90,13 @@ class Pather:
             # Pindle
             (Location.PINDLE_START, Location.PINDLE_SAVE_DIST): [100, 101, 102, 103],
             (Location.PINDLE_SAVE_DIST, Location.PINDLE_END): [104],
+            # Eldritch
+            (Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST): [120, 121, 122],
+            (Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END): [123],
         }
         self._fixed_tele_path = {
             # 0: path to boss, 1: location of boss
-            "PINDLE": ([(1382, 53), (1685, 105), (1429, 122)], (1533, 327)),
-            "PINDLE_END": ([(600, 40)], None),
-            "ELDRITCH": ([(978, 95), (845, 109)], (1012, 42)),
+            "PINDLE_END": ([(600, 40)], None), # to move away from items
             "SHENK": ([(798, 869), (1112, 882), (1220, 860), (1330, 869), (1502, 836), (1247, 887), (1258, 901), (1463, 814), (1351, 778)], [1815, 772])
         }
 
@@ -94,24 +104,25 @@ class Pather:
     def get_fixed_path(self, key: str):
         return self._fixed_tele_path[key]
 
-    def _display_all_nodes_debug(self):
+    def _display_all_nodes_debug(self, filter: str = None):
         while 1:
             img = self._screen.grab()
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
-                        success, ref_pos_screen = self._template_finder.search(template_type, img)
-                        if success:
-                            # Get reference position of template in abs coordinates
-                            ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
-                            # Calc the abs node position with the relative coordinates (relative to ref)
-                            node_pos_rel = self._nodes[node_idx][template_type]
-                            node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                            node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                            x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                            cv2.circle(img, (x, y), 5, (255, 0, 0), 3)
-                            cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                            x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
-                            cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
+                        if filter is None or filter in template_type:
+                            success, ref_pos_screen = self._template_finder.search(template_type, img)
+                            if success:
+                                # Get reference position of template in abs coordinates
+                                ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
+                                # Calc the abs node position with the relative coordinates (relative to ref)
+                                node_pos_rel = self._nodes[node_idx][template_type]
+                                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
+                                cv2.circle(img, (x, y), 5, (255, 0, 0), 3)
+                                cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                                x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
+                                cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
             img = cv2.resize(img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", img)
             cv2.waitKey(1)
@@ -226,7 +237,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager)
+    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.A5_TOWN_START, Location.MALAH, char, debug=True)
-    # pather._display_all_nodes()
+    # pather.traverse_nodes(Location.A5_TOWN_START, Location.MALAH, char, debug=True)
+    pather._display_all_nodes_debug(filter="ELDRITCH")

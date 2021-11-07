@@ -235,13 +235,13 @@ class Bot:
                 bot._char.select_by_template("A5_WP")
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)
-                self.success = bot._template_finder.search_and_wait("SHENK_FLAME", time_out=20)[0]
+                self.success = bot._template_finder.search_and_wait("ELDRITCH_0", time_out=20)[0]
                 if not self.success:
                     return
                 bot._char.pre_buff()
                 # eldritch
-                bot._pather.traverse_nodes_fixed("ELDRITCH", bot._char)
-                bot._char.kill_eldritch(bot._pather.get_fixed_path("ELDRITCH")[1])
+                bot._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, bot._char)
+                bot._char.kill_eldritch()
                 wait(0.5)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 # shenk
