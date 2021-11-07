@@ -1,6 +1,5 @@
 import keyboard
 import mouse
-from utils import custom_mouse
 from char.i_char import IChar
 from template_finder import TemplateFinder
 from ui_manager import UiManager
@@ -8,9 +7,7 @@ from pather import Pather
 from logger import Logger
 from screen import Screen
 from utils.misc import wait
-import random
 import time
-from typing import Tuple
 from pather import Pather, Location
 
 
@@ -48,8 +45,14 @@ class Hammerdin(IChar):
         wait(0.05, 0.1)
         mouse.press(button="left")
         start = time.time()
+        i = 0
         while (time.time() - start) < time_in_s:
-            time.sleep(0.02)
+            wait(0.04, 0.06)
+            i += 1
+            if i % 20 == 0:
+                mouse.release(button="left")
+                time.sleep(0.01)
+                mouse.press(button="left")
         mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
@@ -59,7 +62,7 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=0.5)
+        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=2.0)
         self._cast_hammers(1)
         # pindle sometimes knocks back, get back in
         self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=0.2)
