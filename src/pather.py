@@ -78,7 +78,7 @@ class Pather:
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
             123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
             # Shenk
-            140: {"SHENK_0": (-224, -340), "SHENK_15": (90, 50), "SHENK_1": (667, -242)},
+            140: {"SHENK_0": (-224, -340), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
             141: {"SHENK_0": (-194, 66), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
             142: {"SHENK_1": (876, 564), "SHENK_2": (-78, 352), "SHENK_3": (535, -194), "SHENK_4": (-665, -155)},
             143: {"SHENK_2": (212, 758),"SHENK_3": (823, 209), "SHENK_4": (-377, 248), "SHENK_6": (-508, -103)},
@@ -255,5 +255,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
-    # pather._display_all_nodes_debug(filter="SHENK")
+    # pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
+    pather._display_all_nodes_debug(filter="SHENK")
