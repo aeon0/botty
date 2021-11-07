@@ -60,6 +60,8 @@ class IChar:
             custom_mouse.move(x, y, duration=(random.random() * 0.03 + 0.05))
             mouse.click(button="left")
             wait(0.02, 0.03)
+            if self._config.char["slow_walk"]:
+                wait(1.2, 1.4)
 
     def tp_town(self):
         keyboard.send(self._char_config["tp"])

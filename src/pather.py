@@ -237,8 +237,6 @@ class Pather:
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m))
                         last_move = time.time()
-                        if self._config.char["slow_walk"]:
-                            wait(1.2, 1.4)
         return True
 
 
