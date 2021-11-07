@@ -14,3 +14,4 @@ dependencies:
     - keyboard
     - graphviz
     - beautifultable
+    - zstandard
