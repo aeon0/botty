@@ -5,6 +5,7 @@ from typing import Tuple, Union, List
 import numpy as np
 from logger import Logger
 import time
+from config import Config
 
 
 def load_template(path, scale_factor):
@@ -18,9 +19,10 @@ class TemplateFinder:
         :param screen: Screen object
         :param scale_factor: Scale factor that is used for templates. Note: UI and NPC templates will always have scale of 1.0
         """
-        self.debug_last_score = -1.0
+        self.last_score = -1.0
         self._screen = screen
         self._scale_factor = scale_factor
+        self._config = Config()
         self._templates = {
             # Templates for node in A5 Town
             "A5_TOWN_0": [load_template("assets/templates/a5_town/a5_town_0.png", self._scale_factor), self._scale_factor],
@@ -114,7 +116,7 @@ class TemplateFinder:
         if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
             res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
             _, max_val, _, max_pos = cv2.minMaxLoc(res)
-            self.debug_last_score = max_val
+            self.last_score = max_val
             if max_val > threshold:
                 ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                 ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
@@ -132,8 +134,7 @@ class TemplateFinder:
         start = time.time()
         while 1:
             img = self._screen.grab()
-            # TODO: 1920x1080 specific params
-            is_loading_black_roi = np.average(img[:, 0:500]) < 1.0
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             success, pos = self.search(ref, img, roi=roi, threshold=threshold)
             if not is_loading_black_roi and success:
                 return True, pos
@@ -152,7 +153,7 @@ if __name__ == "__main__":
     while 1:
         img = screen.grab()
         success, pos = template_finder.search("BLUE_PORTAL", img, threshold=0.67)
-        print(template_finder.debug_last_score)
+        print(template_finder.last_score)
         if success:
             cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)
         img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)

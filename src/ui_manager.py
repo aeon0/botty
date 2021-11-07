@@ -151,46 +151,41 @@ class UiManager():
         Starting a game in hell mode. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
-        while self._template_finder.search("PLAY_BTN_GRAY", self._screen.grab(), roi=self._config.ui_roi["play_btn"], threshold=0.95)[0]:
-            time.sleep(2)
-
-        Logger.debug(f"Searching for Play Btn...")
-        found, pos = self._template_finder.search_and_wait("PLAY_BTN", roi=self._config.ui_roi["play_btn"], time_out=8)
-        if not found:
-            return False
-        # sanity x, y check and determine if offline or online
-        x_range_offline = [self._config.ui_pos["play_x_offline"] - 50, self._config.ui_pos["play_x_offline"] + 50]
-        x_range_online = [self._config.ui_pos["play_x_online"] - 50, self._config.ui_pos["play_x_online"] + 50]
-        y_range = [self._config.ui_pos["play_y"] - 50, self._config.ui_pos["play_y"] + 50]
-        in_offline_range = x_range_offline[0] < pos[0] < x_range_offline[1]
-        in_online_range = x_range_online[0] < pos[0] < x_range_online[1]
-        mode_info = "online mode" if in_online_range else "offline mode"
-        if (in_offline_range or in_online_range) and y_range[0] < pos[1] < y_range[1]:
-            pos = [pos[0], self._config.ui_pos["play_y"]]
-            x, y = self._screen.convert_screen_to_monitor(pos)
-            Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
-            if mode_info == "online mode":
-                Logger.warning("You are creating a game in online mode!")
-            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.5), randomize=5)
-            mouse.click(button="left")
-        else:
-            Logger.debug("Sanity position check on play btn failed")
-            return False
+        while 1:
+            img = self._screen.grab()
+            # search offline btn
+            found_off, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
+            # search online btn with enabled and disabled version
+            found_on, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            score_enabled = self._template_finder.last_score
+            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            score_disabled = self._template_finder.last_score
+            found_on = found_on and score_enabled > score_disabled
+            if found_off or found_on:
+                x_s = self._config.ui_pos["play_x_offline"] if found_off else self._config.ui_pos["play_x_online"]
+                pos = [x_s, self._config.ui_pos["play_y"]]
+                x, y = self._screen.convert_screen_to_monitor(pos)
+                mode_info = "offline" if found_off else "online"
+                Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
+                if mode_info == "online":
+                    Logger.warning("You are creating a game in online mode!")
+                custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.4), randomize=5)
+                mouse.click(button="left")
+                break
+            time.sleep(3.0)
 
         Logger.debug("Searching for Hell Btn...")
-        found, pos = self._template_finder.search_and_wait("HELL_BTN", roi=self._config.ui_roi["hell_btn"], time_out=8)
-        if not found:
-            return False
-        # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
-        x_range = [self._config.ui_pos["hell_x"] - 50, self._config.ui_pos["hell_x"] + 50]
-        if x_range[0] < pos[0] < x_range[1]:
+        while 1:
+            found, pos = self._template_finder.search_and_wait("HELL_BTN", roi=self._config.ui_roi["hell_btn"], time_out=8)
+            if not found:
+                Logger.debug("Could not find hell btn, try from start again")
+                return self.start_hell_game()
+            # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
             Logger.debug("Found Hell Btn -> clicking it")
-            custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.5), randomize=5)
+            custom_mouse.move(x, y, duration=(random.random() * 0.1 + 0.4), randomize=5)
             mouse.click(button="left")
-        else:
-            Logger.debug("Sanity position check on hell btn failed")
-            return False
+            break
 
         # check for server issue
         wait(2.0)
@@ -198,7 +193,7 @@ class UiManager():
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
-            custom_mouse.move(x, y, duration=(random.random() * 0.4 + 0.5), randomize=5)
+            custom_mouse.move(x, y, duration=(random.random() * 0.1 + 0.4), randomize=5)
             mouse.click(button="left")
             wait(1, 2)
             keyboard.send("esc")
@@ -262,7 +257,9 @@ class UiManager():
         # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
-        self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"])
+        if not self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)[0]:
+            Logger.error("Could not determine to be in stash menu. Continue...")
+            return
         Logger.debug("Found inventory gold btn")
         # select the start stash
         personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
@@ -345,6 +342,7 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(6)
+    ui_manager.start_hell_game()
+    # ui_manager.stash_all_items(6)
     # ui_manager.use_wp(4, 1)
     # ui_manager.fill_up_belt_from_inventory(10)
