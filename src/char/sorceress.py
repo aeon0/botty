@@ -58,7 +58,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_monitor, delay)
             wait(0.1, 0.15)
             # Move to items
-            self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
+            self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, force_tp=True)
             return True
         return False
 
@@ -73,7 +73,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_monitor, delay, 90)
             wait(0.2, 0.3)
             # Move to items
-            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=2.0)
+            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=2.0, force_tp=True)
             return True
         return False
 
@@ -87,7 +87,7 @@ class Sorceress(IChar):
             self._left_attack(cast_pos_monitor, delay, 90)
         wait(0.2, 0.3)
         # Move to items
-        self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0)
+        self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)
 
 
 

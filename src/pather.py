@@ -200,7 +200,7 @@ class Pather:
                 return node_pos_abs
         return None
 
-    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7) -> bool:
+    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7, force_tp: bool = False) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
@@ -235,7 +235,7 @@ class Pather:
                     else:
                         # Move the char
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
-                        char.move((x_m, y_m))
+                        char.move((x_m, y_m), force_tp=force_tp)
                         last_move = time.time()
         return True
 

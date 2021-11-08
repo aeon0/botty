@@ -40,11 +40,11 @@ class IChar:
             return True
         return False
 
-    def move(self, pos_monitor: Tuple[float, float]):
-        if not self._ui_manager.is_teleport_selected():
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
+        if force_tp or not self._ui_manager.is_teleport_selected():
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
-        if self._ui_manager.can_teleport():
+        if force_tp or self._ui_manager.can_teleport():
             mouse.move(pos_monitor[0], pos_monitor[1])
             mouse.click(button="right")
             time.sleep(self._cast_duration)
