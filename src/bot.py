@@ -54,6 +54,7 @@ class Bot:
         self._tp_is_up = False
         self._curr_location: Location = None
         self._timer = None
+        self._tps_left = 20
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -157,8 +158,21 @@ class Bot:
             else:
                 Logger.warning("Could not find stash, continue...")
 
+        if self._tps_left < 4:
+            Logger.info("Repairing and buying tps at Lazurk")
+            if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
+                self.trigger("end_game")
+                return
+            self._curr_location = Location.LARZUK
+            self._npc_manager.open_npc_menu(Npc.LARZUK)
+            self._npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
+            if self._ui_manager.repair_and_fill_up_tp(close_when_done=True):
+                self._tps_left = 20
+            wait(0.8)
+
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
+        print(merc_alive)
         if not merc_alive:
             Logger.info("Reviveing merc")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
@@ -309,6 +323,7 @@ class Bot:
 
     def on_end_run(self):
         success = self._char.tp_town()
+        self._tps_left -= 1
         if success:
             success, _= self._template_finder.search_and_wait("A5_TOWN_1", time_out=10)
             if success:

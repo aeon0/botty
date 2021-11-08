@@ -65,7 +65,7 @@ class Pather:
             10: {"A5_TOWN_4": (-708, 87), "A5_TOWN_6": (-16, -48), "A5_TOWN_8": (482, 196)},
             11: {"A5_TOWN_6": (-448, -322), "A5_TOWN_8": (50, -78), "A5_TOWN_9": (11, 346)},
             12: {"A5_TOWN_8": (-209, -294), "A5_TOWN_9": (-248, 130)},
-            13: {"A5_TOWN_3": (180, 180),"A5_TOWN_10": (-800, 332)},
+            13: {"A5_TOWN_3": (180, 180),"A5_TOWN_10": (-800, 332), "A5_TOWN_4": (822, 146)},
             14: {"A5_TOWN_3": (670, 260), "A5_TOWN_10": (-300, 420)},
             # Pindle
             100: {"PINDLE_7": (576, -138), "PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
@@ -263,5 +263,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.LARZUK, Location.NIHLATHAK_PORTAL, char)
+    pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
     # pather._display_all_nodes_debug(filter="A5_TOWN")

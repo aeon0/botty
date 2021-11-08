@@ -332,6 +332,55 @@ class UiManager():
         wait(0.2, 0.25)
         keyboard.send(self._config.char["inventory_screen"])
 
+    def repair_and_fill_up_tp(self, close_when_done:bool = False) -> bool:
+        """
+        Repair and fills up TP buy selling tomb and buying. Vendor inventory needs to be open!
+        :return: Bool if success
+        """
+        found, pos_repair_abs = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
+        if not found:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(pos_repair_abs)
+        mouse.move(x, y, randomize=7)
+        wait(0.1, 0.15)
+        mouse.click(button="left")
+        wait(0.1, 0.15)
+        x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
+        mouse.move(x, y, randomize=5)
+        wait(0.1, 0.15)
+        mouse.click(button="left")
+        wait(0.5, 0.6)
+        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=4)
+        if not found:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
+        keyboard.send('ctrl', do_release=False)
+        mouse.move(x, y, randomize=4)
+        wait(0.1, 0.15)
+        mouse.press(button="left")
+        wait(0.25, 0.35)
+        mouse.release(button="left")
+        wait(0.5, 0.6)
+        keyboard.send('ctrl', do_press=False)
+        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=4)
+        if not found:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
+        keyboard.send('ctrl', do_release=False)
+        mouse.move(x, y, randomize=4)
+        wait(0.1, 0.15)
+        mouse.click(button="right")
+        wait(0.1, 0.15)
+        keyboard.send('ctrl', do_press=False)
+        if close_when_done:
+            wait(0.1, 0.2)
+            keyboard.send("esc")
+            # just in case also bring cursor to center and click
+            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["center_x"], self._config.ui_pos["center_y"]))
+            mouse.move(x, y, randomize=20)
+            mouse.click(button="left")
+        return True
+
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
@@ -343,7 +392,9 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.start_hell_game()
+    ui_manager.repair_and_fill_up_tp()
+    wait(0.1, 0.2)
+    keyboard.send("esc")
     # ui_manager.stash_all_items(6)
     # ui_manager.use_wp(4, 1)
     # ui_manager.fill_up_belt_from_inventory(10)
