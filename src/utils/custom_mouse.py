@@ -243,12 +243,10 @@ class mouse:
 
         duration = max(0.05, dist * 0.00045 * random.uniform(0.9, 1.1))
         delta = duration / len(human_curve.points)
-        print(f"Planed: {duration}")
         start = time.time()
 
         for point in human_curve.points:
             _mouse.move(point[0], point[1], duration=delta)
-        print(time.time() - start)
 
     @staticmethod
     def click(button):
