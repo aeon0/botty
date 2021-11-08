@@ -19,6 +19,7 @@ import keyboard
 import threading
 import time
 import os
+import random
 
 
 class Bot:
@@ -46,8 +47,9 @@ class Bot:
             os._exit(1)
         self._do_runs = {
             "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
         }
+        self.shuffle_runs()
         self._picked_up_items = False
         self._tp_is_up = False
         self._curr_location: Location = None
@@ -75,6 +77,11 @@ class Bot:
 
     def start(self):
         self.trigger('create_game')
+
+    def shuffle_runs(self):
+        tmp = list(self._do_runs.items())
+        random.shuffle(tmp)
+        self._do_runs = dict(tmp)
 
     def is_last_run(self):
         found_unfinished_run = False
@@ -258,6 +265,10 @@ class Bot:
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
                     wait(1.5, 1.8)
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
+                    # in order to move away for items to have a clear tp, move to the end of the hall
+                    if not bot.is_last_run():
+                        bot._pather.traverse_nodes_fixed("PINDLE_END", bot._char)
+                    wait(0.2, 0.3)
                 self.success = True
                 return
         run = RunShenk()
@@ -292,6 +303,7 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
         }
+        self.shuffle_runs()
         wait(0.2, 0.5)
         self.trigger("create_game")
 

@@ -73,7 +73,7 @@ class Pather:
             103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
             104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
             # Eldritch
-            120: {"ELDRITCH_1": (-461, 314), "ELDRITCH_0": (439, 236)},
+            120: {"ELDRITCH_0": (439, 36), "ELDRITCH_1": (-461, 114)},
             121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
             123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
@@ -116,6 +116,7 @@ class Pather:
         self._fixed_tele_path = {
             # 0: path to boss, 1: location of boss
             "PINDLE_END": ([(600, 40)], None), # to move away from items
+            "SHENK_END": ([656, 323], None) # to move away from items
         }
 
     def get_fixed_path(self, key: str):
@@ -256,4 +257,4 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
     # pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
-    pather._display_all_nodes_debug(filter="PINDLE")
+    pather._display_all_nodes_debug(filter="SHENK")

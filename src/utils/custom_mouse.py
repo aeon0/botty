@@ -229,7 +229,7 @@ class mouse:
         dist = math.dist((x, y), from_point)
         offsetBoundaryX = max(10, int(0.08 * dist))
         offsetBoundaryY = max(10, int(0.08 * dist))
-        targetPoints = min(7, max(3, int(0.004 * dist)))
+        targetPoints = min(6, max(3, int(0.004 * dist)))
         if not absolute:
             x = from_point[0] + x
             y = from_point[1] + y
@@ -241,7 +241,7 @@ class mouse:
             y = int(y)
         human_curve = HumanCurve(from_point, (x, y), offsetBoundaryX=offsetBoundaryX, offsetBoundaryY=offsetBoundaryY, targetPoints=targetPoints)
 
-        duration = max(0.05, dist * 0.0004) * random.uniform(0.9, 1.1)
+        duration = min(0.5, max(0.05, dist * 0.0004) * random.uniform(0.9, 1.1))
         delta = duration / len(human_curve.points)
 
         for point in human_curve.points:
