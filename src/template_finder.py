@@ -44,6 +44,7 @@ class TemplateFinder:
             "PINDLE_4": [load_template("assets/templates/pindle/pindle_4.png", self._scale_factor), self._scale_factor],
             "PINDLE_5": [load_template("assets/templates/pindle/pindle_5.png", self._scale_factor), self._scale_factor],
             "PINDLE_6": [load_template("assets/templates/pindle/pindle_6.png", self._scale_factor), self._scale_factor],
+            "PINDLE_7": [load_template("assets/templates/pindle/pindle_7.png", self._scale_factor), self._scale_factor],
             # Templates for nodes to Eldritch
             "ELDRITCH_0": [load_template("assets/templates/eldritch/eldritch_0.png", self._scale_factor), self._scale_factor],
             "ELDRITCH_1": [load_template("assets/templates/eldritch/eldritch_1.png", self._scale_factor), self._scale_factor],

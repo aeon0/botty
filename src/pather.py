@@ -67,7 +67,7 @@ class Pather:
             13: {"A5_TOWN_3": (262, 210)},
             14: {"A5_TOWN_3": (694, 282)},
             # Pindle
-            100: {"PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
+            100: {"PINDLE_7": (576, -138), "PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
             101: {"PINDLE_1": (557, -68), "PINDLE_2": (27, -276), "PINDLE_3": (-185, 391)},
             102: {"PINDLE_3": (334, 132), "PINDLE_4": (142, 323)},
             103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
@@ -256,4 +256,4 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
     # pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
-    pather._display_all_nodes_debug(filter="SHENK")
+    pather._display_all_nodes_debug(filter="PINDLE")
