@@ -28,7 +28,7 @@ class IChar:
         self._screen = screen
         self._config = Config()
         self._last_tp = time.time()
-        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.02
+        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.04
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
@@ -88,6 +88,20 @@ class IChar:
                 mouse.click(button="left")
                 return True
         return False
+
+    def _pre_buff_cta(self):
+        wait(0.1, 0.15)
+        keyboard.send(self._char_config["weapon_switch"])
+        wait(0.3, 0.33)
+        keyboard.send(self._char_config["battle_command"])
+        wait(0.1, 0.12)
+        mouse.click(button="right")
+        wait(self._cast_duration, self._cast_duration + 0.04)
+        keyboard.send(self._char_config["battle_orders"])
+        wait(0.1, 0.12)
+        mouse.click(button="right")
+        wait(self._cast_duration, self._cast_duration + 0.04)
+        keyboard.send(self._char_config["weapon_switch"])
 
     @abstract
     def pre_buff(self):

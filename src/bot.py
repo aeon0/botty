@@ -209,7 +209,7 @@ class Bot:
                 if not self.success:
                     return
                 bot._char.pre_buff()
-                wait(0.2, 0.4)
+                wait(0.2, 0.3)
                 bot._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, bot._char)
                 bot._char.kill_pindle()
                 wait(1.5, 1.8)
@@ -239,6 +239,7 @@ class Bot:
                 if not self.success:
                     return
                 bot._char.pre_buff()
+                wait(0.2, 0.3)
                 # eldritch
                 bot._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, bot._char)
                 bot._char.kill_eldritch()

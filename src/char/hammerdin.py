@@ -19,22 +19,11 @@ class Hammerdin(IChar):
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["holy_shield"])
-        wait(0.15, 0.3)
+        wait(0.1, 0.12)
         mouse.click(button="right")
+        wait(self._cast_duration)
         if self._char_config["cta_available"]:
-            wait(1.0, 1.4)
-            keyboard.send(self._char_config["weapon_switch"])
-            wait(0.25, 0.3)
-            keyboard.send(self._char_config["battle_orders"])
-            wait(0.25, 0.3)
-            mouse.click(button="right")
-            wait(1.2, 1.5)
-            keyboard.send(self._char_config["battle_command"])
-            wait(0.25, 0.3)
-            mouse.click(button="right")
-            wait(1.1, 1.3)
-            keyboard.send(self._char_config["weapon_switch"])
-            wait(0.25, 0.3)
+            self._pre_buff_cta()
 
     def _cast_hammers(self, time_in_s: float):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -85,3 +74,22 @@ class Hammerdin(IChar):
         self._cast_hammers(6)
         wait(0.1, 0.15)
         self._do_redemption()
+
+
+if __name__ == "__main__":
+    import os
+    import keyboard
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui_manager import UiManager
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    t_finder = TemplateFinder(screen)
+    pather = Pather(screen, t_finder)
+    ui_manager = UiManager(screen, t_finder)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    for i in range(20):
+        char.pre_buff()
+        time.sleep(1.5)
+    # char.tp_town()

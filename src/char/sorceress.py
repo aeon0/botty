@@ -22,22 +22,11 @@ class Sorceress(IChar):
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["frozen_armor"])
-        wait(0.15, 0.3)
+        wait(0.1, 0.13)
         mouse.click(button="right")
+        wait(self._cast_duration)
         if self._char_config["cta_available"]:
-            wait(1.0, 1.4)
-            keyboard.send(self._char_config["weapon_switch"])
-            wait(0.25, 0.3)
-            keyboard.send(self._char_config["battle_orders"])
-            wait(0.25, 0.3)
-            mouse.click(button="right")
-            wait(1.2, 1.5)
-            keyboard.send(self._char_config["battle_command"])
-            wait(0.25, 0.3)
-            mouse.click(button="right")
-            wait(1.1, 1.3)
-            keyboard.send(self._char_config["weapon_switch"])
-            wait(0.25, 0.3)
+            self._pre_buff_cta()
 
     def _left_attack(self, cast_pos: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -127,5 +116,5 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager)
-    # char.pre_buff()
-    char.tp_town()
+    char.pre_buff()
+    # char.tp_town()
