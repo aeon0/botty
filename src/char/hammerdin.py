@@ -1,5 +1,5 @@
 import keyboard
-import mouse
+from utils.custom_mouse import mouse
 from char.i_char import IChar
 from template_finder import TemplateFinder
 from ui_manager import UiManager

@@ -1,6 +1,5 @@
 import keyboard
-import mouse
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 from char.i_char import IChar
 from template_finder import TemplateFinder
 from item_finder import ItemFinder
@@ -30,12 +29,12 @@ class Sorceress(IChar):
 
     def _left_attack(self, cast_pos: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
-        custom_mouse.move(cast_pos[0], cast_pos[1], duration=(random.random() * 0.05 + 0.15))
+        mouse.move(cast_pos[0], cast_pos[1])
         keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(6):
             x = cast_pos[0] + (random.random() * 2*spray - spray)
             y = cast_pos[1] + (random.random() * 2*spray - spray)
-            custom_mouse.move(x, y, duration=(random.random() * 0.05 + 0.15))
+            mouse.move(x, y)
             mouse.click(button="left")
             wait(delay[0], delay[1])
         keyboard.send(self._char_config["stand_still"], do_press=False)
@@ -44,7 +43,7 @@ class Sorceress(IChar):
         keyboard.send(self._skill_hotkeys["skill_right"])
         x = cast_pos[0] + (random.random() * 2*spray - spray)
         y = cast_pos[1] + (random.random() * 2*spray - spray)
-        custom_mouse.move(x, y, duration=(random.random() * 0.05 + 0.15))
+        mouse.move(x, y)
         mouse.click(button="right")
         wait(delay[0], delay[1])
 

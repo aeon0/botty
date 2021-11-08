@@ -1,13 +1,12 @@
 import time
 import os
-import mouse
 from template_finder import TemplateFinder
 from config import Config
 from screen import Screen
 from utils.misc import color_filter, cut_roi
 from logger import Logger
 import keyboard
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 
 
 class Npc:
@@ -47,7 +46,7 @@ class NpcManager:
                 res, pos = self._template_finder.search(key, img, threshold=0.35, roi=roi)
                 if res:
                     x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-                    custom_mouse.move(x_m, y_m, duration=0.05)
+                    mouse.move(x_m, y_m)
                     time.sleep(0.2)
                     _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                     _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
@@ -69,7 +68,7 @@ class NpcManager:
         res, pos = self._template_finder.search(self._npcs[npc_key]["action_btns"][action_btn_key], filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"])
         if res:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-            custom_mouse.move(x_m, y_m, duration=0.1)
+            mouse.move(x_m, y_m)
             time.sleep(0.3)
             mouse.click(button="left")
             time.sleep(0.2)

@@ -1,8 +1,7 @@
 from item_finder import ItemFinder
 import time
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 import keyboard
-import mouse
 from config import Config
 from char.i_char import IChar
 from logger import Logger
@@ -51,7 +50,7 @@ class PickIt:
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name:
                         found_items = True
                     Logger.info(f"Picking up {closest_item.name}")
-                    custom_mouse.move(x_m, y_m, duration=(random.random() * 0.03 + 0.08))
+                    mouse.move(x_m, y_m)
                     time.sleep(0.1)
                     mouse.click(button="left")
                     time.sleep(0.5)

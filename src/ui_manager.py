@@ -1,8 +1,7 @@
 from screen import Screen
 from template_finder import TemplateFinder
-import mouse
 from typing import Tuple
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 import keyboard
 import random
 import time
@@ -34,12 +33,12 @@ class UiManager():
         # Note: We are currently only in act 5, thus no need to click here.
         # pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * act, self._config.ui_pos["wp_act_i_btn_y"])
         # x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
-        # custom_mouse.move(x, y, duration=0.4, randomize=8)
+        # mouse.move(x, y, randomize=8)
         # mouse.click(button="left")
         # wait(0.3, 0.4)
         pos_wp_btn = (self._config.ui_pos["wp_first_btn_x"], self._config.ui_pos["wp_first_btn_y"] + self._config.ui_pos["wp_btn_height"] * idx)
         x, y = self._screen.convert_screen_to_monitor(pos_wp_btn)
-        custom_mouse.move(x, y, duration=0.4, randomize=12)
+        mouse.move(x, y, randomize=12)
         wait(0.3, 0.4)
         mouse.click(button="left")
 
@@ -140,7 +139,7 @@ class UiManager():
             found, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT", roi=self._config.ui_roi["save_and_exit"], time_out=7)
             if found:
                 x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
-                custom_mouse.move(x_m, y_m, duration=0.2, randomize=12)
+                mouse.move(x_m, y_m, randomize=12)
                 wait(0.1)
                 mouse.click(button="left")
                 return True
@@ -169,7 +168,7 @@ class UiManager():
                 Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
                 if mode_info == "online":
                     Logger.warning("You are creating a game in online mode!")
-                custom_mouse.move(x, y, duration=(random.random() * 0.2 + 0.4), randomize=5)
+                mouse.move(x, y, randomize=5)
                 mouse.click(button="left")
                 break
             time.sleep(3.0)
@@ -183,7 +182,7 @@ class UiManager():
             # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
             Logger.debug("Found Hell Btn -> clicking it")
-            custom_mouse.move(x, y, duration=(random.random() * 0.1 + 0.4), randomize=5)
+            mouse.move(x, y, randomize=5)
             mouse.click(button="left")
             break
 
@@ -193,7 +192,7 @@ class UiManager():
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
-            custom_mouse.move(x, y, duration=(random.random() * 0.1 + 0.4), randomize=5)
+            mouse.move(x, y, randomize=5)
             mouse.click(button="left")
             wait(1, 2)
             keyboard.send("esc")
@@ -266,7 +265,7 @@ class UiManager():
         stash_btn_width = self._config.ui_pos["stash_btn_width"]
         next_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash, personal_stash_pos[1])
         x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
-        custom_mouse.move(x_m, y_m, duration=0.7, randomize=15)
+        mouse.move(x_m, y_m, randomize=15)
         mouse.click(button="left")
         wait(0.3, 0.4)
         # stash stuff
@@ -276,7 +275,7 @@ class UiManager():
             slot_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
             if self._slot_has_item(slot_img):
                 x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
-                custom_mouse.move(x_m, y_m, duration=(random.random() * 0.2 + 0.3), randomize=5)
+                mouse.move(x_m, y_m, randomize=5)
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 wait(0.4, 0.6)
@@ -287,7 +286,7 @@ class UiManager():
         top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
         move_to = (top_left_slot[0] - 250, top_left_slot[1] - 250)
         x, y = self._screen.convert_screen_to_monitor(move_to)
-        custom_mouse.move(x, y, duration=0.5, randomize=3)
+        mouse.move(x, y, randomize=3)
         img = self._screen.grab()
         if self._inventory_has_items(img, num_loot_columns):
             Logger.info("Stash page is full, selecting next stash")
@@ -323,7 +322,7 @@ class UiManager():
         keyboard.press("shift")
         for pos in pot_positions:
             x, y = self._screen.convert_screen_to_monitor(pos)
-            custom_mouse.move(x, y, duration=0.15, randomize=5)
+            mouse.move(x, y, randomize=5)
             wait(0.2, 0.3)
             mouse.click(button="left")
             wait(0.3, 0.4)

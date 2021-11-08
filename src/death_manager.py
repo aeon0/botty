@@ -2,13 +2,11 @@ from utils.misc import kill_thread, color_filter, cut_roi
 from template_finder import TemplateFinder
 from screen import Screen
 from config import Config
-import mouse
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 import keyboard
 import cv2
 from logger import Logger
 import time
-import random
 from threading import Thread
 
 
@@ -30,7 +28,7 @@ class DeathManager:
     def pick_up_corpse(self):
         Logger.debug("Pick up corpse")
         x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["corpse_x"], self._config.ui_pos["corpse_y"]))
-        custom_mouse.move(x, y, duration=random.random() * 0.15 + 0.3)
+        mouse.move(x, y)
         mouse.click(button="left")
         self._died = False
 

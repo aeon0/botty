@@ -1,6 +1,5 @@
 from typing import Tuple
-import mouse
-from utils import custom_mouse
+from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import UiManager
 from screen import Screen
@@ -35,7 +34,7 @@ class IChar:
         success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
         if success:
             x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
-            custom_mouse.move(x_m, y_m, duration=0.3)
+            mouse.move(x_m, y_m)
             wait(0.3, 0.4)
             mouse.click(button="left")
             return True
@@ -46,7 +45,7 @@ class IChar:
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
         if self._ui_manager.can_teleport():
-            custom_mouse.move(pos_monitor[0], pos_monitor[1], duration=(random.random() * 0.01 + 0.06))
+            mouse.move(pos_monitor[0], pos_monitor[1])
             mouse.click(button="right")
             time.sleep(self._cast_duration)
         else:
@@ -57,7 +56,7 @@ class IChar:
             adjust_factor = (dist - 50) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
-            custom_mouse.move(x, y, duration=(random.random() * 0.03 + 0.05))
+            mouse.move(x, y)
             mouse.click(button="left")
             wait(0.02, 0.03)
             if self._config.char["slow_walk"]:
@@ -67,7 +66,7 @@ class IChar:
         keyboard.send(self._char_config["tp"])
         wait(0.05, 0.1)
         mouse.click(button="right")
-        custom_mouse.move(1400 + random.randrange(0, 60), 300 + random.randrange(0, 60), duration=0.1)
+        mouse.move(1400 + random.randrange(0, 60), 300 + random.randrange(0, 60))
         time.sleep(1.4) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
@@ -81,9 +80,9 @@ class IChar:
                 x, y = self._screen.convert_screen_to_monitor(pos)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 #       Also move a bit left and right to get rid of possibly highlight other things such as items
-                custom_mouse.move(x - 20, y, duration=0.13, randomize=5)
-                custom_mouse.move(x + 20, y, duration=0.05, randomize=5)
-                custom_mouse.move(x, y, duration=0.05, randomize=5)
+                mouse.move(x - 20, y, randomize=5)
+                mouse.move(x + 20, y, randomize=5)
+                mouse.move(x, y, randomize=5)
                 wait(0.1, 0.14)
                 mouse.click(button="left")
                 return True
