@@ -97,12 +97,13 @@ class HealthManager:
                 elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 4:
                     Logger.warning("Trying to chicken!")
                     cv2.imwrite("info_debug_chicken.png", img)
-                    self._ui_manager.save_and_exit()
-                    self._did_chicken = True
-                    kill_thread(run_thread)
                     # clean up key presses that might be pressed in the run_thread
                     keyboard.release(self._config.char["stand_still"])
                     keyboard.release(self._config.char["show_items"])
+                    time.sleep(0.01)
+                    self._ui_manager.save_and_exit()
+                    self._did_chicken = True
+                    kill_thread(run_thread)
                     self._do_monitor = False
                     break
                 # check mana
