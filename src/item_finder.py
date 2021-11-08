@@ -49,6 +49,7 @@ class ItemFinder:
         # load all templates
         self._templates = {}
         for filename in os.listdir('assets/items'):
+	    filename = filename.lower()
             if filename.endswith('.png'):
                 item_name = filename[:-4]
                 blacklist_item = item_name.startswith("bl__")
