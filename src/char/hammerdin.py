@@ -90,7 +90,10 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    for i in range(20):
-        char.pre_buff()
-        time.sleep(1.5)
+    # for i in range(20):
+    #     char.pre_buff()
+    #     time.sleep(1.5)
     # char.tp_town()
+    char.select_by_template("A5_WP")
+    wait(1.0)
+    ui_manager.use_wp(4, 1)

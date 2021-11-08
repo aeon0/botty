@@ -232,7 +232,7 @@ class Bot:
                 if not self.success:
                     return
                 bot._curr_location = Location.A5_WP
-                wait(1.0)
+                wait(0.6)
                 bot._char.select_by_template("A5_WP")
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)

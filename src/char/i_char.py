@@ -79,10 +79,7 @@ class IChar:
                 pos = (pos[0], pos[1] + 48)
                 x, y = self._screen.convert_screen_to_monitor(pos)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
-                #       Also move a bit left and right to get rid of possibly highlight other things such as items
-                mouse.move(x - 20, y, randomize=5)
-                mouse.move(x + 20, y, randomize=5)
-                mouse.move(x, y, randomize=5)
+                mouse.move(x, y, randomize=6)
                 wait(0.1, 0.14)
                 mouse.click(button="left")
                 return True

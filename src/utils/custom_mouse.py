@@ -241,9 +241,8 @@ class mouse:
             y = int(y)
         human_curve = HumanCurve(from_point, (x, y), offsetBoundaryX=offsetBoundaryX, offsetBoundaryY=offsetBoundaryY, targetPoints=targetPoints)
 
-        duration = max(0.05, dist * 0.00045 * random.uniform(0.9, 1.1))
+        duration = max(0.05, dist * 0.0004) * random.uniform(0.9, 1.1)
         delta = duration / len(human_curve.points)
-        start = time.time()
 
         for point in human_curve.points:
             _mouse.move(point[0], point[1], duration=delta)

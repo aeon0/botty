@@ -73,7 +73,7 @@ class Pather:
             103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
             104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
             # Eldritch
-            120: {"ELDRITCH_0": (439, 236), "ELDRITCH_1": (-461, 314)},
+            120: {"ELDRITCH_1": (-461, 314), "ELDRITCH_0": (439, 236)},
             121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
             123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
