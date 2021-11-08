@@ -44,8 +44,8 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder, go to D2R window and press the "resume" key. Move to your D2R window and press "f11". You can always force stop botty with f12.
 
 ## Color Test Mode
-To check if you graphic settings are good and if the bot would pick up items there is a **Color Test Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and throw some items of different type on the ground. If you now bring forward the debug window all items should show up with their names while the background is black. If you throw an item on the ground that should be picked up, it will have a red circle.
-<img src="assets/docs/color_checker.png" width="370">
+To check if you graphic settings are good and if the bot would pick up items there is a **Color Test Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and throw some items of different type on the ground. If you now bring forward the debug window all items should show up with their names while the background is black. If you throw an item on the ground that should be picked up, it will have a red circle.</br>
+<img src="assets/docs/color_checker.png" width="400">
 
 ## Development
 Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
