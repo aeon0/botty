@@ -107,6 +107,15 @@ class TemplateFinder:
             "MALAH_NAME_TAG_WHITE": [load_template("assets/npc/malah/malah_white.png", 1.0), 1.0],
             "MALAH_NAME_TAG_GOLD": [load_template("assets/npc/malah/malah_gold.png", 1.0), 1.0],
             "MALAH_TRADE_BTN": [load_template("assets/npc/malah/trade_btn.png", 1.0), 1.0],
+            # NPC: Larzuk
+            "LARZUK_FRONT": [load_template("assets/npc/larzuk/larzuk_front.png", 1.0), 1.0],
+            "LARZUK_BACK": [load_template("assets/npc/larzuk/larzuk_back.png", 1.0), 1.0],
+            "LARZUK_SIDE": [load_template("assets/npc/larzuk/larzuk_side.png", 1.0), 1.0],
+            "LARZUK_SIDE_2": [load_template("assets/npc/larzuk/larzuk_side_2.png", 1.0), 1.0],
+            "LARZUK_SIDE_3": [load_template("assets/npc/larzuk/larzuk_side_3.png", 1.0), 1.0],
+            "LARZUK_NAME_TAG_WHITE": [load_template("assets/npc/larzuk/larzuk_white.png", 1.0), 1.0],
+            "LARZUK_NAME_TAG_GOLD": [load_template("assets/npc/larzuk/larzuk_gold.png", 1.0), 1.0],
+            "LARZUK_TRADE_REPAIR_BTN": [load_template("assets/npc/larzuk/trade_repair_btn.png", 1.0), 1.0],
         }
 
     def get_template(self, key):

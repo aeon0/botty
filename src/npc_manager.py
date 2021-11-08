@@ -12,6 +12,7 @@ from utils.custom_mouse import mouse
 class Npc:
     QUAL_KEHK = "qual_kehk"
     MALAH = "malah"
+    LARZUK = "larzuk"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -34,6 +35,14 @@ class NpcManager:
                     "trade": color_filter(self._template_finder.get_template("MALAH_TRADE_BTN"), self._config.colors["white"])[1]
                 },
                 "template_group": ["MALAH_FRONT", "MALAH_BACK", "MALAH_45", "MALAH_SIDE", "MALAH_SIDE_2"]
+            },
+            Npc.LARZUK: {
+                "name_tag_white": color_filter(self._template_finder.get_template("LARZUK_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("LARZUK_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade_repair": color_filter(self._template_finder.get_template("LARZUK_TRADE_REPAIR_BTN"), self._config.colors["white"])[1]
+                },
+                "template_group": ["LARZUK_FRONT", "LARZUK_BACK", "LARZUK_SIDE", "LARZUK_SIDE_2", "LARZUK_SIDE_3"]
             }
         }
 
@@ -42,25 +51,31 @@ class NpcManager:
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
+            results = []
             for key in self._npcs[npc_key]["template_group"]:
                 res, pos = self._template_finder.search(key, img, threshold=0.35, roi=roi)
                 if res:
-                    x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-                    mouse.move(x_m, y_m)
-                    time.sleep(0.2)
-                    _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
-                    _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.92, roi=roi)
-                    res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.92, roi=roi)
-                    if res_w:
-                        mouse.click(button="left")
-                        time.sleep(2.5)
-                        _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
-                        res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.92, roi=roi)
-                        if res:
-                            return True
-                    elif res_g:
+                    results.append({"pos": pos, "score": self._template_finder.last_score})
+            results = sorted(results, key=lambda r: r["score"], reverse=True)
+
+            for result in results:
+                pos = result["pos"]
+                x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+                mouse.move(x_m, y_m)
+                time.sleep(0.2)
+                _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
+                _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
+                res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.92, roi=roi)
+                res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.92, roi=roi)
+                if res_w:
+                    mouse.click(button="left")
+                    time.sleep(2.5)
+                    _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
+                    res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.92, roi=roi)
+                    if res:
                         return True
+                elif res_g:
+                    return True
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
@@ -89,5 +104,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.MALAH)
-    # npc_manager.press_npc_btn(Npc.MALAH, "trade")
+    npc_manager.open_npc_menu(Npc.LARZUK)
+    npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
