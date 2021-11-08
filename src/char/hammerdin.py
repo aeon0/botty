@@ -55,7 +55,7 @@ class Hammerdin(IChar):
         self._cast_hammers(1)
         # pindle sometimes knocks back, get back in
         self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=0.2)
-        self._cast_hammers(6)
+        self._cast_hammers(max(1, self._char_config["atk_len_pindle"] - 1))
         wait(0.1, 0.15)
         self._do_redemption()
         return True
@@ -63,7 +63,7 @@ class Hammerdin(IChar):
     def kill_eldritch(self) -> bool:
         self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.2)
         wait(0.1, 0.15)
-        self._cast_hammers(6)
+        self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
         self._do_redemption()
         return True
@@ -71,9 +71,10 @@ class Hammerdin(IChar):
     def kill_shenk(self):
         self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=0.2)
         wait(0.1, 0.15)
-        self._cast_hammers(6)
+        self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
         self._do_redemption()
+        return True
 
 
 if __name__ == "__main__":

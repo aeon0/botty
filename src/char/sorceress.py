@@ -32,7 +32,7 @@ class Sorceress(IChar):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         custom_mouse.move(cast_pos[0], cast_pos[1], duration=(random.random() * 0.05 + 0.15))
         keyboard.send(self._skill_hotkeys["skill_left"])
-        for i in range(7):
+        for _ in range(6):
             x = cast_pos[0] + (random.random() * 2*spray - spray)
             y = cast_pos[1] + (random.random() * 2*spray - spray)
             custom_mouse.move(x, y, duration=(random.random() * 0.05 + 0.15))
@@ -54,16 +54,27 @@ class Sorceress(IChar):
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
             cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-            self._main_attack(cast_pos_monitor, delay)
-            self._left_attack(cast_pos_monitor, delay)
-            self._main_attack(cast_pos_monitor, delay)
-            self._left_attack(cast_pos_monitor, delay)
+            for _ in range(int(self._char_config["atk_len_pindle"])):
+                self._main_attack(cast_pos_monitor, delay)
+                self._left_attack(cast_pos_monitor, delay)
             wait(0.1, 0.15)
             # Move to items
             self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self)
-            wait(0.1, 0.15)
-            blizzard_cast_pos = self._screen.convert_abs_to_monitor([0, 0])
-            self._main_attack(blizzard_cast_pos, delay)
+            return True
+        return False
+
+    def kill_eldritch(self) -> bool:
+        delay = [0.2, 0.3]
+        pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
+        if pos_abs is not None:
+            cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
+            for _ in range(int(self._char_config["atk_len_eldritch"])):
+                self._main_attack(cast_pos_monitor, delay, 90)
+                self._left_attack(cast_pos_monitor, delay, 90)
+            wait(0.2, 0.3)
+            # Move to items
+            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=2.0)
             return True
         return False
 
@@ -72,34 +83,13 @@ class Sorceress(IChar):
         pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
         cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-        # TODO: Not sure if we need so much attacks... maybe add a "number_attack_sequenze" to the param.ini
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._left_attack(cast_pos_monitor, delay, 90)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._left_attack(cast_pos_monitor, delay, 90)
-        self._main_attack(cast_pos_monitor, delay, 90)
-        self._left_attack(cast_pos_monitor, delay, 90)
+        for _ in range(int(self._char_config["atk_len_shenk"])):
+            self._main_attack(cast_pos_monitor, delay, 90)
+            self._left_attack(cast_pos_monitor, delay, 90)
         wait(0.2, 0.3)
         # Move to items
         self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0)
 
-    def kill_eldritch(self) -> bool:
-        delay = [0.2, 0.3]
-        pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
-        if pos_abs is not None:
-            cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
-            self._main_attack(cast_pos_monitor, delay, 90)
-            self._left_attack(cast_pos_monitor, delay, 90)
-            self._main_attack(cast_pos_monitor, delay, 90)
-            self._main_attack(cast_pos_monitor, delay, 90)
-            self._left_attack(cast_pos_monitor, delay, 90)
-            wait(0.2, 0.3)
-            # Move to items
-            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=2.0)
-            return True
-        return False
 
 
 if __name__ == "__main__":

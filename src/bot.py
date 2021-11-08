@@ -214,8 +214,8 @@ class Bot:
                 bot._char.kill_pindle()
                 wait(1.5, 1.8)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
-                # in order to move away for items and such to have a clear tp, move to the end of the hall
-                if not self.is_last_run():
+                # in order to move away for items to have a clear tp, move to the end of the hall
+                if not bot.is_last_run():
                     bot._pather.traverse_nodes_fixed("PINDLE_END", bot._char)
                 wait(0.2, 0.3)
                 self.success = True
