@@ -97,6 +97,9 @@ cta_available | 0: no cta available, 1: cta is available and should be used duri
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
+atk_len_pindle | Attack length for hdin or number of attack sequences for sorc when fighting pindle
+atk_len_eldritch | Attack length for hdin or number of attack sequences for sorc when fighting eldritch
+atk_len_shenk | Attack length for hdin or number of attack sequences for sorc when fighting shenk
 
  [sorceress]                    | Descriptions                                
 --------------------------------|---------------------------------------------
