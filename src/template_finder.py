@@ -36,6 +36,7 @@ class TemplateFinder:
             "A5_TOWN_7": [load_template("assets/templates/a5_town/a5_town_7.png", self._scale_factor), self._scale_factor],
             "A5_TOWN_8": [load_template("assets/templates/a5_town/a5_town_8.png", self._scale_factor), self._scale_factor],
             "A5_TOWN_9": [load_template("assets/templates/a5_town/a5_town_9.png", self._scale_factor), self._scale_factor],
+            "A5_TOWN_10": [load_template("assets/templates/a5_town/a5_town_10.png", self._scale_factor), self._scale_factor],
             # Templates for nod at Pindle
             "PINDLE_0": [load_template("assets/templates/pindle/pindle_0.png", self._scale_factor), self._scale_factor],
             "PINDLE_1": [load_template("assets/templates/pindle/pindle_1.png", self._scale_factor), self._scale_factor],

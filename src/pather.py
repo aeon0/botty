@@ -23,6 +23,7 @@ class Location:
     QUAL_KEHK = "qual_kehk"
     MALAH = "malah"
     NIHLATHAK_PORTAL = "nihlathak_portal"
+    LARZUK = "larzuk"
     # Pindle
     PINDLE_START = "pindle_start"
     PINDLE_SAVE_DIST = "pindle_save_dist"
@@ -64,8 +65,8 @@ class Pather:
             10: {"A5_TOWN_4": (-708, 87), "A5_TOWN_6": (-16, -48), "A5_TOWN_8": (482, 196)},
             11: {"A5_TOWN_6": (-448, -322), "A5_TOWN_8": (50, -78), "A5_TOWN_9": (11, 346)},
             12: {"A5_TOWN_8": (-209, -294), "A5_TOWN_9": (-248, 130)},
-            13: {"A5_TOWN_3": (262, 210)},
-            14: {"A5_TOWN_3": (694, 282)},
+            13: {"A5_TOWN_3": (180, 180),"A5_TOWN_10": (-800, 332)},
+            14: {"A5_TOWN_3": (670, 260), "A5_TOWN_10": (-300, 420)},
             # Pindle
             100: {"PINDLE_7": (576, -138), "PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
             101: {"PINDLE_1": (557, -68), "PINDLE_2": (27, -276), "PINDLE_3": (-185, 391)},
@@ -97,12 +98,17 @@ class Pather:
             (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
             (Location.A5_TOWN_START, Location.QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
             (Location.A5_TOWN_START, Location.MALAH): [1, 2],
+            (Location.A5_TOWN_START, Location.LARZUK): [3, 4, 5, 13, 14],
             (Location.MALAH, Location.A5_TOWN_START): [1, 0],
             (Location.A5_STASH, Location.NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_STASH, Location.QUAL_KEHK): [5, 6, 10, 11, 12],
+            (Location.A5_STASH, Location.LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
             (Location.QUAL_KEHK, Location.NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
+            (Location.LARZUK, Location.QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
+            (Location.LARZUK, Location.NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
+            (Location.LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
             (Location.PINDLE_START, Location.PINDLE_SAVE_DIST): [100, 101, 102, 103],
             (Location.PINDLE_SAVE_DIST, Location.PINDLE_END): [104],
@@ -125,6 +131,7 @@ class Pather:
     def _display_all_nodes_debug(self, filter: str = None):
         while 1:
             img = self._screen.grab()
+            display_img = img.copy()
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
                         if filter is None or filter in template_type:
@@ -137,13 +144,13 @@ class Pather:
                                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                                 x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                cv2.circle(img, (x, y), 5, (255, 0, 0), 3)
-                                cv2.putText(img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                                cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                                cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                                 x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
-                                cv2.circle(img, (x, y), 5, (0, 255, 0), 3)
-                                cv2.putText(img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            img = cv2.resize(img, None, fx=0.5, fy=0.5)
-            cv2.imshow("debug", img)
+                                cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
+                                cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
     @staticmethod
@@ -256,5 +263,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    # pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_END, char)
-    pather._display_all_nodes_debug(filter="SHENK")
+    pather.traverse_nodes(Location.LARZUK, Location.NIHLATHAK_PORTAL, char)
+    # pather._display_all_nodes_debug(filter="A5_TOWN")

@@ -60,7 +60,7 @@ class IChar:
             mouse.click(button="left")
             wait(0.02, 0.03)
             if self._config.char["slow_walk"]:
-                wait(1.2, 1.4)
+                wait(0.9, 1.1)
 
     def tp_town(self):
         keyboard.send(self._char_config["tp"])
