@@ -13,6 +13,7 @@ Join the [**Discord Channel**](https://discord.gg/CnkfsjqN) for help and discuss
 - Prebuff
 - Revive Merc if dead
 - Heal at Malah if needed
+- Shop for tps and repair at Lazurk
 - Take potions (health and mana) and chicken if in trouble during fights
 - Check for death. In this case start another game and pick up corpse.
 - Supported builds: Sorceress (Blizz, Light, Meteor), Hammerdin
@@ -31,11 +32,12 @@ All settings will automatically be set when you execute `run.exe` and press the 
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running the bot.
 
 ### 2) Supported builds
+You char must have a tomb with full tps and a belt full with pots of your liking when you start.
 #### Soceress
 You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
-Adjust the hotkeys in the __param.ini__ for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
+Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
 #### Hammerdin
-Your standard Hammerdin with Enigma. Dont think I have to explain much here.
+Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around.
 
 ### 3) Start Location
 Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 hell when starting a hell game.
