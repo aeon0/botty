@@ -27,7 +27,8 @@ class IChar:
         self._screen = screen
         self._config = Config()
         self._last_tp = time.time()
-        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.04
+        # It actually is 0.04s per frame but many people have issues with it (because of lag?)
+        self._cast_duration = self._char_config["casting_frames"] * 0.055 + 0.06
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
