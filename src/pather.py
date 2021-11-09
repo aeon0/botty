@@ -232,8 +232,12 @@ class Pather:
                         keyboard.send("esc")
                         last_move = time.time()
                     else:
-                        cv2.imwrite("info_pather_got_stuck.png", img)
-                        Logger.error("Got stuck exit pather")
+                        # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
+                        # because of all the spells and monsters it often can not determine the final template
+                        # Don't want to spam the log with errors in this case because it most likely worked out just fine
+                        if time_out > 1.5:
+                            cv2.imwrite("info_pather_got_stuck.png", img)
+                            Logger.error("Got stuck exit pather")
                         return False
                 node_pos_abs = self.find_abs_node_pos(node_idx, img)
                 if node_pos_abs is not None:
