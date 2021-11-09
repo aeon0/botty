@@ -172,7 +172,6 @@ class Bot:
 
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
-        print(merc_alive)
         if not merc_alive:
             Logger.info("Reviveing merc")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
@@ -207,6 +206,10 @@ class Bot:
         # Run done, lets stop health monitoring and death monitoring
         self._health_manager.stop_monitor()
         health_monitor_thread.join()
+        if self._health_manager.did_chicken():
+            # in case of chicken give the death manager some time to pick up on possible death flag
+            # since death monitor does not check with the same frequency to save on runtime
+            wait(self._death_manager.get_loop_delay() + 1.0)
         self._death_manager.stop_monitor()
         death_monitor_thread.join()
 
