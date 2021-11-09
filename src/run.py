@@ -32,12 +32,13 @@ if __name__ == "__main__":
     remove_flags_thread = threading.Thread(target=remove_flags)
     remove_flags_thread.start()
     Logger.init()
-    Logger.info(f"=== Starting Botty {__version__} ===")
     config = Config()
 
     # If anything seems to go wrong, press f12 and the bot will force exit
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
 
+    print(f"============ Botty {__version__} ============")
+    print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
     table = BeautifulTable()
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
     table.rows.append([config.general['color_checker_key'], "Color test mode "])
@@ -45,6 +46,7 @@ if __name__ == "__main__":
     table.rows.append([config.general['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
     print(table)
+    print("\n")
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
