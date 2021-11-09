@@ -14,7 +14,7 @@ def load_template(path, scale_factor):
     return template_img
 
 class TemplateFinder:
-    def __init__(self, screen: Screen, scale_factor: float = 0.5):
+    def __init__(self, screen: Screen, scale_factor: float = 0.7):
         """
         :param screen: Screen object
         :param scale_factor: Scale factor that is used for templates. Note: UI and NPC templates will always have scale of 1.0
