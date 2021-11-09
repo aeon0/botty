@@ -28,6 +28,8 @@ class Config:
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
             "color_checker_key": self._select_val("general", "color_checker_key"),
+            "logg_lvl": self._select_val("general", "logg_lvl"),
+            "randomize_runs": bool(self._select_val("general", "logg_lvl")),
         }
 
         self.routes = {}
@@ -59,6 +61,8 @@ class Config:
             "atk_len_pindle": int(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": int(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
+            "static_path_pindle": int(self._select_val("char", "static_path_pindle")),
+            "static_path_eldritch": int(self._select_val("char", "static_path_eldritch")),
         }
 
         self.sorceress = dict(self._config["sorceress"])

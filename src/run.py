@@ -11,6 +11,7 @@ from utils.auto_settings import adjust_settings
 import threading
 from beautifultable import BeautifulTable
 import time
+import logging
 
 
 def start_bot():
@@ -31,8 +32,13 @@ def remove_flags():
 if __name__ == "__main__":
     remove_flags_thread = threading.Thread(target=remove_flags)
     remove_flags_thread.start()
-    Logger.init()
     config = Config()
+    if config.general["logg_lvl"] == "info":
+        Logger.init(logging.INFO)
+    elif config.general["logg_lvl"] == "debug":
+        Logger.init(logging.DEBUG)
+    else:
+        print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # If anything seems to go wrong, press f12 and the bot will force exit
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
