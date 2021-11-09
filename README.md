@@ -32,7 +32,7 @@ All settings will automatically be set when you execute `run.exe` and press the 
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running the bot.
 
 ### 2) Supported builds
-You char must have a tomb with full tps and a belt full with pots of your liking when you start.
+You char must have a tomb with full tps (make sure when you buy the tomb back with right click it will end up in the previous place) and a belt full with pots of your liking when you start.
 #### Soceress
 You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
 Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
