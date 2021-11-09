@@ -61,8 +61,8 @@ class Config:
             "atk_len_pindle": int(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": int(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
-            "static_path_pindle": int(self._select_val("char", "static_path_pindle")),
-            "static_path_eldritch": int(self._select_val("char", "static_path_eldritch")),
+            "static_path_pindle": bool(int(self._select_val("char", "static_path_pindle"))),
+            "static_path_eldritch": bool(int(self._select_val("char", "static_path_eldritch"))),
         }
 
         self.sorceress = dict(self._config["sorceress"])

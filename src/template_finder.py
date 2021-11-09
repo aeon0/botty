@@ -66,7 +66,6 @@ class TemplateFinder:
             "SHENK_11": [load_template("assets/templates/shenk/shenk_11.png", self._scale_factor), self._scale_factor],
             "SHENK_12": [load_template("assets/templates/shenk/shenk_12.png", self._scale_factor), self._scale_factor],
             "SHENK_13": [load_template("assets/templates/shenk/shenk_13.png", self._scale_factor), self._scale_factor],
-            "SHENK_14": [load_template("assets/templates/shenk/shenk_14.png", self._scale_factor), self._scale_factor],
             "SHENK_15": [load_template("assets/templates/shenk/shenk_15.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template("assets/templates/a5_stash.png", self._scale_factor), self._scale_factor],
