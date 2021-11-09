@@ -121,7 +121,7 @@ class Pather:
         }
         self._fixed_tele_path = {
             # to move to boss at save distant location
-            "PINDLE_SAVE_DIST": [(1382, 53), (1685, 105), (1470, 162)],
+            "PINDLE_SAVE_DIST": [(1382, 53), (1685, 105), (1440, 132)],
             "ELDRITCH_SAVE_DIST": [(978, 95), (845, 109)],
             # to move to boss location
             "PINDLE_END": [(1555, 261)],

@@ -29,7 +29,7 @@ class Config:
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
             "color_checker_key": self._select_val("general", "color_checker_key"),
             "logg_lvl": self._select_val("general", "logg_lvl"),
-            "randomize_runs": bool(self._select_val("general", "logg_lvl")),
+            "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
         }
 
         self.routes = {}

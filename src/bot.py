@@ -49,7 +49,8 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
         }
-        self.shuffle_runs()
+        if self._config.general["randomize_runs"]:
+            self.shuffle_runs()
         self._picked_up_items = False
         self._tp_is_up = False
         self._curr_location: Location = None
@@ -81,8 +82,7 @@ class Bot:
 
     def shuffle_runs(self):
         tmp = list(self._do_runs.items())
-        if self._config.general["randomize_runs"]:
-            random.shuffle(tmp)
+        random.shuffle(tmp)
         self._do_runs = dict(tmp)
 
     def is_last_run(self):
@@ -329,7 +329,8 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
         }
-        self.shuffle_runs()
+        if self._config.general["randomize_runs"]:
+            self.shuffle_runs()
         wait(0.2, 0.5)
         self.trigger("create_game")
 
