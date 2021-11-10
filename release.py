@@ -30,7 +30,7 @@ if os.path.exists(botty_dir):
             shutil.rmtree(path)
     shutil.rmtree(botty_dir)
 
-installer_cmd = f"python -m nuitka --mingw --standalone --onefile --plugin-enable=numpy src/run.py" 
+installer_cmd = f"python -m nuitka --mingw64 --standalone --onefile --plugin-enable=numpy src/run.py" 
 os.system(installer_cmd)
 
 os.system(f"mkdir {botty_dir}")
