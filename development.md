@@ -28,7 +28,7 @@ For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
 
 ## Folder Structure
 **/**</br>
-In the root is docu, param files and development specific stuff such as .gitignore</br>
+The root contains docu, param files and development specific stuff such as .gitignore</br>
 
 **assets**</br>
 Contains all data for the project that is not source code</br>
