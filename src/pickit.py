@@ -69,11 +69,11 @@ class PickIt:
                             send_discord_thread.daemon = True
                             send_discord_thread.start()
 
-                        if self._ui_manager.is_overburdened():
-                            Logger.warning("Inventory full, skipping pickit!")
-                            # TODO: should go back to town and stash stuff then go back to picking up more stuff
-                            #       but sm states are not fine enough for such a routine right now...
-                            break
+                    if self._ui_manager.is_overburdened():
+                        Logger.warning("Inventory full, skipping pickit!")
+                        # TODO: should go back to town and stash stuff then go back to picking up more stuff
+                        #       but sm states are not fine enough for such a routine right now...
+                        break
                 else:
                     char.move((x_m, y_m))
                     time.sleep(0.1)
