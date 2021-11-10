@@ -104,7 +104,7 @@ class ItemFinder:
                     if same_type:
                         result = cv2.matchTemplate(cropped_input, template.data, cv2.TM_CCOEFF_NORMED)
                         _, max_val, _, max_loc = cv2.minMaxLoc(result)
-                        if max_val > 0.8:
+                        if max_val > 0.89:
                             if template.blacklist:
                                 item = None
                                 break
@@ -132,9 +132,10 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     item_finder = ItemFinder()
     while 1:
-        # img = cv2.imread("C:\\test4.png")
-        img = screen.grab()
+        img = cv2.imread("tt.png")
+        # img = screen.grab()
         item_list = item_finder.search(img)
+        print(item_list)
         for item in item_list:
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
