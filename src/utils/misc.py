@@ -4,7 +4,14 @@ import ctypes
 from logger import Logger
 import cv2
 from typing import List, Tuple
+import requests
 
+
+def send_discord(item_name, url:str = None):
+    if url is None:
+        url =  "https://discord.com/api/webhooks/908045354061160459/8-HQRLPTHxMlf5VpvScuvNEpLLIe8KHqxgRIk6p17u6LMPvzCCQotT_iGioQHQVU5u_P"
+    data = {"content": f"Botty just found: {item_name}"}
+    requests.post(url, json=data)
 
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:

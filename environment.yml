@@ -16,3 +16,4 @@ dependencies:
     - beautifultable
     - zstandard
     - pytweening
+    - requests

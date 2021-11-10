@@ -73,6 +73,8 @@ resume_key | After starting the exe botty will wait for this keypress to atually
 color_checker_key | Pressing this key will start a debug mode to check if the color filtering works with your settings. It also includes the item search and marks items it would pick up with red circles
 logger_lvl | Can be any of [info, debug] and determines how much output you see on the command line
 randomize_runs | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random.
+send_drops_to_discord | If 1 sends your drops to the discord channel "drop-log"
+custom_discord_hook | If 1 sends a message about drops to this hook and will update you in case botty got stuck and can not resume
 
  [routes]                       | Descriptions                                
 --------------------------------|---------------------------------------------

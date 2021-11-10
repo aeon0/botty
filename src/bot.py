@@ -14,7 +14,7 @@ from health_manager import HealthManager
 from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
-from utils.misc import wait
+from utils.misc import wait, send_discord
 import keyboard
 import threading
 import time
@@ -103,7 +103,11 @@ class Bot:
         self._timer = time.time()
         found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=70)
         if not found:
-            Logger.error("Something went wrong here, bot is unsure about current location. Exit game and closing down bot.")
+            Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
+            if self._config.general["custom_discord_hook"] != "":
+                send_discord_thread = threading.Thread(target=send_discord, args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"]))
+                send_discord_thread.daemon = True
+                send_discord_thread.start()
             self._ui_manager.save_and_exit()
             os._exit(1)
         self._ui_manager.start_hell_game()

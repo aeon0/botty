@@ -7,7 +7,8 @@ from char.i_char import IChar
 from logger import Logger
 from screen import Screen
 from ui_manager import UiManager
-import random
+import threading
+from utils.misc import send_discord
 
 
 class PickIt:
@@ -54,6 +55,17 @@ class PickIt:
                     time.sleep(0.1)
                     mouse.click(button="left")
                     time.sleep(0.5)
+
+                    if self._config.general["send_drops_to_discord"]:
+                        send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name,))
+                        send_discord_thread.daemon = True
+                        send_discord_thread.start()
+
+                    if self._config.general["custom_discord_hook"] != "":
+                        send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name, self._config.general["custom_discord_hook"]))
+                        send_discord_thread.daemon = True
+                        send_discord_thread.start()
+
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: should go back to town and stash stuff then go back to picking up more stuff
