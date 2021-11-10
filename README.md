@@ -1,8 +1,10 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Simple Pixelbot for Diablo 2 Resurrected written in python and opencv. Obviously only use it in offline mode as it is against the TOS of Blizzard to use it in online mode! [**Download here**](https://github.com/aeon0/botty/releases)
+Simple Pixelbot for Diablo 2 Resurrected written in python and opencv. Obviously only use it in offline mode as it is against the TOS of Blizzard to use it online!
+[**Download here**](https://github.com/aeon0/botty/releases). Got to have a [**Discord**](https://discord.gg/CnkfsjqN) nowadays I guess :man_shrugging:
 
-Join the [**Discord Channel**](https://discord.gg/CnkfsjqN) for help and discussions.
+
+And please. I urge you to actually read that README! It will make your life a lot easier.
 
 [![Watch the video](assets/docs/video_thumbnail.png)](https://vimeo.com/641410429)
 
@@ -17,33 +19,28 @@ Join the [**Discord Channel**](https://discord.gg/CnkfsjqN) for help and discuss
 - Take potions (health and mana) and chicken if in trouble during fights
 - Check for death. In this case start another game and pick up corpse.
 - Supported builds: Sorceress (Blizz, Light, Meteor), Hammerdin
-- Debug color checker to easily verify your settings
+- Auto Settings and Debug Color Mode to easily verify your settings
 - Runs in Hyper-V
+- Highly configurable, consult the param.ini section for more details
 
 ## Getting started
 ### 1) Graphics and Gameplay Settings
-All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. The important ones are listed here:
-
-- Resolution: 1920x1080 (Fullscreen)
-- Gamma: 155
-- Item Label Display: Hold
-- Large Font Mode: on
-
-**Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running the bot.
+All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Color Test Mode" to verify your settings.</br>
+**Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty.
 
 ### 2) Supported builds
-You char must have a tomb with full tps (make sure when you buy the tomb back with right click it will end up in the previous place) and a belt full with pots of your liking when you start.
+
 #### Soceress
 You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
 Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
 #### Hammerdin
-Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around.
+Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tomb of tps in your inventory.
 
 ### 3) Start Location
 Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 hell when starting a hell game.
 
 ### 5) Start Botty
-Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder, go to D2R window and press the "resume" key. Move to your D2R window and press "f11". You can always force stop botty with f12.
+Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Move to your D2R window and press the start key (default f11). You can always force stop botty with f12.
 
 ## Color Test Mode
 To check if you graphic settings are good and if the bot would pick up items there is a **Color Test Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and throw some items of different type on the ground. If you now bring forward the debug window all items should show up with their names while the background is black. If you throw an item on the ground that should be picked up, it will have a red circle.</br>
