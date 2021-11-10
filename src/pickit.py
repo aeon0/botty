@@ -46,10 +46,12 @@ class PickIt:
                         closest_item = item
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
                 if closest_item.dist < self._config.ui_pos["item_dist"]:
-                    # no need to stash poitions and scrolls
-                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name:
+                    # no need to stash potions, scrolls, or gold 
+                    if (("potion" not in closest_item.name) and ("tp_scroll" != closest_item.name) and ("gold" not in closest_item.name)):
                         found_items = True
-                    Logger.info(f"Picking up {closest_item.name}")
+                        Logger.info(f"** Looted {closest_item.name}")
+                    else:
+                        Logger.info(f"Picking up {closest_item.name}")
                     mouse.move(x_m, y_m)
                     time.sleep(0.1)
                     mouse.click(button="left")
