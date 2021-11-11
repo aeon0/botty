@@ -48,6 +48,7 @@ class Config:
             "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
             "heal_merc": float(self._select_val("char", "heal_merc")),
             "chicken": float(self._select_val("char", "chicken")),
+            "merc_chicken": float(self._select_val("char", "merc_chicken")),
             "tp": self._select_val("char", "tp"),
             "show_belt": self._select_val("char", "show_belt"),
             "potion1": self._select_val("char", "potion1"),
