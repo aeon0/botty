@@ -145,9 +145,9 @@ class UiManager():
                 return True
         return False
 
-    def start_hell_game(self) -> bool:
+    def start_game(self) -> bool:
         """
-        Starting a game in hell mode. Will wait and retry on server connection issue.
+        Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
         while 1:
@@ -173,15 +173,26 @@ class UiManager():
                 break
             time.sleep(3.0)
 
-        Logger.debug("Searching for Hell Btn...")
+
+
+        difficulty=self._config.general["difficulty"].lower()
+        Logger.debug(f"Searching for {difficulty} Btn...")
         while 1:
-            found, pos = self._template_finder.search_and_wait("HELL_BTN", roi=self._config.ui_roi["hell_btn"], time_out=8)
+            # edge case: if a player hasn't unlocked nightmare difficulty, there won't be an option to select difficulty after clicking play button
+            wait(0.75,1.25)
+            if self._template_finder.search("LOADING", self._screen.grab())[0]:
+                Logger.debug("On loading screen, nightmare not unlocked")
+                return True
+
+            found, pos = self._template_finder.search_and_wait("NORMAL_BTN", roi=self._config.ui_roi["normal_btn"], time_out=8)
+
             if not found:
-                Logger.debug("Could not find hell btn, try from start again")
-                return self.start_hell_game()
+                Logger.debug("Could not find btn, try from start again")
+                return self.start_game()
+
             # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
-            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["hell_x"], self._config.ui_pos["hell_y"]))
-            Logger.debug("Found Hell Btn -> clicking it")
+            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos[f"{difficulty}_x"], self._config.ui_pos[f"{difficulty}_y"]))
+            Logger.debug(f"Found {difficulty} Btn -> clicking it")
             mouse.move(x, y, randomize=5)
             mouse.click(button="left")
             break
@@ -197,7 +208,7 @@ class UiManager():
             wait(1, 2)
             keyboard.send("esc")
             wait(18, 22)
-            return self.start_hell_game()
+            return self.start_game()
         else:
             return True
 

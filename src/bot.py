@@ -110,7 +110,7 @@ class Bot:
                 send_discord_thread.start()
             self._ui_manager.save_and_exit()
             os._exit(1)
-        self._ui_manager.start_hell_game()
+        self._ui_manager.start_game()
         self._template_finder.search_and_wait("A5_TOWN_1")
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START

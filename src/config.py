@@ -30,6 +30,7 @@ class Config:
             "color_checker_key": self._select_val("general", "color_checker_key"),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
+            "difficulty": self._select_val("general", "difficulty"),
             "send_drops_to_discord": bool(int(self._select_val("general", "send_drops_to_discord"))),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
         }
