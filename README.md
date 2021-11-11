@@ -92,7 +92,8 @@ num_loot_columns | Number of columns in inventory used for loot (from left!). Re
 take_health_potion | Health percentage when healing potion will be used
 take_mana_potion | Mana percentage when mana potion will be used. Currently belt managment is not very clever and it is safest to only pick up health pots and make sure mana reg is enough for pindle to not need mana pots.
 heal_merc | Merc health percentage when giving healing potion to merc
-chicken | Health percentage when chicken (leaving game)
+chicken | Will chicken (leave game) when player health percentage drops below set value, range 0 to 1. Set to 0 to not chicken.
+merc_chicken | Will chicken (leave game) when merc health percentage drops below set value, range 0 to 1. Set to 0 to not chicken.
 show_items | Hotkey for "show items"
 inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
