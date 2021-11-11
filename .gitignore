@@ -13,3 +13,4 @@ run.onefile-build/
 generated/
 botty_v*/
 custom.ini
+*info_*.png
