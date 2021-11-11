@@ -136,8 +136,16 @@ class UiManager():
             keyboard.send("esc")
             wait(0.1)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
-            found, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT", roi=self._config.ui_roi["save_and_exit"], time_out=7)
-            if found:
+            foundNoHighlight, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT_NO_HIGHLIGHT", roi=self._config.ui_roi["save_and_exit"], time_out=7)
+            if foundNoHighlight:
+                x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
+                mouse.move(x_m, y_m, randomize=12)
+                wait(0.1)
+                mouse.click(button="left")
+                return True    
+            # if mouse is in the roi already when "save_and_exit" is called, the button will be highlighted so need to check for this case as well 
+            foundHighlight, _ = self._template_finder.search_and_wait("SAVE_AND_EXIT_HIGHLIGHT", roi=self._config.ui_roi["save_and_exit"], time_out=7)
+            if foundHighlight:
                 x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
                 mouse.move(x_m, y_m, randomize=12)
                 wait(0.1)
