@@ -71,7 +71,7 @@ color_checker_key | Pressing this key will start a debug mode to check if the co
 logger_lvl | Can be any of [info, debug] and determines how much output you see on the command line
 randomize_runs | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random.
 send_drops_to_discord | If 1 sends your drops to the discord channel "drop-log"
-custom_discord_hook | If 1 sends a message about drops to this hook and will update you in case botty got stuck and can not resume
+custom_discord_hook | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume
 
  [routes]                       | Descriptions                                
 --------------------------------|---------------------------------------------
