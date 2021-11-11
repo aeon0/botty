@@ -56,6 +56,7 @@ class Config:
             "potion2": self._select_val("char", "potion2"),
             "potion3": self._select_val("char", "potion3"),
             "potion4": self._select_val("char", "potion4"),
+            "es_available": self._select_val("char", "es_available"),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
