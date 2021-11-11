@@ -20,6 +20,11 @@ class Sorceress(IChar):
         self._pather = pather
 
     def pre_buff(self):
+        if self._char_config["es_available"]:
+            keyboard.send(self._skill_hotkeys["energy_shield"])
+            wait(0.1, 0.13)
+            mouse.click(button="right")
+            wait(self._cast_duration)
         keyboard.send(self._skill_hotkeys["frozen_armor"])
         wait(0.1, 0.13)
         mouse.click(button="right")
