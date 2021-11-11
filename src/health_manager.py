@@ -77,6 +77,17 @@ class HealthManager:
         merc_health_percentage = (float(np.sum(health_tresh)) / health_tresh.size) * (1/255.0)
         return merc_health_percentage
 
+    def _do_chicken(self, img, run_thread):
+        cv2.imwrite("info_debug_chicken.png", img)
+        # clean up key presses that might be pressed in the run_thread
+        keyboard.release(self._config.char["stand_still"])
+        keyboard.release(self._config.char["show_items"])
+        time.sleep(0.01)
+        self._ui_manager.save_and_exit()
+        self._did_chicken = True
+        kill_thread(run_thread)
+        self._do_monitor = False
+
     def start_monitor(self, run_thread: Thread):
         Logger.debug("Start health monitoring")
         self._do_monitor = True
@@ -95,16 +106,8 @@ class HealthManager:
                     self._last_health = time.time()
                 # give the chicken a 4 sec delay to give time for a healing pot and avoid endless loop of chicken
                 elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 4:
-                    Logger.warning(f"Trying to chicken, HP {health_percentage*100}%!")
-                    cv2.imwrite("info_debug_chicken.png", img)
-                    # clean up key presses that might be pressed in the run_thread
-                    keyboard.release(self._config.char["stand_still"])
-                    keyboard.release(self._config.char["show_items"])
-                    time.sleep(0.01)
-                    self._ui_manager.save_and_exit()
-                    self._did_chicken = True
-                    kill_thread(run_thread)
-                    self._do_monitor = False
+                    Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
+                    self._do_chicken(img, run_thread)
                     break
                 # check mana
                 mana_percentage = self.get_mana(img)
@@ -118,17 +121,9 @@ class HealthManager:
                     merc_health_percentage = self.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_healh
                     if merc_health_percentage < self._config.char["merc_chicken"]:
-                        Logger.warning(f"Trying to chicken, merc HP {merc_health_percentage*100}%!")
-                        cv2.imwrite("info_debug_chicken.png", img)
-                        # clean up key presses that might be pressed in the run_thread
-                        keyboard.release(self._config.char["stand_still"])
-                        keyboard.release(self._config.char["show_items"])
-                        time.sleep(0.01)
-                        self._ui_manager.save_and_exit()
-                        self._did_chicken = True
-                        kill_thread(run_thread)
-                        self._do_monitor = False
-                        break                    
+                        Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
+                        self._do_chicken(img, run_thread)
+                        break
                     elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 5.0:
                         self._drink_poition(img, "health", merc=True)
                         self._last_merc_healh = time.time()

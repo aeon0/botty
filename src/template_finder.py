@@ -162,7 +162,7 @@ class TemplateFinder:
                 return True, ref_point
         return False, None
 
-    def search_and_wait(self, ref: str, roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
+    def search_and_wait(self, ref: Union[str, List[str]], roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
         """
         Helper function that will loop and keep searching for a template
         :param ref: Key of template which has been loaded beforehand
@@ -174,7 +174,13 @@ class TemplateFinder:
         while 1:
             img = self._screen.grab()
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
-            success, pos = self.search(ref, img, roi=roi, threshold=threshold)
+
+            if type(ref) is str:
+                ref = [ref]
+            for x in ref:
+                success, pos = self.search(x, img, roi=roi, threshold=threshold)
+                if success:
+                    break
             if not is_loading_black_roi and success:
                 return True, pos
             if time_out is not None and (time.time() - start) > time_out:
