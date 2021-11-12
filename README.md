@@ -98,6 +98,7 @@ merc_chicken | Will chicken (leave game) when merc health percentage drops below
 show_items | Hotkey for "show items"
 inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
+tp | Hotkey for using a town portal
 show_belt | Hotkey for "show belt"
 potion1 | Hotkey to take poition in slot 1
 potion2 | Hotkey to take poition in slot 2
