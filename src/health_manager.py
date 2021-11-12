@@ -83,7 +83,7 @@ class HealthManager:
         keyboard.release(self._config.char["stand_still"])
         keyboard.release(self._config.char["show_items"])
         time.sleep(0.01)
-        self._ui_manager.save_and_exit()
+        self._ui_manager.save_and_exit(does_chicken=True)
         self._did_chicken = True
         kill_thread(run_thread)
         self._do_monitor = False

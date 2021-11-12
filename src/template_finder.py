@@ -183,11 +183,12 @@ class TemplateFinder:
                 success, pos = self.search(x, img, roi=roi, threshold=threshold)
                 if success:
                     break
-            if not is_loading_black_roi and success:
-                return True, pos
-            if time_out is not None and (time.time() - start) > time_out:
-                cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
-                return False, None
+            if not is_loading_black_roi:
+                if success:
+                    return True, pos
+                elif time_out is not None and (time.time() - start) > time_out:
+                    cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
+                    return False, None
 
 
 # Testing: Have whatever you want to find on the screen
