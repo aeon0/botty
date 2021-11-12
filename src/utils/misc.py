@@ -7,10 +7,12 @@ from typing import List, Tuple
 import requests
 
 
-def send_discord(item_name, url:str = None):
+def send_discord(item_name,custom_discord_name, url:str = None):
     if url is None:
         url = "https://discord.com/api/webhooks/908071105372250213/puaS6gIYqYxTE-TBLAIs6_Qb6ZUwuygSeQfTQkpuXrSag5DPeV2gk0SctOjPy5qMHGeh"
-    data = {"content": f"Botty just found: {item_name}"}
+    data = {"content": f"Botty just found: {item_name}"
+            "username": "{custom_discord_name}"
+           }
     requests.post(url, json=data)
 
 def wait(min_seconds, max_seconds = None):
