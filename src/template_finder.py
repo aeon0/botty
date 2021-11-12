@@ -186,7 +186,7 @@ class TemplateFinder:
             if not is_loading_black_roi and success:
                 return True, pos
             if time_out is not None and (time.time() - start) > time_out:
-                cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
+                cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out.png", img)
                 return False, None
 
 

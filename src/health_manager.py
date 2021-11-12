@@ -78,7 +78,7 @@ class HealthManager:
         return merc_health_percentage
 
     def _do_chicken(self, img, run_thread):
-        cv2.imwrite("info_debug_chicken.png", img)
+        cv2.imwrite("./info_screenshots/info_debug_chicken.png", img)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         keyboard.release(self._config.char["show_items"])
