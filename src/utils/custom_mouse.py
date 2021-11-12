@@ -7,6 +7,7 @@ import numpy as np
 import random
 import math
 import time
+from typing import Union, Tuple
 
 
 def isNumeric(val):
@@ -224,7 +225,7 @@ class mouse:
         else:
             _winmouse.move_to(x, y)
 
-    def move(x, y, absolute: bool = True, randomize: int = 5, duration=0):
+    def move(x, y, absolute: bool = True, randomize: Union[int, Tuple[int, int]] = 5, delay_factor: Tuple[float, float] = [0.9, 1.1]):
         from_point = _mouse.get_position()
         dist = math.dist((x, y), from_point)
         offsetBoundaryX = max(10, int(0.08 * dist))
@@ -233,15 +234,18 @@ class mouse:
         if not absolute:
             x = from_point[0] + x
             y = from_point[1] + y
-        if randomize > 0:
+
+        if type(randomize) is int:
             x = int(x) + random.randrange(-randomize, +randomize)
             y = int(y) + random.randrange(-randomize, +randomize)
         else:
-            x = int(x)
-            y = int(y)
+            x = int(x) + random.randrange(-randomize[0], +randomize[0])
+            y = int(y) + random.randrange(-randomize[1], +randomize[1])
+
+
         human_curve = HumanCurve(from_point, (x, y), offsetBoundaryX=offsetBoundaryX, offsetBoundaryY=offsetBoundaryY, targetPoints=targetPoints)
 
-        duration = min(0.5, max(0.05, dist * 0.0004) * random.uniform(0.9, 1.1))
+        duration = min(0.5, max(0.05, dist * 0.0004) * random.uniform(delay_factor[0], delay_factor[1]))
         delta = duration / len(human_curve.points)
 
         for point in human_curve.points:

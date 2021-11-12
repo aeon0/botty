@@ -16,7 +16,7 @@ def send_discord(item_name, url:str = None):
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:
         max_seconds = min_seconds
-    time.sleep(random.random() * (max_seconds - min_seconds) + min_seconds)
+    time.sleep(random.uniform(min_seconds, max_seconds))
     return
 
 def kill_thread(thread):

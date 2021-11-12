@@ -19,19 +19,19 @@ class Hammerdin(IChar):
 
     def pre_buff(self):
         keyboard.send(self._skill_hotkeys["holy_shield"])
-        wait(0.1, 0.12)
+        wait(0.04, 0.1)
         mouse.click(button="right")
-        wait(self._cast_duration)
+        wait(self._cast_duration, self._cast_duration + 0.06)
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
 
     def _cast_hammers(self, time_in_s: float):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
-        wait(0.05)
-        keyboard.send(self._skill_hotkeys["blessed_hammer"])
-        wait(0.05)
         keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.05, 0.1)
+        wait(0.05, 0.15)
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        wait(0.05, 0.15)
+        keyboard.send(self._skill_hotkeys["blessed_hammer"])
+        wait(0.05, 0.15)
         mouse.press(button="left")
         start = time.time()
         i = 0
@@ -40,9 +40,10 @@ class Hammerdin(IChar):
             i += 1
             if i % 20 == 0:
                 mouse.release(button="left")
-                time.sleep(0.01)
+                wait(0.05, 0.12)
                 mouse.press(button="left")
         mouse.release(button="left")
+        wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _do_redemption(self):
@@ -68,17 +69,17 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("ELDRITCH_END", self)
         else:
             self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.5)
-        wait(0.1, 0.15)
+        wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
-        wait(0.1, 0.15)
+        wait(0.05, 0.15)
         self._do_redemption()
         return True
 
     def kill_shenk(self):
         self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=0.2)
-        wait(0.1, 0.15)
+        wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
-        wait(0.1, 0.15)
+        wait(0.05, 0.15)
         self._do_redemption()
         return True
 

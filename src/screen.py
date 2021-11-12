@@ -1,6 +1,5 @@
 import numpy as np
 from mss import mss
-from PIL import Image
 import cv2
 import time
 from logger import Logger
@@ -47,9 +46,8 @@ class Screen:
         return monitor_coord
 
     def grab(self) -> np.ndarray:
-        img_raw = Image.frombytes('RGB', (self._monitor_roi["width"], self._monitor_roi["height"]), self._sct.grab(self._monitor_roi).rgb)
-        img = cv2.cvtColor(np.array(img_raw), cv2.COLOR_RGB2BGR)
-        return img
+        img = np.array(self._sct.grab(self._monitor_roi))
+        return img[:, :, :3]
 
 
 if __name__ == "__main__":

@@ -83,10 +83,10 @@ class ItemFinder:
         item_list = []
         for cntr in contours:
             x, y, w, h = cv2.boundingRect(cntr)
-            x -= 7
-            y -= 7
-            w += 14
-            h += 14
+            x -= 5
+            y -= 5
+            w += 10
+            h += 10
             # cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
             cropped_input = filtered_img[y:y+h, x:x+w]
@@ -132,10 +132,9 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     item_finder = ItemFinder()
     while 1:
-        img = cv2.imread("tt.png")
-        # img = screen.grab()
+        # img = cv2.imread("")
+        img = screen.grab()
         item_list = item_finder.search(img)
-        print(item_list)
         for item in item_list:
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
