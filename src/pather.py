@@ -133,7 +133,16 @@ class Pather:
         }
 
     def get_fixed_path(self, key: str):
-        return self._fixed_tele_path[key]
+        return (
+            int(self._fixed_tele_path[key][0] * self._config.res["scale"]),
+            int(self._fixed_tele_path[key][1] * self._config.res["scale"])
+        ) 
+
+    def _get_scaled_node(self, key: int, template: str):
+        return (
+            int(self._nodes[key][template][0] * self._config.res["scale"]),
+            int(self._nodes[key][template][1] * self._config.res["scale"])
+        )
 
     def _display_all_nodes_debug(self, filter: str = None):
         while 1:
@@ -147,7 +156,7 @@ class Pather:
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                                 # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._nodes[node_idx][template_type]
+                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
                                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                                 x, y = self._screen.convert_abs_to_screen(node_pos_abs)
@@ -165,7 +174,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str, char):
-        path = self._fixed_tele_path[key]
+        path = self.get_fixed_path(key)
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
             x_m += int(random.random() * 6 - 3)
@@ -209,7 +218,7 @@ class Pather:
                 # Get reference position of template in abs coordinates
                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                 # Calc the abs node position with the relative coordinates (relative to ref)
-                node_pos_rel = node[template_type]
+                node_pos_rel = self._get_scaled_node(node_idx, template_type)
                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                 return node_pos_abs
@@ -269,10 +278,10 @@ if __name__ == "__main__":
     from ui_manager import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
-    t_finder = TemplateFinder(screen)
+    t_finder = TemplateFinder(screen, 1.0)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
+    pather.traverse_nodes(Location.A5_TOWN_START, Location.QUAL_KEHK, char)
     # pather._display_all_nodes_debug(filter="A5_TOWN")
