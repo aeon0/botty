@@ -5,6 +5,7 @@ from logger import Logger
 import cv2
 from typing import List, Tuple
 import requests
+import os
 
 
 def send_discord(item_name, url:str = None):
@@ -41,3 +42,28 @@ def color_filter(img, color_range):
     color_mask = cv2.inRange(hsv_img, color_range[0], color_range[1])
     filtered_img = cv2.bitwise_and(img, img, mask=color_mask)
     return color_mask, filtered_img
+
+def resize_imgs():
+    folders = ["items"]
+    for folder in folders:
+        new_path = f"assets\\{folder}_1280_720\\"
+        for filename in os.listdir(f'assets/{folder}'):
+            if filename.endswith('.png') and "sur" in filename:
+                data = cv2.imread(f"assets/{folder}/" + filename)
+                # cv2.imshow("x", data)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_NEAREST)
+                cv2.imwrite(new_path + "near_" + filename, datan)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_AREA)
+                cv2.imwrite(new_path + "area_" + filename, datan)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_CUBIC)
+                cv2.imwrite(new_path + "cubic_" + filename, datan)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_LANCZOS4)
+                cv2.imwrite(new_path + "lanc_" + filename, datan)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_BITS2)
+                cv2.imwrite(new_path + "bits_" + filename, datan)
+                datan = cv2.resize(data, None, fx=0.666666667, fy=0.66666667, interpolation=cv2.INTER_BITS)
+                cv2.imwrite(new_path + "bits2_" + filename, datan)
+
+
+if __name__ == "__main__":
+    resize_imgs()

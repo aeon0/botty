@@ -64,6 +64,7 @@ run_shenk=0
  [general]                      | Descriptions                                
 --------------------------------|---------------------------------------------
 monitor | Select on which monitor D2R is running in case multiple are available
+res | Resolution settings. Placeholder for upcoming feature, currently only 1920_1080 is supported!
 min_game_length_s | Games must have at least this length, will wait in hero selection for if game is too quick (to avoid server connection issues)
 exit_key | Pressing this key (anywhere), will force botty to shut down
 resume_key | After starting the exe botty will wait for this keypress to atually start botting away

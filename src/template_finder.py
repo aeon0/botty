@@ -211,15 +211,3 @@ if __name__ == "__main__":
         # cv2.imshow("temp", template_finder._templates["A5_TOWN_1"][0])
         cv2.imshow('test', img)
         key = cv2.waitKey(1)
-
-    # Some code to resize stuff
-    # import os
-    # folders = ["templates"]
-    # for folder in folders:
-    #     new_path = f"assets\\{folder}_1280_720\\"
-    #     for filename in os.listdir(f'assets/{folder}'):
-    #         if filename.endswith('.png'):
-    #             data = cv2.imread(f"assets/{folder}/" + filename)
-    #             # cv2.imshow("x", data)
-    #             data = cv2.resize(data, None, fx=0.666666667, fy=0.66666667)
-    #             cv2.imwrite(new_path + filename, data)

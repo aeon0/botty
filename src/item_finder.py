@@ -28,13 +28,13 @@ class ItemFinder:
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
-            "white": [np.array([0, 0, 240]), np.array([0, 0, 245])],
-            "gray": [np.array([0, 0, 119]), np.array([0, 0, 126])],
-            "magic": [np.array([120, 120, 252]), np.array([120, 126, 255])],
-            "set": [np.array([60, 250, 251]), np.array([60, 255, 255])],
-            "rare": [np.array([30, 128, 251]), np.array([30, 137, 255])],
-            "unique": [np.array([23, 80, 201]), np.array([23, 89, 216])],
-            "runes": [np.array([21, 251, 251]), np.array([22, 255, 255])]
+            "white": [np.array([0, 0, 150]), np.array([0, 0, 245])],
+            "gray": [np.array([0, 0, 90]), np.array([0, 0, 126])],
+            "magic": [np.array([120, 120, 190]), np.array([120, 126, 255])],
+            "set": [np.array([60, 250, 190]), np.array([60, 255, 255])],
+            "rare": [np.array([30, 128, 190]), np.array([30, 137, 255])],
+            "unique": [np.array([23, 80, 140]), np.array([23, 89, 216])],
+            "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
         self._game_color_ranges = {
             "white": config.colors["white"],
@@ -45,7 +45,10 @@ class ItemFinder:
             "unique": config.colors["gold"],
             "runes": config.colors["orange"]
         }
-        self._gaus_filter = (31, 7)
+        if config.general["res"] == "1920_1080":
+            self._gaus_filter = (31, 7)
+        else:
+            self._gaus_filter = (15, 5)
         # load all templates
         self._templates = {}
         for filename in os.listdir('assets/items'):
@@ -133,8 +136,9 @@ if __name__ == "__main__":
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
-        img = screen.grab()
+        img = screen.grab().copy()
         item_list = item_finder.search(img)
+        print(item_list)
         for item in item_list:
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
