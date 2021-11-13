@@ -14,6 +14,13 @@ from pather import Pather
 import subprocess
 import math
 
+def portal_back():
+    while 1:
+        success = char.select_by_template("SHOP_PORTAL")
+        if success:
+            break
+        else:
+            mouse.move(1000, 700, randomize=50, delay_factor=[1.0, 1.5])
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"])
@@ -39,19 +46,22 @@ if __name__ == "__main__":
 
     while 1:
         # Open shop
-        success = npc.open_npc_menu(Npc.ANYA)
-        if not success:
-            send_discord("Shutting down shopping", config.general["custom_discord_hook"])
-            close_down_d2()
-            break
+        if not npc.open_npc_menu(Npc.ANYA):
+            portal_back()
+            if not npc.open_npc_menu(Npc.ANYA):
+                send_discord("Shutting down shopping", config.general["custom_discord_hook"])           
+                img = screen.grab()
+                cv2.imwrite("stuck.png", img)
+                # close_down_d2()
+                break
         mouse.move(c_x, c_y, randomize=40, delay_factor=[0.5, 1.0])
         npc.press_npc_btn(Npc.ANYA, "trade")
-        wait(1.0, 1.5)
+        wait(1.1, 1.4)
         # Select claw section
         mouse.move(sb_x, sb_y, randomize=3, delay_factor=[0.7, 1.1])
         wait(0.05, 0.1)
         mouse.press(button="left")
-        wait(0.5, 0.7)
+        wait(0.3, 0.5)
         # Search for claws
         claw_pos = []
         img = screen.grab().copy()
@@ -75,26 +85,20 @@ if __name__ == "__main__":
             # cv2.circle(img, pos, 3, (0, 255, 0), 2)
             x_m, y_m = screen.convert_screen_to_monitor(pos)
             mouse.move(x_m, y_m, randomize=3, delay_factor=[0.9, 1.4])
-            wait(1.0)
+            wait(0.6)
             img_stats = screen.grab()
-            found_3_trap, _ = tf.search("3_TO_TRAPS", img_stats, roi=roi_claw_stats)
-            found_trap, _ = tf.search("TO_TRAPS", img_stats, roi=roi_claw_stats)
-            found_ls, _ = tf.search("TO_LIGHT", img_stats, roi=roi_claw_stats)
+            found_3_trap, _ = tf.search("3_TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)
+            found_trap, _ = tf.search("TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)
+            found_ls, _ = tf.search("TO_LIGHT", img_stats, roi=roi_claw_stats, threshold=0.9)
             if found_3_trap or (found_ls and found_trap):
                 # pick it up
                 mouse.click(button="right")
                 send_discord("Bought_CLAWS", config.general["custom_discord_hook"])
         # cv2.imshow("x", img)
         # cv2.waitKey(0)
-        wait(1.0, 1.5)
+        wait(0.9, 1.3)
         keyboard.send("esc")
         # Refresh by going to portal
         char.select_by_template("SHOP_PORTAL")
-        wait(3.5, 4.5)
-        while 1:
-            success = char.select_by_template("SHOP_PORTAL")
-            print(success)
-            if success:
-                break
-            else:
-                mouse.move(1000, 700, randomize=50, delay_factor=[1.0, 1.5])
+        wait(3.5, 4.0)
+        portal_back()
