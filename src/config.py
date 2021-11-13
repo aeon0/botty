@@ -23,6 +23,7 @@ class Config:
 
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
+            "res": self._select_val("general", "res"),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -87,7 +88,7 @@ class Config:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
         self.res = {
-            "scale": float(self._select_val("res", "scale")),
+            "scale": 1.0 if self.general["res"] == "1920_1080" else 0.666667,
         }
 
         self.ui_pos = {}
