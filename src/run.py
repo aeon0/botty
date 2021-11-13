@@ -5,8 +5,6 @@ import os
 from config import Config
 from utils.color_checker import run_color_checker
 from version import __version__
-from utils.remove_key_flags import remove_key_flags, LPMSG, TranslateMessage, DispatchMessage, GetMessage
-from utils.remove_mouse_flags import remove_mouse_flag
 from utils.auto_settings import adjust_settings
 import threading
 from beautifultable import BeautifulTable
@@ -21,17 +19,8 @@ def start_bot():
     except KeyboardInterrupt:
         Logger.info('Exit (ctrl+c)') or exit()
 
-def remove_flags():
-    remove_key_flags()
-    remove_mouse_flag()
-    msg = LPMSG()
-    while not GetMessage(msg, 0, 0, 0):
-        TranslateMessage(msg)
-        DispatchMessage(msg)
 
 if __name__ == "__main__":
-    remove_flags_thread = threading.Thread(target=remove_flags)
-    remove_flags_thread.start()
     config = Config()
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
@@ -65,6 +54,5 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
-    remove_flags_thread.join()
     print("Press Enter to exit ...")
     input()
