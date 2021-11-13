@@ -134,8 +134,12 @@ class TemplateFinder:
             "CLAW3": [load_template("assets/npc/anya/claws/claw3.png", 1.0), 1.0],
             "TO_TRAPS": [load_template("assets/npc/anya/claws/to_traps.png", 1.0), 1.0],
             "3_TO_TRAPS": [load_template("assets/npc/anya/claws/3_to_traps.png", 1.0), 1.0],
+            "2_TO_ASSA": [load_template("assets/npc/anya/claws/2_to_assa.png", 1.0), 1.0],
             "TO_LIGHT": [load_template("assets/npc/anya/claws/to_light.png", 1.0), 1.0],
+            "TO_WB": [load_template("assets/npc/anya/claws/wb.png", 1.0), 1.0],
+            "TO_DS": [load_template("assets/npc/anya/claws/to_ds.png", 1.0), 1.0],
             "SHOP_PORTAL": [load_template("assets/npc/anya/claws/a5_red.png", 1.0), 1.0],
+            "TO_VENOM": [load_template("assets/npc/anya/claws/to_venom.png", 1.0), 1.0],
         }
 
     def get_template(self, key):

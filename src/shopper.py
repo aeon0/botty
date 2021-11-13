@@ -13,14 +13,17 @@ from char.sorceress import Sorceress
 from pather import Pather
 import subprocess
 import math
+import time
 
-def portal_back():
-    while 1:
-        success = char.select_by_template("SHOP_PORTAL")
-        if success:
-            break
-        else:
-            mouse.move(1000, 700, randomize=50, delay_factor=[1.0, 1.5])
+
+def wait_for_loading_screen(screen, config, time_out):
+    start = time.time()
+    while time.time() - start < time_out:
+        img = screen.grab()
+        is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
+        if is_loading_black_roi:
+            return True
+    return False
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"])
@@ -47,21 +50,19 @@ if __name__ == "__main__":
     while 1:
         # Open shop
         if not npc.open_npc_menu(Npc.ANYA):
-            portal_back()
-            if not npc.open_npc_menu(Npc.ANYA):
-                send_discord("Shutting down shopping", config.general["custom_discord_hook"])           
-                img = screen.grab()
-                cv2.imwrite("stuck.png", img)
-                # close_down_d2()
-                break
-        mouse.move(c_x, c_y, randomize=40, delay_factor=[0.5, 1.0])
+            send_discord("Shutting down shopping", config.general["custom_discord_hook"])
+            img = screen.grab()
+            cv2.imwrite("stuck.png", img)
+            # close_down_d2()
+            break
+        mouse.move(c_x + 50, c_y - 100, randomize=30, delay_factor=[0.5, 0.7])
         npc.press_npc_btn(Npc.ANYA, "trade")
-        wait(1.1, 1.4)
+        wait(1.0, 1.2)
         # Select claw section
-        mouse.move(sb_x, sb_y, randomize=3, delay_factor=[0.7, 1.1])
+        mouse.move(sb_x, sb_y, randomize=3, delay_factor=[0.6, 0.8])
         wait(0.05, 0.1)
         mouse.press(button="left")
-        wait(0.3, 0.5)
+        wait(0.3, 0.4)
         # Search for claws
         claw_pos = []
         img = screen.grab().copy()
@@ -84,21 +85,41 @@ if __name__ == "__main__":
         for pos in claw_pos:
             # cv2.circle(img, pos, 3, (0, 255, 0), 2)
             x_m, y_m = screen.convert_screen_to_monitor(pos)
-            mouse.move(x_m, y_m, randomize=3, delay_factor=[0.9, 1.4])
-            wait(0.6)
+            mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
+            wait(0.5, 0.6)
             img_stats = screen.grab()
-            found_3_trap, _ = tf.search("3_TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)
-            found_trap, _ = tf.search("TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)
-            found_ls, _ = tf.search("TO_LIGHT", img_stats, roi=roi_claw_stats, threshold=0.9)
-            if found_3_trap or (found_ls and found_trap):
+            score = 0
+            if tf.search("3_TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 9
+            elif tf.search("TO_TRAPS", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 7
+
+            if tf.search("2_TO_ASSA", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 7
+            if tf.search("TO_VENOM", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 7
+            if tf.search("TO_LIGHT", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 7
+            if tf.search("TO_WB", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 2
+            if tf.search("TO_DS", img_stats, roi=roi_claw_stats, threshold=0.9)[0]:
+                score += 5
+
+            if score > 10:
                 # pick it up
                 mouse.click(button="right")
-                send_discord("Bought_CLAWS", config.general["custom_discord_hook"])
+                send_discord(f"Bought_CLAWS (score: {score})", config.general["custom_discord_hook"])
         # cv2.imshow("x", img)
         # cv2.waitKey(0)
-        wait(0.9, 1.3)
+        wait(0.4, 0.6)
         keyboard.send("esc")
         # Refresh by going to portal
         char.select_by_template("SHOP_PORTAL")
-        wait(3.5, 4.0)
-        portal_back()
+        wait(2.3, 2.7)
+        while 1:
+            success = char.select_by_template("SHOP_PORTAL")
+            success &= wait_for_loading_screen(screen, config, 2)
+            if success:
+                break
+            else:
+                mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
