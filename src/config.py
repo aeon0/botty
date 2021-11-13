@@ -23,6 +23,7 @@ class Config:
 
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
+            "res": self._select_val("general", "res"),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -86,14 +87,22 @@ class Config:
         for key in self._ui_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
+        self.res = {
+            "scale": 1.0 if self.general["res"] == "1920_1080" else 0.666667,
+        }
+
         self.ui_pos = {}
         for key in self._ui_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(self._select_val("ui_pos_1920_1080", key))
+            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
 
         self.ui_roi = {}
         for key in self._ui_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+            self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
 
 if __name__ == "__main__":
     config = Config()
+
+    for k in config.ui_pos:
+        x = config.ui_pos[k]
+        print(f"{k}={x}")
