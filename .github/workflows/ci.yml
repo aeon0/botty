@@ -11,6 +11,12 @@ jobs:
           python-version: 3.8
       - name: Cache conda
         uses: actions/cache@v2
+        with:
+          path: ${{ matrix.prefix }}
+          key: ${{ matrix.label }}-conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+        id: cache
+      - name: Cache conda
+        uses: actions/cache@v2
         env:
           # Increase this value to reset cache if environment.yml has not changed
           CACHE_NUMBER: 0
@@ -25,12 +31,16 @@ jobs:
           python-version: 3.8
           activate-environment: botty
           channel-priority: strict
-          environment-file: environment.yml
+          environment-file: environment-caching.yml
           use-only-tar-bz2: true # Needed for caching
-      - name: Pytest
+      - name: Activate conda
         shell: powershell
         run: |
           C:\Miniconda\condabin\conda.bat init powershell
+          set PYTHONPATH=./src
+      - name: Pytest
+        shell: powershell
+        run: |
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
           pip list
