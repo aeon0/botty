@@ -9,6 +9,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('environment.yml') }}
       - name: Install Dependencies
         shell: cmd
         run: |
