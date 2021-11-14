@@ -62,7 +62,7 @@ class NpcManager:
             img = self._screen.grab()
             results = []
             for key in self._npcs[npc_key]["template_group"]:
-                res, pos = self._template_finder.search(key, img, threshold=0.35, roi=roi)
+                res, pos = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
                 if res:
                     results.append({"pos": pos, "score": self._template_finder.last_score})
             results = sorted(results, key=lambda r: r["score"], reverse=True)
@@ -89,10 +89,13 @@ class NpcManager:
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
         _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["white"])
-        res, pos = self._template_finder.search(self._npcs[npc_key]["action_btns"][action_btn_key], filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"])
+        res, pos = self._template_finder.search(
+            self._npcs[npc_key]["action_btns"][action_btn_key], 
+            filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"], 
+            normalize_monitor=True
+        )
         if res:
-            x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-            mouse.move(x_m, y_m, randomize=3, delay_factor=[1.0, 1.5])
+            mouse.move(*pos, randomize=3, delay_factor=[1.0, 1.5])
             wait(0.2, 0.4)
             mouse.click(button="left")
             wait(0.3, 0.4)

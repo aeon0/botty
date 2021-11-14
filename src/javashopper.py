@@ -67,6 +67,7 @@ class JavaShopper:
                 inp_img=img,
                 threshold=0.98,
                 roi=self.config.ui_roi["vendor_stash"],
+                normalize_monitor=True,
             )
             if ias_glove_found:
                 mouse.move(*pos, duration=0.1)
@@ -78,6 +79,7 @@ class JavaShopper:
                     ),
                     inp_img=img,
                     threshold=0.80,
+                    normalize_monitor=True,
                 )
                 if gg_gloves_found:
                     mouse.right_click()

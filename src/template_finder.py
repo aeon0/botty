@@ -136,7 +136,13 @@ class TemplateFinder:
     def get_template(self, key):
         return self._templates[key][0]
 
-    def search(self, ref: Union[str, np.ndarray], inp_img: np.ndarray, threshold: float = 0.7, roi: List[float] = None) -> Tuple[bool, Tuple[float, float]]:
+    def search(
+        self, 
+        ref: Union[str, np.ndarray],
+        inp_img: np.ndarray, threshold: float = 0.7, 
+        roi: List[float] = None,
+        normalize_monitor: bool = False, 
+    ) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template or a image which is used as template
@@ -171,6 +177,10 @@ class TemplateFinder:
             if max_val > threshold:
                 ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                 ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+
+                if normalize_monitor:
+                    ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+
                 return True, ref_point
         return False, None
 
