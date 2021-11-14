@@ -103,6 +103,10 @@ class Config:
 if __name__ == "__main__":
     config = Config()
 
-    for k in config.ui_pos:
-        x = config.ui_pos[k]
-        print(f"{k}={x}")
+    # for k in config.ui_pos:
+    #     x = config.ui_pos[k]
+    #     print(f"{k}={x}")
+
+    for k in config.items:
+        if not os.path.exists(f"./assets/items/{k}.png"):
+            print(f"Not found: {k}")
