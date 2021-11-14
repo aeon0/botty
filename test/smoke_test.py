@@ -9,8 +9,6 @@ class TestSmoke:
     def setup_method(self):
         Logger.init()
         Logger.remove_file_logger()
-        import sys
-        print(sys.path)
 
     def test_smoke(self):
         bot = Bot()
