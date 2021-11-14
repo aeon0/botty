@@ -82,6 +82,9 @@ class Config:
         self.items = {}
         for key in self._config["items"]:
             self.items[key] = bool(int(self._select_val("items", key)))
+            item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
+            if not os.path.exists(f"./assets/{item_folder}/{key}.png"):
+                print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._ui_config["colors"]:
@@ -107,6 +110,6 @@ if __name__ == "__main__":
     #     x = config.ui_pos[k]
     #     print(f"{k}={x}")
 
-    for k in config.items:
-        if not os.path.exists(f"./assets/items/{k}.png"):
-            print(f"Not found: {k}")
+    # for k in config.items:
+    #     if not os.path.exists(f"./assets/items/{k}.png"):
+    #         print(f"Not found: {k}")
