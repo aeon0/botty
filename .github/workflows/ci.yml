@@ -9,6 +9,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      # TODO: The below setp only chaches conda packages, need to cache pip seperatly
       - name: Cache conda
         uses: actions/cache@v2
         env:
@@ -16,15 +17,19 @@ jobs:
           CACHE_NUMBER: 0
         with:
           path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment.yml') }}
+          key: conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment.yml') }}
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/pip
+          key: pip-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
           activate-environment: botty
           channel-priority: strict
-          environment-file: environment-caching.yml
+          environment-file: environment.yml
           use-only-tar-bz2: true # Needed for caching
       - name: Activate conda
         shell: powershell
