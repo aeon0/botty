@@ -58,7 +58,7 @@ class JavaShopper:
 
             # 20 IAS gloves have a unique color so we can skip all others
             ias_glove_found, pos = self._template_finder.search(
-                ref=load_template("assets/templates/javashopper/ias_gloves.png", 1.0),
+                ref=load_template("assets/shop/gloves/ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.98,
                 roi=self.config.ui_roi["vendor_stash"],
@@ -70,7 +70,7 @@ class JavaShopper:
                 img = self._screen.grab()
                 gg_gloves_found, pos = self._template_finder.search(
                     ref=load_template(
-                        "assets/templates/javashopper/gg_gloves.png", 1.0
+                        "assets/shop/gloves/gg_gloves.png", 1.0
                     ),
                     inp_img=img,
                     threshold=0.80,
