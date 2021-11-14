@@ -19,3 +19,4 @@ dependencies:
     - requests
     - pytest
     - pytest-env
+    - pytest-pythonpath
