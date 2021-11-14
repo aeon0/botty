@@ -1,17 +1,18 @@
-name: GitHub Actions Demo
+name: GitHub Actions - Tests
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  tests:
+    runs-on: windows-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - uses: actions/checkout@v2
+      - name: Setup Miniconda Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-verison: 3.8
+      - name: Install Dependencies
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          C:\Miniconda\condabin\conda.bat env create environment.yml
+      - name: Pytest
+        run: |
+          C:\Miniconda\condabin\conda.bat activate botty
+          pytest
