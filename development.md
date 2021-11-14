@@ -20,11 +20,25 @@ Variable name: PYTHONPATH </br>
 Variable value: C:\Users\YOUR_WINDOWS_USER_NAME\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
 
 If you installed your miniconda in another location you will of course have ot change it for that one.
-```python
+```bash
 # building .exe and bundeling all needed resource into one folder
 python release.py
 ```
 For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
+
+## Tests
+All automated tests can be found within the **/test/*** folder. The file and folder structure is supposed to mimic the src folder.
+```bash
+conda activate botty
+# not sure why the PYTHONPATH is not working from pytest.ini (happy if someone would fix that)
+set PYTHONPATH=./src
+# To run all tests:
+pytest
+# To see std output:
+pytest -s
+# To run a specific test:
+pytest test/smoke_test.py
+```
 
 ## Folder Structure
 **/**</br>

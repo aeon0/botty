@@ -18,8 +18,8 @@ class Config:
         self._ui_config = configparser.ConfigParser()
         self._ui_config.read('ui.ini')
         self._custom = configparser.ConfigParser()
-        if os.path.exists('custom.ini'):
-             self._custom.read('custom.ini')
+        if os.environ.get('RUN_ENV') != "test" and os.path.exists('custom.ini'):
+            self._custom.read('custom.ini')
 
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
