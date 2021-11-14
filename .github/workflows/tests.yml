@@ -12,6 +12,7 @@ jobs:
       - name: Install Dependencies
         run: |
           C:\Miniconda\condabin\conda.bat env create environment.yml
+          C:\Miniconda\condabin\conda.bat init powershell
       - name: Pytest
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
