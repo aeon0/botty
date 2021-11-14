@@ -20,11 +20,11 @@ jobs:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
             hashFiles('environment.yml') }}
       - name: Install Dependencies
-        shell: cmd
+        shell: powershell
         run: |
           C:\Miniconda\condabin\conda.bat env create environment.yml
       - name: Pytest
-        shell: cmd
+        shell: powershell
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
