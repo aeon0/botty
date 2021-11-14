@@ -27,4 +27,5 @@ jobs:
         shell: cmd
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
+          python -c "import sys; print(sys.version)"
           python -m pytest -v
