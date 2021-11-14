@@ -8,7 +8,7 @@ jobs:
       - name: Setup Miniconda Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-verison: 3.8
+          python-version: 3.8
       - name: Install Dependencies
         run: |
           C:\Miniconda\condabin\conda.bat env create environment.yml
