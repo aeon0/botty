@@ -2,20 +2,34 @@ import logging
 import os
 import time
 
+from screen import Screen
+
 import keyboard
-import mouse
+import numpy as np
 import screen
 
 from config import Config
 from logger import Logger
 from npc_manager import NpcManager, Npc
 from template_finder import TemplateFinder, load_template
+from utils.custom_mouse import mouse
+from utils.misc import wait
+
 
 
 def exit():
     Logger.info("Exiting...")
     os._exit(0)
 
+
+def wait_for_loading_screen(screen: Screen, time_out):
+    start = time.time()
+    while time.time() - start < time_out:
+        img = screen.grab()
+        is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
+        if is_loading_black_roi:
+            return True
+    return False
 
 class JavaShopper:
     """
@@ -32,30 +46,11 @@ class JavaShopper:
 
     def run(self):
         Logger.info("STARTING JAVAZON GG GLOVES SHOPPER!")
-
-        # Are we at the right start place?
-        t1 = time.time()
-        while True:
-            success, pos = self._template_finder.search_and_wait("A5_RED_PORTAL", time_out=5)
-            if success:
-                mouse.move(*pos, duration=0.1)
-                mouse.click()
-                break
-
-            if time.time() > t1 + 30:
-                Logger.info("Cannot find start place :(")
-                exit()
-            time.sleep(3)
-
+        self.reset_shop()
         self.shop_loop()
 
     def shop_loop(self):
         while True:
-            time.sleep(3.6)
-            success, pos = self._template_finder.search_and_wait("A5_RED_PORTAL")
-            mouse.move(*pos, duration=0.1)
-            mouse.click()
-            time.sleep(1)
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
@@ -70,7 +65,7 @@ class JavaShopper:
                 normalize_monitor=True,
             )
             if ias_glove_found:
-                mouse.move(*pos, duration=0.1)
+                mouse.move(*pos)
                 time.sleep(0.1)
                 img = self._screen.grab()
                 gg_gloves_found, pos = self._template_finder.search(
@@ -82,14 +77,39 @@ class JavaShopper:
                     normalize_monitor=True,
                 )
                 if gg_gloves_found:
-                    mouse.right_click()
+                    mouse.click(button="right")
                     Logger.info("GG gloves bought!")
                     time.sleep(1)
 
-            # Reset shop by using red portal
-            success, pos = self._template_finder.search_and_wait("A5_RED_PORTAL")
-            mouse.move(*pos, absolute=True, duration=0.1)
-            mouse.click()
+            self.reset_shop()
+
+    def reset_shop(self):
+        while 1:
+            success = self.select_by_template("A5_RED_PORTAL")
+            success &= wait_for_loading_screen(self._screen, 2)
+            if success:
+                break
+            else:
+                mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
+        time.sleep(3)
+        while 1:
+            success = self.select_by_template("A5_RED_PORTAL")
+            success &= wait_for_loading_screen(self._screen, 2)
+            if success:
+                break
+            else:
+                mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
+
+    def select_by_template(self, template_type: str) -> bool:
+        Logger.debug(f"Select {template_type}")
+        success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
+        if success:
+            x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
+            mouse.move(x_m, y_m)
+            wait(0.1, 0.2)
+            mouse.click(button="left")
+            return True
+        return False
 
 
 if __name__ == "__main__":
