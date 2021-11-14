@@ -12,17 +12,21 @@ jobs:
       - name: Cache conda
         uses: actions/cache@v2
         env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          # Increase this value to reset cache if environment.yml has not changed
           CACHE_NUMBER: 0
         with:
           path: ~/conda_pkgs_dir
           key:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
             hashFiles('environment.yml') }}
-      - name: Install Dependencies
-        shell: powershell
-        run: |
-          C:\Miniconda\condabin\conda.bat env create environment.yml
+      - name: Install Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.8
+          activate-environment: botty
+          channel-priority: strict
+          environment-file: environment.yml
+          use-only-tar-bz2: true # Needed for caching
       - name: Pytest
         shell: powershell
         run: |
