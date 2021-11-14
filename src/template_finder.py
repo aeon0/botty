@@ -5,13 +5,16 @@ from typing import Tuple, Union, List
 import numpy as np
 from logger import Logger
 import time
+import os
 from config import Config
 
 
 def load_template(path, scale_factor):
-    template_img = cv2.imread(path)
-    template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-    return template_img
+    if os.path.isfile(path):
+        template_img = cv2.imread(path)
+        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+        return template_img
+    return None
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = 0.7):
