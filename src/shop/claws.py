@@ -132,11 +132,17 @@ if __name__ == "__main__":
                 send_discord(f"Bought_CLAWS (score: {score})", config.general["custom_discord_hook"])
         # cv2.imshow("x", img)
         # cv2.waitKey(0)
-        wait(0.4, 0.6)
-        keyboard.send("esc")
+        wait(0.2, 0.3)
+        # keyboard.send("esc")
         # Refresh by going to portal
-        char.select_by_template("SHOP_PORTAL")
-        wait(2.3, 2.7)
+        while 1:
+            success = char.select_by_template("SHOP_PORTAL")
+            success &= wait_for_loading_screen(screen, 2)
+            if success:
+                break
+            else:
+                mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
+        wait(3.0, 3.5)
         while 1:
             success = char.select_by_template("SHOP_PORTAL")
             success &= wait_for_loading_screen(screen, 2)
