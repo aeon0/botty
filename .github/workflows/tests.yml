@@ -30,6 +30,7 @@ jobs:
       - name: Pytest
         shell: powershell
         run: |
+          C:\Miniconda\condabin\conda.bat init powershell
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
           pip list
