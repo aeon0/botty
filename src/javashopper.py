@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 import time
@@ -17,8 +18,14 @@ from utils.misc import wait
 
 
 
-def exit():
+def exit(run_obj):
+    run_time = str(datetime.timedelta(seconds=round(time.time() - run_obj.start_time)))
     Logger.info("Exiting...")
+    print(
+        "STATS \truns \t\ttime \t\tias_gloves_seen \tgloves_bought\n"
+        f"\t{run_obj.run_count} \t\t{run_time}"
+        f"\t\t{run_obj.ias_gloves_seen} \t\t\t{run_obj.gloves_bought}"
+    )
     os._exit(0)
 
 
@@ -43,6 +50,10 @@ class JavaShopper:
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )
+        self.run_count = 0
+        self.start_time = time.time()
+        self.ias_gloves_seen = 0
+        self.gloves_bought = 0
 
     def run(self):
         Logger.info("STARTING JAVAZON GG GLOVES SHOPPER!")
@@ -65,6 +76,7 @@ class JavaShopper:
                 normalize_monitor=True,
             )
             if ias_glove_found:
+                self.ias_gloves_seen += 1
                 mouse.move(*pos)
                 time.sleep(0.1)
                 img = self._screen.grab()
@@ -79,9 +91,11 @@ class JavaShopper:
                 if gg_gloves_found:
                     mouse.click(button="right")
                     Logger.info("GG gloves bought!")
+                    self.gloves_bought += 1
                     time.sleep(1)
 
             self.reset_shop()
+            self.run_count += 1
 
     def reset_shop(self):
         while 1:
@@ -123,12 +137,15 @@ if __name__ == "__main__":
             f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]"
         )
 
-    keyboard.add_hotkey(config.general["exit_key"], exit)
-
     javashopper = JavaShopper(config)
+    keyboard.add_hotkey(config.general["exit_key"], lambda: exit(run_obj=javashopper))
     while True:
         if keyboard.is_pressed(config.general["resume_key"]):
-            javashopper.run()
+            try:
+                javashopper.run()
+            except Exception as e:
+                Logger.logger.exception(e)
+                exit(javashopper)
             break
 
         time.sleep(0.05)
