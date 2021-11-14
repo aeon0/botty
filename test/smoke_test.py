@@ -12,7 +12,3 @@ class TestSmoke:
 
     def test_smoke(self):
         bot = Bot()
-        assert(0 == 1)
-
-    def test_x(self):
-        assert(0 == 0)
