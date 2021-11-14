@@ -20,6 +20,9 @@ jobs:
           key: conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment.yml') }}
       - name: Cache pip
         uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if environment.yml has not changed
+          CACHE_NUMBER: 0
         with:
           path: ~/pip
           key: pip-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
