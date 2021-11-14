@@ -23,6 +23,7 @@ class UiManager():
         self._template_finder = template_finder
         self._screen = screen
         self._curr_stash = 0 # 0: personal, 1: shared1, 2: shared2, 3: shared3
+        self._potions_remaining = [0, 0, 0, 0]
 
     def use_wp(self, act: int, idx: int):
         """
@@ -106,6 +107,36 @@ class UiManager():
         if blueness > redness and blueness > 55:
             return "mana"
         return "empty"
+
+    def get_belt_contents(self, img: np.ndarray, readAll: bool) -> Tuple[np.ndarray,int]:
+        # args: img=screen grab, readAll=1 read entire belt, 0 for just bottom row
+        beltContents = np.full((4,4),'noMatch')
+        if readAll:
+            iterY=range(4)
+        else:
+            iterY=[3]
+        for y in iterY:
+            y_center=int(round(self._config.ui_pos["potion1_y"] + y*self._config.ui_pos["potion_height"] + self._config.ui_pos["potion_height"]/2,1))
+            for x in range(4):
+                x_center=int(round(self._config.ui_pos["potion1_x"] + x*self._config.ui_pos["potion_width"] + self._config.ui_pos["potion_width"]/2,1))
+                #hp_color_br, etc. values were obtained with this method
+                #roiColor in B,R
+                roiColor=[np.average(img[(y_center-7):(y_center+7),(x_center-7):(x_center+7),0]),np.average(img[(y_center-7):(y_center+7),(x_center-7):(x_center+7),2])]
+                if (abs(roiColor[0] - self._config.colors["hp_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["hp_color_br"][1]) < 10):
+                    beltContents[x][y]="hp"
+                elif (abs(roiColor[0] - self._config.colors["mp_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["mp_color_br"][1]) < 10):
+                    beltContents[x][y]="mp"
+                elif (abs(roiColor[0] - self._config.colors["rv_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["rv_color_br"][1]) < 10):
+                    beltContents[x][y]="rv"
+                elif (abs(roiColor[0] - self._config.colors["frv_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["frv_color_br"][1]) < 10):
+                    beltContents[x][y]="frv"
+                elif (abs(roiColor[0] - self._config.colors["empty_color_br"][0]) < 5) and (abs(roiColor[1] - self._config.colors["empty_color_br"][1]) < 5):
+                    beltContents[x][y]="empty"
+        keepRows=[]
+        for i in range(4):
+            if np.all(beltContents[:,i] != "noMatch"):
+                keepRows.append(i)
+        return beltContents[:,keepRows], beltContents.shape[1]
 
     def check_free_belt_spots(self) -> bool:
         """

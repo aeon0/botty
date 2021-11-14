@@ -130,12 +130,28 @@ class Bot:
             wait(1.2, 1.5)
             self._ui_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
 
+        # Belt maintenance
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
+        wait(0.2,0.3)
+        img = self._screen.grab()
+        beltContents, height = self._ui_manager.get_belt_contents(img,0)
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
+        Logger.debug(f"Belt0: {beltContents} {height}")
+        wait(0.2,0.3)
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
+        wait(0.2,0.3)
+        img = self._screen.grab()
+        beltContents, height = self._ui_manager.get_belt_contents(img,1)
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
+        Logger.debug(f"Belt1: {beltContents} {height}")
+        wait(0.2,0.3)
+
         # Check if healing is needed, TODO: add shoping e.g. for potions
         img = self._screen.grab()
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
             Logger.info("Need some healing first. Go talk to Malah")
-            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
+            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char):
                 self.trigger("end_game")
                 return
             self._curr_location = Location.MALAH
