@@ -121,6 +121,13 @@ class TemplateFinder:
             "LARZUK_NAME_TAG_WHITE": [load_template("assets/npc/larzuk/larzuk_white.png", 1.0), 1.0],
             "LARZUK_NAME_TAG_GOLD": [load_template("assets/npc/larzuk/larzuk_gold.png", 1.0), 1.0],
             "LARZUK_TRADE_REPAIR_BTN": [load_template("assets/npc/larzuk/trade_repair_btn.png", 1.0), 1.0],
+            # NPC: Anya
+            "ANYA_FRONT": [load_template("assets/npc/anya/anya_front.png", 1.0), 1.0],
+            "ANYA_BACK": [load_template("assets/npc/anya/anya_back.png", 1.0), 1.0],
+            "ANYA_SIDE": [load_template("assets/npc/anya/anya_side.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_GOLD": [load_template("assets/npc/anya/anya_gold.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_WHITE": [load_template("assets/npc/anya/anya_white.png", 1.0), 1.0],
+            "ANYA_TRADE_BTN": [load_template("assets/npc/anya/trade_btn.png", 1.0), 1.0],
         }
 
     def get_template(self, key):
