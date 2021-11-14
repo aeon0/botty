@@ -1,4 +1,4 @@
-name: GitHub Actions - Tests
+name: Botty - CI
 on: [push]
 jobs:
   tests:
