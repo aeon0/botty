@@ -10,11 +10,11 @@ jobs:
         with:
           python-version: 3.8
       - name: Install Dependencies
-        shell: bash -l {0}
+        shell: cmd
         run: |
           C:\Miniconda\condabin\conda.bat env create environment.yml
       - name: Pytest
-        shell: bash -l {0}
+        shell: cmd
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
           pytest -v
