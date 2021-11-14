@@ -44,7 +44,4 @@ jobs:
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
-          set PYTHONPATH=./src
-          echo %PYTHONPATH%
-          echo %cd%
           pytest -v -s
