@@ -30,12 +30,9 @@ For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
 All automated tests can be found within the **/test/*** folder. The file and folder structure is supposed to mimic the src folder.
 ```bash
 conda activate botty
-# not sure why the PYTHONPATH is not working from pytest.ini (happy if someone would fix that)
-set PYTHONPATH=./src
-# To run all tests:
-pytest
+# To run all tests: (-s to see stdout, -v for verbose)
+pytest -s -v
 # To see std output:
-pytest -s
 # To run a specific test:
 pytest test/smoke_test.py
 ```
