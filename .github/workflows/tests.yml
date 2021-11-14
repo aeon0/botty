@@ -17,4 +17,4 @@ jobs:
         shell: bash -l {0}
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
-          pytest
+          pytest -v
