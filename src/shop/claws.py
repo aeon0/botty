@@ -1,7 +1,7 @@
 from screen import Screen
 from config import Config
 from npc_manager import NpcManager, Npc
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, load_template
 from ui_manager import UiManager
 from utils.custom_mouse import mouse
 from utils.misc import wait, send_discord
@@ -11,12 +11,36 @@ import cv2
 import os
 from char.sorceress import Sorceress
 from pather import Pather
-import subprocess
 import math
 import time
 
 
-def wait_for_loading_screen(screen, config, time_out):
+class ExtendedTemplateFinder(TemplateFinder):
+    def __init__(self, screen):
+        super().__init__(screen)
+        custom_templates = {
+            "ANYA_FRONT": [load_template("assets/npc_1280_720/anya/anya_front.png", 1.0), 1.0],
+            "ANYA_BACK": [load_template("assets/npc_1280_720/anya/anya_back.png", 1.0), 1.0],
+            "ANYA_SIDE": [load_template("assets/npc_1280_720/anya/anya_side.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_GOLD": [load_template("assets/npc_1280_720/anya/anya_gold.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_WHITE": [load_template("assets/npc_1280_720/anya/anya_white.png", 1.0), 1.0],
+            "ANYA_TRADE_BTN": [load_template("assets/npc_1280_720/anya/trade_btn.png", 1.0), 1.0],
+            "CLAW1": [load_template("assets/shop_1280_720/claws/claw1.png", 1.0), 1.0],
+            "CLAW2": [load_template("assets/shop_1280_720/claws/claw2.png", 1.0), 1.0],
+            "CLAW3": [load_template("assets/shop_1280_720/claws/claw3.png", 1.0), 1.0],
+            "TO_TRAPS": [load_template("assets/shop_1280_720/claws/to_traps.png", 1.0), 1.0],
+            "3_TO_TRAPS": [load_template("assets/shop_1280_720/claws/3_to_traps.png", 1.0), 1.0],
+            "2_TO_ASSA": [load_template("assets/shop_1280_720/claws/2_to_assa.png", 1.0), 1.0],
+            "TO_LIGHT": [load_template("assets/shop_1280_720/claws/to_light.png", 1.0), 1.0],
+            "TO_WB": [load_template("assets/shop_1280_720/claws/wb.png", 1.0), 1.0],
+            "TO_DS": [load_template("assets/shop_1280_720/claws/to_ds.png", 1.0), 1.0],
+            "SHOP_PORTAL": [load_template("assets/shop_1280_720/claws/a5_red.png", 1.0), 1.0],
+            "TO_VENOM": [load_template("assets/shop_1280_720/claws/to_venom.png", 1.0), 1.0],
+        }
+        self._templates.update(custom_templates)
+
+
+def wait_for_loading_screen(screen: Screen, time_out):
     start = time.time()
     while time.time() - start < time_out:
         img = screen.grab()
@@ -25,9 +49,6 @@ def wait_for_loading_screen(screen, config, time_out):
             return True
     return False
 
-def close_down_d2():
-    subprocess.call(["taskkill","/F","/IM","D2R.exe"])
-    subprocess.call(["taskkill","/F","/IM","Battle.net.exe"])
 
 if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
@@ -35,7 +56,7 @@ if __name__ == "__main__":
 
     config = Config()
     screen = Screen(config.general["monitor"])
-    tf = TemplateFinder(screen)
+    tf = ExtendedTemplateFinder(screen)
     npc = NpcManager(screen, tf)
     ui = UiManager(screen, tf)
     pather = Pather(screen, tf)
@@ -118,7 +139,7 @@ if __name__ == "__main__":
         wait(2.3, 2.7)
         while 1:
             success = char.select_by_template("SHOP_PORTAL")
-            success &= wait_for_loading_screen(screen, config, 2)
+            success &= wait_for_loading_screen(screen, 2)
             if success:
                 break
             else:
