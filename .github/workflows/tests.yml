@@ -27,11 +27,10 @@ jobs:
           channel-priority: strict
           environment-file: environment.yml
           use-only-tar-bz2: true # Needed for caching
-        run: |
-          C:\Miniconda\condabin\conda.bat init powershell
       - name: Pytest
         shell: powershell
         run: |
+          C:\Miniconda\condabin\conda.bat init powershell
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
           pip list
