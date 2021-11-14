@@ -126,20 +126,9 @@ class TemplateFinder:
             "ANYA_FRONT": [load_template("assets/npc/anya/anya_front.png", 1.0), 1.0],
             "ANYA_BACK": [load_template("assets/npc/anya/anya_back.png", 1.0), 1.0],
             "ANYA_SIDE": [load_template("assets/npc/anya/anya_side.png", 1.0), 1.0],
-            "ANYA_NAME_TAG_WHITE": [load_template("assets/npc/anya/anya_white.png", 1.0), 1.0],
             "ANYA_NAME_TAG_GOLD": [load_template("assets/npc/anya/anya_gold.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_WHITE": [load_template("assets/npc/anya/anya_white.png", 1.0), 1.0],
             "ANYA_TRADE_BTN": [load_template("assets/npc/anya/trade_btn.png", 1.0), 1.0],
-            "CLAW1": [load_template("assets/npc/anya/claws/claw1.png", 1.0), 1.0],
-            "CLAW2": [load_template("assets/npc/anya/claws/claw2.png", 1.0), 1.0],
-            "CLAW3": [load_template("assets/npc/anya/claws/claw3.png", 1.0), 1.0],
-            "TO_TRAPS": [load_template("assets/npc/anya/claws/to_traps.png", 1.0), 1.0],
-            "3_TO_TRAPS": [load_template("assets/npc/anya/claws/3_to_traps.png", 1.0), 1.0],
-            "2_TO_ASSA": [load_template("assets/npc/anya/claws/2_to_assa.png", 1.0), 1.0],
-            "TO_LIGHT": [load_template("assets/npc/anya/claws/to_light.png", 1.0), 1.0],
-            "TO_WB": [load_template("assets/npc/anya/claws/wb.png", 1.0), 1.0],
-            "TO_DS": [load_template("assets/npc/anya/claws/to_ds.png", 1.0), 1.0],
-            "SHOP_PORTAL": [load_template("assets/npc/anya/claws/a5_red.png", 1.0), 1.0],
-            "TO_VENOM": [load_template("assets/npc/anya/claws/to_venom.png", 1.0), 1.0],
         }
 
     def get_template(self, key):
