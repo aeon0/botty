@@ -31,7 +31,7 @@ class PickIt:
         #Creating a screenshot of the current loot
         if self._config.general["loot_screenshots"]:
             img = self._screen.grab()
-            cv2.imwrite("./loot_screenshots/info_debug_drop_" + str(time.time()) + ".png", img)
+            cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = time.time()
         time_out = False
