@@ -5,13 +5,16 @@ from typing import Tuple, Union, List
 import numpy as np
 from logger import Logger
 import time
+import os
 from config import Config
 
 
 def load_template(path, scale_factor):
-    template_img = cv2.imread(path)
-    template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-    return template_img
+    if os.path.isfile(path):
+        template_img = cv2.imread(path)
+        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+        return template_img
+    return None
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = 0.7):
@@ -121,6 +124,13 @@ class TemplateFinder:
             "LARZUK_NAME_TAG_WHITE": [load_template("assets/npc/larzuk/larzuk_white.png", 1.0), 1.0],
             "LARZUK_NAME_TAG_GOLD": [load_template("assets/npc/larzuk/larzuk_gold.png", 1.0), 1.0],
             "LARZUK_TRADE_REPAIR_BTN": [load_template("assets/npc/larzuk/trade_repair_btn.png", 1.0), 1.0],
+            # NPC: Anya
+            "ANYA_FRONT": [load_template("assets/npc/anya/anya_front.png", 1.0), 1.0],
+            "ANYA_BACK": [load_template("assets/npc/anya/anya_back.png", 1.0), 1.0],
+            "ANYA_SIDE": [load_template("assets/npc/anya/anya_side.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_GOLD": [load_template("assets/npc/anya/anya_gold.png", 1.0), 1.0],
+            "ANYA_NAME_TAG_WHITE": [load_template("assets/npc/anya/anya_white.png", 1.0), 1.0],
+            "ANYA_TRADE_BTN": [load_template("assets/npc/anya/trade_btn.png", 1.0), 1.0],
         }
 
     def get_template(self, key):
@@ -183,12 +193,13 @@ class TemplateFinder:
                 success, pos = self.search(x, img, roi=roi, threshold=threshold)
                 if success:
                     break
-            if not is_loading_black_roi and success:
-                return True, pos
-            if time_out is not None and (time.time() - start) > time_out:
-                if self._config.general["info_screenshots"]:
-                    cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + {time.strftime("%Y%m%d_%H%M%S")} + ".png", img)
-                return False, None
+            if not is_loading_black_roi:
+                if success:
+                    return True, pos
+                elif time_out is not None and (time.time() - start) > time_out:
+					if self._config.general["info_screenshots"]:
+                    	cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + {time.strftime("%Y%m%d_%H%M%S")} + ".png", img)
+                    return False, None
 
 
 # Testing: Have whatever you want to find on the screen
