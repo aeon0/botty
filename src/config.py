@@ -24,6 +24,7 @@ class Config:
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
             "res": self._select_val("general", "res"),
+            "offset_top": int(self._select_val("general", "offset_top")),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
