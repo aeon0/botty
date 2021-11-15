@@ -28,7 +28,7 @@ class TemplateFinder:
         if scale_factor is None:
             scale_factor = 0.7 if self._config.general['res'] == "1920_1080" else 1.0
         self._scale_factor = scale_factor
-        res_str = f"_{self._config.general['res']}"
+        res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
         self._templates = {
             # Templates for node in A5 Town
             "A5_TOWN_0": [load_template(f"assets/templates{res_str}/a5_town/a5_town_0.png", self._scale_factor), self._scale_factor],

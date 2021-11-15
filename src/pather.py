@@ -131,12 +131,11 @@ class Pather:
             "PINDLE_SAVE_TP": [(600, 40)],
             "SHENK_SAVE_TP": [(656, 323)],
         }
+        for k in self._fixed_tele_path:
+            self._fixed_tele_path[k] = [(int(x[0] * self._config.scale), int(x[1] * self._config.scale)) for x in self._fixed_tele_path[k]]
 
     def get_fixed_path(self, key: str):
-        return (
-            int(self._fixed_tele_path[key][0] * self._config.scale),
-            int(self._fixed_tele_path[key][1] * self._config.scale)
-        ) 
+        return self._fixed_tele_path[key]
 
     def _get_scaled_node(self, key: int, template: str):
         return (
@@ -282,6 +281,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.A5_TOWN_START, Location.QUAL_KEHK, char)
+    pather.traverse_nodes_fixed("PINDLE_SAVE_DIST", char)
+    # pather.traverse_nodes(Location.A5_TOWN_START, Location.QUAL_KEHK, char)
     # pather._display_all_nodes_debug(filter="A5_TOWN")
