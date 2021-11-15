@@ -91,17 +91,15 @@ class Config:
         for key in self._ui_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
-        self.res = {
-            "scale": 1.0 if self.general["res"] == "1920_1080" else 0.666667,
-        }
+        self.scale = 1.0 if self.general["res"] == "1920_1080" else 0.666667
 
         self.ui_pos = {}
         for key in self._ui_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
+            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.scale))
 
         self.ui_roi = {}
         for key in self._ui_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+            self.ui_roi[key] = np.array([int(round(float(x) * self.scale)) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
 
 if __name__ == "__main__":

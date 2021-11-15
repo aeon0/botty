@@ -134,14 +134,14 @@ class Pather:
 
     def get_fixed_path(self, key: str):
         return (
-            int(self._fixed_tele_path[key][0] * self._config.res["scale"]),
-            int(self._fixed_tele_path[key][1] * self._config.res["scale"])
+            int(self._fixed_tele_path[key][0] * self._config.scale),
+            int(self._fixed_tele_path[key][1] * self._config.scale)
         ) 
 
     def _get_scaled_node(self, key: int, template: str):
         return (
-            int(self._nodes[key][template][0] * self._config.res["scale"]),
-            int(self._nodes[key][template][1] * self._config.res["scale"])
+            int(self._nodes[key][template][0] * self._config.scale),
+            int(self._nodes[key][template][1] * self._config.scale)
         )
 
     def _display_all_nodes_debug(self, filter: str = None):
