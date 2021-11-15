@@ -73,6 +73,7 @@ randomize_runs | If 0, the order will always be pindle -> eldritch/shenk. If 1 t
 difficulty | Set to `normal` `nightmare` or `hell` for game difficulty 
 send_drops_to_discord | If 1 sends your drops to the discord channel "drop-log"
 custom_discord_hook | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume
+info_screenshots | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while 
 
  [routes]                       | Descriptions                                
 --------------------------------|---------------------------------------------
