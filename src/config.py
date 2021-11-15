@@ -110,6 +110,28 @@ if __name__ == "__main__":
     #     x = config.ui_pos[k]
     #     print(f"{k}={x}")
 
-    # for k in config.items:
-    #     if not os.path.exists(f"./assets/items/{k}.png"):
-    #         print(f"Not found: {k}")
+    from pathlib import Path
+    import cv2
+
+    for k in config.items:
+        if not os.path.exists(f"./assets/items/{k}.png"):
+            print(f"Template not found: {k}")
+            # base_name = k.split("_")[2:]
+            # attrib = k.split("_")[0]
+            # base_name = '_'.join(base_name)
+            # if attrib == "uniq":
+            #     # print(f"{base_name}")
+            #     for path in Path("./assets/items").glob(f"*_{base_name}.png"):
+            #         print(k)
+            #         img = cv2.imread(str(path))
+            #         cv2.imwrite(f"./assets/items/{k}.png", img)
+            # else:
+            #     print(f"{attrib}_{base_name}=1")
+    
+    for filename in os.listdir(f'assets/items'):
+        filename = filename.lower()
+        if filename.endswith('.png'):
+            item_name = filename[:-4]
+            blacklist_item = item_name.startswith("bl__")
+            if item_name not in config.items:
+                print(f"Config not found for: " + filename)
