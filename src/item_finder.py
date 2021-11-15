@@ -143,7 +143,6 @@ if __name__ == "__main__":
         # img = cv2.imread("")
         img = screen.grab().copy()
         item_list = item_finder.search(img)
-        print(item_list)
         for item in item_list:
             # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)

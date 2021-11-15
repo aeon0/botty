@@ -278,7 +278,7 @@ if __name__ == "__main__":
     from ui_manager import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
-    t_finder = TemplateFinder(screen, 1.0)
+    t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)

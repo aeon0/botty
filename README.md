@@ -64,7 +64,7 @@ run_shenk=0
  [general]                      | Descriptions                                
 --------------------------------|---------------------------------------------
 monitor | Select on which monitor D2R is running in case multiple are available
-res | Resolution settings. Placeholder for upcoming feature, currently only 1920_1080 is supported!
+res | Resolution settings can be any of [1920_1080, 1280_720]
 offset_top | Your D2R window should always be in the top left corner. If you are on windowed mode you might have a window bar on top. Measure the pixel height of the bar and set the offset here.
 min_game_length_s | Games must have at least this length, will wait in hero selection for if game is too quick (to avoid server connection issues)
 exit_key | Pressing this key (anywhere), will force botty to shut down
