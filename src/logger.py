@@ -89,12 +89,12 @@ class Logger:
         # sys.stdout = Logger
 
     @staticmethod
-    def remove_file_logger():
+    def remove_file_logger(delete_current_log: bool = False):
         """
         Remove the file logger to not write output to a log file
         """
         Logger.logger.removeHandler(Logger.file_handler)
-        if os.path.exists(Logger._current_log_file_path):
+        if delete_current_log and os.path.exists(Logger._current_log_file_path):
             try:
                 os.remove(Logger._current_log_file_path)
             except PermissionError:

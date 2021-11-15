@@ -18,11 +18,12 @@ class Config:
         self._ui_config = configparser.ConfigParser()
         self._ui_config.read('ui.ini')
         self._custom = configparser.ConfigParser()
-        if os.path.exists('custom.ini'):
-             self._custom.read('custom.ini')
+        if os.environ.get('RUN_ENV') != "test" and os.path.exists('custom.ini'):
+            self._custom.read('custom.ini')
 
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
+            "res": self._select_val("general", "res"),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -82,19 +83,56 @@ class Config:
         self.items = {}
         for key in self._config["items"]:
             self.items[key] = bool(int(self._select_val("items", key)))
+            item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
+            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png"):
+                print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._ui_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
+        self.res = {
+            "scale": 1.0 if self.general["res"] == "1920_1080" else 0.666667,
+        }
+
         self.ui_pos = {}
         for key in self._ui_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(self._select_val("ui_pos_1920_1080", key))
+            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
 
         self.ui_roi = {}
         for key in self._ui_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+            self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
 
 if __name__ == "__main__":
     config = Config()
+
+    # for k in config.ui_pos:
+    #     x = config.ui_pos[k]
+    #     print(f"{k}={x}")
+
+    from pathlib import Path
+    import cv2
+
+    for k in config.items:
+        if not os.path.exists(f"./assets/items/{k}.png"):
+            print(f"Template not found: {k}")
+            # base_name = k.split("_")[2:]
+            # attrib = k.split("_")[0]
+            # base_name = '_'.join(base_name)
+            # if attrib == "uniq":
+            #     # print(f"{base_name}")
+            #     for path in Path("./assets/items").glob(f"*_{base_name}.png"):
+            #         print(k)
+            #         img = cv2.imread(str(path))
+            #         cv2.imwrite(f"./assets/items/{k}.png", img)
+            # else:
+            #     print(f"{attrib}_{base_name}=1")
+    
+    for filename in os.listdir(f'assets/items'):
+        filename = filename.lower()
+        if filename.endswith('.png'):
+            item_name = filename[:-4]
+            blacklist_item = item_name.startswith("bl__")
+            if item_name not in config.items:
+                print(f"Config not found for: " + filename)

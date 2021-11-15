@@ -83,7 +83,7 @@ class HealthManager:
         keyboard.release(self._config.char["stand_still"])
         keyboard.release(self._config.char["show_items"])
         time.sleep(0.01)
-        self._ui_manager.save_and_exit()
+        self._ui_manager.save_and_exit(does_chicken=True)
         self._did_chicken = True
         kill_thread(run_thread)
         self._do_monitor = False
@@ -101,18 +101,18 @@ class HealthManager:
                 # check health
                 health_percentage = self.get_health(img)
                 last_drink = time.time() - self._last_health
-                if health_percentage < self._config.char["take_health_potion"] and last_drink > 2.5:
+                if health_percentage < self._config.char["take_health_potion"] and last_drink > 3.5:
                     self._drink_poition(img, "health")
                     self._last_health = time.time()
-                # give the chicken a 4 sec delay to give time for a healing pot and avoid endless loop of chicken
-                elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 4:
+                # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
+                elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
                     Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
                     self._do_chicken(img, run_thread)
                     break
                 # check mana
                 mana_percentage = self.get_mana(img)
                 last_drink = time.time() - self._last_mana
-                if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 3.0:
+                if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4:
                     self._drink_poition(img, "mana")
                     self._last_mana = time.time()
                 # check merc
@@ -124,7 +124,7 @@ class HealthManager:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img, run_thread)
                         break
-                    elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 5.0:
+                    elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
                         self._drink_poition(img, "health", merc=True)
                         self._last_merc_healh = time.time()
         Logger.debug("Stop health monitoring")
