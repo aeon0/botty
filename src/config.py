@@ -18,8 +18,8 @@ class Config:
         self._ui_config = configparser.ConfigParser()
         self._ui_config.read('ui.ini')
         self._custom = configparser.ConfigParser()
-        if os.path.exists('custom.ini'):
-             self._custom.read('custom.ini')
+        if os.environ.get('RUN_ENV') != "test" and os.path.exists('custom.ini'):
+            self._custom.read('custom.ini')
 
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
@@ -82,6 +82,9 @@ class Config:
         self.items = {}
         for key in self._config["items"]:
             self.items[key] = bool(int(self._select_val("items", key)))
+            item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
+            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png"):
+                print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._ui_config["colors"]:
@@ -103,6 +106,32 @@ class Config:
 if __name__ == "__main__":
     config = Config()
 
-    for k in config.ui_pos:
-        x = config.ui_pos[k]
-        print(f"{k}={x}")
+    # for k in config.ui_pos:
+    #     x = config.ui_pos[k]
+    #     print(f"{k}={x}")
+
+    from pathlib import Path
+    import cv2
+
+    for k in config.items:
+        if not os.path.exists(f"./assets/items/{k}.png"):
+            print(f"Template not found: {k}")
+            # base_name = k.split("_")[2:]
+            # attrib = k.split("_")[0]
+            # base_name = '_'.join(base_name)
+            # if attrib == "uniq":
+            #     # print(f"{base_name}")
+            #     for path in Path("./assets/items").glob(f"*_{base_name}.png"):
+            #         print(k)
+            #         img = cv2.imread(str(path))
+            #         cv2.imwrite(f"./assets/items/{k}.png", img)
+            # else:
+            #     print(f"{attrib}_{base_name}=1")
+    
+    for filename in os.listdir(f'assets/items'):
+        filename = filename.lower()
+        if filename.endswith('.png'):
+            item_name = filename[:-4]
+            blacklist_item = item_name.startswith("bl__")
+            if item_name not in config.items:
+                print(f"Config not found for: " + filename)

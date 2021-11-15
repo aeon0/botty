@@ -17,3 +17,6 @@ dependencies:
     - zstandard
     - pytweening
     - requests
+    - pytest
+    - pytest-env
+    - pytest-pythonpath

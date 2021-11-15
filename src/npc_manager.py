@@ -13,6 +13,7 @@ class Npc:
     QUAL_KEHK = "qual_kehk"
     MALAH = "malah"
     LARZUK = "larzuk"
+    ANYA = "anya"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -43,6 +44,14 @@ class NpcManager:
                     "trade_repair": color_filter(self._template_finder.get_template("LARZUK_TRADE_REPAIR_BTN"), self._config.colors["white"])[1]
                 },
                 "template_group": ["LARZUK_FRONT", "LARZUK_BACK", "LARZUK_SIDE", "LARZUK_SIDE_2", "LARZUK_SIDE_3"]
+            },
+            Npc.ANYA: {
+                "name_tag_white": color_filter(self._template_finder.get_template("ANYA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("ANYA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": color_filter(self._template_finder.get_template("ANYA_TRADE_BTN"), self._config.colors["white"])[1]
+                },
+                "template_group": ["ANYA_FRONT", "ANYA_BACK", "ANYA_SIDE"]
             }
         }
 
@@ -69,7 +78,7 @@ class NpcManager:
                 res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi)
                 if res_w:
                     mouse.click(button="left")
-                    time.sleep(2.5)
+                    time.sleep(1.7)
                     _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
                     res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi)
                     if res:
@@ -104,5 +113,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.QUAL_KEHK)
-    npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
+    npc_manager.open_npc_menu(Npc.ANYA)
+    npc_manager.press_npc_btn(Npc.ANYA, "trade")

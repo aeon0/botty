@@ -47,17 +47,22 @@ class ItemFinder:
         }
         if config.general["res"] == "1920_1080":
             self._gaus_filter = (31, 7)
+            self._folder_name = "items"
+            self._min_score = 0.84
         else:
             self._gaus_filter = (15, 5)
+            self._folder_name = "items_1280_720"
+            self._min_score = 0.75
         # load all templates
+        self._config = config
         self._templates = {}
-        for filename in os.listdir('assets/items'):
+        for filename in os.listdir(f'assets/{self._folder_name}'):
             filename = filename.lower()
             if filename.endswith('.png'):
                 item_name = filename[:-4]
                 blacklist_item = item_name.startswith("bl__")
-                if blacklist_item or (item_name in config.items and config.items[item_name] is True):
-                    data = cv2.imread("assets/items/" + filename)
+                if blacklist_item or (item_name in config.items):
+                    data = cv2.imread(f"assets/{self._folder_name}/" + filename)
                     filtered_template = np.zeros(data.shape, np.uint8)
                     for key in self._template_color_ranges:
                         _, extracted_template = color_filter(data, self._template_color_ranges[key])
@@ -107,7 +112,7 @@ class ItemFinder:
                     if same_type:
                         result = cv2.matchTemplate(cropped_input, template.data, cv2.TM_CCOEFF_NORMED)
                         _, max_val, _, max_loc = cv2.minMaxLoc(result)
-                        if max_val > 0.89:
+                        if max_val > self._min_score:
                             if template.blacklist:
                                 item = None
                                 break
@@ -120,7 +125,7 @@ class ItemFinder:
                                 item.score = max_val
                                 center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                 item.dist = math.dist(center_abs, (0, 0))
-            if item is not None:
+            if item is not None and self._config.items[item.name] is True:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")
@@ -140,6 +145,7 @@ if __name__ == "__main__":
         item_list = item_finder.search(img)
         print(item_list)
         for item in item_list:
+            # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
