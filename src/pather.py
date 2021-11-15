@@ -119,21 +119,6 @@ class Pather:
             (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
         }
-        self._fixed_tele_path = {
-            # to move to boss at save distant location
-            "PINDLE_SAVE_DIST": [(1382, 53), (1685, 105), (1440, 132)],
-            "ELDRITCH_SAVE_DIST": [(978, 95), (845, 109)],
-            # to move to boss location
-            "PINDLE_END": [(1555, 261)],
-            "ELDRITCH_END":  [(1012, 42)],
-            # to move away from items
-            "ELDRITCH_SAVE_TP": [(960, 800)],
-            "PINDLE_SAVE_TP": [(600, 40)],
-            "SHENK_SAVE_TP": [(656, 323)],
-        }
-
-    def get_fixed_path(self, key: str):
-        return self._fixed_tele_path[key]
 
     def _display_all_nodes_debug(self, filter: str = None):
         while 1:
@@ -165,7 +150,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str, char):
-        path = self._fixed_tele_path[key]
+        path = self._config.path[key]
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
             x_m += int(random.random() * 6 - 3)
@@ -273,6 +258,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("PINDLE", char)
-    pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
+    pather.traverse_nodes_fixed("pindle_save_dist", char)
+    # pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
     # pather._display_all_nodes_debug(filter="A5_TOWN")

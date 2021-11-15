@@ -3,7 +3,7 @@ import os
 from template_finder import TemplateFinder
 from config import Config
 from screen import Screen
-from utils.misc import color_filter, cut_roi
+from utils.misc import color_filter, wait
 from logger import Logger
 import keyboard
 from utils.custom_mouse import mouse
@@ -70,15 +70,15 @@ class NpcManager:
             for result in results:
                 pos = result["pos"]
                 x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-                mouse.move(x_m, y_m)
-                time.sleep(0.2)
+                mouse.move(x_m, y_m, randomize=3, delay_factor=[0.9, 1.5])
+                wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
                 res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.92, roi=roi)
                 res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.92, roi=roi)
                 if res_w:
                     mouse.click(button="left")
-                    time.sleep(1.7)
+                    wait(1.4, 1.7)
                     _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
                     res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.92, roi=roi)
                     if res:
@@ -92,10 +92,10 @@ class NpcManager:
         res, pos = self._template_finder.search(self._npcs[npc_key]["action_btns"][action_btn_key], filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"])
         if res:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-            mouse.move(x_m, y_m)
-            time.sleep(0.3)
+            mouse.move(x_m, y_m, randomize=3, delay_factor=[1.0, 1.5])
+            wait(0.2, 0.4)
             mouse.click(button="left")
-            time.sleep(0.2)
+            wait(0.3, 0.4)
         else:
             Logger.error(f"Could not find {action_btn_key} btn. Should not happen! Continue...")
             keyboard.send("esc")
