@@ -259,6 +259,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("pindle_save_dist", char)
+    pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
-    pather._display_all_nodes_debug(filter="A5_TOWN")
+    # pather._display_all_nodes_debug(filter="A5_TOWN")
