@@ -1,4 +1,4 @@
-from utils.misc import kill_thread, color_filter, cut_roi
+from utils.misc import kill_thread, color_filter, cut_roi, wait
 from template_finder import TemplateFinder
 from screen import Screen
 from config import Config
@@ -15,7 +15,8 @@ class DeathManager:
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
-        _, self._you_have_died_filtered = color_filter(cv2.imread("assets/templates/you_have_died.png"), self._config.colors["red"])
+        res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
+        _, self._you_have_died_filtered = color_filter(cv2.imread(f"assets/templates{res_str}/you_have_died.png"), self._config.colors["red"])
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
@@ -50,8 +51,9 @@ class DeathManager:
                 kill_thread(run_thread)
                 # clean up key presses that might be pressed in the run_thread
                 keyboard.release(self._config.char["stand_still"])
+                wait(0.1, 0.2)
                 keyboard.release(self._config.char["show_items"])
-                time.sleep(30)
+                time.sleep(20)
                 self._died = True
                 if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:
                     # in this case chicken executed and left the game, but we were still dead.

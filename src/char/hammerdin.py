@@ -53,7 +53,7 @@ class Hammerdin(IChar):
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
         if self._config.char["static_path_pindle"]:
-            self._pather.traverse_nodes_fixed("PINDLE_END", self)
+            self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=0.5)
         self._cast_hammers(1)
@@ -66,7 +66,7 @@ class Hammerdin(IChar):
 
     def kill_eldritch(self) -> bool:
         if self._config.char["static_path_eldritch"]:
-            self._pather.traverse_nodes_fixed("ELDRITCH_END", self)
+            self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.5)
         wait(0.05, 0.1)
