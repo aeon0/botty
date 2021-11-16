@@ -211,7 +211,7 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     while 1:
         img = screen.grab()
-        success, pos = template_finder.search("BLUE_PORTAL", img, threshold=0.67)
+        success, pos = template_finder.search("REPAIR_BTN", img, threshold=0.67)
         print(template_finder.last_score)
         if success:
             cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)
