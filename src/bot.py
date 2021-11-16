@@ -14,7 +14,7 @@ from health_manager import HealthManager
 from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
-from utils.misc import wait, send_discord
+from utils.misc import wait, send_discord, close_down_d2
 import keyboard
 import threading
 import time
@@ -93,6 +93,16 @@ class Bot:
                 break
         return not found_unfinished_run
 
+    def _shut_down(self):
+        Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
+        if self._config.general["custom_discord_hook"] != "":
+            send_discord_thread = threading.Thread(target=send_discord, args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"]))
+            send_discord_thread.daemon = True
+            send_discord_thread.start()
+        self._ui_manager.save_and_exit()
+        close_down_d2()
+        os._exit(1)
+
     def on_create_game(self):
         if self._timer is not None:
             delay = self._config.general["min_game_length_s"] - (time.time() - self._timer)
@@ -103,15 +113,11 @@ class Bot:
         self._timer = time.time()
         found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=70)
         if not found:
-            Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
-            if self._config.general["custom_discord_hook"] != "":
-                send_discord_thread = threading.Thread(target=send_discord, args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"]))
-                send_discord_thread.daemon = True
-                send_discord_thread.start()
-            self._ui_manager.save_and_exit()
-            os._exit(1)
+            self._shut_down()
         self._ui_manager.start_game()
-        self._template_finder.search_and_wait("A5_TOWN_1")
+        found, _ = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=50)
+        if not found:
+            self._shut_down()
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
         # Make sure these keys are released
@@ -235,7 +241,8 @@ class Bot:
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
                 self.success &= bot._char.select_by_template("A5_RED_PORTAL")
-                self.success &= bot._template_finder.search_and_wait("PINDLE_0", time_out=20)[0]
+                time.sleep(0.5)
+                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
                 bot._char.pre_buff()
@@ -269,7 +276,8 @@ class Bot:
                 bot._char.select_by_template("A5_WP")
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)
-                self.success = bot._template_finder.search_and_wait("ELDRITCH_0", time_out=20)[0]
+                time.sleep(0.5)
+                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
                 bot._char.pre_buff()
@@ -343,7 +351,7 @@ class Bot:
         success = self._char.tp_town()
         self._tps_left -= 1
         if success:
-            success, _= self._template_finder.search_and_wait("A5_TOWN_1", time_out=10)
+            success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START
