@@ -179,7 +179,7 @@ class UiManager():
                 Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
                 if mode_info == "online":
                     Logger.warning("You are creating a game in online mode!")
-                mouse.move(x, y, randomize=[70, 20], delay_factor=[1.0, 1.8])
+                mouse.move(x, y, randomize=[50, 15], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
@@ -200,10 +200,9 @@ class UiManager():
                 Logger.debug("Could not find btn, try from start again")
                 return self.start_game()
 
-            # sanity x y check. Note: not checking y range as it often detects nightmare button as hell btn, not sure why
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos[f"{difficulty}_x"], self._config.ui_pos[f"{difficulty}_y"]))
             Logger.debug(f"Found {difficulty} Btn -> clicking it")
-            mouse.move(x, y, randomize=[70, 20], delay_factor=[1.0, 1.8])
+            mouse.move(x, y, randomize=[50, 15], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
             break

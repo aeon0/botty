@@ -120,6 +120,12 @@ class Pather:
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
         }
 
+    def _get_scaled_node(self, key: int, template: str):
+        return (
+            int(self._nodes[key][template][0] * self._config.scale),
+            int(self._nodes[key][template][1] * self._config.scale)
+        )
+
     def _display_all_nodes_debug(self, filter: str = None):
         while 1:
             img = self._screen.grab()
@@ -132,7 +138,7 @@ class Pather:
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                                 # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._nodes[node_idx][template_type]
+                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
                                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                                 x, y = self._screen.convert_abs_to_screen(node_pos_abs)
@@ -194,7 +200,7 @@ class Pather:
                 # Get reference position of template in abs coordinates
                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                 # Calc the abs node position with the relative coordinates (relative to ref)
-                node_pos_rel = node[template_type]
+                node_pos_rel = self._get_scaled_node(node_idx, template_type)
                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                 return node_pos_abs

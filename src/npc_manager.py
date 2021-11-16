@@ -73,13 +73,13 @@ class NpcManager:
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.92, roi=roi)
-                res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.92, roi=roi)
+                res_w, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi)
+                res_g, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi)
                 if res_w:
                     mouse.click(button="left")
                     wait(1.4, 1.7)
                     _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.92, roi=roi)
+                    res, _ = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi)
                     if res:
                         return True
                 elif res_g:
@@ -90,7 +90,7 @@ class NpcManager:
         _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["white"])
         res, pos = self._template_finder.search(
             self._npcs[npc_key]["action_btns"][action_btn_key], 
-            filtered_inp, 0.92, roi=self._config.ui_roi["cut_skill_bar"], 
+            filtered_inp, 0.85, roi=self._config.ui_roi["cut_skill_bar"], 
             normalize_monitor=True
         )
         if res:

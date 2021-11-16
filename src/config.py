@@ -12,7 +12,10 @@ class Config:
         else:
             return self._game_config[section][key]
 
-    def __init__(self):
+    def __init__(self, print_warnings: bool = False):
+        # print_warnings, what a hack... here it is, not making the effort
+        # passing a single config instance through bites me in the ass
+        self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
         self._config.read('params.ini')
         self._game_config = configparser.ConfigParser()
@@ -24,6 +27,7 @@ class Config:
         self.general = {
             "monitor": int(self._select_val("general", "monitor")),
             "res": self._select_val("general", "res"),
+            "offset_top": int(self._select_val("general", "offset_top")),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -86,28 +90,26 @@ class Config:
         for key in self._config["items"]:
             self.items[key] = int(self._select_val("items", key))
             item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
-            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png"):
+            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._game_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
-        self.res = {
-            "scale": 1.0 if self.general["res"] == "1920_1080" else 0.666667,
-        }
+        self.scale = 1.0 if self.general["res"] == "1920_1080" else 0.666667
 
         self.ui_pos = {}
         for key in self._game_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
+            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.scale))
 
         self.ui_roi = {}
         for key in self._game_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+            self.ui_roi[key] = np.array([int(round(float(x) * self.scale)) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
         self.path = {}
         for key in self._game_config["path"]:
-            self.path[key] = np.reshape(np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("path", key).split(",")]), (-1, 2))
+            self.path[key] = np.reshape(np.array([int(round(float(x) * self.scale)) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
 
 

@@ -23,15 +23,19 @@ class Screen:
         config = Config()
         self._monitor_roi = self._sct.monitors[monitor_idx]
         # For windowed screens it is expected to always have them at the top left edge and adjust offset_top then
-        self._monitor_roi["top"] += config.ui_pos["offset_top"]
+        self._monitor_roi["top"] += config.general["offset_top"]
         self._monitor_roi["width"] = config.ui_pos["screen_width"]
         self._monitor_roi["height"] = config.ui_pos["screen_height"]
+        self._monitor_x_range = (self._monitor_roi["left"] + 2, self._monitor_roi["left"] + self._monitor_roi["width"] - 2)
+        self._monitor_y_range = (self._monitor_roi["top"] + 2, self._monitor_roi["top"] + self._monitor_roi["height"] - 2)
 
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
 
     def convert_screen_to_monitor(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        return (screen_coord[0] + self._monitor_roi["left"], screen_coord[1] + self._monitor_roi["top"])
+        x = screen_coord[0] + self._monitor_roi["left"]
+        y = screen_coord[1] + self._monitor_roi["top"]
+        return (np.clip(x, *self._monitor_x_range), np.clip(y, *self._monitor_y_range))
 
     def convert_abs_to_screen(self, abs_coord: Tuple[float, float]) -> Tuple[float, float]:
         # abs has it's center on char which is the center of the screen
@@ -56,7 +60,25 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     while 1:
         start = time.time()
-        test_img = screen.grab()
+        test_img = screen.grab().copy()
         print(time.time() - start)
+
+        show_roi = True
+        show_pt = True
+
+        if show_roi:
+            for roi_key in config.ui_roi:
+                x, y, w, h = config.ui_roi[roi_key]
+                # t = screen.convert_screen_to_monitor((0, 0))
+                # p1 = screen.convert_screen_to_monitor((x, y))
+                # p2 = screen.convert_screen_to_monitor((x+w, y+h))
+                p1 = (x, y)
+                p2 = (x+w, y+h)
+                cv2.rectangle(test_img, p1, p2, (0, 255, 0), 2)
+                cv2.putText(test_img, roi_key, (p1[0], p1[1]+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA)
+
+        if show_pt:
+            pass
+
         cv2.imshow("test", test_img)
         cv2.waitKey(1)

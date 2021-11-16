@@ -7,6 +7,7 @@ import numpy as np
 import random
 import math
 import time
+from config import Config
 from typing import Union, Tuple
 
 
@@ -182,6 +183,9 @@ class HumanCurve():
         return res
 
 class mouse:
+    # TODO: Not sure nice, this will execute every single time someone imports custom_mouse...
+    _config = Config()
+
     @staticmethod
     def sleep(duration, get_now=time.perf_counter):
         time.sleep(duration)
@@ -236,11 +240,15 @@ class mouse:
             y = from_point[1] + y
 
         if type(randomize) is int:
-            x = int(x) + random.randrange(-randomize, +randomize)
-            y = int(y) + random.randrange(-randomize, +randomize)
+            randomize = int(randomize * mouse._config.scale)
+            if randomize > 0:
+                x = int(x) + random.randrange(-randomize, +randomize)
+                y = int(y) + random.randrange(-randomize, +randomize)
         else:
-            x = int(x) + random.randrange(-randomize[0], +randomize[0])
-            y = int(y) + random.randrange(-randomize[1], +randomize[1])
+            randomize = (int(randomize[0] * mouse._config.scale), int(randomize[1] * mouse._config.scale))
+            if randomize[1] > 0 and randomize[0] > 0:
+                x = int(x) + random.randrange(-randomize[0], +randomize[0])
+                y = int(y) + random.randrange(-randomize[1], +randomize[1])
 
 
         human_curve = HumanCurve(from_point, (x, y), offsetBoundaryX=offsetBoundaryX, offsetBoundaryY=offsetBoundaryY, targetPoints=targetPoints)
