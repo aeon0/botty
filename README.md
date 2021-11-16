@@ -8,21 +8,6 @@ And please. I urge you to actually read that README! It will make your life a lo
 
 [![Watch the video](assets/docs/video_thumbnail.png)](https://vimeo.com/641410429)
 
-## What it does
-- Run Pindle, Eldtritch, Shenk
-- Pickit with per item config
-- Stash picked up items (using all 4 stashes)
-- Prebuff
-- Revive Merc if dead
-- Heal at Malah if needed
-- Shop for tps and repair at Lazurk
-- Take potions (health and mana) and chicken if in trouble during fights
-- Check for death. In this case start another game and pick up corpse.
-- Supported builds: Sorceress (Blizz, Light, Meteor), Hammerdin
-- Auto Settings and Debug Color Mode to easily verify your settings
-- Runs in Hyper-V
-- Highly configurable, consult the param.ini section for more details
-
 ## Getting started
 ### 1) Graphics and Gameplay Settings
 All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Color Test Mode" to verify your settings.</br>
@@ -105,6 +90,7 @@ potion2 | Hotkey to take poition in slot 2
 potion3 | Hotkey to take poition in slot 3
 potion4 | Hotkey to take poition in slot 4
 cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
+es_available | 0: no energy shield is used on sorc, 1: sorc uses energy shield (must provide correct hotkey in [sorceress]!)
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
@@ -115,7 +101,7 @@ teleport | Hotkey for teleport
 skill_left | Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike)
 skill_right | Hotkey for skill that is used on right mouse btn (e.g. Blizzard)
 forzen_armor | Hotkey for frozen armor (or any of the other armors)
-telekinesis | Hotkey for telekinesis
+energy_shield | Hotkey for energy_shield, only used if es_available is 1
 
  [hammerdin]                    | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -130,4 +116,4 @@ blessed_hammer | Hotkey for Blessed Hammer
 item_type | Select "1" if item should be picked up, "0" if not.
 
 ## Support this project
-This project is free. Support it by contributing in any technical way, giving feedback, PRs or by submitting issues. That being said, I am not above accepting some pixel currency :) So if you want to send some fg my way to keep my dopamine high, here is my d2jsp: aeon0 (https://forums.d2jsp.org/user.php?i=768967).
+This project is free. Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.
