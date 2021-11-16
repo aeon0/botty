@@ -38,7 +38,7 @@ os.system(f"mkdir {botty_dir}")
 with open(f"{botty_dir}/custom.ini", "w") as f: 
     f.write("; Add parameters you want to overwrite from param.ini here")
 shutil.copy("run.exe", f"{botty_dir}/")
-shutil.copy("ui.ini", f"{botty_dir}/")
+shutil.copy("game.ini", f"{botty_dir}/")
 shutil.copy("params.ini", f"{botty_dir}/")
 shutil.copy("README.md", f"{botty_dir}/")
 shutil.copytree("assets", f"{botty_dir}/assets")

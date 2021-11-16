@@ -10,13 +10,13 @@ class Config:
         elif section in self._config:
             return self._config[section][key]
         else:
-            return self._ui_config[section][key]
+            return self._game_config[section][key]
 
     def __init__(self):
         self._config = configparser.ConfigParser()
         self._config.read('params.ini')
-        self._ui_config = configparser.ConfigParser()
-        self._ui_config.read('ui.ini')
+        self._game_config = configparser.ConfigParser()
+        self._game_config.read('game.ini')
         self._custom = configparser.ConfigParser()
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('custom.ini'):
             self._custom.read('custom.ini')
@@ -35,6 +35,7 @@ class Config:
             "send_drops_to_discord": bool(int(self._select_val("general", "send_drops_to_discord"))),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
+            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }
 
         self.routes = {}
@@ -88,7 +89,7 @@ class Config:
                 print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
-        for key in self._ui_config["colors"]:
+        for key in self._game_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
         self.res = {
@@ -96,12 +97,17 @@ class Config:
         }
 
         self.ui_pos = {}
-        for key in self._ui_config["ui_pos_1920_1080"]:
+        for key in self._game_config["ui_pos_1920_1080"]:
             self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
 
         self.ui_roi = {}
-        for key in self._ui_config["ui_roi_1920_1080"]:
+        for key in self._game_config["ui_roi_1920_1080"]:
             self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+
+        self.path = {}
+        for key in self._game_config["path"]:
+            self.path[key] = np.reshape(np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("path", key).split(",")]), (-1, 2))
+
 
 
 if __name__ == "__main__":

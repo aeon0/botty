@@ -55,7 +55,7 @@ class Sorceress(IChar):
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
         if self._config.char["static_path_pindle"]:
-            pindle_pos_abs = self._screen.convert_screen_to_abs(self._pather.get_fixed_path("PINDLE_END")[0])
+            pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         else:
             pindle_pos_abs = self._pather.find_abs_node_pos(104, self._screen.grab())
         if pindle_pos_abs is not None:
@@ -67,7 +67,7 @@ class Sorceress(IChar):
             wait(0.1, 0.15)
             # Move to items
             if self._config.char["static_path_pindle"]:
-                self._pather.traverse_nodes_fixed("PINDLE_END", self)
+                self._pather.traverse_nodes_fixed("pindle_end", self)
             else:
                 self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, force_tp=True)
             return True
@@ -85,7 +85,7 @@ class Sorceress(IChar):
             wait(0.2, 0.3)
             # Move to items
             if self._config.char["static_path_eldritch"]:
-                self._pather.traverse_nodes_fixed("ELDRITCH_END", self)
+                self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
                 self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.6, force_tp=True)
             return True
