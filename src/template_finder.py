@@ -185,11 +185,20 @@ class TemplateFinder:
                 return True, ref_point
         return False, None
 
-    def search_and_wait(self, ref: Union[str, List[str]], roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
+    def search_and_wait(
+        self,
+        ref: Union[str, List[str]],
+        roi: List[float] = None,
+        time_out: float = None,
+        threshold: float = 0.7,
+        take_ss: bool = True
+    ) -> Tuple[bool, Tuple[float, float]]:
         """
         Helper function that will loop and keep searching for a template
         :param ref: Key of template which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
+        :param threshold: Adapt threshold for being found
+        :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
         Logger.debug(f"Waiting for Template {ref}")
@@ -208,7 +217,7 @@ class TemplateFinder:
                 if success:
                     return True, pos
                 elif time_out is not None and (time.time() - start) > time_out:
-                    if self._config.general["info_screenshots"]:
+                    if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     return False, None
 
