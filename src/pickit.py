@@ -61,22 +61,16 @@ class PickIt:
                     time.sleep(0.1)
                     mouse.click(button="left")
                     time.sleep(0.5)
-                    
-                    if found_items:
-                        try:
-                            runeLvl = int(closest_item.name.split('_')[1])
-                        except:
-                            runeLvl=0
 
-                    if found_items and ((runeLvl >= 23) or ("tt_" in closest_item.name)):
+                    if found_items and self._config.items[closest_item.name] == 2:
                         
                         if self._config.general["send_drops_to_discord"]:
-                            send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name,))
+                            send_discord_thread = threading.Thread(target=send_discord, args=(f"Botty just found: {closest_item.name}",))
                             send_discord_thread.daemon = True
                             send_discord_thread.start()
     
                         if self._config.general["custom_discord_hook"] != "":
-                            send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name, self._config.general["custom_discord_hook"]))
+                            send_discord_thread = threading.Thread(target=send_discord, args=(f"Botty just found: {closest_item.name}", self._config.general["custom_discord_hook"]))
                             send_discord_thread.daemon = True
                             send_discord_thread.start()
 
