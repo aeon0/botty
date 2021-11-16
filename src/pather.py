@@ -60,7 +60,7 @@ class Pather:
             4: {"A5_TOWN_1": (-701, 400), "A5_TOWN_2": (440, 169), "A5_TOWN_3": (-400, -208), "A5_TOWN_4": (243, -244)},
             5: {"A5_TOWN_2": (555-100, 429-100), "A5_TOWN_3": (-285-100, 51-100), "A5_TOWN_4": (358-100, 15-100)},
             6: {"A5_TOWN_3": (-775-100, 382-120), "A5_TOWN_4": (-132-100, 346-120), "A5_TOWN_5": (80-100, -240-120), "A5_TOWN_6": (560-100, 211-120)},
-            8: {"A5_TOWN_5": (-323+30, 192-200), "A5_TOWN_7": (867+30, 69-200)},
+            8: {"A5_TOWN_6": (190, 440), "A5_TOWN_5": (-323+30, 192-200), "A5_TOWN_7": (867+30, 69-200)},
             9: {"A5_TOWN_5": (-611, 250), "A5_TOWN_7": (579, 127)},
             10: {"A5_TOWN_4": (-708, 87), "A5_TOWN_6": (-16, -48), "A5_TOWN_8": (482, 196)},
             11: {"A5_TOWN_6": (-448, -322), "A5_TOWN_8": (50, -78), "A5_TOWN_9": (11, 346)},
@@ -259,6 +259,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes_fixed("pindle_save_dist", char)
+    # pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
-    # pather._display_all_nodes_debug(filter="A5_TOWN")
+    pather._display_all_nodes_debug(filter="A5_TOWN")

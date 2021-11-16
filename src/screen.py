@@ -6,6 +6,7 @@ from logger import Logger
 from typing import Tuple
 from config import Config
 import os
+import numpy as np
 
 
 class Screen:
@@ -31,7 +32,10 @@ class Screen:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
 
     def convert_screen_to_monitor(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        return (screen_coord[0] + self._monitor_roi["left"], screen_coord[1] + self._monitor_roi["top"])
+        return (
+            np.clip(screen_coord[0] + self._monitor_roi["left"], self._monitor_roi["top"] , self._monitor_roi["top"]  + self._monitor_roi["height"]),
+            np.clip(screen_coord[1] + self._monitor_roi["top"] , self._monitor_roi["left"], self._monitor_roi["left"] + self._monitor_roi["width"])
+        )
 
     def convert_abs_to_screen(self, abs_coord: Tuple[float, float]) -> Tuple[float, float]:
         # abs has it's center on char which is the center of the screen
