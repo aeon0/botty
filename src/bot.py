@@ -116,6 +116,7 @@ class Bot:
         self._curr_location = Location.A5_TOWN_START
         # Make sure these keys are released
         keyboard.release(self._config.char["stand_still"])
+        wait(0.05, 0.15)
         keyboard.release(self._config.char["show_items"])
         self.trigger("maintenance")
 
@@ -240,7 +241,7 @@ class Bot:
                 bot._char.pre_buff()
                 wait(0.2, 0.3)
                 if bot._config.char["static_path_pindle"]:
-                    bot._pather.traverse_nodes_fixed("PINDLE_SAVE_DIST", bot._char)
+                    bot._pather.traverse_nodes_fixed("pindle_save_dist", bot._char)
                 else:
                     bot._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, bot._char)
                 bot._char.kill_pindle()
@@ -248,7 +249,7 @@ class Bot:
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 # in order to move away for items to have a clear tp, move to the end of the hall
                 if not bot.is_last_run():
-                    bot._pather.traverse_nodes_fixed("PINDLE_SAVE_TP", bot._char)
+                    bot._pather.traverse_nodes_fixed("pindle_save_tp", bot._char)
                 wait(0.2, 0.3)
                 self.success = True
                 return
@@ -275,14 +276,14 @@ class Bot:
                 wait(0.2, 0.3)
                 # eldritch
                 if bot._config.char["static_path_eldritch"]:
-                    bot._pather.traverse_nodes_fixed("ELDRITCH_SAVE_DIST", bot._char)
+                    bot._pather.traverse_nodes_fixed("eldritch_save_dist", bot._char)
                 else:
                     bot._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, bot._char)
                 bot._char.kill_eldritch()
                 wait(0.4)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
                 if not bot.is_last_run() and not bot._route_config["run_shenk"]:
-                    bot._pather.traverse_nodes_fixed("ELDRITCH_SAVE_TP", bot._char)
+                    bot._pather.traverse_nodes_fixed("eldritch_save_tp", bot._char)
                 # shenk
                 if bot._route_config["run_shenk"]:
                     self.success = bot._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, bot._char)
@@ -297,7 +298,7 @@ class Bot:
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
                     # in order to move away for items to have a clear tp, move to the end of the hall
                     if not bot.is_last_run():
-                        bot._pather.traverse_nodes_fixed("SHENK_SAVE_TP", bot._char)
+                        bot._pather.traverse_nodes_fixed("shenk_save_tp", bot._char)
                 wait(0.5, 0.6)
                 self.success = True
                 return
