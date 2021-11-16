@@ -65,8 +65,11 @@ if __name__ == "__main__":
         if show_roi:
             for roi_key in config.ui_roi:
                 x, y, w, h = config.ui_roi[roi_key]
-                p1 = screen.convert_screen_to_monitor((x, y))
-                p2 = screen.convert_screen_to_monitor((x+w, y+h))
+                # t = screen.convert_screen_to_monitor((0, 0))
+                # p1 = screen.convert_screen_to_monitor((x, y))
+                # p2 = screen.convert_screen_to_monitor((x+w, y+h))
+                p1 = (x, y)
+                p2 = (x+w, y+h)
                 cv2.rectangle(test_img, p1, p2, (0, 255, 0), 2)
                 cv2.putText(test_img, roi_key, (p1[0], p1[1]+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA)
 
