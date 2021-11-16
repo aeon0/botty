@@ -35,6 +35,8 @@ class Config:
             "difficulty": self._select_val("general", "difficulty"),
             "send_drops_to_discord": bool(int(self._select_val("general", "send_drops_to_discord"))),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
+            "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
+            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }
 
         self.routes = {}
@@ -59,6 +61,7 @@ class Config:
             "potion3": self._select_val("char", "potion3"),
             "potion4": self._select_val("char", "potion4"),
             "es_available": bool(int(self._select_val("char", "es_available"))),
+            "ts_available": bool(int(self._select_val("char", "ts_available"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
@@ -82,7 +85,7 @@ class Config:
 
         self.items = {}
         for key in self._config["items"]:
-            self.items[key] = bool(int(self._select_val("items", key)))
+            self.items[key] = int(self._select_val("items", key))
             item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
             if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png"):
                 print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")

@@ -60,6 +60,8 @@ randomize_runs | If 0, the order will always be pindle -> eldritch/shenk. If 1 t
 difficulty | Set to `normal` `nightmare` or `hell` for game difficulty 
 send_drops_to_discord | If 1 sends your drops to the discord channel "drop-log"
 custom_discord_hook | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume
+info_screenshots | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while 
+loot_screenshots | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while...
 
  [routes]                       | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -91,8 +93,9 @@ potion1 | Hotkey to take poition in slot 1
 potion2 | Hotkey to take poition in slot 2
 potion3 | Hotkey to take poition in slot 3
 potion4 | Hotkey to take poition in slot 4
-cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
 es_available | 0: no energy shield is used on sorc, 1: sorc uses energy shield (must provide correct hotkey in [sorceress]!)
+ts_available | 0: no thunderstorm is used on sorc, 1: sorc uses thunder storm (must provide correct hotkey in [sorceress]!)
+cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
@@ -103,7 +106,8 @@ teleport | Hotkey for teleport
 skill_left | Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike)
 skill_right | Hotkey for skill that is used on right mouse btn (e.g. Blizzard)
 forzen_armor | Hotkey for frozen armor (or any of the other armors)
-energy_shield | Hotkey for energy_shield, only used if es_available is 1
+energy_shield | Hotkey for energy shield, only used if es_available is 1
+thunder_storm | Hotkey for thunder storm, only used if ts_available is 1
 
  [hammerdin]                    | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -115,7 +119,7 @@ blessed_hammer | Hotkey for Blessed Hammer
 
  [items]                        | Descriptions                                
 --------------------------------|---------------------------------------------
-item_type | Select "1" if item should be picked up, "0" if not.
+item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent.
 
 ## Support this project
 This project is free. Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.

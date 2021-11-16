@@ -37,32 +37,38 @@ class DeathManager:
         mouse.click(button="left")
         self._died = False
 
+    def handle_death_screen(self, run_thread = None):
+        roi_img = cut_roi(self._screen.grab(), self._config.ui_roi["death"])
+        _, filtered_roi_img = color_filter(roi_img, self._config.colors["red"])
+        res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, _ = cv2.minMaxLoc(res)
+        if max_val > 0.9:
+            self._died = True
+            Logger.warning("You have died! Waiting 6 sec to make sure chicken does not do any funny during with this logic.")
+            # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
+            if run_thread is not None:
+                kill_thread(run_thread)
+            # clean up key presses that might be pressed in the run_thread
+            keyboard.release(self._config.char["stand_still"])
+            wait(0.1, 0.2)
+            keyboard.release(self._config.char["show_items"])
+            time.sleep(6)
+            if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:
+                # in this case chicken executed and left the game, but we were still dead.
+                return True
+            keyboard.send("esc")
+            self._template_finder.search_and_wait("A5_TOWN_1")
+            time.sleep(2)
+            return True
+        return False
+
     def start_monitor(self, run_thread: Thread):
         self._do_monitor = True
         while self._do_monitor:
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
-            roi_img = cut_roi(self._screen.grab(), self._config.ui_roi["death"])
-            _, filtered_roi_img = color_filter(roi_img, self._config.colors["red"])
-            res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, _ = cv2.minMaxLoc(res)
-            if max_val > 0.94:
-                Logger.warning("You have died! Waiting 30 sec to make sure chicken does not do any funny during with this logic.")
-                # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
-                kill_thread(run_thread)
-                # clean up key presses that might be pressed in the run_thread
-                keyboard.release(self._config.char["stand_still"])
-                wait(0.1, 0.2)
-                keyboard.release(self._config.char["show_items"])
-                time.sleep(20)
-                self._died = True
-                if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:
-                    # in this case chicken executed and left the game, but we were still dead.
-                    return
-                else:
-                    keyboard.send("esc")
-                    self._template_finder.search_and_wait("A5_TOWN_1")
-                    time.sleep(2)
-                    self._do_monitor = False
+            if self.handle_death_screen(run_thread):
+                self._do_monitor = False
+                return
 
 
 # Testing:

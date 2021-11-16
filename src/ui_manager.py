@@ -313,7 +313,8 @@ class UiManager():
         img = self._screen.grab()
         if self._inventory_has_items(img, num_loot_columns):
             Logger.info("Stash page is full, selecting next stash")
-            cv2.imwrite("debug_info_inventory_not_empty.png", img)
+            if self._config.general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             self._curr_stash += 1
             if self._curr_stash > 3:
                 Logger.error("All stash is full, quitting")
