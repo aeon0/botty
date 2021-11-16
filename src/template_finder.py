@@ -197,7 +197,8 @@ class TemplateFinder:
                 if success:
                     return True, pos
                 elif time_out is not None and (time.time() - start) > time_out:
-                    cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
+                    if self._config.general["info_screenshots"]:
+                        cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     return False, None
 
 
