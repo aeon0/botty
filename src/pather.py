@@ -244,7 +244,7 @@ class Pather:
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if time_out > 1.5:
                             if self._config.general["info_screenshots"]:
-                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + {time.strftime("%Y%m%d_%H%M%S")} + ".png", img)
+                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
                 node_pos_abs = self.find_abs_node_pos(node_idx, img)
