@@ -75,14 +75,25 @@ class IChar:
         start = time.time()
         while (time.time() - start)  < 7:
             img = self._screen.grab()
-            success1, pos1 = self._template_finder.search("BLUE_PORTAL", img, threshold=0.66, roi=roi)
-            success2, pos2 = self._template_finder.search("BLUE_PORTAL_2", img, threshold=0.7, roi=roi)
+            success1, pos1 = self._template_finder.search(
+                "BLUE_PORTAL", 
+                img, 
+                threshold=0.66, 
+                roi=roi, 
+                normalize_monitor=True
+            )
+            success2, pos2 = self._template_finder.search(
+                "BLUE_PORTAL_2", 
+                img, 
+                threshold=0.7, 
+                roi=roi, 
+                normalize_monitor=True
+            )
             if success1 or success2:
                 pos = pos1 if success1 else pos2
                 pos = (pos[0], pos[1] + 48)
-                x, y = self._screen.convert_screen_to_monitor(pos)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
-                mouse.move(x, y, randomize=6, delay_factor=[0.9, 1.1])
+                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 return True
