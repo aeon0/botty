@@ -139,7 +139,8 @@ class TemplateFinder:
     def search(
         self, 
         ref: Union[str, np.ndarray],
-        inp_img: np.ndarray, threshold: float = 0.7, 
+        inp_img: np.ndarray,
+        threshold: float = 0.7, 
         roi: List[float] = None,
         normalize_monitor: bool = False, 
     ) -> Tuple[bool, Tuple[float, float]]:

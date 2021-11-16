@@ -69,8 +69,7 @@ class NpcManager:
 
             for result in results:
                 pos = result["pos"]
-                x_m, y_m = self._screen.convert_screen_to_monitor(pos)
-                mouse.move(x_m, y_m, randomize=3, delay_factor=[0.9, 1.5])
+                mouse.move(*pos, randomize=3, delay_factor=[0.9, 1.5])
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
