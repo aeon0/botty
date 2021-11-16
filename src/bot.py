@@ -315,20 +315,27 @@ class Bot:
 
     def on_end_game(self):
         if self._health_manager.did_chicken() or self._death_manager.died():
+            Logger.info("End game while chicken or death happened. Checking where we are at.")
             # This is a tricky state as we send different actions in different threads.
             # Chicken could have been succesfull which means we are at hero selection screen
             # Chicken could have been unsuccesfull, which means we are naked in a5_town
-            time.sleep(3) # just to take our time here
+            # Chicken could have been unsuccesfull, but it already stopped main thread and death manager did not have time to check death -> death screen
+            time.sleep(1.5)
             is_loading = True
             while is_loading:
                 is_loading = self._template_finder.search("LOADING", self._screen.grab())[0]
                 time.sleep(0.5)
+            time.sleep(1.5)
             # Okay we are sure we are not in loading screen, let's check if we are in hero selection or in a5 town
             img = self._screen.grab()
             if self._template_finder.search("A5_TOWN_1", img)[0]:
+                Logger.info("We are at town, save and exit game.")
                 self._ui_manager.save_and_exit()
             elif self._template_finder.search("D2_LOGO_HS", img)[0]:
-                pass # no need to do anything
+                Logger.info("We are at hero selection.")
+            elif self._death_manager.handle_death_screen():
+                Logger.info("For some reason we were still at death screen, but Death Manager should have sent us back to town. save and exit game.")
+                self._ui_manager.save_and_exit()
             else:
                 Logger.error("Could not determine location after chicken / death. Can not continue...")
                 os._exit(1)
