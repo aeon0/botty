@@ -12,7 +12,10 @@ class Config:
         else:
             return self._game_config[section][key]
 
-    def __init__(self):
+    def __init__(self, print_warnings: bool = False):
+        # print_warnings, what a hack... here it is, not making the effort
+        # passing a single config instance through bites me in the ass
+        self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
         self._config.read('params.ini')
         self._game_config = configparser.ConfigParser()
@@ -87,7 +90,7 @@ class Config:
         for key in self._config["items"]:
             self.items[key] = int(self._select_val("items", key))
             item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
-            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png"):
+            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}

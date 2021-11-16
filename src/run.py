@@ -21,7 +21,7 @@ def start_bot():
 
 
 if __name__ == "__main__":
-    config = Config()
+    config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif config.general["logg_lvl"] == "debug":

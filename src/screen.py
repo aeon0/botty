@@ -26,12 +26,16 @@ class Screen:
         self._monitor_roi["top"] += config.general["offset_top"]
         self._monitor_roi["width"] = config.ui_pos["screen_width"]
         self._monitor_roi["height"] = config.ui_pos["screen_height"]
+        self._monitor_x_range = (self._monitor_roi["left"] + 2, self._monitor_roi["left"] + self._monitor_roi["width"] - 2)
+        self._monitor_y_range = (self._monitor_roi["top"] + 2, self._monitor_roi["top"] + self._monitor_roi["height"] - 2)
 
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
 
     def convert_screen_to_monitor(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        return (screen_coord[0] + self._monitor_roi["left"], screen_coord[1] + self._monitor_roi["top"])
+        x = screen_coord[0] + self._monitor_roi["left"]
+        y = screen_coord[1] + self._monitor_roi["top"]
+        return (np.clip(x, *self._monitor_x_range), np.clip(y, *self._monitor_y_range))
 
     def convert_abs_to_screen(self, abs_coord: Tuple[float, float]) -> Tuple[float, float]:
         # abs has it's center on char which is the center of the screen
