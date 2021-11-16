@@ -95,15 +95,15 @@ class Config:
 
         self.ui_pos = {}
         for key in self._game_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.res["scale"]))
+            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.scale))
 
         self.ui_roi = {}
         for key in self._game_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+            self.ui_roi[key] = np.array([int(round(float(x) * self.scale)) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
 
         self.path = {}
         for key in self._game_config["path"]:
-            self.path[key] = np.reshape(np.array([int(round(float(x) * self.res["scale"])) for x in self._select_val("path", key).split(",")]), (-1, 2))
+            self.path[key] = np.reshape(np.array([int(round(float(x) * self.scale)) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
 
 
