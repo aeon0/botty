@@ -139,7 +139,14 @@ class TemplateFinder:
     def get_template(self, key):
         return self._templates[key][0]
 
-    def search(self, ref: Union[str, np.ndarray], inp_img: np.ndarray, threshold: float = 0.7, roi: List[float] = None) -> Tuple[bool, Tuple[float, float]]:
+    def search(
+        self, 
+        ref: Union[str, np.ndarray],
+        inp_img: np.ndarray,
+        threshold: float = 0.7, 
+        roi: List[float] = None,
+        normalize_monitor: bool = False, 
+    ) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template or a image which is used as template
@@ -174,14 +181,27 @@ class TemplateFinder:
             if max_val > threshold:
                 ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                 ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+
+                if normalize_monitor:
+                    ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+
                 return True, ref_point
         return False, None
 
-    def search_and_wait(self, ref: Union[str, List[str]], roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
+    def search_and_wait(
+        self,
+        ref: Union[str, List[str]],
+        roi: List[float] = None,
+        time_out: float = None,
+        threshold: float = 0.7,
+        take_ss: bool = True
+    ) -> Tuple[bool, Tuple[float, float]]:
         """
         Helper function that will loop and keep searching for a template
         :param ref: Key of template which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
+        :param threshold: Adapt threshold for being found
+        :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
         Logger.debug(f"Waiting for Template {ref}")
@@ -200,7 +220,7 @@ class TemplateFinder:
                 if success:
                     return True, pos
                 elif time_out is not None and (time.time() - start) > time_out:
-                    if self._config.general["info_screenshots"]:
+                    if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     return False, None
 

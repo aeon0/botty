@@ -138,7 +138,8 @@ class UiManager():
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
             away_x_m, away_y_m = self._screen.convert_screen_to_monitor((200, 450))
-            while self._template_finder.search_and_wait(["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"], roi=self._config.ui_roi["save_and_exit"], time_out=1.5)[0]:
+            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
+            while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False)[0]:
                 delay = [0.9, 1.1]
                 if does_chicken:
                     delay = [0.3, 0.4]
@@ -354,7 +355,14 @@ class UiManager():
         wait(0.2, 0.25)
         keyboard.send(self._config.char["inventory_screen"])
 
-    def repair_and_fill_up_tp(self, close_when_done:bool = False) -> bool:
+    def close_vendor_screen(self):
+        keyboard.send("esc")
+        # just in case also bring cursor to center and click
+        x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["center_x"], self._config.ui_pos["center_y"]))
+        mouse.move(x, y, randomize=25, delay_factor=[1.0, 1.5])
+        mouse.click(button="left")
+
+    def repair_and_fill_up_tp(self) -> bool:
         """
         Repair and fills up TP buy selling tomb and buying. Vendor inventory needs to be open!
         :return: Bool if success
@@ -372,7 +380,7 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=4)
+        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
         if not found:
             return False
         x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
@@ -384,7 +392,7 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=4)
+        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if not found:
             return False
         x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
@@ -394,13 +402,6 @@ class UiManager():
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
-        if close_when_done:
-            wait(0.1, 0.2)
-            keyboard.send("esc")
-            # just in case also bring cursor to center and click
-            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["center_x"], self._config.ui_pos["center_y"]))
-            mouse.move(x, y, randomize=25, delay_factor=[1.0, 1.5])
-            mouse.click(button="left")
         return True
 
 
