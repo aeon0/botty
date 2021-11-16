@@ -1,0 +1,1 @@
+If drop_screenshots is set to 1 in params.ini the saved screeenshots will be put into this folder

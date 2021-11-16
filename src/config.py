@@ -34,6 +34,7 @@ class Config:
             "difficulty": self._select_val("general", "difficulty"),
             "send_drops_to_discord": bool(int(self._select_val("general", "send_drops_to_discord"))),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
+            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }
 
         self.routes = {}

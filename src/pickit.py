@@ -2,6 +2,7 @@ from item_finder import ItemFinder
 import time
 from utils.custom_mouse import mouse
 import keyboard
+import cv2
 from config import Config
 from char.i_char import IChar
 from logger import Logger
@@ -27,6 +28,11 @@ class PickIt:
         found_items = False
         keyboard.send(self._config.char["show_items"], do_press=True, do_release=False)
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
+        #Creating a screenshot of the current loot
+        if self._config.general["loot_screenshots"]:
+            img = self._screen.grab()
+            cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            Logger.debug("Took a screenshot of current loot")
         start = time.time()
         time_out = False
         while not time_out:
