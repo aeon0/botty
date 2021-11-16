@@ -56,6 +56,7 @@ class Bot:
         self._curr_location: Location = None
         self._timer = None
         self._tps_left = 20
+        self._pre_buffed = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -247,7 +248,9 @@ class Bot:
                 self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                bot._char.pre_buff()
+                if not self._pre_buffed:
+                    bot._char.pre_buff()
+                    self._pre_buffed = 1
                 wait(0.2, 0.3)
                 if bot._config.char["static_path_pindle"]:
                     bot._pather.traverse_nodes_fixed("pindle_save_dist", bot._char)
@@ -282,7 +285,9 @@ class Bot:
                 self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                bot._char.pre_buff()
+                if not self._pre_buffed:
+                    bot._char.pre_buff()
+                    self._pre_buffed = 1
                 wait(0.2, 0.3)
                 # eldritch
                 if bot._config.char["static_path_eldritch"]:
@@ -359,6 +364,7 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         self._tps_left -= 1
+        self._pre_buffed = 0
         if success:
             success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
