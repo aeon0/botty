@@ -125,7 +125,7 @@ class ItemFinder:
                                 item.score = max_val
                                 center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                 item.dist = math.dist(center_abs, (0, 0))
-            if item is not None and self._config.items[item.name] is True:
+            if item is not None and self._config.items[item.name]:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")
