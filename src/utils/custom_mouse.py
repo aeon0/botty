@@ -241,12 +241,14 @@ class mouse:
 
         if type(randomize) is int:
             randomize = int(randomize * mouse._config.scale)
-            x = int(x) + random.randrange(-randomize, +randomize)
-            y = int(y) + random.randrange(-randomize, +randomize)
+            if randomize > 0:
+                x = int(x) + random.randrange(-randomize, +randomize)
+                y = int(y) + random.randrange(-randomize, +randomize)
         else:
-            randomize = (int(randomize[0] * mouse._config.scale), int(randomize[0] * mouse._config.scale))
-            x = int(x) + random.randrange(-randomize[0], +randomize[0])
-            y = int(y) + random.randrange(-randomize[1], +randomize[1])
+            randomize = (int(randomize[0] * mouse._config.scale), int(randomize[1] * mouse._config.scale))
+            if randomize[1] > 0 and randomize[0] > 0:
+                x = int(x) + random.randrange(-randomize[0], +randomize[0])
+                y = int(y) + random.randrange(-randomize[1], +randomize[1])
 
 
         human_curve = HumanCurve(from_point, (x, y), offsetBoundaryX=offsetBoundaryX, offsetBoundaryY=offsetBoundaryY, targetPoints=targetPoints)
