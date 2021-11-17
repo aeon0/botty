@@ -12,9 +12,8 @@ import time
 import logging
 
 
-def start_bot():
+def start_bot(bot):
     try:
-        bot = Bot()
         bot.start()
     except KeyboardInterrupt:
         Logger.info('Exit (ctrl+c)') or exit()
@@ -45,7 +44,13 @@ if __name__ == "__main__":
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
-            start_bot()
+            bot = Bot()
+            bot_thread = threading.Thread(target=start_bot, args=(bot,))
+            bot_thread.start()
+            while 1:
+                if bot.current_game_length() > 40:
+                    print("Bot over current game length!")
+                time.sleep(4)
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()

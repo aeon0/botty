@@ -9,9 +9,9 @@ import subprocess
 from version import __version__
 
 
-def send_discord(msg, url:str = None):
-    if url is None:
-        url = "https://discord.com/api/webhooks/908071105372250213/puaS6gIYqYxTE-TBLAIs6_Qb6ZUwuygSeQfTQkpuXrSag5DPeV2gk0SctOjPy5qMHGeh"
+def send_discord(msg, url: str):
+    if not url:
+        return
     data = {"content": f"{msg} (v{__version__})"}
     requests.post(url, json=data)
 

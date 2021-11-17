@@ -69,7 +69,8 @@ class IChar:
         keyboard.send(self._char_config["tp"])
         wait(0.05, 0.1)
         mouse.click(button="right")
-        mouse.move(120, 450, randomize=150, delay_factor=[0.8, 1.4])
+        # TODO: Add hardcoded coordinates to ini file
+        mouse.move(int(120 * self._config.scale), int(450 * self._config.scale), randomize=150, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()

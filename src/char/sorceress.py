@@ -37,23 +37,25 @@ class Sorceress(IChar):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
 
-    def _left_attack(self, cast_pos: Tuple[float, float], delay: float, spray: int = 10):
+    def _left_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
-        mouse.move(cast_pos[0], cast_pos[1])
-        keyboard.send(self._skill_hotkeys["skill_left"])
+        if self._skill_hotkeys["skill_left"]:
+            keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(6):
-            x = cast_pos[0] + (random.random() * 2*spray - spray)
-            y = cast_pos[1] + (random.random() * 2*spray - spray)
-            mouse.move(x, y)
+            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            mouse.move(*cast_pos_monitor)
             mouse.click(button="left")
             wait(delay[0], delay[1])
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _main_attack(self, cast_pos: Tuple[float, float], delay: float, spray: float = 10):
+    def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
         keyboard.send(self._skill_hotkeys["skill_right"])
-        x = cast_pos[0] + (random.random() * 2*spray - spray)
-        y = cast_pos[1] + (random.random() * 2*spray - spray)
-        mouse.move(x, y)
+        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+        mouse.move(*cast_pos_monitor)
         mouse.click(button="right")
         wait(delay[0], delay[1])
 
@@ -65,10 +67,9 @@ class Sorceress(IChar):
             pindle_pos_abs = self._pather.find_abs_node_pos(104, self._screen.grab())
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
             for _ in range(int(self._char_config["atk_len_pindle"])):
-                self._main_attack(cast_pos_monitor, delay, 15)
-                self._left_attack(cast_pos_monitor, delay, 15)
+                self._main_attack(cast_pos_abs, delay, 15)
+                self._left_attack(cast_pos_abs, delay, 15)
             wait(0.1, 0.15)
             # Move to items
             if self._config.char["static_path_pindle"]:
@@ -83,10 +84,9 @@ class Sorceress(IChar):
         pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
         if pos_abs is not None:
             cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-            cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
             for _ in range(int(self._char_config["atk_len_eldritch"])):
-                self._main_attack(cast_pos_monitor, delay, 90)
-                self._left_attack(cast_pos_monitor, delay, 90)
+                self._main_attack(cast_pos_abs, delay, 90)
+                self._left_attack(cast_pos_abs, delay, 90)
             wait(0.2, 0.3)
             # Move to items
             if self._config.char["static_path_eldritch"]:
@@ -100,10 +100,9 @@ class Sorceress(IChar):
         delay = [0.2, 0.3]
         pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-        cast_pos_monitor = self._screen.convert_abs_to_monitor(cast_pos_abs)
         for _ in range(int(self._char_config["atk_len_shenk"])):
-            self._main_attack(cast_pos_monitor, delay, 90)
-            self._left_attack(cast_pos_monitor, delay, 90)
+            self._main_attack(cast_pos_abs, delay, 90)
+            self._left_attack(cast_pos_abs, delay, 90)
         wait(0.2, 0.3)
         # Move to items
         self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)

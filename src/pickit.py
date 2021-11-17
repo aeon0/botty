@@ -71,12 +71,11 @@ class PickIt:
                     else:
                         # send log to discord
                         if found_items and self._config.items[closest_item.name] == 2 and closest_item.name not in picked_up_items:
-                            if self._config.general["send_drops_to_discord"]:
-                                send_discord_thread = threading.Thread(target=send_discord, args=(f"Botty just found: {closest_item.name}",))
-                                send_discord_thread.daemon = True
-                                send_discord_thread.start()
                             if self._config.general["custom_discord_hook"] != "":
-                                send_discord_thread = threading.Thread(target=send_discord, args=(f"Botty just found: {closest_item.name}", self._config.general["custom_discord_hook"]))
+                                send_discord_thread = threading.Thread(
+                                    target=send_discord,
+                                    args=(f"Botty just found: {closest_item.name}", self._config.general["custom_discord_hook"])
+                                )
                                 send_discord_thread.daemon = True
                                 send_discord_thread.start()
                         picked_up_items.append(closest_item.name)
