@@ -40,6 +40,7 @@ class Config:
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "require_merc": bool(int(self._select_val("general", "require_merc"))),
         }
 
         self.routes = {}
@@ -137,7 +138,7 @@ if __name__ == "__main__":
             #         cv2.imwrite(f"./assets/items/{k}.png", img)
             # else:
             #     print(f"{attrib}_{base_name}=1")
-    
+
     for filename in os.listdir(f'assets/items'):
         filename = filename.lower()
         if filename.endswith('.png'):

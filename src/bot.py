@@ -15,6 +15,7 @@ from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
 from utils.misc import wait, send_discord, close_down_d2
+from utils.custom_mouse import mouse
 import keyboard
 import threading
 import time
@@ -57,6 +58,7 @@ class Bot:
         self._timer = None
         self._tps_left = 20
         self._pre_buffed = 0
+        self._merc_revive_attempts = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -94,8 +96,11 @@ class Bot:
                 break
         return not found_unfinished_run
 
-    def _shut_down(self):
-        Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
+    def _shut_down(self, error_message: str = ""):
+        if error_message:
+            Logger.error(error_message)
+        else:
+            Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
         if self._config.general["custom_discord_hook"] != "":
             send_discord_thread = threading.Thread(target=send_discord, args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"]))
             send_discord_thread.daemon = True
@@ -114,11 +119,11 @@ class Bot:
         self._timer = time.time()
         found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=70)
         if not found:
-            self._shut_down()
+            self._shut_down(error_message="Unsure about current location. D2 logo not found, closing down bot")
         self._ui_manager.start_game()
         found, _ = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=50)
         if not found:
-            self._shut_down()
+            self._shut_down(error="Unsure about current location. Act 5 templates not found, closing down bot")
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
         # Make sure these keys are released
@@ -143,7 +148,7 @@ class Bot:
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
             Logger.info("Need some healing first. Go talk to Malah")
-            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
+            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char):
                 self.trigger("end_game")
                 return
             self._curr_location = Location.MALAH
@@ -188,7 +193,7 @@ class Bot:
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
-            Logger.info("Reviveing merc")
+            Logger.info("Reviving merc")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
                 self.trigger("end_game")
                 return
@@ -196,6 +201,25 @@ class Bot:
             if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
                 self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             time.sleep(2)
+        merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
+        if merc_alive:
+            self._merc_revive_attempts = 0
+        elif self._config.general["require_merc"]:
+            self._merc_revive_attempts = self._merc_revive_attempts + 1
+            mouse.move(0,0, randomize=[5, 5], delay_factor=[0.5,1])
+            wait(0.2, 0.3)
+            mouse.click(button="left")
+            wait(0.3, 0.5)
+            mouse.click(button="left")
+            wait(0.5, 1)
+            if self._merc_revive_attempts > 1:
+                time.sleep(2)
+                self._shut_down(error_message=f"require_merc is set to true and merc could not be revived after {self._merc_revive_attempts} attempts, shut down")
+            else:
+                Logger.error("Failed to revive merc, restart run")
+                self.trigger("end_game")
+                return
+
 
         # Start a new run
         started_run = False
