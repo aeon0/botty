@@ -78,6 +78,8 @@ class Config:
             # currently no need to have anything other then static pathing set
             "static_path_pindle": True,
             "static_path_eldritch": True,
+            "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
+            "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
         }
 
         self.sorceress = dict(self._config["sorceress"])

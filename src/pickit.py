@@ -42,9 +42,11 @@ class PickIt:
                 Logger.warning("Got stuck during pickit, skipping it this time...")
             img = self._screen.grab()
             item_list = self._item_finder.search(img)
-            if not self._ui_manager.check_free_belt_spots():
-                # no free slots in belt, do not pick up health or mana potions
-                item_list = [x for x in item_list if "potion" not in x.name]
+            need_hp, need_mp = self._ui_manager.check_need_pots()
+            if need_mp is False:
+                item_list = [x for x in item_list if "mana_potion" not in x.name]
+            if need_hp is False:
+                item_list = [x for x in item_list if "healing_potion" not in x.name]
             if len(item_list) == 0:
                 break
             else:
