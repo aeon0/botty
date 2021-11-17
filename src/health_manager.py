@@ -47,8 +47,8 @@ class HealthManager:
                     keyboard.send(self._config.char[key])
                 self._belt_manager.potions_remaining[i] = self._belt_manager.potions_remaining[i] - 1
                 break
-        if not key:
-            #Logger.debug(f"Out of {potion_type}")
+        # if not key:
+        #     Logger.debug(f"Out of {potion_type}")
 
     def get_health(self, img: np.ndarray) -> float:
         health_rec = [self._config.ui_pos["health_left"], self._config.ui_pos["health_top"], self._config.ui_pos["health_width"], self._config.ui_pos["health_height"]]
