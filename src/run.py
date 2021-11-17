@@ -1,4 +1,5 @@
 from bot import Bot
+from game_recovery import GameRecovery
 from logger import Logger
 import keyboard
 import os
@@ -6,17 +7,38 @@ from config import Config
 from utils.color_checker import run_color_checker
 from version import __version__
 from utils.auto_settings import adjust_settings
+from utils.misc import kill_thread, send_discord, close_down_d2
 import threading
 from beautifultable import BeautifulTable
 import time
 import logging
 
 
-def start_bot(bot):
-    try:
-        bot.start()
-    except KeyboardInterrupt:
-        Logger.info('Exit (ctrl+c)') or exit()
+def run_bot(config: Config):
+    game_recovery = GameRecovery()
+    bot = Bot()
+    bot_thread = threading.Thread(target=bot.start)
+    bot_thread.start()
+    do_restart = False
+    keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
+    keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
+    while 1:
+        if bot.current_game_length() > config.general["max_game_length_s"]:
+            Logger.info("Max game length reached. Attempting to restart botty!")
+            bot.stop()
+            kill_thread(bot_thread)
+            if game_recovery.go_to_hero_selection():
+                do_restart = False
+            break
+        time.sleep(0.04)
+    bot_thread.join()
+    if do_restart:
+        run_bot(config)
+    else:
+        Logger.error("Botty could not recover from a max game length violation. Shutting down everything.")
+        if config.general["custom_discord_hook"]:
+            send_discord("Botty got stuck and can not resume", config.general["custom_discord_hook"])
+        close_down_d2()
 
 
 if __name__ == "__main__":
@@ -36,7 +58,7 @@ if __name__ == "__main__":
     table = BeautifulTable()
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
     table.rows.append([config.general['color_checker_key'], "Color test mode "])
-    table.rows.append([config.general['resume_key'], "Start bot"])
+    table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
     table.rows.append([config.general['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
     print(table)
@@ -44,9 +66,8 @@ if __name__ == "__main__":
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
-            bot = Bot()
-            bot_thread = threading.Thread(target=start_bot, args=(bot,))
-            bot_thread.start()
+            run_bot(config)
+            break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
         elif keyboard.is_pressed(config.general['color_checker_key']):
@@ -54,6 +75,5 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
-    bot_thread.join()
     print("Press Enter to exit ...")
     input()

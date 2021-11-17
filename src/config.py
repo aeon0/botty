@@ -30,6 +30,7 @@ class Config:
             "offset_top": int(self._select_val("general", "offset_top")),
             "offset_left": int(self._select_val("general", "offset_left")),
             "min_game_length_s": float(self._select_val("general", "min_game_length_s")),
+            "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
