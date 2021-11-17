@@ -81,7 +81,7 @@ class TemplateFinder:
             "PLAY_BTN": [load_template("assets/templates/play_btn.png", 1.0), 1.0],
             "PLAY_BTN_GRAY": [load_template("assets/templates/play_btn_gray.png", 1.0), 1.0],
             "NORMAL_BTN": [load_template("assets/templates/normal_btn.png", 1.0), 1.0],
-            "NIGHTMARE_BTN": [load_template("assets/templates/nightmare_btn.png", 1.0), 1.0],            
+            "NIGHTMARE_BTN": [load_template("assets/templates/nightmare_btn.png", 1.0), 1.0],
             "HELL_BTN": [load_template("assets/templates/hell_btn.png", 1.0), 1.0],
             "SAVE_AND_EXIT_NO_HIGHLIGHT": [load_template("assets/templates/save_and_exit_no_highlight.png", 1.0), 1.0],
             "SAVE_AND_EXIT_HIGHLIGHT": [load_template("assets/templates/save_and_exit_highlight.png", 1.0), 1.0],
@@ -92,8 +92,15 @@ class TemplateFinder:
             "TELE_INACTIVE": [load_template("assets/templates/tele_inactive.png", 1.0), 1.0],
             "REPAIR_BTN": [load_template("assets/templates/repair_btn.png", 1.0), 1.0],
             "TP_TOMB": [load_template("assets/templates/tp_tomb.png", 1.0), 1.0],
-            "SUPER_HEALING_POTION": [load_template("assets/templates/super_healing_potion.png", 1.0), 1.0],
-            "SUPER_MANA_POTION": [load_template("assets/templates/super_mana_potion.png", 1.0), 1.0],
+            "INV_SUPER_HEALING_POTION": [load_template("assets/templates/inv_super_healing_potion.png", 1.0), 1.0],
+            "INV_SUPER_MANA_POTION": [load_template("assets/templates/inv_super_mana_potion.png", 1.0), 1.0],
+            "INV_FULL_REJUVENATION_POTION": [load_template("assets/templates/inv_full_rejuvenation_potion.png", 1.0), 1.0],
+            "INV_REJUVENATION_POTION": [load_template("assets/templates/inv_rejuvenation_potion.png", 1.0), 1.0],
+            "BELT_SUPER_HEALING_POTION": [load_template("assets/templates/belt_super_healing_potion.png", 1.0), 1.0],
+            "BELT_SUPER_MANA_POTION": [load_template("assets/templates/belt_super_mana_potion.png", 1.0), 1.0],
+            "BELT_FULL_REJUVENATION_POTION": [load_template("assets/templates/belt_full_rejuvenation_potion.png", 1.0), 1.0],
+            "BELT_REJUVENATION_POTION": [load_template("assets/templates/belt_rejuvenation_potion.png", 1.0), 1.0],
+            "BELT_EMPTY": [load_template("assets/templates/belt_empty.png", 1.0), 1.0],
             # NPC: Qual-Kehk
             "QUAL_FRONT": [load_template("assets/npc/qual_kehk/qual_front.png", 1.0), 1.0],
             "QUAL_SIDE": [load_template("assets/npc/qual_kehk/qual_side.png", 1.0), 1.0],
@@ -145,7 +152,7 @@ class TemplateFinder:
     def get_template(self, key):
         return self._templates[key][0]
 
-    def search(self, ref: Union[str, np.ndarray], inp_img: np.ndarray, threshold: float = 0.7, roi: List[float] = None) -> Tuple[bool, Tuple[float, float]]:
+    def search(self, ref: Union[str, np.ndarray, List[str]], inp_img: np.ndarray, threshold: float = 0.7, roi: List[float] = None) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template or a image which is used as template
@@ -161,26 +168,32 @@ class TemplateFinder:
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
 
         if type(ref) == str:
-            template = self._templates[ref][0]
-            scale = self._templates[ref][1]
+            templates = [self._templates[ref][0]]
+            scales = [self._templates[ref][1]]
+        elif type(ref) == list:
+            templates = [self._templates[i][0] for i in ref]
+            scales = [self._templates[i][1] for i in ref]
         else:
-            template = ref
-            scale = 1.0
+            templates = [ref]
+            scales = [1.0]
 
-        img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-        rx *= scale
-        ry *= scale
-        rw *= scale
-        rh *= scale
+        for count, template in enumerate(templates):
+            scale = scales[count]
 
-        if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-            self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
-            self.last_score = max_val
-            if max_val > threshold:
-                ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
-                ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
-                return True, ref_point
+            img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+            rx *= scale
+            ry *= scale
+            rw *= scale
+            rh *= scale
+
+            if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+                _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
+                self.last_score = max_val
+                if max_val > threshold:
+                    ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
+                    ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+                    return True, ref_point
         return False, None
 
     def search_and_wait(self, ref: Union[str, List[str]], roi: List[float] = None, time_out: float = None, threshold: float = 0.7) -> Tuple[bool, Tuple[float, float]]:
@@ -206,7 +219,7 @@ class TemplateFinder:
                 if success:
                     return True, pos
                 elif time_out is not None and (time.time() - start) > time_out:
-                    cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
+                    #cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
                     return False, None
 
 
@@ -219,7 +232,7 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     while 1:
         img = screen.grab()
-        success, pos = template_finder.search("TO_TRAPS", img, threshold=0.7)
+        success, pos = template_finder.search("ELDRITCH_0", img, threshold=0.7)
         print(template_finder.last_score)
         if success:
             cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)

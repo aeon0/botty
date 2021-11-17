@@ -10,19 +10,23 @@ import numpy as np
 import time
 from config import Config
 from threading import Thread
+from belt_manager import BeltManager
 
 
 class HealthManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, belt_manager: BeltManager):
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
         self._ui_manager = ui_manager
+        self._belt_manager = belt_manager
         self._do_monitor = False
         self._did_chicken = False
         self._last_health = time.time()
+        self._last_rejuv = time.time()
         self._last_mana = time.time()
         self._last_merc_healh = time.time()
+        self._last_merc_rejuv = time.time()
 
     def stop_monitor(self):
         self._do_monitor = False
@@ -30,24 +34,21 @@ class HealthManager:
     def did_chicken(self):
         return self._did_chicken
 
-    def _drink_poition(self, img: np.ndarray, potion_type: str, merc: bool = False):
+    def _drink_potion(self, potion_type: str, percentage: float, merc: bool = False):
+        key=f""
         for i in range(4):
-            roi = [
-                self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + i * self._config.ui_pos["potion_next"],
-                self._config.ui_pos["potion1_y"] - (self._config.ui_pos["potion_height"] // 2),
-                self._config.ui_pos["potion_width"],
-                self._config.ui_pos["potion_height"]
-            ]
-            potion_img = cut_roi(img, roi)
-            if self._ui_manager.potion_type(potion_img) == potion_type:
+            if self._belt_manager.potions_remaining[i] > 0 and self._config.char['belt_slots'][i] == potion_type:
                 key = f"potion{i+1}"
                 if merc:
-                    Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc")
+                    Logger.debug(f"Give {potion_type} in slot {i+1} to merc, val={(percentage*100):.1f}%")
                     keyboard.send(f"left shift + {self._config.char[key]}")
                 else:
-                    Logger.debug(f"Drink {potion_type} potion in slot {i+1}")
+                    Logger.debug(f"Drink {potion_type} in slot {i+1}, val={(percentage*100):.1f}%")
                     keyboard.send(self._config.char[key])
+                self._belt_manager.potions_remaining[i] = self._belt_manager.potions_remaining[i] - 1
                 break
+        if not key:
+            Logger.debug(f"Out of {potion_type}")
 
     def get_health(self, img: np.ndarray) -> float:
         health_rec = [self._config.ui_pos["health_left"], self._config.ui_pos["health_top"], self._config.ui_pos["health_width"], self._config.ui_pos["health_height"]]
@@ -100,32 +101,45 @@ class HealthManager:
             if not is_loading_black_roi:
                 # check health
                 health_percentage = self.get_health(img)
+                last_rejuv_drink = time.time() - self._last_rejuv
                 last_drink = time.time() - self._last_health
-                if health_percentage < self._config.char["take_health_potion"] and last_drink > 3.5:
-                    self._drink_poition(img, "health")
-                    self._last_health = time.time()
+
                 # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
-                elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
+                if health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
                     Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
                     self._do_chicken(img, run_thread)
                     break
+                elif health_percentage < self._config.char["take_rejuvenation_potion_health"] and last_rejuv_drink > 3:
+                    self._drink_potion("rejuvenation_potion",health_percentage)
+                    self._last_rejuv = time.time()
+                elif health_percentage < self._config.char["take_healing_potion"] and last_drink > 3.5 and last_rejuv_drink > 1.5:
+                    self._drink_potion("healing_potion",health_percentage)
+                    self._last_health = time.time()
                 # check mana
                 mana_percentage = self.get_mana(img)
                 last_drink = time.time() - self._last_mana
-                if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4:
-                    self._drink_poition(img, "mana")
+                last_rejuv_drink = time.time() - self._last_rejuv
+                if mana_percentage < self._config.char["take_rejuvenation_potion_mana"] and last_rejuv_drink > 4:
+                    self._drink_potion("mana_potion",mana_percentage)
+                    self._last_mana = time.time()
+                elif mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4 and last_rejuv_drink > 2:
+                    self._drink_potion("mana_potion",mana_percentage)
                     self._last_mana = time.time()
                 # check merc
                 merc_alive, _ = self._template_finder.search("MERC", img, roi=self._config.ui_roi["merc_icon"])
                 if merc_alive:
                     merc_health_percentage = self.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_healh
+                    last_merc_rejuv_drink = time.time() - self._last_merc_rejuv
                     if merc_health_percentage < self._config.char["merc_chicken"]:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img, run_thread)
                         break
-                    elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
-                        self._drink_poition(img, "health", merc=True)
+                    elif merc_health_percentage < self._config.char["heal_rejuvenation_merc"] and last_merc_rejuv_drink > 5.0:
+                        self._drink_potion("rejuvenation_potion", merc_health_percentage, merc=True)
+                        self._last_merc_rejuv = time.time()
+                    elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0 and last_rejuv_drink > 3:
+                        self._drink_potion("healing_potion", merc_health_percentage, merc=True)
                         self._last_merc_healh = time.time()
         Logger.debug("Stop health monitoring")
 

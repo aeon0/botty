@@ -13,6 +13,7 @@ from config import Config
 from health_manager import HealthManager
 from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
+from belt_manager import BeltManager
 from pickit import PickIt
 from utils.misc import wait, send_discord
 import keyboard
@@ -30,10 +31,12 @@ class Bot:
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager)
+        self._belt_manager = BeltManager(self._screen, self._template_finder)
+        self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager,self._belt_manager)
         self._death_manager = DeathManager(self._screen, self._template_finder)
         self._npc_manager = NpcManager(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager)
+        self._route_config = self._config.routes
         if self._config.char["type"] == "sorceress":
             self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
@@ -41,7 +44,6 @@ class Bot:
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
-        self._route_config = self._config.routes
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
             Logger.error("Running shenk without eldtritch is not supported. Either run none, both or eldritch only.")
             os._exit(1)
@@ -76,6 +78,17 @@ class Bot:
         from transitions.extensions import GraphMachine
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
+
+    def sort_belt(self):
+        # here instead because pickit depends on belt_manager and belt_manager depends on pickit
+        wait(0.4,0.6)
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
+        wait(0.1,0.2)
+        img = self._screen.grab()
+        belt_contents, self._belt_manager.belt_height = self._belt_manager.get_belt_contents(img,1,0)
+        self._belt_manager.drop_wrong_belt_pots(belt_contents,0) #drops wrong potions and generates pots_remaining
+        self._picked_up_items = self._pickit.pick_up_items(self._char) #pickup compatible pots
+        keyboard.send(self._config.char["show_belt"]) #toggle belt
 
     def start(self):
         self.trigger('create_game')
@@ -117,6 +130,7 @@ class Bot:
         # Make sure these keys are released
         keyboard.release(self._config.char["stand_still"])
         keyboard.release(self._config.char["show_items"])
+
         self.trigger("maintenance")
 
     def on_maintenance(self):
@@ -126,25 +140,12 @@ class Bot:
             # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
             # the death manager could determine if we were dead
             self._death_manager.pick_up_corpse()
-            # TODO: maybe it is time for a special BeltManager?
+            self.sort_belt()
             wait(1.2, 1.5)
-            self._ui_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
-
-        # Belt maintenance
-        keyboard.send(self._config.char["show_belt"]) #toggle belt
-        wait(0.2,0.3)
-        img = self._screen.grab()
-        beltContents, height = self._ui_manager.get_belt_contents(img,0)
-        keyboard.send(self._config.char["show_belt"]) #toggle belt
-        Logger.debug(f"Belt0: {beltContents} {height}")
-        wait(0.2,0.3)
-        keyboard.send(self._config.char["show_belt"]) #toggle belt
-        wait(0.2,0.3)
-        img = self._screen.grab()
-        beltContents, height = self._ui_manager.get_belt_contents(img,1)
-        keyboard.send(self._config.char["show_belt"]) #toggle belt
-        Logger.debug(f"Belt1: {beltContents} {height}")
-        wait(0.2,0.3)
+            self._belt_manager.fill_up_belt_from_inventory()
+            wait(1.2, 1.5)
+        else:
+            self.sort_belt()
 
         # Check if healing is needed, TODO: add shoping e.g. for potions
         img = self._screen.grab()
@@ -194,7 +195,7 @@ class Bot:
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
-            Logger.info("Reviveing merc")
+            Logger.info("Reviving merc")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
                 self.trigger("end_game")
                 return

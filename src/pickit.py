@@ -1,5 +1,6 @@
 from item_finder import ItemFinder
 import time
+from belt_manager import BeltManager
 from utils.custom_mouse import mouse
 import keyboard
 from config import Config
@@ -9,13 +10,15 @@ from screen import Screen
 from ui_manager import UiManager
 import threading
 from utils.misc import send_discord
-
+import numpy as np
+from typing import Tuple, List
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
         self._item_finder = item_finder
         self._screen = screen
         self._ui_manager = ui_manager
+        self._belt_manager = belt_manager
         self._config = Config()
 
     def pick_up_items(self, char: IChar) -> bool:
@@ -35,9 +38,11 @@ class PickIt:
                 Logger.warning("Got stuck during pickit, skipping it this time...")
             img = self._screen.grab()
             item_list = self._item_finder.search(img)
-            if not self._ui_manager.check_free_belt_spots():
-                # no free slots in belt, do not pick up health or mana potions
-                item_list = [x for x in item_list if "potion" not in x.name]
+
+            #filter list to ignore unneeded potions
+            if any("potion" in x.name for x in item_list):
+                item_list = self._belt_manager.filter_list_pots(img,item_list)
+
             if len(item_list) == 0:
                 break
             else:
@@ -47,15 +52,23 @@ class PickIt:
                         closest_item = item
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
                 if closest_item.dist < self._config.ui_pos["item_dist"]:
-                    # no need to stash potions, scrolls, or gold 
+                    # no need to stash potions, scrolls, or gold
                     if (("potion" not in closest_item.name) and ("tp_scroll" != closest_item.name) and ("misc_gold" not in closest_item.name)):
                         found_items = True
+
+                    #if picking up potion, then add to potions_remaining
+                    if ("potion" in closest_item.name):
+                        predictPotCol=self._belt_manager.predict_pot_col(closest_item.name)
+                        #Logger.debug(f"predictPotCol={predictPotCol}")
+                        if predictPotCol >= 0:
+                            self._belt_manager.potions_remaining[predictPotCol] = self._belt_manager.potions_remaining[predictPotCol] + 1
+
                     Logger.info(f"Picking up {closest_item.name}")
                     mouse.move(x_m, y_m)
                     time.sleep(0.1)
                     mouse.click(button="left")
                     time.sleep(0.5)
-                    
+
                     if found_items:
                         try:
                             runeLvl = int(closest_item.name.split('_')[1])
@@ -63,12 +76,12 @@ class PickIt:
                             runeLvl=0
 
                     if found_items and ((runeLvl >= 23) or ("tt_" in closest_item.name)):
-                        
+
                         if self._config.general["send_drops_to_discord"]:
                             send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name,))
                             send_discord_thread.daemon = True
                             send_discord_thread.start()
-    
+
                         if self._config.general["custom_discord_hook"] != "":
                             send_discord_thread = threading.Thread(target=send_discord, args=(closest_item.name, self._config.general["custom_discord_hook"]))
                             send_discord_thread.daemon = True

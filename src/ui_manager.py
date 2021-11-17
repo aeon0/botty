@@ -23,7 +23,6 @@ class UiManager():
         self._template_finder = template_finder
         self._screen = screen
         self._curr_stash = 0 # 0: personal, 1: shared1, 2: shared2, 3: shared3
-        self._potions_remaining = [0, 0, 0, 0]
 
     def use_wp(self, act: int, idx: int):
         """
@@ -88,75 +87,6 @@ class UiManager():
                 return True
         return False
 
-    @staticmethod
-    def potion_type(img: np.ndarray) -> str:
-        """
-        Based on cut out image from belt, determines what type of potion it is. TODO: Add rejuv support
-        :param img: Cut out image of a belt slot
-        :return: Any of ["empty", "health", "mana"]
-        """
-        avg_brightness = np.average(img)
-        if avg_brightness < 47:
-            return "empty"
-        red_channel = img[:,:,2]
-        redness = np.average(red_channel)
-        blue_channel = img[:,:,0]
-        blueness = np.average(blue_channel)
-        if redness > blueness and redness > 55:
-            return "health"
-        if blueness > redness and blueness > 55:
-            return "mana"
-        return "empty"
-
-    def get_belt_contents(self, img: np.ndarray, readAll: bool) -> Tuple[np.ndarray,int]:
-        # args: img=screen grab, readAll=1 read entire belt, 0 for just bottom row
-        beltContents = np.full((4,4),'noMatch')
-        if readAll:
-            iterY=range(4)
-        else:
-            iterY=[3]
-        for y in iterY:
-            y_center=int(round(self._config.ui_pos["potion1_y"] + y*self._config.ui_pos["potion_height"] + self._config.ui_pos["potion_height"]/2,1))
-            for x in range(4):
-                x_center=int(round(self._config.ui_pos["potion1_x"] + x*self._config.ui_pos["potion_width"] + self._config.ui_pos["potion_width"]/2,1))
-                #hp_color_br, etc. values were obtained with this method
-                #roiColor in B,R
-                roiColor=[np.average(img[(y_center-7):(y_center+7),(x_center-7):(x_center+7),0]),np.average(img[(y_center-7):(y_center+7),(x_center-7):(x_center+7),2])]
-                if (abs(roiColor[0] - self._config.colors["hp_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["hp_color_br"][1]) < 10):
-                    beltContents[x][y]="hp"
-                elif (abs(roiColor[0] - self._config.colors["mp_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["mp_color_br"][1]) < 10):
-                    beltContents[x][y]="mp"
-                elif (abs(roiColor[0] - self._config.colors["rv_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["rv_color_br"][1]) < 10):
-                    beltContents[x][y]="rv"
-                elif (abs(roiColor[0] - self._config.colors["frv_color_br"][0]) < 10) and (abs(roiColor[1] - self._config.colors["frv_color_br"][1]) < 10):
-                    beltContents[x][y]="frv"
-                elif (abs(roiColor[0] - self._config.colors["empty_color_br"][0]) < 5) and (abs(roiColor[1] - self._config.colors["empty_color_br"][1]) < 5):
-                    beltContents[x][y]="empty"
-        keepRows=[]
-        for i in range(4):
-            if np.all(beltContents[:,i] != "noMatch"):
-                keepRows.append(i)
-        return beltContents[:,keepRows], beltContents.shape[1]
-
-    def check_free_belt_spots(self) -> bool:
-        """
-        Check if any column in the belt is free (only checking the bottom row)
-        :return: Bool if any column in belt is free
-        """
-        img = self._screen.grab()
-        for i in range(4):
-            roi = [
-                self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + i * self._config.ui_pos["potion_next"],
-                self._config.ui_pos["potion1_y"] - (self._config.ui_pos["potion_height"] // 2),
-                self._config.ui_pos["potion_width"],
-                self._config.ui_pos["potion_height"]
-            ]
-            potion_img = cut_roi(img, roi)
-            potion_type = self.potion_type(potion_img)
-            if potion_type == "empty":
-                return True
-        return False
-
     def save_and_exit(self, does_chicken: bool = False) -> bool:
         """
         Performes save and exit action from within game
@@ -175,11 +105,15 @@ class UiManager():
                     delay = [0.3, 0.4]
                 mouse.move(x_m, y_m, randomize=[60, 10], delay_factor=delay)
                 wait(0.03, 0.06)
-                mouse.click(button="left")
+                mouse.press(button="left")
+                wait(0.25, 0.35)
+                mouse.release(button="left")
                 if does_chicken:
                     # lets just try again just in case
                     wait(0.05, 0.08)
-                    mouse.click(button="left")
+                    mouse.press(button="left")
+                    wait(0.25, 0.35)
+                    mouse.release(button="left")
                 wait(0.1, 0.2)
                 mouse.move(away_x_m, away_y_m, randomize=100, delay_factor=[0.6, 0.9])
                 wait(0.1, 0.5)
@@ -357,32 +291,6 @@ class UiManager():
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
         keyboard.send("esc")
-
-    def fill_up_belt_from_inventory(self, num_loot_columns: int):
-        """
-        Fill up your belt with pots from the inventory e.g. after death. It will open and close invetory by itself!
-        :param num_loot_columns: Number of columns used for loot from left
-        """
-        keyboard.send(self._config.char["inventory_screen"])
-        wait(0.7, 1.0)
-        img = self._screen.grab()
-        pot_positions = []
-        for column, row in itertools.product(range(num_loot_columns), range(4)):
-            center_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
-            found = self._template_finder.search("SUPER_HEALING_POTION", slot_img, threshold=0.9)[0]
-            found |= self._template_finder.search("SUPER_MANA_POTION", slot_img, threshold=0.9)[0]
-            if found:
-                pot_positions.append(center_pos)
-        keyboard.press("shift")
-        for pos in pot_positions:
-            x, y = self._screen.convert_screen_to_monitor(pos)
-            mouse.move(x, y, randomize=5)
-            wait(0.2, 0.3)
-            mouse.click(button="left")
-            wait(0.3, 0.4)
-        keyboard.release("shift")
-        wait(0.2, 0.25)
-        keyboard.send(self._config.char["inventory_screen"])
 
     def repair_and_fill_up_tp(self, close_when_done:bool = False) -> bool:
         """

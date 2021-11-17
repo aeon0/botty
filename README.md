@@ -90,7 +90,7 @@ atk_len_pindle | Attack length for hdin or number of attack sequences for sorc w
 atk_len_eldritch | Attack length for hdin or number of attack sequences for sorc when fighting eldritch
 atk_len_shenk | Attack length for hdin or number of attack sequences for sorc when fighting shenk
 num_loot_columns | Number of columns in inventory used for loot (from left!). Remaining space can be used for charms
-take_health_potion | Health percentage when healing potion will be used
+take_healing_potion | Health percentage when healing potion will be used
 take_mana_potion | Mana percentage when mana potion will be used. Currently belt managment is not very clever and it is safest to only pick up health pots and make sure mana reg is enough for pindle to not need mana pots.
 heal_merc | Merc health percentage when giving healing potion to merc
 chicken | Will chicken (leave game) when player health percentage drops below set value, range 0 to 1. Set to 0 to not chicken.
@@ -100,10 +100,10 @@ inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
 tp | Hotkey for using a town portal
 show_belt | Hotkey for "show belt"
-potion1 | Hotkey to take poition in slot 1
-potion2 | Hotkey to take poition in slot 2
-potion3 | Hotkey to take poition in slot 3
-potion4 | Hotkey to take poition in slot 4
+potion1 | Hotkey to take potion in slot 1
+potion2 | Hotkey to take potion in slot 2
+potion3 | Hotkey to take potion in slot 3
+potion4 | Hotkey to take potion in slot 4
 cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
