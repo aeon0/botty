@@ -132,11 +132,11 @@ class UiManager():
         start = time.time()
         while (time.time() - start) < 15:
             keyboard.send("esc")
-            wait(0.1)
+            wait(0.3)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
             # TODO: Add hardcoded coordinates to ini file
-            away_x_m, away_y_m = self._screen.convert_screen_to_monitor((int(170 * self._config.scale), int(400 * self._config.scale)))
+            away_x_m, away_y_m = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), 0))
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False)[0]:
                 delay = [0.9, 1.1]
@@ -144,13 +144,15 @@ class UiManager():
                     delay = [0.3, 0.4]
                 mouse.move(x_m, y_m, randomize=[38, 7], delay_factor=delay)
                 wait(0.03, 0.06)
-                mouse.click(button="left")
+                mouse.press(button="left")
+                wait(0.06, 0.1)
+                mouse.release(button="left")
                 if does_chicken:
                     # lets just try again just in case
                     wait(0.05, 0.08)
-                    mouse.click(button="left")
-                wait(0.1, 0.2)
-                mouse.move(away_x_m, away_y_m, randomize=60, delay_factor=[0.6, 0.9])
+                    # mouse.click(button="left")
+                wait(1.5, 2.0)
+                mouse.move(away_x_m, away_y_m, randomize=40, delay_factor=[0.6, 0.9])
                 wait(0.1, 0.5)
             return True
         return False
@@ -424,9 +426,4 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.repair_and_fill_up_tp()
-    wait(0.1, 0.2)
-    keyboard.send("esc")
-    # ui_manager.stash_all_items(6)
-    # ui_manager.use_wp(4, 1)
-    # ui_manager.fill_up_belt_from_inventory(10)
+    ui_manager.save_and_exit()

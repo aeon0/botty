@@ -70,7 +70,8 @@ class IChar:
         wait(0.05, 0.1)
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
-        mouse.move(int(120 * self._config.scale), int(450 * self._config.scale), randomize=150, delay_factor=[0.8, 1.4])
+        pos = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
+        mouse.move(*pos, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
@@ -92,7 +93,7 @@ class IChar:
             )
             if success1 or success2:
                 pos = pos1 if success1 else pos2
-                pos = (pos[0], pos[1] + 48)
+                pos = (pos[0], pos[1] + (45 * self._config.scale))
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
