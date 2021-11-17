@@ -10,10 +10,8 @@ import itertools
 import os
 import numpy as np
 from logger import Logger
-from utils.misc import wait, cut_roi
+from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
-from utils.misc import color_filter
-
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
@@ -277,7 +275,8 @@ class UiManager():
         # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
-        if not self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)[0]:
+        found, pos_gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
+        if not found:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
@@ -290,6 +289,15 @@ class UiManager():
         wait(0.2, 0.3)
         mouse.click(button="left")
         wait(0.3, 0.4)
+        # stash gold
+        x, y = self._screen.convert_screen_to_monitor(pos_gold_btn)
+        mouse.move(x, y, randomize=4)
+        wait(0.1, 0.15)
+        mouse.press(button="left")
+        wait(0.25, 0.35)
+        mouse.release(button="left")
+        wait(0.4, 0.6)
+        keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
         # stash stuff
         keyboard.send('ctrl', do_release=False)
         for column, row in itertools.product(range(num_loot_columns), range(4)):
