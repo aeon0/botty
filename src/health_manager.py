@@ -48,7 +48,7 @@ class HealthManager:
                 self._belt_manager.potions_remaining[i] = self._belt_manager.potions_remaining[i] - 1
                 break
         if not key:
-            Logger.debug(f"Out of {potion_type}")
+            #Logger.debug(f"Out of {potion_type}")
 
     def get_health(self, img: np.ndarray) -> float:
         health_rec = [self._config.ui_pos["health_left"], self._config.ui_pos["health_top"], self._config.ui_pos["health_width"], self._config.ui_pos["health_height"]]
@@ -120,7 +120,7 @@ class HealthManager:
                 last_drink = time.time() - self._last_mana
                 last_rejuv_drink = time.time() - self._last_rejuv
                 if mana_percentage < self._config.char["take_rejuvenation_potion_mana"] and last_rejuv_drink > 4:
-                    self._drink_potion("mana_potion",mana_percentage)
+                    self._drink_potion("rejuvenation_potion",mana_percentage)
                     self._last_mana = time.time()
                 elif mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4 and last_rejuv_drink > 2:
                     self._drink_potion("mana_potion",mana_percentage)
