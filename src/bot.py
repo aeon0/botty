@@ -248,9 +248,9 @@ class Bot:
                 self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                if not self._pre_buffed:
+                if not bot._pre_buffed:
                     bot._char.pre_buff()
-                    self._pre_buffed = 1
+                    bot._pre_buffed = 1
                 wait(0.2, 0.3)
                 if bot._config.char["static_path_pindle"]:
                     bot._pather.traverse_nodes_fixed("pindle_save_dist", bot._char)
@@ -285,9 +285,9 @@ class Bot:
                 self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                if not self._pre_buffed:
+                if not bot._pre_buffed:
                     bot._char.pre_buff()
-                    self._pre_buffed = 1
+                    bot._pre_buffed = 1
                 wait(0.2, 0.3)
                 # eldritch
                 if bot._config.char["static_path_eldritch"]:
