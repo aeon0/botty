@@ -178,7 +178,7 @@ class Bot:
             self._curr_location = Location.LARZUK
             self._npc_manager.open_npc_menu(Npc.LARZUK)
             self._npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
-            if self._ui_manager.repair_and_fill_up_tp(close_when_done=True):
+            if self._ui_manager.repair_and_fill_up_tp():
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
                 self._tps_left = 20
