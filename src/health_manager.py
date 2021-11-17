@@ -3,7 +3,7 @@ from ui_manager import UiManager
 import cv2
 import time
 import keyboard
-from utils.misc import kill_thread, cut_roi, color_filter
+from utils.misc import kill_thread, cut_roi, color_filter, wait
 from logger import Logger
 from screen import Screen
 import numpy as np
@@ -78,15 +78,16 @@ class HealthManager:
         return merc_health_percentage
 
     def _do_chicken(self, img, run_thread):
+        kill_thread(run_thread)
         if self._config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
+        wait(0.02, 0.05)
         keyboard.release(self._config.char["show_items"])
         time.sleep(0.01)
         self._ui_manager.save_and_exit(does_chicken=True)
         self._did_chicken = True
-        kill_thread(run_thread)
         self._do_monitor = False
 
     def start_monitor(self, run_thread: Thread):

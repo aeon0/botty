@@ -12,9 +12,8 @@ import time
 import logging
 
 
-def start_bot():
+def start_bot(bot):
     try:
-        bot = Bot()
         bot.start()
     except KeyboardInterrupt:
         Logger.info('Exit (ctrl+c)') or exit()
@@ -45,8 +44,9 @@ if __name__ == "__main__":
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
-            start_bot()
-            break
+            bot = Bot()
+            bot_thread = threading.Thread(target=start_bot, args=(bot,))
+            bot_thread.start()
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
         elif keyboard.is_pressed(config.general['color_checker_key']):
@@ -54,5 +54,6 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
+    bot_thread.join()
     print("Press Enter to exit ...")
     input()

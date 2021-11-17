@@ -10,7 +10,7 @@ import itertools
 import os
 import numpy as np
 from logger import Logger
-from utils.misc import wait, cut_roi, color_filter, send_discord
+from utils.misc import wait, cut_roi, color_filter
 from config import Config
 
 class UiManager():
@@ -135,13 +135,14 @@ class UiManager():
             wait(0.1)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
-            away_x_m, away_y_m = self._screen.convert_screen_to_monitor((200, 450))
+            # TODO: Add hardcoded coordinates to ini file
+            away_x_m, away_y_m = self._screen.convert_screen_to_monitor((int(170 * self._config.scale), int(400 * self._config.scale)))
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False)[0]:
                 delay = [0.9, 1.1]
                 if does_chicken:
                     delay = [0.3, 0.4]
-                mouse.move(x_m, y_m, randomize=[60, 10], delay_factor=delay)
+                mouse.move(x_m, y_m, randomize=[38, 7], delay_factor=delay)
                 wait(0.03, 0.06)
                 mouse.click(button="left")
                 if does_chicken:
@@ -149,7 +150,7 @@ class UiManager():
                     wait(0.05, 0.08)
                     mouse.click(button="left")
                 wait(0.1, 0.2)
-                mouse.move(away_x_m, away_y_m, randomize=100, delay_factor=[0.6, 0.9])
+                mouse.move(away_x_m, away_y_m, randomize=60, delay_factor=[0.6, 0.9])
                 wait(0.1, 0.5)
             return True
         return False
@@ -177,7 +178,7 @@ class UiManager():
                 Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
                 if mode_info == "online":
                     Logger.warning("You are creating a game in online mode!")
-                mouse.move(x, y, randomize=[50, 15], delay_factor=[1.0, 1.8])
+                mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
@@ -200,7 +201,7 @@ class UiManager():
 
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos[f"{difficulty}_x"], self._config.ui_pos[f"{difficulty}_y"]))
             Logger.debug(f"Found {difficulty} Btn -> clicking it")
-            mouse.move(x, y, randomize=[50, 15], delay_factor=[1.0, 1.8])
+            mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
             break

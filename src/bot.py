@@ -81,6 +81,11 @@ class Bot:
     def start(self):
         self.trigger('create_game')
 
+    def current_game_length(self):
+        if self._timer is None:
+            return 0
+        return time.time() - self._timer
+
     def shuffle_runs(self):
         tmp = list(self._do_runs.items())
         random.shuffle(tmp)
@@ -97,7 +102,10 @@ class Bot:
     def _shut_down(self):
         Logger.error("Something went wrong here, bot is unsure about current location. Closing down bot.")
         if self._config.general["custom_discord_hook"] != "":
-            send_discord_thread = threading.Thread(target=send_discord, args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"]))
+            send_discord_thread = threading.Thread(
+                target=send_discord,
+                args=("Botty got stuck and can not resume", self._config.general["custom_discord_hook"])
+            )
             send_discord_thread.daemon = True
             send_discord_thread.start()
         self._ui_manager.save_and_exit()
