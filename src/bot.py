@@ -321,6 +321,7 @@ class Bot:
         self._start_run("run_shenk", run)
 
     def on_end_game(self):
+        self._pre_buffed = 0
         if self._health_manager.did_chicken() or self._death_manager.died():
             Logger.info("End game while chicken or death happened. Checking where we are at.")
             # This is a tricky state as we send different actions in different threads.
@@ -364,7 +365,6 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         self._tps_left -= 1
-        self._pre_buffed = 0
         if success:
             success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
