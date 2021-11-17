@@ -56,6 +56,7 @@ class Bot:
         self._curr_location: Location = None
         self._timer = None
         self._tps_left = 20
+        self._pre_buffed = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -247,7 +248,9 @@ class Bot:
                 self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                bot._char.pre_buff()
+                if not self._pre_buffed:
+                    bot._char.pre_buff()
+                    self._pre_buffed = 1
                 wait(0.2, 0.3)
                 if bot._config.char["static_path_pindle"]:
                     bot._pather.traverse_nodes_fixed("pindle_save_dist", bot._char)
@@ -282,7 +285,9 @@ class Bot:
                 self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
                     return
-                bot._char.pre_buff()
+                if not self._pre_buffed:
+                    bot._char.pre_buff()
+                    self._pre_buffed = 1
                 wait(0.2, 0.3)
                 # eldritch
                 if bot._config.char["static_path_eldritch"]:
@@ -316,6 +321,7 @@ class Bot:
         self._start_run("run_shenk", run)
 
     def on_end_game(self):
+        self._pre_buffed = 0
         if self._health_manager.did_chicken() or self._death_manager.died():
             Logger.info("End game while chicken or death happened. Checking where we are at.")
             # This is a tricky state as we send different actions in different threads.
