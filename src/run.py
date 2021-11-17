@@ -7,7 +7,7 @@ from config import Config
 from utils.color_checker import run_color_checker
 from version import __version__
 from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread
+from utils.misc import kill_thread, send_discord, close_down_d2
 import threading
 from beautifultable import BeautifulTable
 import time
@@ -28,7 +28,7 @@ def run_bot(config: Config):
             bot.stop()
             kill_thread(bot_thread)
             if game_recovery.go_to_hero_selection():
-                do_restart = True
+                do_restart = False
             break
         time.sleep(0.04)
     bot_thread.join()
@@ -36,6 +36,9 @@ def run_bot(config: Config):
         run_bot(config)
     else:
         Logger.error("Botty could not recover from a max game length violation. Shutting down everything.")
+        if config.general["custom_discord_hook"]:
+            send_discord("Botty got stuck and can not resume", config.general["custom_discord_hook"])
+        close_down_d2()
 
 
 if __name__ == "__main__":
@@ -55,7 +58,7 @@ if __name__ == "__main__":
     table = BeautifulTable()
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
     table.rows.append([config.general['color_checker_key'], "Color test mode "])
-    table.rows.append([config.general['resume_key'], "Start bot / Pause bot"])
+    table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
     table.rows.append([config.general['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
     print(table)
