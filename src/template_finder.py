@@ -219,7 +219,7 @@ class TemplateFinder:
                 if success:
                     return True, pos
                 elif time_out is not None and (time.time() - start) > time_out:
-                    #cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
+                    cv2.imwrite(f"info_wait_for_{ref}_time_out.png", img)
                     return False, None
 
 
@@ -232,7 +232,7 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     while 1:
         img = screen.grab()
-        success, pos = template_finder.search("ELDRITCH_0", img, threshold=0.7)
+        success, pos = template_finder.search("TO_TRAPS", img, threshold=0.7)
         print(template_finder.last_score)
         if success:
             cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)
