@@ -12,8 +12,6 @@ import numpy as np
 from logger import Logger
 from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
-import threading
-
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
