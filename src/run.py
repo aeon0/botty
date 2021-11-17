@@ -47,11 +47,6 @@ if __name__ == "__main__":
             bot = Bot()
             bot_thread = threading.Thread(target=start_bot, args=(bot,))
             bot_thread.start()
-            while 1:
-                if bot.current_game_length() > 40:
-                    print("Bot over current game length!")
-                time.sleep(4)
-            break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
         elif keyboard.is_pressed(config.general['color_checker_key']):
@@ -59,5 +54,6 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
+    bot_thread.join()
     print("Press Enter to exit ...")
     input()
