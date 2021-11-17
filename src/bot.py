@@ -14,7 +14,7 @@ from health_manager import HealthManager
 from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
-from utils.misc import wait, send_discord, close_down_d2
+from utils.misc import kill_thread, wait, send_discord, close_down_d2
 import keyboard
 import threading
 import time
@@ -57,6 +57,9 @@ class Bot:
         self._timer = None
         self._tps_left = 20
         self._pre_buffed = 0
+        self._stopping = False
+        self._pausing = False
+        self._current_threads = []
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -80,6 +83,23 @@ class Bot:
 
     def start(self):
         self.trigger('create_game')
+
+    def stop(self):
+        self._stopping = True
+        for t in self._current_threads:
+            kill_thread(t)
+
+    def toggle_pause(self):
+        self._pausing = not self._pausing
+        Logger.info(f"Pause at next state change...") if self._pausing else Logger.info(f"Resume")
+
+    def trigger_or_stop(self, name: str):
+        if self._pausing:
+            Logger.info("Botty is now pausing")
+        while self._pausing:
+            time.sleep(0.2)
+        if not self._stopping:
+            self.trigger(name)
 
     def current_game_length(self):
         if self._timer is None:
@@ -133,7 +153,7 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         wait(0.05, 0.15)
         keyboard.release(self._config.char["show_items"])
-        self.trigger("maintenance")
+        self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
         time.sleep(0.6)
@@ -152,12 +172,12 @@ class Bot:
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
             Logger.info("Need some healing first. Go talk to Malah")
             if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.MALAH
             self._npc_manager.open_npc_menu(Npc.MALAH)
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_TOWN_START, self._char):
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.A5_TOWN_START
 
@@ -165,7 +185,7 @@ class Bot:
         if self._picked_up_items:
             Logger.info("Stashing picked up items")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char):
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.A5_STASH
             time.sleep(1.5)
@@ -182,7 +202,7 @@ class Bot:
         if self._tps_left < 4:
             Logger.info("Repairing and buying tps at Lazurk")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.LARZUK
             self._npc_manager.open_npc_menu(Npc.LARZUK)
@@ -198,7 +218,7 @@ class Bot:
         if not merc_alive:
             Logger.info("Reviveing merc")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.QUAL_KEHK
             if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
@@ -209,22 +229,25 @@ class Bot:
         started_run = False
         for key in self._do_runs:
             if self._do_runs[key]:
-                self.trigger(key)
+                self.trigger_or_stop(key)
                 started_run = True
                 break
         if not started_run:
-            self.trigger("end_game")
+            self.trigger_or_stop("end_game")
 
     def _start_run(self, key, run):
         Logger.info(f"{key}")
         self._do_runs[key] = False
         run_thread = threading.Thread(target=run.doit, args=(self,))
         run_thread.start()
+        self._current_threads.append(run_thread)
         # Set up monitoring
         health_monitor_thread = threading.Thread(target=self._health_manager.start_monitor, args=(run_thread,))
         health_monitor_thread.start()
+        self._current_threads.append(health_monitor_thread)
         death_monitor_thread = threading.Thread(target=self._death_manager.start_monitor, args=(run_thread,))
         death_monitor_thread.start()
+        self._current_threads.append(death_monitor_thread)
         run_thread.join()
         # Run done, lets stop health monitoring and death monitoring
         self._health_manager.stop_monitor()
@@ -236,10 +259,11 @@ class Bot:
         self._death_manager.stop_monitor()
         death_monitor_thread.join()
 
+        self._current_threads = []
         if self._death_manager.died() or self._health_manager.did_chicken() or self.is_last_run() or not run.success:
-            self.trigger("end_game")
+            self.trigger_or_stop("end_game")
         else:
-            self.trigger("end_run")
+            self.trigger_or_stop("end_run")
 
     def on_run_pindle(self):
         class RunPindle:
@@ -368,7 +392,7 @@ class Bot:
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         wait(0.2, 0.5)
-        self.trigger("create_game")
+        self.trigger_or_stop("create_game")
 
     def on_end_run(self):
         success = self._char.tp_town()
@@ -378,11 +402,11 @@ class Bot:
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START
-                self.trigger("maintenance")
+                self.trigger_or_stop("maintenance")
             else:
-                self.trigger("end_game")
+                self.trigger_or_stop("end_game")
         else:
-            self.trigger("end_game")
+            self.trigger_or_stop("end_game")
 
 
 if __name__ == "__main__":

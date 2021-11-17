@@ -53,6 +53,7 @@ res | Resolution settings can be any of [1920_1080, 1280_720]
 offset_top | Your D2R windows offset from top of the screen (including the window bar). For fullscreen leave at 0.
 offset_left | Your D2R window offset from left of screen. For fullscreen leave at 0.
 min_game_length_s | Games must have at least this length, will wait in hero selection for if game is too quick (to avoid server connection issues)
+max_game_length_s | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet
 exit_key | Pressing this key (anywhere), will force botty to shut down
 resume_key | After starting the exe botty will wait for this keypress to atually start botting away
 color_checker_key | Pressing this key will start a debug mode to check if the color filtering works with your settings. It also includes the item search and marks items it would pick up with red circles
