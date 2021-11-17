@@ -105,12 +105,14 @@ class UiManager():
             return "mana"
         return "empty"
 
-    def check_free_belt_spots(self) -> bool:
+    def check_need_pots(self) -> Tuple[int, int]:
         """
         Check if any column in the belt is free (only checking the bottom row)
-        :return: Bool if any column in belt is free
+        :return: need_health_pots, need_mana_pots
         """
         img = self._screen.grab()
+        mana_columns = 0
+        health_columns = 0
         for i in range(4):
             roi = [
                 self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + i * self._config.ui_pos["potion_next"],
@@ -120,9 +122,15 @@ class UiManager():
             ]
             potion_img = cut_roi(img, roi)
             potion_type = self.potion_type(potion_img)
-            if potion_type == "empty":
-                return True
-        return False
+            if potion_type == "health":
+                health_columns += 1
+            elif potion_type == "mana":
+                mana_columns += 1
+
+        # TODO: handle rejuv potions as well when that potion type is added
+        need_health_pots = health_columns < self._config.char["belt_hp_columns"]
+        need_mana_pots = mana_columns < self._config.char["belt_mp_columns"]
+        return need_health_pots, need_mana_pots
 
     def save_and_exit(self, does_chicken: bool = False) -> bool:
         """

@@ -77,6 +77,8 @@ class Config:
             "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
             "static_path_pindle": bool(int(self._select_val("char", "static_path_pindle"))),
             "static_path_eldritch": bool(int(self._select_val("char", "static_path_eldritch"))),
+            "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
+            "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
         }
 
         self.sorceress = dict(self._config["sorceress"])
