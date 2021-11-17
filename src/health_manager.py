@@ -121,7 +121,7 @@ class HealthManager:
                 last_rejuv_drink = time.time() - self._last_rejuv
                 if mana_percentage < self._config.char["take_rejuvenation_potion_mana"] and last_rejuv_drink > 4:
                     self._drink_potion("rejuvenation_potion",mana_percentage)
-                    self._last_mana = time.time()
+                    self._last_rejuv = time.time()
                 elif mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4 and last_rejuv_drink > 2:
                     self._drink_potion("mana_potion",mana_percentage)
                     self._last_mana = time.time()
