@@ -105,15 +105,11 @@ class UiManager():
                     delay = [0.3, 0.4]
                 mouse.move(x_m, y_m, randomize=[60, 10], delay_factor=delay)
                 wait(0.03, 0.06)
-                mouse.press(button="left")
-                wait(0.25, 0.35)
-                mouse.release(button="left")
+                mouse.click(button="left")
                 if does_chicken:
                     # lets just try again just in case
                     wait(0.05, 0.08)
-                    mouse.press(button="left")
-                    wait(0.25, 0.35)
-                    mouse.release(button="left")
+                    mouse.click(button="left")
                 wait(0.1, 0.2)
                 mouse.move(away_x_m, away_y_m, randomize=100, delay_factor=[0.6, 0.9])
                 wait(0.1, 0.5)
