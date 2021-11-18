@@ -1,1 +1,0 @@
-every screenshot made that handles getting stuck info / chicken info / timeout info / inventory info goes in here

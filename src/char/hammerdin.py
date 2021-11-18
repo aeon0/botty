@@ -18,12 +18,12 @@ class Hammerdin(IChar):
         self._pather = pather
 
     def pre_buff(self):
+        if self._char_config["cta_available"]:
+            self._pre_buff_cta()
         keyboard.send(self._skill_hotkeys["holy_shield"])
         wait(0.04, 0.1)
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
-        if self._char_config["cta_available"]:
-            self._pre_buff_cta()
 
     def _cast_hammers(self, time_in_s: float):
         keyboard.send(self._skill_hotkeys["concentration"])
@@ -47,8 +47,9 @@ class Hammerdin(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _do_redemption(self):
-        keyboard.send(self._skill_hotkeys["redemption"])
-        wait(1.5, 2.0)
+        if "redemption" in self._skill_hotkeys:
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(1.5, 2.0)
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
