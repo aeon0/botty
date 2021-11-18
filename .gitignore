@@ -17,3 +17,4 @@ custom.ini
 .vscode
 info_screenshots/
 loot_screenshots/
+.venv
