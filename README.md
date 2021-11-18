@@ -77,8 +77,6 @@ run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out
 type | Build type. Currently only "sorceress" or "hammerdin" is supported
 casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
 slow_walk | With this set to 1 the char will have a large delay for each running action in town. Set this to 1 if you keep getting stuck during traversing town.
-static_path_pindle | If set to 1, the pathing is done by staticly recorded screen positions. Otherwise it uses reference templates
-static_path_eldritch | If set to 1, the pathing is done by staticly recorded screen positions. Otherwise it uses reference templates
 atk_len_pindle | Attack length for hdin or number of attack sequences for sorc when fighting pindle
 atk_len_eldritch | Attack length for hdin or number of attack sequences for sorc when fighting eldritch
 atk_len_shenk | Attack length for hdin or number of attack sequences for sorc when fighting shenk
