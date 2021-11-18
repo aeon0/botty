@@ -24,7 +24,7 @@ Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `
 Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tomb of tps in your inventory.
 
 ### 3) Start Location
-Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 in the respective difficulty you set in the __param.ini__ once the bots starts the game.
+Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 in the respective difficulty you set in the __param.ini__ once the bot starts the game.
 
 ### 4) Start Botty
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Switch (ALT+TAB) to your D2R window and press the start key (default f11). You can always force stop botty with f12.
