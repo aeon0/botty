@@ -22,20 +22,21 @@ class Sorceress(IChar):
     def pre_buff(self):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
-        if self._char_config["es_available"]:
+        if self._skill_hotkeys["energy_shield"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._char_config["ts_available"]:
+        if self._skill_hotkeys["thunder_storm"]:
             keyboard.send(self._skill_hotkeys["thunder_storm"])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        keyboard.send(self._skill_hotkeys["frozen_armor"])
-        wait(0.1, 0.13)
-        mouse.click(button="right")
-        wait(self._cast_duration)
+        if self._skill_hotkeys["frozen_armor"]:
+            keyboard.send(self._skill_hotkeys["frozen_armor"])
+            wait(0.1, 0.13)
+            mouse.click(button="right")
+            wait(self._cast_duration)
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)

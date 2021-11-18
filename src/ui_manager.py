@@ -85,6 +85,15 @@ class UiManager():
                 return True
         return False
 
+    def wait_for_loading_screen(self, time_out):
+        start = time.time()
+        while time.time() - start < time_out:
+            img = self._screen.grab()
+            is_loading_black_roi = np.average(img[:700, 0:250]) < 3.5
+            if is_loading_black_roi:
+                return True
+        return False
+
     @staticmethod
     def potion_type(img: np.ndarray) -> str:
         """
@@ -293,14 +302,15 @@ class UiManager():
         mouse.click(button="left")
         wait(0.3, 0.4)
         # stash gold
-        x, y = self._screen.convert_screen_to_monitor(pos_gold_btn)
-        mouse.move(x, y, randomize=4)
-        wait(0.1, 0.15)
-        mouse.press(button="left")
-        wait(0.25, 0.35)
-        mouse.release(button="left")
-        wait(0.4, 0.6)
-        keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+        if self._config.char["stash_gold"]:
+            x, y = self._screen.convert_screen_to_monitor(pos_gold_btn)
+            mouse.move(x, y, randomize=4)
+            wait(0.1, 0.15)
+            mouse.press(button="left")
+            wait(0.25, 0.35)
+            mouse.release(button="left")
+            wait(0.4, 0.6)
+            keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
         # stash stuff
         keyboard.send('ctrl', do_release=False)
         for column, row in itertools.product(range(num_loot_columns), range(4)):
