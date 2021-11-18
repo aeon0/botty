@@ -45,13 +45,13 @@ class IChar:
         if force_tp or not self._ui_manager.is_teleport_selected():
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
+        factor = self._config.advanced_options["pathing_delay_factor"]
         if force_tp or self._ui_manager.can_teleport():
-            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[0.6, 0.8])
-            wait(0.03, 0.05)
+            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
+            wait(0.012, 0.02)
             mouse.click(button="right")
-            wait(self._cast_duration, self._cast_duration + 0.04)
+            wait(self._cast_duration, self._cast_duration + 0.03)
         else:
-            factor = self._config.advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
@@ -59,12 +59,11 @@ class IChar:
             adjust_factor = (dist - 50) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
-            mouse.move(x, y, randomize=5, delay_factor=[factor*0.14, factor*0.2])
-            wait(factor*0.006, factor*0.01)
+            mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
+            wait(0.012, 0.02)
             mouse.click(button="left")
-            wait(0.02, 0.03)
             if self._config.char["slow_walk"]:
-                wait(0.6)
+                wait(0.8)
 
     def tp_town(self):
         keyboard.send(self._char_config["tp"])
@@ -115,6 +114,7 @@ class IChar:
         mouse.click(button="right")
         wait(self._cast_duration + 0.04, self._cast_duration + 0.07)
         keyboard.send(self._char_config["weapon_switch"])
+        wait(0.28, 0.35)
 
     @abstract
     def pre_buff(self):

@@ -20,6 +20,8 @@ class Sorceress(IChar):
         self._pather = pather
 
     def pre_buff(self):
+        if self._char_config["cta_available"]:
+            self._pre_buff_cta()
         if self._char_config["es_available"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])
             wait(0.1, 0.13)
@@ -34,8 +36,6 @@ class Sorceress(IChar):
         wait(0.1, 0.13)
         mouse.click(button="right")
         wait(self._cast_duration)
-        if self._char_config["cta_available"]:
-            self._pre_buff_cta()
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -83,6 +83,11 @@ class Sorceress(IChar):
         delay = [0.2, 0.3]
         pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
         if pos_abs is not None:
+            eld_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+        else:
+            eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
+        cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
+        if pos_abs is not None:
             cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_eldritch"])):
                 self._main_attack(cast_pos_abs, delay, 90)
@@ -99,7 +104,11 @@ class Sorceress(IChar):
     def kill_shenk(self):
         delay = [0.2, 0.3]
         pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
-        cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+        if pos_abs is not None:
+            shenk_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+        else:
+            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+        cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_shenk"])):
             self._main_attack(cast_pos_abs, delay, 90)
             self._left_attack(cast_pos_abs, delay, 90)

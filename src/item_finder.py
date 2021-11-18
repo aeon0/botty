@@ -52,7 +52,7 @@ class ItemFinder:
         else:
             self._gaus_filter = (15, 5)
             self._folder_name = "items_1280_720"
-            self._min_score = 0.75
+            self._min_score = 0.8
         # load all templates
         self._config = config
         self._templates = {}
@@ -113,18 +113,18 @@ class ItemFinder:
                         result = cv2.matchTemplate(cropped_input, template.data, cv2.TM_CCOEFF_NORMED)
                         _, max_val, _, max_loc = cv2.minMaxLoc(result)
                         if max_val > self._min_score:
-                            if template.blacklist:
-                                item = None
-                                break
-                            elif (best_score is None  or max_val > best_score):
+                            if (best_score is None  or max_val > best_score):
                                 best_score = max_val
-                                max_loc = [max_loc[0] + x, max_loc[1] + y]
-                                item = Item()
-                                item.center = (int(max_loc[0] + int(template.data.shape[1] * 0.5)), int(max_loc[1] + int(template.data.shape[0] * 0.5)))
-                                item.name = key
-                                item.score = max_val
-                                center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
-                                item.dist = math.dist(center_abs, (0, 0))
+                                if template.blacklist:
+                                    item = None
+                                else:
+                                    max_loc = [max_loc[0] + x, max_loc[1] + y]
+                                    item = Item()
+                                    item.center = (int(max_loc[0] + int(template.data.shape[1] * 0.5)), int(max_loc[1] + int(template.data.shape[0] * 0.5)))
+                                    item.name = key
+                                    item.score = max_val
+                                    center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
+                                    item.dist = math.dist(center_abs, (0, 0))
             if item is not None and self._config.items[item.name]:
                 item_list.append(item)
         elapsed = time.time() - start
@@ -144,7 +144,7 @@ if __name__ == "__main__":
         img = screen.grab().copy()
         item_list = item_finder.search(img)
         for item in item_list:
-            # print(item.name + " " + str(item.score))
+            print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)

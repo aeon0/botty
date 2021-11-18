@@ -139,9 +139,8 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        time.sleep(0.6)
-
         if self._death_manager.died() or self._health_manager.did_chicken():
+            time.sleep(0.6)
             # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
             # the death manager could determine if we were dead
             self._death_manager.pick_up_corpse()
@@ -171,14 +170,14 @@ class Bot:
                 self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.A5_STASH
-            time.sleep(1.5)
+            time.sleep(0.3)
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
                 keyboard.send("esc")
             if self._char.select_by_template("A5_STASH"):
                 self._ui_manager.stash_all_items(self._config.char["num_loot_columns"])
                 self._picked_up_items = False
-                time.sleep(2) # otherwise next grab of screen will still have inventory
+                time.sleep(1.2) # otherwise next grab of screen will still have inventory
             else:
                 Logger.warning("Could not find stash, continue...")
 
@@ -194,7 +193,7 @@ class Bot:
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
                 self._tps_left = 20
-            wait(0.8)
+            wait(0.5)
 
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
@@ -206,7 +205,7 @@ class Bot:
             self._curr_location = Location.QUAL_KEHK
             if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
                 self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
-            time.sleep(2)
+            time.sleep(1.2)
 
         # Start a new run
         started_run = False
