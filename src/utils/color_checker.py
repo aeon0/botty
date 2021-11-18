@@ -18,8 +18,7 @@ def run_color_checker():
             combined_img = cv2.bitwise_or(filterd_img, combined_img)
         item_list = item_finder.search(img)
         for item in item_list:
-            x, y = screen.convert_screen_to_monitor(item.center)
-            cv2.circle(combined_img, (x, y), 7, (0, 0, 255), 4)
+            cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
         combined_img = cv2.resize(combined_img, None, fx=0.5, fy=0.5)
         cv2.imshow("debug img", combined_img)
         cv2.setWindowProperty("debug img", cv2.WND_PROP_TOPMOST, 1)
