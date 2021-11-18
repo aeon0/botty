@@ -86,6 +86,10 @@ class Config:
         self.hammerdin = self._config["hammerdin"]
         if "hammerdin" in self._custom:
             self.hammerdin.update(self._custom["hammerdin"])
+        
+        self.advanced_options = {
+            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10)
+        }
 
         self.items = {}
         for key in self._config["items"]:
