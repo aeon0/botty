@@ -118,6 +118,10 @@ redemption | Hotkey for redemption
 holy_shield | Hotkey for Holy Shield
 blessed_hammer | Hotkey for Blessed Hammer
 
+ [advanced_options]             | Descriptions                                
+--------------------------------|---------------------------------------------
+pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays.
+
  [items]                        | Descriptions                                
 --------------------------------|---------------------------------------------
 item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent.

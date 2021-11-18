@@ -51,6 +51,7 @@ class IChar:
             mouse.click(button="right")
             wait(self._cast_duration, self._cast_duration + 0.04)
         else:
+            factor = self._config.advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
@@ -58,8 +59,8 @@ class IChar:
             adjust_factor = (dist - 50) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
-            mouse.move(x, y, randomize=5, delay_factor=[0.7, 1.0])
-            wait(0.03, 0.05)
+            mouse.move(x, y, randomize=5, delay_factor=[factor*0.14, factor*0.2])
+            wait(factor*0.006, factor*0.01)
             mouse.click(button="left")
             wait(0.02, 0.03)
             if self._config.char["slow_walk"]:
