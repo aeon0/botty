@@ -6,7 +6,7 @@ Simple Pixelbot for Diablo 2 Resurrected written in python and opencv. Obviously
 
 And please. I urge you to actually read that README! It will make your life a lot easier.
 
-[![Watch the video](assets/docs/video_thumbnail.png)](https://vimeo.com/641410429)
+[![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
 The bot currently only supports the screen resolutions 1920x1080 and 1280x720. If your monitor has a higher resolution, you need to reduce it to the mentioned once for running the bot.
