@@ -66,12 +66,15 @@ class IChar:
                 wait(0.8)
 
     def tp_town(self):
+        # TODO: Check if tp is available
+        #       e.g. cut img before switching to TP, then after, they should have changed
+        #            if they are the same, char is out of tps!
         keyboard.send(self._char_config["tp"])
         wait(0.05, 0.1)
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
-        pos = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
-        mouse.move(*pos, randomize=40, delay_factor=[0.8, 1.4])
+        pos_away = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
+        mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
@@ -98,7 +101,10 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                return True
+                if self._ui_manager.wait_for_loading_screen(2.0):
+                    return True
+                else:
+                    mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):
