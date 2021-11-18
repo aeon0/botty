@@ -10,7 +10,7 @@ import itertools
 import os
 import numpy as np
 from logger import Logger
-from utils.misc import wait, cut_roi, color_filter
+from utils.misc import wait, cut_roi, color_filter, close_down_d2
 from config import Config
 
 class UiManager():
@@ -340,6 +340,7 @@ class UiManager():
             self._curr_stash += 1
             if self._curr_stash > 3:
                 Logger.error("All stash is full, quitting")
+                close_down_d2()
                 os._exit(1)
             else:
                 # move to next stash

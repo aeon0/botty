@@ -387,6 +387,7 @@ class Bot:
             else:
                 self.trigger_or_stop("end_game")
         else:
+            self._tps_left = 0
             self.trigger_or_stop("end_game")
 
 
