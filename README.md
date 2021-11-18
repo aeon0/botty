@@ -9,6 +9,8 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://vimeo.com/641410429)
 
 ## Getting started
+The bot currently only supports the screen resolutions 1920x1080 and 1280x720. If your monitor has a higher resolution, you need to reduce it to the mentioned once for running the bot.
+
 ### 1) Graphics and Gameplay Settings
 All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Color Test Mode" to verify your settings.</br>
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty.
@@ -22,10 +24,11 @@ Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `
 Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tomb of tps in your inventory.
 
 ### 3) Start Location
-Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 hell when starting a hell game.
+Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 in the respective difficulty you set in the __param.ini__ once the bots starts the game.
 
-### 5) Start Botty
-Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Move to your D2R window and press the start key (default f11). You can always force stop botty with f12.
+### 4) Start Botty
+Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Switch (ALT+TAB) to your D2R window and press the start key (default f11). You can always force stop botty with f12.
+
 
 ## Color Test Mode
 To check if you graphic settings are good and if the bot would pick up items there is a **Color Test Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and throw some items of different type on the ground. If you now bring forward the debug window all items should show up with their names while the background is black. If you throw an item on the ground that should be picked up, it will have a red circle.</br>
@@ -46,7 +49,7 @@ run_pindle=1
 run_shenk=0
 ```
 
- [general]                      | Descriptions                                
+ [general]                      | Descriptions
 --------------------------------|---------------------------------------------
 monitor | Select on which monitor D2R is running in case multiple are available
 res | Resolution settings can be any of [1920_1080, 1280_720]
@@ -59,17 +62,17 @@ resume_key | After starting the exe botty will wait for this keypress to atually
 color_checker_key | Pressing this key will start a debug mode to check if the color filtering works with your settings. It also includes the item search and marks items it would pick up with red circles
 logger_lvl | Can be any of [info, debug] and determines how much output you see on the command line
 randomize_runs | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random.
-difficulty | Set to `normal` `nightmare` or `hell` for game difficulty 
+difficulty | Set to `normal` `nightmare` or `hell` for game difficulty
 custom_discord_hook | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume
-info_screenshots | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while 
+info_screenshots | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while
 loot_screenshots | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while...
 
- [routes]                       | Descriptions                                
+ [routes]                       | Descriptions
 --------------------------------|---------------------------------------------
 run_pindle | Run Pindle in each new game. Select "1" to run it "0" to leave it out.
 run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out.
 
- [char]                         | Descriptions                                
+ [char]                         | Descriptions
 --------------------------------|---------------------------------------------
 type | Build type. Currently only "sorceress" or "hammerdin" is supported
 casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
@@ -101,7 +104,7 @@ weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
 
- [sorceress]                    | Descriptions                                
+ [sorceress]                    | Descriptions
 --------------------------------|---------------------------------------------
 teleport | Hotkey for teleport
 skill_left | Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike)
@@ -110,7 +113,7 @@ forzen_armor | Hotkey for frozen armor (or any of the other armors)
 energy_shield | Hotkey for energy shield, only used if es_available is 1
 thunder_storm | Hotkey for thunder storm, only used if ts_available is 1
 
- [hammerdin]                    | Descriptions                                
+ [hammerdin]                    | Descriptions
 --------------------------------|---------------------------------------------
 teleport | Hotkey for teleport
 concentration | Hotkey for Concentration
@@ -118,11 +121,11 @@ redemption | Hotkey for redemption
 holy_shield | Hotkey for Holy Shield
 blessed_hammer | Hotkey for Blessed Hammer
 
- [advanced_options]             | Descriptions                                
+ [advanced_options]             | Descriptions
 --------------------------------|---------------------------------------------
 pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays.
 
- [items]                        | Descriptions                                
+ [items]                        | Descriptions
 --------------------------------|---------------------------------------------
 item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent.
 
