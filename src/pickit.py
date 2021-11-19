@@ -74,7 +74,7 @@ class PickIt:
                             if self._config.general["custom_discord_hook"] != "":
                                 send_discord_thread = threading.Thread(
                                     target=send_discord,
-                                    args=(f"Botty just found: {closest_item.name}", self._config.general["custom_discord_hook"])
+                                    args=(f"{self._config.general['name']} just found: {closest_item.name}", self._config.general["custom_discord_hook"])
                                 )
                                 send_discord_thread.daemon = True
                                 send_discord_thread.start()
