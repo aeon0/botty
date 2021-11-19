@@ -1,0 +1,15 @@
+beautifultable==1.0.1
+certifi==2021.10.8
+charset-normalizer==2.0.7
+idna==3.3
+keyboard==0.13.5
+mouse==0.7.1
+mss==6.1.0
+numpy==1.21.4
+opencv-python==4.5.4.58
+pytweening==1.0.4
+requests==2.26.0
+six==1.16.0
+transitions==0.8.10
+urllib3==1.26.7
+wcwidth==0.2.5
