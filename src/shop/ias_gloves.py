@@ -71,7 +71,7 @@ class JavaShopper:
         while True:
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
-            time.sleep(0.1)
+            wait(0.1, 0.3)
             img = self._screen.grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
@@ -85,7 +85,7 @@ class JavaShopper:
             if ias_glove_found:
                 self.ias_gloves_seen += 1
                 mouse.move(*pos)
-                time.sleep(0.1)
+                wait(0.1, 0.8)
                 img = self._screen.grab()
                 gg_gloves_found, pos = self._template_finder.search(
                     ref=load_template(
@@ -99,7 +99,7 @@ class JavaShopper:
                     mouse.click(button="right")
                     Logger.info("GG gloves bought!")
                     self.gloves_bought += 1
-                    time.sleep(1)
+                    wait(1, 3)
 
                 # Enable the following, if you are fine with +2 gloves.
                 else:
@@ -116,7 +116,7 @@ class JavaShopper:
                             mouse.click(button="right")
                             Logger.info("G gloves bought!")
                             self.gloves_bought += 1
-                            time.sleep(1)
+                            wait(1, 3)
 
             self.reset_shop()
             self.run_count += 1
@@ -129,7 +129,7 @@ class JavaShopper:
                 break
             else:
                 mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
-        time.sleep(3)
+        wait(2, 6)
         while 1:
             success = self.select_by_template("A5_RED_PORTAL")
             success &= wait_for_loading_screen(self._screen, 2)
@@ -172,4 +172,4 @@ if __name__ == "__main__":
                 exit(javashopper)
             break
 
-        time.sleep(0.05)
+        wait(0.1, 0.4)
