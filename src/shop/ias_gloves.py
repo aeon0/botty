@@ -60,6 +60,7 @@ class JavaShopper:
         self.start_time = time.time()
         self.ias_gloves_seen = 0
         self.gloves_bought = 0
+        self.look_also_for_plus_2_gloves = False  # Setting this to True will let the shopping bot look for both +2 and +3 & IAS gloves.
 
     def run(self):
         Logger.info("STARTING JAVAZON GG GLOVES SHOPPER!")
@@ -99,6 +100,23 @@ class JavaShopper:
                     Logger.info("GG gloves bought!")
                     self.gloves_bought += 1
                     time.sleep(1)
+
+                # Enable the following, if you are fine with +2 gloves.
+                else:
+                    if self.look_also_for_plus_2_gloves is True:
+                        g_gloves_found, pos = self._template_finder.search(
+                            ref=load_template(
+                                "assets/shop/gloves/g_gloves.png", 1.0 # +2 java gloves are better than no java gloves.
+                            ),
+                            inp_img=img,
+                            threshold=0.80,
+                            normalize_monitor=True,
+                        )
+                        if g_gloves_found:
+                            mouse.click(button="right")
+                            Logger.info("G gloves bought!")
+                            self.gloves_bought += 1
+                            time.sleep(1)
 
             self.reset_shop()
             self.run_count += 1
