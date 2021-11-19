@@ -113,7 +113,9 @@ class ItemFinder:
                         result = cv2.matchTemplate(cropped_input, template.data, cv2.TM_CCOEFF_NORMED)
                         _, max_val, _, max_loc = cv2.minMaxLoc(result)
                         if max_val > self._min_score:
-                            if (best_score is None  or max_val > best_score):
+                            if template.blacklist:
+                                max_val += 0.02
+                            if (best_score is None or max_val > best_score):
                                 best_score = max_val
                                 if template.blacklist:
                                     item = None
