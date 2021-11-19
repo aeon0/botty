@@ -40,7 +40,13 @@ def wait_for_loading_screen(screen: Screen, time_out):
 
 class JavaShopper:
     """
-    Shop javazon 20 ias 3 java skill gloves
+    Shop javazon 20 ias 3 java skill gloves.
+
+    In order to start the shopping bot:
+    1.) Run this this file in Python.
+    2.) Be ingame in Harrogath (act 5 town).
+    3.) Stand close to Anya and the red portal.
+    4.) While being ingame, press F11 (default) to start the shopping and F12 (default) to stop it.
     """
 
     def __init__(self, config):
