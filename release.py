@@ -1,10 +1,24 @@
 import os
 import shutil
 from pathlib import Path
+import sys
 from src.version import __version__
 
 # Note: Before building you must add cv2 to python path:
 # e.g. C:\Users\USER\miniconda3\envs\botty\lib\site-packages\cv2
+
+# change version
+new_dev_version_code = None
+if len(sys.argv) == 2:
+    print(f"Releasing new version: {sys.argv[1]}")
+    version_code = ""
+    with open('src/version.py', 'r') as f:
+        version_code = f.read()
+    version_code = version_code.split("=")
+    new_version_code = f"{version_code[0]}= '{sys.argv[1]}'"
+    new_dev_version_code = f"{version_code[0]}= '{sys.argv[1]}-dev'"
+    with open('src/version.py', 'w') as f:
+        f.write(new_version_code)
 
 # clean up
 def clean_up():
@@ -43,3 +57,7 @@ shutil.copy("params.ini", f"{botty_dir}/")
 shutil.copy("README.md", f"{botty_dir}/")
 shutil.copytree("assets", f"{botty_dir}/assets")
 clean_up()
+
+if new_dev_version_code is not None:
+    with open('src/version.py', 'w') as f:
+        f.write(new_dev_version_code)

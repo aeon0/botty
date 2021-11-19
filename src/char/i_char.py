@@ -31,6 +31,10 @@ class IChar:
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
     def select_by_template(self, template_type: str) -> bool:
+        if template_type == "A5_STASH":
+            # sometimes waypoint is opened and stash not found because of that, check for that
+            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
+                keyboard.send("esc")
         Logger.debug(f"Select {template_type}")
         success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
         if success:

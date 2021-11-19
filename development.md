@@ -13,19 +13,6 @@ conda activate botty
 python src/run.py
 ```
 
-## Building from source
-If you want to build a .exe from source you will have to first add the cv2 path to your PYTHONPATH in System variables or User variables for current user:</br>
-Edit the system environment variables -> Environment Variables... -> New... </br>
-Variable name: PYTHONPATH </br>
-Variable value: C:\Users\YOUR_WINDOWS_USER_NAME\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
-
-If you installed your miniconda in another location you will of course have ot change it for that one.
-```bash
-# building .exe and bundeling all needed resource into one folder
-python release.py
-```
-For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
-
 ## Tests
 All automated tests can be found within the **/test/*** folder. The file and folder structure is supposed to mimic the src folder.
 ```bash
@@ -73,3 +60,16 @@ There are different coordinate systems used and I tried my best to add these to 
 **Absolute**: Has its origin at the center of the screen, thus at the footpoint of your char </br>
 **Relative**: Relative coordinates as the name suggest are relative to something. It is mostly used to express relative coordinates in relation to a tempalte that is found </br>
 <img src="assets/docs/coordinate_systems.png" width="550"/>
+
+## Release process
+Before releasing make sure that the cv2 path is added to your PYTHONPATH in System variables or User variables for current user:</br>
+Edit the system environment variables -> Environment Variables... -> New... </br>
+Variable name: PYTHONPATH </br>
+Variable value: C:\Users\YOUR_WINDOWS_USER_NAME\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
+
+If you installed your miniconda in another location you will of course have ot change it for that one.
+```bash
+# Adapt new version with x.x.x, build .exe and bundeling all needed resource into one folder
+python release.py x.x.x
+```
+For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`
