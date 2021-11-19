@@ -51,6 +51,7 @@ run_shenk=0
 
  [general]                      | Descriptions
 --------------------------------|---------------------------------------------
+name | Name used in terminal and discord messages
 monitor | Select on which monitor D2R is running in case multiple are available
 res | Resolution settings can be any of [1920_1080, 1280_720]
 offset_top | Your D2R windows offset from top of the screen (including the window bar). For fullscreen leave at 0.
