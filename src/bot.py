@@ -171,9 +171,6 @@ class Bot:
                 return
             self._curr_location = Location.A5_STASH
             time.sleep(0.3)
-            # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
-                keyboard.send("esc")
             if self._char.select_by_template("A5_STASH"):
                 self._ui_manager.stash_all_items(self._config.char["num_loot_columns"])
                 self._picked_up_items = False
