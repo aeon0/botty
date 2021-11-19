@@ -9,7 +9,7 @@ import math
 import keyboard
 from logger import Logger
 import time
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union, List
 from config import Config
 
 
@@ -30,19 +30,22 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
-    def select_by_template(self, template_type: str) -> bool:
+    def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
                 keyboard.send("esc")
         Logger.debug(f"Select {template_type}")
-        success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
-        if success:
-            x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
-            mouse.move(x_m, y_m)
-            wait(0.3, 0.4)
-            mouse.click(button="left")
-            return True
+        start = time.time()
+        while (time.time() - start)  < 8:
+            success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=2)
+            if success:
+                x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
+                mouse.move(x_m, y_m)
+                wait(0.3, 0.4)
+                mouse.click(button="left")
+                if not expect_loading_screen or self._ui_manager.wait_for_loading_screen(2.0):
+                    return True
         return False
 
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):

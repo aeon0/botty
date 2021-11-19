@@ -78,6 +78,7 @@ class TemplateFinder:
             "A5_STASH": [load_template(f"assets/templates{res_str}/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template(f"assets/templates{res_str}/a5_wp.png", self._scale_factor), self._scale_factor],
             "A5_RED_PORTAL": [load_template(f"assets/templates{res_str}/a5_red_portal.png", self._scale_factor), self._scale_factor],
+            "A5_RED_PORTAL_TEXT": [load_template(f"assets/templates{res_str}/a5_red_portal_with_text.png", self._scale_factor), self._scale_factor],
             "BLUE_PORTAL": [load_template(f"assets/templates{res_str}/blue_portal.png", self._scale_factor), self._scale_factor],
             "BLUE_PORTAL_2": [load_template(f"assets/templates{res_str}/blue_portal_2.png", self._scale_factor), self._scale_factor],
             # Template Inventory / UI
