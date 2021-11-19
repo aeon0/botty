@@ -15,7 +15,6 @@ from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
 from utils.misc import wait, send_discord, close_down_d2
-from utils.custom_mouse import mouse
 import keyboard
 import threading
 import time
@@ -58,7 +57,6 @@ class Bot:
         self._timer = None
         self._tps_left = 20
         self._pre_buffed = 0
-        self._merc_revive_attempts = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -202,23 +200,8 @@ class Bot:
                 self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             time.sleep(2)
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
-        if merc_alive:
-            self._merc_revive_attempts = 0
-        elif self._config.general["require_merc"]:
-            self._merc_revive_attempts = self._merc_revive_attempts + 1
-            mouse.move(0,0, randomize=[5, 5], delay_factor=[0.5,1])
-            wait(0.2, 0.3)
-            mouse.click(button="left")
-            wait(0.3, 0.5)
-            mouse.click(button="left")
-            wait(0.5, 1)
-            if self._merc_revive_attempts > 1:
-                time.sleep(2)
-                self._shut_down(error_message=f"require_merc is set to true and merc could not be revived after {self._merc_revive_attempts} attempts, shut down")
-            else:
-                Logger.error("Failed to revive merc, restart run")
-                self.trigger("end_game")
-                return
+        if not merc_alive and self._config.general["require_merc"]:
+            self._shut_down(error_message=f"require_merc is set to true and merc could not be revived, shut down")
 
 
         # Start a new run

@@ -58,7 +58,11 @@ class NpcManager:
     def open_npc_menu(self, npc_key: Npc) -> bool:
         roi = self._config.ui_roi["cut_skill_bar"]
         start = time.time()
-        while (time.time() - start) < 35:
+        if self._config.general["require_merc"]:
+            timeout = 70
+        else:
+            timeout = 35
+        while (time.time() - start) < timeout:
             img = self._screen.grab()
             results = []
             for key in self._npcs[npc_key]["template_group"]:
@@ -89,8 +93,8 @@ class NpcManager:
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
         _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["white"])
         res, pos = self._template_finder.search(
-            self._npcs[npc_key]["action_btns"][action_btn_key], 
-            filtered_inp, 0.85, roi=self._config.ui_roi["cut_skill_bar"], 
+            self._npcs[npc_key]["action_btns"][action_btn_key],
+            filtered_inp, 0.85, roi=self._config.ui_roi["cut_skill_bar"],
             normalize_monitor=True
         )
         if res:
