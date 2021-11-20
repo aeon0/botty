@@ -87,7 +87,7 @@ class Bot:
         img = self._screen.grab()
         belt_contents, self._belt_manager.belt_height = self._belt_manager.get_belt_contents(img,1,0)
         self._belt_manager.drop_wrong_belt_pots(belt_contents,0) #drops wrong potions and generates pots_remaining
-        self._picked_up_items = self._pickit.pick_up_items(self._char) #pickup compatible pots
+        _ = self._pickit.pick_up_items(self._char) #pickup compatible pots
         keyboard.send(self._config.char["show_belt"]) #toggle belt
 
     def start(self):
