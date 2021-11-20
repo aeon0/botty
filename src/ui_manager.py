@@ -2,7 +2,6 @@ from screen import Screen
 from template_finder import TemplateFinder
 from typing import Tuple
 from utils.custom_mouse import mouse
-import configparser
 import keyboard
 import random
 import time
@@ -11,7 +10,7 @@ import itertools
 import os
 import numpy as np
 from logger import Logger
-from utils.misc import wait, cut_roi, color_filter, send_discord
+from utils.misc import wait, cut_roi, color_filter, close_down_d2
 from config import Config
 
 class UiManager():
@@ -341,8 +340,7 @@ class UiManager():
             self._curr_stash += 1
             if self._curr_stash > 3:
                 Logger.error("All stash is full, quitting")
-                if configparser.general["custom_discord_hook"]:
-                    send_discord(f"{config.general['name']} all stash is full, quitting", config.general["custom_discord_hook"])
+                close_down_d2()
                 os._exit(1)
             else:
                 # move to next stash

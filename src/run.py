@@ -7,7 +7,7 @@ from config import Config
 from utils.color_checker import run_color_checker
 from version import __version__
 from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread, send_discord
+from utils.misc import kill_thread, send_discord, close_down_d2
 import threading
 from beautifultable import BeautifulTable
 import time
@@ -38,7 +38,7 @@ def run_bot(config: Config):
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
         if config.general["custom_discord_hook"]:
             send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
-        os._exit(1)
+        close_down_d2()
 
 
 if __name__ == "__main__":
