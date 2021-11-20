@@ -74,6 +74,7 @@ class TemplateFinder:
             "SHENK_12": [load_template(f"assets/templates{res_str}/shenk/shenk_12.png", self._scale_factor), self._scale_factor],
             "SHENK_13": [load_template(f"assets/templates{res_str}/shenk/shenk_13.png", self._scale_factor), self._scale_factor],
             "SHENK_15": [load_template(f"assets/templates{res_str}/shenk/shenk_15.png", self._scale_factor), self._scale_factor],
+            "SHENK_16": [load_template(f"assets/templates{res_str}/shenk/shenk_16.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template(f"assets/templates{res_str}/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template(f"assets/templates{res_str}/a5_wp.png", self._scale_factor), self._scale_factor],
@@ -234,13 +235,18 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
+    search_templates = ["SHENK_9", "SHENK_8", "SHENK_10", "SHENK_16"]
+    scores = {}
     while 1:
-        img = screen.grab().copy()
-        success, pos = template_finder.search("A5_TOWN_1", img, threshold=0.67)
-        print(template_finder.last_score)
-        if success:
-            cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)
-        img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-        # cv2.imshow("temp", template_finder._templates["A5_TOWN_1"][0])
-        cv2.imshow('test', img)
+        img = screen.grab()
+        display_img = img.copy()
+        for template_name in search_templates:
+            success, pos = template_finder.search(template_name, img, threshold=0.67)
+            scores[template_name] = template_finder.last_score
+            if success:
+                cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                cv2.circle(display_img, pos, 7, (255, 0, 0), thickness=5)
+        display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
+        print(scores)
+        cv2.imshow('test', display_img)
         key = cv2.waitKey(1)

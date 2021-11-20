@@ -86,8 +86,8 @@ class Pather:
             144: {"SHENK_6": (-162, 185), "SHENK_7": (721, 226)},
             145: {"SHENK_12": (146, -200), "SHENK_7": (1204, 558), "SHENK_6": (314, 520), "SHENK_8": (-367, 27)},
             146: {"SHENK_12": (408, 166), "SHENK_9": (-497, -216), "SHENK_8": (-108, 387)},
-            147: {"SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
-            148: {"SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
+            147: {"SHENK_16": (290, -150), "SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
+            148: {"SHENK_16": (967, 95), "SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
             149: {"SHENK_11": (532, 602), "SHENK_10": (882, 682), "SHENK_13": (730, 36)},
 
         }
@@ -138,12 +138,12 @@ class Pather:
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                                 # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
-                                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                                cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                                # node_pos_rel = self._get_scaled_node(node_idx, template_type)
+                                # node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                                # node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                                # x, y = self._screen.convert_abs_to_screen(node_pos_abs)
+                                # cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                                # cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                                 x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
                                 cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                                 cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
@@ -265,6 +265,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.A5_STASH, Location.LARZUK, char)
-    # pather._display_all_nodes_debug(filter="A5_TOWN")
+    # pather.traverse_nodes_fixed("pindle_save_dist", char)
+    pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, char)
+    # pather._display_all_nodes_debug(filter="SHENK")
