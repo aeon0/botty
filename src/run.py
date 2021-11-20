@@ -24,7 +24,7 @@ def run_bot(config: Config):
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
     while 1:
         if bot.current_game_length() > config.general["max_game_length_s"]:
-            Logger.info("Max game length reached. Attempting to restart botty!")
+            Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
             bot.stop()
             kill_thread(bot_thread)
             if game_recovery.go_to_hero_selection():
@@ -35,9 +35,9 @@ def run_bot(config: Config):
     if do_restart:
         run_bot(config)
     else:
-        Logger.error("Botty could not recover from a max game length violation. Shutting down everything.")
+        Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
         if config.general["custom_discord_hook"]:
-            send_discord("Botty got stuck and can not resume", config.general["custom_discord_hook"])
+            send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
         close_down_d2()
 
 
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # If anything seems to go wrong, press f12 and the bot will force exit
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
 
-    print(f"============ Botty {__version__} ============")
+    print(f"============ Botty {__version__} [name: {config.general['name']}] ============")
     print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
     table = BeautifulTable()
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])

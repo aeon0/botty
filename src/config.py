@@ -25,6 +25,7 @@ class Config:
             self._custom.read('custom.ini')
 
         self.general = {
+            "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
             "res": self._select_val("general", "res"),
             "offset_top": int(self._select_val("general", "offset_top")),

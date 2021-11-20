@@ -95,7 +95,7 @@ class Bot:
 
     def trigger_or_stop(self, name: str):
         if self._pausing:
-            Logger.info("Botty is now pausing")
+            Logger.info(f"{self._config.general['name']} is now pausing")
         while self._pausing:
             time.sleep(0.2)
         if not self._stopping:
