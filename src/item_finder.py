@@ -48,11 +48,11 @@ class ItemFinder:
         if config.general["res"] == "1920_1080":
             self._gaus_filter = (31, 7)
             self._folder_name = "items"
-            self._min_score = 0.84
+            self._min_score = 0.87
         else:
             self._gaus_filter = (15, 5)
             self._folder_name = "items_1280_720"
-            self._min_score = 0.8
+            self._min_score = 0.83
         # load all templates
         self._config = config
         self._templates = {}
