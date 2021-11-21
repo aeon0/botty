@@ -36,6 +36,7 @@ class Config:
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
             "color_checker_key": self._select_val("general", "color_checker_key"),
+            "template_threshold": float(self._select_val("general", "template_threshold")),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),

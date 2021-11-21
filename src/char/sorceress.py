@@ -82,14 +82,13 @@ class Sorceress(IChar):
 
     def kill_eldritch(self) -> bool:
         delay = [0.2, 0.3]
-        pos_abs = self._pather.find_abs_node_pos(123, self._screen.grab())
+        pos_abs = self._pather.find_abs_node_pos(1, self._screen.grab())
         if pos_abs is not None:
             eld_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
         else:
             eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
-        cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
-        if pos_abs is not None:
-            cast_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
+        if eld_pos_abs is not None:
+            cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_eldritch"])):
                 self._main_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
@@ -102,20 +101,23 @@ class Sorceress(IChar):
             return True
         return False
 
-    def kill_shenk(self):
+    def kill_shenk(self) -> bool:
         delay = [0.2, 0.3]
         pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         if pos_abs is not None:
             shenk_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
         else:
             shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
-        cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
-        for _ in range(int(self._char_config["atk_len_shenk"])):
-            self._main_attack(cast_pos_abs, delay, 90)
-            self._left_attack(cast_pos_abs, delay, 90)
-        wait(0.2, 0.3)
-        # Move to items
-        self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)
+        if shenk_pos_abs is not None:
+            cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config["atk_len_shenk"])):
+                self._main_attack(cast_pos_abs, delay, 90)
+                self._left_attack(cast_pos_abs, delay, 90)
+            wait(0.2, 0.3)
+            # Move to items
+            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)
+            return True
+        return False
 
 
 if __name__ == "__main__":
@@ -134,4 +136,6 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # char.pre_buff()
     # char.tp_town()
-    char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
+    pather.traverse_nodes_fixed("eldritch_save_dist", char)
+    char.kill_eldritch()
+    # char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)

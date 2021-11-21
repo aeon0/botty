@@ -146,7 +146,7 @@ class TemplateFinder:
         self, 
         ref: Union[str, np.ndarray],
         inp_img: np.ndarray,
-        threshold: float = 0.7, 
+        threshold: float = None, 
         roi: List[float] = None,
         normalize_monitor: bool = False, 
     ) -> Tuple[bool, Tuple[float, float]]:
@@ -158,6 +158,7 @@ class TemplateFinder:
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
+        threshold = self._config.general["template_threshold"] if threshold is None else threshold
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -196,7 +197,7 @@ class TemplateFinder:
         ref: Union[str, List[str]],
         roi: List[float] = None,
         time_out: float = None,
-        threshold: float = 0.7,
+        threshold: float = None,
         take_ss: bool = True
     ) -> Tuple[bool, Tuple[float, float]]:
         """
@@ -207,6 +208,7 @@ class TemplateFinder:
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
+        threshold = self._config.general["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
@@ -235,13 +237,14 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["SHENK_9", "SHENK_8", "SHENK_10", "SHENK_16"]
+    search_templates = ["ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2", "ELDRITCH_1"]
     scores = {}
     while 1:
+        # img = cv2.imread("")
         img = screen.grab()
         display_img = img.copy()
         for template_name in search_templates:
-            success, pos = template_finder.search(template_name, img, threshold=0.67)
+            success, pos = template_finder.search(template_name, img)
             scores[template_name] = template_finder.last_score
             if success:
                 cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
