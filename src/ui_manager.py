@@ -292,6 +292,7 @@ class UiManager():
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
         item_list = item_finder.search(img)
+        item_list = [x for x in item_list if "potion" not in x.name]
         return len(item_list) > 0
 
     def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder):
