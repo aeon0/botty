@@ -174,7 +174,7 @@ class Bot:
             self._curr_location = Location.A5_STASH
             time.sleep(0.3)
             if self._char.select_by_template("A5_STASH"):
-                self._ui_manager.stash_all_items(self._config.char["num_loot_columns"])
+                self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
                 self._picked_up_items = False
                 time.sleep(1.2) # otherwise next grab of screen will still have inventory
             else:

@@ -108,7 +108,7 @@ class ItemFinder:
             y -= 5
             w += 10
             h += 10
-            # cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+            # cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
             cropped_input = filtered_img[y:y+h, x:x+w]
             best_score = None
