@@ -8,15 +8,15 @@ from char.i_char import IChar
 from logger import Logger
 from screen import Screen
 from ui_manager import UiManager
-import threading
-from utils.misc import send_discord
+from game_stats import GameStats
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, game_stats: GameStats = None):
         self._item_finder = item_finder
         self._screen = screen
         self._ui_manager = ui_manager
+        self._game_stats = game_stats
         self._config = Config()
 
     def pick_up_items(self, char: IChar) -> bool:
@@ -71,13 +71,7 @@ class PickIt:
                     else:
                         # send log to discord
                         if found_items and self._config.items[closest_item.name] == 2 and closest_item.name not in picked_up_items:
-                            if self._config.general["custom_discord_hook"] != "":
-                                send_discord_thread = threading.Thread(
-                                    target=send_discord,
-                                    args=(f"{self._config.general['name']} just found: {closest_item.name}", self._config.general["custom_discord_hook"])
-                                )
-                                send_discord_thread.daemon = True
-                                send_discord_thread.start()
+                            self._game_stats.log_item_pickup(closest_item.name)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.move((x_m, y_m))

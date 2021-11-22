@@ -14,6 +14,7 @@ from health_manager import HealthManager
 from death_manager import DeathManager
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
+from game_stats import GameStats
 from utils.misc import kill_thread, wait
 import keyboard
 import threading
@@ -25,6 +26,7 @@ import random
 class Bot:
     def __init__(self):
         self._config = Config()
+        self._game_stats = GameStats()
         self._screen = Screen(self._config.general["monitor"])
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
@@ -33,7 +35,7 @@ class Bot:
         self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager)
         self._death_manager = DeathManager(self._screen, self._template_finder)
         self._npc_manager = NpcManager(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._game_stats)
         if self._config.char["type"] == "sorceress":
             self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
@@ -51,11 +53,9 @@ class Bot:
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
-        self._current_run = 0
         self._picked_up_items = False
         self._tp_is_up = False
         self._curr_location: Location = None
-        self._timer = None
         self._tps_left = 20
         self._pre_buffed = 0
         self._stopping = False
@@ -103,9 +103,7 @@ class Bot:
             self.trigger(name)
 
     def current_game_length(self):
-        if self._timer is None:
-            return 0
-        return time.time() - self._timer
+        return self._game_stats.get_current_game_length()
 
     def shuffle_runs(self):
         tmp = list(self._do_runs.items())
@@ -121,14 +119,7 @@ class Bot:
         return not found_unfinished_run
 
     def on_create_game(self):
-        if self._timer is not None:
-            delay = self._config.general["min_game_length_s"] - (time.time() - self._timer)
-            if delay > 0.5:
-                Logger.info(f"Delaying game creation for {delay:.2f} s")
-                wait(delay, delay + 5.0)
-        self._current_run += 1
-        Logger.info(f"Starting game #{self._current_run}")
-        self._timer = time.time()
+        self._game_stats.log_start_game()
         self._template_finder.search_and_wait("D2_LOGO_HS")
         self._ui_manager.start_game()
         self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
@@ -235,10 +226,17 @@ class Bot:
         if self._health_manager.did_chicken():
             # in case of chicken give the death manager some time to pick up on possible death flag
             # since death monitor does not check with the same frequency to save on runtime
-            wait(self._death_manager.get_loop_delay() + 1.0)
+            wait(self._death_manager.get_loop_delay() + 3.0)
         self._death_manager.stop_monitor()
         death_monitor_thread.join()
-
+        # some logging
+        if self._death_manager.died():
+            self._game_stats.log_death()
+        elif self._health_manager.did_chicken():
+            self._game_stats.log_chicken()
+        elif not run.success:
+            bot._game_stats.log_failed_run()
+        # depending on what happend, trigger next state
         self._current_threads = []
         if self._death_manager.died() or self._health_manager.did_chicken() or self.is_last_run() or not run.success:
             self.trigger_or_stop("end_game")
@@ -362,9 +360,7 @@ class Bot:
         else:
             self._ui_manager.save_and_exit()
 
-        if self._timer is not None:
-            elapsed_time = time.time() - self._timer
-            Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
+        self._game_stats.log_end_game()
         self._do_runs = {
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]

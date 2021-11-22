@@ -5,7 +5,6 @@ from logger import Logger
 import cv2
 from typing import List, Tuple
 import requests
-import subprocess
 from version import __version__
 
 
@@ -43,3 +42,10 @@ def color_filter(img, color_range):
     color_mask = cv2.inRange(hsv_img, color_range[0], color_range[1])
     filtered_img = cv2.bitwise_and(img, img, mask=color_mask)
     return color_mask, filtered_img
+
+def hms(seconds: int):
+    seconds = int(seconds)
+    h = seconds // 3600
+    m = seconds % 3600 // 60
+    s = seconds % 3600 % 60
+    return '{:02d}:{:02d}:{:02d}'.format(h, m, s)
