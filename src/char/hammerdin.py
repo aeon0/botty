@@ -47,7 +47,7 @@ class Hammerdin(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _do_redemption(self):
-        if "redemption" in self._skill_hotkeys:
+        if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(1.5, 2.0)
 

@@ -19,6 +19,7 @@ def run_color_checker():
         item_list = item_finder.search(img)
         for item in item_list:
             cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
+            cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         combined_img = cv2.resize(combined_img, None, fx=0.5, fy=0.5)
         cv2.imshow("debug img", combined_img)
         cv2.setWindowProperty("debug img", cv2.WND_PROP_TOPMOST, 1)

@@ -74,6 +74,7 @@ class TemplateFinder:
             "SHENK_12": [load_template(f"assets/templates{res_str}/shenk/shenk_12.png", self._scale_factor), self._scale_factor],
             "SHENK_13": [load_template(f"assets/templates{res_str}/shenk/shenk_13.png", self._scale_factor), self._scale_factor],
             "SHENK_15": [load_template(f"assets/templates{res_str}/shenk/shenk_15.png", self._scale_factor), self._scale_factor],
+            "SHENK_16": [load_template(f"assets/templates{res_str}/shenk/shenk_16.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template(f"assets/templates{res_str}/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template(f"assets/templates{res_str}/a5_wp.png", self._scale_factor), self._scale_factor],
@@ -145,7 +146,7 @@ class TemplateFinder:
         self, 
         ref: Union[str, np.ndarray],
         inp_img: np.ndarray,
-        threshold: float = 0.7, 
+        threshold: float = None, 
         roi: List[float] = None,
         normalize_monitor: bool = False, 
     ) -> Tuple[bool, Tuple[float, float]]:
@@ -157,6 +158,7 @@ class TemplateFinder:
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
+        threshold = self._config.general["template_threshold"] if threshold is None else threshold
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -195,7 +197,7 @@ class TemplateFinder:
         ref: Union[str, List[str]],
         roi: List[float] = None,
         time_out: float = None,
-        threshold: float = 0.7,
+        threshold: float = None,
         take_ss: bool = True
     ) -> Tuple[bool, Tuple[float, float]]:
         """
@@ -206,6 +208,7 @@ class TemplateFinder:
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
+        threshold = self._config.general["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
@@ -234,13 +237,19 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
+    search_templates = ["ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2", "ELDRITCH_1"]
+    scores = {}
     while 1:
-        img = screen.grab().copy()
-        success, pos = template_finder.search("A5_TOWN_1", img, threshold=0.67)
-        print(template_finder.last_score)
-        if success:
-            cv2.circle(img, pos, 7, (255, 0, 0), thickness=5)
-        img = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-        # cv2.imshow("temp", template_finder._templates["A5_TOWN_1"][0])
-        cv2.imshow('test', img)
+        # img = cv2.imread("")
+        img = screen.grab()
+        display_img = img.copy()
+        for template_name in search_templates:
+            success, pos = template_finder.search(template_name, img)
+            scores[template_name] = template_finder.last_score
+            if success:
+                cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                cv2.circle(display_img, pos, 7, (255, 0, 0), thickness=5)
+        display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
+        print(scores)
+        cv2.imshow('test', display_img)
         key = cv2.waitKey(1)

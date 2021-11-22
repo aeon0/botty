@@ -148,6 +148,7 @@ if __name__ == "__main__":
         for item in item_list:
             print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
+            cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
         cv2.waitKey(1)
