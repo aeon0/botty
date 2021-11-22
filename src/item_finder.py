@@ -50,7 +50,7 @@ class ItemFinder:
             self._folder_name = "items"
             self._min_score = 0.84
         else:
-            self._gaus_filter = (15, 5)
+            self._gaus_filter = (17, 5)
             self._folder_name = "items_1280_720"
             self._min_score = 0.8
         # load all templates
@@ -80,11 +80,24 @@ class ItemFinder:
     def search(self, inp_img: np.ndarray) -> List[Item]:
         img = inp_img[:,:,:]
         start = time.time()
+        # Pre filter black and highlight
+        mask1, _ = color_filter(img, self._config.colors["black"])
+        mask2, _ = color_filter(img, self._config.colors["item_highlight"])
+        filtered_img = cv2.bitwise_or(mask1, mask2)
+        contours = cv2.findContours(filtered_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours = contours[0] if len(contours) == 2 else contours[1]
+        new_img = np.zeros(img.shape, np.uint8)
+        for cntr in contours:
+            x, y, w, h = cv2.boundingRect(cntr)
+            new_img[y:y+h, x:x+w] = img[y:y+h, x:x+w]
+        img = new_img
+        # Filter by item colors
         filtered_img = np.zeros(img.shape, np.uint8)
         for key in self._game_color_ranges:
             _, extracted_img = color_filter(img, self._game_color_ranges[key])
             filtered_img = cv2.bitwise_or(filtered_img, extracted_img)
         filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
+        # Cluster item names
         cluster_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
         contours = cv2.findContours(cluster_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
@@ -103,12 +116,12 @@ class ItemFinder:
             for key in self._templates:
                 template: Template = self._templates[key]
                 if cropped_input.shape[1] > template.data.shape[1] and cropped_input.shape[0] > template.data.shape[0]:
-                    # sanity check if hist match okish (same color e.g. set and set or rare and rare)
+                    # sanity check if there is any color overlap of template and cropped_input
                     grayscale = cv2.cvtColor(cropped_input, cv2.COLOR_BGR2GRAY)
                     _, mask = cv2.threshold(grayscale, 0, 255, cv2.THRESH_BINARY)
                     hist = cv2.calcHist([cropped_input], [0, 1, 2], mask, [8, 8, 8], [0, 256, 0, 256, 0, 256])
                     hist_result = cv2.compareHist(template.hist, hist, cv2.HISTCMP_CORREL)
-                    same_type = hist_result > 0.65 and hist_result is not np.inf
+                    same_type = hist_result > 0.0 and hist_result is not np.inf
                     if same_type:
                         result = cv2.matchTemplate(cropped_input, template.data, cv2.TM_CCOEFF_NORMED)
                         _, max_val, _, max_loc = cv2.minMaxLoc(result)
@@ -148,7 +161,7 @@ if __name__ == "__main__":
         for item in item_list:
             print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
-            cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        img = cv2.resize(img, None, fx=0.5, fy=0.5)
+            cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+        # img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
         cv2.waitKey(1)
