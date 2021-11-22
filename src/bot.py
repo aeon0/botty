@@ -51,6 +51,7 @@ class Bot:
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
+        self._current_run = 0
         self._picked_up_items = False
         self._tp_is_up = False
         self._curr_location: Location = None
@@ -123,9 +124,10 @@ class Bot:
         if self._timer is not None:
             delay = self._config.general["min_game_length_s"] - (time.time() - self._timer)
             if delay > 0.5:
-                Logger.info(f"Delay game creation for {delay:.2f} s")
+                Logger.info(f"Delaying game creation for {delay:.2f} s")
                 wait(delay, delay + 5.0)
-        Logger.info("Start new game")
+        self._current_run += 1
+        Logger.info(f"Starting game #{self._current_run}")
         self._timer = time.time()
         self._template_finder.search_and_wait("D2_LOGO_HS")
         self._ui_manager.start_game()
@@ -152,7 +154,7 @@ class Bot:
         img = self._screen.grab()
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
-            Logger.info("Need some healing first. Go talk to Malah")
+            Logger.info("Need some healing first. Going to Malah.")
             if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
                 self.trigger_or_stop("end_game")
                 return
@@ -165,7 +167,7 @@ class Bot:
 
         # Stash stuff
         if self._picked_up_items:
-            Logger.info("Stashing picked up items")
+            Logger.info("Stashing picked up items.")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char):
                 self.trigger_or_stop("end_game")
                 return
@@ -179,7 +181,7 @@ class Bot:
                 Logger.warning("Could not find stash, continue...")
 
         if self._tps_left < 4:
-            Logger.info("Repairing and buying tps at Lazurk")
+            Logger.info("Repairing and buying TPs at Larzuk.")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
                 self.trigger_or_stop("end_game")
                 return
@@ -195,7 +197,7 @@ class Bot:
         # Check if merc needs to be revived
         merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
-            Logger.info("Reviveing merc")
+            Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
                 self.trigger_or_stop("end_game")
                 return
