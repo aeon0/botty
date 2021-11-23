@@ -17,8 +17,13 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
+        # make sure we are not on loading screen
+        is_loading = True
+        while is_loading:
+            is_loading = self._template_finder.search("LOADING", self._screen.grab())[0]
+            time.sleep(0.5)
         # first lets just see if you might already be at hero selection
-        found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=1, take_ss=False)
+        found, _ = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=1, take_ss=False, roi=self._config.ui_roi["hero_selection_logo"])
         if found:
             return True
         # would have been too easy, maybe we have died?
@@ -36,3 +41,8 @@ class GameRecovery:
                 time.sleep(1)
                 return self._ui_manager.save_and_exit()
         return False
+
+
+if __name__ == "__main__":
+    game_recovery = GameRecovery()
+    game_recovery.go_to_hero_selection()

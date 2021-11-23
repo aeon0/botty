@@ -53,12 +53,10 @@ class DeathManager:
             wait(0.1, 0.2)
             keyboard.release(self._config.char["show_items"])
             time.sleep(6)
-            if self._template_finder.search("D2_LOGO_HS", self._screen.grab())[0]:
+            if self._template_finder.search("D2_LOGO_HS", self._screen.grab(), roi=self._config.ui_roi["hero_selection_logo"])[0]:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")
-            self._template_finder.search_and_wait("A5_TOWN_1")
-            time.sleep(2)
             return True
         return False
 
@@ -69,6 +67,7 @@ class DeathManager:
             if self.handle_death_screen(run_thread):
                 self._do_monitor = False
                 return
+        Logger.debug("Stop death monitoring")
 
 
 # Testing:
