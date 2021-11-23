@@ -12,6 +12,7 @@ import threading
 from beautifultable import BeautifulTable
 import time
 import logging
+import cv2
 
 
 def run_bot(config: Config):
@@ -27,14 +28,15 @@ def run_bot(config: Config):
             Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
             bot.stop()
             kill_thread(bot_thread)
-            if game_recovery.go_to_hero_selection():
-                do_restart = False
+            do_restart = game_recovery.go_to_hero_selection()
             break
-        time.sleep(0.04)
+        time.sleep(0.5)
     bot_thread.join()
     if do_restart:
         run_bot(config)
     else:
+        if config.general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
         if config.general["custom_discord_hook"]:
             send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
