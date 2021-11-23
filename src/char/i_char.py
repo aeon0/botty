@@ -75,13 +75,19 @@ class IChar:
     def tp_town(self):
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         keyboard.send(self._char_config["tp"])
-        wait(0.1, 0.1)
+        wait(0.15, 0.2)
         skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
         if max_val > 0.96:
             # found same skill again, thus no more tps available
             Logger.warning("Out of tps")
-            return False
+            time.sleep(1.0)
+            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+            if max_val > 0.96:
+                return False
+            else:
+                Logger.warning("Turns out skill change just took a long time. You ever considered getting a new internet provider or pc?")
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
         pos_away = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
@@ -123,7 +129,7 @@ class IChar:
         wait(0.1)
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         keyboard.send(self._char_config["weapon_switch"])
-        wait(0.28, 0.35)
+        wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
         wait(0.08, 0.19)
         mouse.click(button="right")
@@ -133,15 +139,20 @@ class IChar:
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
         keyboard.send(self._char_config["weapon_switch"])
-        wait(0.28, 0.35)
+        wait(0.3, 0.35)
         # Make sure that we are back at the previous skill
         skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
         if max_val < 0.96:
             Logger.warning("Failed to switch weapon, try again")
-            wait(1.0)
-            keyboard.send(self._char_config["weapon_switch"])
-            wait(0.4)
+            wait(1.2)
+            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+            if max_val < 0.96:
+                keyboard.send(self._char_config["weapon_switch"])
+                wait(0.4)
+            else:
+                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     @abstract
     def pre_buff(self):
