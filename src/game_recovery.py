@@ -27,12 +27,12 @@ class GameRecovery:
             return self._ui_manager.save_and_exit()
         # we must be ingame, but maybe we are at vendor or on stash, press "esc" until we find a save and exit btn (max 5 times)
         for _ in range(5):
-            keyboard.press("esc")
+            keyboard.send("esc")
             time.sleep(1)
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             found, _ = self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False)
             if found:
-                keyboard.press("esc")
+                keyboard.send("esc")
                 time.sleep(1)
                 return self._ui_manager.save_and_exit()
         return False
