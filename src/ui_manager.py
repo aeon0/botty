@@ -353,15 +353,18 @@ class UiManager():
                     wait(0.4, 0.5)
                     keyboard.send('ctrl', do_press=False)
                 else:
-                    mouse.press(button="left")
-                    wait(0.2, 0.4)
-                    mouse.release(button="left")
-                    mouse.move(*center_m, randomize=20)
-                    wait(0.2, 0.3)
-                    mouse.press(button="left")
-                    wait(0.2, 0.3)
-                    mouse.release(button="left")
-                    wait(0.5, 0.5)
+                    # make sure there is actually an item
+                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, self._screen.grab(), column, row)
+                    if self._slot_has_item(slot_img):
+                        mouse.press(button="left")
+                        wait(0.2, 0.4)
+                        mouse.release(button="left")
+                        mouse.move(*center_m, randomize=20)
+                        wait(0.2, 0.3)
+                        mouse.press(button="left")
+                        wait(0.2, 0.3)
+                        mouse.release(button="left")
+                        wait(0.5, 0.5)
         Logger.debug("Check if stash is full")
         time.sleep(0.6)
         # move mouse away from inventory, for some reason it was sometimes included in the grabed img

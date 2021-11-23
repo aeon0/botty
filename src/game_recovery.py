@@ -17,6 +17,10 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
+        # clean up key presses that might be pressed in the run_thread
+        keyboard.release(self._config.char["stand_still"])
+        time.sleep(0.1)
+        keyboard.release(self._config.char["show_items"])
         # make sure we are not on loading screen
         is_loading = True
         while is_loading:
