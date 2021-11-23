@@ -13,6 +13,7 @@ from char.i_char import IChar
 from config import Config
 from health_manager import HealthManager
 from death_manager import DeathManager
+from game_recovery import GameRecovery
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
 from game_stats import GameStats
@@ -28,6 +29,7 @@ class Bot:
     def __init__(self):
         self._config = Config()
         self._game_stats = GameStats()
+        self._game_recovery = GameRecovery()
         self._screen = Screen(self._config.general["monitor"])
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
@@ -122,7 +124,7 @@ class Bot:
 
     def on_create_game(self):
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS")
+        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
         self._ui_manager.start_game()
         self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
         self._tp_is_up = False
@@ -337,30 +339,9 @@ class Bot:
     def on_end_game(self):
         self._pre_buffed = 0
         if self._health_manager.did_chicken() or self._death_manager.died():
-            Logger.info("End game while chicken or death happened. Checking where we are at.")
-            # This is a tricky state as we send different actions in different threads.
-            # Chicken could have been succesfull which means we are at hero selection screen
-            # Chicken could have been unsuccesfull, which means we are naked in a5_town
-            # Chicken could have been unsuccesfull, but it already stopped main thread and death manager did not have time to check death -> death screen
+            Logger.info("End game while chicken or death happened. Running game recovery to get back to hero selection.")
             time.sleep(1.5)
-            is_loading = True
-            while is_loading:
-                is_loading = self._template_finder.search("LOADING", self._screen.grab())[0]
-                time.sleep(0.5)
-            time.sleep(1.5)
-            # Okay we are sure we are not in loading screen, let's check if we are in hero selection or in a5 town
-            img = self._screen.grab()
-            if self._template_finder.search("A5_TOWN_1", img)[0]:
-                Logger.info("We are at town, save and exit game.")
-                self._ui_manager.save_and_exit()
-            elif self._template_finder.search("D2_LOGO_HS", img)[0]:
-                Logger.info("We are at hero selection.")
-            elif self._death_manager.handle_death_screen():
-                Logger.info("For some reason we were still at death screen, but Death Manager should have sent us back to town. save and exit game.")
-                self._ui_manager.save_and_exit()
-            else:
-                Logger.error("Could not determine location after chicken / death. Can not continue...")
-                os._exit(1)
+            self._game_recovery.go_to_hero_selection()
         else:
             self._ui_manager.save_and_exit()
 
