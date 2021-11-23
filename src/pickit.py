@@ -72,8 +72,8 @@ class PickIt:
                         break
                     else:
                         # send log to discord
-                        if found_items and self._config.items[closest_item.name] == 2 and closest_item.name not in picked_up_items:
-                            self._game_stats.log_item_pickup(closest_item.name)
+                        if found_items and closest_item.name not in picked_up_items:
+                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.move((x_m, y_m))
