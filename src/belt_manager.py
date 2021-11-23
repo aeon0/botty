@@ -111,13 +111,12 @@ class BeltManager:
         wait(0.5)
         # first clean up columns that might be too much
         img = self._screen.grab()
-        tmp_rows_left = rows_left.copy()
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
-                tmp_rows_left[potion_type] -= 1
-                if tmp_rows_left[potion_type] < 0:
-                    tmp_rows_left[potion_type] += 1
+                rows_left[potion_type] -= 1
+                if rows_left[potion_type] < 0:
+                    rows_left[potion_type] += 1
                     key = f"potion{column+1}"
                     for _ in range(5):
                         keyboard.send(self._config.char[key])
@@ -142,6 +141,7 @@ class BeltManager:
                 elif current_column is not None and potion_type == "empty":
                     self._pot_needs[current_column] += 1
         wait(0.2)
+        Logger.debug(self._pot_needs)
         keyboard.send(self._config.char["show_belt"])
 
     def fill_up_belt_from_inventory(self, num_loot_columns: int):
