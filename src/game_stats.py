@@ -26,9 +26,10 @@ class GameStats:
             send_discord_thread.daemon = True
             send_discord_thread.start()
 
-    def log_item_pickup(self, item_name):
+    def log_item_pickup(self, item_name: str, send_discord: bool):
         self._picked_up_items.append(item_name)
-        self._send_discord_thread(f"{self._config.general['name']} just found: {item_name}")
+        if send_discord:
+            self._send_discord_thread(f"{self._config.general['name']} just found: {item_name}")
 
     def log_death(self):
         self._death_counter += 1
