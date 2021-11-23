@@ -146,7 +146,7 @@ class Bot:
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
             Logger.info("Need some healing first. Going to Malah.")
-            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char): 
+            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char):
                 self.trigger_or_stop("end_game")
                 return
             self._curr_location = Location.MALAH
@@ -235,7 +235,7 @@ class Bot:
         elif self._health_manager.did_chicken():
             self._game_stats.log_chicken()
         elif not run.success:
-            bot._game_stats.log_failed_run()
+            self._game_stats.log_failed_run()
         # depending on what happend, trigger next state
         self._current_threads = []
         if self._death_manager.died() or self._health_manager.did_chicken() or self.is_last_run() or not run.success:
