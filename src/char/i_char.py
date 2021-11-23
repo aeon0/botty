@@ -120,6 +120,7 @@ class IChar:
 
     def _pre_buff_cta(self):
         # save current skill img
+        wait(0.1)
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         keyboard.send(self._char_config["weapon_switch"])
         wait(0.28, 0.35)
@@ -132,7 +133,7 @@ class IChar:
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
         keyboard.send(self._char_config["weapon_switch"])
-        wait(0.25, 0.3)
+        wait(0.28, 0.35)
         # Make sure that we are back at the previous skill
         skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
