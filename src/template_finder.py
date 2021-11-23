@@ -143,12 +143,12 @@ class TemplateFinder:
         return self._templates[key][0]
 
     def search(
-        self, 
-        ref: Union[str, np.ndarray],
+        self,
+        ref: Union[str, np.ndarray, List[str]],
         inp_img: np.ndarray,
-        threshold: float = None, 
+        threshold: float = None,
         roi: List[float] = None,
-        normalize_monitor: bool = False, 
+        normalize_monitor: bool = False,
     ) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image
@@ -166,30 +166,37 @@ class TemplateFinder:
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
 
         if type(ref) == str:
-            template = self._templates[ref][0]
-            scale = self._templates[ref][1]
+            templates = [self._templates[ref][0]]
+            scales = [self._templates[ref][1]]
+        elif type(ref) == list:
+            templates = [self._templates[i][0] for i in ref]
+            scales = [self._templates[i][1] for i in ref]
         else:
-            template = ref
-            scale = 1.0
+            templates = [ref]
+            scales = [1.0]
 
-        img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-        rx *= scale
-        ry *= scale
-        rw *= scale
-        rh *= scale
+        for count, template in enumerate(templates):
 
-        if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(res)
-            self.last_score = max_val
-            if max_val > threshold:
-                ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
-                ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+            scale = scales[count]
 
-                if normalize_monitor:
-                    ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+            img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+            rx *= scale
+            ry *= scale
+            rw *= scale
+            rh *= scale
 
-                return True, ref_point
+            if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+                res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+                _, max_val, _, max_pos = cv2.minMaxLoc(res)
+                self.last_score = max_val
+                if max_val > threshold:
+                    ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
+                    ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+
+                    if normalize_monitor:
+                        ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+
+                    return True, ref_point
         return False, None
 
     def search_and_wait(
