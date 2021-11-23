@@ -120,7 +120,10 @@ class Sorceress(IChar):
         return False
 
     def pick_up_item(self, name: str):
-        print(f"Sorc can pick up some things much nicer, {name}...")
+        print("--- SORC ---")
+        print("Sorc either picks up items normal:")
+        super().pick_up_item(name)
+        print("Or does it nicer")
 
 
 if __name__ == "__main__":

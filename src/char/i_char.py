@@ -155,6 +155,7 @@ class IChar:
                 Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     def pick_up_item(self, name: str):
+        print("--- CHAR BASE ---")
         print(f"Just move there like a any char would and pick up {name}...")
 
     @abstract
