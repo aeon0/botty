@@ -12,6 +12,7 @@ import threading
 from beautifultable import BeautifulTable
 import time
 import logging
+import cv2
 
 
 def run_bot(config: Config):
@@ -35,6 +36,8 @@ def run_bot(config: Config):
     if do_restart:
         run_bot(config)
     else:
+        if config.general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
         if config.general["custom_discord_hook"]:
             send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
