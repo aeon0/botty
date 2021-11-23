@@ -5,6 +5,7 @@ from template_finder import TemplateFinder
 from item_finder import ItemFinder
 from screen import Screen
 from ui_manager import UiManager
+from belt_manager import BeltManager
 from pather import Pather, Location
 from logger import Logger
 from char.sorceress import Sorceress
@@ -33,11 +34,12 @@ class Bot:
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager)
+        self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
         self._death_manager = DeathManager(self._screen, self._template_finder)
         self._npc_manager = NpcManager(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._game_stats)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
         if self._config.char["type"] == "sorceress":
             self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
@@ -141,7 +143,9 @@ class Bot:
             self._death_manager.pick_up_corpse()
             # TODO: maybe it is time for a special BeltManager?
             wait(1.2, 1.5)
-            self._ui_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
+            self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
+
+        self._belt_manager.update_pot_needs()
 
         # Check if healing is needed, TODO: add shoping e.g. for potions
         img = self._screen.grab()
