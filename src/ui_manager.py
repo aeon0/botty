@@ -377,8 +377,8 @@ class UiManager():
             self._curr_stash += 1
             if self._curr_stash > 3:
                 Logger.error("All stash is full, quitting")
-                if config.general["custom_discord_hook"]:
-                    send_discord(f"{config.general['name']} all stash is full, quitting", config.general["custom_discord_hook"])
+                if self._config.general["custom_discord_hook"]:
+                    send_discord(f"{self._config.general['name']} all stash is full, quitting", self._config.general["custom_discord_hook"])
                 os._exit(1)
             else:
                 # move to next stash
