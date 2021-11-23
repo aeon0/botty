@@ -6,7 +6,7 @@ import os
 from dataclasses import dataclass
 import math
 from config import Config
-from utils.misc import color_filter
+from utils.misc import color_filter, cut_roi
 
 
 @dataclass
@@ -134,12 +134,21 @@ class ItemFinder:
                                     item = None
                                 else:
                                     max_loc = [max_loc[0] + x, max_loc[1] + y]
-                                    item = Item()
-                                    item.center = (int(max_loc[0] + int(template.data.shape[1] * 0.5)), int(max_loc[1] + int(template.data.shape[0] * 0.5)))
-                                    item.name = key
-                                    item.score = max_val
-                                    center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
-                                    item.dist = math.dist(center_abs, (0, 0))
+                                    # Do another color hist check with the actuall found item template
+                                    cropped_roi = [*max_loc, template.data.shape[1], template.data.shape[0]]
+                                    cropped_item = cut_roi(filtered_img, cropped_roi)
+                                    grayscale = cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY)
+                                    _, mask = cv2.threshold(grayscale, 0, 255, cv2.THRESH_BINARY)
+                                    hist = cv2.calcHist([cropped_item], [0, 1, 2], mask, [8, 8, 8], [0, 256, 0, 256, 0, 256])
+                                    hist_result = cv2.compareHist(template.hist, hist, cv2.HISTCMP_CORREL)
+                                    same_type = hist_result > 0.65 and hist_result is not np.inf
+                                    if same_type:
+                                        item = Item()
+                                        item.center = (int(max_loc[0] + int(template.data.shape[1] * 0.5)), int(max_loc[1] + int(template.data.shape[0] * 0.5)))
+                                        item.name = key
+                                        item.score = max_val
+                                        center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
+                                        item.dist = math.dist(center_abs, (0, 0))
             if item is not None and self._config.items[item.name]:
                 item_list.append(item)
         elapsed = time.time() - start
