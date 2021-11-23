@@ -77,6 +77,7 @@ run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out
 type | Build type. Currently only "sorceress" or "hammerdin" is supported
 casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
 slow_walk | With this set to 1 the char will have a large delay for each running action in town. Set this to 1 if you keep getting stuck during traversing town.
+stash_gold | Bool value to stash gold each time when stashing items
 atk_len_pindle | Attack length for hdin or number of attack sequences for sorc when fighting pindle
 atk_len_eldritch | Attack length for hdin or number of attack sequences for sorc when fighting eldritch
 atk_len_shenk | Attack length for hdin or number of attack sequences for sorc when fighting shenk
@@ -90,17 +91,19 @@ show_items | Hotkey for "show items"
 inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
 tp | Hotkey for using a town portal
+belt_rows | Integer value of how many rows the char's belt has
 show_belt | Hotkey for "show belt"
-potion1 | Hotkey to take poition in slot 1
-potion2 | Hotkey to take poition in slot 2
-potion3 | Hotkey to take poition in slot 3
-potion4 | Hotkey to take poition in slot 4
+potion1 | Hotkey to take potion in slot 1
+potion2 | Hotkey to take potion in slot 2
+potion3 | Hotkey to take potion in slot 3
+potion4 | Hotkey to take potion in slot 4
+belt_rejuv_columns | Number of belt columns for rejuv potions
+belt_hp_columns | Number of belt columns for healing potions
+belt_mp_columns | Number of belt columns for mana potions
 cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
-belt_hp_columns | Number of belt columns for healing potions
-belt_mp_columns | Number of belt columns for mana potions
 
  [sorceress]                    | Descriptions
 --------------------------------|---------------------------------------------

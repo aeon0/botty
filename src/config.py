@@ -56,15 +56,22 @@ class Config:
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
             "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
+            "take_rejuv_potion_health": float(self._select_val("char", "take_rejuv_potion_health")),
+            "take_rejuv_potion_mana": float(self._select_val("char", "take_rejuv_potion_mana")),
             "heal_merc": float(self._select_val("char", "heal_merc")),
+            "heal_rejuv_merc": float(self._select_val("char", "heal_rejuv_merc")),
             "chicken": float(self._select_val("char", "chicken")),
             "merc_chicken": float(self._select_val("char", "merc_chicken")),
             "tp": self._select_val("char", "tp"),
+            "belt_rows": int(self._select_val("char", "belt_rows")),
             "show_belt": self._select_val("char", "show_belt"),
             "potion1": self._select_val("char", "potion1"),
             "potion2": self._select_val("char", "potion2"),
             "potion3": self._select_val("char", "potion3"),
             "potion4": self._select_val("char", "potion4"),
+            "belt_rejuv_columns": int(self._select_val("char", "belt_rejuv_columns")),
+            "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
+            "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
@@ -78,8 +85,6 @@ class Config:
             # currently no need to have anything other then static pathing set
             "static_path_pindle": True,
             "static_path_eldritch": True,
-            "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
-            "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
         }
 
         self.sorceress = dict(self._config["sorceress"])
