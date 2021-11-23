@@ -119,6 +119,9 @@ class Sorceress(IChar):
             return True
         return False
 
+    def pick_up_item(self, name: str):
+        print(f"Sorc can pick up some things much nicer, {name}...")
+
 
 if __name__ == "__main__":
     import os
@@ -135,7 +138,7 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # char.pre_buff()
-    # char.tp_town()
-    pather.traverse_nodes_fixed("eldritch_save_dist", char)
-    char.kill_eldritch()
+    char.tp_town()
+    # pather.traverse_nodes_fixed("eldritch_save_dist", char)
+    # char.kill_eldritch()
     # char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
