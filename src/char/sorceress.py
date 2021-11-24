@@ -19,7 +19,7 @@ class Sorceress(IChar):
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = ''):
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold']):
             keyboard.send(self._skill_hotkeys["telekinesis"])
             wait(0.1, 0.2)
