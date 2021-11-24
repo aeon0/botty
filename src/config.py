@@ -96,7 +96,7 @@ class Config:
         
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
-            "template_threshold": float(self._select_val("general", "template_threshold")),
+            "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
         }
 
         self.items = {}
