@@ -259,7 +259,7 @@ class Bot:
                 portal_found = bot._char.select_by_template("A5_RED_PORTAL")
                 time.sleep(0.5)
                 pindle_start_found = bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)
-                if not (portal_found or pindle_start_found):
+                if not (portal_found and pindle_start_found):
                     return
                 if not bot._pre_buffed:
                     bot._char.pre_buff()
