@@ -248,10 +248,7 @@ class TemplateFinder:
 
             if type(ref) is str:
                 ref = [ref]
-            for x in ref:
-                template_match = self.search(x, img, roi=roi, threshold=threshold)
-                if template_match:
-                    break
+            template_match = self.search(ref, img, roi=roi, threshold=threshold)
             if not is_loading_black_roi:
                 if template_match:
                     return template_match
