@@ -308,6 +308,7 @@ class UiManager():
                     keyboard.send('ctrl', do_press=False)
                 else:
                     # make sure there is actually an item
+                    time.sleep(0.3)
                     hovered_item = self._screen.grab()
                     slot_pos, slot_img = self.get_slot_pos_and_img(self._config, hovered_item, column, row)
                     if self._slot_has_item(slot_img):

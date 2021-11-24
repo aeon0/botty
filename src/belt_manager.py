@@ -129,7 +129,6 @@ class BeltManager:
                 potion_type = self._potion_type(self._cut_potion_img(img, column, row))
                 if row == 0:
                     if potion_type != "empty":
-                        rows_left[potion_type] -= 1
                         current_column = potion_type
                     else:
                         for key in rows_left:
