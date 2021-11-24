@@ -32,10 +32,10 @@ class NodeRecorder:
         img = self._screen.grab()
         for key in self._template_finder._templates:
             if key not in self._ref_points:
-                found, pos, _ = self._template_finder.search(key, img)
+                found = self._template_finder.search(key, img)
                 if found:
                     print(f"Found Previous: {key}")
-                    self._ref_points[key] = pos
+                    self._ref_points[key] = found.position
 
     def hook(self, e):
         if e.event_type == "down":

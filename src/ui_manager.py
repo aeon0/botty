@@ -66,9 +66,7 @@ class UiManager():
             self._config.ui_pos["skill_width"],
             self._config.ui_pos["skill_height"]
         ]
-        if self._template_finder.search("TELE_ACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
-            return True
-        if self._template_finder.search("TELE_INACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
+        if self._template_finder.search(["TELE_ACTIVE", "TELE_INACTIVE"], self._screen.grab(), threshold=0.94, roi=roi):
             return True
         return False
 
@@ -157,7 +155,7 @@ class UiManager():
             # TODO: Add hardcoded coordinates to ini file
             away_x_m, away_y_m = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), 0))
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
-            while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False)[0]:
+            while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False):
                 delay = [0.9, 1.1]
                 if does_chicken:
                     delay = [0.3, 0.4]
@@ -184,9 +182,9 @@ class UiManager():
         while 1:
             img = self._screen.grab()
             # search offline btn
-            found_off, _, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
+            found_off = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
             # search online btn with enabled and disabled version
-            found_on, _, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            found_on = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
             score_enabled = self._template_finder.last_score
             self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
             score_disabled = self._template_finder.last_score
@@ -210,11 +208,11 @@ class UiManager():
         while 1:
             # edge case: if a player hasn't unlocked nightmare difficulty, there won't be an option to select difficulty after clicking play button
             wait(0.75,1.25)
-            if self._template_finder.search("LOADING", self._screen.grab())[0]:
+            if self._template_finder.search("LOADING", self._screen.grab()):
                 Logger.debug("On loading screen, nightmare not unlocked")
                 return True
 
-            found, pos = self._template_finder.search_and_wait("NORMAL_BTN", roi=self._config.ui_roi["normal_btn"], time_out=8)
+            found = self._template_finder.search_and_wait("NORMAL_BTN", roi=self._config.ui_roi["normal_btn"], time_out=8)
 
             if not found:
                 Logger.debug("Could not find btn, try from start again")
@@ -229,7 +227,7 @@ class UiManager():
 
         # check for server issue
         wait(2.0)
-        server_issue, _, _ = self._template_finder.search("SERVER_ISSUES", self._screen.grab())
+        server_issue = self._template_finder.search("SERVER_ISSUES", self._screen.grab())
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
@@ -311,8 +309,8 @@ class UiManager():
         # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
-        found, pos_gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
-        if not found:
+        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
+        if not gold_btn:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
@@ -327,7 +325,7 @@ class UiManager():
         wait(0.3, 0.4)
         # stash gold
         if self._config.char["stash_gold"]:
-            x, y = self._screen.convert_screen_to_monitor(pos_gold_btn)
+            x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
             mouse.move(x, y, randomize=4)
             wait(0.1, 0.15)
             mouse.press(button="left")
@@ -400,8 +398,7 @@ class UiManager():
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
-            found = self._template_finder.search("SUPER_HEALING_POTION", slot_img, threshold=0.9)[0]
-            found |= self._template_finder.search("SUPER_MANA_POTION", slot_img, threshold=0.9)[0]
+            found = self._template_finder.search(["SUPER_HEALING_POTION""SUPER_MANA_POTION"], slot_img, threshold=0.9)
             if found:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
@@ -427,10 +424,10 @@ class UiManager():
         Repair and fills up TP buy selling tomb and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
-        found, pos_repair_abs = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
-        if not found:
+        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
+        if not repair_btn:
             return False
-        x, y = self._screen.convert_screen_to_monitor(pos_repair_abs)
+        x, y = self._screen.convert_screen_to_monitor(repair_btn.position)
         mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="left")
@@ -440,10 +437,10 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not found:
+        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not tp_tomb:
             return False
-        x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
+        x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
         keyboard.send('ctrl', do_release=False)
         mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
@@ -452,10 +449,10 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        found, pos_tp_inventory = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if not found:
+        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not tp_tomb:
             return False
-        x, y = self._screen.convert_screen_to_monitor(pos_tp_inventory)
+        x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
         keyboard.send('ctrl', do_release=False)
         mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)

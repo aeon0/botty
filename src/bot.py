@@ -188,7 +188,7 @@ class Bot:
             wait(0.5)
 
         # Check if merc needs to be revived
-        merc_alive, _, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
+        merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
             Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
@@ -256,10 +256,10 @@ class Bot:
                     return
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
-                self.success &= bot._char.select_by_template("A5_RED_PORTAL")
+                portal_found = bot._char.select_by_template("A5_RED_PORTAL")
                 time.sleep(0.5)
-                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
-                if not self.success:
+                pindle_start_found = bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)
+                if not (portal_found or pindle_start_found):
                     return
                 if not bot._pre_buffed:
                     bot._char.pre_buff()
@@ -296,7 +296,7 @@ class Bot:
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)
                 time.sleep(0.5)
-                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20)[0]
+                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20)
                 if not self.success:
                     return
                 if not bot._pre_buffed:
@@ -355,7 +355,7 @@ class Bot:
         success = self._char.tp_town()
         self._tps_left -= 1
         if success:
-            success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
+            success= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START

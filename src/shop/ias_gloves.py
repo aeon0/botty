@@ -74,7 +74,7 @@ class JavaShopper:
             img = self._screen.grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove_found, pos, _ = self._template_finder.search(
+            ias_glove_found = self._template_finder.search(
                 ref=load_template("assets/shop/gloves/ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.98,
@@ -83,10 +83,10 @@ class JavaShopper:
             )
             if ias_glove_found:
                 self.ias_gloves_seen += 1
-                mouse.move(*pos)
+                mouse.move(*ias_glove_found.position)
                 time.sleep(0.1)
                 img = self._screen.grab()
-                gg_gloves_found, pos, _ = self._template_finder.search(
+                gg_gloves_found = self._template_finder.search(
                     ref=load_template(
                         "assets/shop/gloves/gg_gloves.png", 1.0
                     ),
@@ -122,9 +122,9 @@ class JavaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
+        success = self._template_finder.search_and_wait(template_type, time_out=10)
         if success:
-            x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
+            x_m, y_m = self._screen.convert_screen_to_monitor(success.position)
             mouse.move(x_m, y_m)
             wait(0.1, 0.2)
             mouse.click(button="left")

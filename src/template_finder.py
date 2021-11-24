@@ -16,6 +16,12 @@ def load_template(path, scale_factor):
         return template_img
     return None
 
+class TemplateMatch:
+    def __init__(self, name, position, score):
+        self.name = name
+        self.position = position
+        self.score = score
+
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
         """
@@ -150,14 +156,14 @@ class TemplateFinder:
         roi: List[float] = None,
         normalize_monitor: bool = False,
         best_match: bool = False,
-    ) -> Tuple[bool, Tuple[float, float], str]:
+    ) -> TemplateMatch(str, Tuple[float, float], float):
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
         :param inp_img: Image in which the template will be searched
         :param threshold: Threshold which determines if a template is found or not
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
-        :param best_match: Will search for all
+        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
         threshold = self._config.general["template_threshold"] if threshold is None else threshold
@@ -171,6 +177,7 @@ class TemplateFinder:
             templates = [self._templates[ref][0]]
             scales = [self._templates[ref][1]]
             names = [ref]
+            best_match = False
         elif type(ref) == list:
             templates = [self._templates[i][0] for i in ref]
             scales = [self._templates[i][1] for i in ref]
@@ -178,10 +185,11 @@ class TemplateFinder:
         else:
             templates = [ref]
             scales = [1.0]
+            names = ['search_by_image']
             best_match = False
 
-        scores=np.zeros(len(ref))
-        ref_points=np.zeros(len(ref))
+        scores = [0]*len(ref)
+        ref_points = [(0,0)]*len(ref)
         for count, template in enumerate(templates):
 
             scale = scales[count]
@@ -207,13 +215,13 @@ class TemplateFinder:
                         scores[count]=max_val
                         ref_points[count]=ref_point
                     else:
-                        return True, ref_point, None
+                        return TemplateMatch(names[count], ref_point, max_val)
 
-        if scores:
+        if max(scores)>0:
             idx=scores.index(max(scores))
-            return True, ref_points[idx], names[idx]
+            return TemplateMatch(names[idx], ref_points[idx], scores[idx])
         else:
-            return False, None, None
+            return False
 
     def search_and_wait(
         self,
@@ -222,7 +230,7 @@ class TemplateFinder:
         time_out: float = None,
         threshold: float = None,
         take_ss: bool = True
-    ) -> Tuple[bool, Tuple[float, float]]:
+    ) -> TemplateMatch(str, Tuple[float, float], float):
         """
         Helper function that will loop and keep searching for a template
         :param ref: Key of template which has been loaded beforehand
@@ -241,16 +249,16 @@ class TemplateFinder:
             if type(ref) is str:
                 ref = [ref]
             for x in ref:
-                success, pos, _ = self.search(x, img, roi=roi, threshold=threshold)
-                if success:
+                template_match = self.search(x, img, roi=roi, threshold=threshold)
+                if template_match:
                     break
             if not is_loading_black_roi:
-                if success:
-                    return True, pos
+                if template_match:
+                    return template_match
                 elif time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    return False, None
+                    return False
 
 
 # Testing: Have whatever you want to find on the screen
@@ -260,19 +268,16 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2", "ELDRITCH_1"]
-    scores = {}
+    search_templates = ["ELDRITCH_1", "ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
         display_img = img.copy()
-        for template_name in search_templates:
-            success, pos, _ = template_finder.search(template_name, img)
-            scores[template_name] = template_finder.last_score
-            if success:
-                cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                cv2.circle(display_img, pos, 7, (255, 0, 0), thickness=5)
+        template_match = template_finder.search(search_templates,img,best_match=1)
+        if template_match:
+            cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
         display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-        print(scores)
+        #print(template_match.score)
         cv2.imshow('test', display_img)
         key = cv2.waitKey(1)
