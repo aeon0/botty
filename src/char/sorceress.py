@@ -22,9 +22,9 @@ class Sorceress(IChar):
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = ''):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold']):
             keyboard.send(self._skill_hotkeys["telekinesis"])
-            wait(0.1, 0.13)
+            wait(0.1, 0.2)
             mouse.move(pos[0], pos[1])
-            wait(0.1, 0.13)
+            wait(0.1, 0.2)
             mouse.click(button="right")
         else:
             super().pick_up_item((pos[0], pos[1]),item_name)

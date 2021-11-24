@@ -3,6 +3,7 @@ from ui_manager import UiManager
 from item_finder import ItemFinder
 import time
 from utils.custom_mouse import mouse
+from utils.misc import wait
 import keyboard
 import cv2
 from config import Config
@@ -73,6 +74,7 @@ class PickIt:
                         found_items = True
                     Logger.info(f"Picking up: {closest_item.name}, score: {closest_item.score}")
                     char.pick_up_item((x_m, y_m),item_name=closest_item.name)
+                    wait(0.3,0.5)
 
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")

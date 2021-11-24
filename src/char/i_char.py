@@ -34,7 +34,6 @@ class IChar:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
-        time.sleep(0.2)
 
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":
