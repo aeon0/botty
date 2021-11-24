@@ -68,10 +68,10 @@ class PickIt:
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
                         self._belt_manager.picked_up_pot(closest_item.name)
-                    # no need to stash potions, scrolls, or gold 
+                    # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
-                    Logger.info(f"Picking up: {closest_item.name}")
+                    Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
                     mouse.move(x_m, y_m)
                     time.sleep(0.1)
                     mouse.click(button="left")
