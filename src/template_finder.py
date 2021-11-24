@@ -215,20 +215,16 @@ class TemplateFinder:
                         scores[count]=max_val
                         ref_points[count]=ref_point
                     else:
-                        try:
-                            template_match.name = names[count]
-                        except:
-                            pass
+                        try: template_match.name = names[count]
+                        except: pass
                         template_match.position = ref_point
                         template_match.score = max_val
                         return template_match
 
         if max(scores)>0:
             idx=scores.index(max(scores))
-            try:
-                template_match.name = names[idx]
-            except:
-                pass
+            try: template_match.name = names[idx]
+            except: pass
             template_match.position = ref_points[idx]
             template_match.score = scores[idx]
             return template_match
