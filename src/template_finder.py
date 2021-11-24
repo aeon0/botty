@@ -2,6 +2,7 @@ import cv2
 from enum import Enum
 from screen import Screen
 from typing import Tuple, Union, List
+from dataclasses import dataclass
 import numpy as np
 from logger import Logger
 import time
@@ -16,11 +17,11 @@ def load_template(path, scale_factor):
         return template_img
     return None
 
+@dataclass
 class TemplateMatch:
-    def __init__(self, name, position, score):
-        self.name = name
-        self.position = position
-        self.score = score
+    name: str = None
+    score: float = -1.0
+    position: Tuple[float, float] = None
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
@@ -156,7 +157,7 @@ class TemplateFinder:
         roi: List[float] = None,
         normalize_monitor: bool = False,
         best_match: bool = False
-    ) -> TemplateMatch(str, Tuple[float, float], float):
+    ) -> TemplateMatch:
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
@@ -185,13 +186,12 @@ class TemplateFinder:
         else:
             templates = [ref]
             scales = [1.0]
-            names = ['search_by_image']
             best_match = False
 
         scores = [0]*len(ref)
         ref_points = [(0,0)]*len(ref)
         for count, template in enumerate(templates):
-
+            template_match = TemplateMatch()
             scale = scales[count]
 
             img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
@@ -215,13 +215,24 @@ class TemplateFinder:
                         scores[count]=max_val
                         ref_points[count]=ref_point
                     else:
-                        return TemplateMatch(names[count], ref_point, max_val)
+                        try:
+                            template_match.name = names[count]
+                        except:
+                            pass
+                        template_match.position = ref_point
+                        template_match.score = max_val
+                        return template_match
 
         if max(scores)>0:
             idx=scores.index(max(scores))
-            return TemplateMatch(names[idx], ref_points[idx], scores[idx])
-        else:
-            return False
+            try:
+                template_match.name = names[idx]
+            except:
+                pass
+            template_match.position = ref_points[idx]
+            template_match.score = scores[idx]
+            return template_match
+        return False
 
     def search_and_wait(
         self,
@@ -231,7 +242,7 @@ class TemplateFinder:
         threshold: float = None,
         best_match: bool = False,
         take_ss: bool = True
-    ) -> TemplateMatch(str, Tuple[float, float], float):
+    ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
         :param ref: Key of template which has been loaded beforehand
