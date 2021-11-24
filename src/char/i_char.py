@@ -30,6 +30,12 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = ''):
+        mouse.move(pos[0], pos[1])
+        time.sleep(0.1)
+        mouse.click(button="left")
+        time.sleep(0.2)
+
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
@@ -98,17 +104,17 @@ class IChar:
         while (time.time() - start)  < 8:
             img = self._screen.grab()
             success1, pos1 = self._template_finder.search(
-                "BLUE_PORTAL", 
-                img, 
-                threshold=0.66, 
-                roi=roi, 
+                "BLUE_PORTAL",
+                img,
+                threshold=0.66,
+                roi=roi,
                 normalize_monitor=True
             )
             success2, pos2 = self._template_finder.search(
-                "BLUE_PORTAL_2", 
-                img, 
-                threshold=0.7, 
-                roi=roi, 
+                "BLUE_PORTAL_2",
+                img,
+                threshold=0.7,
+                roi=roi,
                 normalize_monitor=True
             )
             if success1 or success2:
@@ -161,11 +167,11 @@ class IChar:
     @abstract
     def kill_pindle(self) -> bool:
         pass
-    
+
     @abstract
     def kill_shenk(self) -> bool:
         pass
-    
+
     @abstract
     def kill_eldritch(self) -> bool:
         pass
