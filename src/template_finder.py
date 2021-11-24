@@ -277,7 +277,7 @@ if __name__ == "__main__":
         if template_match:
             cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
+            print(f"Name: {template_match.name} Pos: {template_match.position}, Score: {template_match.score}")
         display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-        #print(template_match.score)
         cv2.imshow('test', display_img)
         key = cv2.waitKey(1)
