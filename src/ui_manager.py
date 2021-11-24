@@ -309,8 +309,11 @@ class UiManager():
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
-                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, self._screen.grab(), column, row)
+                    hovered_item = self._screen.grab()
+                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, hovered_item, column, row)
                     if self._slot_has_item(slot_img):
+                        if self._config.general["info_screenshots"]:
+                            cv2.imwrite("./info_screenshots/info_discard_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
                         mouse.press(button="left")
                         wait(0.2, 0.4)
                         mouse.release(button="left")

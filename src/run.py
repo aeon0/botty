@@ -78,6 +78,7 @@ if __name__ == "__main__":
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
+            break
         elif keyboard.is_pressed(config.general['graphic_debugger_key']):
             run_graphic_debugger()
             break

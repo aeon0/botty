@@ -35,7 +35,6 @@ class Config:
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
             "graphic_debugger_key": self._select_val("general", "graphic_debugger_key"),
-            "template_threshold": float(self._select_val("general", "template_threshold")),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
@@ -96,7 +95,8 @@ class Config:
             self.hammerdin.update(self._custom["hammerdin"])
         
         self.advanced_options = {
-            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10)
+            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
+            "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
         }
 
         self.items = {}

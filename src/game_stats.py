@@ -19,6 +19,7 @@ class GameStats:
 
     def _send_discord_thread(self, msg: str):
         if self._config.general["custom_discord_hook"]:
+            msg = f"{self._config.general['name']}: {msg}"
             send_discord_thread = threading.Thread(
                 target=send_discord,
                 args=(msg, self._config.general["custom_discord_hook"])
@@ -29,7 +30,7 @@ class GameStats:
     def log_item_pickup(self, item_name: str, send_discord: bool):
         self._picked_up_items.append(item_name)
         if send_discord:
-            self._send_discord_thread(f"{self._config.general['name']} just found: {item_name}")
+            self._send_discord_thread(f"Found {item_name}")
 
     def log_death(self):
         self._death_counter += 1
@@ -37,13 +38,13 @@ class GameStats:
 
     def log_chicken(self):
         self._chicken_counter += 1
-        self._send_discord_thread(f"Winner winner chicken dinner")
+        self._send_discord_thread(f"You have chickened")
 
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._game_counter % 15 == 0:
-                # every 10th game send a discord update about current status
+            if self._game_counter % 20 == 0:
+                # every 20th game send a discord update about current status
                 self._send_discord_status_update()
         self._game_counter += 1
         self._timer = time.time()
@@ -79,7 +80,7 @@ class GameStats:
         return msg
 
     def _send_discord_status_update(self):
-        msg = f"Status Report from {self._config.general['name']}:\n{self._create_msg()}\nVersion:"
+        msg = f"Status Report\n{self._create_msg()}\nVersion:"
         self._send_discord_thread(msg)
 
     def _save_stats_to_file(self):

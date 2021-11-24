@@ -105,7 +105,7 @@ class BeltManager:
             "health": self._config.char["belt_hp_columns"],
             "mana": self._config.char["belt_mp_columns"],
         }
-        center_m = self._screen.convert_abs_to_monitor((0, 0))
+        center_m = self._screen.convert_abs_to_monitor((-200, -120))
         mouse.move(*center_m, randomize=100)
         keyboard.send(self._config.char["show_belt"])
         wait(0.5)

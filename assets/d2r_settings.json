@@ -5,7 +5,7 @@
     "MaxLuminance": 600,
     "HDRContrast": 200,
     "Contrast": 100,
-    "Screen Resolution (Windowed)": "1920x1051",
+    "Screen Resolution (Windowed)": "1280x720",
     "Resolution Scale": 100,
     "Sharpening": 6,
     "Game Resolution": 1,
@@ -15,7 +15,7 @@
     "VSync": 1,
     "Framerate Cap": 60,
     "Framerate Target": 0,
-    "Window Mode": 1,
+    "Window Mode": 0,
     "Graphic Presets": 4,
     "Texture Quality": 4,
     "Texture Anisotropy": 0,
@@ -40,7 +40,7 @@
     "Show Clock": 1,
     "Auto Gold Enabled": 0,
     "Chat Gem Mode": 1,
-    "Item Name Display": 0,
+    "Item Name Display": 1,
     "Chat Background": 0,
     "Always Run": 1
 }

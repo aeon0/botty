@@ -12,7 +12,7 @@ And please. I urge you to actually read that README! It will make your life a lo
 Botty only supports English language and screen resolutions 1920x1080 and 1280x720. If your monitor has a higher resolution, you need to either reduce it to one of the two resolutions or set D2R to windowed mode and adjust offset_left and offset_top.
 
 ### 1) Graphics and Gameplay Settings
-All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Color Test Mode" to verify your settings.</br>
+All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings. Also, there are sample screenshots of how graphics should look like: <a href="/assets/docs/sample_graphics.png">Example 1</a>, <a href="/assets/docs/sample_graphics_2.png">Example 2</a></br>
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty.
 
 ### 2) Supported builds
@@ -30,7 +30,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Switch (ALT+TAB) to your D2R window and press the start key (default f11). You can always force stop botty with f12.
 
 
-## Color Test Mode
+## Graphic Debugger
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. E.g. for 720p you should see scores higher 0.8 for the templates. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
 <img src="assets/docs/graphic_debugger.png" width="900">
 
@@ -70,6 +70,7 @@ loot_screenshots | If 1, the bot takes a screenshot with timestamp everytime he 
  [routes]                       | Descriptions
 --------------------------------|---------------------------------------------
 run_pindle | Run Pindle in each new game. Select "1" to run it "0" to leave it out.
+run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out.
 run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out.
 
  [char]                         | Descriptions
@@ -125,10 +126,11 @@ blessed_hammer | Hotkey for Blessed Hammer
  [advanced_options]             | Descriptions
 --------------------------------|---------------------------------------------
 pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays.
+template_threshold | Threshold to find templates used during pathing.
 
  [items]                        | Descriptions
 --------------------------------|---------------------------------------------
 item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent.
 
 ## Support this project
-This project is free. Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.
+Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.
