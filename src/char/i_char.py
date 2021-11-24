@@ -91,18 +91,18 @@ class IChar:
         start = time.time()
         while (time.time() - start)  < 8:
             img = self._screen.grab()
-            success1, pos1 = self._template_finder.search(
-                "BLUE_PORTAL", 
-                img, 
-                threshold=0.66, 
-                roi=roi, 
+            success1, pos1, _ = self._template_finder.search(
+                "BLUE_PORTAL",
+                img,
+                threshold=0.66,
+                roi=roi,
                 normalize_monitor=True
             )
-            success2, pos2 = self._template_finder.search(
-                "BLUE_PORTAL_2", 
-                img, 
-                threshold=0.7, 
-                roi=roi, 
+            success2, pos2, _ = self._template_finder.search(
+                "BLUE_PORTAL_2",
+                img,
+                threshold=0.7,
+                roi=roi,
                 normalize_monitor=True
             )
             if success1 or success2:
@@ -150,11 +150,11 @@ class IChar:
     @abstract
     def kill_pindle(self) -> bool:
         pass
-    
+
     @abstract
     def kill_shenk(self) -> bool:
         pass
-    
+
     @abstract
     def kill_eldritch(self) -> bool:
         pass

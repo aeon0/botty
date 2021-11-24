@@ -188,7 +188,7 @@ class Bot:
             wait(0.5)
 
         # Check if merc needs to be revived
-        merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
+        merc_alive, _, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
         if not merc_alive:
             Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):

@@ -149,13 +149,15 @@ class TemplateFinder:
         threshold: float = None,
         roi: List[float] = None,
         normalize_monitor: bool = False,
-    ) -> Tuple[bool, Tuple[float, float]]:
+        best_match: bool = False,
+    ) -> Tuple[bool, Tuple[float, float], str]:
         """
         Search for a template in an image
-        :param ref: Either key of a already loaded template or a image which is used as template
+        :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
         :param inp_img: Image in which the template will be searched
         :param threshold: Threshold which determines if a template is found or not
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
+        :param best_match: Will search for all
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
         threshold = self._config.general["template_threshold"] if threshold is None else threshold
@@ -168,13 +170,18 @@ class TemplateFinder:
         if type(ref) == str:
             templates = [self._templates[ref][0]]
             scales = [self._templates[ref][1]]
+            names = [ref]
         elif type(ref) == list:
             templates = [self._templates[i][0] for i in ref]
             scales = [self._templates[i][1] for i in ref]
+            names = ref
         else:
             templates = [ref]
             scales = [1.0]
+            best_match = False
 
+        scores=np.zeros(len(ref))
+        ref_points=np.zeros(len(ref))
         for count, template in enumerate(templates):
 
             scale = scales[count]
@@ -196,8 +203,17 @@ class TemplateFinder:
                     if normalize_monitor:
                         ref_point =  self._screen.convert_screen_to_monitor(ref_point)
 
-                    return True, ref_point
-        return False, None
+                    if best_match:
+                        scores[count]=max_val
+                        ref_points[count]=ref_point
+                    else:
+                        return True, ref_point, None
+
+        if scores:
+            idx=scores.index(max(scores))
+            return True, ref_points[idx], names[idx]
+        else:
+            return False, None, None
 
     def search_and_wait(
         self,
@@ -225,7 +241,7 @@ class TemplateFinder:
             if type(ref) is str:
                 ref = [ref]
             for x in ref:
-                success, pos = self.search(x, img, roi=roi, threshold=threshold)
+                success, pos, _ = self.search(x, img, roi=roi, threshold=threshold)
                 if success:
                     break
             if not is_loading_black_roi:
@@ -251,7 +267,7 @@ if __name__ == "__main__":
         img = screen.grab()
         display_img = img.copy()
         for template_name in search_templates:
-            success, pos = template_finder.search(template_name, img)
+            success, pos, _ = template_finder.search(template_name, img)
             scores[template_name] = template_finder.last_score
             if success:
                 cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)

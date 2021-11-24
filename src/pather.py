@@ -133,7 +133,7 @@ class Pather:
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
                         if filter is None or filter in template_type:
-                            success, ref_pos_screen = self._template_finder.search(template_type, img)
+                            success, ref_pos_screen, _ = self._template_finder.search(template_type, img)
                             if success:
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
@@ -195,7 +195,7 @@ class Pather:
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
         node = self._nodes[node_idx]
         for template_type in node:
-            success, ref_pos_screen = self._template_finder.search(template_type, img)
+            success, ref_pos_screen, _ = self._template_finder.search(template_type, img)
             if success:
                 # Get reference position of template in abs coordinates
                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
@@ -223,7 +223,7 @@ class Pather:
             while not continue_to_next_node:
                 img = self._screen.grab()
                 if (time.time() - last_move) > time_out:
-                    success, _ = self._template_finder.search("WAYPOINT_MENU", img)
+                    success, _, _ = self._template_finder.search("WAYPOINT_MENU", img)
                     if success:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")

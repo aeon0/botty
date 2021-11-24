@@ -74,7 +74,7 @@ class JavaShopper:
             img = self._screen.grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove_found, pos = self._template_finder.search(
+            ias_glove_found, pos, _ = self._template_finder.search(
                 ref=load_template("assets/shop/gloves/ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.98,
@@ -86,7 +86,7 @@ class JavaShopper:
                 mouse.move(*pos)
                 time.sleep(0.1)
                 img = self._screen.grab()
-                gg_gloves_found, pos = self._template_finder.search(
+                gg_gloves_found, pos, _ = self._template_finder.search(
                     ref=load_template(
                         "assets/shop/gloves/gg_gloves.png", 1.0
                     ),

@@ -118,7 +118,7 @@ class HealthManager:
                     self._drink_poition(img, "mana")
                     self._last_mana = time.time()
                 # check merc
-                merc_alive, _ = self._template_finder.search("MERC", img, roi=self._config.ui_roi["merc_icon"])
+                merc_alive, _, _ = self._template_finder.search("MERC", img, roi=self._config.ui_roi["merc_icon"])
                 if merc_alive:
                     merc_health_percentage = self.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_healh

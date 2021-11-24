@@ -184,9 +184,9 @@ class UiManager():
         while 1:
             img = self._screen.grab()
             # search offline btn
-            found_off, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
+            found_off, _, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
             # search online btn with enabled and disabled version
-            found_on, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            found_on, _, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
             score_enabled = self._template_finder.last_score
             self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
             score_disabled = self._template_finder.last_score
@@ -229,7 +229,7 @@ class UiManager():
 
         # check for server issue
         wait(2.0)
-        server_issue, _ = self._template_finder.search("SERVER_ISSUES", self._screen.grab())
+        server_issue, _, _ = self._template_finder.search("SERVER_ISSUES", self._screen.grab())
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))

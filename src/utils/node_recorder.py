@@ -32,7 +32,7 @@ class NodeRecorder:
         img = self._screen.grab()
         for key in self._template_finder._templates:
             if key not in self._ref_points:
-                found, pos = self._template_finder.search(key, img)
+                found, pos, _ = self._template_finder.search(key, img)
                 if found:
                     print(f"Found Previous: {key}")
                     self._ref_points[key] = pos
