@@ -2,8 +2,10 @@ import json
 import os
 
 def adjust_settings():
-    print("Warning: This will overwrite some of your graphics and gameplay settings. D2R must not be running during this action! Continue with Enter...")
-    input()
+    # You might not belive it, but there are cases where users press f9 and just dont read any console output and think everything is done
+    # so for now, removing this warning as it seems there has never been anybody actually backing up the original settings anyway...
+    # print("Warning: This will overwrite some of your graphics and gameplay settings. D2R must not be running during this action! Continue with Enter...")
+    # input()
     # Get D2r folder
     d2_saved_games = f"C:\\Users\\{os.getlogin()}\\Saved Games\\Diablo II Resurrected"
     if not os.path.exists(d2_saved_games):
@@ -21,7 +23,7 @@ def adjust_settings():
     # write back to settings.json
     with open(d2_saved_games + "\\Settings.json", 'w') as outfile:
         json.dump(curr_settings, outfile)
-    print("Changed settings succesfully. You can now start D2R to start the bot.")
+    print("Changed settings succesfully. You can now start D2R and botty.")
 
 
 if __name__ == "__main__":
