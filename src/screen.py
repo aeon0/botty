@@ -5,6 +5,7 @@ import time
 from logger import Logger
 from typing import Tuple
 from config import Config
+from utils.custom_mouse import mouse
 import os
 
 
@@ -50,7 +51,10 @@ class Screen:
         monitor_coord = self.convert_screen_to_monitor(screen_coord)
         return monitor_coord
 
-    def grab(self) -> np.ndarray:
+    def grab(self, hide_mouse=False) -> np.ndarray:
+        if hide_mouse:
+            mouse.move(0, 0)  # Moving the mouse to the edge of the screen to not cover any loot.
+            time.sleep(0.1)
         img = np.array(self._sct.grab(self._monitor_roi))
         return img[:, :, :3]
 

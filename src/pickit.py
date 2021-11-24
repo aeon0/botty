@@ -33,7 +33,7 @@ class PickIt:
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
         if self._config.general["loot_screenshots"]:
-            img = self._screen.grab()
+            img = self._screen.grab(hide_mouse=True)
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = time.time()
@@ -44,7 +44,7 @@ class PickIt:
                 time_out = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
-            img = self._screen.grab()
+            img = self._screen.grab(hide_mouse=True)
             item_list = self._item_finder.search(img)
 
             # Check if we need to pick up certain pots more pots
@@ -68,7 +68,7 @@ class PickIt:
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
                         self._belt_manager.picked_up_pot(closest_item.name)
-                    # no need to stash potions, scrolls, or gold 
+                    # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
                     Logger.info(f"Picking up: {closest_item.name}")
