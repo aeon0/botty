@@ -30,8 +30,6 @@ class Hammerdin(IChar):
         wait(0.05, 0.15)
         keyboard.send(self._char_config["stand_still"], do_release=False)
         wait(0.05, 0.15)
-        keyboard.send(self._skill_hotkeys["blessed_hammer"])
-        wait(0.05, 0.15)
         mouse.press(button="left")
         start = time.time()
         i = 0
