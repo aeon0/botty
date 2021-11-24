@@ -155,7 +155,7 @@ class TemplateFinder:
         threshold: float = None,
         roi: List[float] = None,
         normalize_monitor: bool = False,
-        best_match: bool = False,
+        best_match: bool = False
     ) -> TemplateMatch(str, Tuple[float, float], float):
         """
         Search for a template in an image
@@ -229,6 +229,7 @@ class TemplateFinder:
         roi: List[float] = None,
         time_out: float = None,
         threshold: float = None,
+        best_match: bool = False,
         take_ss: bool = True
     ) -> TemplateMatch(str, Tuple[float, float], float):
         """
@@ -236,6 +237,7 @@ class TemplateFinder:
         :param ref: Key of template which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
         :param threshold: Adapt threshold for being found
+        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
@@ -248,7 +250,7 @@ class TemplateFinder:
 
             if type(ref) is str:
                 ref = [ref]
-            template_match = self.search(ref, img, roi=roi, threshold=threshold)
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match)
             if not is_loading_black_roi:
                 if template_match:
                     return template_match
