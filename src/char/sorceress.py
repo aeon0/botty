@@ -26,6 +26,7 @@ class Sorceress(IChar):
             mouse.move(pos[0], pos[1])
             wait(0.1, 0.2)
             mouse.click(button="right")
+            wait(0.15,0.25)
         else:
             super().pick_up_item((pos[0], pos[1]),item_name)
 
