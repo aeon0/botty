@@ -23,8 +23,8 @@ class Screen:
         config = Config()
         self._monitor_roi = self._sct.monitors[monitor_idx]
         # For windowed screens it is expected to always have them at the top left edge and adjust offset_top then
-        self._monitor_roi["top"] += config.general["offset_top"]
-        self._monitor_roi["left"] += config.general["offset_left"]
+        self._monitor_roi["top"] += 0
+        self._monitor_roi["left"] += 0
         self._monitor_roi["width"] = config.ui_pos["screen_width"]
         self._monitor_roi["height"] = config.ui_pos["screen_height"]
         self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)

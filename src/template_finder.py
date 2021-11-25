@@ -85,6 +85,7 @@ class TemplateFinder:
             # Template Inventory / UI
             "INVENTORY_GOLD_BTN": [load_template(f"assets/templates{res_str}/inventory_gold_btn.png", 1.0), 1.0],
             "D2_LOGO_HS": [load_template(f"assets/templates{res_str}/d2_logo_hs.png", 1.0), 1.0],
+            "MAIN_MENU_TOP_LEFT": [load_template(f"assets/templates{res_str}/main_menu_top_left.png", 1.0), 1.0],
             "LOADING": [load_template(f"assets/templates{res_str}/loading.png", 1.0), 1.0],
             "PLAY_BTN": [load_template(f"assets/templates{res_str}/play_btn.png", 1.0), 1.0],
             "PLAY_BTN_GRAY": [load_template(f"assets/templates{res_str}/play_btn_gray.png", 1.0), 1.0],
@@ -145,12 +146,12 @@ class TemplateFinder:
         return self._templates[key][0]
 
     def search(
-        self, 
+        self,
         ref: Union[str, np.ndarray],
         inp_img: np.ndarray,
-        threshold: float = None, 
+        threshold: float = None,
         roi: List[float] = None,
-        normalize_monitor: bool = False, 
+        normalize_monitor: bool = False,
     ) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image

@@ -87,7 +87,9 @@ class Bot:
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
     def start(self):
+        self._ui_manager.set_offset()
         self.trigger('create_game')
+
 
     def stop(self):
         self._stopping = True
