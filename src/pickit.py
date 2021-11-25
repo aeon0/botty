@@ -71,7 +71,8 @@ class PickIt:
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
-                    Logger.info(f"Picking up: {closest_item.name}")
+
+                    Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
 
                     if self._ui_manager.is_overburdened():
