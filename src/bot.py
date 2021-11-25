@@ -90,7 +90,6 @@ class Bot:
         self._ui_manager.set_offset()
         self.trigger('create_game')
 
-
     def stop(self):
         self._stopping = True
         for t in self._current_threads:
