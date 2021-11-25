@@ -81,7 +81,7 @@ class JavaShopper:
             ias_glove_found, pos = self._template_finder.search(
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
-                threshold=0.98,
+                threshold=0.96,
                 roi=self.config.ui_roi["vendor_stash"],
                 normalize_monitor=True,
             )
