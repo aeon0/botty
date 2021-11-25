@@ -1,5 +1,4 @@
 import cv2
-from enum import Enum
 from screen import Screen
 from typing import Tuple, Union, List
 import numpy as np
@@ -75,6 +74,7 @@ class TemplateFinder:
             "SHENK_13": [load_template(f"assets/templates{res_str}/shenk/shenk_13.png", self._scale_factor), self._scale_factor],
             "SHENK_15": [load_template(f"assets/templates{res_str}/shenk/shenk_15.png", self._scale_factor), self._scale_factor],
             "SHENK_16": [load_template(f"assets/templates{res_str}/shenk/shenk_16.png", self._scale_factor), self._scale_factor],
+            "SHENK_17": [load_template(f"assets/templates{res_str}/shenk/shenk_17.png", self._scale_factor), self._scale_factor],
             # Template Selectables
             "A5_STASH": [load_template(f"assets/templates{res_str}/a5_stash.png", self._scale_factor), self._scale_factor],
             "A5_WP": [load_template(f"assets/templates{res_str}/a5_wp.png", self._scale_factor), self._scale_factor],
@@ -102,6 +102,8 @@ class TemplateFinder:
             "TP_TOMB": [load_template(f"assets/templates{res_str}/tp_tomb.png", 1.0), 1.0],
             "SUPER_HEALING_POTION": [load_template(f"assets/templates{res_str}/super_healing_potion.png", 1.0), 1.0],
             "SUPER_MANA_POTION": [load_template(f"assets/templates{res_str}/super_mana_potion.png", 1.0), 1.0],
+            "FULL_REJUV_POTION": [load_template(f"assets/templates{res_str}/full_rejuv_potion.png", 1.0), 1.0],
+            "REJUV_POTION": [load_template(f"assets/templates{res_str}/rejuv_potion.png", 1.0), 1.0],
             # NPC: Qual-Kehk
             "QUAL_FRONT": [load_template(f"assets/npc{res_str}/qual_kehk/qual_front.png", 1.0), 1.0],
             "QUAL_SIDE": [load_template(f"assets/npc{res_str}/qual_kehk/qual_side.png", 1.0), 1.0],
@@ -158,7 +160,7 @@ class TemplateFinder:
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
-        threshold = self._config.general["template_threshold"] if threshold is None else threshold
+        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -208,7 +210,7 @@ class TemplateFinder:
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
-        threshold = self._config.general["template_threshold"] if threshold is None else threshold
+        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:

@@ -65,7 +65,7 @@ if __name__ == "__main__":
     print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
     table = BeautifulTable()
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
-    table.rows.append([config.general['graphic_debugger_key'], "Color test mode "])
+    table.rows.append([config.general['graphic_debugger_key'], "Graphic debugger"])
     table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
     table.rows.append([config.general['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
@@ -78,6 +78,7 @@ if __name__ == "__main__":
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
+            break
         elif keyboard.is_pressed(config.general['graphic_debugger_key']):
             run_graphic_debugger()
             break

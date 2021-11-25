@@ -1,5 +1,6 @@
 from template_finder import TemplateFinder
 from ui_manager import UiManager
+from belt_manager import BeltManager
 import cv2
 import time
 import keyboard
@@ -13,13 +14,15 @@ from threading import Thread
 
 
 class HealthManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, belt_manager: BeltManager):
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
         self._ui_manager = ui_manager
+        self._belt_manager = belt_manager
         self._do_monitor = False
         self._did_chicken = False
+        self._last_rejuv = time.time()
         self._last_health = time.time()
         self._last_mana = time.time()
         self._last_merc_healh = time.time()
@@ -29,25 +32,6 @@ class HealthManager:
 
     def did_chicken(self):
         return self._did_chicken
-
-    def _drink_poition(self, img: np.ndarray, potion_type: str, merc: bool = False):
-        for i in range(4):
-            roi = [
-                self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + i * self._config.ui_pos["potion_next"],
-                self._config.ui_pos["potion1_y"] - (self._config.ui_pos["potion_height"] // 2),
-                self._config.ui_pos["potion_width"],
-                self._config.ui_pos["potion_height"]
-            ]
-            potion_img = cut_roi(img, roi)
-            if self._ui_manager.potion_type(potion_img) == potion_type:
-                key = f"potion{i+1}"
-                if merc:
-                    Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc")
-                    keyboard.send(f"left shift + {self._config.char[key]}")
-                else:
-                    Logger.debug(f"Drink {potion_type} potion in slot {i+1}")
-                    keyboard.send(self._config.char[key])
-                break
 
     def get_health(self, img: np.ndarray) -> float:
         health_rec = [self._config.ui_pos["health_left"], self._config.ui_pos["health_top"], self._config.ui_pos["health_width"], self._config.ui_pos["health_height"]]
@@ -98,25 +82,32 @@ class HealthManager:
         while self._do_monitor:
             time.sleep(0.1)
             img = self._screen.grab()
-            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 3.0
             if not is_loading_black_roi:
-                # check health
                 health_percentage = self.get_health(img)
-                last_drink = time.time() - self._last_health
-                if health_percentage < self._config.char["take_health_potion"] and last_drink > 3.5:
-                    self._drink_poition(img, "health")
-                    self._last_health = time.time()
-                # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
-                elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
-                    Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
-                    self._do_chicken(img, run_thread)
-                    break
-                # check mana
                 mana_percentage = self.get_mana(img)
-                last_drink = time.time() - self._last_mana
-                if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4:
-                    self._drink_poition(img, "mana")
-                    self._last_mana = time.time()
+                # check rejuv
+                success_drink_rejuv = False
+                if health_percentage < self._config.char["take_rejuv_potion_health"] or \
+                   mana_percentage < self._config.char["take_rejuv_potion_mana"]:
+                    success_drink_rejuv = self._belt_manager.drink_potion("rejuv")
+                # in case no rejuv was used, check for chicken, health pot and mana pot usage
+                if not success_drink_rejuv:
+                    # check health
+                    last_drink = time.time() - self._last_health
+                    if health_percentage < self._config.char["take_health_potion"] and last_drink > 3.5:
+                        self._belt_manager.drink_potion("health")
+                        self._last_health = time.time()
+                    # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
+                    elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
+                        Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
+                        self._do_chicken(img, run_thread)
+                        break
+                    # check mana
+                    last_drink = time.time() - self._last_mana
+                    if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4:
+                        self._belt_manager.drink_potion("mana")
+                        self._last_mana = time.time()
                 # check merc
                 merc_alive, _ = self._template_finder.search("MERC", img, roi=self._config.ui_roi["merc_icon"])
                 if merc_alive:
@@ -126,8 +117,11 @@ class HealthManager:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img, run_thread)
                         break
+                    if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
+                        self._belt_manager.drink_potion("rejuv", merc=True)
+                        self._last_merc_healh = time.time()
                     elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
-                        self._drink_poition(img, "health", merc=True)
+                        self._belt_manager.drink_potion("health", merc=True)
                         self._last_merc_healh = time.time()
         Logger.debug("Stop health monitoring")
 
@@ -138,7 +132,8 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
-    manager = HealthManager(screen, template_finder, ui_manager)
+    belt_manager = BeltManager(screen, template_finder)
+    manager = HealthManager(screen, template_finder, ui_manager, belt_manager)
     # manager.start_monitor(None)
     mana = manager.get_mana(screen.grab())
     health = manager.get_health(screen.grab())

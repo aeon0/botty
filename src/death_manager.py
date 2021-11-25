@@ -48,10 +48,10 @@ class DeathManager:
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if run_thread is not None:
                 kill_thread(run_thread)
-            # clean up key presses that might be pressed in the run_thread
-            keyboard.release(self._config.char["stand_still"])
-            wait(0.1, 0.2)
-            keyboard.release(self._config.char["show_items"])
+                # clean up key presses that might be pressed in the run_thread
+                keyboard.release(self._config.char["stand_still"])
+                wait(0.1, 0.2)
+                keyboard.release(self._config.char["show_items"])
             time.sleep(6)
             if self._template_finder.search("D2_LOGO_HS", self._screen.grab(), roi=self._config.ui_roi["hero_selection_logo"])[0]:
                 # in this case chicken executed and left the game, but we were still dead.

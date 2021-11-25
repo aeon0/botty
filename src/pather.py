@@ -79,8 +79,8 @@ class Pather:
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
             123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
             # Shenk
-            140: {"SHENK_0": (-224, -340), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
-            141: {"SHENK_0": (-194, 66), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
+            140: {"SHENK_0": (-224, -340), "SHENK_17": (-750, 353), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
+            141: {"SHENK_0": (-194, 66), "SHENK_17": (-780, 792), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
             142: {"SHENK_1": (876, 564), "SHENK_2": (-78, 352), "SHENK_3": (535, -194), "SHENK_4": (-665, -155)},
             143: {"SHENK_2": (212, 758),"SHENK_3": (823, 209), "SHENK_4": (-377, 248), "SHENK_6": (-508, -103)},
             144: {"SHENK_6": (-162, 185), "SHENK_7": (721, 226)},
@@ -130,21 +130,27 @@ class Pather:
         while 1:
             img = self._screen.grab()
             display_img = img.copy()
+            template_map = {}
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
                         if filter is None or filter in template_type:
-                            success, ref_pos_screen = self._template_finder.search(template_type, img)
+                            if template_type in template_map:
+                                success = True
+                                ref_pos_screen = template_map[template_type]
+                            else:
+                                success, ref_pos_screen = self._template_finder.search(template_type, img)
                             if success:
+                                template_map[template_type] = ref_pos_screen
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                                 # Calc the abs node position with the relative coordinates (relative to ref)
-                                # node_pos_rel = self._get_scaled_node(node_idx, template_type)
-                                # node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                                # node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                                # x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                # cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                                # cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                                x, y = self._screen.convert_abs_to_monitor(ref_pos_abs)
+                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
+                                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
+                                cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                                cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                                x, y = self._screen.convert_abs_to_screen(ref_pos_abs)
                                 cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                                 cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
@@ -266,5 +272,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, char)
-    # pather._display_all_nodes_debug(filter="SHENK")
+    # pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, char)
+    pather._display_all_nodes_debug(filter="SHENK_17")
