@@ -20,7 +20,7 @@ class Sorceress(IChar):
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, last_cast_time: float = 0):
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold']):
             keyboard.send(self._skill_hotkeys["telekinesis"])
             wait(0.1, 0.2)
@@ -29,7 +29,7 @@ class Sorceress(IChar):
             mouse.click(button="right")
             # need about 0.4s delay before next capture for the item not to persist on screen
             cast_start = time.time()
-            interval = (cast_start - last_cast_time)
+            interval = (cast_start - prev_cast_start)
             cast_duration_wait = (self._cast_duration - interval)
             delay = 0.35 if cast_duration_wait <0 else (0.35+cast_duration_wait)
             wait(delay,delay+0.1)
