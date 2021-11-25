@@ -30,11 +30,12 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None):
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, last_cast_time: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
         wait(0.45,0.5)
+        return last_cast_time
 
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":

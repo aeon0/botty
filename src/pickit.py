@@ -36,7 +36,7 @@ class PickIt:
             img = self._screen.grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
-        start = time.time()
+        start = last_cast_time = time.time()
         time_out = False
         picked_up_items = []
         while not time_out:
@@ -72,7 +72,7 @@ class PickIt:
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
                     Logger.info(f"Picking up: {closest_item.name}")
-                    char.pick_up_item((x_m, y_m),item_name=closest_item.name)
+                    last_cast_time = char.pick_up_item((x_m, y_m),item_name=closest_item.name,last_cast_time=last_cast_time)
 
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
