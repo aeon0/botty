@@ -28,6 +28,7 @@ class PickIt:
         :param char: The character used to pick up the item
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
+        found_nothing = 0
         found_items = False
         keyboard.send(self._config.char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
@@ -57,8 +58,12 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             if len(item_list) == 0:
-                break
+                # if two times no item was found, break
+                found_nothing += 1
+                if found_nothing > 1:
+                    break
             else:
+                found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
@@ -100,16 +105,20 @@ if __name__ == "__main__":
     from char.sorceress import Sorceress
     from ui_manager import UiManager
     from template_finder import TemplateFinder
+    from pather import Pather
+    from game_stats import GameStats
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     config = Config()
+    game_states = GameStats()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
     belt_manager = BeltManager(screen, t_finder)
+    pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, item_finder, ui_manager)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
+    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
     pickit.pick_up_items(char)
