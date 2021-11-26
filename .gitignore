@@ -16,6 +16,7 @@ botty_v*/
 custom.ini
 *info_*.png
 .vscode
+.vs/
 info_screenshots/
 loot_screenshots/
 .venv
