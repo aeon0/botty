@@ -34,6 +34,7 @@ class Bot:
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._ui_manager.set_offset()
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
@@ -87,7 +88,6 @@ class Bot:
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
     def start(self):
-        self._ui_manager.set_offset()
         self.trigger('create_game')
 
     def stop(self):
