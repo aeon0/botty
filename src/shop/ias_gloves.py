@@ -12,9 +12,9 @@ import screen
 from config import Config
 from logger import Logger
 from npc_manager import NpcManager, Npc
-from template_finder import TemplateFinder, load_template
+from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
-from utils.misc import wait
+from utils.misc import wait, load_template
 
 
 

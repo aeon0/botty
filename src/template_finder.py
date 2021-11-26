@@ -6,14 +6,8 @@ from logger import Logger
 import time
 import os
 from config import Config
+from utils.misc import load_template
 
-
-def load_template(path, scale_factor):
-    if os.path.isfile(path):
-        template_img = cv2.imread(path)
-        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-        return template_img
-    return None
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
@@ -85,7 +79,6 @@ class TemplateFinder:
             # Template Inventory / UI
             "INVENTORY_GOLD_BTN": [load_template(f"assets/templates{res_str}/inventory_gold_btn.png", 1.0), 1.0],
             "D2_LOGO_HS": [load_template(f"assets/templates{res_str}/d2_logo_hs.png", 1.0), 1.0],
-            "MAIN_MENU_TOP_LEFT": [load_template(f"assets/templates{res_str}/main_menu_top_left.png", 1.0), 1.0],
             "LOADING": [load_template(f"assets/templates{res_str}/loading.png", 1.0), 1.0],
             "PLAY_BTN": [load_template(f"assets/templates{res_str}/play_btn.png", 1.0), 1.0],
             "PLAY_BTN_GRAY": [load_template(f"assets/templates{res_str}/play_btn_gray.png", 1.0), 1.0],

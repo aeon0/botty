@@ -1,5 +1,6 @@
 from bot import Bot
 from game_recovery import GameRecovery
+from screen import Screen
 from logger import Logger
 import keyboard
 import os
@@ -17,8 +18,9 @@ import traceback
 
 
 def run_bot(config: Config):
-    game_recovery = GameRecovery()
-    bot = Bot()
+    screen = Screen(config.general["monitor"])
+    game_recovery = GameRecovery(screen)
+    bot = Bot(screen)
     bot_thread = threading.Thread(target=bot.start)
     bot_thread.start()
     do_restart = False

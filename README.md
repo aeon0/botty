@@ -9,7 +9,7 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
-Botty only supports English language and screen resolutions 1920x1080 and 1280x720. If your monitor has a higher resolution, you need to either reduce it to one of the two resolutions or set D2R to windowed mode.
+Botty only supports English language! Botty is currently working in 1080p or 720p and will try to adjust the D2R settings accordingly depending on your monitor res and your botty setting for "res" in the [general] section.
 
 ### 1) Graphics and Gameplay Settings
 All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings. Also, there are sample screenshots of how graphics should look like: <a href="/assets/docs/sample_graphics.png">Example 1</a>, <a href="/assets/docs/sample_graphics_2.png">Example 2</a></br>
