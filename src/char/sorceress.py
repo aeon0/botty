@@ -35,7 +35,7 @@ class Sorceress(IChar):
             wait(delay,delay+0.1)
             return cast_start
         else:
-            super().pick_up_item(pos)
+            return super().pick_up_item(pos, item_name, prev_cast_start)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
