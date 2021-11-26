@@ -34,7 +34,6 @@ class Bot:
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
-        self._ui_manager.set_offset()
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
@@ -80,6 +79,7 @@ class Bot:
             { 'trigger': 'end_game', 'source': ['a5_town', 'shenk', 'pindle', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self._ui_manager.set_offset()
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
