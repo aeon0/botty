@@ -1,6 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Simple Pixelbot for Diablo 2 Resurrected written in python and opencv. Obviously only use it in offline mode as it is against the TOS of Blizzard to use it online!
+Simple Pixelbot for Diablo 2 Resurrected single player written in python and opencv. Botty does not work for online games and is not intended for this usage!
 [**Download here**](https://github.com/aeon0/botty/releases). Got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
 
