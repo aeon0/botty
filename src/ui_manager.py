@@ -26,7 +26,7 @@ class UiManager():
     def set_offset(self) -> bool:
         found, pos = self._template_finder.search_and_wait("MAIN_MENU_TOP_LEFT")
         if found:
-            offset_left, offset_top = pos[0] - self._config.ui_pos["main_menu_top_left_square_dim"]/2, pos[1] - self._config.ui_pos["main_menu_top_left_square_dim"]/2
+            offset_left, offset_top = int(pos[0] - self._config.ui_pos["main_menu_top_left_square_dim"]/2), int(pos[1] - self._config.ui_pos["main_menu_top_left_square_dim"]/2)
             Logger.debug(f"MAIN_MENU_TOP_LEFT found, offset left: {offset_left}, offset top: {offset_top}")
             self._screen._monitor_roi["top"] += offset_top
             self._screen._monitor_roi["left"] += offset_left
