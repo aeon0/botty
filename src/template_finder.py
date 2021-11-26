@@ -6,14 +6,8 @@ from logger import Logger
 import time
 import os
 from config import Config
+from utils.misc import load_template
 
-
-def load_template(path, scale_factor):
-    if os.path.isfile(path):
-        template_img = cv2.imread(path)
-        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-        return template_img
-    return None
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
@@ -145,12 +139,12 @@ class TemplateFinder:
         return self._templates[key][0]
 
     def search(
-        self, 
+        self,
         ref: Union[str, np.ndarray],
         inp_img: np.ndarray,
-        threshold: float = None, 
+        threshold: float = None,
         roi: List[float] = None,
-        normalize_monitor: bool = False, 
+        normalize_monitor: bool = False,
     ) -> Tuple[bool, Tuple[float, float]]:
         """
         Search for a template in an image

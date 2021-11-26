@@ -1,5 +1,14 @@
 from logger import Logger
 from bot import Bot
+from screen import Screen
+from config import Config
+import cv2
+
+
+class ScreenMock(Screen):
+    def grab(self):
+        img = cv2.imread("test/hero_select.png")
+        return img
 
 
 class TestSmoke:
@@ -11,4 +20,5 @@ class TestSmoke:
         Logger.remove_file_logger()
 
     def test_smoke(self):
-        bot = Bot()
+        screen = ScreenMock()
+        bot = Bot(screen)

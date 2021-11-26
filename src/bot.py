@@ -26,11 +26,11 @@ import random
 
 
 class Bot:
-    def __init__(self):
+    def __init__(self, screen: Screen):
+        self._screen = screen
         self._config = Config()
         self._game_stats = GameStats()
-        self._game_recovery = GameRecovery()
-        self._screen = Screen(self._config.general["monitor"])
+        self._game_recovery = GameRecovery(self._screen)
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
@@ -375,7 +375,9 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey("f12", lambda: os._exit(1))
     keyboard.wait("f11")
-    bot = Bot()
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    bot = Bot(screen)
     bot.state = "a5_town"
     bot._curr_location = Location.A5_TOWN_START
     bot.on_maintenance()
