@@ -136,25 +136,26 @@ class UiManager():
         while 1:
             img = self._screen.grab()
             # search offline btn
-            found_off, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
-            # search online btn with enabled and disabled version
-            found_on, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score
-            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_disabled = self._template_finder.last_score
-            found_on = found_on and score_enabled > score_disabled
-            if found_off or found_on:
-                x_s = self._config.ui_pos["play_x_offline"] if found_off else self._config.ui_pos["play_x_online"]
-                pos = [x_s, self._config.ui_pos["play_y"]]
+            found_btn = found_btn and score_enabled > score_disabled
+            if found_btn:
+                x_s = self._config.ui_pos["go_x"]
+                pos = [x_s, self._config.ui_pos["go_y"]]
                 x, y = self._screen.convert_screen_to_monitor(pos)
-                mode_info = "offline" if found_off else "online"
-                Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
-                if mode_info == "online":
-                    Logger.warning("You are creating a game in online mode!")
+                Logger.debug(f"Found Play Btn")
                 mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
+            else:
+                # Might be in online mode?
+                found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                if found_btn:
+                    Logger.error("Botty only works for single player. Please switch to offline mode!")
+                    os._exit(1)
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].lower()
@@ -405,10 +406,11 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
+    print("Start")
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.start_game()
