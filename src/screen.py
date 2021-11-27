@@ -42,10 +42,10 @@ class Screen:
             if max_val_ingame > max_val:
                 max_val = max_val_ingame
                 offset_x, offset_y = max_pos_ingame
-                if self._config.general['res'] == "1280_720":
-                    max_pos = (offset_x - 625, offset_y - 670)
-                else:
-                    max_pos = (offset_x - 938, offset_y - 1004)
+                max_pos = (
+                    offset_x - self._config.ui_pos["ingame_ref_x"],
+                    offset_y - self._config.ui_pos["ingame_ref_y"],
+                )
 
 
             if max_val > 0.9:
