@@ -150,7 +150,7 @@ class UiManager():
                 break
             else:
                 # Might be in online mode?
-                found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
                 if found_btn:
                     Logger.error("Botty only works for single player. Please switch to offline mode!")
                     os._exit(1)
