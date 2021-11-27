@@ -26,22 +26,29 @@ class Screen:
         # auto find offests
         res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
         template = load_template(f"assets/templates{res_str}/main_menu_top_left.png", 1.0)
-        img = self.grab()
-        self._sct = mss()
-        res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, max_pos = cv2.minMaxLoc(res)
-        if max_val > 0.9:
-            offset_left, offset_top = max_pos
-            Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
-            self._monitor_roi["top"] += offset_top
-            self._monitor_roi["left"] += offset_left
-            self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)
-            self._monitor_y_range = (self._monitor_roi["top"] + 10, self._monitor_roi["top"] + self._monitor_roi["height"] - 10)
-            self._monitor_roi["width"] = self._config.ui_pos["screen_width"]
-            self._monitor_roi["height"] = self._config.ui_pos["screen_height"]
-        else:
+        start = time.time()
+        found_offsets = False
+        Logger.info("Searching for window offsets. Make sure D2R is in focus and you are on the hero selection screen")
+        while time.time() - start < 20:
+            img = self.grab()
+            self._sct = mss()
+            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+            _, max_val, _, max_pos = cv2.minMaxLoc(res)
+            if max_val > 0.9:
+                offset_left, offset_top = max_pos
+                Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
+                self._monitor_roi["top"] += offset_top
+                self._monitor_roi["left"] += offset_left
+                self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)
+                self._monitor_y_range = (self._monitor_roi["top"] + 10, self._monitor_roi["top"] + self._monitor_roi["height"] - 10)
+                self._monitor_roi["width"] = self._config.ui_pos["screen_width"]
+                self._monitor_roi["height"] = self._config.ui_pos["screen_height"]
+                found_offsets = True
+                break
+        if not found_offsets:
             Logger.error("Could not find top left corner of window to set offset, shutting down")
-            raise RuntimeError("Could not determine window offset")
+            raise RuntimeError("Could not determine window offset. Please make sure you have the D2R window" +
+                                f"focused and are at the hero selection screen when pressing {self._config.general['resume_key']}")
 
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
