@@ -28,6 +28,7 @@ class PickIt:
         :param char: The character used to pick up the item
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
+        found_nothing = 0
         found_items = False
         keyboard.send(self._config.char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
@@ -36,7 +37,7 @@ class PickIt:
             img = self._screen.grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
-        start = time.time()
+        start = prev_cast_start = time.time()
         time_out = False
         picked_up_items = []
         while not time_out:
@@ -57,8 +58,12 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             if len(item_list) == 0:
-                break
+                # if two times no item was found, break
+                found_nothing += 1
+                if found_nothing > 1:
+                    break
             else:
+                found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
@@ -71,11 +76,9 @@ class PickIt:
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
+
                     Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                    mouse.move(x_m, y_m)
-                    time.sleep(0.1)
-                    mouse.click(button="left")
-                    time.sleep(0.5)
+                    prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
 
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
@@ -100,16 +103,20 @@ if __name__ == "__main__":
     from char.sorceress import Sorceress
     from ui_manager import UiManager
     from template_finder import TemplateFinder
+    from pather import Pather
+    from game_stats import GameStats
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     config = Config()
+    game_states = GameStats()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
     belt_manager = BeltManager(screen, t_finder)
+    pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, item_finder, ui_manager)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
+    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
     pickit.pick_up_items(char)

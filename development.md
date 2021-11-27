@@ -1,16 +1,21 @@
 # Dev Docu
 
 ## Dependencies
-- Install miniconda (https://docs.conda.io/en/latest/miniconda.html). Note: You will have to check "Add conda to my PATH environment variable" in order to access the conda command in the cmd.
+- Install latest miniconda (https://docs.conda.io/en/latest/miniconda.html). Note: You will have to check "Add conda to my PATH environment variable" in order to access the conda command in the cmd.
 - Install git (https://gitforwindows.org/)
 
 ## Getting started
-```
+```bash
 git clone https://github.com/aeon0/botty.git
 cd botty
 conda env create environment.yml
 conda activate botty
 python src/run.py
+```
+Important info for Powershell users:
+```bash
+# for powershell you have to init conda before using any conda commands:
+conda init powershell
 ```
 
 ## Tests
@@ -23,6 +28,7 @@ pytest -s -v
 # To run a specific test:
 pytest test/smoke_test.py
 ```
+To test single files / routines, most files also can be executed seperatly. E.g. running `python src/pickit.py` -> going to d2r window -> throw stuff on the groudn -> press f11, will test the pickit.
 
 ## Folder Structure
 **/**</br>

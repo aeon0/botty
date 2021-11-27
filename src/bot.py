@@ -26,11 +26,11 @@ import random
 
 
 class Bot:
-    def __init__(self):
+    def __init__(self, screen: Screen):
+        self._screen = screen
         self._config = Config()
         self._game_stats = GameStats()
-        self._game_recovery = GameRecovery()
-        self._screen = Screen(self._config.general["monitor"])
+        self._game_recovery = GameRecovery(self._screen)
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
@@ -125,7 +125,8 @@ class Bot:
     def on_create_game(self):
         self._game_stats.log_start_game()
         self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
-        self._ui_manager.start_game()
+        if not self._ui_manager.start_game():
+            return
         self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
@@ -260,7 +261,7 @@ class Bot:
                     return
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
-                self.success &= bot._char.select_by_template("A5_RED_PORTAL")
+                self.success &= bot._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
                 time.sleep(0.5)
                 self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
                 if not self.success:
@@ -375,7 +376,9 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey("f12", lambda: os._exit(1))
     keyboard.wait("f11")
-    bot = Bot()
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    bot = Bot(screen)
     bot.state = "a5_town"
     bot._curr_location = Location.A5_TOWN_START
     bot.on_maintenance()

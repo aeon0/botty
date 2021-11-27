@@ -133,28 +133,40 @@ class UiManager():
         Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
+        # To test the start_game() function seperatly, just run:
+        # (botty) >> python src/ui_manager.py
+        # then go to D2r window -> press "f11", you can exit with "f12"
         while 1:
+            # grab img which will be used to search the "play button"
             img = self._screen.grab()
-            # search offline btn
-            found_off, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
-            # search online btn with enabled and disabled version
-            found_on, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            # the template finder can be used to search for a specific template, in this case the play btn.
+            # it returns a bool value (True or False) if the button was found, and the position of it
+            # roi = Region of interest. It reduces the search area and can be adapted within game.ini
+            # note that any ui_rois are in 1080p coordinates (and will automatically be converted if using 720p)
+            # by running >> python src/screen.py you can visualize all of the currently set region of interests
+            found_btn, btn_pos = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score
-            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            # same as above, just with different template
+            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_disabled = self._template_finder.last_score
-            found_on = found_on and score_enabled > score_disabled
-            if found_off or found_on:
-                x_s = self._config.ui_pos["play_x_offline"] if found_off else self._config.ui_pos["play_x_online"]
-                pos = [x_s, self._config.ui_pos["play_y"]]
-                x, y = self._screen.convert_screen_to_monitor(pos)
-                mode_info = "offline" if found_off else "online"
-                Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
-                if mode_info == "online":
-                    Logger.warning("You are creating a game in online mode!")
-                mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
+            # found_btn is a bool (True or False), if a play btn was found and it is not grayed out, then we can proceed
+            found_btn = found_btn and score_enabled > score_disabled
+            if found_btn:
+                # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
+                x, y = self._screen.convert_screen_to_monitor(btn_pos)
+                Logger.debug(f"Found Play Btn")
+                # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
+                mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
+                # click!
                 mouse.click(button="left")
                 break
+            else:
+                # Might be in online mode?
+                found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                if found_btn:
+                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
+                    return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].lower()
@@ -404,11 +416,13 @@ class UiManager():
 if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
+    print("Start")
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.start_game()

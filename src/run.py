@@ -1,5 +1,6 @@
 from bot import Bot
 from game_recovery import GameRecovery
+from screen import Screen
 from logger import Logger
 import keyboard
 import os
@@ -13,11 +14,13 @@ from beautifultable import BeautifulTable
 import time
 import logging
 import cv2
+import traceback
 
 
 def run_bot(config: Config):
-    game_recovery = GameRecovery()
-    bot = Bot()
+    screen = Screen(config.general["monitor"])
+    game_recovery = GameRecovery(screen)
+    bot = Bot(screen)
     bot_thread = threading.Thread(target=bot.start)
     bot_thread.start()
     do_restart = False
@@ -42,8 +45,7 @@ def run_bot(config: Config):
             send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
         os._exit(1)
 
-
-if __name__ == "__main__":
+def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
@@ -84,5 +86,13 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
+
+if __name__ == "__main__":
+    # To avoid cmd just closing down, except any errors and add a input() to the end
+    try:
+        main()
+    except:
+        print("RUNTIME ERROR:")
+        traceback.print_exc()
     print("Press Enter to exit ...")
     input()
