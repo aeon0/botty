@@ -46,9 +46,9 @@ class Screen:
                 found_offsets = True
                 break
         if not found_offsets:
-            Logger.error("Could not find top left corner of window to set offset, shutting down")
-            raise RuntimeError("Could not determine window offset. Please make sure you have the D2R window" +
-                                f"focused and are at the hero selection screen when pressing {self._config.general['resume_key']}")
+            Logger.error("Could not find top left corner of D2R window to set offset, shutting down")
+            raise RuntimeError("Could not determine window offset. Please make sure you have the D2R window " +
+                                f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}")
 
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
