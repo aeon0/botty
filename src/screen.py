@@ -26,6 +26,7 @@ class Screen:
         # auto find offests
         res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
         template = load_template(f"assets/templates{res_str}/main_menu_top_left.png", 1.0)
+        template_ingame = load_template(f"assets/templates{res_str}/window_ingame_offset_reference.png", 1.0)
         start = time.time()
         found_offsets = False
         Logger.info("Searching for window offsets. Make sure D2R is in focus and you are on the hero selection screen")
@@ -33,7 +34,20 @@ class Screen:
             img = self.grab()
             self._sct = mss()
             res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+            res_ingame = cv2.matchTemplate(img, template_ingame, cv2.TM_CCOEFF_NORMED)
             _, max_val, _, max_pos = cv2.minMaxLoc(res)
+            _, max_val_ingame, _, max_pos_ingame = cv2.minMaxLoc(res_ingame)
+
+            # We are in game
+            if max_val_ingame > max_val:
+                max_val = max_val_ingame
+                offset_x, offset_y = max_pos_ingame
+                if self._config.general['res'] == "1280_720":
+                    max_pos = (offset_x - 625, offset_y - 670)
+                else:
+                    max_pos = (offset_x - 938, offset_y - 1004)
+
+
             if max_val > 0.9:
                 offset_left, offset_top = max_pos
                 Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
