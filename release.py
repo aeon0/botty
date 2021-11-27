@@ -8,9 +8,11 @@ from src.version import __version__
 # e.g. C:\Users\USER\miniconda3\envs\botty\lib\site-packages\cv2
 
 # change version
+botty_dir = f"botty_v{__version__}"
 new_dev_version_code = None
 if len(sys.argv) == 2:
     print(f"Releasing new version: {sys.argv[1]}")
+    botty_dir = f"botty_v{sys.argv[1]}"
     version_code = ""
     with open('src/version.py', 'r') as f:
         version_code = f.read()
@@ -35,7 +37,6 @@ def clean_up():
 
 clean_up()
 
-botty_dir = f"botty_v{__version__}"
 if os.path.exists(botty_dir):
     for path in Path(botty_dir).glob("**/*"):
         if path.is_file():

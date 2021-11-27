@@ -1,7 +1,8 @@
 from screen import Screen
 import cv2
 from config import Config
-from template_finder import TemplateFinder, load_template
+from template_finder import TemplateFinder
+from utils.misc import load_template
 import mouse
 import keyboard
 import os

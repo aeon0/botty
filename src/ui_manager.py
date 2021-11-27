@@ -3,7 +3,6 @@ from template_finder import TemplateFinder
 from typing import Tuple
 from utils.custom_mouse import mouse
 import keyboard
-import random
 import time
 import cv2
 import itertools
@@ -94,53 +93,6 @@ class UiManager():
                 return True
         return False
 
-    @staticmethod
-    def potion_type(img: np.ndarray) -> str:
-        """
-        Based on cut out image from belt, determines what type of potion it is. TODO: Add rejuv support
-        :param img: Cut out image of a belt slot
-        :return: Any of ["empty", "health", "mana"]
-        """
-        avg_brightness = np.average(img)
-        if avg_brightness < 47:
-            return "empty"
-        red_channel = img[:,:,2]
-        redness = np.average(red_channel)
-        blue_channel = img[:,:,0]
-        blueness = np.average(blue_channel)
-        if redness > blueness and redness > 55:
-            return "health"
-        if blueness > redness and blueness > 55:
-            return "mana"
-        return "empty"
-
-    def check_need_pots(self) -> Tuple[int, int]:
-        """
-        Check if any column in the belt is free (only checking the bottom row)
-        :return: need_health_pots, need_mana_pots
-        """
-        img = self._screen.grab()
-        mana_columns = 0
-        health_columns = 0
-        for i in range(4):
-            roi = [
-                self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + i * self._config.ui_pos["potion_next"],
-                self._config.ui_pos["potion1_y"] - (self._config.ui_pos["potion_height"] // 2),
-                self._config.ui_pos["potion_width"],
-                self._config.ui_pos["potion_height"]
-            ]
-            potion_img = cut_roi(img, roi)
-            potion_type = self.potion_type(potion_img)
-            if potion_type == "health":
-                health_columns += 1
-            elif potion_type == "mana":
-                mana_columns += 1
-
-        # TODO: handle rejuv potions as well when that potion type is added
-        need_health_pots = health_columns < self._config.char["belt_hp_columns"]
-        need_mana_pots = mana_columns < self._config.char["belt_mp_columns"]
-        return need_health_pots, need_mana_pots
-
     def save_and_exit(self, does_chicken: bool = False) -> bool:
         """
         Performes save and exit action from within game
@@ -182,25 +134,26 @@ class UiManager():
         while 1:
             img = self._screen.grab()
             # search offline btn
-            found_off = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_offline"], threshold=0.8)
-            # search online btn with enabled and disabled version
-            found_on = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score
-            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["play_btn_online"], threshold=0.8)
+            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_disabled = self._template_finder.last_score
-            found_on = found_on and score_enabled > score_disabled
-            if found_off or found_on:
-                x_s = self._config.ui_pos["play_x_offline"] if found_off else self._config.ui_pos["play_x_online"]
-                pos = [x_s, self._config.ui_pos["play_y"]]
+            found_btn = found_btn and score_enabled > score_disabled
+            if found_btn:
+                x_s = self._config.ui_pos["go_x"]
+                pos = [x_s, self._config.ui_pos["go_y"]]
                 x, y = self._screen.convert_screen_to_monitor(pos)
-                mode_info = "offline" if found_off else "online"
-                Logger.debug(f"Found Play Btn ({mode_info}) -> clicking it")
-                if mode_info == "online":
-                    Logger.warning("You are creating a game in online mode!")
+                Logger.debug(f"Found Play Btn")
                 mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
+            else:
+                # Might be in online mode?
+                found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                if found_btn:
+                    Logger.error("Botty only works for single player. Please switch to offline mode!")
+                    os._exit(1)
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].lower()
@@ -251,17 +204,19 @@ class UiManager():
         avg_brightness = np.average(slot_img[:, :, 2])
         return avg_brightness > 16.0
 
-    def _get_slot_pos_and_img(self, img: np.ndarray, column: int, row: int) -> Tuple[Tuple[int, int],  np.ndarray]:
+    @staticmethod
+    def get_slot_pos_and_img(config: Config, img: np.ndarray, column: int, row: int) -> Tuple[Tuple[int, int],  np.ndarray]:
         """
         Get the pos and img of a specific slot position in Inventory. Inventory must be open in the image.
+        :param config: The config which should be used
         :param img: Image from screen.grab() not cut
         :param column: Column in the Inventory
         :param row: Row in the Inventory
         :return: Returns position and image of the cut area as such: [[x, y], img]
         """
-        top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
-        slot_width = self._config.ui_pos["slot_width"]
-        slot_height= self._config.ui_pos["slot_height"]
+        top_left_slot = (config.ui_pos["inventory_top_left_slot_x"], config.ui_pos["inventory_top_left_slot_y"])
+        slot_width = config.ui_pos["slot_width"]
+        slot_height= config.ui_pos["slot_height"]
         slot = (top_left_slot[0] + slot_width * column, top_left_slot[1] + slot_height * row)
         # decrease size to make sure not to have any borders of the slot in the image
         offset_w = int(slot_width * 0.12)
@@ -282,7 +237,7 @@ class UiManager():
         :return: Bool if inventory still has items or not
         """
         for column, row in itertools.product(range(num_loot_columns), range(4)):
-            _, slot_img = self._get_slot_pos_and_img(img, column, row)
+            _, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
                 return True
         return False
@@ -293,7 +248,7 @@ class UiManager():
         :param item_finder: ItemFinder to check if item is in pickit
         :return: Bool if item should be kept
         """
-        wait(0.4, 0.5)
+        wait(0.2, 0.3)
         img = self._screen.grab()
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
@@ -337,29 +292,36 @@ class UiManager():
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
-            slot_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
+            slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
                 x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
                 mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
                 # check item again and discard it or stash it
                 if self._keep_item(item_finder):
                     keyboard.send('ctrl', do_release=False)
-                    wait(0.2, 0.3)
+                    wait(0.2, 0.25)
                     mouse.press(button="left")
-                    wait(0.25, 0.35)
+                    wait(0.2, 0.25)
                     mouse.release(button="left")
-                    wait(0.4, 0.5)
+                    wait(0.2, 0.25)
                     keyboard.send('ctrl', do_press=False)
                 else:
-                    mouse.press(button="left")
-                    wait(0.2, 0.4)
-                    mouse.release(button="left")
-                    mouse.move(*center_m, randomize=20)
-                    wait(0.2, 0.3)
-                    mouse.press(button="left")
-                    wait(0.2, 0.3)
-                    mouse.release(button="left")
-                    wait(0.5, 0.5)
+                    # make sure there is actually an item
+                    time.sleep(0.3)
+                    hovered_item = self._screen.grab()
+                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, hovered_item, column, row)
+                    if self._slot_has_item(slot_img):
+                        if self._config.general["info_screenshots"]:
+                            cv2.imwrite("./info_screenshots/info_discard_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+                        mouse.press(button="left")
+                        wait(0.2, 0.4)
+                        mouse.release(button="left")
+                        mouse.move(*center_m, randomize=20)
+                        wait(0.2, 0.3)
+                        mouse.press(button="left")
+                        wait(0.2, 0.3)
+                        mouse.release(button="left")
+                        wait(0.5, 0.5)
         Logger.debug("Check if stash is full")
         time.sleep(0.6)
         # move mouse away from inventory, for some reason it was sometimes included in the grabed img
@@ -386,31 +348,6 @@ class UiManager():
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
         keyboard.send("esc")
-
-    def fill_up_belt_from_inventory(self, num_loot_columns: int):
-        """
-        Fill up your belt with pots from the inventory e.g. after death. It will open and close invetory by itself!
-        :param num_loot_columns: Number of columns used for loot from left
-        """
-        keyboard.send(self._config.char["inventory_screen"])
-        wait(0.7, 1.0)
-        img = self._screen.grab()
-        pot_positions = []
-        for column, row in itertools.product(range(num_loot_columns), range(4)):
-            center_pos, slot_img = self._get_slot_pos_and_img(img, column, row)
-            found = self._template_finder.search(["SUPER_HEALING_POTION""SUPER_MANA_POTION"], slot_img, threshold=0.9)
-            if found:
-                pot_positions.append(center_pos)
-        keyboard.press("shift")
-        for pos in pot_positions:
-            x, y = self._screen.convert_screen_to_monitor(pos)
-            mouse.move(x, y, randomize=9, delay_factor=[1.0, 1.5])
-            wait(0.2, 0.3)
-            mouse.click(button="left")
-            wait(0.3, 0.4)
-        keyboard.release("shift")
-        wait(0.2, 0.25)
-        keyboard.send(self._config.char["inventory_screen"])
 
     def close_vendor_screen(self):
         keyboard.send("esc")
@@ -467,10 +404,11 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
+    print("Start")
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(9, item_finder)
+    ui_manager.start_game()

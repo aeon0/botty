@@ -9,14 +9,18 @@ import time
 
 
 class GameRecovery:
-    def __init__(self):
+    def __init__(self, screen: Screen):
         self._config = Config()
-        self._screen = Screen(self._config.general["monitor"])
+        self._screen = screen
         self._template_finder = TemplateFinder(self._screen)
         self._death_manager = DeathManager(self._screen, self._template_finder)
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
+        # clean up key presses that might be pressed in the run_thread
+        keyboard.release(self._config.char["stand_still"])
+        time.sleep(0.1)
+        keyboard.release(self._config.char["show_items"])
         # make sure we are not on loading screen
         is_loading = True
         while is_loading:
@@ -44,5 +48,7 @@ class GameRecovery:
 
 
 if __name__ == "__main__":
-    game_recovery = GameRecovery()
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    game_recovery = GameRecovery(screen)
     game_recovery.go_to_hero_selection()

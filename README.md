@@ -1,6 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Simple Pixelbot for Diablo 2 Resurrected written in python and opencv. Obviously only use it in offline mode as it is against the TOS of Blizzard to use it online!
+Simple Pixelbot for Diablo 2 Resurrected single player written in python and opencv. Botty does not work for online games and is not intended for this usage!
 [**Download here**](https://github.com/aeon0/botty/releases). Got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
 
@@ -9,10 +9,10 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
-Botty only supports English language and screen resolutions 1920x1080 and 1280x720. If your monitor has a higher resolution, you need to either reduce it to one of the two resolutions or set D2R to windowed mode and adjust offset_left and offset_top.
+Botty only supports English language! Botty is currently working in 1080p or 720p and will try to adjust the D2R settings accordingly depending on your monitor res and your botty setting for "res" in the [general] section.
 
 ### 1) Graphics and Gameplay Settings
-All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Color Test Mode" to verify your settings.</br>
+All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings. Also, there are sample screenshots of how graphics should look like: <a href="/assets/docs/sample_graphics.png">Example 1</a>, <a href="/assets/docs/sample_graphics_2.png">Example 2</a></br>
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty.
 
 ### 2) Supported builds
@@ -30,7 +30,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 Download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Switch (ALT+TAB) to your D2R window and press the start key (default f11). You can always force stop botty with f12.
 
 
-## Color Test Mode
+## Graphic Debugger
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode** built in. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. E.g. for 720p you should see scores higher 0.8 for the templates. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
 <img src="assets/docs/graphic_debugger.png" width="900">
 
@@ -54,8 +54,6 @@ run_shenk=0
 name | Name used in terminal and discord messages
 monitor | Select on which monitor D2R is running in case multiple are available
 res | Resolution settings can be any of [1920_1080, 1280_720]
-offset_top | Your D2R windows offset from top of the screen (including the window bar). For fullscreen leave at 0.
-offset_left | Your D2R window offset from left of screen. For fullscreen leave at 0.
 max_game_length_s | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet
 exit_key | Pressing this key (anywhere), will force botty to shut down
 resume_key | After starting the exe botty will wait for this keypress to atually start botting away
@@ -70,6 +68,7 @@ loot_screenshots | If 1, the bot takes a screenshot with timestamp everytime he 
  [routes]                       | Descriptions
 --------------------------------|---------------------------------------------
 run_pindle | Run Pindle in each new game. Select "1" to run it "0" to leave it out.
+run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out.
 run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out.
 
  [char]                         | Descriptions
@@ -77,6 +76,7 @@ run_shenk | Run shenk in each new game. Select "1" to run it "0" to leave it out
 type | Build type. Currently only "sorceress" or "hammerdin" is supported
 casting_frames | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example.
 slow_walk | With this set to 1 the char will have a large delay for each running action in town. Set this to 1 if you keep getting stuck during traversing town.
+stash_gold | Bool value to stash gold each time when stashing items
 atk_len_pindle | Attack length for hdin or number of attack sequences for sorc when fighting pindle
 atk_len_eldritch | Attack length for hdin or number of attack sequences for sorc when fighting eldritch
 atk_len_shenk | Attack length for hdin or number of attack sequences for sorc when fighting shenk
@@ -90,17 +90,19 @@ show_items | Hotkey for "show items"
 inventory_screen | Hotkey to open up inventory
 stand_still | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.
 tp | Hotkey for using a town portal
+belt_rows | Integer value of how many rows the char's belt has
 show_belt | Hotkey for "show belt"
-potion1 | Hotkey to take poition in slot 1
-potion2 | Hotkey to take poition in slot 2
-potion3 | Hotkey to take poition in slot 3
-potion4 | Hotkey to take poition in slot 4
+potion1 | Hotkey to take potion in slot 1
+potion2 | Hotkey to take potion in slot 2
+potion3 | Hotkey to take potion in slot 3
+potion4 | Hotkey to take potion in slot 4
+belt_rejuv_columns | Number of belt columns for rejuv potions
+belt_hp_columns | Number of belt columns for healing potions
+belt_mp_columns | Number of belt columns for mana potions
 cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)
-belt_hp_columns | Number of belt columns for healing potions
-belt_mp_columns | Number of belt columns for mana potions
 
  [sorceress]                    | Descriptions
 --------------------------------|---------------------------------------------
@@ -122,10 +124,11 @@ blessed_hammer | Hotkey for Blessed Hammer
  [advanced_options]             | Descriptions
 --------------------------------|---------------------------------------------
 pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays.
+template_threshold | Threshold to find templates used during pathing.
 
  [items]                        | Descriptions
 --------------------------------|---------------------------------------------
 item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent.
 
 ## Support this project
-This project is free. Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.
+Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.
