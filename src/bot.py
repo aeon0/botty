@@ -166,9 +166,10 @@ class Bot:
                 return
             self._curr_location = Location.A5_TOWN_START
 
-        # Stash stuff, either when item was picked up or after 3 runs without stashing (so unwanted loot will not cause inventory full)
+        # Stash stuff, either when item was picked up or after 4 runs without stashing (so unwanted loot will not cause inventory full)
+        # but should not happen much with /nopickup set
         self._no_stash_counter += 1
-        if self._picked_up_items or (self._no_stash_counter > 3 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])):
+        if self._picked_up_items or (self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])):
             self._no_stash_counter = 0
             Logger.info("Stashing picked up items.")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char):
@@ -282,9 +283,6 @@ class Bot:
                 bot._char.kill_pindle()
                 wait(1.5, 1.8)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
-                # in order to move away for items to have a clear tp, move to the end of the hall
-                if not bot.is_last_run():
-                    bot._pather.traverse_nodes_fixed("pindle_save_tp", bot._char)
                 wait(0.2, 0.3)
                 self.success = True
                 return
@@ -321,8 +319,6 @@ class Bot:
                 bot._char.kill_eldritch()
                 wait(0.4)
                 bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
-                if not bot.is_last_run() and not bot._route_config["run_shenk"]:
-                    bot._pather.traverse_nodes_fixed("eldritch_save_tp", bot._char)
                 # shenk
                 if bot._route_config["run_shenk"]:
                     Logger.info("Run Shenk")
@@ -333,9 +329,6 @@ class Bot:
                     bot._char.kill_shenk()
                     wait(1.9, 2.4)
                     bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
-                    # in order to move away for items to have a clear tp, move to the end of the hall
-                    if not bot.is_last_run():
-                        bot._pather.traverse_nodes_fixed("shenk_save_tp", bot._char)
                 wait(0.5, 0.6)
                 self.success = True
                 return
