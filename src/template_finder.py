@@ -10,13 +10,6 @@ from config import Config
 from utils.misc import load_template
 
 
-def load_template(path, scale_factor):
-    if os.path.isfile(path):
-        template_img = cv2.imread(path)
-        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-        return template_img
-    return None
-
 @dataclass
 class TemplateMatch:
     name: str = None

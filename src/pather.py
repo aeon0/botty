@@ -134,7 +134,11 @@ class Pather:
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
                         if filter is None or filter in template_type:
-                            success = self._template_finder.search(template_type, img)
+                            if template_type in template_map:
+                                success = True
+                                ref_pos_screen = template_map[template_type]
+                            else:
+                                success = self._template_finder.search(template_type, img)
                             if success:
                                 template_map[template_type] = ref_pos_screen
                                 # Get reference position of template in abs coordinates

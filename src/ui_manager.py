@@ -386,7 +386,7 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if not tp_tomb:
             return False
         x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
