@@ -362,7 +362,7 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         self._tps_left -= 1
-        self._death_manager.handle_death_screen()
+        success &= not self._death_manager.handle_death_screen()
         if success:
             success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
