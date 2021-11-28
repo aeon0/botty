@@ -12,6 +12,7 @@ from logger import Logger
 from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
 from item_finder import ItemFinder
+from typing import List
 
 
 class UiManager():
@@ -41,9 +42,9 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
 
-    def can_teleport(self) -> bool:
+    def is_right_skill_active(self) -> bool:
         """
-        :return: Bool if teleport is red/available or not. Teleport skill must be selected on right skill slot when calling the function.
+        :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -55,9 +56,9 @@ class UiManager():
         avg = np.average(img)
         return avg > 75.0
 
-    def is_teleport_selected(self) -> bool:
+    def is_right_skill_selected(self, template_list: List[str]) -> bool:
         """
-        :return: Bool if teleport is currently the selected skill on the right skill slot.
+        :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -65,10 +66,9 @@ class UiManager():
             self._config.ui_pos["skill_width"],
             self._config.ui_pos["skill_height"]
         ]
-        if self._template_finder.search("TELE_ACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
-            return True
-        if self._template_finder.search("TELE_INACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
-            return True
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi)[0]:
+                return True
         return False
 
     def is_overburdened(self) -> bool:
