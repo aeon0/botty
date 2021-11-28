@@ -40,6 +40,7 @@ class PickIt:
         start = prev_cast_start = time.time()
         time_out = False
         picked_up_items = []
+        char.pre_move()
         while not time_out:
             if (time.time() - start) > 24:
                 time_out = True
