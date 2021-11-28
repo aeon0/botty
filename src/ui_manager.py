@@ -362,6 +362,19 @@ class UiManager():
         wait(0.4, 0.5)
         keyboard.send("esc")
 
+    def should_stash(self, num_loot_columns: int):
+        """
+        Check if there are items that need to be stashed in the inventory
+        :param num_loot_columns: Number of columns used for loot from left
+        """
+        wait(0.2, 0.3)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.7, 1.0)
+        should_stash = self._inventory_has_items(self._screen.grab(), num_loot_columns)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.4, 0.6)
+        return should_stash
+
     def close_vendor_screen(self):
         keyboard.send("esc")
         # just in case also bring cursor to center and click
