@@ -66,6 +66,7 @@ class Bot:
         self._stopping = False
         self._pausing = False
         self._current_threads = []
+        self._no_stash_counter = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -165,8 +166,10 @@ class Bot:
                 return
             self._curr_location = Location.A5_TOWN_START
 
-        # Stash stuff
-        if self._picked_up_items:
+        # Stash stuff, either when item was picked up or after 5 runs without stashing (so unwanted loot will not cause inventory full)
+        self._no_stash_counter += 1
+        if self._picked_up_items or (self._no_stash_counter > 5 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])):
+            self._no_stash_counter = 0
             Logger.info("Stashing picked up items.")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_STASH, self._char):
                 self.trigger_or_stop("end_game")
