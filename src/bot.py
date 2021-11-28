@@ -26,8 +26,9 @@ import random
 
 
 class Bot:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, pick_corpose_on_start: bool = False):
         self._screen = screen
+        self._pick_corpose_on_start = pick_corpose_on_start
         self._config = Config()
         self._game_stats = GameStats()
         self._game_recovery = GameRecovery(self._screen)
@@ -137,7 +138,8 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        if self._death_manager.died() or self._health_manager.did_chicken():
+        if self._pick_corpose_on_start or self._death_manager.died() or self._health_manager.did_chicken():
+            self._pick_corpose_on_start = False
             time.sleep(0.6)
             # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
             # the death manager could determine if we were dead
@@ -339,6 +341,7 @@ class Bot:
 
     def on_end_game(self):
         self._pre_buffed = 0
+        self._death_manager.handle_death_screen()
         if self._health_manager.did_chicken() or self._death_manager.died():
             Logger.info("End game while chicken or death happened. Running game recovery to get back to hero selection.")
             time.sleep(1.5)
@@ -359,6 +362,7 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         self._tps_left -= 1
+        success &= not self._death_manager.handle_death_screen()
         if success:
             success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
             if success:
