@@ -152,15 +152,19 @@ class UiManager():
             # found_btn is a bool (True or False), if a play btn was found and it is not grayed out, then we can proceed
             found_btn = found_btn and score_enabled > score_disabled
             if found_btn:
-                # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
-                x, y = self._screen.convert_screen_to_monitor(btn_pos)
-                Logger.debug(f"Found Play Btn")
-                # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
-                mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
-                wait(0.1, 0.15)
-                # click!
-                mouse.click(button="left")
-                break
+                if score_enabled > score_disabled:
+                    # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
+                    x, y = self._screen.convert_screen_to_monitor(btn_pos)
+                    Logger.debug(f"Found Play Btn")
+                    # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
+                    mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
+                    wait(0.1, 0.15)
+                    # click!
+                    mouse.click(button="left")
+                    break
+                else:
+                    Logger.info("Button is gray. Waiting for 5 second until retry.")
+                    time.sleep(5.0)
             else:
                 # Might be in online mode?
                 found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
