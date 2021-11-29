@@ -70,17 +70,17 @@ class BeltManager:
         ]
         return cut_roi(img, roi)
 
-    def drink_potion(self, potion_type: str, merc: bool = False) -> bool:
+    def drink_potion(self, potion_type: str, merc: bool = False, stats: List = []) -> bool:
         img = self._screen.grab()
         for i in range(4):
             potion_img = self._cut_potion_img(img, i, 0)
             if self._potion_type(potion_img) == potion_type:
                 key = f"potion{i+1}"
                 if merc:
-                    Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc")
+                    Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc. HP: {(stats[0]*100):.1f}%")
                     keyboard.send(f"left shift + {self._config.char[key]}")
                 else:
-                    Logger.debug(f"Drink {potion_type} potion in slot {i+1}")
+                    Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                     keyboard.send(self._config.char[key])
                 self._pot_needs[potion_type] = min(self._config.char["belt_rows"], self._pot_needs[potion_type] + 1)
                 return True
