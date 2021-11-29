@@ -118,10 +118,10 @@ class HealthManager:
                         self._do_chicken(img, run_thread)
                         break
                     if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
-                        self._belt_manager.drink_potion("rejuv", merc=True, stats=[health_percentage, mana_percentage])
+                        self._belt_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
                         self._last_merc_healh = time.time()
                     elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
-                        self._belt_manager.drink_potion("health", merc=True, stats=[health_percentage, mana_percentage])
+                        self._belt_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_healh = time.time()
         Logger.debug("Stop health monitoring")
 
