@@ -82,7 +82,7 @@ class BeltManager:
                 else:
                     Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                     keyboard.send(self._config.char[key])
-                self._pot_needs[potion_type] = max(0, self._pot_needs[potion_type] + 1)
+                self._pot_needs[potion_type] = min(self._config.char["belt_rows"], self._pot_needs[potion_type] + 1)
                 return True
         return False
 
