@@ -17,10 +17,8 @@ import cv2
 import traceback
 
 
-def run_bot(config: Config):
-    screen = Screen(config.general["monitor"])
-    game_recovery = GameRecovery(screen)
-    bot = Bot(screen)
+def run_bot(config: Config, screen: Screen, game_recovery: GameRecovery, pick_corpose_on_start: bool = False):
+    bot = Bot(screen, pick_corpose_on_start)
     bot_thread = threading.Thread(target=bot.start)
     bot_thread.start()
     do_restart = False
@@ -29,6 +27,8 @@ def run_bot(config: Config):
     while 1:
         if bot.current_game_length() > config.general["max_game_length_s"]:
             Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
+            if config.general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
             bot.stop()
             kill_thread(bot_thread)
             do_restart = game_recovery.go_to_hero_selection()
@@ -36,7 +36,7 @@ def run_bot(config: Config):
         time.sleep(0.5)
     bot_thread.join()
     if do_restart:
-        run_bot(config)
+        run_bot(config, screen, game_recovery, True)
     else:
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
@@ -76,7 +76,9 @@ def main():
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
-            run_bot(config)
+            screen = Screen(config.general["monitor"])
+            game_recovery = GameRecovery(screen)
+            run_bot(config, screen, game_recovery)
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()

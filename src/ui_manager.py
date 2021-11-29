@@ -12,6 +12,7 @@ from logger import Logger
 from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
 from item_finder import ItemFinder
+from typing import List
 
 
 class UiManager():
@@ -41,9 +42,9 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
 
-    def can_teleport(self) -> bool:
+    def is_right_skill_active(self) -> bool:
         """
-        :return: Bool if teleport is red/available or not. Teleport skill must be selected on right skill slot when calling the function.
+        :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -55,9 +56,9 @@ class UiManager():
         avg = np.average(img)
         return avg > 75.0
 
-    def is_teleport_selected(self) -> bool:
+    def is_right_skill_selected(self, template_list: List[str]) -> bool:
         """
-        :return: Bool if teleport is currently the selected skill on the right skill slot.
+        :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -65,8 +66,9 @@ class UiManager():
             self._config.ui_pos["skill_width"],
             self._config.ui_pos["skill_height"]
         ]
-        if self._template_finder.search(["TELE_ACTIVE", "TELE_INACTIVE"], self._screen.grab(), threshold=0.94, roi=roi):
-            return True
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi):
+                return True
         return False
 
     def is_overburdened(self) -> bool:
@@ -359,6 +361,19 @@ class UiManager():
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
         keyboard.send("esc")
+
+    def should_stash(self, num_loot_columns: int):
+        """
+        Check if there are items that need to be stashed in the inventory
+        :param num_loot_columns: Number of columns used for loot from left
+        """
+        wait(0.2, 0.3)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.7, 1.0)
+        should_stash = self._inventory_has_items(self._screen.grab(), num_loot_columns)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.4, 0.6)
+        return should_stash
 
     def close_vendor_screen(self):
         keyboard.send("esc")
