@@ -5,6 +5,7 @@ from logger import Logger
 import cv2
 from typing import List, Tuple
 import requests
+import os
 from version import __version__
 
 
@@ -49,3 +50,10 @@ def hms(seconds: int):
     m = seconds % 3600 // 60
     s = seconds % 3600 % 60
     return '{:02d}:{:02d}:{:02d}'.format(h, m, s)
+
+def load_template(path, scale_factor):
+    if os.path.isfile(path):
+        template_img = cv2.imread(path)
+        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+        return template_img
+    return None

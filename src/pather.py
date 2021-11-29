@@ -77,7 +77,7 @@ class Pather:
             120: {"ELDRITCH_0": (439, 36), "ELDRITCH_1": (-461, 114)},
             121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
             122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
-            123: {"ELDRITCH_3": (-148, -498), "ELDRITCH_2": (604, -538), "ELDRITCH_4": (-163, -283)},
+            123: {"ELDRITCH_3": (-148, -498+120), "ELDRITCH_2": (604, -538+120), "ELDRITCH_4": (-163+70, -283+120)},
             # Shenk
             140: {"SHENK_0": (-224, -340), "SHENK_17": (-750, 353), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
             141: {"SHENK_0": (-194, 66), "SHENK_17": (-780, 792), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
@@ -88,8 +88,7 @@ class Pather:
             146: {"SHENK_12": (408, 166), "SHENK_9": (-497, -216), "SHENK_8": (-108, 387)},
             147: {"SHENK_16": (290, -150), "SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
             148: {"SHENK_16": (967, 95), "SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
-            149: {"SHENK_11": (532, 602), "SHENK_10": (882, 682), "SHENK_13": (730, 36)},
-
+            149: {"SHENK_11": (532-140, 642-50), "SHENK_10": (882-140, 682-50), "SHENK_13": (730-140, 36-50)},
         }
         self._paths = {
             # A5 Town
@@ -161,7 +160,8 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str, char):
+    def traverse_nodes_fixed(self, key: str, char: IChar):
+        char.pre_move()
         path = self._config.path[key]
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
@@ -212,7 +212,7 @@ class Pather:
                 return node_pos_abs
         return None
 
-    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7, force_tp: bool = False) -> bool:
+    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7, force_tp: bool = False, do_pre_move: bool = True) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
@@ -223,6 +223,8 @@ class Pather:
         """
         Logger.debug(f"Traverse from {start_location} to {end_location}")
         path = self._paths[(start_location, end_location)]
+        if do_pre_move:
+            char.pre_move()
         for i, node_idx in enumerate(path):
             continue_to_next_node = False
             last_move = time.time()
@@ -264,13 +266,14 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from char.sorceress import Sorceress
+    from char.hammerdin import Hammerdin
     from ui_manager import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, char)
-    pather._display_all_nodes_debug(filter="SHENK_17")
+    # pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)
+    pather._display_all_nodes_debug(filter="SHENK")

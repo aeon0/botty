@@ -11,6 +11,7 @@ from logger import Logger
 import time
 from typing import Dict, Tuple, Union, List
 from config import Config
+import random
 
 
 def abstract(f):
@@ -30,6 +31,13 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
+        mouse.move(pos[0], pos[1])
+        time.sleep(0.1)
+        mouse.click(button="left")
+        wait(0.45,0.5)
+        return prev_cast_start
+
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
@@ -48,12 +56,15 @@ class IChar:
                     return True
         return False
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
-        if force_tp or not self._ui_manager.is_teleport_selected():
+    def pre_move(self):
+        # if teleport hotkey is set and if teleport is not already selected
+        if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
+
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
-        if force_tp or self._ui_manager.can_teleport():
+        if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -63,7 +74,12 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            adjust_factor = (dist - 50) / dist
+            min_wd = self._config.ui_pos["min_walk_dist"]
+            if self._config.char["slow_walk"]:
+                max_wd = dist
+            else:
+                max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
@@ -98,17 +114,17 @@ class IChar:
         while (time.time() - start)  < 8:
             img = self._screen.grab()
             success1, pos1 = self._template_finder.search(
-                "BLUE_PORTAL", 
-                img, 
-                threshold=0.66, 
-                roi=roi, 
+                "BLUE_PORTAL",
+                img,
+                threshold=0.66,
+                roi=roi,
                 normalize_monitor=True
             )
             success2, pos2 = self._template_finder.search(
-                "BLUE_PORTAL_2", 
-                img, 
-                threshold=0.7, 
-                roi=roi, 
+                "BLUE_PORTAL_2",
+                img,
+                threshold=0.7,
+                roi=roi,
                 normalize_monitor=True
             )
             if success1 or success2:
@@ -161,11 +177,11 @@ class IChar:
     @abstract
     def kill_pindle(self) -> bool:
         pass
-    
+
     @abstract
     def kill_shenk(self) -> bool:
         pass
-    
+
     @abstract
     def kill_eldritch(self) -> bool:
         pass

@@ -12,9 +12,9 @@ import screen
 from config import Config
 from logger import Logger
 from npc_manager import NpcManager, Npc
-from template_finder import TemplateFinder, load_template
+from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
-from utils.misc import wait
+from utils.misc import wait, load_template
 
 
 
@@ -50,7 +50,7 @@ class JavaShopper:
     """
 
     def __init__(self, config):
-        self._screen = screen.Screen()
+        self._screen = screen.Screen(config.general["monitor"])
         self.config = config
         self._template_finder = TemplateFinder(self._screen)
         self._npc_manager = NpcManager(
@@ -67,7 +67,7 @@ class JavaShopper:
         self.shop_loop()
 
     def shop_loop(self):
-        if config.general["res"] == "1280_720":
+        if self.config.general["res"] == "1280_720":
             asset_folder = "assets/shop_1280_720/gloves/"
         else:
             asset_folder = "assets/shop/gloves/"

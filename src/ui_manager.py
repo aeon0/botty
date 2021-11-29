@@ -12,6 +12,7 @@ from logger import Logger
 from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
 from item_finder import ItemFinder
+from typing import List
 
 
 class UiManager():
@@ -41,9 +42,9 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
 
-    def can_teleport(self) -> bool:
+    def is_right_skill_active(self) -> bool:
         """
-        :return: Bool if teleport is red/available or not. Teleport skill must be selected on right skill slot when calling the function.
+        :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -55,9 +56,9 @@ class UiManager():
         avg = np.average(img)
         return avg > 75.0
 
-    def is_teleport_selected(self) -> bool:
+    def is_right_skill_selected(self, template_list: List[str]) -> bool:
         """
-        :return: Bool if teleport is currently the selected skill on the right skill slot.
+        :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         roi = [
             self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
@@ -65,10 +66,9 @@ class UiManager():
             self._config.ui_pos["skill_width"],
             self._config.ui_pos["skill_height"]
         ]
-        if self._template_finder.search("TELE_ACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
-            return True
-        if self._template_finder.search("TELE_INACTIVE", self._screen.grab(), threshold=0.94, roi=roi)[0]:
-            return True
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi)[0]:
+                return True
         return False
 
     def is_overburdened(self) -> bool:
@@ -133,29 +133,40 @@ class UiManager():
         Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
+        # To test the start_game() function seperatly, just run:
+        # (botty) >> python src/ui_manager.py
+        # then go to D2r window -> press "f11", you can exit with "f12"
         while 1:
+            # grab img which will be used to search the "play button"
             img = self._screen.grab()
-            # search offline btn
-            found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
+            # the template finder can be used to search for a specific template, in this case the play btn.
+            # it returns a bool value (True or False) if the button was found, and the position of it
+            # roi = Region of interest. It reduces the search area and can be adapted within game.ini
+            # note that any ui_rois are in 1080p coordinates (and will automatically be converted if using 720p)
+            # by running >> python src/screen.py you can visualize all of the currently set region of interests
+            found_btn, btn_pos = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score
+            # same as above, just with different template
             self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_disabled = self._template_finder.last_score
+            # found_btn is a bool (True or False), if a play btn was found and it is not grayed out, then we can proceed
             found_btn = found_btn and score_enabled > score_disabled
             if found_btn:
-                x_s = self._config.ui_pos["go_x"]
-                pos = [x_s, self._config.ui_pos["go_y"]]
-                x, y = self._screen.convert_screen_to_monitor(pos)
+                # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
+                x, y = self._screen.convert_screen_to_monitor(btn_pos)
                 Logger.debug(f"Found Play Btn")
-                mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
+                # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
+                mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
+                # click!
                 mouse.click(button="left")
                 break
             else:
                 # Might be in online mode?
                 found_btn, _ = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
                 if found_btn:
-                    Logger.error("Botty only works for single player. Please switch to offline mode!")
-                    os._exit(1)
+                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
+                    return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].lower()
@@ -351,6 +362,19 @@ class UiManager():
         wait(0.4, 0.5)
         keyboard.send("esc")
 
+    def should_stash(self, num_loot_columns: int):
+        """
+        Check if there are items that need to be stashed in the inventory
+        :param num_loot_columns: Number of columns used for loot from left
+        """
+        wait(0.2, 0.3)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.7, 1.0)
+        should_stash = self._inventory_has_items(self._screen.grab(), num_loot_columns)
+        keyboard.send(self._config.char["inventory_screen"])
+        wait(0.4, 0.6)
+        return should_stash
+
     def close_vendor_screen(self):
         keyboard.send("esc")
         # just in case also bring cursor to center and click
@@ -405,6 +429,7 @@ class UiManager():
 if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     print("Start")
     from config import Config

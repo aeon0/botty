@@ -1,5 +1,6 @@
 from bot import Bot
 from game_recovery import GameRecovery
+from screen import Screen
 from logger import Logger
 import keyboard
 import os
@@ -13,11 +14,11 @@ from beautifultable import BeautifulTable
 import time
 import logging
 import cv2
+import traceback
 
 
-def run_bot(config: Config):
-    game_recovery = GameRecovery()
-    bot = Bot()
+def run_bot(config: Config, screen: Screen, game_recovery: GameRecovery, pick_corpose_on_start: bool = False):
+    bot = Bot(screen, pick_corpose_on_start)
     bot_thread = threading.Thread(target=bot.start)
     bot_thread.start()
     do_restart = False
@@ -26,6 +27,8 @@ def run_bot(config: Config):
     while 1:
         if bot.current_game_length() > config.general["max_game_length_s"]:
             Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
+            if config.general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
             bot.stop()
             kill_thread(bot_thread)
             do_restart = game_recovery.go_to_hero_selection()
@@ -33,7 +36,7 @@ def run_bot(config: Config):
         time.sleep(0.5)
     bot_thread.join()
     if do_restart:
-        run_bot(config)
+        run_bot(config, screen, game_recovery, True)
     else:
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
@@ -42,8 +45,7 @@ def run_bot(config: Config):
             send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
         os._exit(1)
 
-
-if __name__ == "__main__":
+def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
@@ -74,7 +76,9 @@ if __name__ == "__main__":
 
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
-            run_bot(config)
+            screen = Screen(config.general["monitor"])
+            game_recovery = GameRecovery(screen)
+            run_bot(config, screen, game_recovery)
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
@@ -84,5 +88,13 @@ if __name__ == "__main__":
             break
         time.sleep(0.02)
 
+
+if __name__ == "__main__":
+    # To avoid cmd just closing down, except any errors and add a input() to the end
+    try:
+        main()
+    except:
+        print("RUNTIME ERROR:")
+        traceback.print_exc()
     print("Press Enter to exit ...")
     input()

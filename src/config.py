@@ -28,8 +28,6 @@ class Config:
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
             "res": self._select_val("general", "res"),
-            "offset_top": int(self._select_val("general", "offset_top")),
-            "offset_left": int(self._select_val("general", "offset_left")),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -93,7 +91,10 @@ class Config:
         self.hammerdin = self._config["hammerdin"]
         if "hammerdin" in self._custom:
             self.hammerdin.update(self._custom["hammerdin"])
-        
+        if not self.hammerdin["teleport"]:
+            self.char["static_path_pindle"] = False
+            self.char["static_path_eldritch"] = False
+
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
             "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
@@ -150,7 +151,7 @@ if __name__ == "__main__":
             #         cv2.imwrite(f"./assets/items/{k}.png", img)
             # else:
             #     print(f"{attrib}_{base_name}=1")
-    
+
     for filename in os.listdir(f'assets/items'):
         filename = filename.lower()
         if filename.endswith('.png'):
