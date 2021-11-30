@@ -176,9 +176,8 @@ class TemplateFinder:
         rh *= scale
 
         if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
             self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(res)
+            _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
             self.last_score = max_val
             if max_val > threshold:
                 ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)

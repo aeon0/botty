@@ -73,7 +73,11 @@ class AnyaShopper:
         # Configurable part, dont touch anything above
         # Set look_for variables to False if you dont like your personal shopper to look for these
         # Obviously something need to be set to True, or your shopper will be very confused
-        # For the claw scores use 7 if you are happy with any + to traps or +2 assassin, 9 if you want at least +2 assassin or two useful trap stats, 11 if you 
+        # For the trap claw scores use:
+        # 7 if you are happy with any + to traps or +2 assassin
+        # 9 if you want at least +2 assassin or two useful trap stats
+        # 11 if you want at least +3 traps or +2 and a sentry bonus
+        # Similar for melee claws but not really worth keeping any less that 11 here since you really want both +2 assassin and a useful other stat, feedback needed 
         
         self.look_for_plus_2_gloves = True
         self.look_for_plus_3_gloves = True  
@@ -87,6 +91,7 @@ class AnyaShopper:
         self._screen = screen.Screen(config.general["monitor"])
         self.config = config
         self._template_finder = TemplateFinder(self._screen)
+        self.last_res = None
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )
@@ -110,11 +115,11 @@ class AnyaShopper:
         self.shop_loop()
 
     def shop_loop(self):
-        if self.config.general["res"] == "1280_720":
-            asset_folder = "assets/shop_1280_720/gloves/"
-        else:
-            asset_folder = "assets/shop/gloves/"
+    
+        asset_folder = "assets/shop_1280_720/gloves/"
+                    
         while True:
+        
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
@@ -137,7 +142,7 @@ class AnyaShopper:
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves_found, pos = self._template_finder.search(
                         ref=load_template(
-                            asset_folder + "gg_gloves.png", 1.0
+                            asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
                         inp_img=img,
                         threshold=0.80,
@@ -150,12 +155,11 @@ class AnyaShopper:
                         self.gloves_bought += 1
                         time.sleep(1)
 
-# Enable the following, if you are fine with +2 gloves
                 else:
                     if self.look_for_plus_2_gloves is True:
                         g_gloves_found, pos = self._template_finder.search(
                             ref=load_template(
-                                "assets/shop/gloves/g_gloves.png", 1.0 # +2 java gloves are better than no java gloves
+                                asset_folder + "g_gloves.png", 1.0 
                             ),
                             inp_img=img,
                             threshold=0.80,
@@ -168,7 +172,7 @@ class AnyaShopper:
                             self.gloves_bought += 1
                             time.sleep(1)
 
-# Select Weapons section
+            # Select Weapons section
             if self.look_for_trap_claws is True or self.look_for_melee_claws is True:
                 mouse.move(self.sb_x, self.sb_y, randomize=3, delay_factor=[0.6, 0.8])
                 wait(0.05, 0.1)
@@ -236,7 +240,7 @@ class AnyaShopper:
                         self.claws_bought += 1
                         time.sleep(1)    
 
-# Done with this shopping round
+            # Done with this shopping round
             self.reset_shop()
             self.run_count += 1
 
