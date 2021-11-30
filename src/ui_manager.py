@@ -417,6 +417,10 @@ class UiManager():
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
+        # delay to make sure the tome has time to transfer to other inventory before closing window
+        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not tp_tomb:
+            return False
         return True
 
 
