@@ -18,7 +18,6 @@ def adjust_settings():
         os._exit(1)
     if monitor_idx >= len(sct.monitors):
         monitor_idx = 1
-    monitor_res = f"{sct.monitors[monitor_idx]['width']}_{sct.monitors[monitor_idx]['height']}"
     # Get D2r folder
     d2_saved_games = f"C:\\Users\\{os.getlogin()}\\Saved Games\\Diablo II Resurrected"
     if not os.path.exists(d2_saved_games):
@@ -33,17 +32,10 @@ def adjust_settings():
     new_settings = json.load(f)
     for key in new_settings:
         curr_settings[key] = new_settings[key]
-    # catch error where user sets a higher botty res than the monitor
-    if monitor_res == "1280_720" and config.general["res"] == "1920_1080":
-        print("ERROR: You can not set 'res' to 1920_1080 while your monitor is in 1280_720")
-        return
     # In case monitor res is at 720p, force fullscreen
-    if monitor_res == config.general["res"]:
-        print(f"Detected param res and monitor res to be the same ({monitor_res}). Forcing fullscreen mode.")
+    if sct.monitors[monitor_idx]['width'] == 1280 and sct.monitors[monitor_idx]['height'] == 720:
+        print(f"Detected 720p Monitor res. Forcing fullscreen mode.")
         curr_settings["Window Mode"] = 1
-        if monitor_res == "1920_1080":
-            # most template screenshots where take with this setting in 1080p:
-            curr_settings["Anti Aliasing"] = 1
     # write back to settings.json
     with open(d2_saved_games + "\\Settings.json", 'w') as outfile:
         json.dump(curr_settings, outfile)

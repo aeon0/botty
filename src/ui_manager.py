@@ -142,7 +142,6 @@ class UiManager():
             # the template finder can be used to search for a specific template, in this case the play btn.
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
-            # note that any ui_rois are in 1080p coordinates (and will automatically be converted if using 720p)
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
             found_btn, btn_pos = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score

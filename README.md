@@ -9,7 +9,7 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
-Botty only supports English language! Botty is currently working in 1080p or 720p and will try to adjust the D2R settings accordingly depending on your monitor res and your botty setting for "res" in the [general] section.</br>
+Botty only supports English language! Botty is currently working in 720p and will either switch to windowed mode or to fullscreen depending on your current monitor res when you run the "Auto Settings".</br>
 It is highly recommended to let botty run with /nopickup active. This will reduce the amount of accidently picked up trash by a lot. Espacially when playing builds without teleport.
 
 ### 1) Graphics and Gameplay Settings
