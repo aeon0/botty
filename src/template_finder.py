@@ -99,6 +99,7 @@ class TemplateFinder:
             "MERC": [load_template(f"assets/templates{res_str}/merc.png", 1.0), 1.0],
             "TELE_ACTIVE": [load_template(f"assets/templates{res_str}/tele_active.png", 1.0), 1.0],
             "TELE_INACTIVE": [load_template(f"assets/templates{res_str}/tele_inactive.png", 1.0), 1.0],
+            "VIGOR": [load_template(f"assets/templates{res_str}/vigor.png", 1.0), 1.0],
             "REPAIR_BTN": [load_template(f"assets/templates{res_str}/repair_btn.png", 1.0), 1.0],
             "TP_TOMB": [load_template(f"assets/templates{res_str}/tp_tomb.png", 1.0), 1.0],
             "SUPER_HEALING_POTION": [load_template(f"assets/templates{res_str}/super_healing_potion.png", 1.0), 1.0],

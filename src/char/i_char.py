@@ -11,6 +11,7 @@ from logger import Logger
 import time
 from typing import Dict, Tuple, Union, List
 from config import Config
+import random
 
 
 def abstract(f):
@@ -55,12 +56,15 @@ class IChar:
                     return True
         return False
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
-        if force_tp or not self._ui_manager.is_teleport_selected():
+    def pre_move(self):
+        # if teleport hotkey is set and if teleport is not already selected
+        if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
+
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
-        if force_tp or self._ui_manager.can_teleport():
+        if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -70,7 +74,12 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            adjust_factor = (dist - 50) / dist
+            min_wd = self._config.ui_pos["min_walk_dist"]
+            if self._config.char["slow_walk"]:
+                max_wd = dist
+            else:
+                max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])

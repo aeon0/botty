@@ -12,6 +12,7 @@ botty_dir = f"botty_v{__version__}"
 new_dev_version_code = None
 if len(sys.argv) == 2:
     print(f"Releasing new version: {sys.argv[1]}")
+    os.system(f"git checkout -b new-release-v{sys.argv[1]}")
     botty_dir = f"botty_v{sys.argv[1]}"
     version_code = ""
     with open('src/version.py', 'r') as f:
@@ -21,6 +22,8 @@ if len(sys.argv) == 2:
     new_dev_version_code = f"{version_code[0]}= '{sys.argv[1]}-dev'"
     with open('src/version.py', 'w') as f:
         f.write(new_version_code)
+else:
+    raise ValueError("Please provide new version")
 
 # clean up
 def clean_up():
@@ -45,7 +48,7 @@ if os.path.exists(botty_dir):
             shutil.rmtree(path)
     shutil.rmtree(botty_dir)
 
-installer_cmd = f"python -m nuitka --mingw64 --standalone --onefile --plugin-enable=numpy src/run.py" 
+installer_cmd = f"python -m nuitka --mingw64 --standalone --onefile --assume-yes-for-downloads --plugin-enable=numpy src/run.py"
 os.system(installer_cmd)
 
 os.system(f"mkdir {botty_dir}")
@@ -62,3 +65,5 @@ clean_up()
 if new_dev_version_code is not None:
     with open('src/version.py', 'w') as f:
         f.write(new_dev_version_code)
+    os.system(f'git add .')
+    os.system(f'git commit -m "Bump version to v{sys.argv[1]}"')
