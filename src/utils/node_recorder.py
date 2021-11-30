@@ -15,8 +15,8 @@ class NodeRecorder:
         os.system(f"cd generated && mkdir templates && cd templates && mkdir {run_name} && cd {run_name} && mkdir nodes")
         self._run_name = run_name
         self._template_counter = 0
-        self._half_width = 1920//2
-        self._half_height = 1080//2
+        self._half_width = 1280//2
+        self._half_height = 720//2
         self._screen = screen
         self._node = None
         self._ref_points = {}
@@ -33,10 +33,10 @@ class NodeRecorder:
         img = self._screen.grab()
         for key in self._template_finder._templates:
             if key not in self._ref_points:
-                found, pos = self._template_finder.search(key, img)
-                if found:
+                found = self._template_finder.search(key, img)
+                if found.valid:
                     print(f"Found Previous: {key}")
-                    self._ref_points[key] = pos
+                    self._ref_points[key] = found.position
 
     def hook(self, e):
         if e.event_type == "down":

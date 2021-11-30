@@ -41,14 +41,14 @@ class IChar:
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab())[0]:
+            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
                 keyboard.send("esc")
         Logger.debug(f"Select {template_type}")
         start = time.time()
         while (time.time() - start)  < 8:
-            success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=2)
-            if success:
-                x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
+            template_match = self._template_finder.search_and_wait(template_type, time_out=2)
+            if template_match.valid:
+                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
                 wait(0.3, 0.4)
                 mouse.click(button="left")
@@ -106,30 +106,23 @@ class IChar:
                 Logger.warning("Turns out skill change just took a long time. You ever considered getting a new internet provider or pc?")
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
-        pos_away = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
+        pos_away = self._screen.convert_abs_to_monitor((-167, -30))
         mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
         while (time.time() - start)  < 8:
             img = self._screen.grab()
-            success1, pos1 = self._template_finder.search(
-                "BLUE_PORTAL",
+            template_match = self._template_finder.search(
+                ["BLUE_PORTAL","BLUE_PORTAL_2"],
                 img,
                 threshold=0.66,
                 roi=roi,
                 normalize_monitor=True
             )
-            success2, pos2 = self._template_finder.search(
-                "BLUE_PORTAL_2",
-                img,
-                threshold=0.7,
-                roi=roi,
-                normalize_monitor=True
-            )
-            if success1 or success2:
-                pos = pos1 if success1 else pos2
-                pos = (pos[0], pos[1] + (45 * self._config.scale))
+            if template_match.valid:
+                pos = template_match.position
+                pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)

@@ -9,7 +9,7 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
-Botty only supports English language! Botty is currently working in 1080p or 720p and will try to adjust the D2R settings accordingly depending on your monitor res and your botty setting for "res" in the [general] section.</br>
+Botty only supports English language! Botty is currently working in 720p and will either switch to windowed mode or to fullscreen depending on your current monitor res when you run the "Auto Settings".</br>
 It is highly recommended to let botty run with /nopickup active. This will reduce the amount of accidently picked up trash by a lot. Espacially when playing builds without teleport.
 
 ### 1) Graphics and Gameplay Settings
@@ -54,7 +54,6 @@ run_shenk=0
 --------------------------------|---------------------------------------------
 name | Name used in terminal and discord messages
 monitor | Select on which monitor D2R is running in case multiple are available
-res | Resolution settings can be any of [1920_1080, 1280_720]
 max_game_length_s | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet
 exit_key | Pressing this key (anywhere), will force botty to shut down
 resume_key | After starting the exe botty will wait for this keypress to atually start botting away
