@@ -106,7 +106,7 @@ class IChar:
                 Logger.warning("Turns out skill change just took a long time. You ever considered getting a new internet provider or pc?")
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
-        pos_away = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), -30))
+        pos_away = self._screen.convert_abs_to_monitor((-167, -30))
         mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
@@ -129,7 +129,7 @@ class IChar:
             )
             if success1 or success2:
                 pos = pos1 if success1 else pos2
-                pos = (pos[0], pos[1] + (45 * self._config.scale))
+                pos = (pos[0], pos[1] + 45 )
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)

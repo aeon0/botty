@@ -54,7 +54,6 @@ run_shenk=0
 --------------------------------|---------------------------------------------
 name | Name used in terminal and discord messages
 monitor | Select on which monitor D2R is running in case multiple are available
-res | Resolution settings can be any of [1920_1080, 1280_720]
 max_game_length_s | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet
 exit_key | Pressing this key (anywhere), will force botty to shut down
 resume_key | After starting the exe botty will wait for this keypress to atually start botting away

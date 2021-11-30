@@ -49,46 +49,46 @@ class Pather:
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
-        self._range_x = [-self._config.ui_pos["center_x"] + 10, self._config.ui_pos["center_x"] - 10]
-        self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 50]
+        self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
+        self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
-            0: {"A5_TOWN_0": (110-70, 373), "A5_TOWN_1": (-68-70, -205)},
-            1: {"A5_TOWN_0": (-466, 287), "A5_TOWN_1": (-644, -291), "A5_TOWN_0.5": (717, 349)},
-            2: {"A5_TOWN_0": (-552, 42-100), "A5_TOWN_0.5": (659-25, 90+20-100)},
-            3: {"A5_TOWN_1": (-414, 141), "A5_TOWN_2": (728, -90)},
-            4: {"A5_TOWN_1": (-701, 400), "A5_TOWN_2": (440, 169), "A5_TOWN_3": (-400, -208), "A5_TOWN_4": (243, -244)},
-            5: {"A5_TOWN_2": (555-100, 429-100), "A5_TOWN_3": (-285-100, 51-100), "A5_TOWN_4": (358-100, 15-100)},
-            6: {"A5_TOWN_3": (-775-100, 382-120), "A5_TOWN_4": (-132-100, 346-120), "A5_TOWN_5": (80-100, -240-120), "A5_TOWN_6": (560-100, 211-120)},
-            8: {"A5_TOWN_6": (190, 440), "A5_TOWN_5": (-323+30, 192-200), "A5_TOWN_7": (867+30, 69-200)},
-            9: {"A5_TOWN_5": (-611, 250), "A5_TOWN_7": (579, 127)},
-            10: {"A5_TOWN_4": (-708, 87), "A5_TOWN_6": (-16, -48), "A5_TOWN_8": (482, 196)},
-            11: {"A5_TOWN_6": (-448, -322), "A5_TOWN_8": (50, -78), "A5_TOWN_9": (11, 346)},
-            12: {"A5_TOWN_8": (-209, -294), "A5_TOWN_9": (-248, 130)},
-            13: {"A5_TOWN_3": (180, 180),"A5_TOWN_10": (-800, 332), "A5_TOWN_4": (822, 146)},
-            14: {"A5_TOWN_3": (670, 260), "A5_TOWN_10": (-300, 420)},
+            0: {'A5_TOWN_0': (19, 182), 'A5_TOWN_1': (-67, -100)}, 
+            1: {'A5_TOWN_0': (-228, 140), 'A5_TOWN_1': (-450, -203), 'A5_TOWN_0.5': (501, 244)}, 
+            2: {'A5_TOWN_0': (-386, -40), 'A5_TOWN_0.5': (443, 7)}, 
+            3: {'A5_TOWN_1': (-289, 98), 'A5_TOWN_2': (509, -62)}, 
+            4: {'A5_TOWN_1': (-490, 280), 'A5_TOWN_2': (308, 118), 'A5_TOWN_3': (-280, -145), 'A5_TOWN_4': (170, -170)}, 
+            5: {'A5_TOWN_2': (318, 230), 'A5_TOWN_3': (-269, -34), 'A5_TOWN_4': (180, -59)}, 
+            6: {'A5_TOWN_3': (-612, 183), 'A5_TOWN_4': (-162, 158), 'A5_TOWN_5': (-14, -251), 'A5_TOWN_6': (322, 63)}, 
+            8: {'A5_TOWN_6': (133, 308), 'A5_TOWN_5': (-205, -5), 'A5_TOWN_7': (627, -91)}, 
+            9: {'A5_TOWN_5': (-427, 175), 'A5_TOWN_7': (405, 88)}, 
+            10: {'A5_TOWN_4': (-495, 60), 'A5_TOWN_6': (-11, -33), 'A5_TOWN_8': (337, 137)}, 
+            11: {'A5_TOWN_6': (-313, -225), 'A5_TOWN_8': (35, -54), 'A5_TOWN_9': (7, 242)}, 
+            12: {'A5_TOWN_8': (-146, -205), 'A5_TOWN_9': (-173, 91)}, 
+            13: {'A5_TOWN_3': (125, 125), 'A5_TOWN_10': (-560, 232), 'A5_TOWN_4': (575, 102)}, 
+            14: {'A5_TOWN_3': (468, 182), 'A5_TOWN_10': (-210, 294)}, 
             # Pindle
-            100: {"PINDLE_7": (576, -138), "PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
-            101: {"PINDLE_1": (557, -68), "PINDLE_2": (27, -276), "PINDLE_3": (-185, 391)},
-            102: {"PINDLE_3": (334, 132), "PINDLE_4": (142, 323)},
-            103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
-            104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
+            100: {'PINDLE_7': (403, -96), 'PINDLE_0': (-102, -42), 'PINDLE_1': (-13, 234), 'PINDLE_2': (-384, 88)}, 
+            101: {'PINDLE_1': (389, -47), 'PINDLE_2': (18, -193), 'PINDLE_3': (-129, 273)}, 
+            102: {'PINDLE_3': (233, 92), 'PINDLE_4': (99, 226)}, 
+            103: {'PINDLE_3': (415, -79), 'PINDLE_4': (280, 54)}, 
+            104: {'PINDLE_4': (753, -123), 'PINDLE_3': (884, -256), 'PINDLE_5': (-196, 249), 'PINDLE_6': (-489, 93)}, 
             # Eldritch
-            120: {"ELDRITCH_0": (439, 36), "ELDRITCH_1": (-461, 114)},
-            121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
-            122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
-            123: {"ELDRITCH_3": (-148, -498+120), "ELDRITCH_2": (604, -538+120), "ELDRITCH_4": (-163+70, -283+120)},
+            120: {'ELDRITCH_0': (307, 25), 'ELDRITCH_1': (-322, 79)}, 
+            121: {'ELDRITCH_1': (-345, -108), 'ELDRITCH_2': (431, 179), 'ELDRITCH_3': (-95, 207)}, 
+            122: {'ELDRITCH_2': (371, -152), 'ELDRITCH_3': (-156, -124)}, 
+            123: {'ELDRITCH_3': (-103, -264), 'ELDRITCH_2': (422, -292), 'ELDRITCH_4': (-65, -114)}, 
             # Shenk
-            140: {"SHENK_0": (-224, -340), "SHENK_17": (-750, 353), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
-            141: {"SHENK_0": (-194, 66), "SHENK_17": (-780, 792), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
-            142: {"SHENK_1": (876, 564), "SHENK_2": (-78, 352), "SHENK_3": (535, -194), "SHENK_4": (-665, -155)},
-            143: {"SHENK_2": (212, 758),"SHENK_3": (823, 209), "SHENK_4": (-377, 248), "SHENK_6": (-508, -103)},
-            144: {"SHENK_6": (-162, 185), "SHENK_7": (721, 226)},
-            145: {"SHENK_12": (146, -200), "SHENK_7": (1204, 558), "SHENK_6": (314, 520), "SHENK_8": (-367, 27)},
-            146: {"SHENK_12": (408, 166), "SHENK_9": (-497, -216), "SHENK_8": (-108, 387)},
-            147: {"SHENK_16": (290, -150), "SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
-            148: {"SHENK_16": (967, 95), "SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
-            149: {"SHENK_11": (532-140, 642-50), "SHENK_10": (882-140, 682-50), "SHENK_13": (730-140, 36-50)},
+            140: {'SHENK_0': (-156, -237), 'SHENK_17': (-525, 247), 'SHENK_15': (84, 14), 'SHENK_1': (466, -169)}, 
+            141: {'SHENK_0': (-135, 46), 'SHENK_17': (-546, 554), 'SHENK_15': (81, 308), 'SHENK_1': (487, 112), 'SHENK_2': (-175, -35)}, 
+            142: {'SHENK_1': (613, 394), 'SHENK_2': (-54, 246), 'SHENK_3': (374, -135), 'SHENK_4': (-465, -108)}, 
+            143: {'SHENK_2': (148, 530), 'SHENK_3': (576, 146), 'SHENK_4': (-263, 173), 'SHENK_6': (-355, -72)}, 
+            144: {'SHENK_6': (-113, 129), 'SHENK_7': (504, 158)}, 
+            145: {'SHENK_12': (102, -140), 'SHENK_7': (842, 390), 'SHENK_6': (219, 364), 'SHENK_8': (-256, 18)}, 
+            146: {'SHENK_12': (285, 116), 'SHENK_9': (-347, -151), 'SHENK_8': (-75, 270)}, 
+            147: {'SHENK_16': (203, -105), 'SHENK_9': (-70, 145), 'SHENK_10': (-452, 70)}, 
+            148: {'SHENK_16': (676, 66), 'SHENK_9': (315, 276), 'SHENK_10': (-67, 197), 'SHENK_11': (-321, 145)}, 
+            149: {'SHENK_11': (274, 414), 'SHENK_10': (519, 442), 'SHENK_13': (413, -9)}
         }
         self._paths = {
             # A5 Town
@@ -119,10 +119,10 @@ class Pather:
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
         }
 
-    def _get_scaled_node(self, key: int, template: str):
+    def _get_node(self, key: int, template: str):
         return (
-            int(self._nodes[key][template][0] * self._config.scale),
-            int(self._nodes[key][template][1] * self._config.scale)
+            self._nodes[key][template][0],
+            self._nodes[key][template][1]
         )
 
     def _display_all_nodes_debug(self, filter: str = None):
@@ -143,7 +143,7 @@ class Pather:
                                 # Get reference position of template in abs coordinates
                                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                                 # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
+                                node_pos_rel = self._get_node(node_idx, template_type)
                                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                                 x, y = self._screen.convert_abs_to_screen(node_pos_abs)
@@ -206,7 +206,7 @@ class Pather:
                 # Get reference position of template in abs coordinates
                 ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
                 # Calc the abs node position with the relative coordinates (relative to ref)
-                node_pos_rel = self._get_scaled_node(node_idx, template_type)
+                node_pos_rel = self._get_node(node_idx, template_type)
                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                 return node_pos_abs
