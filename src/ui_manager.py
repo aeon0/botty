@@ -380,7 +380,7 @@ class UiManager():
 
     def repair_and_fill_up_tp(self) -> bool:
         """
-        Repair and fills up TP buy selling tomb and buying. Vendor inventory needs to be open!
+        Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
         repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
