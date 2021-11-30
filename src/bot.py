@@ -124,7 +124,8 @@ class Bot:
 
     def on_create_game(self):
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        match = self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        Logger.debug(f"Found {match.name}")
         self._ui_manager.start_game()
         self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
         self._tp_is_up = False

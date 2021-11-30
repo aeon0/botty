@@ -244,17 +244,16 @@ class TemplateFinder:
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
+        if type(ref) is str:
+            ref = [ref]
         threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
             img = self._screen.grab()
-            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
-
-            if type(ref) is str:
-                ref = [ref]
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match)
-            if not is_loading_black_roi:
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            if not is_loading_black_roi or "LOADING" in ref:
                 if template_match:
                     return template_match
                 elif time_out is not None and (time.time() - start) > time_out:

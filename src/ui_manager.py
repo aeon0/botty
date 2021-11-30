@@ -131,6 +131,7 @@ class UiManager():
         Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
+        Logger.debug("Wait for active Play button")
         while 1:
             img = self._screen.grab()
             # search offline btn
@@ -156,22 +157,16 @@ class UiManager():
                     os._exit(1)
             time.sleep(3.0)
 
-        difficulty=self._config.general["difficulty"].lower()
-        Logger.debug(f"Searching for {difficulty} Btn...")
+        difficulty=self._config.general["difficulty"].upper()
         while 1:
-            # edge case: if a player hasn't unlocked nightmare difficulty, there won't be an option to select difficulty after clicking play button
-            wait(0.75,1.25)
-            if self._template_finder.search("LOADING", self._screen.grab()):
-                Logger.debug("On loading screen, nightmare not unlocked")
-                return True
-
-            found = self._template_finder.search_and_wait("NORMAL_BTN", roi=self._config.ui_roi["normal_btn"], time_out=8)
-
+            found = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, threshold=0.9)
             if not found:
-                Logger.debug("Could not find btn, try from start again")
+                Logger.debug(f"Could not find, try from start again")
                 return self.start_game()
-
-            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos[f"{difficulty}_x"], self._config.ui_pos[f"{difficulty}_y"]))
+            if found.name == "LOADING":
+                Logger.debug(f"Found {found.name} screen")
+                return True
+            x, y = self._screen.convert_screen_to_monitor(found.position)
             Logger.debug(f"Found {difficulty} Btn -> clicking it")
             mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
