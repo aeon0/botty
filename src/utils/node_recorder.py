@@ -15,8 +15,8 @@ class NodeRecorder:
         os.system(f"cd generated && mkdir templates && cd templates && mkdir {run_name} && cd {run_name} && mkdir nodes")
         self._run_name = run_name
         self._template_counter = 0
-        self._half_width = 1920//2
-        self._half_height = 1080//2
+        self._half_width = 1280//2
+        self._half_height = 720//2
         self._screen = screen
         self._node = None
         self._ref_points = {}

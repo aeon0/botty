@@ -107,7 +107,7 @@ class UiManager():
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
             # TODO: Add hardcoded coordinates to ini file
-            away_x_m, away_y_m = self._screen.convert_abs_to_monitor((int(-250 * self._config.scale), 0))
+            away_x_m, away_y_m = self._screen.convert_abs_to_monitor((-167, 0))
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False):
                 delay = [0.9, 1.1]
@@ -143,7 +143,6 @@ class UiManager():
             # the template finder can be used to search for a specific template, in this case the play btn.
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
-            # note that any ui_rois are in 1080p coordinates (and will automatically be converted if using 720p)
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
             found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_enabled = self._template_finder.last_score

@@ -15,8 +15,7 @@ class DeathManager:
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
-        res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
-        _, self._you_have_died_filtered = color_filter(cv2.imread(f"assets/templates{res_str}/you_have_died.png"), self._config.colors["red"])
+        _, self._you_have_died_filtered = color_filter(cv2.imread(f"assets/templates/you_have_died.png"), self._config.colors["red"])
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
