@@ -309,7 +309,7 @@ class Bot:
                 self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid
                 if not self.success:
                     return
-                if not bot._pre_buffed:
+                if not bot._pre_buffed or bot._config.char["force_shenk_cta"]:
                     bot._char.pre_buff()
                     bot._pre_buffed = 1
                 wait(0.2, 0.3)

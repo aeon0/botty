@@ -100,6 +100,7 @@ belt_rejuv_columns | Number of belt columns for rejuv potions
 belt_hp_columns | Number of belt columns for healing potions
 belt_mp_columns | Number of belt columns for mana potions
 cta_available | 0: no cta available, 1: cta is available and should be used during prebuff
+force_shenk_cta | o: no, 1: yes. If you want to force bot to refresh buff's before starting shenk/eld run.
 weapon_switch | Hotkey for "weapon switch" (only needed if cta_available=1)
 battle_order | Hotkey for battle order from cta (only needed if cta_available=1)
 battle_command | Hotkey for battle command from cta (only needed if cta_available=1)

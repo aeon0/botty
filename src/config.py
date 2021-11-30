@@ -70,6 +70,7 @@ class Config:
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
+            "force_shenk_cta": bool(int(self._select_val("char", "force_shenk_cta"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
