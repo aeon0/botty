@@ -4,6 +4,7 @@ from belt_manager import BeltManager
 import cv2
 import time
 import keyboard
+from utils.custom_mouse import mouse
 from utils.misc import kill_thread, cut_roi, color_filter, wait
 from logger import Logger
 from screen import Screen
@@ -69,6 +70,10 @@ class HealthManager:
         keyboard.release(self._config.char["stand_still"])
         wait(0.02, 0.05)
         keyboard.release(self._config.char["show_items"])
+        wait(0.02, 0.05)
+        mouse.release(button="left")
+        wait(0.02, 0.05)
+        mouse.release(button="right")
         time.sleep(0.01)
         self._ui_manager.save_and_exit(does_chicken=True)
         self._did_chicken = True
