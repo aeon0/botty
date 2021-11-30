@@ -129,7 +129,7 @@ class IChar:
             )
             if success1 or success2:
                 pos = pos1 if success1 else pos2
-                pos = (pos[0], pos[1] + 45 )
+                pos = (pos[0], pos[1] + 30 )
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
