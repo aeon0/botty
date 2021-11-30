@@ -63,7 +63,7 @@ class NpcManager:
             results = []
             for key in self._npcs[npc_key]["template_group"]:
                 res = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
-                if res:
+                if res.valid:
                     results.append({"pos": res.position, "score": res.score})
             results = sorted(results, key=lambda r: r["score"], reverse=True)
 
@@ -73,13 +73,13 @@ class NpcManager:
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                res_w = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi)
-                res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi)
+                res_w = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
+                res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
                 if res_w:
                     mouse.click(button="left")
                     wait(1.4, 1.7)
                     _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi)
+                    res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
                     if res:
                         return True
                 elif res_g:
@@ -93,7 +93,7 @@ class NpcManager:
             filtered_inp, 0.85, roi=self._config.ui_roi["cut_skill_bar"],
             normalize_monitor=True
         )
-        if res:
+        if res.valid:
             mouse.move(*res.position, randomize=3, delay_factor=[1.0, 1.5])
             wait(0.2, 0.4)
             mouse.click(button="left")

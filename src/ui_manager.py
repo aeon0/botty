@@ -67,7 +67,7 @@ class UiManager():
             self._config.ui_pos["skill_height"]
         ]
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi):
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi).valid:
                 return True
         return False
 
@@ -145,14 +145,8 @@ class UiManager():
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # note that any ui_rois are in 1080p coordinates (and will automatically be converted if using 720p)
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
-            score_enabled = self._template_finder.last_score
-            # same as above, just with different template
-            self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
-            score_disabled = self._template_finder.last_score
-            # found_btn is a bool (True or False), if a play btn was found and it is not grayed out, then we can proceed
-            play_active = found_btn and score_enabled > score_disabled
-            if play_active:
+            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["go_btn"], threshold=0.8, best_match=True)
+            if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
@@ -165,21 +159,21 @@ class UiManager():
             else:
                 # Might be in online mode?
                 found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
-                if found_btn:
+                if found_btn.valid:
                     Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
                     return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
-            found = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, threshold=0.9)
-            if not found:
+            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, threshold=0.9)
+            if not template_match.valid:
                 Logger.debug(f"Could not find, try from start again")
                 return self.start_game()
-            if found.name == "LOADING":
-                Logger.debug(f"Found {found.name} screen")
+            if template_match.name == "LOADING":
+                Logger.debug(f"Found {template_match.name} screen")
                 return True
-            x, y = self._screen.convert_screen_to_monitor(found.position)
+            x, y = self._screen.convert_screen_to_monitor(template_match.position)
             Logger.debug(f"Found {difficulty} Btn -> clicking it")
             mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
@@ -188,7 +182,7 @@ class UiManager():
 
         # check for server issue
         wait(2.0)
-        server_issue = self._template_finder.search("SERVER_ISSUES", self._screen.grab())
+        server_issue = self._template_finder.search("SERVER_ISSUES", self._screen.grab()).valid
         if server_issue:
             Logger.warning("Server connection issue. waiting 20s")
             x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
@@ -273,7 +267,7 @@ class UiManager():
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
-        if not gold_btn:
+        if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
@@ -383,7 +377,7 @@ class UiManager():
         :return: Bool if success
         """
         repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
-        if not repair_btn:
+        if not repair_btn.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(repair_btn.position)
         mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
@@ -396,7 +390,7 @@ class UiManager():
         mouse.click(button="left")
         wait(0.5, 0.6)
         tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tomb:
+        if not tp_tomb.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
         keyboard.send('ctrl', do_release=False)
@@ -408,7 +402,7 @@ class UiManager():
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
         tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if not tp_tomb:
+        if not tp_tomb.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
         keyboard.send('ctrl', do_release=False)
@@ -419,7 +413,7 @@ class UiManager():
         keyboard.send('ctrl', do_press=False)
         # delay to make sure the tome has time to transfer to other inventory before closing window
         tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tomb:
+        if not tp_tomb.valid:
             return False
         return True
 

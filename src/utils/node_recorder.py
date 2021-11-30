@@ -34,7 +34,7 @@ class NodeRecorder:
         for key in self._template_finder._templates:
             if key not in self._ref_points:
                 found = self._template_finder.search(key, img)
-                if found:
+                if found.valid:
                     print(f"Found Previous: {key}")
                     self._ref_points[key] = found.position
 

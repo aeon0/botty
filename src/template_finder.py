@@ -15,6 +15,7 @@ class TemplateMatch:
     name: str = None
     score: float = -1.0
     position: Tuple[float, float] = None
+    valid: bool = False
 
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
@@ -216,6 +217,7 @@ class TemplateFinder:
                         except: pass
                         template_match.position = ref_point
                         template_match.score = max_val
+                        template_match.valid = True
                         return template_match
 
         if max(scores)>0:
@@ -224,8 +226,9 @@ class TemplateFinder:
             except: pass
             template_match.position = ref_points[idx]
             template_match.score = scores[idx]
-            return template_match
-        return False
+            template_match.valid = True
+
+        return template_match
 
     def search_and_wait(
         self,
@@ -238,7 +241,7 @@ class TemplateFinder:
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
-        :param ref: Key of template which has been loaded beforehand
+        :param ref: Key of template (or list of keys) which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
         :param threshold: Adapt threshold for being found
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
@@ -255,12 +258,12 @@ class TemplateFinder:
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match)
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
-                if template_match:
+                if template_match.valid:
                     return template_match
-                elif time_out is not None and (time.time() - start) > time_out:
+                if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    return False
+                    return template_match
 
 
 # Testing: Have whatever you want to find on the screen
@@ -276,7 +279,7 @@ if __name__ == "__main__":
         img = screen.grab()
         display_img = img.copy()
         template_match = template_finder.search(search_templates,img,best_match=1)
-        if template_match:
+        if template_match.valid:
             cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
             print(f"Name: {template_match.name} Pos: {template_match.position}, Score: {template_match.score}")

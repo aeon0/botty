@@ -85,7 +85,7 @@ class JavaShopper:
                 roi=self.config.ui_roi["vendor_stash"],
                 normalize_monitor=True,
             )
-            if ias_glove_found:
+            if ias_glove_found.valid:
                 self.ias_gloves_seen += 1
                 mouse.move(*ias_glove_found.position)
                 time.sleep(0.1)
@@ -98,7 +98,7 @@ class JavaShopper:
                     threshold=0.80,
                     normalize_monitor=True,
                 )
-                if gg_gloves_found:
+                if gg_gloves_found.valid:
                     mouse.click(button="right")
                     Logger.info("GG gloves bought!")
                     self.gloves_bought += 1
@@ -126,9 +126,9 @@ class JavaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        success = self._template_finder.search_and_wait(template_type, time_out=10)
-        if success:
-            x_m, y_m = self._screen.convert_screen_to_monitor(success.position)
+        template_match = self._template_finder.search_and_wait(template_type, time_out=10)
+        if template_match.valid:
+            x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
             mouse.move(x_m, y_m)
             wait(0.1, 0.2)
             mouse.click(button="left")
