@@ -26,6 +26,7 @@ class TemplateFinder:
         self._screen = screen
         self._config = Config()
         self._scale_factor = 1.0
+        self.last_res = None
         self._templates = {
             # Templates for node in A5 Town
             "A5_TOWN_0": [load_template(f"assets/templates/a5_town/a5_town_0.png", self._scale_factor), self._scale_factor],
@@ -195,8 +196,8 @@ class TemplateFinder:
             rh *= scale
 
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-                res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-                _, max_val, _, max_pos = cv2.minMaxLoc(res)
+                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+                _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
                 if max_val > threshold:
                     ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                     ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
