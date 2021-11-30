@@ -316,7 +316,15 @@ class UiManager():
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
+                    curr_pos = mouse.get_position()
+                    # move mouse away from inventory, for some reason it was sometimes included in the grabed img
+                    top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
+                    move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
+                    x, y = self._screen.convert_screen_to_monitor(move_to)
+                    mouse.move(x, y, randomize=40, delay_factor=[1.0, 1.5])
                     hovered_item = self._screen.grab()
+                    mouse.move(*curr_pos, randomize=2)
+                    wait(0.4, 0.6)
                     slot_pos, slot_img = self.get_slot_pos_and_img(self._config, hovered_item, column, row)
                     if self._slot_has_item(slot_img):
                         if self._config.general["info_screenshots"]:
@@ -437,4 +445,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.start_game()
+    ui_manager.stash_all_items(5, item_finder)
