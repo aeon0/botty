@@ -126,7 +126,9 @@ class Bot:
 
     def on_create_game(self):
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        template_match = self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        if template_match.valid:
+            Logger.debug(f"Found {template_match.name}")
         if not self._ui_manager.start_game():
             return
         self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
@@ -199,7 +201,7 @@ class Bot:
             wait(0.5)
 
         # Check if merc needs to be revived
-        merc_alive, _ = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200])
+        merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
         if not merc_alive:
             Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
@@ -269,7 +271,7 @@ class Bot:
                 wait(0.2, 0.4)
                 self.success &= bot._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
                 time.sleep(0.5)
-                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)[0]
+                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid
                 if not self.success:
                     return
                 if not bot._pre_buffed:
@@ -304,7 +306,7 @@ class Bot:
                 wait(1.0)
                 bot._ui_manager.use_wp(4, 1)
                 time.sleep(0.5)
-                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20)[0]
+                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid
                 if not self.success:
                     return
                 if not bot._pre_buffed:
@@ -360,7 +362,7 @@ class Bot:
         self._tps_left -= 1
         success &= not self._death_manager.handle_death_screen()
         if success:
-            success, _= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10)
+            success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START
