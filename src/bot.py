@@ -269,10 +269,10 @@ class Bot:
                     return
                 bot._curr_location = Location.NIHLATHAK_PORTAL
                 wait(0.2, 0.4)
-                portal_found = bot._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
+                self.success &= bot._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
                 time.sleep(0.5)
-                pindle_start_template = bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20)
-                if not (portal_found and pindle_start_template.valid):
+                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid
+                if not self.success:
                     return
                 if not bot._pre_buffed:
                     bot._char.pre_buff()
