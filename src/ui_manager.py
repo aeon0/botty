@@ -151,8 +151,8 @@ class UiManager():
             self._template_finder.search("PLAY_BTN_GRAY", img, roi=self._config.ui_roi["go_btn"], threshold=0.8)
             score_disabled = self._template_finder.last_score
             # found_btn is a bool (True or False), if a play btn was found and it is not grayed out, then we can proceed
-            found_btn = found_btn and score_enabled > score_disabled
-            if found_btn:
+            play_active = found_btn and score_enabled > score_disabled
+            if play_active:
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
