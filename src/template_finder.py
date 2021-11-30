@@ -98,7 +98,7 @@ class TemplateFinder:
             "TELE_INACTIVE": [load_template(f"assets/templates/tele_inactive.png", 1.0), 1.0],
             "VIGOR": [load_template(f"assets/templates/vigor.png", 1.0), 1.0],
             "REPAIR_BTN": [load_template(f"assets/templates/repair_btn.png", 1.0), 1.0],
-            "TP_TOMB": [load_template(f"assets/templates/tp_tomb.png", 1.0), 1.0],
+            "TP_TOME": [load_template(f"assets/templates/tp_tome.png", 1.0), 1.0],
             "SUPER_HEALING_POTION": [load_template(f"assets/templates/super_healing_potion.png", 1.0), 1.0],
             "SUPER_MANA_POTION": [load_template(f"assets/templates/super_mana_potion.png", 1.0), 1.0],
             "FULL_REJUV_POTION": [load_template(f"assets/templates/full_rejuv_potion.png", 1.0), 1.0],
