@@ -380,7 +380,7 @@ class UiManager():
 
     def repair_and_fill_up_tp(self) -> bool:
         """
-        Repair and fills up TP buy selling tomb and buying. Vendor inventory needs to be open!
+        Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
         repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
@@ -396,10 +396,10 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tomb.valid:
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
+        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
         mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
@@ -408,10 +408,10 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if not tp_tomb.valid:
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tomb.position)
+        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
         mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
@@ -419,8 +419,8 @@ class UiManager():
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         # delay to make sure the tome has time to transfer to other inventory before closing window
-        tp_tomb = self._template_finder.search_and_wait("TP_TOMB", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tomb.valid:
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not tp_tome.valid:
             return False
         return True
 
