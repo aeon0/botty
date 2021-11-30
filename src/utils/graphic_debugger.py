@@ -30,7 +30,7 @@ def run_graphic_debugger():
         scores = {}
         for template_name in search_templates:
             template_match = template_finder.search(template_name, img, threshold=0.65)
-            if template_match:
+            if template_match.valid:
                 scores[template_match.name] = template_match.score
                 cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
