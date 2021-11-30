@@ -362,7 +362,7 @@ class Bot:
         self._tps_left -= 1
         success &= not self._death_manager.handle_death_screen()
         if success:
-            success= self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
+            success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START
