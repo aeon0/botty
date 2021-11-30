@@ -155,10 +155,10 @@ class BeltManager:
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = UiManager.get_slot_pos_and_img(self._config, img, column, row)
-            found = self._template_finder.search("SUPER_HEALING_POTION", slot_img, threshold=0.9)[0]
-            found |= self._template_finder.search("SUPER_MANA_POTION", slot_img, threshold=0.9)[0]
-            found |= self._template_finder.search("FULL_REJUV_POTION", slot_img, threshold=0.9)[0]
-            found |= self._template_finder.search("REJUV_POTION", slot_img, threshold=0.9)[0]
+            found = self._template_finder.search("SUPER_HEALING_POTION", slot_img, threshold=0.9)
+            found |= self._template_finder.search("SUPER_MANA_POTION", slot_img, threshold=0.9)
+            found |= self._template_finder.search("FULL_REJUV_POTION", slot_img, threshold=0.9)
+            found |= self._template_finder.search("REJUV_POTION", slot_img, threshold=0.9)
             if found:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
