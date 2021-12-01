@@ -39,6 +39,7 @@ class IChar:
         return prev_cast_start
 
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
+        # TODO: Instead of expect_loading_screen pass some sort of "success_on()" function
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
