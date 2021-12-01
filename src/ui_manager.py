@@ -144,7 +144,7 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["play_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["go_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
@@ -155,12 +155,12 @@ class UiManager():
                 # click!
                 mouse.click(button="left")
                 break
-            # else:
-            #     # Might be in online mode?
-            #     found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
-            #     if found_btn.valid:
-            #         Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
-            #         return False
+            else:
+                # Might be in online mode?
+                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                if found_btn.valid:
+                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
+                    return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].upper()
