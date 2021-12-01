@@ -18,8 +18,8 @@ from typing import List
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
+    def __init__(self, screen: Screen, template_finder: TemplateFinder,config: Config):
+        self._config = config
         self._template_finder = template_finder
         self._screen = screen
         self._curr_stash = 0 # 0: personal, 1: shared1, 2: shared2, 3: shared3
@@ -144,7 +144,7 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["go_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["play_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
@@ -155,12 +155,12 @@ class UiManager():
                 # click!
                 mouse.click(button="left")
                 break
-            else:
-                # Might be in online mode?
-                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
-                if found_btn.valid:
-                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
-                    return False
+            # else:
+            #     # Might be in online mode?
+            #     found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+            #     if found_btn.valid:
+            #         Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
+            #         return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].upper()
@@ -375,7 +375,7 @@ class UiManager():
         keyboard.send("esc")
         # just in case also bring cursor to center and click
         x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["center_x"], self._config.ui_pos["center_y"]))
-        mouse.move(x, y, randomize=25, delay_factor=[1.0, 1.5])
+        mouse.move(x, y, randomize=10, delay_factor=[1.0, 1.5])
         mouse.click(button="left")
 
     def repair_and_fill_up_tp(self) -> bool:
@@ -391,38 +391,42 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.1, 0.15)
-        x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
-        mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.click(button="left")
-        wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tome.valid:
+        out_of_gold = self._template_finder.search_and_wait("OUT_OF_GOLD", roi=self._config.ui_roi["out_of_gold"], time_out=4)
+        if not out_of_gold.valid:
+            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
+            mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
+            wait(0.1, 0.15)
+            mouse.click(button="left")
+            wait(0.5, 0.6)
+            tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+            if not tp_tome.valid:
+                return False
+            x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
+            keyboard.send('ctrl', do_release=False)
+            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            wait(0.1, 0.15)
+            mouse.press(button="left")
+            wait(0.25, 0.35)
+            mouse.release(button="left")
+            wait(0.5, 0.6)
+            keyboard.send('ctrl', do_press=False)
+            tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+            if not tp_tome.valid:
+                return False
+            x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
+            keyboard.send('ctrl', do_release=False)
+            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            wait(0.1, 0.15)
+            mouse.click(button="right")
+            wait(0.1, 0.15)
+            keyboard.send('ctrl', do_press=False)
+            # delay to make sure the tome has time to transfer to other inventory before closing window
+            tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+            if not tp_tome.valid:
+                return False
+            return True
+        else:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
-        keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.press(button="left")
-        wait(0.25, 0.35)
-        mouse.release(button="left")
-        wait(0.5, 0.6)
-        keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if not tp_tome.valid:
-            return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
-        keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.click(button="right")
-        wait(0.1, 0.15)
-        keyboard.send('ctrl', do_press=False)
-        # delay to make sure the tome has time to transfer to other inventory before closing window
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not tp_tome.valid:
-            return False
-        return True
 
 
 # Testing: Move to whatever ui to test and run

@@ -33,8 +33,8 @@ class Bot:
         self._game_stats = GameStats()
         self._game_recovery = GameRecovery(self._screen)
         self._template_finder = TemplateFinder(self._screen)
-        self._item_finder = ItemFinder()
-        self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._item_finder = ItemFinder(self._config)
+        self._ui_manager = UiManager(self._screen, self._template_finder,self._config)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
@@ -67,6 +67,8 @@ class Bot:
         self._pausing = False
         self._current_threads = []
         self._no_stash_counter = 0
+        self.out_of_gold = False
+        self.wait_to_repair = 0
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -186,7 +188,8 @@ class Bot:
             else:
                 Logger.warning("Could not find stash, continue...")
 
-        if self._tps_left < 4:
+        self.wait_to_repair -= 1 if self.wait_to_repair > 0 else 0
+        if self._tps_left < 4 and self.wait_to_repair == 0 :
             Logger.info("Repairing and buying TPs at Larzuk.")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
                 self.trigger_or_stop("end_game")
@@ -198,6 +201,21 @@ class Bot:
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
                 self._tps_left = 20
+            elif not self.out_of_gold: #You are out of gold. Adding gold to pickit until you can repair
+                wait(0.1, 0.2)
+                self._ui_manager.close_vendor_screen()
+                self._config = Config(False,{"misc_gold":"1","stash_gold":"1"})
+                self._item_finder = ItemFinder(self._config)
+                self._ui_manager = UiManager(self._screen, self._template_finder,self._config)
+                self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
+                self.out_of_gold = True
+                Logger.warning("Out of gold. Adding gold to pickit until next bot restart.")
+                self._do_runs["run_pindle"] = 0
+                Logger.info("Disabling Pindle until you have enough gold to repair.")
+                self.wait_to_repair = 5
+            else:
+                self._ui_manager.close_vendor_screen()
+                self.wait_to_repair = 5
             wait(0.5)
 
         # Check if merc needs to be revived

@@ -12,9 +12,10 @@ class Config:
         else:
             return self._game_config[section][key]
 
-    def __init__(self, print_warnings: bool = False):
+    def __init__(self, print_warnings: bool = False, config_overrides: dict = None):
         # print_warnings, what a hack... here it is, not making the effort
         # passing a single config instance through bites me in the ass
+        self.config_overrides = config_overrides
         self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
         self._config.read('params.ini')
@@ -120,6 +121,14 @@ class Config:
         self.path = {}
         for key in self._game_config["path"]:
             self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
+
+        if self.config_overrides:
+            for key in self._config["items"]:
+                if self.config_overrides.get(key):
+                    self.items[key] = int(self.config_overrides[key])
+            for key in self._config["char"]:
+                if self.config_overrides.get(key):
+                    self.char[key] = type(self.char[key])(self.config_overrides[key])
 
 
 

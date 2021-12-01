@@ -20,7 +20,7 @@ class PickIt:
         self._belt_manager = belt_manager
         self._ui_manager = ui_manager
         self._game_stats = game_stats
-        self._config = Config()
+        self._config = self._item_finder._config
 
     def pick_up_items(self, char: IChar) -> bool:
         """

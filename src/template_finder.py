@@ -104,6 +104,7 @@ class TemplateFinder:
             "SUPER_MANA_POTION": [load_template(f"assets/templates/super_mana_potion.png", 1.0), 1.0],
             "FULL_REJUV_POTION": [load_template(f"assets/templates/full_rejuv_potion.png", 1.0), 1.0],
             "REJUV_POTION": [load_template(f"assets/templates/rejuv_potion.png", 1.0), 1.0],
+            "OUT_OF_GOLD": [load_template(f"assets/templates/out_of_gold.png", 1.0), 1.0],
             # NPC: Qual-Kehk
             "QUAL_FRONT": [load_template(f"assets/npc/qual_kehk/qual_front.png", 1.0), 1.0],
             "QUAL_SIDE": [load_template(f"assets/npc/qual_kehk/qual_side.png", 1.0), 1.0],

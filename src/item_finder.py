@@ -24,8 +24,7 @@ class Item:
     roi: List[int] = None
 
 class ItemFinder:
-    def __init__(self):
-        config = Config()
+    def __init__(self,config: Config):
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
@@ -56,7 +55,7 @@ class ItemFinder:
             filename = filename.lower()
             if filename.endswith('.png'):
                 item_name = filename[:-4]
-                # assets with bl__ are black listed items and will not be picke up
+                # assets with bl__ are black listed items and will not be picked up
                 blacklist_item = item_name.startswith("bl__")
                 # these items will be searched for regardless of pickit setting (e.g. for runes to avoid mixup)
                 force_search = item_name.startswith("rune_")

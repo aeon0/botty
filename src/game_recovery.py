@@ -14,7 +14,7 @@ class GameRecovery:
         self._screen = screen
         self._template_finder = TemplateFinder(self._screen)
         self._death_manager = DeathManager(self._screen, self._template_finder)
-        self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._ui_manager = UiManager(self._screen, self._template_finder,self._config)
 
     def go_to_hero_selection(self):
         # clean up key presses that might be pressed in the run_thread
