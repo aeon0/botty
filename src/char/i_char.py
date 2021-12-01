@@ -76,18 +76,13 @@ class IChar:
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
             min_wd = self._config.ui_pos["min_walk_dist"]
-            if self._config.char["slow_walk"]:
-                max_wd = dist
-            else:
-                max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="left")
-            if self._config.char["slow_walk"]:
-                wait(0.8)
 
     def tp_town(self):
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
