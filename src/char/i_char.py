@@ -103,7 +103,6 @@ class IChar:
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
-        mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
@@ -125,8 +124,8 @@ class IChar:
                 mouse.click(button="left")
                 if self._ui_manager.wait_for_loading_screen(2.0):
                     return True
-                else:
-                    mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
+            # move mouse away to not overlay with the town portal
+            mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):

@@ -315,7 +315,7 @@ class UiManager():
                     top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
                     move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
                     x, y = self._screen.convert_screen_to_monitor(move_to)
-                    mouse.move(x, y, randomize=40, delay_factor=[1.0, 1.5])
+                    mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
                     hovered_item = self._screen.grab()
                     mouse.move(*curr_pos, randomize=2)
                     wait(0.4, 0.6)
@@ -338,7 +338,7 @@ class UiManager():
         top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
         move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
         x, y = self._screen.convert_screen_to_monitor(move_to)
-        mouse.move(x, y, randomize=40, delay_factor=[1.0, 1.5])
+        mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         img = self._screen.grab()
         if self._inventory_has_items(img, num_loot_columns):
             Logger.info("Stash page is full, selecting next stash")
