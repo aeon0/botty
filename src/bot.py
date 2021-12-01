@@ -13,32 +13,27 @@ from char.i_char import IChar
 from config import Config
 from health_manager import HealthManager
 from death_manager import DeathManager
-from game_recovery import GameRecovery
 from npc_manager import NpcManager, Npc
 from pickit import PickIt
 from game_stats import GameStats
-from utils.misc import kill_thread, wait
+from utils.misc import wait
 import keyboard
-import threading
 import time
 import os
 import random
 
 
 class Bot:
-    def __init__(self, screen: Screen, pick_corpose_on_start: bool = False):
+    def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
         self._screen = screen
-        self._pick_corpose_on_start = pick_corpose_on_start
+        self._game_stats = game_stats
+        self._pick_corpse = pick_corpse
         self._config = Config()
-        self._game_stats = GameStats()
-        self._game_recovery = GameRecovery(self._screen)
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._health_manager = HealthManager(self._screen, self._template_finder, self._ui_manager, self._belt_manager)
-        self._death_manager = DeathManager(self._screen, self._template_finder)
         self._npc_manager = NpcManager(self._screen, self._template_finder)
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
         if self._config.char["type"] == "sorceress":
@@ -88,13 +83,14 @@ class Bot:
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
+    def get_curr_location(self):
+        return self._curr_location
+
     def start(self):
         self.trigger('create_game')
 
     def stop(self):
         self._stopping = True
-        for t in self._current_threads:
-            kill_thread(t)
 
     def toggle_pause(self):
         self._pausing = not self._pausing
@@ -141,13 +137,10 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        if self._pick_corpose_on_start or self._death_manager.died() or self._health_manager.did_chicken():
-            self._pick_corpose_on_start = False
+        if self._pick_corpse:
+            self._pick_corpse = False
             time.sleep(0.6)
-            # Also do this for did_chicken because we can not be 100% sure that chicken did not press esc before
-            # the death manager could determine if we were dead
-            self._death_manager.pick_up_corpse()
-            # TODO: maybe it is time for a special BeltManager?
+            DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
 
@@ -156,7 +149,7 @@ class Bot:
         # Check if healing is needed, TODO: add shoping e.g. for potions
         img = self._screen.grab()
         # TODO: If tp is up we always go back into the portal...
-        if not self._tp_is_up and (self._health_manager.get_health(img) < 0.6 or self._health_manager.get_mana(img) < 0.3):
+        if not self._tp_is_up and (HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.3):
             Logger.info("Need some healing first. Going to Malah.")
             if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char):
                 self.trigger_or_stop("end_game")
@@ -222,131 +215,75 @@ class Bot:
         if not started_run:
             self.trigger_or_stop("end_game")
 
-    def _start_run(self, key, run):
-        self._do_runs[key] = False
-        run_thread = threading.Thread(target=run.doit, args=(self,))
-        run_thread.start()
-        self._current_threads.append(run_thread)
-        # Set up monitoring
-        health_monitor_thread = threading.Thread(target=self._health_manager.start_monitor, args=(run_thread,))
-        health_monitor_thread.start()
-        self._current_threads.append(health_monitor_thread)
-        death_monitor_thread = threading.Thread(target=self._death_manager.start_monitor, args=(run_thread,))
-        death_monitor_thread.start()
-        self._current_threads.append(death_monitor_thread)
-        run_thread.join()
-        # Run done, lets stop health monitoring and death monitoring
-        self._health_manager.stop_monitor()
-        health_monitor_thread.join()
-        if self._health_manager.did_chicken():
-            # in case of chicken give the death manager some time to pick up on possible death flag
-            # since death monitor does not check with the same frequency to save on runtime
-            wait(self._death_manager.get_loop_delay() + 3.0)
-        self._death_manager.stop_monitor()
-        death_monitor_thread.join()
-        # some logging
-        if self._death_manager.died():
-            self._game_stats.log_death()
-        elif self._health_manager.did_chicken():
-            self._game_stats.log_chicken()
-        elif not run.success:
-            self._game_stats.log_failed_run()
-        # depending on what happend, trigger next state
-        self._current_threads = []
-        if self._death_manager.died() or self._health_manager.did_chicken() or self.is_last_run() or not run.success:
+    def on_run_pindle(self):
+        def do_it() -> bool:
+            Logger.info("Run Pindle")
+            if not self._pather.traverse_nodes(self._curr_location, Location.NIHLATHAK_PORTAL, self._char): return False
+            self._curr_location = Location.NIHLATHAK_PORTAL
+            wait(0.5, 0.7) # otherwise will missclick because still moving
+            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True): return False
+            self._curr_location = Location.PINDLE_START
+            if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid: return False
+            if not self._pre_buffed:
+                self._char.pre_buff()
+                self._pre_buffed = 1
+            if self._config.char["static_path_pindle"]:
+                self._pather.traverse_nodes_fixed("pindle_save_dist", self._char)
+            else:
+                if not self._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, self._char): return False
+            self._char.kill_pindle()
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
+            return True
+
+        self._do_runs["run_pindle"] = False
+        success = do_it()
+        if self.is_last_run() or not success:
             self.trigger_or_stop("end_game")
         else:
             self.trigger_or_stop("end_run")
 
-    def on_run_pindle(self):
-        class RunPindle:
-            def __init__(self):
-                self.success = False
-            def doit(self, bot: Bot):
-                Logger.info("Run Pindle")
-                self.success = bot._pather.traverse_nodes(bot._curr_location, Location.NIHLATHAK_PORTAL, bot._char)
-                if not self.success:
-                    return
-                bot._curr_location = Location.NIHLATHAK_PORTAL
-                wait(0.2, 0.4)
-                self.success &= bot._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
-                time.sleep(0.5)
-                self.success &= bot._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid
-                if not self.success:
-                    return
-                if not bot._pre_buffed:
-                    bot._char.pre_buff()
-                    bot._pre_buffed = 1
-                wait(0.2, 0.3)
-                if bot._config.char["static_path_pindle"]:
-                    bot._pather.traverse_nodes_fixed("pindle_save_dist", bot._char)
-                else:
-                    bot._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, bot._char)
-                bot._char.kill_pindle()
-                wait(1.5, 1.8)
-                bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
-                wait(0.2, 0.3)
-                self.success = True
-                return
-        run = RunPindle()
-        self._start_run("run_pindle", run)
 
     def on_run_shenk(self):
-        class RunShenk:
-            def __init__(self):
-                self.success = False
-            def doit(self, bot: Bot):
-                Logger.info("Run Eldritch")
-                self.success = bot._pather.traverse_nodes(bot._curr_location, Location.A5_WP, bot._char)
-                if not self.success:
-                    return
-                bot._curr_location = Location.A5_WP
-                wait(0.6)
-                bot._char.select_by_template("A5_WP")
-                wait(1.0)
-                bot._ui_manager.use_wp(4, 1)
-                time.sleep(0.5)
-                self.success = bot._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid
-                if not self.success:
-                    return
-                if not bot._pre_buffed:
-                    bot._char.pre_buff()
-                    bot._pre_buffed = 1
-                wait(0.2, 0.3)
-                # eldritch
-                if bot._config.char["static_path_eldritch"]:
-                    bot._pather.traverse_nodes_fixed("eldritch_save_dist", bot._char)
-                else:
-                    bot._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, bot._char)
-                bot._char.kill_eldritch()
-                wait(0.4)
-                bot._picked_up_items = bot._pickit.pick_up_items(bot._char)
-                # shenk
-                if bot._route_config["run_shenk"]:
-                    Logger.info("Run Shenk")
-                    self.success = bot._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, bot._char)
-                    if not self.success:
-                        return
-                    wait(0.15, 0.2)
-                    bot._char.kill_shenk()
-                    wait(1.9, 2.4)
-                    bot._picked_up_items |= bot._pickit.pick_up_items(bot._char)
-                wait(0.5, 0.6)
-                self.success = True
-                return
-        run = RunShenk()
-        self._start_run("run_shenk", run)
+        def do_it():
+            Logger.info("Run Eldritch")
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_WP, self._char): return False
+            self._curr_location = Location.A5_WP
+            wait(0.5, 0.7) # otherwise will missclick because still moving
+            self._char.select_by_template("A5_WP")
+            wait(0.5) # need to wait till wp menu is open
+            self._ui_manager.use_wp(4, 1)
+            # eldritch
+            self._curr_location = Location.ELDRITCH_START
+            if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid: return False
+            if not self._pre_buffed:
+                self._char.pre_buff()
+                self._pre_buffed = 1
+            if self._config.char["static_path_eldritch"]:
+                self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
+            else:
+                if not self._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, self._char): return False
+            self._char.kill_eldritch()
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
+            # shenk
+            if self._route_config["run_shenk"]:
+                Logger.info("Run Shenk")
+                self._curr_location = Location.SHENK_START
+                if not self._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, self._char): return False
+                self._char.kill_shenk()
+                wait(1.9, 2.4) # sometimes merc needs some time to kill shenk...
+                self._picked_up_items |= self._pickit.pick_up_items(self._char)
+            return True
+
+        self._do_runs["run_shenk"] = False
+        success = do_it()
+        if self.is_last_run() or not success:
+            self.trigger_or_stop("end_game")
+        else:
+            self.trigger_or_stop("end_run")
 
     def on_end_game(self):
         self._pre_buffed = 0
-        self._death_manager.handle_death_screen()
-        if self._health_manager.did_chicken() or self._death_manager.died():
-            Logger.info("End game while chicken or death happened. Running game recovery to get back to hero selection.")
-            time.sleep(1.5)
-            self._game_recovery.go_to_hero_selection()
-        else:
-            self._ui_manager.save_and_exit()
-
+        self._ui_manager.save_and_exit()
         self._game_stats.log_end_game()
         self._do_runs = {
             "run_pindle": self._route_config["run_pindle"],
@@ -360,7 +297,6 @@ class Bot:
     def on_end_run(self):
         success = self._char.tp_town()
         self._tps_left -= 1
-        success &= not self._death_manager.handle_death_screen()
         if success:
             success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:

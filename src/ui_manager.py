@@ -102,13 +102,14 @@ class UiManager():
         """
         start = time.time()
         while (time.time() - start) < 15:
-            keyboard.send("esc")
+            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
+            if not self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85).valid:
+                keyboard.send("esc")
             wait(0.3)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
             # TODO: Add hardcoded coordinates to ini file
             away_x_m, away_y_m = self._screen.convert_abs_to_monitor((-167, 0))
-            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False).valid:
                 delay = [0.9, 1.1]
                 if does_chicken:

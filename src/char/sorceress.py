@@ -135,7 +135,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(0.2, 0.3)
             # Move to items
-            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)
+            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.4, force_tp=True)
             return True
         return False
 
