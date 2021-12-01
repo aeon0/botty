@@ -93,9 +93,11 @@ class HealthManager:
                 mana_percentage = self.get_mana(img)
                 # check rejuv
                 success_drink_rejuv = False
-                if health_percentage < self._config.char["take_rejuv_potion_health"] or \
-                   mana_percentage < self._config.char["take_rejuv_potion_mana"]:
+                last_drink = time.time() - self._last_rejuv
+                if (health_percentage < self._config.char["take_rejuv_potion_health"] and last_drink > 1) or \
+                   (mana_percentage < self._config.char["take_rejuv_potion_mana"] and last_drink > 2):
                     success_drink_rejuv = self._belt_manager.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
+                    self._last_rejuv = time.time()
                 # in case no rejuv was used, check for chicken, health pot and mana pot usage
                 if not success_drink_rejuv:
                     # check health
