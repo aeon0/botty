@@ -78,19 +78,19 @@ class JavaShopper:
             img = self._screen.grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove_found, pos = self._template_finder.search(
+            ias_glove_found = self._template_finder.search(
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
                 roi=self.config.ui_roi["vendor_stash"],
                 normalize_monitor=True,
             )
-            if ias_glove_found:
+            if ias_glove_found.valid:
                 self.ias_gloves_seen += 1
-                mouse.move(*pos)
+                mouse.move(*ias_glove_found.position)
                 time.sleep(0.1)
                 img = self._screen.grab()
-                gg_gloves_found, pos = self._template_finder.search(
+                gg_gloves_found = self._template_finder.search(
                     ref=load_template(
                         asset_folder + "gg_gloves.png", 1.0
                     ),
@@ -98,7 +98,7 @@ class JavaShopper:
                     threshold=0.80,
                     normalize_monitor=True,
                 )
-                if gg_gloves_found:
+                if gg_gloves_found.valid:
                     mouse.click(button="right")
                     Logger.info("GG gloves bought!")
                     self.gloves_bought += 1
@@ -126,9 +126,9 @@ class JavaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        success, screen_loc = self._template_finder.search_and_wait(template_type, time_out=10)
-        if success:
-            x_m, y_m = self._screen.convert_screen_to_monitor(screen_loc)
+        template_match = self._template_finder.search_and_wait(template_type, time_out=10)
+        if template_match.valid:
+            x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
             mouse.move(x_m, y_m)
             wait(0.1, 0.2)
             mouse.click(button="left")

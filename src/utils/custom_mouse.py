@@ -270,6 +270,10 @@ class mouse:
     @staticmethod
     def release(button):
         _mouse.release(button)
+    
+    @staticmethod
+    def get_position():
+        return _mouse.get_position()
 
 
 if __name__ == "__main__":

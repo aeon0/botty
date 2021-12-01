@@ -9,7 +9,7 @@ And please. I urge you to actually read that README! It will make your life a lo
 [![Watch the video](assets/docs/video_thumbnail.png)](https://streamable.com/67h9ay)
 
 ## Getting started
-Botty only supports English language! Botty is currently working in 1080p or 720p and will try to adjust the D2R settings accordingly depending on your monitor res and your botty setting for "res" in the [general] section.</br>
+Botty only supports English language! Botty is currently working in 720p and will either switch to windowed mode or to fullscreen depending on your current monitor res when you run the "Auto Settings".</br>
 It is highly recommended to let botty run with /nopickup active. This will reduce the amount of accidently picked up trash by a lot. Espacially when playing builds without teleport.
 
 ### 1) Graphics and Gameplay Settings
@@ -22,7 +22,7 @@ All settings will automatically be set when you execute `run.exe` and press the 
 You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
 Adjust the hotkeys in the __custom.ini__ or __param.ini__ for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
 #### Hammerdin
-Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tomb of tps in your inventory.
+Your standard Hammerdin with Enigma. Dont think I have to explain much here. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tome of tps in your inventory.
 
 ### 3) Start Location
 Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in A5 in the respective difficulty you set in the __param.ini__ once the bot starts the game.

@@ -29,11 +29,11 @@ def run_graphic_debugger():
         # Show Town A5 template matches
         scores = {}
         for template_name in search_templates:
-            success, pos = template_finder.search(template_name, img, threshold=0.65)
-            if success:
-                scores[template_name] = template_finder.last_score
-                cv2.putText(combined_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                cv2.circle(combined_img, pos, 7, (255, 0, 0), thickness=5)
+            template_match = template_finder.search(template_name, img, threshold=0.65)
+            if template_match.valid:
+                scores[template_match.name] = template_match.score
+                cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
         if len(scores) > 0:
             print(scores)
         # Show img

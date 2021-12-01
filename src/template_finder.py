@@ -1,6 +1,7 @@
 import cv2
 from screen import Screen
 from typing import Tuple, Union, List
+from dataclasses import dataclass
 import numpy as np
 from logger import Logger
 import time
@@ -9,16 +10,23 @@ from config import Config
 from utils.misc import load_template
 
 
+@dataclass
+class TemplateMatch:
+    name: str = None
+    score: float = -1.0
+    position: Tuple[float, float] = None
+    valid: bool = False
+
 class TemplateFinder:
     def __init__(self, screen: Screen, scale_factor: float = None):
         """
         :param screen: Screen object
         :param scale_factor: Scale factor that is used for templates. Note: UI and NPC templates will always have scale of 1.0
         """
-        self.last_score = -1.0
         self._screen = screen
         self._config = Config()
         self._scale_factor = 1.0
+        self.last_res = None
         self._templates = {
             # Templates for node in A5 Town
             "A5_TOWN_0": [load_template(f"assets/templates/a5_town/a5_town_0.png", self._scale_factor), self._scale_factor],
@@ -91,7 +99,7 @@ class TemplateFinder:
             "TELE_INACTIVE": [load_template(f"assets/templates/tele_inactive.png", 1.0), 1.0],
             "VIGOR": [load_template(f"assets/templates/vigor.png", 1.0), 1.0],
             "REPAIR_BTN": [load_template(f"assets/templates/repair_btn.png", 1.0), 1.0],
-            "TP_TOMB": [load_template(f"assets/templates/tp_tomb.png", 1.0), 1.0],
+            "TP_TOME": [load_template(f"assets/templates/tp_tome.png", 1.0), 1.0],
             "SUPER_HEALING_POTION": [load_template(f"assets/templates/super_healing_potion.png", 1.0), 1.0],
             "SUPER_MANA_POTION": [load_template(f"assets/templates/super_mana_potion.png", 1.0), 1.0],
             "FULL_REJUV_POTION": [load_template(f"assets/templates/full_rejuv_potion.png", 1.0), 1.0],
@@ -138,18 +146,20 @@ class TemplateFinder:
 
     def search(
         self,
-        ref: Union[str, np.ndarray],
+        ref: Union[str, np.ndarray, List[str]],
         inp_img: np.ndarray,
         threshold: float = None,
         roi: List[float] = None,
         normalize_monitor: bool = False,
-    ) -> Tuple[bool, Tuple[float, float]]:
+        best_match: bool = False
+    ) -> TemplateMatch:
         """
         Search for a template in an image
-        :param ref: Either key of a already loaded template or a image which is used as template
+        :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
         :param inp_img: Image in which the template will be searched
         :param threshold: Threshold which determines if a template is found or not
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
+        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
         """
         threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
@@ -160,31 +170,61 @@ class TemplateFinder:
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
 
         if type(ref) == str:
-            template = self._templates[ref][0]
-            scale = self._templates[ref][1]
+            templates = [self._templates[ref][0]]
+            scales = [self._templates[ref][1]]
+            names = [ref]
+            best_match = False
+        elif type(ref) == list:
+            templates = [self._templates[i][0] for i in ref]
+            scales = [self._templates[i][1] for i in ref]
+            names = ref
         else:
-            template = ref
-            scale = 1.0
+            templates = [ref]
+            scales = [1.0]
+            best_match = False
 
-        img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-        rx *= scale
-        ry *= scale
-        rw *= scale
-        rh *= scale
+        scores = [0] * len(ref)
+        ref_points = [(0, 0)] * len(ref)
+        for count, template in enumerate(templates):
+            template_match = TemplateMatch()
+            scale = scales[count]
 
-        if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(res)
-            self.last_score = max_val
-            if max_val > threshold:
-                ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
-                ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+            img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+            rx *= scale
+            ry *= scale
+            rw *= scale
+            rh *= scale
 
-                if normalize_monitor:
-                    ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+            if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+                _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
+                if max_val > threshold:
+                    ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
+                    ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
 
-                return True, ref_point
-        return False, None
+                    if normalize_monitor:
+                        ref_point =  self._screen.convert_screen_to_monitor(ref_point)
+
+                    if best_match:
+                        scores[count]=max_val
+                        ref_points[count]=ref_point
+                    else:
+                        try: template_match.name = names[count]
+                        except: pass
+                        template_match.position = ref_point
+                        template_match.score = max_val
+                        template_match.valid = True
+                        return template_match
+
+        if max(scores) > 0:
+            idx=scores.index(max(scores))
+            try: template_match.name = names[idx]
+            except: pass
+            template_match.position = ref_points[idx]
+            template_match.score = scores[idx]
+            template_match.valid = True
+
+        return template_match
 
     def search_and_wait(
         self,
@@ -192,36 +232,34 @@ class TemplateFinder:
         roi: List[float] = None,
         time_out: float = None,
         threshold: float = None,
+        best_match: bool = False,
         take_ss: bool = True
-    ) -> Tuple[bool, Tuple[float, float]]:
+    ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
-        :param ref: Key of template which has been loaded beforehand
+        :param ref: Key of template (or list of keys) which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
         :param threshold: Adapt threshold for being found
+        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Rest of params same as TemplateFinder.search()
         """
+        if type(ref) is str:
+            ref = [ref]
         threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
             img = self._screen.grab()
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match)
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
-
-            if type(ref) is str:
-                ref = [ref]
-            for x in ref:
-                success, pos = self.search(x, img, roi=roi, threshold=threshold)
-                if success:
-                    break
-            if not is_loading_black_roi:
-                if success:
-                    return True, pos
-                elif time_out is not None and (time.time() - start) > time_out:
+            if not is_loading_black_roi or "LOADING" in ref:
+                if template_match.valid:
+                    return template_match
+                if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    return False, None
+                    return template_match
 
 
 # Testing: Have whatever you want to find on the screen
@@ -231,19 +269,16 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2", "ELDRITCH_1"]
-    scores = {}
+    search_templates = ["ELDRITCH_1", "ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
         display_img = img.copy()
-        for template_name in search_templates:
-            success, pos = template_finder.search(template_name, img)
-            scores[template_name] = template_finder.last_score
-            if success:
-                cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                cv2.circle(display_img, pos, 7, (255, 0, 0), thickness=5)
+        template_match = template_finder.search(search_templates,img,best_match=1)
+        if template_match.valid:
+            cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
+            print(f"Name: {template_match.name} Pos: {template_match.position}, Score: {template_match.score}")
         display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-        print(scores)
         cv2.imshow('test', display_img)
         key = cv2.waitKey(1)

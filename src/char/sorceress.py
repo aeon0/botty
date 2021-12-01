@@ -65,8 +65,9 @@ class Sorceress(IChar):
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
-            mouse.click(button="left")
+            mouse.press(button="left")
             wait(delay[0], delay[1])
+            mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
@@ -75,8 +76,9 @@ class Sorceress(IChar):
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.click(button="right")
+        mouse.press(button="right")
         wait(delay[0], delay[1])
+        mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
