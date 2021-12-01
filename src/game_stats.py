@@ -11,6 +11,8 @@ class GameStats:
         self._config = Config()
         self._picked_up_items = []
         self._start_time = time.time()
+        self._timepaused = None
+        self._paused = False
         self._timer = None
         self._game_counter = 0
         self._chicken_counter = 0
@@ -57,10 +59,34 @@ class GameStats:
     def log_failed_run(self):
         self._runs_failed += 1
 
-    def get_current_game_length(self):
-        if self._timer is None:
+    def pause_timer(self):
+        """ Pauses the timer """
+        if self._start_time is None:
+            raise ValueError("Timer not started")
+        if self._paused:
+            raise ValueError("Timer is already paused")
+        Logger.info(f'Pausing timer')
+        self._timepaused = time.time()
+        self._paused = True
+
+    def resume_timer(self):
+        """ Resumes the timer by adding the pause time to the start time """
+        if self._start_time is None:
+            raise ValueError("Timer not started")
+        if not self._paused:
+            raise ValueError("Timer is not paused")
+        Logger.info(f'Resuming timer')
+        pausetime = time.time() - self._timepaused
+        self._start_time = self._start_time + pausetime
+        self._paused = False
+
+    def get_current_game_length(self):        
+        if self._start_time is None:
             return 0
-        return time.time() - self._timer
+        if self._paused:
+            return self._timepaused - self._start_time
+        else:
+            return time.time() - self._start_time
 
     def _create_msg(self):
         elapsed_time = time.time() - self._start_time
