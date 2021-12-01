@@ -120,22 +120,9 @@ class IChar:
                 roi=roi,
                 normalize_monitor=True
             )
-<<<<<<< HEAD
-            success2, pos2 = self._template_finder.search(
-                "BLUE_PORTAL_2",
-                img,
-                threshold=0.7,
-                roi=roi,
-                normalize_monitor=True
-            )
-            if success1 or success2:
-                pos = pos1 if success1 else pos2
-                pos = (pos[0], pos[1] + 30 )
-=======
             if template_match.valid:
                 pos = template_match.position
                 pos = (pos[0], pos[1] + 30)
->>>>>>> upstream/master
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
