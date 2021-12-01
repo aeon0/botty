@@ -133,7 +133,7 @@ class UiManager():
         Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
-        Logger.debug("Wait for active Play button")
+        Logger.debug("Wait for Play button")
         # To test the start_game() function seperatly, just run:
         # (botty) >> python src/ui_manager.py
         # then go to D2r window -> press "f11", you can exit with "f12"
@@ -165,9 +165,9 @@ class UiManager():
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
-            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, threshold=0.9)
+            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9)
             if not template_match.valid:
-                Logger.debug(f"Could not find, try from start again")
+                Logger.debug(f"Could not find {difficulty}_BTN, try from start again")
                 return self.start_game()
             if template_match.name == "LOADING":
                 Logger.debug(f"Found {template_match.name} screen")
