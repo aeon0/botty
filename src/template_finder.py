@@ -187,15 +187,14 @@ class TemplateFinder:
         scores = [0] * len(ref)
         ref_points = [(0, 0)] * len(ref)
         for count, template in enumerate(templates):
-            mask = None
-            try:
-                if np.min(template[:, :, 3]) == 0:
-                    _, mask = cv2.threshold(template[:,:,3], 1, 255, cv2.THRESH_BINARY)
-            except: pass
-            template = cv2.cvtColor(template, cv2.COLOR_BGRA2BGR)
-
             template_match = TemplateMatch()
             scale = scales[count]
+
+            mask = None
+            if template.shape[2] == 4:
+                if np.min(template[:, :, 3]) == 0:
+                    _, mask = cv2.threshold(template[:,:,3], 1, 255, cv2.THRESH_BINARY)
+            template = cv2.cvtColor(template, cv2.COLOR_BGRA2BGR)
 
             img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
             rx *= scale
