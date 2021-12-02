@@ -60,22 +60,16 @@ class GameStats:
         self._runs_failed += 1
 
     def pause_timer(self):
-        """ Pauses the timer """
-        if self._timer is None:
+        if self._timer is None or self._paused:
             return
-        if self._paused:
-            return
-        Logger.info(f'Pausing timer')
         self._timepaused = time.time()
         self._paused = True
 
     def resume_timer(self):
-        """ Resumes the timer by adding the pause time to the start time """
         if self._timer is None:
             return
         if not self._paused:
             return
-        Logger.info(f'Resuming timer')
         pausetime = time.time() - self._timepaused
         self._timer = self._timer + pausetime
         self._paused = False
