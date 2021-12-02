@@ -66,17 +66,17 @@ class NpcManager:
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                res_w = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
-                res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
-                if res_w:
-                    mouse.click(button="left")
-                    wait(1.4, 1.7)
-                    _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
-                    if res:
+                tag_match = self._template_finder.search(self._npcs[npc_key]["name_tag_white","name_tag_gold"], filtered_inp_w, 0.9, roi=roi)
+                if tag_match.valid:
+                    if tag_match.name == "name_tag_white":
+                        mouse.click(button="left")
+                        wait(1.4, 1.7)
+                        _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
+                        res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
+                        if res:
+                            return True
+                    else:
                         return True
-                elif res_g:
-                    return True
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
