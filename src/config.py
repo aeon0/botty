@@ -123,13 +123,13 @@ class Config:
             self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
         if self.config_overrides:
-            for key in self._config["items"]:
-                if self.config_overrides.get(key):
-                    self.items[key] = int(self.config_overrides[key])
-            for key in self._config["char"]:
-                if self.config_overrides.get(key):
+            for key in self.config_overrides.keys():
+                if self._config["general"].get(key):
+                    self.general[key] = type(self.general[key])(self.config_overrides[key])
+                if self._config["char"].get(key):
                     self.char[key] = type(self.char[key])(self.config_overrides[key])
-
+                if self._config["items"].get(key):
+                    self.items[key] = int(self.config_overrides[key])
 
 
 if __name__ == "__main__":

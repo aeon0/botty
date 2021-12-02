@@ -202,18 +202,16 @@ class Bot:
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
                 self._tps_left = 20
-            elif not self.out_of_gold: #You are out of gold. Adding gold to pickit until you can repair
+            elif not self.out_of_gold: #You are out of gold. Adding gold to pickit until the bot restarts
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
-                config_overrides = {"misc_gold":"1","stash_gold":"1"}
-                self._config = Config(False,config_overrides)
+                config_overrides = {"misc_gold": "1", "stash_gold": "1", "randomize_runs": "1"}
+                self._config = Config(False, config_overrides)
                 self._item_finder = ItemFinder(self._config)
-                self._ui_manager = UiManager(self._screen, self._template_finder,self._config)
+                self._ui_manager = UiManager(self._screen, self._template_finder, self._config)
                 self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
                 self.out_of_gold = True
                 Logger.warning("Out of gold. Adding gold to pickit until next bot restart.")
-                self._do_runs["run_pindle"] = False
-                Logger.info("Disabling Pindle to get more gold per run")
                 self.wait_to_repair = 5
             else:
                 self._ui_manager.close_vendor_screen()
