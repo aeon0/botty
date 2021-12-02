@@ -52,6 +52,7 @@ class GameStats:
 
     def log_end_game(self):
         elapsed_time = time.time() - self._timer
+        self._timer = None
         Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
     def log_failed_run(self):

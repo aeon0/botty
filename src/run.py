@@ -32,6 +32,7 @@ def run_bot(
     # Start bot thread
     bot = Bot(screen, game_stats, pick_corpse)
     bot_thread = threading.Thread(target=bot.start)
+    bot_thread.daemon = True
     bot_thread.start()
     # Register that thread to the death and health manager so they can stop the bot thread if needed
     death_manager.set_callback(lambda: bot.stop() or kill_thread(bot_thread))
@@ -41,7 +42,7 @@ def run_bot(
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
     while 1:
         health_manager.update_location(bot.get_curr_location())
-        max_game_length_reached = bot.current_game_length() > config.general["max_game_length_s"]
+        max_game_length_reached = game_stats.get_current_game_length() > config.general["max_game_length_s"]
         if max_game_length_reached or death_manager.died() or health_manager.did_chicken():
             # Some debug and logging
             if max_game_length_reached:
@@ -63,6 +64,7 @@ def run_bot(
         # Reset flags before running a new bot
         death_manager.reset_death_flag()
         health_manager.reset_chicken_flag()
+        game_stats.log_end_game()
         return run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager, True)
     else:
         if config.general["info_screenshots"]:
