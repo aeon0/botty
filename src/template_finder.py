@@ -190,6 +190,7 @@ class TemplateFinder:
             template_match = TemplateMatch()
             scale = scales[count]
 
+            # create a mask from template where alpha == 0
             mask = None
             if template.shape[2] == 4:
                 if np.min(template[:, :, 3]) == 0:
