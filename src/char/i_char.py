@@ -39,6 +39,7 @@ class IChar:
         return prev_cast_start
 
     def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
+        # TODO: Instead of expect_loading_screen pass some sort of "success_on()" function
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
@@ -75,18 +76,13 @@ class IChar:
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
             min_wd = self._config.ui_pos["min_walk_dist"]
-            if self._config.char["slow_walk"]:
-                max_wd = dist
-            else:
-                max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="left")
-            if self._config.char["slow_walk"]:
-                wait(0.8)
 
     def tp_town(self):
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
@@ -107,7 +103,6 @@ class IChar:
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
-        mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
@@ -129,8 +124,8 @@ class IChar:
                 mouse.click(button="left")
                 if self._ui_manager.wait_for_loading_screen(2.0):
                     return True
-                else:
-                    mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
+            # move mouse away to not overlay with the town portal
+            mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):

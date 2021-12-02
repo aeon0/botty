@@ -40,7 +40,6 @@ class PickIt:
         start = prev_cast_start = time.time()
         time_out = False
         picked_up_items = []
-        char.pre_move()
         while not time_out:
             if (time.time() - start) > 24:
                 time_out = True
@@ -92,6 +91,7 @@ class PickIt:
                             self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
                         picked_up_items.append(closest_item.name)
                 else:
+                    char.pre_move()
                     char.move((x_m, y_m))
                     time.sleep(0.1)
         keyboard.send(self._config.char["show_items"])
@@ -116,6 +116,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
     belt_manager = BeltManager(screen, t_finder)
+    belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)

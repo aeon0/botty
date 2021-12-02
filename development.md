@@ -68,11 +68,6 @@ There are different coordinate systems used and I tried my best to add these to 
 <img src="assets/docs/coordinate_systems.png" width="550"/>
 
 ## Release process
-Before releasing make sure that the cv2 path is added to your PYTHONPATH in System variables or User variables for current user:</br>
-Edit the system environment variables -> Environment Variables... -> New... </br>
-Variable name: PYTHONPATH </br>
-Variable value: C:\Users\YOUR_WINDOWS_USER_NAME\miniconda3\envs\botty\Lib\site-packages\cv2 </br>
-
 If you installed your miniconda in another location you will of course have ot change it for that one.
 ```bash
 # Adapt new version with x.x.x, build .exe and bundeling all needed resource into one folder

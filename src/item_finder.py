@@ -47,7 +47,7 @@ class ItemFinder:
         }
         self._gaus_filter = (17, 5)
         self._folder_name = "items"
-        self._min_score = 0.8
+        self._min_score = 0.86
         # load all templates
         self._config = config
         self._templates = {}

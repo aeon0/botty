@@ -58,8 +58,8 @@ class Pather:
             2: {'A5_TOWN_0': (-368, -39), 'A5_TOWN_0.5': (423, 7)}, 
             3: {'A5_TOWN_1': (-276, 94), 'A5_TOWN_2': (485, -60)}, 
             4: {'A5_TOWN_1': (-467, 267), 'A5_TOWN_2': (293, 113), 'A5_TOWN_3': (-267, -139), 'A5_TOWN_4': (162, -163)}, 
-            5: {'A5_TOWN_2': (303, 219), 'A5_TOWN_3': (-257, -33), 'A5_TOWN_4': (172, -57)}, 
-            6: {'A5_TOWN_3': (-583, 175), 'A5_TOWN_4': (-155, 151), 'A5_TOWN_5': (-13, -240), 'A5_TOWN_6': (307, 61)}, 
+            5: {'A5_TOWN_2': (303+60, 219+40), 'A5_TOWN_3': (-257+60, -33+40), 'A5_TOWN_4': (172+60, -57+40)}, 
+            6: {'A5_TOWN_3': (-583+80, 175+60), 'A5_TOWN_4': (-155+80, 151+60), 'A5_TOWN_5': (-13+80, -240+60), 'A5_TOWN_6': (307+80, 61+60)}, 
             8: {'A5_TOWN_6': (127, 293), 'A5_TOWN_5': (-195, -5), 'A5_TOWN_7': (598, -87)}, 
             9: {'A5_TOWN_5': (-407, 167), 'A5_TOWN_7': (386, 85)}, 
             10: {'A5_TOWN_4': (-472, 58), 'A5_TOWN_6': (-11, -32), 'A5_TOWN_8': (321, 131)}, 
@@ -86,8 +86,8 @@ class Pather:
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)}, 
             145: {'SHENK_12': (97, -133), 'SHENK_7': (803, 372), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)}, 
             146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258)}, 
-            147: {'SHENK_16': (193, -100), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
-            148: {'SHENK_16': (645, 63), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
+            147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
+            148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)}
         }
         self._paths = {
@@ -133,6 +133,7 @@ class Pather:
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
                         if filter is None or filter in template_type:
+                            success = False
                             if template_type in template_map:
                                 success = True
                                 ref_pos_screen = template_map[template_type]
@@ -276,7 +277,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Sorceress(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)
-    pather._display_all_nodes_debug(filter="SHENK")
+    pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)
+    # pather._display_all_nodes_debug(filter="A5")
