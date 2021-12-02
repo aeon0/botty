@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+**Is it really a Bug report?**
+If you have questions regarding setup or feature information/requests, please consider asking in the Discord channel: https://discord.gg/Jf3J8cuXWg. The Github issues section is for bug reports only.
+
 **Botty Version**
 What version of botty are you running? Are you using a pre-compiled release? Which one. Are you using the latest master branch? On which commit?
 
