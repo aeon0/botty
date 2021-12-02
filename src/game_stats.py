@@ -66,9 +66,7 @@ class GameStats:
         self._paused = True
 
     def resume_timer(self):
-        if self._timer is None:
-            return
-        if not self._paused:
+        if self._timer is None or not self._paused:
             return
         pausetime = time.time() - self._timepaused
         self._timer = self._timer + pausetime
