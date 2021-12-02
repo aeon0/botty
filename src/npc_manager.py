@@ -60,30 +60,23 @@ class NpcManager:
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
-            results = []
-            for key in self._npcs[npc_key]["template_group"]:
-                res = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
-                if res.valid:
-                    results.append({"pos": res.position, "score": res.score})
-            results = sorted(results, key=lambda r: r["score"], reverse=True)
-
-            for result in results:
-                pos = result["pos"]
-                mouse.move(*pos, randomize=3, delay_factor=[0.9, 1.5])
+            result = self._template_finder.search(self._npcs[npc_key]["template_group"], img, threshold=0.35, roi=roi, normalize_monitor=True, best_match=True)
+            if result.valid:
+                mouse.move(*result.position, randomize=3, delay_factor=[0.9, 1.5])
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-                res_w = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
-                res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
-                if res_w:
-                    mouse.click(button="left")
-                    wait(1.4, 1.7)
-                    _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
-                    res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
-                    if res:
+                tag_match = self._template_finder.search(self._npcs[npc_key]["name_tag_white","name_tag_gold"], filtered_inp_w, 0.9, roi=roi)
+                if tag_match.valid:
+                    if tag_match.name == "name_tag_white":
+                        mouse.click(button="left")
+                        wait(1.4, 1.7)
+                        _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
+                        res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
+                        if res:
+                            return True
+                    else:
                         return True
-                elif res_g:
-                    return True
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
