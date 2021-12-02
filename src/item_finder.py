@@ -24,7 +24,7 @@ class Item:
     roi: List[int] = None
 
 class ItemFinder:
-    def __init__(self,config: Config):
+    def __init__(self, config: Config):
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     while 1:
         # img = cv2.imread("")
         img = screen.grab().copy()

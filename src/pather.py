@@ -276,7 +276,7 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
+    ui_manager = UiManager(screen, t_finder, config)
     char = Sorceress(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
     pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)

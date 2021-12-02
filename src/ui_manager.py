@@ -18,7 +18,7 @@ from typing import List
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder,config: Config):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, config: Config):
         self._config = config
         self._template_finder = template_finder
         self._screen = screen
@@ -442,5 +442,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
-    ui_manager = UiManager(screen, template_finder)
+    ui_manager = UiManager(screen, template_finder, config)
     ui_manager.stash_all_items(5, item_finder)

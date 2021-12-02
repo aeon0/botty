@@ -65,7 +65,6 @@ class Bot:
         self.out_of_gold = False
         self.wait_to_repair = 0
 
-
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'a5_town', 'before': "on_create_game"},
@@ -198,13 +197,13 @@ class Bot:
             elif not self.out_of_gold: #You are out of gold. Adding gold to pickit until the bot restarts
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
-                config_overrides = {"misc_gold": "1", "stash_gold": "1", "randomize_runs": "1"}
+                config_overrides = {"misc_gold": "1", "stash_gold": "1", "randomize_runs": "1"} #randomizing runs will help get more gold if running all three
                 self._config = Config(False, config_overrides)
                 self._item_finder = ItemFinder(self._config)
                 self._ui_manager = UiManager(self._screen, self._template_finder, self._config)
                 self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
                 self.out_of_gold = True
-                Logger.warning("Out of gold. Adding gold to pickit until next bot restart.")
+                Logger.warning("Out of gold. Adding gold to pickit and randomizing runs until next bot restart.")
                 self.wait_to_repair = 5
             else:
                 self._ui_manager.close_vendor_screen()

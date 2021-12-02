@@ -14,13 +14,13 @@ from game_stats import GameStats
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager, game_stats: GameStats = None):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager, config: Config, game_stats: GameStats = None):
         self._item_finder = item_finder
         self._screen = screen
         self._belt_manager = belt_manager
         self._ui_manager = ui_manager
         self._game_stats = game_stats
-        self._config = self._item_finder._config
+        self._config = config
 
     def pick_up_items(self, char: IChar) -> bool:
         """
@@ -114,11 +114,11 @@ if __name__ == "__main__":
     game_states = GameStats()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, t_finder)
+    ui_manager = UiManager(screen, t_finder, config)
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
+    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, config, game_states)
     pickit.pick_up_items(char)

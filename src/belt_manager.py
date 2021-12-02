@@ -179,7 +179,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, template_finder)
+    ui_manager = UiManager(screen, template_finder, config)
     belt_manager = BeltManager(screen, template_finder)
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)
