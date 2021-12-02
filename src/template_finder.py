@@ -35,7 +35,7 @@ class TemplateFinder:
             file_name: str = os.path.basename(file_path)
             if file_name.endswith('.png'):
                 key = file_name[:-4].upper()
-                self._templates[key] = [load_template(f"assets/templates/a5_town/a5_town_0.png", 1.0), 1.0]
+                self._templates[key] = [load_template(file_path, 1.0), 1.0]
 
     def get_template(self, key):
         return self._templates[key][0]
