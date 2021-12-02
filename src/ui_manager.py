@@ -102,13 +102,14 @@ class UiManager():
         """
         start = time.time()
         while (time.time() - start) < 15:
-            keyboard.send("esc")
+            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
+            if not self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85).valid:
+                keyboard.send("esc")
             wait(0.3)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
             # TODO: Add hardcoded coordinates to ini file
             away_x_m, away_y_m = self._screen.convert_abs_to_monitor((-167, 0))
-            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False).valid:
                 delay = [0.9, 1.1]
                 if does_chicken:
@@ -133,7 +134,7 @@ class UiManager():
         Starting a game. Will wait and retry on server connection issue.
         :return: Bool if action was successful
         """
-        Logger.debug("Wait for active Play button")
+        Logger.debug("Wait for Play button")
         # To test the start_game() function seperatly, just run:
         # (botty) >> python src/ui_manager.py
         # then go to D2r window -> press "f11", you can exit with "f12"
@@ -165,9 +166,9 @@ class UiManager():
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
-            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, threshold=0.9)
+            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9)
             if not template_match.valid:
-                Logger.debug(f"Could not find, try from start again")
+                Logger.debug(f"Could not find {difficulty}_BTN, try from start again")
                 return self.start_game()
             if template_match.name == "LOADING":
                 Logger.debug(f"Found {template_match.name} screen")
@@ -314,7 +315,7 @@ class UiManager():
                     top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
                     move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
                     x, y = self._screen.convert_screen_to_monitor(move_to)
-                    mouse.move(x, y, randomize=40, delay_factor=[1.0, 1.5])
+                    mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
                     hovered_item = self._screen.grab()
                     mouse.move(*curr_pos, randomize=2)
                     wait(0.4, 0.6)
@@ -337,7 +338,7 @@ class UiManager():
         top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
         move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
         x, y = self._screen.convert_screen_to_monitor(move_to)
-        mouse.move(x, y, randomize=40, delay_factor=[1.0, 1.5])
+        mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         img = self._screen.grab()
         if self._inventory_has_items(img, num_loot_columns):
             Logger.info("Stash page is full, selecting next stash")

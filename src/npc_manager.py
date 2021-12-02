@@ -25,7 +25,10 @@ class NpcManager:
                 "name_tag_white": color_filter(self._template_finder.get_template("QUAL_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("QUAL_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
                 "action_btns": {
-                    "resurrect": color_filter(self._template_finder.get_template("QUAL_RESURRECT_BTN"), self._config.colors["white"])[1]
+                    "resurrect": {
+                        "white": color_filter(self._template_finder.get_template("RESURRECT"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("RESURRECT_BLUE"), self._config.colors["blue"])[1],
+                    }
                 },
                 "template_group": ["QUAL_FRONT", "QUAL_SIDE", "QUAL_BACK", "QUAL_45", "QUAL_45_2", "QUAL_45_3"]
             },
@@ -33,7 +36,10 @@ class NpcManager:
                 "name_tag_white": color_filter(self._template_finder.get_template("MALAH_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("MALAH_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
                 "action_btns": {
-                    "trade": color_filter(self._template_finder.get_template("MALAH_TRADE_BTN"), self._config.colors["white"])[1]
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
                 },
                 "template_group": ["MALAH_FRONT", "MALAH_BACK", "MALAH_45", "MALAH_SIDE", "MALAH_SIDE_2"]
             },
@@ -41,7 +47,10 @@ class NpcManager:
                 "name_tag_white": color_filter(self._template_finder.get_template("LARZUK_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("LARZUK_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
                 "action_btns": {
-                    "trade_repair": color_filter(self._template_finder.get_template("LARZUK_TRADE_REPAIR_BTN"), self._config.colors["white"])[1]
+                    "trade_repair": {
+                        "white": color_filter(self._template_finder.get_template("TRADE_REPAIR"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_REPAIR_BLUE"), self._config.colors["blue"])[1],
+                    }
                 },
                 "template_group": ["LARZUK_FRONT", "LARZUK_BACK", "LARZUK_SIDE", "LARZUK_SIDE_2", "LARZUK_SIDE_3"]
             },
@@ -49,7 +58,10 @@ class NpcManager:
                 "name_tag_white": color_filter(self._template_finder.get_template("ANYA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("ANYA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
                 "action_btns": {
-                    "trade": color_filter(self._template_finder.get_template("ANYA_TRADE_BTN"), self._config.colors["white"])[1]
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
                 },
                 "template_group": ["ANYA_FRONT", "ANYA_BACK", "ANYA_SIDE"]
             }
@@ -60,16 +72,9 @@ class NpcManager:
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
-            results = []
-            for key in self._npcs[npc_key]["template_group"]:
-                res = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
-                if res.valid:
-                    results.append({"pos": res.position, "score": res.score})
-            results = sorted(results, key=lambda r: r["score"], reverse=True)
-
-            for result in results:
-                pos = result["pos"]
-                mouse.move(*pos, randomize=3, delay_factor=[0.9, 1.5])
+            result = self._template_finder.search(self._npcs[npc_key]["template_group"], img, threshold=0.35, roi=roi, normalize_monitor=True, best_match=True)
+            if result.valid:
+                mouse.move(*result.position, randomize=3, delay_factor=[0.9, 1.5])
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
@@ -77,7 +82,7 @@ class NpcManager:
                 res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
                 if res_w:
                     mouse.click(button="left")
-                    wait(1.4, 1.7)
+                    wait(0.7, 1.0)
                     _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
                     res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
                     if res:
@@ -87,12 +92,21 @@ class NpcManager:
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
-        _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["white"])
+        img = self._screen.grab()
+        _, filtered_inp_w = color_filter(img, self._config.colors["white"])
         res = self._template_finder.search(
-            self._npcs[npc_key]["action_btns"][action_btn_key],
-            filtered_inp, 0.85, roi=self._config.ui_roi["cut_skill_bar"],
+            self._npcs[npc_key]["action_btns"][action_btn_key]["white"],
+            filtered_inp_w, 0.85, roi=self._config.ui_roi["cut_skill_bar"],
             normalize_monitor=True
         )
+        if not res.valid and "blue" in self._npcs[npc_key]["action_btns"][action_btn_key]:
+            # search for highlighted / blue action btn
+            _, filtered_inp_b = color_filter(img, self._config.colors["blue"])
+            res = self._template_finder.search(
+                self._npcs[npc_key]["action_btns"][action_btn_key]["blue"],
+                filtered_inp_b, 0.85, roi=self._config.ui_roi["cut_skill_bar"],
+                normalize_monitor=True
+            )
         if res.valid:
             mouse.move(*res.position, randomize=3, delay_factor=[1.0, 1.5])
             wait(0.2, 0.4)

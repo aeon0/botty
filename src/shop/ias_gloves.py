@@ -60,6 +60,7 @@ class JavaShopper:
         self.start_time = time.time()
         self.ias_gloves_seen = 0
         self.gloves_bought = 0
+        self.asset_folder = "assets/shop/gloves/"
 
     def run(self):
         Logger.info("STARTING JAVAZON GG GLOVES SHOPPER!")
@@ -67,10 +68,6 @@ class JavaShopper:
         self.shop_loop()
 
     def shop_loop(self):
-        if self.config.general["res"] == "1280_720":
-            asset_folder = "assets/shop_1280_720/gloves/"
-        else:
-            asset_folder = "assets/shop/gloves/"
         while True:
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
@@ -79,7 +76,7 @@ class JavaShopper:
 
             # 20 IAS gloves have a unique color so we can skip all others
             ias_glove_found = self._template_finder.search(
-                ref=load_template(asset_folder + "ias_gloves.png", 1.0),
+                ref=load_template(self.asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
                 roi=self.config.ui_roi["vendor_stash"],
@@ -92,7 +89,7 @@ class JavaShopper:
                 img = self._screen.grab()
                 gg_gloves_found = self._template_finder.search(
                     ref=load_template(
-                        asset_folder + "gg_gloves.png", 1.0
+                        self.asset_folder + "gg_gloves.png", 1.0
                     ),
                     inp_img=img,
                     threshold=0.80,

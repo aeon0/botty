@@ -1,5 +1,8 @@
 from bot import Bot
 from game_recovery import GameRecovery
+from game_stats import GameStats
+from health_manager import HealthManager
+from death_manager import DeathManager
 from screen import Screen
 from logger import Logger
 import keyboard
@@ -17,26 +20,52 @@ import cv2
 import traceback
 
 
-def run_bot(config: Config, screen: Screen, game_recovery: GameRecovery, pick_corpose_on_start: bool = False):
-    bot = Bot(screen, pick_corpose_on_start)
+def run_bot(
+    config: Config,
+    screen: Screen,
+    game_recovery: GameRecovery,
+    game_stats: GameStats,
+    death_manager: DeathManager,
+    health_manager: HealthManager,
+    pick_corpse: bool = False
+):
+    # Start bot thread
+    bot = Bot(screen, game_stats, pick_corpse)
     bot_thread = threading.Thread(target=bot.start)
+    bot_thread.daemon = True
     bot_thread.start()
+    # Register that thread to the death and health manager so they can stop the bot thread if needed
+    death_manager.set_callback(lambda: bot.stop() or kill_thread(bot_thread))
+    health_manager.set_callback(lambda: bot.stop() or kill_thread(bot_thread))
     do_restart = False
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
     while 1:
-        if bot.current_game_length() > config.general["max_game_length_s"]:
-            Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
-            if config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
+        health_manager.update_location(bot.get_curr_location())
+        max_game_length_reached = game_stats.get_current_game_length() > config.general["max_game_length_s"]
+        if max_game_length_reached or death_manager.died() or health_manager.did_chicken():
+            # Some debug and logging
+            if max_game_length_reached:
+                Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
+                if config.general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
+            elif death_manager.died():
+                game_stats.log_death()
+            elif health_manager.did_chicken():
+                game_stats.log_chicken()
             bot.stop()
             kill_thread(bot_thread)
+            # Try to recover from whatever situation we are and go back to hero selection
             do_restart = game_recovery.go_to_hero_selection()
             break
         time.sleep(0.5)
     bot_thread.join()
     if do_restart:
-        run_bot(config, screen, game_recovery, True)
+        # Reset flags before running a new bot
+        death_manager.reset_death_flag()
+        health_manager.reset_chicken_flag()
+        game_stats.log_end_game()
+        return run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager, True)
     else:
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
@@ -77,8 +106,20 @@ def main():
     while 1:
         if keyboard.is_pressed(config.general['resume_key']):
             screen = Screen(config.general["monitor"])
-            game_recovery = GameRecovery(screen)
-            run_bot(config, screen, game_recovery)
+            # Run health monitor thread
+            health_manager = HealthManager(screen)
+            health_monitor_thread = threading.Thread(target=health_manager.start_monitor)
+            health_monitor_thread.daemon = True
+            health_monitor_thread.start()
+            # Run death monitor thread
+            death_manager = DeathManager(screen)
+            death_monitor_thread = threading.Thread(target=death_manager.start_monitor)
+            death_monitor_thread.daemon = True
+            death_monitor_thread.start()
+            # Create other "global" instances
+            game_recovery = GameRecovery(screen, death_manager)
+            game_stats = GameStats()
+            run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager)
             break
         if keyboard.is_pressed(config.general['auto_settings_key']):
             adjust_settings()
@@ -94,7 +135,6 @@ if __name__ == "__main__":
     try:
         main()
     except:
-        print("RUNTIME ERROR:")
         traceback.print_exc()
     print("Press Enter to exit ...")
     input()
