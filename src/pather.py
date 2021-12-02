@@ -41,7 +41,10 @@ class Location:
     A3_ORMUS = "a3_ormus"
     A3_STASH_WP = "a3_stash_wp"
     A3_ASHEARA = "ar_asheara"
-
+    # Trav
+    TRAV_START = "trav_start"
+    TRAV_SAVE_DIST = "trav_save_dist"
+    TRAV_END = "trav_end"
 
 class Pather:
     """
@@ -108,6 +111,16 @@ class Pather:
             190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            # Trav
+            220: {"TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73), "TRAV_0": (490, 397)},
+            221: {"TRAV_3": (-185, -51), "TRAV_1": (200, 124), "TRAV_2": (230, -242), "TRAV_5": (-843, -8)},
+            222: {"TRAV_3": (291, -6), "TRAV_5": (-367, 38), "TRAV_4": (289, 268), "TRAV_1": (676, 170), "TRAV_6": (-845, -182)},
+            223: {"TRAV_5": (-59, 97), "TRAV_6": (-537, -123), "TRAV_3": (599, 53), "TRAV_4": (597, 327)},
+            224: {"TRAV_6": (-133, -150), "TRAV_5": (345, 70), "TRAV_7": (-508, 245), "TRAV_12": (-776, -232), "TRAV_10": (-876, 117)},
+            225: {"TRAV_6": (214, -172), "TRAV_7": (-161, 223), "TRAV_12": (-429, -254), "TRAV_10": (-529, 95), "TRAV_9": (-632, -131)},
+            226: {"TRAV_12": (-3, -89), "TRAV_9": (-205, 33), "TRAV_10": (-103, 260), "TRAV_11": (-222, 214), "TRAV_13": (-523, 323)},
+            227: {"TRAV_9": (239+70, -9+30), "TRAV_11": (222+70, 173+30), "TRAV_13": (-79+70, 281+30), "TRAV_10": (341+70, 218+30), "TRAV_12": (441+70, -131+30)},
+            228: {"TRAV_11": (-47+100, -24+100), "TRAV_10": (71+100, 21+100), "TRAV_9": (-31+100, -205+100), "TRAV_13": (-348+100, 84+100), "TRAV_12": (172+100, -328+100)},
         }
         self._paths = {
             # A5 Town
@@ -141,7 +154,10 @@ class Pather:
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
             (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
             (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
-            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188]
+            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
+            # Trav
+            (Location.TRAV_START, Location.TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
+            (Location.TRAV_SAVE_DIST, Location.TRAV_END): [228],
         }
 
     def _get_node(self, key: int, template: str):
@@ -300,12 +316,8 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    pather.traverse_nodes(Location.A3_TOWN_START, Location.A3_ORMUS, char)
-    time.sleep(2)
-    pather.traverse_nodes(Location.A3_ORMUS, Location.A3_ASHEARA, char)
-    time.sleep(2)
-    pather.traverse_nodes(Location.A3_ASHEARA, Location.A3_STASH_WP, char)
-
-    # pather._display_all_nodes_debug(filter="A3_TOWN")
+    # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
+    # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
+    pather._display_all_nodes_debug(filter="TRAV")
