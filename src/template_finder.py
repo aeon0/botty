@@ -105,6 +105,13 @@ class TemplateFinder:
             "FULL_REJUV_POTION": [load_template(f"assets/templates/full_rejuv_potion.png", 1.0), 1.0],
             "REJUV_POTION": [load_template(f"assets/templates/rejuv_potion.png", 1.0), 1.0],
             "WINDOW_INGAME_OFFSET_REFERENCE":[load_template(f"assets/templates/window_ingame_offset_reference.png", 1.0), 1.0],
+            # NPC: Action buttons
+            "TRADE": [load_template(f"assets/npc/action_btn/trade.png", 1.0), 1.0],
+            "TRADE_BLUE": [load_template(f"assets/npc/action_btn/trade_blue.png", 1.0), 1.0],
+            "RESURRECT": [load_template(f"assets/npc/action_btn/resurrect.png", 1.0), 1.0],
+            "RESURRECT_BLUE": [load_template(f"assets/npc/action_btn/resurrect_blue.png", 1.0), 1.0],
+            "TRADE_REPAIR": [load_template(f"assets/npc/action_btn/trade_repair.png", 1.0), 1.0],
+            "TRADE_REPAIR_BLUE": [load_template(f"assets/npc/action_btn/trade_repair_blue.png", 1.0), 1.0],
             # NPC: Qual-Kehk
             "QUAL_FRONT": [load_template(f"assets/npc/qual_kehk/qual_front.png", 1.0), 1.0],
             "QUAL_SIDE": [load_template(f"assets/npc/qual_kehk/qual_side.png", 1.0), 1.0],
@@ -114,7 +121,6 @@ class TemplateFinder:
             "QUAL_45_3": [load_template(f"assets/npc/qual_kehk/qual_45_3.png", 1.0), 1.0],
             "QUAL_NAME_TAG_WHITE": [load_template(f"assets/npc/qual_kehk/qual_kehk_white.png", 1.0), 1.0],
             "QUAL_NAME_TAG_GOLD": [load_template(f"assets/npc/qual_kehk/qual_kehk_gold.png", 1.0), 1.0],
-            "QUAL_RESURRECT_BTN": [load_template(f"assets/npc/qual_kehk/resurrect_btn.png", 1.0), 1.0],
             # NPC: Malah
             "MALAH_FRONT": [load_template(f"assets/npc/malah/malah_front.png", 1.0), 1.0],
             "MALAH_BACK": [load_template(f"assets/npc/malah/malah_BACK.png", 1.0), 1.0],
@@ -123,7 +129,6 @@ class TemplateFinder:
             "MALAH_SIDE_2": [load_template(f"assets/npc/malah/malah_side_2.png", 1.0), 1.0],
             "MALAH_NAME_TAG_WHITE": [load_template(f"assets/npc/malah/malah_white.png", 1.0), 1.0],
             "MALAH_NAME_TAG_GOLD": [load_template(f"assets/npc/malah/malah_gold.png", 1.0), 1.0],
-            "MALAH_TRADE_BTN": [load_template(f"assets/npc/malah/trade_btn.png", 1.0), 1.0],
             # NPC: Larzuk
             "LARZUK_FRONT": [load_template(f"assets/npc/larzuk/larzuk_front.png", 1.0), 1.0],
             "LARZUK_BACK": [load_template(f"assets/npc/larzuk/larzuk_back.png", 1.0), 1.0],
@@ -132,14 +137,12 @@ class TemplateFinder:
             "LARZUK_SIDE_3": [load_template(f"assets/npc/larzuk/larzuk_side_3.png", 1.0), 1.0],
             "LARZUK_NAME_TAG_WHITE": [load_template(f"assets/npc/larzuk/larzuk_white.png", 1.0), 1.0],
             "LARZUK_NAME_TAG_GOLD": [load_template(f"assets/npc/larzuk/larzuk_gold.png", 1.0), 1.0],
-            "LARZUK_TRADE_REPAIR_BTN": [load_template(f"assets/npc/larzuk/trade_repair_btn.png", 1.0), 1.0],
             # NPC: Anya
             "ANYA_FRONT": [load_template(f"assets/npc/anya/anya_front.png", 1.0), 1.0],
             "ANYA_BACK": [load_template(f"assets/npc/anya/anya_back.png", 1.0), 1.0],
             "ANYA_SIDE": [load_template(f"assets/npc/anya/anya_side.png", 1.0), 1.0],
             "ANYA_NAME_TAG_GOLD": [load_template(f"assets/npc/anya/anya_gold.png", 1.0), 1.0],
             "ANYA_NAME_TAG_WHITE": [load_template(f"assets/npc/anya/anya_white.png", 1.0), 1.0],
-            "ANYA_TRADE_BTN": [load_template(f"assets/npc/anya/trade_btn.png", 1.0), 1.0],
         }
 
     def get_template(self, key):
