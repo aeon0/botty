@@ -36,6 +36,11 @@ class Location:
     SHENK_START = "shenk_start"
     SHENK_SAVE_DIST = "shenk_save_dist"
     SHENK_END = "shenk_end"
+    # A3 Town
+    A3_TOWN_START = "a3_town_start"
+    A3_ORMUS = "a3_ormus"
+    A3_STASH_WP = "a3_stash_wp"
+    A3_ASHEARA = "ar_asheara"
 
 
 class Pather:
@@ -88,7 +93,21 @@ class Pather:
             146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258)}, 
             147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
             148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
-            149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)}
+            149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
+            # A3 twon
+            180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
+            181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
+            182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
+            183: {"A3_TOWN_3": (-287, -80), "A3_TOWN_2": (168, -279), "A3_TOWN_1": (467, -58), "A3_TOWN_4": (-587, 86), "A3_TOWN_12": (-231, 574)},
+            184: {"A3_TOWN_4": (-109, -146), "A3_TOWN_5": (-81, 206), "A3_TOWN_3": (191, -311), "A3_TOWN_12": (247, 342), "A3_TOWN_13": (-323, 530)},
+            185: {"A3_TOWN_5": (223, 40), "A3_TOWN_13": (-19, 364), "A3_TOWN_4": (195, -312), "A3_TOWN_12": (551, 176), "A3_TOWN_20": (-549, 184)},
+            186: {"A3_TOWN_7": (-195, -118), "A3_TOWN_20": (-130, 237), "A3_TOWN_8": (-269, 308), "A3_TOWN_13": (400, 417), "A3_TOWN_5": (642, 93)},
+            187: {"A3_TOWN_8": (161, 207), "A3_TOWN_9": (-108, 265), "A3_TOWN_7": (236, -219), "A3_TOWN_20": (300, 136), "A3_TOWN_11": (-618, 150)},
+            188: {"A3_TOWN_9": (173, 157), "A3_TOWN_11": (-337, 42), "A3_TOWN_8": (442, 99), "A3_TOWN_20": (581, 28), "A3_TOWN_7": (517, -327)},
+            189: {"A3_TOWN_5": (10, -182), "A3_TOWN_13": (-232, 142), "A3_TOWN_14": (-7, 337), "A3_TOWN_12": (338, -46), "A3_TOWN_15": (722, 143)},
+            190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
+            191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
+            192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
         }
         self._paths = {
             # A5 Town
@@ -117,6 +136,12 @@ class Pather:
             # Shenk
             (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
+            # A3 Town
+            (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
+            (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
+            (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
+            (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
+            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188]
         }
 
     def _get_node(self, key: int, template: str):
@@ -130,32 +155,30 @@ class Pather:
             img = self._screen.grab()
             display_img = img.copy()
             template_map = {}
+            template_scores = {}
+            for template_type in self._template_finder._templates:
+                if filter is None or filter in template_type:
+                    template_match = self._template_finder.search(template_type, img)
+                    if template_match.valid:
+                        template_map[template_type] = template_match.position
+                        template_scores[template_type] = template_match.score
+            print(template_scores)
             for node_idx in self._nodes:
                 for template_type in self._nodes[node_idx]:
-                        if filter is None or filter in template_type:
-                            success = False
-                            if template_type in template_map:
-                                success = True
-                                ref_pos_screen = template_map[template_type]
-                            else:
-                                template_match = self._template_finder.search(template_type, img)
-                                if template_match.valid:
-                                    ref_pos_screen = template_match.position
-                                    success = True
-                            if success:
-                                template_map[template_type] = ref_pos_screen
-                                # Get reference position of template in abs coordinates
-                                ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
-                                # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._get_node(node_idx, template_type)
-                                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                                cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                                x, y = self._screen.convert_abs_to_screen(ref_pos_abs)
-                                cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
-                                cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                    if template_type in template_map:
+                        ref_pos_screen = template_map[template_type]
+                        # Get reference position of template in abs coordinates
+                        ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
+                        # Calc the abs node position with the relative coordinates (relative to ref)
+                        node_pos_rel = self._get_node(node_idx, template_type)
+                        node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                        node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+                        x, y = self._screen.convert_abs_to_screen(node_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        x, y = self._screen.convert_abs_to_screen(ref_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
+                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
@@ -279,5 +302,10 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)
-    # pather._display_all_nodes_debug(filter="A5")
+    pather.traverse_nodes(Location.A3_TOWN_START, Location.A3_ORMUS, char)
+    time.sleep(2)
+    pather.traverse_nodes(Location.A3_ORMUS, Location.A3_ASHEARA, char)
+    time.sleep(2)
+    pather.traverse_nodes(Location.A3_ASHEARA, Location.A3_STASH_WP, char)
+
+    # pather._display_all_nodes_debug(filter="A3_TOWN")
