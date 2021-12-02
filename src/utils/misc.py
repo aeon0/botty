@@ -57,3 +57,10 @@ def load_template(path, scale_factor):
         template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
         return template_img
     return None
+
+def list_files_in_folder(path: str):
+    r = []
+    for root, _, files in os.walk(path):
+        for name in files:
+            r.append(os.path.join(root, name))
+    return r
