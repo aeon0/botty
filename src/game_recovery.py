@@ -14,12 +14,8 @@ class GameRecovery:
         self._screen = screen
         self._death_manager = death_manager
         self._template_finder = TemplateFinder(self._screen)
-<<<<<<< HEAD
         self._death_manager = DeathManager(self._screen, self._template_finder)
         self._ui_manager = UiManager(self._screen, self._template_finder,self._config)
-=======
-        self._ui_manager = UiManager(self._screen, self._template_finder)
->>>>>>> upstream/master
 
     def go_to_hero_selection(self):
         time.sleep(1)
