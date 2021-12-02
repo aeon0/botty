@@ -94,7 +94,7 @@ class TemplateFinder:
             "SAVE_AND_EXIT_HIGHLIGHT": [load_template(f"assets/templates/save_and_exit_highlight.png", 1.0), 1.0],
             "SERVER_ISSUES": [load_template(f"assets/templates/server_issues.png", 1.0), 1.0],
             "WAYPOINT_MENU": [load_template(f"assets/templates/waypoint_menu.png", 1.0), 1.0],
-            "MERC": [load_template(f"assets/templates/merc.png", 1.0), 1.0],
+            "MERC": [load_template(f"assets/templates/merc.png", 1.0, alpha=True), 1.0],
             "TELE_ACTIVE": [load_template(f"assets/templates/tele_active.png", 1.0), 1.0],
             "TELE_INACTIVE": [load_template(f"assets/templates/tele_inactive.png", 1.0), 1.0],
             "VIGOR": [load_template(f"assets/templates/vigor.png", 1.0), 1.0],
@@ -187,6 +187,13 @@ class TemplateFinder:
         scores = [0] * len(ref)
         ref_points = [(0, 0)] * len(ref)
         for count, template in enumerate(templates):
+            mask = None
+            try:
+                if np.min(template[:, :, 3]) == 0:
+                    _, mask = cv2.threshold(template[:,:,3], 1, 255, cv2.THRESH_BINARY)
+            except: pass
+            template = cv2.cvtColor(template, cv2.COLOR_BGRA2BGR)
+
             template_match = TemplateMatch()
             scale = scales[count]
 
@@ -197,7 +204,7 @@ class TemplateFinder:
             rh *= scale
 
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
+                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask = mask)
                 _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
                 if max_val > threshold:
                     ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
