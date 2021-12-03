@@ -22,11 +22,9 @@ class Sorceress(IChar):
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
-            keyboard.send(self._skill_hotkeys["telekinesis"])
-            wait(0.1, 0.2)
             mouse.move(pos[0], pos[1])
             wait(0.1, 0.2)
-            mouse.click(button="right")
+            keyboard.send(self._skill_hotkeys["telekinesis"])
             # need about 0.4s delay before next capture for the item not to persist on screen
             cast_start = time.time()
             interval = (cast_start - prev_cast_start)
@@ -42,43 +40,34 @@ class Sorceress(IChar):
             self._pre_buff_cta()
         if self._skill_hotkeys["energy_shield"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
             wait(self._cast_duration)
         if self._skill_hotkeys["thunder_storm"]:
             keyboard.send(self._skill_hotkeys["thunder_storm"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
             wait(self._cast_duration)
         if self._skill_hotkeys["frozen_armor"]:
             keyboard.send(self._skill_hotkeys["frozen_armor"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
             wait(self._cast_duration)
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
-        if self._skill_hotkeys["skill_left"]:
-            keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(6):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
-            mouse.press(button="left")
+            keyboard.send(self._skill_hotkeys["skill_left"], do_release=False)
             wait(delay[0], delay[1])
-            mouse.release(button="left")
+            keyboard.send(self._skill_hotkeys["skill_left"], do_press=False)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
-        keyboard.send(self._skill_hotkeys["skill_right"])
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
+        keyboard.send(self._skill_hotkeys["skill_right"], do_release=False)
         wait(delay[0], delay[1])
-        mouse.release(button="right")
+        keyboard.send(self._skill_hotkeys["skill_right"], do_press=False)
 
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
