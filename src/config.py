@@ -25,6 +25,7 @@ class Config:
             self._custom.read('custom.ini')
 
         self.general = {
+            "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
