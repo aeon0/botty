@@ -184,7 +184,7 @@ class Bot:
             else:
                 Logger.warning("Could not find stash, continue...")
 
-        if self._tps_left < 4:
+        if self._tps_left < 4 or self._ui_manager.no_more_tp():
             Logger.info("Repairing and buying TPs at Larzuk.")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
                 self.trigger_or_stop("end_game")
