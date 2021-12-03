@@ -27,7 +27,7 @@ class TemplateFinder:
         self._config = Config()
         self._scale_factor = 1.0
         self.last_res = None
-
+        # load templates with their filename as key in the dict
         template_path = "assets\\templates"
         npc_path = "assets\\npc"
         pathes = list_files_in_folder(npc_path) + list_files_in_folder(template_path)
@@ -36,10 +36,10 @@ class TemplateFinder:
             file_name: str = os.path.basename(file_path)
             if file_name.endswith('.png'):
                 key = file_name[:-4].upper()
-                self._templates[key] = [load_template(file_path, 1.0), 1.0]
+                self._templates[key] = [load_template(file_path, 1.0, True), 1.0]
 
     def get_template(self, key):
-        return self._templates[key][0]
+        return cv2.cvtColor(self._templates[key][0], cv2.COLOR_BGRA2BGR)
 
     def search(
         self,
@@ -87,6 +87,7 @@ class TemplateFinder:
             scale = scales[count]
 
             # create a mask from template where alpha == 0
+            # TODO: This could be precalculated in the __init__() for each template
             mask = None
             if template.shape[2] == 4:
                 if np.min(template[:, :, 3]) == 0:
@@ -100,7 +101,8 @@ class TemplateFinder:
             rh *= scale
 
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask = mask)
+                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
+                np.nan_to_num(self.last_res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
                 _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
                 if max_val > threshold:
                     ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
@@ -173,12 +175,12 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ELDRITCH_1", "ELDRITCH_4", "ELDRITCH_3", "ELDRITCH_2"]
+    search_templates = ["QUAL_45_2", "QUAL_45_3", "QUAL_45", "QUAL_BACK", "QUAL_FRONT", "QUAL_SIDE"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
         display_img = img.copy()
-        template_match = template_finder.search(search_templates,img,best_match=1)
+        template_match = template_finder.search(search_templates, img, best_match=True, threshold=0.35)
         if template_match.valid:
             cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)

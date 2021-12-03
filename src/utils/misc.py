@@ -51,7 +51,7 @@ def hms(seconds: int):
     s = seconds % 3600 % 60
     return '{:02d}:{:02d}:{:02d}'.format(h, m, s)
 
-def load_template(path, scale_factor, alpha: bool = False):
+def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
     if os.path.isfile(path):
         template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
         template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
