@@ -135,5 +135,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.ANYA)
-    npc_manager.press_npc_btn(Npc.ANYA, "trade")
+    npc_manager.open_npc_menu(Npc.QUAL_KEHK)
+    npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")

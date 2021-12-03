@@ -18,14 +18,13 @@ class TemplateMatch:
     valid: bool = False
 
 class TemplateFinder:
+    """
+    Loads images from assets/templates and assets/npc and provides search functions
+    to find these assets within another image
+    """
     def __init__(self, screen: Screen):
-        """
-        :param screen: Screen object
-        :param scale_factor: Scale factor that is used for templates. Note: UI and NPC templates will always have scale of 1.0
-        """
         self._screen = screen
         self._config = Config()
-        self._scale_factor = 1.0
         self.last_res = None
         template_path = "assets\\templates"
         npc_path = "assets\\npc"
@@ -55,8 +54,9 @@ class TemplateFinder:
         :param inp_img: Image in which the template will be searched
         :param threshold: Threshold which determines if a template is found or not
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
+        :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
-        :return: Returns found flag and the position as [bool, [x, y]]. If not found, position will be None. Position in image space.
+        :return: Returns a TempalteMatch object with a valid flag
         """
         threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         if roi is None:
@@ -133,12 +133,9 @@ class TemplateFinder:
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
-        :param ref: Key of template (or list of keys) which has been loaded beforehand
         :param time_out: After this amount of time the search will stop and it will return [False, None]
-        :param threshold: Adapt threshold for being found
-        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
-        Rest of params same as TemplateFinder.search()
+        Other params are the same as for TemplateFinder.search()
         """
         if type(ref) is str:
             ref = [ref]
