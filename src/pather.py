@@ -8,10 +8,10 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple, List
+from typing import Tuple
 import cv2
 from config import Config
-from utils.misc import wait, is_in_roi
+from utils.misc import is_in_roi
 import numpy as np
 
 
@@ -166,39 +166,6 @@ class Pather:
             self._nodes[key][template][1]
         )
 
-    def _display_all_nodes_debug(self, filter: str = None):
-        while 1:
-            img = self._screen.grab()
-            display_img = img.copy()
-            template_map = {}
-            template_scores = {}
-            for template_type in self._template_finder._templates:
-                if filter is None or filter in template_type:
-                    template_match = self._template_finder.search(template_type, img)
-                    if template_match.valid:
-                        template_map[template_type] = template_match.position
-                        template_scores[template_type] = template_match.score
-            print(template_scores)
-            for node_idx in self._nodes:
-                for template_type in self._nodes[node_idx]:
-                    if template_type in template_map:
-                        ref_pos_screen = template_map[template_type]
-                        # Get reference position of template in abs coordinates
-                        ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
-                        # Calc the abs node position with the relative coordinates (relative to ref)
-                        node_pos_rel = self._get_node(node_idx, template_type)
-                        node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                        node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                        x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                        cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                        x, y = self._screen.convert_abs_to_screen(ref_pos_abs)
-                        cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
-                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
-            cv2.imshow("debug", display_img)
-            cv2.waitKey(1)
-
     @staticmethod
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
@@ -304,6 +271,40 @@ class Pather:
 
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
+    # debug method to display all nodes
+    def display_all_nodes(pather: Pather, filter: str = None):
+        while 1:
+            img = pather._screen.grab()
+            display_img = img.copy()
+            template_map = {}
+            template_scores = {}
+            for template_type in pather._template_finder._templates:
+                if filter is None or filter in template_type:
+                    template_match = pather._template_finder.search(template_type, img)
+                    if template_match.valid:
+                        template_map[template_type] = template_match.position
+                        template_scores[template_type] = template_match.score
+            print(template_scores)
+            for node_idx in pather._nodes:
+                for template_type in pather._nodes[node_idx]:
+                    if template_type in template_map:
+                        ref_pos_screen = template_map[template_type]
+                        # Get reference position of template in abs coordinates
+                        ref_pos_abs = pather._screen.convert_screen_to_abs(ref_pos_screen)
+                        # Calc the abs node position with the relative coordinates (relative to ref)
+                        node_pos_rel = pather._get_node(node_idx, template_type)
+                        node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                        node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
+                        x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
+                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            cv2.imshow("debug", display_img)
+            cv2.waitKey(1)
+
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
@@ -320,4 +321,4 @@ if __name__ == "__main__":
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
     # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
-    pather._display_all_nodes_debug(filter="TRAV")
+    display_all_nodes(pather, filter="TRAV")
