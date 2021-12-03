@@ -139,37 +139,10 @@ class UiManager():
         # (botty) >> python src/ui_manager.py
         # then go to D2r window -> press "f11", you can exit with "f12"
         while 1:
-            
-            # Start Section by Cutebeast: Reconnect on offline mode
-            while 1:
-                # search for offline button condition
-                game_mode = self._template_finder.search(["OFFLINE_MODE_ON","OFFLINE_MODE_OFF"], self._screen.grab(), threshold=0.8, best_match=True)
-                Logger.debug(f"Offline Button Condition: " + game_mode.name)
-                if game_mode.name == "OFFLINE_MODE_ON":
-                    # search for online button condition
-                    online_btn = self._template_finder.search("ONLINE_MODE_OFF", self._screen.grab())
-                    x, y = self._screen.convert_screen_to_monitor(online_btn.position)
-                    Logger.debug(f"Found Online Button")
-                    # move the mouse to the online button
-                    mouse.move(x, y, randomize=[3, 3], delay_factor=[1.0, 1.8])
-                    # click!
-                    mouse.click(button="left")
-                    time.sleep(5.0)
-                    # search for server offline notice
-                    server_offline = self._template_finder.search("CANNOT_CONNECT_TO_SERVER", self._screen.grab(), threshold=0.8)
-                    if not server_offline.valid:
-                        Logger.debug(f"Server is Online")
-                        break
-                    else:
-                        Logger.debug(f"Server is Offline Or No internet connection - wait 10 sec to try again")
-                        time.sleep(10.0)
-                        return True
-                else:
-                    break;
-            # End Section by Cutebeast: Reconnect on offline mode
-                
+
             # grab img which will be used to search the "play button"
             img = self._screen.grab()
+
             # the template finder can be used to search for a specific template, in this case the play btn.
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
