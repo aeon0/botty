@@ -139,8 +139,10 @@ class UiManager():
         # (botty) >> python src/ui_manager.py
         # then go to D2r window -> press "f11", you can exit with "f12"
         while 1:
+
             # grab img which will be used to search the "play button"
             img = self._screen.grab()
+
             # the template finder can be used to search for a specific template, in this case the play btn.
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
@@ -397,7 +399,8 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        # Section modified by Cutebeast to check when Tome is empty
+        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
         if not tp_tome.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
@@ -425,7 +428,18 @@ class UiManager():
             return False
         return True
 
-
+    # Start Section by Cutebeast: Checking for Tome Condition
+    # Return True if no more TP
+    def no_more_tp(self) -> bool:
+        keyboard.send(self._config.char["tp"])
+        wait(0.02, 0.05)
+        tome_active = self._template_finder.search_and_wait("TOME_ACTIVE", roi=self._config.ui_roi["skill_right"], time_out=4)
+        if not tome_active.valid:
+            Logger.error("We don't have any TP Left")
+            return True
+        return False
+    # End Section by Cutebeast: Checking for Tome Condition
+        
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
     import keyboard
