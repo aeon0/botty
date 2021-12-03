@@ -76,6 +76,7 @@ run_shenk=0
 | randomize_runs       | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random.                                                                                                   |
 | difficulty           | Set to `normal` `nightmare` or `hell` for game difficulty                                                                                                                                 |
 | custom_discord_hook  | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume                                                                                 |
+| discord_status_count | Number of games between discord status messges being sent. Leave empty for no status reports.
 | info_screenshots     | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
 | loot_screenshots     | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while...                 |
 
