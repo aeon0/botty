@@ -45,7 +45,7 @@ class GameStats:
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._game_counter % 20 == 0:
+            if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
                 # every 20th game send a discord update about current status
                 self._send_discord_status_update()
         self._game_counter += 1
@@ -53,7 +53,9 @@ class GameStats:
         Logger.info(f"Starting game #{self._game_counter}")
 
     def log_end_game(self):
-        elapsed_time = time.time() - self._timer
+        elapsed_time = 0
+        if self._timer is not None:
+            elapsed_time = time.time() - self._timer
         self._timer = None
         Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
@@ -73,7 +75,7 @@ class GameStats:
         self._timer = self._timer + pausetime
         self._paused = False
 
-    def get_current_game_length(self):        
+    def get_current_game_length(self):
         if self._timer is None:
             return 0
         if self._paused:

@@ -10,7 +10,7 @@ import os
 
 
 class Screen:
-    """Grabs images from screen and converts differnt coordinate systems to each other"""
+    """Grabs images from screen and converts different coordinate systems to each other"""
 
     def __init__(self, monitor: int = 0):
         self._sct = mss()
@@ -45,7 +45,6 @@ class Screen:
                     offset_x - self._config.ui_pos["ingame_ref_x"],
                     offset_y - self._config.ui_pos["ingame_ref_y"],
                 )
-
 
             if max_val > 0.9:
                 offset_left, offset_top = max_pos

@@ -30,6 +30,9 @@ pytest test/smoke_test.py
 ```
 To test single files / routines, most files also can be executed seperatly. E.g. running `python src/pickit.py` -> going to d2r window -> throw stuff on the groudn -> press f11, will test the pickit.
 
+## Adding Items
+To add items you can check the **assets/items** folder. Screenshot whatever you want to pick up in the same way (all settings must be as if you ran the bot). Then add the filename to the param.ini [items] section (e.g. if boots_rare.png add boots_rare=1)
+
 ## Folder Structure
 **/**</br>
 The root contains docu, param files and development specific stuff such as .gitignore</br>
@@ -52,8 +55,9 @@ Want to implement a new char or build. Check this folder out. You will have to i
 **src/char**</br>
 Utilities functions and scripts e.g. for easily creating templates to traverse nodes and automatically generate code for it</br>
 
-## Adding Items
-To add items you can check the **assets/items** folder. Screenshot whatever you want to pick up in the same way (all settings must be as if you ran the bot). Then add the filename to the param.ini [items] section (e.g. if boots_rare.png add boots_rare=1)
+## Code routine
+run.py contains the main() function and is the entry point for botty. It will start 3 threads: death monitoring (death_manager.py), health monitoring (health_manager.py) and the bot (bot.py) itself. Whenever the two monitors either detect a player's death or chicken out of the game, the bot thread will be killed and restarted.</br>
+In bot.py is a state machine in its core an executes different actions based on the current state. The goal is to remove as much implementation details as possible from bot.py and "hide" them in different manager classes (e.g. pickit.py, pather.py, npc_manager.py, etc.)
 
 ## State Diagram
 The core logic of the bot is determined by a state machine with these states and transations. The bot.py which contains all of the transitions should have little implementation code which should be hidden as much as possible in the "manager" classes.

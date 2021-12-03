@@ -86,7 +86,12 @@ class UiManager():
                 return True
         return False
 
-    def wait_for_loading_screen(self, time_out):
+    def wait_for_loading_screen(self, time_out: float) -> bool:
+        """
+        Waits until loading screen apears
+        :param time_out: Maximum time to search for a loading screen
+        :return: True if loading screen was found within the timeout. False otherwise
+        """
         start = time.time()
         while time.time() - start < time_out:
             img = self._screen.grab()
