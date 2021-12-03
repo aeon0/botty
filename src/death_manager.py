@@ -14,7 +14,6 @@ class DeathManager:
         self._config = Config()
         self._screen = screen
         self._template_finder = TemplateFinder(screen)
-        _, self._you_have_died_filtered = color_filter(cv2.imread(f"assets/templates/you_have_died.png"), self._config.colors["red"])
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
@@ -43,11 +42,8 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        roi_img = cut_roi(self._screen.grab(), self._config.ui_roi["death"])
-        _, filtered_roi_img = color_filter(roi_img, self._config.colors["red"])
-        res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, _ = cv2.minMaxLoc(res)
-        if max_val > 0.9:
+        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        if template_match.valid:
             self._died = True
             Logger.warning("You have died!")
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
