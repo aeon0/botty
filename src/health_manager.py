@@ -94,7 +94,6 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        wait(1.0, 2.0)
         self._ui_manager.save_and_exit(does_chicken=True)
         self._did_chicken = True
         self._pausing = True
