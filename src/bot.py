@@ -210,6 +210,15 @@ class Bot:
                 self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             time.sleep(1.2)
 
+        # Start Section by Cutebeast: Checking for Game IP before Start Run
+        cur_game_ip = get_d2r_game_ip()
+        Logger.info("Current Game IP: " + cur_game_ip + "  and HOTIP : " + self._config.general["dclone_hotip"])
+        if self._config.general["dclone_hotip"] == cur_game_ip:
+            # We need to pause game because we get the correct ip
+            input("Press enter to exit..")
+            os._exit(1)
+        # End Section by Cutebeast: Checking for Game IP before Start Run
+        
         # Start a new run
         started_run = False
         for key in self._do_runs:
