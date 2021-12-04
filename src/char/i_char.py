@@ -9,7 +9,7 @@ import math
 import keyboard
 from logger import Logger
 import time
-from typing import Dict, Tuple, Union, List
+from typing import Dict, Tuple, Union, List, Callable
 from config import Config
 import random
 
@@ -38,23 +38,32 @@ class IChar:
         wait(0.45,0.5)
         return prev_cast_start
 
-    def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
-        # TODO: Instead of expect_loading_screen pass some sort of "success_on()" function
+    def select_by_template(self, template_type:  Union[str, List[str]], success_func: Callable = None, time_out: float = 8) -> bool:
+        """
+        Finds any template from the template finder and interacts with it
+        :param template_type: Strings or list of strings of the templates that should be searched for
+        :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
+        :param time_out: Timeout for the whole template selection, defaults to None
+        :return: True if success. False otherwise
+        """
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
                 keyboard.send("esc")
         Logger.debug(f"Select {template_type}")
         start = time.time()
-        while (time.time() - start)  < 8:
-            template_match = self._template_finder.search_and_wait(template_type, time_out=2)
+        while time_out is not None or (time.time() - start) < time_out:
+            template_match = self._template_finder.search(template_type, self._screen.grab())
             if template_match.valid:
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
-                wait(0.3, 0.4)
+                wait(0.2, 0.3)
                 mouse.click(button="left")
-                if not expect_loading_screen or self._ui_manager.wait_for_loading_screen(2.0):
-                    return True
+                # check the successfunction for 2 sec, if not found, try again
+                check_success_start = time.time()
+                while time.time() - check_success_start < 2:
+                    if success_func is None or success_func():
+                        return True
         return False
 
     def pre_move(self):
