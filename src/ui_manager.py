@@ -287,7 +287,7 @@ class UiManager():
         wait(0.3, 0.4)
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.95)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
