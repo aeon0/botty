@@ -28,11 +28,21 @@ class GameStats:
             )
             send_discord_thread.daemon = True
             send_discord_thread.start()
-
+            
+    def _send_itemFound_discord_thread(self, msg: str):
+        if self._config.general["itemFound_discord_hook"]:
+            msg = f"{self._config.general['name']}: {msg}"
+            send_itemFound_discord_thread = threading.Thread(
+                target=send_discord,
+                args=(msg, self._config.general["itemFound_discord_hook"])
+            )
+            send_itemFound_discord_thread.daemon = True
+            send_itemFound_discord_thread.start()
+            
     def log_item_pickup(self, item_name: str, send_discord: bool):
         self._picked_up_items.append(item_name)
         if send_discord:
-            self._send_discord_thread(f"Found {item_name}")
+            self._send_itemFound_discord_thread(f"Found {item_name}")
 
     def log_death(self):
         self._death_counter += 1
