@@ -133,13 +133,14 @@ class Bot:
             Logger.debug(f"Found {template_match.name}")
         if not self._ui_manager.start_game():
             return
-        self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
+        # self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"])
         self._tp_is_up = False
         self._curr_location = Location.A5_TOWN_START
         # Make sure these keys are released
         keyboard.release(self._config.char["stand_still"])
         wait(0.05, 0.15)
         keyboard.release(self._config.char["show_items"])
+        wait(0.05, 0.15)
         if not self._ran_no_pickup:
             if self._ui_manager.enable_no_pickup():
                 self._ran_no_pickup = True

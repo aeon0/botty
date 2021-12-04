@@ -144,7 +144,7 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["go_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["play_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
@@ -155,12 +155,12 @@ class UiManager():
                 # click!
                 mouse.click(button="left")
                 break
-            else:
-                # Might be in online mode?
-                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
-                if found_btn.valid:
-                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
-                    return False
+            # else:
+            #     # Might be in online mode?
+            #     found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+            #     if found_btn.valid:
+            #         Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
+            #         return False
             time.sleep(3.0)
 
         difficulty=self._config.general["difficulty"].upper()
@@ -453,21 +453,21 @@ class UiManager():
         Checks the best match between enabled and disabled an retrys if already set.
         :return: Returns True if we succesfully set the nopickup option
         """
-        keyboard.send('enter', do_release=True)
+        keyboard.send('enter')
         wait(0.2, 0.25)
         keyboard.write('/nopickup',delay=.20)
-        keyboard.send('enter', do_release=True)
+        keyboard.send('enter')
         wait(0.2, 0.25)
         no_pickup = self._template_finder.search_and_wait(["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"], roi=self._config.ui_roi["no_pickup"], best_match=True, time_out=3)
         if not no_pickup.valid:
             return False
         if no_pickup.name == "ITEM_PICKUP_DISABLED":
             return True
-        keyboard.send('enter', do_release=True)
+        keyboard.send('enter')
         wait(0.2, 0.25)
-        keyboard.send('up', do_release=True)
+        keyboard.send('up')
         wait(0.2, 0.25)
-        keyboard.send('enter', do_release=True)
+        keyboard.send('enter')
         wait(0.2, 0.25)
         return True
 
