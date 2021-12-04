@@ -177,14 +177,15 @@ class Bot:
                 return
             self._curr_location = Location.A5_STASH
             time.sleep(0.3)
-            if self._char.select_by_template("A5_STASH"):
+            stash_is_open_func = lambda: self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
+            if self._char.select_by_template("A5_STASH", stash_is_open_func):
                 self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
                 self._picked_up_items = False
                 time.sleep(1.2) # otherwise next grab of screen will still have inventory
             else:
                 Logger.warning("Could not find stash, continue...")
 
-        if self._tps_left < 4:
+        if self._tps_left < 3 or (self._config.char["tp"] and not self._ui_manager.has_tps()):
             Logger.info("Repairing and buying TPs at Larzuk.")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
                 self.trigger_or_stop("end_game")
@@ -225,8 +226,9 @@ class Bot:
             Logger.info("Run Pindle")
             if not self._pather.traverse_nodes(self._curr_location, Location.NIHLATHAK_PORTAL, self._char): return False
             self._curr_location = Location.NIHLATHAK_PORTAL
-            wait(0.5, 0.7) # otherwise will missclick because still moving
-            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True): return False
+            wait(0.3, 0.4) # otherwise will often missclick because still moving
+            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
+            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func): return False
             self._curr_location = Location.PINDLE_START
             if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid: return False
             if not self._pre_buffed:
@@ -247,15 +249,14 @@ class Bot:
         else:
             self.trigger_or_stop("end_run")
 
-
     def on_run_shenk(self):
         def do_it():
             Logger.info("Run Eldritch")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_WP, self._char): return False
             self._curr_location = Location.A5_WP
             wait(0.5, 0.7) # otherwise will missclick because still moving
-            self._char.select_by_template("A5_WP")
-            wait(0.5) # need to wait till wp menu is open
+            found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
+            if not self._char.select_by_template("A5_WP", found_wp_func): return False
             self._ui_manager.use_wp(4, 1)
             # eldritch
             self._curr_location = Location.ELDRITCH_START
@@ -301,8 +302,8 @@ class Bot:
 
     def on_end_run(self):
         success = self._char.tp_town()
-        self._tps_left -= 1
         if success:
+            self._tps_left -= 1
             success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:
                 self._tp_is_up = True
