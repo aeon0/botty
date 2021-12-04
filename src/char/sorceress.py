@@ -89,8 +89,8 @@ class Sorceress(IChar):
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_pindle"])):
-                self._main_attack(cast_pos_abs, delay, 15)
-                self._left_attack(cast_pos_abs, delay, 15)
+                self._main_attack(cast_pos_abs, delay, 11)
+                self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             if self._config.char["static_path_pindle"]:
