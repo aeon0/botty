@@ -185,7 +185,7 @@ class Bot:
             else:
                 Logger.warning("Could not find stash, continue...")
 
-        if self._tps_left < 4:
+        if self._tps_left < 3 or (self._config.char["tp"] and not self._ui_manager.has_tps()):
             Logger.info("Repairing and buying TPs at Larzuk.")
             if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
                 self.trigger_or_stop("end_game")
@@ -302,8 +302,8 @@ class Bot:
 
     def on_end_run(self):
         success = self._char.tp_town()
-        self._tps_left -= 1
         if success:
+            self._tps_left -= 1
             success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:
                 self._tp_is_up = True

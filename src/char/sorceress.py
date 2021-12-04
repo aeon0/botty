@@ -91,7 +91,7 @@ class Sorceress(IChar):
             for _ in range(int(self._char_config["atk_len_pindle"])):
                 self._main_attack(cast_pos_abs, delay, 15)
                 self._left_attack(cast_pos_abs, delay, 15)
-            wait(0.1, 0.15)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             if self._config.char["static_path_pindle"]:
                 self._pather.traverse_nodes_fixed("pindle_end", self)
@@ -112,7 +112,7 @@ class Sorceress(IChar):
             for _ in range(int(self._char_config["atk_len_eldritch"])):
                 self._main_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
-            wait(0.2, 0.3)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             if self._config.char["static_path_eldritch"]:
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
@@ -133,7 +133,7 @@ class Sorceress(IChar):
             for _ in range(int(self._char_config["atk_len_shenk"])):
                 self._main_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
-            wait(0.2, 0.3)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.4, force_tp=True)
             return True
