@@ -304,7 +304,7 @@ class UiManager():
                 mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
-                hovered_item = screen.grab()
+                hovered_item = self._screen.grab()
                 if self._keep_item(item_finder, hovered_item):
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
