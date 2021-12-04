@@ -83,13 +83,12 @@ def main():
     else:
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
-    # create folder if they dont exist yet
+    # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("info_screenshots"):
         os.system("mkdir info_screenshots")
     if not os.path.exists("loot_screenshots"):
         os.system("mkdir loot_screenshots")
 
-    # If anything seems to go wrong, press f12 and the bot will force exit
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
 
     print(f"============ Botty {__version__} [name: {config.general['name']}] ============")

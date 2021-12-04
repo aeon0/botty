@@ -14,7 +14,6 @@ class DeathManager:
         self._config = Config()
         self._screen = screen
         self._template_finder = TemplateFinder(screen)
-        _, self._you_have_died_filtered = color_filter(cv2.imread(f"assets/templates/you_have_died.png"), self._config.colors["red"])
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
@@ -43,12 +42,8 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        roi_img = cut_roi(self._screen.grab(), self._config.ui_roi["death"])
-        _, filtered_roi_img = color_filter(roi_img, self._config.colors["red"])
-        res = cv2.matchTemplate(filtered_roi_img, self._you_have_died_filtered, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, _ = cv2.minMaxLoc(res)
-        if max_val > 0.9:
-            self._died = True
+        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        if template_match.valid:
             Logger.warning("You have died!")
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if self._callback is not None:
@@ -67,6 +62,7 @@ class DeathManager:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")
+            self._died = True
             return True
         return False
 
@@ -75,6 +71,7 @@ class DeathManager:
         self._died = False
         Logger.info("Start Death monitoring")
         while self._do_monitor:
+            if self._died: continue
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
             # Wait until the flag is reset by run.py
             if self._died: continue

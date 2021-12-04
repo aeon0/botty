@@ -94,11 +94,16 @@ class Bot:
 
     def toggle_pause(self):
         self._pausing = not self._pausing
-        Logger.info(f"Pause at next state change...") if self._pausing else Logger.info(f"Resume")
+        if self._pausing:
+            Logger.info(f"Pause at next state change...") 
+        else:
+            Logger.info(f"Resume")
+            self._game_stats.resume_timer()
 
     def trigger_or_stop(self, name: str):
         if self._pausing:
             Logger.info(f"{self._config.general['name']} is now pausing")
+            self._game_stats.pause_timer()
         while self._pausing:
             time.sleep(0.2)
         if not self._stopping:

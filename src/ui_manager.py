@@ -86,7 +86,12 @@ class UiManager():
                 return True
         return False
 
-    def wait_for_loading_screen(self, time_out):
+    def wait_for_loading_screen(self, time_out: float) -> bool:
+        """
+        Waits until loading screen apears
+        :param time_out: Maximum time to search for a loading screen
+        :return: True if loading screen was found within the timeout. False otherwise
+        """
         start = time.time()
         while time.time() - start < time_out:
             img = self._screen.grab()
@@ -282,14 +287,19 @@ class UiManager():
         wait(0.3, 0.4)
         # stash gold
         if self._config.char["stash_gold"]:
-            x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
-            mouse.move(x, y, randomize=4)
-            wait(0.1, 0.15)
-            mouse.press(button="left")
-            wait(0.25, 0.35)
-            mouse.release(button="left")
-            wait(0.4, 0.6)
-            keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.95)
+            if inventory_no_gold.valid:
+                Logger.debug("Skipping gold stashing")
+            else:
+                Logger.debug("Stashing gold")
+                x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
+                mouse.move(x, y, randomize=4)
+                wait(0.1, 0.15)
+                mouse.press(button="left")
+                wait(0.25, 0.35)
+                mouse.release(button="left")
+                wait(0.4, 0.6)
+                keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
         # stash stuff
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):

@@ -25,6 +25,7 @@ class Config:
             self._custom.read('custom.ini')
 
         self.general = {
+            "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
@@ -36,6 +37,7 @@ class Config:
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
+            "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }

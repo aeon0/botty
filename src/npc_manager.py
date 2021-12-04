@@ -72,9 +72,15 @@ class NpcManager:
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
-            result = self._template_finder.search(self._npcs[npc_key]["template_group"], img, threshold=0.35, roi=roi, normalize_monitor=True, best_match=True)
-            if result.valid:
-                mouse.move(*result.position, randomize=3, delay_factor=[0.9, 1.5])
+            results = []
+            for key in self._npcs[npc_key]["template_group"]:
+                res = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
+                if res.valid:
+                    results.append({"pos": res.position, "score": res.score})
+            results = sorted(results, key=lambda r: r["score"], reverse=True)
+
+            for result in results:
+                mouse.move(*result["pos"], randomize=3, delay_factor=[0.9, 1.5])
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
@@ -129,5 +135,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.ANYA)
-    npc_manager.press_npc_btn(Npc.ANYA, "trade")
+    npc_manager.open_npc_menu(Npc.QUAL_KEHK)
+    npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
