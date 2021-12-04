@@ -247,6 +247,7 @@ class UiManager():
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
+        :param img: Image in which the item is searched (item details should be visible)
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
