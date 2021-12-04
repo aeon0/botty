@@ -62,6 +62,7 @@ class Bot:
         self._pausing = False
         self._current_threads = []
         self._no_stash_counter = 0
+        self._ran_no_pickup = False
 
         self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
@@ -139,6 +140,10 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         wait(0.05, 0.15)
         keyboard.release(self._config.char["show_items"])
+        if not self._ran_no_pickup:
+            if self._ui_manager.enable_no_pickup():
+                self._ran_no_pickup = True
+                Logger.info("Enabled No Item Pickup.")
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
