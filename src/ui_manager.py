@@ -450,8 +450,8 @@ class UiManager():
 
     def enable_no_pickup(self) -> bool:
         """
-        :return: Returns True if we succesfully set the nopickp option
         Checks the best match between enabled and disabled an retrys if already set.
+        :return: Returns True if we succesfully set the nopickup option
         """
         keyboard.send('enter', do_release=True)
         wait(0.2, 0.25)
