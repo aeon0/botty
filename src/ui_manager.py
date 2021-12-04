@@ -407,7 +407,7 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
         if not tp_tome.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
@@ -434,6 +434,23 @@ class UiManager():
         if not tp_tome.valid:
             return False
         return True
+
+    def has_tps(self) -> bool:
+        """
+        :return: Returns True if botty has town portals available. False otherwise
+        """
+        if self._config.char["tp"]:
+            keyboard.send(self._config.char["tp"])
+            template_match = self._template_finder.search_and_wait(
+                ["TP_ACTIVE", "TP_INACTIVE"],
+                roi=self._config.ui_roi["skill_right"],
+                best_match=True,
+                threshold=0.94,
+                time_out=3
+            )
+            return template_match.valid
+        else:
+            return False
 
 
 # Testing: Move to whatever ui to test and run

@@ -94,21 +94,9 @@ class IChar:
             mouse.click(button="left")
 
     def tp_town(self):
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        keyboard.send(self._char_config["tp"])
-        wait(0.15, 0.2)
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val > 0.96:
-            # found same skill again, thus no more tps available
-            Logger.warning("Out of tps")
-            time.sleep(1.0)
-            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val > 0.96:
-                return False
-            else:
-                Logger.warning("Turns out skill change just took a long time. You ever considered getting a new internet provider or pc?")
+        if not self._ui_manager.has_tps():
+            Logger.error("Wanted to TP but no TPs are available! Make sure your keybinding is correct and you have a tomb in your inventory.")
+            return False
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
