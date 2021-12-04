@@ -15,8 +15,8 @@ parser.add_argument(
 parser.add_argument(
     "-c", "--conda_path",
     type=str,
-    help="Path to local conda e.g. C:\\Users\\USER\\miniconda3",
-    default=f"C:\\Users\\{getpass.getuser()}\\miniconda3")
+    help="Path to local conda e.g. C:\\Users\\USER\\anaconda3",
+    default=f"C:\\Users\\{getpass.getuser()}\\anaconda3")
 args = parser.parse_args()
 
 
