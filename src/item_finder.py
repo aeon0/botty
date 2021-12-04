@@ -46,14 +46,9 @@ class ItemFinder:
             "unique": config.colors["gold"],
             "runes": config.colors["orange"]
         }
-        if config.general["res"] == "1920_1080":
-            self._gaus_filter = (31, 7)
-            self._folder_name = "items"
-            self._min_score = 0.84
-        else:
-            self._gaus_filter = (17, 5)
-            self._folder_name = "items_1280_720"
-            self._min_score = 0.8
+        self._gaus_filter = (17, 5)
+        self._folder_name = "items"
+        self._min_score = 0.86
         # load all templates
         self._config = config
         self._templates = {}

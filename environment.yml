@@ -1,22 +1,19 @@
 name: botty
 dependencies:
-  - python=3.8
-  - pywin32
+  - python=3.9
   - pip
   - pip:
-    - nuitka
-    - matplotlib
+    - pyinstaller
     - opencv-python
     - transitions
     - mss
     - numpy
     - mouse
     - keyboard
-    - graphviz
     - beautifultable
-    - zstandard
     - pytweening
     - requests
     - pytest
     - pytest-env
     - pytest-pythonpath
+    - graphviz

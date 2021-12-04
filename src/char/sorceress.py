@@ -65,8 +65,9 @@ class Sorceress(IChar):
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
-            mouse.click(button="left")
+            mouse.press(button="left")
             wait(delay[0], delay[1])
+            mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
@@ -75,8 +76,9 @@ class Sorceress(IChar):
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.click(button="right")
+        mouse.press(button="right")
         wait(delay[0], delay[1])
+        mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
@@ -133,7 +135,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(0.2, 0.3)
             # Move to items
-            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=2.0, force_tp=True)
+            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.4, force_tp=True)
             return True
         return False
 

@@ -1,3 +1,4 @@
+from game_stats import GameStats
 from logger import Logger
 from bot import Bot
 from screen import Screen
@@ -21,4 +22,5 @@ class TestSmoke:
 
     def test_smoke(self):
         screen = ScreenMock()
-        bot = Bot(screen)
+        game_stats = GameStats()
+        bot = Bot(screen, game_stats)

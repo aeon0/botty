@@ -25,9 +25,9 @@ class Config:
             self._custom.read('custom.ini')
 
         self.general = {
+            "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
-            "res": self._select_val("general", "res"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
@@ -37,6 +37,7 @@ class Config:
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
+            "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }
@@ -75,7 +76,6 @@ class Config:
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
-            "slow_walk": bool(int(self._select_val("char", "slow_walk"))),
             "atk_len_pindle": int(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": int(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
@@ -103,27 +103,24 @@ class Config:
         self.items = {}
         for key in self._config["items"]:
             self.items[key] = int(self._select_val("items", key))
-            item_folder = "items" if self.general["res"] == "1920_1080" else "items_1280_720"
-            if self.items[key] and not os.path.exists(f"./assets/{item_folder}/{key}.png") and self._print_warnings:
+            if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._game_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
-        self.scale = 1.0 if self.general["res"] == "1920_1080" else 0.666667
-
         self.ui_pos = {}
-        for key in self._game_config["ui_pos_1920_1080"]:
-            self.ui_pos[key] = int(round(float(self._select_val("ui_pos_1920_1080", key)) * self.scale))
+        for key in self._game_config["ui_pos"]:
+            self.ui_pos[key] = int(self._select_val("ui_pos", key))
 
         self.ui_roi = {}
-        for key in self._game_config["ui_roi_1920_1080"]:
-            self.ui_roi[key] = np.array([int(round(float(x) * self.scale)) for x in self._select_val("ui_roi_1920_1080", key).split(",")])
+        for key in self._game_config["ui_roi"]:
+            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi", key).split(",")])
 
         self.path = {}
         for key in self._game_config["path"]:
-            self.path[key] = np.reshape(np.array([int(round(float(x) * self.scale)) for x in self._select_val("path", key).split(",")]), (-1, 2))
+            self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
 
 

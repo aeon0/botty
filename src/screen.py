@@ -10,7 +10,7 @@ import os
 
 
 class Screen:
-    """Grabs images from screen and converts differnt coordinate systems to each other"""
+    """Grabs images from screen and converts different coordinate systems to each other"""
 
     def __init__(self, monitor: int = 0):
         self._sct = mss()
@@ -24,9 +24,8 @@ class Screen:
         self._config = Config()
         self._monitor_roi = self._sct.monitors[monitor_idx]
         # auto find offests
-        res_str = "" if self._config.general['res'] == "1920_1080" else "_1280_720"
-        template = load_template(f"assets/templates{res_str}/main_menu_top_left.png", 1.0)
-        template_ingame = load_template(f"assets/templates{res_str}/window_ingame_offset_reference.png", 1.0)
+        template = load_template(f"assets/templates/main_menu_top_left.png", 1.0)
+        template_ingame = load_template(f"assets/templates/window_ingame_offset_reference.png", 1.0)
         start = time.time()
         found_offsets = False
         Logger.info("Searching for window offsets. Make sure D2R is in focus and you are on the hero selection screen")
@@ -46,7 +45,6 @@ class Screen:
                     offset_x - self._config.ui_pos["ingame_ref_x"],
                     offset_y - self._config.ui_pos["ingame_ref_y"],
                 )
-
 
             if max_val > 0.9:
                 offset_left, offset_top = max_pos

@@ -8,10 +8,10 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple, List
+from typing import Tuple
 import cv2
 from config import Config
-from utils.misc import wait, is_in_roi
+from utils.misc import is_in_roi
 import numpy as np
 
 
@@ -36,7 +36,15 @@ class Location:
     SHENK_START = "shenk_start"
     SHENK_SAVE_DIST = "shenk_save_dist"
     SHENK_END = "shenk_end"
-
+    # A3 Town
+    A3_TOWN_START = "a3_town_start"
+    A3_ORMUS = "a3_ormus"
+    A3_STASH_WP = "a3_stash_wp"
+    A3_ASHEARA = "ar_asheara"
+    # Trav
+    TRAV_START = "trav_start"
+    TRAV_SAVE_DIST = "trav_save_dist"
+    TRAV_END = "trav_end"
 
 class Pather:
     """
@@ -49,46 +57,70 @@ class Pather:
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
-        self._range_x = [-self._config.ui_pos["center_x"] + 10, self._config.ui_pos["center_x"] - 10]
-        self._range_y = [-self._config.ui_pos["center_y"] + 10, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 50]
+        self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
+        self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
-            0: {"A5_TOWN_0": (110-70, 373), "A5_TOWN_1": (-68-70, -205)},
-            1: {"A5_TOWN_0": (-466, 287), "A5_TOWN_1": (-644, -291), "A5_TOWN_0.5": (717, 349)},
-            2: {"A5_TOWN_0": (-552, 42-100), "A5_TOWN_0.5": (659-25, 90+20-100)},
-            3: {"A5_TOWN_1": (-414, 141), "A5_TOWN_2": (728, -90)},
-            4: {"A5_TOWN_1": (-701, 400), "A5_TOWN_2": (440, 169), "A5_TOWN_3": (-400, -208), "A5_TOWN_4": (243, -244)},
-            5: {"A5_TOWN_2": (555-100, 429-100), "A5_TOWN_3": (-285-100, 51-100), "A5_TOWN_4": (358-100, 15-100)},
-            6: {"A5_TOWN_3": (-775-100, 382-120), "A5_TOWN_4": (-132-100, 346-120), "A5_TOWN_5": (80-100, -240-120), "A5_TOWN_6": (560-100, 211-120)},
-            8: {"A5_TOWN_6": (190, 440), "A5_TOWN_5": (-323+30, 192-200), "A5_TOWN_7": (867+30, 69-200)},
-            9: {"A5_TOWN_5": (-611, 250), "A5_TOWN_7": (579, 127)},
-            10: {"A5_TOWN_4": (-708, 87), "A5_TOWN_6": (-16, -48), "A5_TOWN_8": (482, 196)},
-            11: {"A5_TOWN_6": (-448, -322), "A5_TOWN_8": (50, -78), "A5_TOWN_9": (11, 346)},
-            12: {"A5_TOWN_8": (-209, -294), "A5_TOWN_9": (-248, 130)},
-            13: {"A5_TOWN_3": (180, 180),"A5_TOWN_10": (-800, 332), "A5_TOWN_4": (822, 146)},
-            14: {"A5_TOWN_3": (670, 260), "A5_TOWN_10": (-300, 420)},
+            0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137)}, 
+            1: {'A5_TOWN_0': (-311, 191), 'A5_TOWN_1': (-429, -194), 'A5_TOWN_0.5': (478, 233)}, 
+            2: {'A5_TOWN_0': (-368, -39), 'A5_TOWN_0.5': (423, 7)}, 
+            3: {'A5_TOWN_1': (-276, 94), 'A5_TOWN_2': (485, -60)}, 
+            4: {'A5_TOWN_1': (-467, 267), 'A5_TOWN_2': (293, 113), 'A5_TOWN_3': (-267, -139), 'A5_TOWN_4': (162, -163)}, 
+            5: {'A5_TOWN_2': (303+60, 219+40), 'A5_TOWN_3': (-257+60, -33+40), 'A5_TOWN_4': (172+60, -57+40)}, 
+            6: {'A5_TOWN_3': (-583+80, 175+60), 'A5_TOWN_4': (-155+80, 151+60), 'A5_TOWN_5': (-13+80, -240+60), 'A5_TOWN_6': (307+80, 61+60)}, 
+            8: {'A5_TOWN_6': (127, 293), 'A5_TOWN_5': (-195, -5), 'A5_TOWN_7': (598, -87)}, 
+            9: {'A5_TOWN_5': (-407, 167), 'A5_TOWN_7': (386, 85)}, 
+            10: {'A5_TOWN_4': (-472, 58), 'A5_TOWN_6': (-11, -32), 'A5_TOWN_8': (321, 131)}, 
+            11: {'A5_TOWN_6': (-299, -215), 'A5_TOWN_8': (33, -52), 'A5_TOWN_9': (7, 231)}, 
+            12: {'A5_TOWN_8': (-139, -196), 'A5_TOWN_9': (-165, 87)}, 
+            13: {'A5_TOWN_3': (120, 120), 'A5_TOWN_10': (-533, 221), 'A5_TOWN_4': (548, 97)}, 
+            14: {'A5_TOWN_3': (447, 173), 'A5_TOWN_10': (-200, 280)},
             # Pindle
-            100: {"PINDLE_7": (576, -138), "PINDLE_0": (-146, -60), "PINDLE_1": (-19, 335), "PINDLE_2": (-549, 127)},
-            101: {"PINDLE_1": (557, -68), "PINDLE_2": (27, -276), "PINDLE_3": (-185, 391)},
-            102: {"PINDLE_3": (334, 132), "PINDLE_4": (142, 323)},
-            103: {"PINDLE_3": (593, -113), "PINDLE_4": (401, 78)},
-            104: {"PINDLE_4": (1076, -176), "PINDLE_3": (1264, -366), "PINDLE_5": (-280, 356), "PINDLE_6": (-700, 133)},
+            100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)}, 
+            101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)}, 
+            102: {'PINDLE_3': (223, 88), 'PINDLE_4': (95, 215)}, 
+            103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)}, 
+            104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)}, 
             # Eldritch
-            120: {"ELDRITCH_0": (439, 36), "ELDRITCH_1": (-461, 114)},
-            121: {"ELDRITCH_1": (-493, -155), "ELDRITCH_2": (616, 257), "ELDRITCH_3": (-137, 297)},
-            122: {"ELDRITCH_2": (530, -218), "ELDRITCH_3": (-223, -178)},
-            123: {"ELDRITCH_3": (-148, -498+120), "ELDRITCH_2": (604, -538+120), "ELDRITCH_4": (-163+70, -283+120)},
+            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_1': (-307, 76)}, 
+            121: {'ELDRITCH_1': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_3': (-91, 198)}, 
+            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)}, 
+            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)}, 
             # Shenk
-            140: {"SHENK_0": (-224, -340), "SHENK_17": (-750, 353), "SHENK_15": (120, 20), "SHENK_1": (667, -242)},
-            141: {"SHENK_0": (-194, 66), "SHENK_17": (-780, 792), "SHENK_15": (116, 440), "SHENK_1": (696, 161), "SHENK_2": (-251, -51)},
-            142: {"SHENK_1": (876, 564), "SHENK_2": (-78, 352), "SHENK_3": (535, -194), "SHENK_4": (-665, -155)},
-            143: {"SHENK_2": (212, 758),"SHENK_3": (823, 209), "SHENK_4": (-377, 248), "SHENK_6": (-508, -103)},
-            144: {"SHENK_6": (-162, 185), "SHENK_7": (721, 226)},
-            145: {"SHENK_12": (146, -200), "SHENK_7": (1204, 558), "SHENK_6": (314, 520), "SHENK_8": (-367, 27)},
-            146: {"SHENK_12": (408, 166), "SHENK_9": (-497, -216), "SHENK_8": (-108, 387)},
-            147: {"SHENK_16": (290, -150), "SHENK_9": (-100, 208), "SHENK_10": (-646, 100)},
-            148: {"SHENK_16": (967, 95), "SHENK_9": (451, 395), "SHENK_10": (-97, 282), "SHENK_11": (-459, 208)},
-            149: {"SHENK_11": (532-140, 642-50), "SHENK_10": (882-140, 682-50), "SHENK_13": (730-140, 36-50)},
+            140: {'SHENK_0': (-149, -227), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13), 'SHENK_1': (445, -161)}, 
+            141: {'SHENK_0': (-129, 44), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34)}, 
+            142: {'SHENK_1': (584, 376), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129), 'SHENK_4': (-443, -103)}, 
+            143: {'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_4': (-251, 165), 'SHENK_6': (-339, -69)}, 
+            144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)}, 
+            145: {'SHENK_12': (97, -133), 'SHENK_7': (803, 372), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)}, 
+            146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258)}, 
+            147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
+            148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
+            149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
+            # A3 twon
+            180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
+            181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
+            182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
+            183: {"A3_TOWN_3": (-287, -80), "A3_TOWN_2": (168, -279), "A3_TOWN_1": (467, -58), "A3_TOWN_4": (-587, 86), "A3_TOWN_12": (-231, 574)},
+            184: {"A3_TOWN_4": (-109, -146), "A3_TOWN_5": (-81, 206), "A3_TOWN_3": (191, -311), "A3_TOWN_12": (247, 342), "A3_TOWN_13": (-323, 530)},
+            185: {"A3_TOWN_5": (223, 40), "A3_TOWN_13": (-19, 364), "A3_TOWN_4": (195, -312), "A3_TOWN_12": (551, 176), "A3_TOWN_20": (-549, 184)},
+            186: {"A3_TOWN_7": (-195, -118), "A3_TOWN_20": (-130, 237), "A3_TOWN_8": (-269, 308), "A3_TOWN_13": (400, 417), "A3_TOWN_5": (642, 93)},
+            187: {"A3_TOWN_8": (161, 207), "A3_TOWN_9": (-108, 265), "A3_TOWN_7": (236, -219), "A3_TOWN_20": (300, 136), "A3_TOWN_11": (-618, 150)},
+            188: {"A3_TOWN_9": (173, 157), "A3_TOWN_11": (-337, 42), "A3_TOWN_8": (442, 99), "A3_TOWN_20": (581, 28), "A3_TOWN_7": (517, -327)},
+            189: {"A3_TOWN_5": (10, -182), "A3_TOWN_13": (-232, 142), "A3_TOWN_14": (-7, 337), "A3_TOWN_12": (338, -46), "A3_TOWN_15": (722, 143)},
+            190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
+            191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
+            192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            # Trav
+            220: {"TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73), "TRAV_0": (490, 397)},
+            221: {"TRAV_3": (-185, -51), "TRAV_1": (200, 124), "TRAV_2": (230, -242), "TRAV_5": (-843, -8)},
+            222: {"TRAV_3": (291, -6), "TRAV_5": (-367, 38), "TRAV_4": (289, 268), "TRAV_1": (676, 170), "TRAV_6": (-845, -182)},
+            223: {"TRAV_5": (-59, 97), "TRAV_6": (-537, -123), "TRAV_3": (599, 53), "TRAV_4": (597, 327)},
+            224: {"TRAV_6": (-133, -150), "TRAV_5": (345, 70), "TRAV_7": (-508, 245), "TRAV_12": (-776, -232), "TRAV_10": (-876, 117)},
+            225: {"TRAV_6": (214, -172), "TRAV_7": (-161, 223), "TRAV_12": (-429, -254), "TRAV_10": (-529, 95), "TRAV_9": (-632, -131)},
+            226: {"TRAV_12": (-3, -89), "TRAV_9": (-205, 33), "TRAV_10": (-103, 260), "TRAV_11": (-222, 214), "TRAV_13": (-523, 323)},
+            227: {"TRAV_9": (239+70, -9+30), "TRAV_11": (222+70, 173+30), "TRAV_13": (-79+70, 281+30), "TRAV_10": (341+70, 218+30), "TRAV_12": (441+70, -131+30)},
+            228: {"TRAV_11": (-47+100, -24+100), "TRAV_10": (71+100, 21+100), "TRAV_9": (-31+100, -205+100), "TRAV_13": (-348+100, 84+100), "TRAV_12": (172+100, -328+100)},
         }
         self._paths = {
             # A5 Town
@@ -117,44 +149,22 @@ class Pather:
             # Shenk
             (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
+            # A3 Town
+            (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
+            (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
+            (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
+            (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
+            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
+            # Trav
+            (Location.TRAV_START, Location.TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
+            (Location.TRAV_SAVE_DIST, Location.TRAV_END): [228],
         }
 
-    def _get_scaled_node(self, key: int, template: str):
+    def _get_node(self, key: int, template: str):
         return (
-            int(self._nodes[key][template][0] * self._config.scale),
-            int(self._nodes[key][template][1] * self._config.scale)
+            self._nodes[key][template][0],
+            self._nodes[key][template][1]
         )
-
-    def _display_all_nodes_debug(self, filter: str = None):
-        while 1:
-            img = self._screen.grab()
-            display_img = img.copy()
-            template_map = {}
-            for node_idx in self._nodes:
-                for template_type in self._nodes[node_idx]:
-                        if filter is None or filter in template_type:
-                            if template_type in template_map:
-                                success = True
-                                ref_pos_screen = template_map[template_type]
-                            else:
-                                success, ref_pos_screen = self._template_finder.search(template_type, img)
-                            if success:
-                                template_map[template_type] = ref_pos_screen
-                                # Get reference position of template in abs coordinates
-                                ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
-                                # Calc the abs node position with the relative coordinates (relative to ref)
-                                node_pos_rel = self._get_scaled_node(node_idx, template_type)
-                                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                                x, y = self._screen.convert_abs_to_screen(node_pos_abs)
-                                cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                                cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                                x, y = self._screen.convert_abs_to_screen(ref_pos_abs)
-                                cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
-                                cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
-            cv2.imshow("debug", display_img)
-            cv2.waitKey(1)
 
     @staticmethod
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
@@ -201,12 +211,12 @@ class Pather:
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
         node = self._nodes[node_idx]
         for template_type in node:
-            success, ref_pos_screen = self._template_finder.search(template_type, img)
-            if success:
+            template_match = self._template_finder.search(template_type, img)
+            if template_match.valid:
                 # Get reference position of template in abs coordinates
-                ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
+                ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
                 # Calc the abs node position with the relative coordinates (relative to ref)
-                node_pos_rel = self._get_scaled_node(node_idx, template_type)
+                node_pos_rel = self._get_node(node_idx, template_type)
                 node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                 node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
                 return node_pos_abs
@@ -231,7 +241,7 @@ class Pather:
             while not continue_to_next_node:
                 img = self._screen.grab()
                 if (time.time() - last_move) > time_out:
-                    success, _ = self._template_finder.search("WAYPOINT_MENU", img)
+                    success = self._template_finder.search("WAYPOINT_MENU", img).valid
                     if success:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -261,6 +271,40 @@ class Pather:
 
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
+    # debug method to display all nodes
+    def display_all_nodes(pather: Pather, filter: str = None):
+        while 1:
+            img = pather._screen.grab()
+            display_img = img.copy()
+            template_map = {}
+            template_scores = {}
+            for template_type in pather._template_finder._templates:
+                if filter is None or filter in template_type:
+                    template_match = pather._template_finder.search(template_type, img)
+                    if template_match.valid:
+                        template_map[template_type] = template_match.position
+                        template_scores[template_type] = template_match.score
+            print(template_scores)
+            for node_idx in pather._nodes:
+                for template_type in pather._nodes[node_idx]:
+                    if template_type in template_map:
+                        ref_pos_screen = template_map[template_type]
+                        # Get reference position of template in abs coordinates
+                        ref_pos_abs = pather._screen.convert_screen_to_abs(ref_pos_screen)
+                        # Calc the abs node position with the relative coordinates (relative to ref)
+                        node_pos_rel = pather._get_node(node_idx, template_type)
+                        node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+                        node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
+                        x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
+                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
+                        cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
+                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            cv2.imshow("debug", display_img)
+            cv2.waitKey(1)
+
     import keyboard
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
@@ -275,5 +319,6 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL, char)
-    pather._display_all_nodes_debug(filter="SHENK")
+    # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
+    # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
+    display_all_nodes(pather, filter="TRAV")

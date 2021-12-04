@@ -5,10 +5,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Miniconda Python 3.8
+      - name: Setup Miniconda Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       # TODO: The below setp only chaches conda packages, need to cache pip seperatly
       - name: Cache conda
         uses: actions/cache@v2
@@ -29,7 +29,7 @@ jobs:
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
           activate-environment: botty
           channel-priority: strict
           environment-file: environment.yml

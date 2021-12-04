@@ -12,6 +12,8 @@ class GameStats:
         self._picked_up_items = []
         self._start_time = time.time()
         self._timer = None
+        self._timepaused = None
+        self._paused = False
         self._game_counter = 0
         self._chicken_counter = 0
         self._death_counter = 0
@@ -43,7 +45,7 @@ class GameStats:
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._game_counter % 20 == 0:
+            if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
                 # every 20th game send a discord update about current status
                 self._send_discord_status_update()
         self._game_counter += 1
@@ -51,16 +53,35 @@ class GameStats:
         Logger.info(f"Starting game #{self._game_counter}")
 
     def log_end_game(self):
-        elapsed_time = time.time() - self._timer
+        elapsed_time = 0
+        if self._timer is not None:
+            elapsed_time = time.time() - self._timer
+        self._timer = None
         Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
     def log_failed_run(self):
         self._runs_failed += 1
 
+    def pause_timer(self):
+        if self._timer is None or self._paused:
+            return
+        self._timepaused = time.time()
+        self._paused = True
+
+    def resume_timer(self):
+        if self._timer is None or not self._paused:
+            return
+        pausetime = time.time() - self._timepaused
+        self._timer = self._timer + pausetime
+        self._paused = False
+
     def get_current_game_length(self):
         if self._timer is None:
             return 0
-        return time.time() - self._timer
+        if self._paused:
+            return self._timepaused - self._timer
+        else:
+            return time.time() - self._timer
 
     def _create_msg(self):
         elapsed_time = time.time() - self._start_time

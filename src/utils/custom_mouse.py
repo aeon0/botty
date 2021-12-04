@@ -240,12 +240,12 @@ class mouse:
             y = from_point[1] + y
 
         if type(randomize) is int:
-            randomize = int(randomize * mouse._config.scale)
+            randomize = int(randomize)
             if randomize > 0:
                 x = int(x) + random.randrange(-randomize, +randomize)
                 y = int(y) + random.randrange(-randomize, +randomize)
         else:
-            randomize = (int(randomize[0] * mouse._config.scale), int(randomize[1] * mouse._config.scale))
+            randomize = (int(randomize[0]), int(randomize[1]))
             if randomize[1] > 0 and randomize[0] > 0:
                 x = int(x) + random.randrange(-randomize[0], +randomize[0])
                 y = int(y) + random.randrange(-randomize[1], +randomize[1])
@@ -270,6 +270,10 @@ class mouse:
     @staticmethod
     def release(button):
         _mouse.release(button)
+    
+    @staticmethod
+    def get_position():
+        return _mouse.get_position()
 
 
 if __name__ == "__main__":
