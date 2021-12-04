@@ -429,13 +429,13 @@ class UiManager():
         return True
 
     # Start Section by Cutebeast: Checking for Tome Condition
-    # Return True if no more TP
-    def no_more_tp(self) -> bool:
+    # Return True if has TPs left
+    def has_tps(self) -> bool:
         keyboard.send(self._config.char["tp"])
         wait(0.02, 0.05)
         tome_active = self._template_finder.search_and_wait("TOME_ACTIVE", roi=self._config.ui_roi["skill_right"], time_out=4)
-        if not tome_active.valid:
-            Logger.error("We don't have any TP Left")
+        if tome_active.valid:
+            Logger.error("We still have TP Left")
             return True
         return False
     # End Section by Cutebeast: Checking for Tome Condition
