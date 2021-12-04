@@ -210,16 +210,15 @@ class Pather:
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        for template_type in node:
-            template_match = self._template_finder.search(template_type, img)
-            if template_match.valid:
-                # Get reference position of template in abs coordinates
-                ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
-                # Calc the abs node position with the relative coordinates (relative to ref)
-                node_pos_rel = self._get_node(node_idx, template_type)
-                node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
-                return node_pos_abs
+        template_match = self._template_finder.search([*node], img, best_match=False)
+        if template_match.valid:
+            # Get reference position of template in abs coordinates
+            ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
+            # Calc the abs node position with the relative coordinates (relative to ref)
+            node_pos_rel = self._get_node(node_idx, template_match.name)
+            node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
+            node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+            return node_pos_abs
         return None
 
     def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7, force_tp: bool = False, do_pre_move: bool = True) -> bool:
@@ -319,6 +318,6 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
-    # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
-    display_all_nodes(pather, filter="TRAV")
+    pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
+    pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
+    # display_all_nodes(pather, filter="TRAV")
