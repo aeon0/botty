@@ -15,8 +15,8 @@ parser.add_argument(
 parser.add_argument(
     "-c", "--conda_path",
     type=str,
-    help="Path to local conda e.g. C:\\Users\\USER\\anaconda3",
-    default=f"C:\\Users\\{getpass.getuser()}\\anaconda3")
+    help="Path to local conda e.g. C:/Users/USER/anaconda3",
+    default=f"C:/Users/{getpass.getuser()}/anaconda3")
 args = parser.parse_args()
 
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(botty_dir)
 
-    installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\run.py"
+    installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths ./src --paths {args.conda_path}/envs/botty/lib/site-packages src/run.py"
     os.system(installer_cmd)
     os.system(f"mkdir {botty_dir}")
 
