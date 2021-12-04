@@ -60,14 +60,8 @@ class UiManager():
         """
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
-        roi = [
-            self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
-            self._config.ui_pos["skill_y"] - (self._config.ui_pos["skill_height"] // 2),
-            self._config.ui_pos["skill_width"],
-            self._config.ui_pos["skill_height"]
-        ]
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -249,14 +243,14 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
+        :param img: Image in which the item is searched (item details should be visible)
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
-        img = self._screen.grab()
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
         item_list = item_finder.search(img)
@@ -309,7 +303,9 @@ class UiManager():
                 x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
                 mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
                 # check item again and discard it or stash it
-                if self._keep_item(item_finder):
+                wait(1.2, 1.4)
+                hovered_item = self._screen.grab()
+                if self._keep_item(item_finder, hovered_item):
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -326,10 +322,10 @@ class UiManager():
                     move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
                     x, y = self._screen.convert_screen_to_monitor(move_to)
                     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
-                    hovered_item = self._screen.grab()
+                    item_check_img = self._screen.grab()
                     mouse.move(*curr_pos, randomize=2)
                     wait(0.4, 0.6)
-                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, hovered_item, column, row)
+                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, item_check_img, column, row)
                     if self._slot_has_item(slot_img):
                         if self._config.general["info_screenshots"]:
                             cv2.imwrite("./info_screenshots/info_discard_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
@@ -445,7 +441,7 @@ class UiManager():
                 ["TP_ACTIVE", "TP_INACTIVE"],
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
-                threshold=0.94,
+                threshold=0.8,
                 time_out=3
             )
             return template_match.valid
