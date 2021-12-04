@@ -60,14 +60,8 @@ class UiManager():
         """
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
-        roi = [
-            self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
-            self._config.ui_pos["skill_y"] - (self._config.ui_pos["skill_height"] // 2),
-            self._config.ui_pos["skill_width"],
-            self._config.ui_pos["skill_height"]
-        ]
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.94, roi=roi).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.8, roi=config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -445,7 +439,7 @@ class UiManager():
                 ["TP_ACTIVE", "TP_INACTIVE"],
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
-                threshold=0.94,
+                threshold=0.8,
                 time_out=3
             )
             return template_match.valid
