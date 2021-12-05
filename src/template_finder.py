@@ -172,7 +172,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["QUAL_45_2", "QUAL_45_3", "QUAL_45", "QUAL_BACK", "QUAL_FRONT", "QUAL_SIDE"]
+    search_templates = ["BLUE_PORTAL", "BLUE_PORTAL_2", "TP_ACTIVE", "TP_INACTIVE"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
