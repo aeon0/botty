@@ -35,17 +35,22 @@ class Bot:
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._npc_manager = NpcManager(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
+        self._pickit = PickIt(self._screen, self._item_finder,
+                              self._ui_manager, self._belt_manager, self._game_stats)
         if self._config.char["type"] == "sorceress":
-            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Sorceress(self._config.sorceress, self._config.char,
+                                          self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char,
+                                          self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
-            Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
+            Logger.error(
+                f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
         self._route_config = self._config.routes
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
-            Logger.error("Running shenk without eldtritch is not supported. Either run none, both or eldritch only.")
+            Logger.error(
+                "Running shenk without eldtritch is not supported. Either run none, both or eldritch only.")
             os._exit(1)
         self._do_runs = {
             "run_pindle": self._route_config["run_pindle"],
@@ -64,24 +69,32 @@ class Bot:
         self._no_stash_counter = 0
         self._ran_no_pickup = False
 
-        self._states=['hero_selection', 'a5_town', 'pindle', 'shenk']
+        self._states = ['hero_selection', 'a5_town', 'pindle', 'shenk']
         self._transitions = [
-            { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'a5_town', 'before': "on_create_game"},
+            {'trigger': 'create_game', 'source': 'hero_selection',
+                'dest': 'a5_town', 'before': "on_create_game"},
             # Tasks within town
-            { 'trigger': 'maintenance', 'source': 'a5_town', 'dest': 'a5_town', 'before': "on_maintenance"},
+            {'trigger': 'maintenance', 'source': 'a5_town',
+                'dest': 'a5_town', 'before': "on_maintenance"},
             # Different runs
-            { 'trigger': 'run_pindle', 'source': 'a5_town', 'dest': 'pindle', 'before': "on_run_pindle"},
-            { 'trigger': 'run_shenk', 'source': 'a5_town', 'dest': 'shenk', 'before': "on_run_shenk"},
+            {'trigger': 'run_pindle', 'source': 'a5_town',
+                'dest': 'pindle', 'before': "on_run_pindle"},
+            {'trigger': 'run_shenk', 'source': 'a5_town',
+                'dest': 'shenk', 'before': "on_run_shenk"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle'], 'dest': 'a5_town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['a5_town', 'shenk', 'pindle', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            {'trigger': 'end_run', 'source': [
+                'shenk', 'pindle'], 'dest': 'a5_town', 'before': "on_end_run"},
+            {'trigger': 'end_game', 'source': [
+                'a5_town', 'shenk', 'pindle', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
-        self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self.machine = Machine(model=self, states=self._states,
+                               initial="hero_selection", transitions=self._transitions, queued=True)
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
         from transitions.extensions import GraphMachine
-        self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self.machine = GraphMachine(model=self, states=self._states,
+                                    initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
     def get_curr_location(self):
@@ -96,7 +109,7 @@ class Bot:
     def toggle_pause(self):
         self._pausing = not self._pausing
         if self._pausing:
-            Logger.info(f"Pause at next state change...") 
+            Logger.info(f"Pause at next state change...")
         else:
             Logger.info(f"Resume")
             self._game_stats.resume_timer()
@@ -128,7 +141,8 @@ class Bot:
 
     def on_create_game(self):
         self._game_stats.log_start_game()
-        template_match = self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        template_match = self._template_finder.search_and_wait(
+            "D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
         if template_match.valid:
             Logger.debug(f"Found {template_match.name}")
         if not self._ui_manager.start_game():
@@ -153,7 +167,8 @@ class Bot:
             time.sleep(0.6)
             DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
-            self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
+            self._belt_manager.fill_up_belt_from_inventory(
+                self._config.char["num_loot_columns"])
 
         self._belt_manager.update_pot_needs()
 
@@ -183,11 +198,14 @@ class Bot:
                 return
             self._curr_location = Location.A5_STASH
             time.sleep(0.3)
-            stash_is_open_func = lambda: self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
+            def stash_is_open_func(): return self._template_finder.search("INVENTORY_GOLD_BTN",
+                                                                          self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
             if self._char.select_by_template("A5_STASH", stash_is_open_func):
-                self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
+                self._ui_manager.stash_all_items(
+                    self._config.char["num_loot_columns"], self._item_finder)
                 self._picked_up_items = False
-                time.sleep(1.2) # otherwise next grab of screen will still have inventory
+                # otherwise next grab of screen will still have inventory
+                time.sleep(1.2)
             else:
                 Logger.warning("Could not find stash, continue...")
 
@@ -206,7 +224,8 @@ class Bot:
             wait(0.5)
 
         # Check if merc needs to be revived
-        merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
+        merc_alive = self._template_finder.search(
+            "MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
         if not merc_alive:
             Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
@@ -230,20 +249,25 @@ class Bot:
     def on_run_pindle(self):
         def do_it() -> bool:
             Logger.info("Run Pindle")
-            if not self._pather.traverse_nodes(self._curr_location, Location.NIHLATHAK_PORTAL, self._char): return False
+            if not self._pather.traverse_nodes(self._curr_location, Location.NIHLATHAK_PORTAL, self._char):
+                return False
             self._curr_location = Location.NIHLATHAK_PORTAL
-            wait(0.3, 0.4) # otherwise will often missclick because still moving
-            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func): return False
+            wait(0.3, 0.4)  # otherwise will often missclick because still moving
+            def found_loading_screen_func(): return self._ui_manager.wait_for_loading_screen(2.0)
+            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func):
+                return False
             self._curr_location = Location.PINDLE_START
-            if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid: return False
-            if not self._pre_buffed:
+            if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid:
+                return False
+            if not self._pre_buffed or bot._config.char["force_shenk_cta"]:
                 self._char.pre_buff()
                 self._pre_buffed = 1
             if self._config.char["static_path_pindle"]:
-                self._pather.traverse_nodes_fixed("pindle_save_dist", self._char)
+                self._pather.traverse_nodes_fixed(
+                    "pindle_save_dist", self._char)
             else:
-                if not self._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, self._char): return False
+                if not self._pather.traverse_nodes(Location.PINDLE_START, Location.PINDLE_SAVE_DIST, self._char):
+                    return False
             self._char.kill_pindle()
             self._picked_up_items = self._pickit.pick_up_items(self._char)
             return True
@@ -258,31 +282,39 @@ class Bot:
     def on_run_shenk(self):
         def do_it():
             Logger.info("Run Eldritch")
-            if not self._pather.traverse_nodes(self._curr_location, Location.A5_WP, self._char): return False
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_WP, self._char):
+                return False
             self._curr_location = Location.A5_WP
-            wait(0.5, 0.7) # otherwise will missclick because still moving
-            found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
-            if not self._char.select_by_template("A5_WP", found_wp_func): return False
+            wait(0.5, 0.7)  # otherwise will missclick because still moving
+            def found_wp_func(): return self._template_finder.search(
+                "WAYPOINT_MENU", self._screen.grab()).valid
+            if not self._char.select_by_template("A5_WP", found_wp_func):
+                return False
             self._ui_manager.use_wp(4, 1)
             # eldritch
             self._curr_location = Location.ELDRITCH_START
-            if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid: return False
-            if not self._pre_buffed:
+            if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
+                return False
+            if not self._pre_buffed or bot._config.char["force_shenk_cta"]:
                 self._char.pre_buff()
                 self._pre_buffed = 1
             if self._config.char["static_path_eldritch"]:
-                self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
+                self._pather.traverse_nodes_fixed(
+                    "eldritch_save_dist", self._char)
             else:
-                if not self._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, self._char): return False
+                if not self._pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, self._char):
+                    return False
             self._char.kill_eldritch()
             self._picked_up_items = self._pickit.pick_up_items(self._char)
             # shenk
             if self._route_config["run_shenk"]:
                 Logger.info("Run Shenk")
                 self._curr_location = Location.SHENK_START
-                if not self._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, self._char): return False
+                if not self._pather.traverse_nodes(Location.SHENK_START, Location.SHENK_SAVE_DIST, self._char):
+                    return False
                 self._char.kill_shenk()
-                wait(1.9, 2.4) # sometimes merc needs some time to kill shenk...
+                # sometimes merc needs some time to kill shenk...
+                wait(1.9, 2.4)
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
             return True
 
@@ -310,7 +342,8 @@ class Bot:
         success = self._char.tp_town()
         if success:
             self._tps_left -= 1
-            success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
+            success = self._template_finder.search_and_wait(
+                ["A5_TOWN_1", "A5_TOWN_0"], time_out=10).valid
             if success:
                 self._tp_is_up = True
                 self._curr_location = Location.A5_TOWN_START

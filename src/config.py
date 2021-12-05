@@ -72,6 +72,7 @@ class Config:
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
+            "force_pre_buff": bool(int(self._select_val("char", "force_pre_buff"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
@@ -96,7 +97,7 @@ class Config:
             self.char["static_path_eldritch"] = False
 
         self.advanced_options = {
-            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
+            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
         }
 
@@ -104,11 +105,13 @@ class Config:
         for key in self._config["items"]:
             self.items[key] = int(self._select_val("items", key))
             if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
+                print(
+                    f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
 
         self.colors = {}
         for key in self._game_config["colors"]:
-            self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
+            self.colors[key] = np.split(
+                np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
         self.ui_pos = {}
         for key in self._game_config["ui_pos"]:
@@ -116,12 +119,13 @@ class Config:
 
         self.ui_roi = {}
         for key in self._game_config["ui_roi"]:
-            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi", key).split(",")])
+            self.ui_roi[key] = np.array(
+                [int(x) for x in self._select_val("ui_roi", key).split(",")])
 
         self.path = {}
         for key in self._game_config["path"]:
-            self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
-
+            self.path[key] = np.reshape(
+                np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
 
 if __name__ == "__main__":
