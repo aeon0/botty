@@ -59,11 +59,11 @@ def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
         return template_img
     return None
 
-def alpha_to_mask(template_img: np.ndarray):
+def alpha_to_mask(img: np.ndarray):
     # create a mask from template where alpha == 0
-    if template_img.shape[2] == 4:
-        if np.min(template_img[:, :, 3]) == 0:
-            _, mask = cv2.threshold(template_img[:,:,3], 1, 255, cv2.THRESH_BINARY)
+    if img.shape[2] == 4:
+        if np.min(img[:, :, 3]) == 0:
+            _, mask = cv2.threshold(img[:,:,3], 1, 255, cv2.THRESH_BINARY)
             return mask
     return None
 
