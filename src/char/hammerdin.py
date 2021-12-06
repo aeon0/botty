@@ -70,18 +70,23 @@ class Hammerdin(IChar):
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(1)
         # pindle sometimes knocks back, get back in
-        self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, time_out=0.1)
+        self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=0.1)
         self._cast_hammers(max(1, self._char_config["atk_len_pindle"] - 1))
         wait(0.1, 0.15)
         self._do_redemption()
         return True
 
     def kill_eldritch(self) -> bool:
-        self._pather._get_node()
-        self._pather.traverse_nodes_fixed("eldritch_end", self)
+        if self._config.char["static_path_eldritch"]:
+            self._pather.traverse_nodes_fixed("eldritch_end", self)
+        else:
+            if not self._do_pre_move:
+                keyboard.send(self._skill_hotkeys["concentration"])
+                wait(0.05, 0.15)
+            self._pather.traverse_nodes(Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.05, 0.15)
@@ -92,7 +97,7 @@ class Hammerdin(IChar):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes(Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.05, 0.15)

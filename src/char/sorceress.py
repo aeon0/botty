@@ -96,7 +96,7 @@ class Sorceress(IChar):
             if self._config.char["static_path_pindle"]:
                 self._pather.traverse_nodes_fixed("pindle_end", self)
             else:
-                self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, force_tp=True)
+                self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, force_tp=True)
             return True
         return False
 
@@ -117,7 +117,7 @@ class Sorceress(IChar):
             if self._config.char["static_path_eldritch"]:
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
-                self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.6, force_tp=True)
+                self._pather.traverse_nodes(Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END, self, time_out=0.6, force_tp=True)
             return True
         return False
 
@@ -135,7 +135,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
-            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.4, force_tp=True)
+            self._pather.traverse_nodes(Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END, self, time_out=1.4, force_tp=True)
             return True
         return False
 

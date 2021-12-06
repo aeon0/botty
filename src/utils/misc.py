@@ -1,6 +1,7 @@
 import time
 import random
 import ctypes
+import numpy as np
 from logger import Logger
 import cv2
 from typing import List, Tuple
@@ -56,6 +57,14 @@ def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
         template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
         template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
         return template_img
+    return None
+
+def alpha_to_mask(img: np.ndarray):
+    # create a mask from template where alpha == 0
+    if img.shape[2] == 4:
+        if np.min(img[:, :, 3]) == 0:
+            _, mask = cv2.threshold(img[:,:,3], 1, 255, cv2.THRESH_BINARY)
+            return mask
     return None
 
 def list_files_in_folder(path: str):

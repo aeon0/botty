@@ -20,31 +20,36 @@ class Location:
     A5_TOWN_START = "a5_town_start"
     A5_STASH = "a5_stash"
     A5_WP = "a5_wp"
-    QUAL_KEHK = "qual_kehk"
-    MALAH = "malah"
-    NIHLATHAK_PORTAL = "nihlathak_portal"
-    LARZUK = "larzuk"
+    A5_QUAL_KEHK = "a5_qual_kehk"
+    A5_MALAH = "a5_malah"
+    A5_NIHLATHAK_PORTAL = "a5_nihlathak_portal"
+    A5_LARZUK = "a5_larzuk"
     # Pindle
-    PINDLE_START = "pindle_start"
-    PINDLE_SAVE_DIST = "pindle_save_dist"
-    PINDLE_END = "pindle_end"
+    A5_PINDLE_START = "a5_pindle_start"
+    A5_PINDLE_SAVE_DIST = "a5_pindle_save_dist"
+    A5_PINDLE_END = "a5_pindle_end"
     # Eldritch
-    ELDRITCH_START = "eldritch_start"
-    ELDRITCH_SAVE_DIST = "eldritch_save_dist"
-    ELDRITCH_END = "eldritch_end"
+    A5_ELDRITCH_START = "a5_eldritch_start"
+    A5_ELDRITCH_SAVE_DIST = "a5_eldritch_save_dist"
+    A5_ELDRITCH_END = "a5_eldritch_end"
     # Shenk
-    SHENK_START = "shenk_start"
-    SHENK_SAVE_DIST = "shenk_save_dist"
-    SHENK_END = "shenk_end"
+    A5_SHENK_START = "a5_shenk_start"
+    A5_SHENK_SAVE_DIST = "a5_shenk_save_dist"
+    A5_SHENK_END = "a5_shenk_end"
+    # A4 Town
+    A4_TOWN_START = "a4_town_start"
+    A4_WP = "a4_town_wp"
+    A4_TYRAEL_STASH = "a4_tyrael_stash"
+    A4_VENDOR = "a4_vendor"
     # A3 Town
     A3_TOWN_START = "a3_town_start"
     A3_ORMUS = "a3_ormus"
     A3_STASH_WP = "a3_stash_wp"
-    A3_ASHEARA = "ar_asheara"
+    A3_ASHEARA = "a3_asheara"
     # Trav
-    TRAV_START = "trav_start"
-    TRAV_SAVE_DIST = "trav_save_dist"
-    TRAV_END = "trav_end"
+    A3_TRAV_START = "a3_trav_start"
+    A3_TRAV_SAVE_DIST = "a3_trav_save_dist"
+    A3_TRAV_END = "a3_trav_end"
 
 class Pather:
     """
@@ -97,7 +102,13 @@ class Pather:
             147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
             148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
-            # A3 twon
+            # A4 town
+            160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
+            161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
+            162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
+            163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
+            164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559)},
+            # A3 town
             180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
             181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
             182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
@@ -124,40 +135,48 @@ class Pather:
         }
         self._paths = {
             # A5 Town
-            (Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
+            (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
             (Location.A5_TOWN_START, Location.A5_STASH): [3, 4, 5],
             (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
-            (Location.A5_TOWN_START, Location.QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
-            (Location.A5_TOWN_START, Location.MALAH): [1, 2],
-            (Location.A5_TOWN_START, Location.LARZUK): [3, 4, 5, 13, 14],
-            (Location.MALAH, Location.A5_TOWN_START): [1, 0],
-            (Location.A5_STASH, Location.NIHLATHAK_PORTAL): [6, 8, 9],
-            (Location.A5_STASH, Location.QUAL_KEHK): [5, 6, 10, 11, 12],
-            (Location.A5_STASH, Location.LARZUK): [13, 14],
+            (Location.A5_TOWN_START, Location.A5_QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
+            (Location.A5_TOWN_START, Location.A5_MALAH): [1, 2],
+            (Location.A5_TOWN_START, Location.A5_LARZUK): [3, 4, 5, 13, 14],
+            (Location.A5_MALAH, Location.A5_TOWN_START): [1, 0],
+            (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
+            (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
+            (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
-            (Location.QUAL_KEHK, Location.NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
-            (Location.QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
-            (Location.LARZUK, Location.QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
-            (Location.LARZUK, Location.NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
-            (Location.LARZUK, Location.A5_WP): [14, 13, 5],
+            (Location.A5_WP, Location.A5_STASH): [],
+            (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
+            (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
+            (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
+            (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
+            (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
-            (Location.PINDLE_START, Location.PINDLE_SAVE_DIST): [100, 101, 102, 103],
-            (Location.PINDLE_SAVE_DIST, Location.PINDLE_END): [104],
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAVE_DIST): [100, 101, 102, 103],
+            (Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END): [104],
             # Eldritch
-            (Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST): [120, 121, 122],
-            (Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END): [123],
+            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST): [120, 121, 122],
+            (Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END): [123],
             # Shenk
-            (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
-            (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END): [149],
+            # A4 Town
+            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
+            (Location.A4_TOWN_START, Location.A4_WP): [162],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
             (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
             (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
             (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
+            (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
+            (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
-            (Location.TRAV_START, Location.TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
-            (Location.TRAV_SAVE_DIST, Location.TRAV_END): [228],
+            (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
+            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
         }
 
     def _get_node(self, key: int, template: str):
@@ -226,17 +245,32 @@ class Pather:
             return node_pos_abs
         return None
 
-    def traverse_nodes(self, start_location: Location, end_location: Location, char: IChar, time_out: float = 7, force_tp: bool = False, do_pre_move: bool = True) -> bool:
+    def traverse_nodes(
+        self,
+        start_location: Location,
+        end_location: Location,
+        char: IChar,#
+        time_out: float = 7,
+        force_tp: bool = False,
+        do_pre_move: bool = True,
+        force_move: bool = False) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
         :param end_location: Location the char is supposed to end up
         :param char: Char that is traversing the nodes
         :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
+        :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed succesfull or False if it got stuck
         """
         Logger.debug(f"Traverse from {start_location} to {end_location}")
-        path = self._paths[(start_location, end_location)]
+        try:
+            path = self._paths[(start_location, end_location)]
+        except KeyError:
+            if start_location == end_location:
+                return True
+            Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+            return False
         if do_pre_move:
             char.pre_move()
         for i, node_idx in enumerate(path):
@@ -268,7 +302,7 @@ class Pather:
                     else:
                         # Move the char
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
-                        char.move((x_m, y_m), force_tp=force_tp)
+                        char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_move = time.time()
         return True
 
@@ -322,8 +356,7 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes_fixed("trav_save_dist", char)
-    pather.traverse_nodes_fixed("trav_end", char)
-    # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
-    # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
+    # pather.traverse_nodes_fixed("pindle_save_dist", char)
+    # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
+    pather.traverse_nodes(Location.A3_STASH_WP, Location.A3_STASH_WP, char)
     # display_all_nodes(pather, filter="TRAV")

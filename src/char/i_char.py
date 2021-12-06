@@ -75,7 +75,7 @@ class IChar:
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
@@ -94,7 +94,10 @@ class IChar:
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
-            mouse.click(button="left")
+            if force_move:
+                keyboard.send(self._config.char["force_move"])
+            else:
+                mouse.click(button="left")
 
     def tp_town(self):
         if not self._ui_manager.has_tps():
