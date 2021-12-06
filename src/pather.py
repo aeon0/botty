@@ -8,7 +8,7 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple
+from typing import Tuple, Union, List
 import cv2
 from config import Config
 from utils.misc import is_in_roi
@@ -123,7 +123,7 @@ class Pather:
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
             # Trav
-            220: {"TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73), "TRAV_0": (490, 397)},
+            220: {"TRAV_0": (490, 397), "TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73)},
             221: {"TRAV_3": (-185, -51), "TRAV_1": (200, 124), "TRAV_2": (230, -242), "TRAV_5": (-843, -8)},
             222: {"TRAV_3": (291, -6), "TRAV_5": (-367, 38), "TRAV_4": (289, 268), "TRAV_1": (676, 170), "TRAV_6": (-845, -182)},
             223: {"TRAV_5": (-59, 97), "TRAV_6": (-537, -123), "TRAV_3": (599, 53), "TRAV_4": (597, 327)},
@@ -189,9 +189,14 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str, char: IChar):
+    def traverse_nodes_fixed(self, path: Union[str, List[Tuple[float, float]]], char: IChar):
+        if not char.can_teleport():
+            error_msg = "Teleport is requiered for static pathing"
+            Logger.error(error_msg)
+            raise ValueError(error_msg)
         char.pre_move()
-        path = self._config.path[key]
+        if type(path) == str:
+            path = self._config.path[path]
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
             x_m += int(random.random() * 6 - 3)

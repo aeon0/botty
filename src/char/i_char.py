@@ -31,6 +31,9 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
+    def can_teleport(self) -> bool:
+        return bool(self._skill_hotkeys["teleport"])
+
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
@@ -50,11 +53,11 @@ class IChar:
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
                 keyboard.send("esc")
-        Logger.debug(f"Select {template_type}")
         start = time.time()
         while time_out is not None or (time.time() - start) < time_out:
             template_match = self._template_finder.search(template_type, self._screen.grab())
             if template_match.valid:
+                Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
                 wait(0.2, 0.3)
@@ -64,6 +67,7 @@ class IChar:
                 while time.time() - check_success_start < 2:
                     if success_func is None or success_func():
                         return True
+        Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
     def pre_move(self):
@@ -172,4 +176,8 @@ class IChar:
 
     @abstract
     def kill_eldritch(self) -> bool:
+        pass
+
+    @abstract
+    def kill_council(self) -> bool:
         pass

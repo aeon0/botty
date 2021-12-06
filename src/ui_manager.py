@@ -179,7 +179,6 @@ class UiManager():
                 Logger.debug(f"Found {template_match.name} screen")
                 return True
             x, y = self._screen.convert_screen_to_monitor(template_match.position)
-            Logger.debug(f"Found {difficulty} Btn -> clicking it")
             mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
@@ -447,8 +446,8 @@ class UiManager():
                 ["TP_ACTIVE", "TP_INACTIVE"],
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
-                threshold=0.8,
-                time_out=3
+                threshold=0.79,
+                time_out=4
             )
             return template_match.valid
         else:
