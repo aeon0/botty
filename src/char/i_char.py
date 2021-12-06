@@ -9,7 +9,7 @@ import math
 import keyboard
 from logger import Logger
 import time
-from typing import Dict, Tuple, Union, List
+from typing import Dict, Tuple, Union, List, Callable
 from config import Config
 import random
 
@@ -31,6 +31,9 @@ class IChar:
         # It actually is 0.04s per frame but many people have issues with it (because of lag?)
         self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
 
+    def can_teleport(self) -> bool:
+        return bool(self._skill_hotkeys["teleport"])
+
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
@@ -38,23 +41,33 @@ class IChar:
         wait(0.45,0.5)
         return prev_cast_start
 
-    def select_by_template(self, template_type:  Union[str, List[str]], expect_loading_screen: bool = False) -> bool:
-        # TODO: Instead of expect_loading_screen pass some sort of "success_on()" function
+    def select_by_template(self, template_type:  Union[str, List[str]], success_func: Callable = None, time_out: float = 8) -> bool:
+        """
+        Finds any template from the template finder and interacts with it
+        :param template_type: Strings or list of strings of the templates that should be searched for
+        :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
+        :param time_out: Timeout for the whole template selection, defaults to None
+        :return: True if success. False otherwise
+        """
         if template_type == "A5_STASH":
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
                 keyboard.send("esc")
-        Logger.debug(f"Select {template_type}")
         start = time.time()
-        while (time.time() - start)  < 8:
-            template_match = self._template_finder.search_and_wait(template_type, time_out=2)
+        while time_out is not None or (time.time() - start) < time_out:
+            template_match = self._template_finder.search(template_type, self._screen.grab())
             if template_match.valid:
+                Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
-                wait(0.3, 0.4)
+                wait(0.2, 0.3)
                 mouse.click(button="left")
-                if not expect_loading_screen or self._ui_manager.wait_for_loading_screen(2.0):
-                    return True
+                # check the successfunction for 2 sec, if not found, try again
+                check_success_start = time.time()
+                while time.time() - check_success_start < 2:
+                    if success_func is None or success_func():
+                        return True
+        Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
     def pre_move(self):
@@ -63,7 +76,7 @@ class IChar:
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False):
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
@@ -82,24 +95,15 @@ class IChar:
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
-            mouse.click(button="left")
+            if force_move:
+                keyboard.send(self._config.char["force_move"])
+            else:
+                mouse.click(button="left")
 
     def tp_town(self):
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        keyboard.send(self._char_config["tp"])
-        wait(0.15, 0.2)
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val > 0.96:
-            # found same skill again, thus no more tps available
-            Logger.warning("Out of tps")
-            time.sleep(1.0)
-            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val > 0.96:
-                return False
-            else:
-                Logger.warning("Turns out skill change just took a long time. You ever considered getting a new internet provider or pc?")
+        if not self._ui_manager.has_tps():
+            Logger.error("Wanted to TP but no TPs are available! Make sure your keybinding is correct and you have a tomb in your inventory.")
+            return False
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
@@ -172,4 +176,8 @@ class IChar:
 
     @abstract
     def kill_eldritch(self) -> bool:
+        pass
+
+    @abstract
+    def kill_council(self) -> bool:
         pass
