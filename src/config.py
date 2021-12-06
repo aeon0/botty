@@ -98,6 +98,8 @@ class Config:
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
             "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
+            "offset_left": self._select_val("advanced_options", "offset_left"),
+            "offset_top": self._select_val("advanced_options", "offset_top"),
         }
 
         self.items = {}
