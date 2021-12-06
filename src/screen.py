@@ -50,6 +50,9 @@ class Screen:
             if max_val > debug_max_val:
                 debug_max_val = max_val
             if max_val > 0.84:
+                if max_val < 0.93:
+                    Logger.warning(f"Your template match score to calc corner was lower then usual ({max_val*100:.1f}% confidence). " +
+                        "You might run into template matching issues along the way!")
                 offset_left, offset_top = max_pos
                 Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
                 self._monitor_roi["top"] += offset_top
