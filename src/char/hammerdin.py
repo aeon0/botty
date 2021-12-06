@@ -89,7 +89,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes(Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
-        wait(0.05, 0.15)
+        wait(0.1, 0.15)
         self._do_redemption()
         return True
 
@@ -100,7 +100,7 @@ class Hammerdin(IChar):
         self._pather.traverse_nodes(Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
-        wait(0.05, 0.15)
+        wait(0.1, 0.15)
         self._do_redemption()
         return True
 
@@ -114,6 +114,7 @@ class Hammerdin(IChar):
             wait(0.05, 0.1)
             self._cast_hammers(dur)
             wait(0.05, 0.15)
+        wait(0.1, 0.15)
         self._do_redemption()
         return True
 
