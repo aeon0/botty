@@ -162,10 +162,10 @@ class Bot:
         # TODO: If tp is up we always go back into the portal...
         if not self._tp_is_up and (HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.3):
             Logger.info("Need some healing first. Going to Malah.")
-            if not self._pather.traverse_nodes(self._curr_location, Location.MALAH, self._char):
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_MALAH, self._char):
                 self.trigger_or_stop("end_game")
                 return
-            self._curr_location = Location.MALAH
+            self._curr_location = Location.A5_MALAH
             self._npc_manager.open_npc_menu(Npc.MALAH)
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_TOWN_START, self._char):
                 self.trigger_or_stop("end_game")
@@ -193,10 +193,10 @@ class Bot:
 
         if self._tps_left < 3 or (self._config.char["tp"] and not self._ui_manager.has_tps()):
             Logger.info("Repairing and buying TPs at Larzuk.")
-            if not self._pather.traverse_nodes(self._curr_location, Location.LARZUK, self._char):
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_LARZUK, self._char):
                 self.trigger_or_stop("end_game")
                 return
-            self._curr_location = Location.LARZUK
+            self._curr_location = Location.A5_LARZUK
             self._npc_manager.open_npc_menu(Npc.LARZUK)
             self._npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
             if self._ui_manager.repair_and_fill_up_tp():
@@ -209,10 +209,10 @@ class Bot:
         merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
         if not merc_alive:
             Logger.info("Reviving merc.")
-            if not self._pather.traverse_nodes(self._curr_location, Location.QUAL_KEHK, self._char):
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_QUAL_KEHK, self._char):
                 self.trigger_or_stop("end_game")
                 return
-            self._curr_location = Location.QUAL_KEHK
+            self._curr_location = Location.A5_QUAL_KEHK
             if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
                 self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             time.sleep(1.2)
@@ -230,8 +230,8 @@ class Bot:
     def on_run_pindle(self):
         def do_it() -> bool:
             Logger.info("Run Pindle")
-            if not self._pather.traverse_nodes(self._curr_location, Location.NIHLATHAK_PORTAL, self._char): return False
-            self._curr_location = Location.NIHLATHAK_PORTAL
+            if not self._pather.traverse_nodes(self._curr_location, Location.A5_NIHLATHAK_PORTAL, self._char): return False
+            self._curr_location = Location.A5_NIHLATHAK_PORTAL
             wait(0.3, 0.4) # otherwise will often missclick because still moving
             found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
             if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func): return False

@@ -20,10 +20,10 @@ class Location:
     A5_TOWN_START = "a5_town_start"
     A5_STASH = "a5_stash"
     A5_WP = "a5_wp"
-    QUAL_KEHK = "qual_kehk"
-    MALAH = "malah"
-    NIHLATHAK_PORTAL = "nihlathak_portal"
-    LARZUK = "larzuk"
+    A5_QUAL_KEHK = "qual_kehk"
+    A5_MALAH = "malah"
+    A5_NIHLATHAK_PORTAL = "nihlathak_portal"
+    A5_LARZUK = "larzuk"
     # Pindle
     PINDLE_START = "pindle_start"
     PINDLE_SAVE_DIST = "pindle_save_dist"
@@ -36,6 +36,10 @@ class Location:
     SHENK_START = "shenk_start"
     SHENK_SAVE_DIST = "shenk_save_dist"
     SHENK_END = "shenk_end"
+    # A4 Town
+    A4_WP = "a4_town_wp"
+    A4_TYRAEL_STASH = "a4_tyrael_stash"
+    A4_VENDOR = "a4_vendor"
     # A3 Town
     A3_TOWN_START = "a3_town_start"
     A3_ORMUS = "a3_ormus"
@@ -97,7 +101,13 @@ class Pather:
             147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
             148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
-            # A3 twon
+            # A4 town
+            160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
+            161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
+            162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
+            163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
+            164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559)},
+            # A3 town
             180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
             181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
             182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
@@ -124,22 +134,22 @@ class Pather:
         }
         self._paths = {
             # A5 Town
-            (Location.A5_TOWN_START, Location.NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
+            (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
             (Location.A5_TOWN_START, Location.A5_STASH): [3, 4, 5],
             (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
-            (Location.A5_TOWN_START, Location.QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
-            (Location.A5_TOWN_START, Location.MALAH): [1, 2],
-            (Location.A5_TOWN_START, Location.LARZUK): [3, 4, 5, 13, 14],
-            (Location.MALAH, Location.A5_TOWN_START): [1, 0],
-            (Location.A5_STASH, Location.NIHLATHAK_PORTAL): [6, 8, 9],
-            (Location.A5_STASH, Location.QUAL_KEHK): [5, 6, 10, 11, 12],
-            (Location.A5_STASH, Location.LARZUK): [13, 14],
+            (Location.A5_TOWN_START, Location.A5_QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
+            (Location.A5_TOWN_START, Location.A5_MALAH): [1, 2],
+            (Location.A5_TOWN_START, Location.A5_LARZUK): [3, 4, 5, 13, 14],
+            (Location.A5_MALAH, Location.A5_TOWN_START): [1, 0],
+            (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
+            (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
+            (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
-            (Location.QUAL_KEHK, Location.NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
-            (Location.QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
-            (Location.LARZUK, Location.QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
-            (Location.LARZUK, Location.NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
-            (Location.LARZUK, Location.A5_WP): [14, 13, 5],
+            (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
+            (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
+            (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
+            (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
             (Location.PINDLE_START, Location.PINDLE_SAVE_DIST): [100, 101, 102, 103],
             (Location.PINDLE_SAVE_DIST, Location.PINDLE_END): [104],
@@ -149,6 +159,9 @@ class Pather:
             # Shenk
             (Location.SHENK_START, Location.SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
             (Location.SHENK_SAVE_DIST, Location.SHENK_END): [149],
+            # A4 Town
+            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
