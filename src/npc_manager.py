@@ -15,6 +15,7 @@ class Npc:
     LARZUK = "larzuk"
     ANYA = "anya"
     TYRAEL = "tyrael"
+    ORMUS = "ormus"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -76,6 +77,17 @@ class NpcManager:
                     }
                 },
                 "template_group": ["TYRAEL_1", "TYRAEL_2"]
+            },
+            Npc.ORMUS: {
+                "name_tag_white": color_filter(self._template_finder.get_template("ORMUS_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("ORMUS_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
             }
         }
 
@@ -147,5 +159,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.TYRAEL)
-    npc_manager.press_npc_btn(Npc.TYRAEL, "resurrect")
+    npc_manager.open_npc_menu(Npc.ORMUS)
+    npc_manager.press_npc_btn(Npc.ORMUS, "trade")
