@@ -207,7 +207,7 @@ class Bot:
 
         # Check if merc needs to be revived
         merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
-        if not merc_alive:
+        if not merc_alive and self._config.char["use_merc"]:
             Logger.info("Reviving merc.")
             if not self._pather.traverse_nodes(self._curr_location, Location.A5_QUAL_KEHK, self._char):
                 self.trigger_or_stop("end_game")

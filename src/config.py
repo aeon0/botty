@@ -71,6 +71,7 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
+            "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
