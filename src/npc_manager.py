@@ -14,6 +14,7 @@ class Npc:
     MALAH = "malah"
     LARZUK = "larzuk"
     ANYA = "anya"
+    TYRAEL = "tyrael"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -64,6 +65,17 @@ class NpcManager:
                     }
                 },
                 "template_group": ["ANYA_FRONT", "ANYA_BACK", "ANYA_SIDE"]
+            },
+            Npc.TYRAEL: {
+                "name_tag_white": color_filter(self._template_finder.get_template("TYRAEL_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("TYRAEL_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "resurrect": {
+                        "white": color_filter(self._template_finder.get_template("RESURRECT"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("RESURRECT_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["TYRAEL_1", "TYRAEL_2"]
             }
         }
 
@@ -135,5 +147,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.QUAL_KEHK)
-    npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
+    npc_manager.open_npc_menu(Npc.TYRAEL)
+    npc_manager.press_npc_btn(Npc.TYRAEL, "resurrect")
