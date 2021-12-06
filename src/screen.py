@@ -29,6 +29,7 @@ class Screen:
         start = time.time()
         found_offsets = False
         Logger.info("Searching for window offsets. Make sure D2R is in focus and you are on the hero selection screen")
+        debug_max_val = 0
         while time.time() - start < 20:
             img = self.grab()
             self._sct = mss()
@@ -45,8 +46,10 @@ class Screen:
                     offset_x - self._config.ui_pos["ingame_ref_x"],
                     offset_y - self._config.ui_pos["ingame_ref_y"],
                 )
-
-            if max_val > 0.9:
+            # Save max found scores for debug in case it fails
+            if max_val > debug_max_val:
+                debug_max_val = max_val
+            if max_val > 0.84:
                 offset_left, offset_top = max_pos
                 Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
                 self._monitor_roi["top"] += offset_top
@@ -58,7 +61,8 @@ class Screen:
                 found_offsets = True
                 break
         if not found_offsets:
-            Logger.error("Could not find top left corner of D2R window to set offset, shutting down")
+            Logger.error("Could not find D2R logo at hero selection or template for ingame, shutting down")
+            Logger.error(f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)")
             raise RuntimeError("Could not determine window offset. Please make sure you have the D2R window " +
                                 f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}")
 
