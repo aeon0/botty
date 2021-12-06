@@ -50,9 +50,10 @@ class Bot:
         self._town_manager = TownManager(self._template_finder, self._ui_manager, a3, a4, a5)
         self._route_config = self._config.routes
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
-            Logger.error("Running shenk without eldtritch is not supported. Either run none, both or eldritch only.")
+            Logger.error("Running shenk without eldtritch is not supported. Either run none or both")
             os._exit(1)
         self._do_runs = {
+            "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
         }
@@ -68,7 +69,7 @@ class Bot:
         self._no_stash_counter = 0
         self._ran_no_pickup = False
 
-        self._states=['hero_selection', 'town', 'pindle', 'shenk']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', "trav"]
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -76,9 +77,10 @@ class Bot:
             # Different runs
             { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
             { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
+            { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'trav'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -134,16 +136,16 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        template_match = self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
-        if template_match.valid:
-            Logger.debug(f"Found {template_match.name}")
+        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
+            self._ran_no_pickup = True
             if self._ui_manager.enable_no_pickup():
-                self._ran_no_pickup = True
-                Logger.info("Enabled No Item Pickup")
+                Logger.info("Activated /nopickup")
+            else:
+                Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
@@ -268,13 +270,42 @@ class Bot:
         else:
             self.trigger_or_stop("end_run")
 
+    def on_run_trav(self):
+        def do_it():
+            Logger.info("Run Trav")
+            if not self._char.can_teleport():
+                Logger.error("Trav is currently only supported for teleporting builds. Skipping trav")
+                return True
+            self._curr_loc = self._town_manager.open_wp(self._curr_loc)
+            wait(0.4)
+            self._ui_manager.use_wp(3, 7)
+            # eldritch
+            self._curr_loc = Location.A3_TRAV_START
+            if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1"], threshold=0.65, time_out=20).valid: return False
+            if not self._pre_buffed:
+                self._char.pre_buff()
+                self._pre_buffed = 1
+            self._pather.traverse_nodes_fixed("trav_save_dist", self._char)
+            self._char.kill_council()
+            self._curr_loc = Location.A3_TRAV_END
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
+            return True
+
+        self._do_runs["run_trav"] = False
+        success = do_it()
+        if self.is_last_run() or not success:
+            self.trigger_or_stop("end_game")
+        else:
+            self.trigger_or_stop("end_run")
+
     def on_end_game(self):
         self._pre_buffed = 0
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game()
         self._do_runs = {
+            "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"]
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
@@ -293,15 +324,3 @@ class Bot:
         else:
             self._tps_left = 0
             self.trigger_or_stop("end_game")
-
-
-if __name__ == "__main__":
-    import keyboard
-    keyboard.add_hotkey("f12", lambda: os._exit(1))
-    keyboard.wait("f11")
-    config = Config()
-    screen = Screen(config.general["monitor"])
-    bot = Bot(screen)
-    bot.state = "town"
-    bot._curr_loc = Location.A5_TOWN_START
-    bot.on_maintenance()

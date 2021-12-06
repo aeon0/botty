@@ -106,7 +106,8 @@ class Hammerdin(IChar):
 
     def kill_council(self) -> bool:
         end_nodes = self._config.path["trav_end"]
-        hammer_duration = [3, 2, 3, 3]
+        atk_len = self._char_config["atk_len_shenk"]
+        hammer_duration = [atk_len, max(1, atk_len-1), max(1, atk_len-1), atk_len]
         assert(len(hammer_duration))
         for dur, node in zip(hammer_duration, end_nodes):
             self._pather.traverse_nodes_fixed([node], self)

@@ -1,6 +1,6 @@
 from belt_manager import BeltManager
 from ui_manager import UiManager
-from item_finder import ItemFinder
+from item_finder import ItemFinder, Item
 import time
 from utils.custom_mouse import mouse
 import keyboard
@@ -21,6 +21,7 @@ class PickIt:
         self._ui_manager = ui_manager
         self._game_stats = game_stats
         self._config = Config()
+        self._last_closest_item: Item = None
 
     def pick_up_items(self, char: IChar) -> bool:
         """
@@ -69,7 +70,13 @@ class PickIt:
                     if closest_item.dist > item.dist:
                         closest_item = item
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
-                if closest_item.dist < self._config.ui_pos["item_dist"]:
+                # To avoid endless teleport or telekinesis loop
+                force_pick_up = char.can_teleport() and \
+                                self._last_closest_item is not None and \
+                                self._last_closest_item.name == closest_item.name and \
+                                abs(self._last_closest_item.dist - closest_item.dist) < 20
+                if closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up:
+                    self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
                         self._belt_manager.picked_up_pot(closest_item.name)
@@ -77,7 +84,6 @@ class PickIt:
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
 
-                    Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
 
                     if self._ui_manager.is_overburdened():
@@ -88,12 +94,14 @@ class PickIt:
                     else:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
+                            Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
                             self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
                     char.move((x_m, y_m))
                     time.sleep(0.1)
+                    self._last_closest_item = closest_item
         keyboard.send(self._config.char["show_items"])
         return found_items
 

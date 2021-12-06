@@ -1,7 +1,7 @@
 from screen import Screen
 from config import Config
 import mouse
-import keyboard
+
 
 if __name__ == "__main__":
     pos_list = []

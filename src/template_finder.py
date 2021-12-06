@@ -156,10 +156,12 @@ class TemplateFinder:
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
+                    Logger.debug(f"Found Match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     return template_match
                 if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                    Logger.debug(f"Could not find any of the above templates")
                     return template_match
 
 

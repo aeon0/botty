@@ -82,6 +82,7 @@ run_shenk=0
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
+| run_trav     | Run Trav in each new game. Select "1" to run it "0" to leave it out. Currentl yonly hdin with teleport is supported for this run. Also specific trav gear is suggested and use_merc=0 |
 | run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
@@ -92,6 +93,7 @@ run_shenk=0
 | casting_frames     | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example. |
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
+| atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
 | atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
 | atk_len_shenk      | Attack length for hdin or number of attack sequences for sorc when fighting shenk |
