@@ -84,6 +84,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
-    template_finder = TemplateFinder(screen)
-    manager = DeathManager(screen, template_finder)
-    manager.start_monitor(None)
+    manager = DeathManager(screen)
+    manager.pick_up_corpse(config, screen)
