@@ -51,6 +51,7 @@ class Config:
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
             "stand_still": self._select_val("char", "stand_still"),
+            "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
             "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
