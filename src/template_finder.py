@@ -7,7 +7,7 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask
 
 
 @dataclass
@@ -35,7 +35,9 @@ class TemplateFinder:
             file_name: str = os.path.basename(file_path)
             if file_name.endswith('.png'):
                 key = file_name[:-4].upper()
-                self._templates[key] = [load_template(file_path, 1.0, True), 1.0]
+                template_img = load_template(file_path, 1.0, True)
+                mask = alpha_to_mask(template_img)
+                self._templates[key] = [cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR), 1.0, mask]
 
     def get_template(self, key):
         return cv2.cvtColor(self._templates[key][0], cv2.COLOR_BGRA2BGR)
@@ -69,15 +71,18 @@ class TemplateFinder:
         if type(ref) == str:
             templates = [self._templates[ref][0]]
             scales = [self._templates[ref][1]]
+            masks = [self._templates[ref][2]]
             names = [ref]
             best_match = False
         elif type(ref) == list:
             templates = [self._templates[i][0] for i in ref]
             scales = [self._templates[i][1] for i in ref]
+            masks = [self._templates[i][2] for i in ref]
             names = ref
         else:
             templates = [ref]
             scales = [1.0]
+            masks = [None]
             best_match = False
 
         scores = [0] * len(ref)
@@ -85,14 +90,7 @@ class TemplateFinder:
         for count, template in enumerate(templates):
             template_match = TemplateMatch()
             scale = scales[count]
-
-            # create a mask from template where alpha == 0
-            # TODO: This could be precalculated in the __init__() for each template
-            mask = None
-            if template.shape[2] == 4:
-                if np.min(template[:, :, 3]) == 0:
-                    _, mask = cv2.threshold(template[:,:,3], 1, 255, cv2.THRESH_BINARY)
-            template = cv2.cvtColor(template, cv2.COLOR_BGRA2BGR)
+            mask = masks[count]
 
             img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
             rx *= scale
