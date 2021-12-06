@@ -8,7 +8,7 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple
+from typing import Tuple, Union, List
 import cv2
 from config import Config
 from utils.misc import is_in_roi
@@ -170,9 +170,14 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str, char: IChar):
+    def traverse_nodes_fixed(self, path: Union[str, List[Tuple[float, float]]], char: IChar):
+        if not char.can_teleport():
+            error_msg = "Teleport is requiered for static pathing"
+            Logger.error(error_msg)
+            raise ValueError(error_msg)
         char.pre_move()
-        path = self._config.path[key]
+        if type(path) == str:
+            path = self._config.path[path]
         for pos in path:
             x_m, y_m = self._screen.convert_screen_to_monitor(pos)
             x_m += int(random.random() * 6 - 3)
@@ -317,7 +322,8 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
-    pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
+    pather.traverse_nodes_fixed("trav_save_dist", char)
+    pather.traverse_nodes_fixed("trav_end", char)
+    # pather.traverse_nodes(Location.TRAV_START, Location.TRAV_SAVE_DIST, char)
+    # pather.traverse_nodes(Location.TRAV_SAVE_DIST, Location.TRAV_END, char)
     # display_all_nodes(pather, filter="TRAV")

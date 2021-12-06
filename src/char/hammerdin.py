@@ -22,6 +22,28 @@ class Hammerdin(IChar):
         if not self._skill_hotkeys["teleport"]:
             self._do_pre_move = False
 
+    def _cast_hammers(self, time_in_s: float):
+        keyboard.send(self._skill_hotkeys["concentration"])
+        wait(0.05, 0.1)
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        wait(0.05, 0.1)
+        if self._skill_hotkeys["blessed_hammer"]:
+            keyboard.send(self._skill_hotkeys["blessed_hammer"])
+        wait(0.05, 0.1)
+        start = time.time()
+        while (time.time() - start) < time_in_s:
+            wait(0.06, 0.08)
+            mouse.press(button="left")
+            wait(0.5, 0.7)
+            mouse.release(button="left")
+        wait(0.01, 0.05)
+        keyboard.send(self._char_config["stand_still"], do_press=False)
+
+    def _do_redemption(self):
+        if self._skill_hotkeys["redemption"]:
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(1.5, 2.0)
+
     def pre_buff(self):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
@@ -30,32 +52,15 @@ class Hammerdin(IChar):
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def _cast_hammers(self, time_in_s: float):
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.05, 0.15)
-        keyboard.send(self._char_config["stand_still"], do_release=False)
-        wait(0.05, 0.15)
-        if self._skill_hotkeys["blessed_hammer"]:
-            keyboard.send(self._skill_hotkeys["blessed_hammer"])
-        wait(0.05, 0.15)
-        mouse.press(button="left")
-        start = time.time()
-        i = 0
-        while (time.time() - start) < time_in_s:
-            wait(0.04, 0.06)
-            i += 1
-            if i % 20 == 0:
-                mouse.release(button="left")
-                wait(0.05, 0.12)
-                mouse.press(button="left")
-        mouse.release(button="left")
-        wait(0.01, 0.05)
-        keyboard.send(self._char_config["stand_still"], do_press=False)
-
-    def _do_redemption(self):
-        if self._skill_hotkeys["redemption"]:
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(1.5, 2.0)
+    def pre_move(self):
+        # select teleport if available
+        super().pre_move()
+        # in case teleport hotkey is not set or teleport can not be used, use vigor if set
+        should_cast_vigor = self._skill_hotkeys["vigor"] and not self._ui_manager.is_right_skill_selected(["VIGOR"])
+        can_teleport = self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
+        if  should_cast_vigor and not can_teleport:
+            keyboard.send(self._skill_hotkeys["vigor"])
+            wait(0.15, 0.25)
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
@@ -75,13 +80,8 @@ class Hammerdin(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
-        if self._config.char["static_path_eldritch"]:
-            self._pather.traverse_nodes_fixed("eldritch_end", self)
-        else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather._get_node()
+        self._pather.traverse_nodes_fixed("eldritch_end", self)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.05, 0.15)
@@ -99,15 +99,17 @@ class Hammerdin(IChar):
         self._do_redemption()
         return True
 
-    def pre_move(self):
-        # select teleport if available
-        super().pre_move()
-        # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not self._ui_manager.is_right_skill_selected(["VIGOR"])
-        can_teleport = self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
-        if  should_cast_vigor and not can_teleport:
-            keyboard.send(self._skill_hotkeys["vigor"])
-            wait(0.15, 0.25)
+    def kill_council(self) -> bool:
+        end_nodes = self._config.path["trav_end"]
+        hammer_duration = [3, 2, 3, 3]
+        assert(len(hammer_duration))
+        for dur, node in zip(hammer_duration, end_nodes):
+            self._pather.traverse_nodes_fixed([node], self)
+            wait(0.05, 0.1)
+            self._cast_hammers(dur)
+            wait(0.05, 0.15)
+        self._do_redemption()
+        return True
 
 
 if __name__ == "__main__":
@@ -124,5 +126,5 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     char.pre_buff()
-    pather.traverse_nodes(Location.ELDRITCH_START, Location.ELDRITCH_SAVE_DIST, char)
-    char.kill_eldritch()
+    pather.traverse_nodes_fixed("trav_save_dist", char)
+    char.kill_council()
