@@ -39,10 +39,10 @@ class Hammerdin(IChar):
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _do_redemption(self):
+    def _do_redemption(self, delay: tuple[float, float] = (1.5, 2.0)):
         if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
-            wait(1.5, 2.0)
+            wait(*delay)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
@@ -71,10 +71,8 @@ class Hammerdin(IChar):
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
             self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._cast_hammers(1)
-        # pindle sometimes knocks back, get back in
         self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=0.1)
-        self._cast_hammers(max(1, self._char_config["atk_len_pindle"] - 1))
+        self._cast_hammers(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
         self._do_redemption()
         return True
