@@ -144,7 +144,7 @@ class BeltManager:
                 elif current_column is not None and potion_type == "empty":
                     self._pot_needs[current_column] += 1
         wait(0.2)
-        Logger.debug(self._pot_needs)
+        Logger.debug(f"Will pickup: {self._pot_needs}")
         keyboard.send(self._config.char["show_belt"])
 
     def fill_up_belt_from_inventory(self, num_loot_columns: int):

@@ -449,6 +449,10 @@ class UiManager():
                 threshold=0.79,
                 time_out=4
             )
+            if not template_match.valid:
+                Logger.warning("You are out of tps")
+                if self._config.general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return template_match.valid
         else:
             return False

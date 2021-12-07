@@ -102,7 +102,6 @@ class IChar:
 
     def tp_town(self):
         if not self._ui_manager.has_tps():
-            Logger.error("Wanted to TP but no TPs are available! Make sure your keybinding is correct and you have a tomb in your inventory.")
             return False
         mouse.click(button="right")
         # TODO: Add hardcoded coordinates to ini file

@@ -1,6 +1,7 @@
 from transitions import Machine
 import time
 from char.hammerdin import Hammerdin
+from run import Pindle, ShenkEld, Trav
 from template_finder import TemplateFinder
 from item_finder import ItemFinder
 from screen import Screen
@@ -28,7 +29,6 @@ class Bot:
     def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
-        self._pick_corpse = pick_corpse
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder()
@@ -36,6 +36,8 @@ class Bot:
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
+
+        # Create Character
         if self._config.char["type"] == "sorceress":
             self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
@@ -43,12 +45,16 @@ class Bot:
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
+
+        # Create Town Manager
         npc_manager = NpcManager(screen, self._template_finder)
         a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         self._town_manager = TownManager(self._template_finder, self._ui_manager, a3, a4, a5)
         self._route_config = self._config.routes
+
+        # Create runs
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
             Logger.error("Running shenk without eldtritch is not supported. Either run none or both")
             os._exit(1)
@@ -59,6 +65,12 @@ class Bot:
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
+        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+
+        # Create member variables
+        self._pick_corpse = pick_corpse
         self._picked_up_items = False
         self._curr_loc: Location = None
         self._tps_left = 20
@@ -69,6 +81,7 @@ class Bot:
         self._no_stash_counter = 0
         self._ran_no_pickup = False
 
+        # Create State Machine
         self._states=['hero_selection', 'town', 'pindle', 'shenk', "trav"]
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
@@ -149,25 +162,26 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
+        # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
             time.sleep(0.6)
-            # TODO: Test corpse pickup in A3 (and A4)
             DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
+        # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
-        # Do some healing TODO: If tp is up we always go back into the portal... could use force move here?
+
+        # Check if should need some healing
         img = self._screen.grab()
-        hp = HealthManager.get_health(self._config, img)
-        mp = HealthManager.get_mana(self._config, img)
-        if hp < 0.6 or mp < 0.2:
+        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2:
             Logger.info("Healing at next possible Vendor")
             self._curr_loc = self._town_manager.heal(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game")
-        # Stash stuff, either when item was picked up or after 4 runs without stashing (so unwanted loot will not cause inventory full)
+
+        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         self._no_stash_counter += 1
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         if self._picked_up_items or force_stash:
@@ -177,6 +191,7 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game")
             wait(1.0)
+
         # Check if we are out of tps
         if self._tps_left < 3 or (self._config.char["tp"] and not self._ui_manager.has_tps()):
             Logger.info("Repairing and buying TPs at next Vendor")
@@ -184,6 +199,7 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game")
             wait(1.0)
+
         # Check if merc needs to be revived
         merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
         if not merc_alive and self._config.char["use_merc"]:
@@ -191,6 +207,7 @@ class Bot:
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game")
+
         # Start a new run
         started_run = False
         for key in self._do_runs:
@@ -202,104 +219,37 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_run_pindle(self):
-        def do_it() -> bool:
-            Logger.info("Run Pindle")
-            self._curr_loc = self._town_manager.go_to_act(5, self._curr_loc)
-            if not self._curr_loc:
-                return False
-            if not self._pather.traverse_nodes(self._curr_loc, Location.A5_NIHLATHAK_PORTAL, self._char): return False
-            self._curr_loc = Location.A5_NIHLATHAK_PORTAL
-            wait(0.4)
-            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-            if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func): return False
-            self._curr_loc = Location.A5_PINDLE_START
-            if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid: return False
-            if not self._pre_buffed:
-                self._char.pre_buff()
-                self._pre_buffed = 1
-            if self._config.char["static_path_pindle"]:
-                self._pather.traverse_nodes_fixed("pindle_save_dist", self._char)
-            else:
-                if not self._pather.traverse_nodes(Location.A5_PINDLE_START, Location.A5_PINDLE_SAVE_DIST, self._char): return False
-            self._char.kill_pindle()
-            self._picked_up_items = self._pickit.pick_up_items(self._char)
-            self._curr_loc = Location.A5_PINDLE_END
-            return True
-
         self._do_runs["run_pindle"] = False
-        success = do_it()
-        if self.is_last_run() or not success:
+        res = self._pindle.run(self._curr_loc, not self._pre_buffed)
+        if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
             self.trigger_or_stop("end_run")
+            self._curr_loc = res[0]
+            self._picked_up_items = res[1]
 
     def on_run_shenk(self):
-        def do_it():
-            Logger.info("Run Eldritch")
-            self._curr_loc = self._town_manager.open_wp(self._curr_loc)
-            wait(0.4)
-            self._ui_manager.use_wp(5, 1)
-            # eldritch
-            self._curr_loc = Location.A5_ELDRITCH_START
-            if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid: return False
-            if not self._pre_buffed:
-                self._char.pre_buff()
-                self._pre_buffed = 1
-            if self._config.char["static_path_eldritch"]:
-                self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
-            else:
-                if not self._pather.traverse_nodes(Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST, self._char): return False
-            self._char.kill_eldritch()
-            self._curr_loc = Location.A5_ELDRITCH_END
-            self._picked_up_items = self._pickit.pick_up_items(self._char)
-            # shenk
-            if self._route_config["run_shenk"]:
-                Logger.info("Run Shenk")
-                self._curr_loc = Location.A5_SHENK_START
-                if not self._pather.traverse_nodes(Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST, self._char): return False
-                self._char.kill_shenk()
-                wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                self._curr_loc = Location.A5_SHENK_END
-            return True
-
         self._do_runs["run_shenk"] = False
-        success = do_it()
-        if self.is_last_run() or not success:
+        res = self._shenk.run(self._curr_loc, self._route_config["run_shenk"], not self._pre_buffed)
+        if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
             self.trigger_or_stop("end_run")
+            self._curr_loc = res[0]
+            self._picked_up_items = res[1]
 
     def on_run_trav(self):
-        def do_it():
-            Logger.info("Run Trav")
-            if not self._char.can_teleport():
-                Logger.error("Trav is currently only supported for teleporting builds. Skipping trav")
-                return True
-            self._curr_loc = self._town_manager.open_wp(self._curr_loc)
-            wait(0.4)
-            self._ui_manager.use_wp(3, 7)
-            # eldritch
-            self._curr_loc = Location.A3_TRAV_START
-            if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1"], threshold=0.65, time_out=20).valid: return False
-            if not self._pre_buffed:
-                self._char.pre_buff()
-                self._pre_buffed = 1
-            self._pather.traverse_nodes_fixed("trav_save_dist", self._char)
-            self._char.kill_council()
-            self._curr_loc = Location.A3_TRAV_END
-            self._picked_up_items = self._pickit.pick_up_items(self._char)
-            return True
-
         self._do_runs["run_trav"] = False
-        success = do_it()
-        if self.is_last_run() or not success:
+        res = self._trav.run(self._curr_loc, not self._pre_buffed)
+        if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
             self.trigger_or_stop("end_run")
+            self._curr_loc = res[0]
+            self._picked_up_items = res[1]
 
     def on_end_game(self):
-        self._pre_buffed = 0
+        self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game()
         self._do_runs = {
@@ -313,6 +263,7 @@ class Bot:
         self.trigger_or_stop("create_game")
 
     def on_end_run(self):
+        self._pre_buffed = True
         success = self._char.tp_town()
         if success:
             self._tps_left -= 1
