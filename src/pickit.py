@@ -59,7 +59,7 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             if len(item_list) == 0:
-                # if two times no item was found, break
+                # if twice no item was found, break
                 found_nothing += 1
                 if found_nothing > 1:
                     break
@@ -101,7 +101,9 @@ class PickIt:
                     char.pre_move()
                     char.move((x_m, y_m))
                     time.sleep(0.1)
+                    # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item
+
         keyboard.send(self._config.char["show_items"])
         return found_items
 
