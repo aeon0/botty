@@ -105,7 +105,7 @@ class HealthManager:
         start = time.time()
         while self._do_monitor:
             time.sleep(0.1)
-            # Wait until the flag is reset by run.py
+            # Wait until the flag is reset by main.py
             if self._did_chicken or self._pausing: continue
             img = self._screen.grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop

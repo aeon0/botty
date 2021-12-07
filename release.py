@@ -53,7 +53,7 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(botty_dir)
 
-    installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\run.py"
+    installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\main.py"
     os.system(installer_cmd)
     os.system(f"mkdir {botty_dir}")
 

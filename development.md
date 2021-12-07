@@ -10,7 +10,7 @@ git clone https://github.com/aeon0/botty.git
 cd botty
 conda env create environment.yml
 conda activate botty
-python src/run.py
+python src/main.py
 ```
 Important info for Powershell users:
 ```bash
@@ -56,7 +56,7 @@ Want to implement a new char or build. Check this folder out. You will have to i
 Utilities functions and scripts e.g. for easily creating templates to traverse nodes and automatically generate code for it</br>
 
 ## Code routine
-run.py contains the main() function and is the entry point for botty. It will start 3 threads: death monitoring (death_manager.py), health monitoring (health_manager.py) and the bot (bot.py) itself. Whenever the two monitors either detect a player's death or chicken out of the game, the bot thread will be killed and restarted.</br>
+main.py contains the main() function and is the entry point for botty. It will start 3 threads: death monitoring (death_manager.py), health monitoring (health_manager.py) and the bot (bot.py) itself. Whenever the two monitors either detect a player's death or chicken out of the game, the bot thread will be killed and restarted.</br>
 In bot.py is a state machine in its core an executes different actions based on the current state. The goal is to remove as much implementation details as possible from bot.py and "hide" them in different manager classes (e.g. pickit.py, pather.py, npc_manager.py, etc.)
 
 ## State Diagram
