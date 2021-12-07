@@ -54,19 +54,13 @@ class PickIt:
             item_list = self._item_finder.search(img)
 
             # Check if we need to pick up certain pots more pots
-            need_pots = {"rejuv": 4, "health": 4, "mana": 4} # self._belt_manager.get_pot_needs()
+            need_pots = self._belt_manager.get_pot_needs()
             if need_pots["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if need_pots["health"] <= 0:
                 item_list = [x for x in item_list if "healing_potion" not in x.name]
             if need_pots["rejuv"] <= 0:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
-
-            # remove skip_items from item_list
-            print(f"Skipp: {skip_items}")
-            item_list = [x for x in item_list if x.name not in skip_items]
-            item_names = [x.name for x in item_list]
-            print(item_names)
 
             if len(item_list) == 0:
                 # if twice no item was found, break
@@ -87,10 +81,10 @@ class PickIt:
                         print("Start timer or different item name")
                         same_item_timer = time.time()
                         did_force_move = False
-                    elif time.time() - same_item_timer > 3 and not did_force_move:
+                    elif time.time() - same_item_timer > 4 and not did_force_move:
                         force_move = True
                         did_force_move = True
-                    elif time.time() - same_item_timer > 6:
+                    elif time.time() - same_item_timer > 8:
                         # backlist this item type for this pickit round
                         Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
                         skip_items.append(closest_item.name)
