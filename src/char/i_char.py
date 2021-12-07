@@ -28,7 +28,7 @@ class IChar:
         self._screen = screen
         self._config = Config()
         self._last_tp = time.time()
-        # Add 0.02 to be on the save side
+        # Add a bit to be on the save side
         self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01
 
     def can_teleport(self) -> bool:
