@@ -198,6 +198,7 @@ class Bot:
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game")
+            self._tps_left = 20
             wait(1.0)
 
         # Check if merc needs to be revived
@@ -265,13 +266,12 @@ class Bot:
     def on_end_run(self):
         self._pre_buffed = True
         success = self._char.tp_town()
+        self._tps_left -= 1
         if success:
-            self._tps_left -= 1
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 self.trigger_or_stop("maintenance")
             else:
                 self.trigger_or_stop("end_game")
         else:
-            self._tps_left = 0
             self.trigger_or_stop("end_game")
