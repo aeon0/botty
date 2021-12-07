@@ -74,7 +74,7 @@ class Bot:
         self._pick_corpse = pick_corpse
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
-        self._tps_left = 20
+        self._tps_left = 10 # assume half full tp book
         self._pre_buffed = 0
         self._stopping = False
         self._pausing = False
@@ -194,7 +194,7 @@ class Bot:
             wait(1.0)
 
         # Check if we are out of tps
-        if self._tps_left < 3 or (self._config.char["tp"] and not self._ui_manager.has_tps()):
+        if self._tps_left < 3:
             Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
