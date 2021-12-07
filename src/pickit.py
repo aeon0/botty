@@ -41,8 +41,12 @@ class PickIt:
         start = prev_cast_start = time.time()
         time_out = False
         picked_up_items = []
+        skip_items = []
+        curr_item_to_pick: Item = None
+        same_item_timer = None
+        did_force_move = False
         while not time_out:
-            if (time.time() - start) > 24:
+            if (time.time() - start) > 28:
                 time_out = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
@@ -69,13 +73,31 @@ class PickIt:
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
                         closest_item = item
-                x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
+    
+                # check if we trying to pickup the same item for a longer period of time
+                force_move = False
+                if curr_item_to_pick is not None:
+                    if same_item_timer is None or curr_item_to_pick.name != closest_item.name:
+                        print("Start timer or different item name")
+                        same_item_timer = time.time()
+                        did_force_move = False
+                    elif time.time() - same_item_timer > 4 and not did_force_move:
+                        force_move = True
+                        did_force_move = True
+                    elif time.time() - same_item_timer > 8:
+                        # backlist this item type for this pickit round
+                        Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
+                        skip_items.append(closest_item.name)
+                curr_item_to_pick = closest_item
+
                 # To avoid endless teleport or telekinesis loop
                 force_pick_up = char.can_teleport() and \
                                 self._last_closest_item is not None and \
                                 self._last_closest_item.name == closest_item.name and \
                                 abs(self._last_closest_item.dist - closest_item.dist) < 20
-                if closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up:
+
+                x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
+                if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
@@ -112,6 +134,7 @@ if __name__ == "__main__":
     import os
     from config import Config
     from char.sorceress import Sorceress
+    from char.hammerdin import Hammerdin
     from ui_manager import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
@@ -129,6 +152,6 @@ if __name__ == "__main__":
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
-    pickit.pick_up_items(char)
+    print(pickit.pick_up_items(char))
