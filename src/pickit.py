@@ -78,7 +78,6 @@ class PickIt:
                 force_move = False
                 if curr_item_to_pick is not None:
                     if same_item_timer is None or curr_item_to_pick.name != closest_item.name:
-                        print("Start timer or different item name")
                         same_item_timer = time.time()
                         did_force_move = False
                     elif time.time() - same_item_timer > 4 and not did_force_move:

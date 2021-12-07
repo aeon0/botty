@@ -3,7 +3,7 @@ from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import UiManager
 from screen import Screen
-from utils.misc import wait, cut_roi
+from utils.misc import wait, cut_roi, is_in_roi
 import cv2
 import math
 import keyboard
@@ -49,12 +49,12 @@ class IChar:
         :param time_out: Timeout for the whole template selection, defaults to None
         :return: True if success. False otherwise
         """
-        if template_type == "A5_STASH":
+        if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
             if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
                 keyboard.send("esc")
         start = time.time()
-        while time_out is not None or (time.time() - start) < time_out:
+        while time_out is None or (time.time() - start) < time_out:
             template_match = self._template_finder.search(template_type, self._screen.grab())
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
@@ -101,10 +101,16 @@ class IChar:
                 mouse.click(button="left")
 
     def tp_town(self):
+        # will check if tp is available and select the skill
         if not self._ui_manager.has_tps():
             return False
         mouse.click(button="right")
-        # TODO: Add hardcoded coordinates to ini file
+        roi_mouse_move = [
+            int(self._config.ui_pos["screen_width"] * 0.3),
+            0,
+            int(self._config.ui_pos["screen_width"] * 0.4),
+            int(self._config.ui_pos["screen_height"] * 0.7)
+        ]
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
@@ -127,8 +133,10 @@ class IChar:
                 mouse.click(button="left")
                 if self._ui_manager.wait_for_loading_screen(2.0):
                     return True
-            # move mouse away to not overlay with the town portal
-            mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
+            # move mouse away to not overlay with the town portal if mouse is in center
+            pos_screen = self._screen.convert_monitor_to_screen(mouse.get_position())
+            if is_in_roi(roi_mouse_move, pos_screen):
+                mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):

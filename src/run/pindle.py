@@ -36,7 +36,7 @@ class Pindle:
             return False
         if not self._pather.traverse_nodes(loc, Location.A5_NIHLATHAK_PORTAL, self._char):
             return False
-        wait(0.4)
+        wait(0.5, 0.6)
         found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
         if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func):
             return False
