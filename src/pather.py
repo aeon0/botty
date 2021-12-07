@@ -177,6 +177,7 @@ class Pather:
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
             (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
+            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227]
         }
 
     def _get_node(self, key: int, template: str):
@@ -300,7 +301,7 @@ class Pather:
                         return False
 
                 # Sometimes we get stuck at rocks and stuff, after 2.5 seconds force a move into the last know direction
-                if not did_force_move and time.time() - last_move > 2.5:
+                if not did_force_move and time.time() - last_move > 3.1:
                     pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction

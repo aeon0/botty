@@ -39,10 +39,10 @@ class Hammerdin(IChar):
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _do_redemption(self):
+    def _do_redemption(self, delay: tuple[float, float] = (1.5, 2.0)):
         if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
-            wait(1.5, 2.0)
+            wait(*delay)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:

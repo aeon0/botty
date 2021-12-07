@@ -47,4 +47,14 @@ class Trav:
         self._pather.traverse_nodes_fixed("trav_save_dist", self._char)
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char)
+        if not picked_up_items:
+            # in trav many items can drop that we might not see all, move to the left a bit
+            x_m, y_m = self._char._screen.convert_abs_to_monitor((-120, -70))
+            self._char.pre_move()
+            self._char.move((x_m, y_m), force_move=True, force_tp=True)
+            picked_up_items = self._pickit.pick_up_items(self._char)
+
+        # Move back to center to avoid hidden tps
+        self._pather.traverse_nodes(Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST, self._char, time_out=3)
+
         return (Location.A3_TRAV_END, picked_up_items)
