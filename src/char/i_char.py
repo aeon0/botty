@@ -135,7 +135,6 @@ class IChar:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = self._screen.convert_monitor_to_screen(mouse.get_position())
-            print(roi_mouse_move)
             if is_in_roi(roi_mouse_move, pos_screen):
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
