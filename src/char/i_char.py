@@ -28,8 +28,8 @@ class IChar:
         self._screen = screen
         self._config = Config()
         self._last_tp = time.time()
-        # It actually is 0.04s per frame but many people have issues with it (because of lag?)
-        self._cast_duration = self._char_config["casting_frames"] * 0.05 + 0.04
+        # Add 0.02 to be on the save side
+        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01
 
     def can_teleport(self) -> bool:
         return bool(self._skill_hotkeys["teleport"])
@@ -82,7 +82,7 @@ class IChar:
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
-            wait(self._cast_duration, self._cast_duration + 0.03)
+            wait(self._cast_duration, self._cast_duration + 0.02)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
@@ -140,11 +140,11 @@ class IChar:
         keyboard.send(self._char_config["battle_command"])
         wait(0.08, 0.19)
         mouse.click(button="right")
-        wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
+        wait(self._cast_duration + 0.13, self._cast_duration + 0.16)
         keyboard.send(self._char_config["battle_orders"])
         wait(0.08, 0.19)
         mouse.click(button="right")
-        wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
+        wait(self._cast_duration + 0.13, self._cast_duration + 0.16)
         keyboard.send(self._char_config["weapon_switch"])
         wait(0.3, 0.35)
         # Make sure that we are back at the previous skill
