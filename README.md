@@ -14,7 +14,7 @@ It is highly recommended to let botty run with /nopickup active. This will reduc
 
 ### 1) Graphics and Gameplay Settings
 
-All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings.
+All settings will automatically be set when you execute `main.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings.
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty. Also HDR should be truned off.
 
 ### 2) Supported builds
@@ -38,7 +38,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 ### 4) Start Botty
 
-You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Focus your D2R window window and press the start key (default f11). You can always force stop botty with f12.
+You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `main.exe` in the botty folder. Focus your D2R window window and press the start key (default f11). You can always force stop botty with f12.
 
 ## Graphic Debugger
 

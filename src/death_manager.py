@@ -73,7 +73,7 @@ class DeathManager:
         while self._do_monitor:
             if self._died: continue
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
-            # Wait until the flag is reset by run.py
+            # Wait until the flag is reset by main.py
             if self._died: continue
             self.handle_death_screen()
         Logger.debug("Stop death monitoring")
