@@ -46,7 +46,11 @@ class HealthManager:
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
             bosses = ["shenk", "eldritch", "pindle", "trav"]
+            prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
+            if self._pausing != prev_value:
+                debug_str = "pausing" if self._pausing else "active"
+                Logger.info(f"Health Manager is now {debug_str}")
 
     @staticmethod
     def get_health(config: Config, img: np.ndarray) -> float:

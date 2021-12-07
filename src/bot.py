@@ -23,6 +23,7 @@ import keyboard
 import time
 import os
 import random
+from typing import Union
 
 
 class Bot:
@@ -72,7 +73,7 @@ class Bot:
         # Create member variables
         self._pick_corpse = pick_corpse
         self._picked_up_items = False
-        self._curr_loc: Location = None
+        self._curr_loc: Union[bool, Location] = None
         self._tps_left = 20
         self._pre_buffed = 0
         self._stopping = False
@@ -220,36 +221,46 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_run_pindle(self):
+        res = False
         self._do_runs["run_pindle"] = False
-        res = self._pindle.run(self._curr_loc, not self._pre_buffed)
+        self._curr_loc = self._pindle.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._pindle.battle(not self._pre_buffed)
         if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
-            self.trigger_or_stop("end_run")
             self._curr_loc = res[0]
             self._picked_up_items = res[1]
+            self.trigger_or_stop("end_run")
 
     def on_run_shenk(self):
+        res = False
         self._do_runs["run_shenk"] = False
-        res = self._shenk.run(self._curr_loc, self._route_config["run_shenk"], not self._pre_buffed)
+        self._curr_loc = self._shenk.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed)
         if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
-            self.trigger_or_stop("end_run")
             self._curr_loc = res[0]
             self._picked_up_items = res[1]
+            self.trigger_or_stop("end_run")
 
     def on_run_trav(self):
+        res = False
         self._do_runs["run_trav"] = False
-        res = self._trav.run(self._curr_loc, not self._pre_buffed)
+        self._curr_loc = self._trav.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._trav.battle(not self._pre_buffed)
         if self.is_last_run() or not res:
             self.trigger_or_stop("end_game")
         else:
-            self.trigger_or_stop("end_run")
             self._curr_loc = res[0]
             self._picked_up_items = res[1]
+            self.trigger_or_stop("end_run")
 
     def on_end_game(self):
+        self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game()
