@@ -39,7 +39,7 @@ class A3(IAct):
         return Location.A3_STASH_WP
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes(curr_loc, Location.A3_STASH_WP, self._char): return False
+        if not self._pather.traverse_nodes(curr_loc, Location.A3_STASH_WP, self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         return self._char.select_by_template("A3_WP", found_wp_func)

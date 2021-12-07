@@ -177,6 +177,7 @@ class Pather:
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
             (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
+            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227]
         }
 
     def _get_node(self, key: int, template: str):
@@ -250,10 +251,11 @@ class Pather:
         start_location: Location,
         end_location: Location,
         char: IChar,#
-        time_out: float = 7,
+        time_out: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
-        force_move: bool = False) -> bool:
+        force_move: bool = False
+    ) -> bool:
         """
         Traverse from one location to another
         :param start_location: Location the char is starting at
@@ -273,11 +275,14 @@ class Pather:
             return False
         if do_pre_move:
             char.pre_move()
+        last_direction = None
         for i, node_idx in enumerate(path):
             continue_to_next_node = False
             last_move = time.time()
+            did_force_move = False
             while not continue_to_next_node:
                 img = self._screen.grab()
+                # Handle timeout
                 if (time.time() - last_move) > time_out:
                     success = self._template_finder.search("WAYPOINT_MENU", img).valid
                     if success:
@@ -294,6 +299,19 @@ class Pather:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
+
+                # Sometimes we get stuck at rocks and stuff, after 2.5 seconds force a move into the last know direction
+                if not did_force_move and time.time() - last_move > 3.1:
+                    pos_abs = (0, 150)
+                    if last_direction is not None:
+                        pos_abs = last_direction
+                    print(pos_abs)
+                    x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    char.move((x_m, y_m), force_move=True)
+                    did_force_move = True
+                    last_move = time.time()
+
+                # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
@@ -303,6 +321,7 @@ class Pather:
                         # Move the char
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
+                        last_direction = node_pos_abs
                         last_move = time.time()
         return True
 
@@ -358,5 +377,5 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
-    pather.traverse_nodes(Location.A3_STASH_WP, Location.A3_STASH_WP, char)
+    pather.traverse_nodes(Location.A3_TOWN_START, Location.A3_STASH_WP, char)
     # display_all_nodes(pather, filter="TRAV")
