@@ -18,6 +18,7 @@ class GameStats:
         self._chicken_counter = 0
         self._death_counter = 0
         self._runs_failed = 0
+        self._failed_game_time = 0
 
     def _send_discord_thread(self, msg: str):
         if self._config.general["custom_discord_hook"]:
@@ -52,15 +53,17 @@ class GameStats:
         self._timer = time.time()
         Logger.info(f"Starting game #{self._game_counter}")
 
-    def log_end_game(self):
+    def log_end_game(self, failed: bool = False):
         elapsed_time = 0
         if self._timer is not None:
             elapsed_time = time.time() - self._timer
         self._timer = None
-        Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
-
-    def log_failed_run(self):
-        self._runs_failed += 1
+        if failed:
+            self._runs_failed += 1
+            self._failed_game_time += elapsed_time
+            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s")
+        else:
+            Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
     def pause_timer(self):
         if self._timer is None or self._paused:
@@ -87,8 +90,10 @@ class GameStats:
         elapsed_time = time.time() - self._start_time
         elapsed_time_str = hms(elapsed_time)
         avg_length_str = "n/a"
-        if self._game_counter > 0:
-            avg_length = elapsed_time / float(self._game_counter)
+        good_games_count = self._game_counter - self._runs_failed
+        if good_games_count > 0:
+            good_games_time = elapsed_time - self._failed_game_time
+            avg_length = good_games_time / float(good_games_count)
             avg_length_str = hms(avg_length)
         msg = inspect.cleandoc(f'''
             Session length: {elapsed_time_str}
