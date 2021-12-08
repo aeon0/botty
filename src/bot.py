@@ -121,14 +121,14 @@ class Bot:
             Logger.info(f"Resume")
             self._game_stats.resume_timer()
 
-    def trigger_or_stop(self, name: str):
+    def trigger_or_stop(self, name: str, **kwargs):
         if self._pausing:
             Logger.info(f"{self._config.general['name']} is now pausing")
             self._game_stats.pause_timer()
         while self._pausing:
             time.sleep(0.2)
         if not self._stopping:
-            self.trigger(name)
+            self.trigger(name, **kwargs)
 
     def current_game_length(self):
         return self._game_stats.get_current_game_length()
@@ -180,7 +180,7 @@ class Bot:
             Logger.info("Healing at next possible Vendor")
             self._curr_loc = self._town_manager.heal(self._curr_loc)
             if not self._curr_loc:
-                return self.trigger_or_stop("end_game")
+                return self.trigger_or_stop("end_game", failed=True)
 
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         self._no_stash_counter += 1
@@ -190,7 +190,7 @@ class Bot:
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
             if not self._curr_loc:
-                return self.trigger_or_stop("end_game")
+                return self.trigger_or_stop("end_game", failed=True)
             wait(1.0)
 
         # Check if we are out of tps or need repairing
@@ -200,7 +200,7 @@ class Bot:
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
-                return self.trigger_or_stop("end_game")
+                return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
             wait(1.0)
 
@@ -210,7 +210,7 @@ class Bot:
             Logger.info("Resurrect merc")
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
-                return self.trigger_or_stop("end_game")
+                return self.trigger_or_stop("end_game", failed=True)
 
         # Start a new run
         started_run = False
@@ -222,18 +222,24 @@ class Bot:
         if not started_run:
             self.trigger_or_stop("end_game")
 
+    # All the runs go here
+    # ==================================
+    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+        if self.is_last_run() or not res:
+            failed = not res
+            self.trigger_or_stop("end_game", failed=failed)
+        else:
+            self._curr_loc = res[0]
+            self._picked_up_items = res[1]
+            self.trigger_or_stop("end_run")
+
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             res = self._pindle.battle(not self._pre_buffed)
-        if self.is_last_run() or not res:
-            self.trigger_or_stop("end_game")
-        else:
-            self._curr_loc = res[0]
-            self._picked_up_items = res[1]
-            self.trigger_or_stop("end_run")
+        self._ending_run_helper(res)
 
     def on_run_shenk(self):
         res = False
@@ -241,12 +247,7 @@ class Bot:
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
             res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed)
-        if self.is_last_run() or not res:
-            self.trigger_or_stop("end_game")
-        else:
-            self._curr_loc = res[0]
-            self._picked_up_items = res[1]
-            self.trigger_or_stop("end_run")
+        self._ending_run_helper(res)
 
     def on_run_trav(self):
         res = False
@@ -254,18 +255,13 @@ class Bot:
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
-        if self.is_last_run() or not res:
-            self.trigger_or_stop("end_game")
-        else:
-            self._curr_loc = res[0]
-            self._picked_up_items = res[1]
-            self.trigger_or_stop("end_run")
+        self._ending_run_helper(res)
 
-    def on_end_game(self):
+    def on_end_game(self, failed: bool = False):
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
-        self._game_stats.log_end_game()
+        self._game_stats.log_end_game(failed=failed)
         self._do_runs = {
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
@@ -283,8 +279,5 @@ class Bot:
         if success:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
-                self.trigger_or_stop("maintenance")
-            else:
-                self.trigger_or_stop("end_game")
-        else:
-            self.trigger_or_stop("end_game")
+                return self.trigger_or_stop("maintenance")
+        self.trigger_or_stop("end_game", failed=True)
