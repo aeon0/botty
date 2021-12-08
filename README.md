@@ -143,7 +143,6 @@ run_shenk=0
 | [advanced_options]   | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
-| template_threshold   | Threshold to find templates used during pathing.                      |
 
 | [items]   | Descriptions                                                                                                            |
 | --------- | ----------------------------------------------------------------------------------------------------------------------- |

@@ -41,12 +41,19 @@ class IChar:
         wait(0.45,0.5)
         return prev_cast_start
 
-    def select_by_template(self, template_type:  Union[str, List[str]], success_func: Callable = None, time_out: float = 8) -> bool:
+    def select_by_template(
+        self,
+        template_type:  Union[str, List[str]],
+        success_func: Callable = None,
+        time_out: float = 8,
+        threshold: float = 0.68
+    ) -> bool:
         """
         Finds any template from the template finder and interacts with it
         :param template_type: Strings or list of strings of the templates that should be searched for
         :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
         :param time_out: Timeout for the whole template selection, defaults to None
+        :param threshold: Threshold which determines if a template is found or not. None will use default form .ini files
         :return: True if success. False otherwise
         """
         if type(template_type) == list and "A5_STASH" in template_type:
@@ -55,7 +62,7 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab())
+            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
