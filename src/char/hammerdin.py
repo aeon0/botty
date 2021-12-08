@@ -117,11 +117,10 @@ class Hammerdin(IChar):
         self._pather.traverse_nodes([226], self, time_out=2.5)
         self._cast_hammers(atk_len)
         # move a bit to the top
-        for _ in  range(2):
-            pos_m = self._screen.convert_abs_to_monitor((45, -30))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            self._cast_hammers(atk_len)
+        pos_m = self._screen.convert_abs_to_monitor((45, -30))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_hammers(atk_len)
         self._do_redemption()
         return True
 

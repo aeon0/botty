@@ -275,9 +275,11 @@ class Bot:
     def on_end_run(self):
         self._pre_buffed = True
         success = self._char.tp_town()
-        self._tps_left -= 1
         if success:
+            self._tps_left -= 1
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
+        if not self._ui_manager.has_tps():
+            self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
