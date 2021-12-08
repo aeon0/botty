@@ -123,15 +123,17 @@ class Pather:
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
             # Trav
-            220: {"TRAV_0": (490, 397), "TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73)},
-            221: {"TRAV_3": (-185, -51), "TRAV_1": (200, 124), "TRAV_2": (230, -242), "TRAV_5": (-843, -8)},
-            222: {"TRAV_3": (291, -6), "TRAV_5": (-367, 38), "TRAV_4": (289, 268), "TRAV_1": (676, 170), "TRAV_6": (-845, -182)},
-            223: {"TRAV_5": (-59, 97), "TRAV_6": (-537, -123), "TRAV_3": (599, 53), "TRAV_4": (597, 327)},
-            224: {"TRAV_6": (-133, -150), "TRAV_5": (345, 70), "TRAV_7": (-508, 245), "TRAV_12": (-776, -232), "TRAV_10": (-876, 117)},
-            225: {"TRAV_6": (214, -172), "TRAV_7": (-161, 223), "TRAV_12": (-429, -254), "TRAV_10": (-529, 95), "TRAV_9": (-632, -131)},
-            226: {"TRAV_12": (-3, -89), "TRAV_9": (-205, 33), "TRAV_10": (-103, 260), "TRAV_11": (-222, 214), "TRAV_13": (-523, 323)},
-            227: {"TRAV_9": (239+70, -9+30), "TRAV_11": (222+70, 173+30), "TRAV_13": (-79+70, 281+30), "TRAV_10": (341+70, 218+30), "TRAV_12": (441+70, -131+30)},
-            228: {"TRAV_11": (-47+100, -24+100), "TRAV_10": (71+100, 21+100), "TRAV_9": (-31+100, -205+100), "TRAV_13": (-348+100, 84+100), "TRAV_12": (172+100, -328+100)},
+            220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
+            221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
+            222: {"TRAV_5": (-218, 106), "TRAV_4": (120, 230), "TRAV_2": (426, 7), "TRAV_7": (-719, -166), "TRAV_1": (862, -153)},
+            223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
+            224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
+            225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
+            226: {"TRAV_12": (-95, -182), "TRAV_25": (-225, 23), "TRAV_13": (-272, 185), "TRAV_11": (323, 105), "TRAV_17": (-251, 232), 'TRAV_27': (408, 253)},
+            227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
+            228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
+            229: {"TRAV_18": (-220, 58), "TRAV_25": (89, -282), "TRAV_17": (60, -74), "TRAV_13": (39, -121), "TRAV_16": (-168, -241)},
+            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)}
         }
         self._paths = {
             # A5 Town
@@ -176,9 +178,8 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
-            (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227]
+            (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225],
+            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [225]
         }
 
     def _get_node(self, key: int, template: str):
@@ -251,14 +252,13 @@ class Pather:
         self,
         start_location: Location,
         end_location: Location,
-        char: IChar,#
+        char: IChar,
         time_out: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False
     ) -> bool:
-        """
-        Traverse from one location to another
+        """Traverse from one location to another
         :param start_location: Location the char is starting at
         :param end_location: Location the char is supposed to end up
         :param char: Char that is traversing the nodes
@@ -338,7 +338,7 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
@@ -359,7 +359,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -378,7 +378,5 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
-    t = time.time()
-    pather.traverse_nodes(Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST, char)
-    print(time.time()-t)
-    # display_all_nodes(pather, filter="TRAV")
+    # pather.traverse_nodes(Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END, char)
+    display_all_nodes(pather, filter="TRAV")
