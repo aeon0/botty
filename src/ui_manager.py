@@ -447,8 +447,7 @@ class UiManager():
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
                 threshold=0.79,
-                time_out=4
-            )
+                time_out=4)
             if not template_match.valid:
                 Logger.warning("You are out of tps")
                 if self._config.general["info_screenshots"]:
@@ -456,6 +455,14 @@ class UiManager():
             return template_match.valid
         else:
             return False
+
+    def repair_needed(self) -> bool:
+        template_match = self._template_finder.search(
+            "REPAIR_NEEDED",
+            self._screen.grab(),
+            roi=self._config.ui_roi["repair_needed"],
+            use_grayscale=True)
+        return template_match.valid
 
     def enable_no_pickup(self) -> bool:
         """
