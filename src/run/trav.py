@@ -47,7 +47,9 @@ class Trav:
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char)
         wait(0.2, 0.3)
-        success = self._pather.traverse_nodes([228, 229], self._char, force_move=True, time_out=2.5)
+        success = self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
         if success:
             picked_up_items |= self._pickit.pick_up_items(self._char)
+        # to make sure we see the portal
+        success = self._pather.traverse_nodes([229], self._char, time_out=2.5)
         return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)

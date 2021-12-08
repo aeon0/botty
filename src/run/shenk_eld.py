@@ -46,7 +46,7 @@ class ShenkEld:
         if self._config.char["static_path_eldritch"]:
             self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST), self._char):
+            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST), self._char, force_move=True):
                 return False
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
@@ -57,6 +57,7 @@ class ShenkEld:
         if do_shenk:
             Logger.info("Run Shenk")
             self._curr_loc = Location.A5_SHENK_START
+            # No force move, otherwise we might get stuck at stairs!
             if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST), self._char):
                 return False
             self._char.kill_shenk()

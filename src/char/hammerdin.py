@@ -106,8 +106,7 @@ class Hammerdin(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit
-        path = [228, 229] if self.can_teleport() else [228]
-        self._pather.traverse_nodes(path, self, time_out=2.5, force_move=True)
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         pos_m = self._screen.convert_abs_to_monitor((40, 20))
@@ -115,7 +114,7 @@ class Hammerdin(IChar):
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
         # Back to center stairs and more hammers
-        self._pather.traverse_nodes([226], self, time_out=2.5, force_move=True)
+        self._pather.traverse_nodes([226], self, time_out=2.5)
         self._cast_hammers(atk_len)
         # move a bit to the top
         for _ in  range(2):
