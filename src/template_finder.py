@@ -186,7 +186,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["A3_TOWN_1"]
+    search_templates = ["REPAIR_NEEDED"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
