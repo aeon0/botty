@@ -77,7 +77,9 @@ class PickIt:
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
                 if curr_item_to_pick is not None:
-                    if same_item_timer is None or curr_item_to_pick.name != closest_item.name:
+                    is_same_item = (curr_item_to_pick.name == closest_item.name and \
+                        abs(curr_item_to_pick.dist - closest_item.dist) < 20)
+                    if same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
                     elif time.time() - same_item_timer > 4 and not did_force_move:
@@ -106,6 +108,8 @@ class PickIt:
                         found_items = True
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
+                    if not char.can_teleport():
+                        time.sleep(0.2)
 
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
@@ -120,7 +124,9 @@ class PickIt:
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
-                    char.move((x_m, y_m))
+                    char.move((x_m, y_m), force_move=True)
+                    if not char.can_teleport():
+                        time.sleep(0.3)
                     time.sleep(0.1)
                     # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item

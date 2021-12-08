@@ -31,9 +31,6 @@ class Trav:
     def approach(self, start_loc: Location) -> Union[bool, Location]:
         # Go to Travincal via waypoint
         Logger.info("Run Trav")
-        if not self._char.can_teleport():
-            Logger.error("Trav is currently only supported for teleporting builds")
-            return False
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
@@ -42,21 +39,17 @@ class Trav:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
-        if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1"], threshold=0.65, time_out=20).valid:
+        if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        self._pather.traverse_nodes_fixed("trav_save_dist", self._char)
+        self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True)
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char)
-        if not picked_up_items:
-            # in trav many items can drop that we might not see all, move to the left a bit
-            x_m, y_m = self._char._screen.convert_abs_to_monitor((-120, -70))
-            self._char.pre_move()
-            self._char.move((x_m, y_m), force_move=True, force_tp=True)
-            picked_up_items = self._pickit.pick_up_items(self._char)
-
-        # Move back to center to avoid hidden tps
-        self._pather.traverse_nodes(Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST, self._char, time_out=3)
-
-        return (Location.A3_TRAV_END, picked_up_items)
+        wait(0.2, 0.3)
+        success = self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
+        if success:
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+        # to make sure we see the portal
+        success = self._pather.traverse_nodes([229], self._char, time_out=2.5)
+        return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)
