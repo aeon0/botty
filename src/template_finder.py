@@ -51,7 +51,7 @@ class TemplateFinder:
         self,
         ref: Union[str, np.ndarray, List[str]],
         inp_img: np.ndarray,
-        threshold: float = None,
+        threshold: float = 0.68,
         roi: List[float] = None,
         normalize_monitor: bool = False,
         best_match: bool = False,
@@ -68,7 +68,6 @@ class TemplateFinder:
         :param use_grayscale: Use grayscale template matching for speed up
         :return: Returns a TempalteMatch object with a valid flag
         """
-        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -148,7 +147,7 @@ class TemplateFinder:
         ref: Union[str, List[str]],
         roi: List[float] = None,
         time_out: float = None,
-        threshold: float = None,
+        threshold: float = 0.68,
         best_match: bool = False,
         take_ss: bool = True,
         use_grayscale: bool = False
@@ -161,7 +160,6 @@ class TemplateFinder:
         """
         if type(ref) is str:
             ref = [ref]
-        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
