@@ -50,6 +50,13 @@ class Location:
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_SAVE_DIST = "a3_trav_save_dist"
     A3_TRAV_END = "a3_trav_end"
+    # Nihalatk
+    A5_NIHLATAK_LVL2_START = "a5_nihlatak_lvl2_start"
+    A5_NIHLATAK_LVL2_A = "a5_nihlatak_lvl2_a"
+    A5_NIHLATAK_LVL2_B = "a5_nihlatak_lvl2_b"
+    A5_NIHLATAK_LVL2_C = "a5_nihlatak_lvl2_c"
+    A5_NIHLATAK_LVL2_D = "a5_nihlatak_lvl2_d"
+    A5_NIHLATAK_LVL2_END = "a5_nihlatak_lvl2_a"
 
 class Pather:
     """
@@ -132,6 +139,17 @@ class Pather:
             226: {"TRAV_12": (-3, -89), "TRAV_9": (-205, 33), "TRAV_10": (-103, 260), "TRAV_11": (-222, 214), "TRAV_13": (-523, 323)},
             227: {"TRAV_9": (239+70, -9+30), "TRAV_11": (222+70, 173+30), "TRAV_13": (-79+70, 281+30), "TRAV_10": (341+70, 218+30), "TRAV_12": (441+70, -131+30)},
             228: {"TRAV_11": (-47+100, -24+100), "TRAV_10": (71+100, 21+100), "TRAV_9": (-31+100, -205+100), "TRAV_13": (-348+100, 84+100), "TRAV_12": (172+100, -328+100)},
+            # Nihlatak
+            # For Level1, three maplayouts from waypoint to Level2 ("A = Bottom", " B = Large Room" and "C = Small Room"). Static paths are used here & stored in lowercase game.ini - only the stairs are checked as template
+            # For Level2, there is one layout, but four possible spawning points. Therefore templates are used to teleport to each spawn point to check for the "eye" on the wall.
+            # if correct spawn is found, switch to attack path, otherwise finish the circle go back to level1 and safe TP back to town.
+            500: {"NI2_SEARCH_0": (13, 406), "NI2_SEARCH_1": (-152, 291), "NI2_SEARCH_2": (-342, -79), "NI2_SEARCH_3": (-537, 310), "NI2_SEARCH_4": (-1266, 517), "NI2_SEARCH_5": (-512, 605), "NI2_SEARCH_6": (-86, 908), "NI2_SEARCH_7": (-774, 124), "NI2_SEARCH_8": (795, 476)}, #STARTING POINT FOR STATIC PATH ni2_a
+            501: {"NI2_SEARCH_1": (402, 278), "NI2_SEARCH_2": (212, -92), "NI2_SEARCH_3": (17, 297), "NI2_SEARCH_4": (-712, 504), "NI2_SEARCH_5": (42, 592), "NI2_SEARCH_6": (468, 895), "NI2_SEARCH_7": (-220, 111), "NI2_SEARCH_0": (567, 393), "NI2_SEARCH_8": (1349, 463)}, #STARTING POINT FOR STATIC PATH ni2_b
+            502: {"NI2_SEARCH_1": (745, -67), "NI2_SEARCH_3": (360, -48), "NI2_SEARCH_4": (-369, 159), "NI2_SEARCH_5": (385, 247), "NI2_SEARCH_6": (811, 550), "NI2_SEARCH_7": (123, -234), "NI2_SEARCH_0": (910, 48), "NI2_SEARCH_8": (1692, 118)}, #transition to next
+            503: {"NI2_SEARCH_3": (396, -243), "NI2_SEARCH_4": (-333, -36), "NI2_SEARCH_5": (421, 52), "NI2_SEARCH_6": (847, 355), "NI2_SEARCH_7": (159, -429), "NI2_SEARCH_0": (158, -617), "NI2_SEARCH_1": (-7, -732), "NI2_SEARCH_8": (940, -547)}, #STARTING POINT FOR STATIC PATH ni2_c
+            504: {"NI2_SEARCH_4": (-968, -234), "NI2_SEARCH_5": (-214, -146), "NI2_SEARCH_6": (212, 157), "NI2_SEARCH_3": (548, 30), "NI2_SEARCH_7": (311, -156), "NI2_SEARCH_0": (310, -344), "NI2_SEARCH_1": (145, -459), "NI2_SEARCH_8": (1092, -274)},#STARTING POINT FOR STATIC PATH ni2_d
+            #505: {"NI2_SEARCH_5": (-788, 212), "NI2_SEARCH_6": (-362, 515), "NI2_SEARCH_7": (-263, 202), "NI2_SEARCH_0": (-264, 14), "NI2_SEARCH_1": (-429, -101), "NI2_SEARCH_8": (518, 84)}, #go back to home (actually useless tele here)
+            506: {"NI2_SEARCH_1": (-199, 10), "NI2_SEARCH_7": (-33, 313), "NI2_SEARCH_8": (748, 195)}, #back to entrance
         }
         self._paths = {
             # A5 Town
@@ -179,6 +197,13 @@ class Pather:
             (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
             (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
             (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227]
+            # Nihlatak
+            (Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_A): [500], #brings us from stairs to eye check A
+            (Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B): [501], #brings us from eye check A to eye check B
+            (Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C): [502, 503], #brings us from eye check B to eye check C - here, we need two jumps to find the correct spot for checking for Eye at location C
+            (Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D): [504], #brings us from eye check C to eye check D 505 is skipped, is just an additional teleport which can be replaced by 506
+            (Location.A5_NIHLATAK_LVL2_D, Location.A5_NIHLATAK_LVL2_END): [506], #brings us from eye check D back to the stairs - if I end up here, then I didnt find an eye and can go back to Level1 for save TP home.
+            (Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_END): [500, 501, 502, 503, 504, 506], #jumping in a circle on LVL2 - for debugging
         }
 
     def _get_node(self, key: int, template: str):
