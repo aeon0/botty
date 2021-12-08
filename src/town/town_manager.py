@@ -119,9 +119,15 @@ class TownManager:
                 wait(0.1, 0.2)
                 self._ui_manager.close_vendor_screen()
                 return new_loc
-        # TODO: Got to Act 5 for repair and fill up tps
-        Logger.warning(f"Could not repair in {curr_act}. Continue without repairing")
-        return curr_loc
+        new_loc = self.go_to_act(5, curr_loc)
+        if not new_loc: return False
+        new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
+        if not new_loc: return False
+        if self._ui_manager.repair_and_fill_up_tp():
+            wait(0.1, 0.2)
+            self._ui_manager.close_vendor_screen()
+            return new_loc
+        return False
 
 
 # Test: Move to desired location in d2r and run any town action you want to test from there
@@ -146,4 +152,4 @@ if __name__ == "__main__":
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
     town_manager = TownManager(template_finder, ui_manager, a3, a4, a5)
-    print(town_manager.wait_for_tp(Location.A3_TRAV_END))
+    print(town_manager.repair_and_fill_tps(Location.A3_TOWN_START))

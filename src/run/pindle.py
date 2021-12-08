@@ -28,7 +28,7 @@ class Pindle:
         self._char = char
         self._pickit = pickit
 
-    def run(self, start_loc: Location, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def approach(self, start_loc: Location) -> Union[bool, Location]:
         # Go through Red Portal in A5
         Logger.info("Run Pindle")
         loc = self._town_manager.go_to_act(5, start_loc)
@@ -36,12 +36,14 @@ class Pindle:
             return False
         if not self._pather.traverse_nodes(loc, Location.A5_NIHLATHAK_PORTAL, self._char):
             return False
-        wait(0.4)
+        wait(0.5, 0.6)
         found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-
-        # Kill Pindle
         if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func):
             return False
+        return Location.A5_PINDLE_START
+
+    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+        # Kill Pindle
         if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:

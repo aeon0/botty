@@ -92,15 +92,15 @@ class Pather:
             122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)}, 
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)}, 
             # Shenk
-            140: {'SHENK_0': (-149, -227), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13), 'SHENK_1': (445, -161)}, 
-            141: {'SHENK_0': (-129, 44), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34)}, 
-            142: {'SHENK_1': (584, 376), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129), 'SHENK_4': (-443, -103)}, 
-            143: {'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_4': (-251, 165), 'SHENK_6': (-339, -69)}, 
-            144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)}, 
-            145: {'SHENK_12': (97, -133), 'SHENK_7': (803, 372), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)}, 
-            146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258)}, 
-            147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)}, 
-            148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)}, 
+            140: {'SHENK_0': (-149, -227), 'SHENK_1': (445, -161), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13)},
+            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293)},
+            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
+            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
+            144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
+            145: {'SHENK_7': (803, 372), 'SHENK_12': (97, -133), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)},
+            146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258)},
+            147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)},
+            148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)},
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
             # A4 town
             160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
@@ -147,6 +147,7 @@ class Pather:
             (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
             (Location.A5_WP, Location.A5_STASH): [],
+            (Location.A5_WP, Location.A5_LARZUK): [13, 14],
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
@@ -235,7 +236,7 @@ class Pather:
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = self._template_finder.search([*node], img, best_match=False)
+        template_match = self._template_finder.search([*node], img, best_match=False, roi=self._config.ui_roi["cut_skill_bar"], use_grayscale=True)
         if template_match.valid:
             # Get reference position of template in abs coordinates
             ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
@@ -377,5 +378,7 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("pindle_save_dist", char)
     # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
-    pather.traverse_nodes(Location.A3_TOWN_START, Location.A3_STASH_WP, char)
+    t = time.time()
+    pather.traverse_nodes(Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST, char)
+    print(time.time()-t)
     # display_all_nodes(pather, filter="TRAV")

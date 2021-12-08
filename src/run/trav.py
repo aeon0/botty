@@ -28,17 +28,19 @@ class Trav:
         self._char = char
         self._pickit = pickit
 
-    def run(self, start_loc: Location, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def approach(self, start_loc: Location) -> Union[bool, Location]:
         # Go to Travincal via waypoint
         Logger.info("Run Trav")
         if not self._char.can_teleport():
-            Logger.error("Trav is currently only supported for teleporting builds. Skipping trav")
-            return True
+            Logger.error("Trav is currently only supported for teleporting builds")
+            return False
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
         self._ui_manager.use_wp(3, 7)
+        return Location.A3_TRAV_START
 
+    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
         if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1"], threshold=0.65, time_out=20).valid:
             return False
