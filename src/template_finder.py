@@ -38,8 +38,8 @@ class TemplateFinder:
                 template_img = load_template(file_path, 1.0, True)
                 mask = alpha_to_mask(template_img)
                 self._templates[key] = [
-                    cv2.cvtColor(template_img,cv2.COLOR_BGRA2BGR),
-                    cv2.cvtColor(template_img,cv2.COLOR_BGRA2GRAY),
+                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
+                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
                     1.0,
                     mask
                 ]
