@@ -48,8 +48,7 @@ class Location:
     A3_ASHEARA = "a3_asheara"
     # Trav
     A3_TRAV_START = "a3_trav_start"
-    A3_TRAV_SAVE_DIST = "a3_trav_save_dist"
-    A3_TRAV_END = "a3_trav_end"
+    A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
 
 class Pather:
     """
@@ -129,10 +128,10 @@ class Pather:
             223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
             224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
             225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
-            226: {"TRAV_12": (-95, -182), "TRAV_25": (-225, 23), "TRAV_13": (-272, 185), "TRAV_11": (323, 105), "TRAV_17": (-251, 232), 'TRAV_27': (408, 253)},
-            227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
+            226: {"TRAV_12": (-95, -182), "TRAV_25": (-225, 23), "TRAV_13": (-272, 185), "TRAV_11": (323, 105), 'TRAV_18': (-534, 363), 'TRAV_19': (15, 430), "TRAV_17": (-251, 232), 'TRAV_27': (408, 253)},
+            227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
-            229: {"TRAV_18": (-220, 58), "TRAV_25": (89, -282), "TRAV_17": (60, -74), "TRAV_13": (39, -121), "TRAV_16": (-168, -241)},
+            229: {"TRAV_18": (-220-70, 58), "TRAV_25": (89-70, -282), "TRAV_17": (60-70, -74), "TRAV_13": (39-70, -121), "TRAV_16": (-168-70, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)}
         }
         self._paths = {
@@ -178,8 +177,7 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
-            (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [225]
+            (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226]
         }
 
     def _get_node(self, key: int, template: str):
@@ -250,8 +248,7 @@ class Pather:
 
     def traverse_nodes(
         self,
-        start_location: Location,
-        end_location: Location,
+        path: Union[tuple[Location, Location], list[int]],
         char: IChar,
         time_out: float = 5,
         force_tp: bool = False,
@@ -259,21 +256,28 @@ class Pather:
         force_move: bool = False
     ) -> bool:
         """Traverse from one location to another
-        :param start_location: Location the char is starting at
-        :param end_location: Location the char is supposed to end up
+        :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
         :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed succesfull or False if it got stuck
         """
-        Logger.debug(f"Traverse from {start_location} to {end_location}")
-        try:
-            path = self._paths[(start_location, end_location)]
-        except KeyError:
-            if start_location == end_location:
-                return True
-            Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+        if len(path) == 0:
+            Logger.error("Path must be a list of integers or a tuple with start and end location!")
             return False
+        if type(path[0]) != int:
+            start_location = path[0]
+            end_location = path[1]
+            Logger.debug(f"Traverse from {start_location} to {end_location}")
+            try:
+                path = self._paths[(start_location, end_location)]
+            except KeyError:
+                if start_location == end_location:
+                    return True
+                Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+                return False
+        else:
+            Logger.debug(f"Traverse: {path}")
         if do_pre_move:
             char.pre_move()
         last_direction = None
@@ -295,7 +299,7 @@ class Pather:
                         # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
-                        if time_out > 1.5:
+                        if time_out > 3.1:
                             if self._config.general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
@@ -306,7 +310,7 @@ class Pather:
                     pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    print(pos_abs)
+                    Logger.debug(f"Pather: taking a random guess for next position")
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
@@ -376,7 +380,7 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
-    # pather.traverse_nodes(Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END, char)
+    # pather.traverse_nodes_fixed("trav_save_dist", char)
+    # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
+    # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
     display_all_nodes(pather, filter="TRAV")
