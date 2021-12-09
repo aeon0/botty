@@ -44,9 +44,13 @@ class HealthManager:
         self._pausing = True
 
     def update_location(self, loc: Location):
-        if loc is not None:
-            bosses = ["shenk", "eldritch", "pindle"]
+        if loc is not None and type(loc) == str:
+            bosses = ["shenk", "eldritch", "pindle", "trav"]
+            prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
+            if self._pausing != prev_value:
+                debug_str = "pausing" if self._pausing else "active"
+                Logger.info(f"Health Manager is now {debug_str}")
 
     @staticmethod
     def get_health(config: Config, img: np.ndarray) -> float:
@@ -105,7 +109,7 @@ class HealthManager:
         start = time.time()
         while self._do_monitor:
             time.sleep(0.1)
-            # Wait until the flag is reset by run.py
+            # Wait until the flag is reset by main.py
             if self._did_chicken or self._pausing: continue
             img = self._screen.grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop

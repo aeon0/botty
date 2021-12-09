@@ -27,20 +27,25 @@ class UiManager():
     def use_wp(self, act: int, idx: int):
         """
         Use Waypoint. The menu must be opened when calling the function.
-        :param act: Index of the act from left. Note that it start at 0. e.g. Act5 -> act=4
-        :param idx: Index of the waypoint from top. Note that it start at 0.
+        :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
+        :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        # Note: We are currently only in act 5, thus no need to click here.
-        # pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * act, self._config.ui_pos["wp_act_i_btn_y"])
-        # x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
-        # mouse.move(x, y, randomize=8)
-        # mouse.click(button="left")
-        # wait(0.3, 0.4)
+        # TODO: Optimize by checking if wp already has desired act active
+        pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
+        x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
+        mouse.move(x, y, randomize=8)
+        mouse.click(button="left")
+        wait(0.3, 0.4)
         pos_wp_btn = (self._config.ui_pos["wp_first_btn_x"], self._config.ui_pos["wp_first_btn_y"] + self._config.ui_pos["wp_btn_height"] * idx)
         x, y = self._screen.convert_screen_to_monitor(pos_wp_btn)
-        mouse.move(x, y, randomize=[110, 20], delay_factor=[0.9, 1.4])
+        mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
         wait(0.4, 0.5)
         mouse.click(button="left")
+        # wait till loading screen is over
+        if self.wait_for_loading_screen():
+            while 1:
+                if not self.wait_for_loading_screen(0.2):
+                    return
 
     def is_right_skill_active(self) -> bool:
         """
@@ -80,19 +85,20 @@ class UiManager():
                 return True
         return False
 
-    def wait_for_loading_screen(self, time_out: float) -> bool:
+    def wait_for_loading_screen(self, time_out: float = None) -> bool:
         """
         Waits until loading screen apears
         :param time_out: Maximum time to search for a loading screen
         :return: True if loading screen was found within the timeout. False otherwise
         """
         start = time.time()
-        while time.time() - start < time_out:
+        while True:
             img = self._screen.grab()
             is_loading_black_roi = np.average(img[:700, 0:250]) < 3.5
             if is_loading_black_roi:
                 return True
-        return False
+            if time_out is not None and time.time() - start > time_out:
+                return False
 
     def save_and_exit(self, does_chicken: bool = False) -> bool:
         """
@@ -173,7 +179,6 @@ class UiManager():
                 Logger.debug(f"Found {template_match.name} screen")
                 return True
             x, y = self._screen.convert_screen_to_monitor(template_match.position)
-            Logger.debug(f"Found {difficulty} Btn -> clicking it")
             mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
@@ -265,6 +270,10 @@ class UiManager():
         # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
         #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
+        # Move cursor to center
+        x, y = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
+        # Wait till gold btn is found
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
@@ -318,9 +327,7 @@ class UiManager():
                     time.sleep(0.3)
                     curr_pos = mouse.get_position()
                     # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-                    top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
-                    move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
-                    x, y = self._screen.convert_screen_to_monitor(move_to)
+                    x, y = self._screen.convert_abs_to_monitor((0, 0))
                     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
                     item_check_img = self._screen.grab()
                     mouse.move(*curr_pos, randomize=2)
@@ -341,9 +348,7 @@ class UiManager():
         Logger.debug("Check if stash is full")
         time.sleep(0.6)
         # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-        top_left_slot = (self._config.ui_pos["inventory_top_left_slot_x"], self._config.ui_pos["inventory_top_left_slot_y"])
-        move_to = (top_left_slot[0] - 300, top_left_slot[1] - 200)
-        x, y = self._screen.convert_screen_to_monitor(move_to)
+        x, y = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         img = self._screen.grab()
         if self._inventory_has_items(img, num_loot_columns):
@@ -441,12 +446,23 @@ class UiManager():
                 ["TP_ACTIVE", "TP_INACTIVE"],
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
-                threshold=0.8,
-                time_out=3
-            )
+                threshold=0.79,
+                time_out=4)
+            if not template_match.valid:
+                Logger.warning("You are out of tps")
+                if self._config.general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return template_match.valid
         else:
             return False
+
+    def repair_needed(self) -> bool:
+        template_match = self._template_finder.search(
+            "REPAIR_NEEDED",
+            self._screen.grab(),
+            roi=self._config.ui_roi["repair_needed"],
+            use_grayscale=True)
+        return template_match.valid
 
     def enable_no_pickup(self) -> bool:
         """
