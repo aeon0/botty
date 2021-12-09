@@ -11,7 +11,7 @@ import numpy as np
 from logger import Logger
 from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
-from item_finder import ItemFinder
+from item.item_finder import ItemFinder
 from typing import List
 
 

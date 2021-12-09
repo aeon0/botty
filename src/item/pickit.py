@@ -1,6 +1,6 @@
 from belt_manager import BeltManager
 from ui_manager import UiManager
-from item_finder import ItemFinder, Item
+from item.item_finder import ItemFinder, Item
 import time
 from utils.custom_mouse import mouse
 import keyboard

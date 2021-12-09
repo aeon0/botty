@@ -3,7 +3,7 @@ from config import Config
 from logger import Logger
 from pather import Location, Pather
 from typing import Union
-from pickit import PickIt
+from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui_manager import UiManager
