@@ -186,11 +186,12 @@ class Bot:
         self._no_stash_counter += 1
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         if self._picked_up_items or force_stash:
-            self._no_stash_counter = 0
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
+            self._no_stash_counter = 0
+            self._picked_up_items = False
             wait(1.0)
 
         # Check if we are out of tps or need repairing
@@ -222,41 +223,6 @@ class Bot:
         if not started_run:
             self.trigger_or_stop("end_game")
 
-    # All the runs go here
-    # ==================================
-    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
-        if self.is_last_run() or not res:
-            failed = not res
-            self.trigger_or_stop("end_game", failed=failed)
-        else:
-            self._curr_loc = res[0]
-            self._picked_up_items = res[1]
-            self.trigger_or_stop("end_run")
-
-    def on_run_pindle(self):
-        res = False
-        self._do_runs["run_pindle"] = False
-        self._curr_loc = self._pindle.approach(self._curr_loc)
-        if self._curr_loc:
-            res = self._pindle.battle(not self._pre_buffed)
-        self._ending_run_helper(res)
-
-    def on_run_shenk(self):
-        res = False
-        self._do_runs["run_shenk"] = False
-        self._curr_loc = self._shenk.approach(self._curr_loc)
-        if self._curr_loc:
-            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed)
-        self._ending_run_helper(res)
-
-    def on_run_trav(self):
-        res = False
-        self._do_runs["run_trav"] = False
-        self._curr_loc = self._trav.approach(self._curr_loc)
-        if self._curr_loc:
-            res = self._trav.battle(not self._pre_buffed)
-        self._ending_run_helper(res)
-
     def on_end_game(self, failed: bool = False):
         self._curr_loc = False
         self._pre_buffed = False
@@ -283,3 +249,41 @@ class Bot:
         if not self._ui_manager.has_tps():
             self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
+
+    # All the runs go here
+    # ==================================
+    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+        # either fill member variables with result data or mark run as failed
+        failed_run = True
+        if res:
+            failed_run = False
+            self._curr_loc, self._picked_up_items = res
+        # in case its the last run or the run was failed, end game, otherwise move to next run
+        if self.is_last_run() or failed_run:
+            self.trigger_or_stop("end_game", failed=failed_run)
+        else:
+            self.trigger_or_stop("end_run")
+
+    def on_run_pindle(self):
+        res = False
+        self._do_runs["run_pindle"] = False
+        self._curr_loc = self._pindle.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._pindle.battle(not self._pre_buffed)
+        self._ending_run_helper(res)
+
+    def on_run_shenk(self):
+        res = False
+        self._do_runs["run_shenk"] = False
+        self._curr_loc = self._shenk.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed)
+        self._ending_run_helper(res)
+
+    def on_run_trav(self):
+        res = False
+        self._do_runs["run_trav"] = False
+        self._curr_loc = self._trav.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._trav.battle(not self._pre_buffed)
+        self._ending_run_helper(res)
