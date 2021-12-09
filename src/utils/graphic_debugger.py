@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from utils.misc import color_filter
 from screen import Screen
-from item_finder import ItemFinder
+from item.item_finder import ItemFinder
 from config import Config
 from template_finder import TemplateFinder
 

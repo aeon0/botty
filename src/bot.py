@@ -3,7 +3,7 @@ import time
 from char.hammerdin import Hammerdin
 from run import Pindle, ShenkEld, Trav
 from template_finder import TemplateFinder
-from item_finder import ItemFinder
+from item.item_finder import ItemFinder
 from screen import Screen
 from ui_manager import UiManager
 from npc_manager import NpcManager
@@ -16,7 +16,7 @@ from config import Config
 from health_manager import HealthManager
 from death_manager import DeathManager
 from town import TownManager, A3, A4, A5
-from pickit import PickIt
+from item.pickit import PickIt
 from game_stats import GameStats
 from utils.misc import wait
 import keyboard
