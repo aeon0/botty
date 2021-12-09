@@ -173,7 +173,8 @@ class TemplateFinder:
                 if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    Logger.debug(f"Could not find any of the above templates")
+                    if not take_ss:
+                        Logger.debug(f"Could not find any of the above templates")
                     return template_match
 
 
