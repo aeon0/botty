@@ -2,7 +2,7 @@ import keyboard
 from utils.custom_mouse import mouse
 from char.i_char import IChar
 from template_finder import TemplateFinder
-from item_finder import ItemFinder
+from item.item_finder import ItemFinder
 from ui_manager import UiManager
 from pather import Pather
 from logger import Logger

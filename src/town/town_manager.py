@@ -1,5 +1,5 @@
 from typing import Union
-from item_finder import ItemFinder
+from item.item_finder import ItemFinder
 from template_finder import TemplateFinder
 from config import Config
 from pather import Location
