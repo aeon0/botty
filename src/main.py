@@ -64,7 +64,7 @@ def run_bot(
         # Reset flags before running a new bot
         death_manager.reset_death_flag()
         health_manager.reset_chicken_flag()
-        game_stats.log_end_game()
+        game_stats.log_end_game(failed=max_game_length_reached)
         return run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager, True)
     else:
         if config.general["info_screenshots"]:

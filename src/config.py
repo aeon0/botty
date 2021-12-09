@@ -78,10 +78,10 @@ class Config:
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
-            "atk_len_trav": int(self._select_val("char", "atk_len_trav")),
-            "atk_len_pindle": int(self._select_val("char", "atk_len_pindle")),
-            "atk_len_eldritch": int(self._select_val("char", "atk_len_eldritch")),
-            "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
+            "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
+            "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
+            "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
+            "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             # currently no need to have anything other then static pathing set
             "static_path_pindle": True,
             "static_path_eldritch": True,
@@ -99,8 +99,7 @@ class Config:
             self.char["static_path_eldritch"] = False
 
         self.advanced_options = {
-            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
-            "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
+            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
         }
 
         self.items = {}

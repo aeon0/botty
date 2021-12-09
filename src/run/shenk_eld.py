@@ -46,22 +46,23 @@ class ShenkEld:
         if self._config.char["static_path_eldritch"]:
             self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
         else:
-            if not self._pather.traverse_nodes(Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST, self._char):
+            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST), self._char, force_move=True):
                 return False
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items = self._pickit.pick_up_items(self._char, "Eldritch")
 
         # Shenk
         if do_shenk:
             Logger.info("Run Shenk")
             self._curr_loc = Location.A5_SHENK_START
-            if not self._pather.traverse_nodes(Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST, self._char):
+            # No force move, otherwise we might get stuck at stairs!
+            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST), self._char):
                 return False
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END
             wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
-            picked_up_items |= self._pickit.pick_up_items(self._char)
+            picked_up_items |= self._pickit.pick_up_items(self._char, "Shenk")
 
         return (loc, picked_up_items)

@@ -38,8 +38,8 @@ class TemplateFinder:
                 template_img = load_template(file_path, 1.0, True)
                 mask = alpha_to_mask(template_img)
                 self._templates[key] = [
-                    cv2.cvtColor(template_img,cv2.COLOR_BGRA2BGR),
-                    cv2.cvtColor(template_img,cv2.COLOR_BGRA2GRAY),
+                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
+                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
                     1.0,
                     mask
                 ]
@@ -51,7 +51,7 @@ class TemplateFinder:
         self,
         ref: Union[str, np.ndarray, List[str]],
         inp_img: np.ndarray,
-        threshold: float = None,
+        threshold: float = 0.68,
         roi: List[float] = None,
         normalize_monitor: bool = False,
         best_match: bool = False,
@@ -68,7 +68,6 @@ class TemplateFinder:
         :param use_grayscale: Use grayscale template matching for speed up
         :return: Returns a TempalteMatch object with a valid flag
         """
-        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -148,7 +147,7 @@ class TemplateFinder:
         ref: Union[str, List[str]],
         roi: List[float] = None,
         time_out: float = None,
-        threshold: float = None,
+        threshold: float = 0.68,
         best_match: bool = False,
         take_ss: bool = True,
         use_grayscale: bool = False
@@ -161,7 +160,6 @@ class TemplateFinder:
         """
         if type(ref) is str:
             ref = [ref]
-        threshold = self._config.advanced_options["template_threshold"] if threshold is None else threshold
         Logger.debug(f"Waiting for Template {ref}")
         start = time.time()
         while 1:
@@ -175,7 +173,8 @@ class TemplateFinder:
                 if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    Logger.debug(f"Could not find any of the above templates")
+                    if not take_ss:
+                        Logger.debug(f"Could not find any of the above templates")
                     return template_match
 
 
@@ -186,7 +185,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["A3_TOWN_1"]
+    search_templates = ["REPAIR_NEEDED"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()

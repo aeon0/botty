@@ -39,7 +39,7 @@ class TownManager:
         """
         template_match = self._template_finder.search_and_wait([
             "A5_TOWN_0", "A5_TOWN_1",
-            "A4_TOWN_0", "A4_TOWN_1",
+            "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1"
         ], time_out=time_out)
         if template_match.valid:
