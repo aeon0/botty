@@ -68,13 +68,18 @@ class PickIt:
                 found_nothing += 1
                 if found_nothing > 1:
                     break
+                else:
+                    # Maybe we need to move cursor to another position to avoid highlighting items
+                    pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=[90, 160])
+                    time.sleep(0.2)
             else:
                 found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
                         closest_item = item
-    
+
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
                 if curr_item_to_pick is not None:
