@@ -20,20 +20,23 @@ class GameStats:
         self._runs_failed = 0
         self._failed_game_time = 0
 
-    def _send_discord_thread(self, msg: str):
+    def _send_discord_thread(self, msg: str, color_it: bool = False):
         if self._config.general["custom_discord_hook"]:
             msg = f"{self._config.general['name']}: {msg}"
             send_discord_thread = threading.Thread(
                 target=send_discord,
-                args=(msg, self._config.general["custom_discord_hook"])
+                args=(msg, self._config.general["custom_discord_hook"], color_it)
             )
             send_discord_thread.daemon = True
             send_discord_thread.start()
 
-    def log_item_pickup(self, item_name: str, send_discord: bool):
+    def log_item_pickup(self, item_name: str, send_discord: bool, area: str = None):
         self._picked_up_items.append(item_name)
         if send_discord:
-            self._send_discord_thread(f"Found {item_name}")
+            msg = f"Found {item_name}"
+            if area is not None:
+                msg += f" at {area}"
+            self._send_discord_thread(msg, True)
 
     def log_death(self):
         self._death_counter += 1
@@ -120,5 +123,4 @@ class GameStats:
 
 if __name__ == "__main__":
     game_stats = GameStats()
-    game_stats._send_discord_status_update()
-    game_stats._save_stats_to_file()
+    game_stats.log_item_pickup("rune_12", True, "shenk")
