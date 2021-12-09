@@ -95,8 +95,7 @@ if __name__ == "__main__":
                             extr_avg = np.average(cv2.cvtColor(extracted_img2, cv2.COLOR_BGR2GRAY))
                             color_averages.append(extr_avg)
                         max_index = color_averages.index(max(color_averages))
-                        item_type = game_color_ranges[max_index]
-                        if item_type == key:
+                        if game_color_ranges[max_index] == key:
                             #cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}.png", cropped_item)
                             cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
                             cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
