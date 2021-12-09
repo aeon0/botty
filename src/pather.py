@@ -168,6 +168,7 @@ class Pather:
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
             (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             (Location.A4_TOWN_START, Location.A4_WP): [162],
+            (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
