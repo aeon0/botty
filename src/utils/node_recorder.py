@@ -9,6 +9,7 @@ import os
 import shutil
 from pathlib import Path
 from typing import Tuple
+import math
 
 
 class NodeRecorder:
@@ -46,7 +47,7 @@ class NodeRecorder:
     def find_templates(self, img):
         ref_points = {}
         for key in self._template_finder._templates:
-            found = self._template_finder.search(key, img)
+            found = self._template_finder.search(key, img, use_grayscale=True)
             if found.valid:
                 ref_points[key] = found.position
         return ref_points
@@ -77,7 +78,8 @@ class NodeRecorder:
                     template_path = f"generated/templates/{self._run_name}/{ref_point_name}.png"
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
-                    self._template_finder._templates[ref_point_name] = [load_template(template_path, 1.0), 1.0]
+                    template_img = load_template(template_path, 1.0, False)
+                    self._template_finder._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
             elif e.name == "f7":
                 self.ref_points = {}
             else:
@@ -118,10 +120,15 @@ class NodeRecorder:
                 print("---- Current Recorded Nodes: ----")
                 for k in self.nodes:
                     print(self.nodes[k])
+                    new_path = []
+                    for template in self.nodes[k]:
+                        dist = math.dist((0, 0), self.nodes[k][template])
+                        new_path.append({"key": template, "pos": self.nodes[k][template], "dist": dist})
+                    results = sorted(new_path, key=lambda r: r["dist"])
                     code = f"{k}: " + "{"
-                    for key in self.nodes[k]:
-                        code += f'"{key.upper()}": {self.nodes[k][key]}, '
-                    code = code[:-2] + "},"
+                    for i, res in enumerate(results):
+                        if res["dist"] < 900 and i < 5:
+                            code += f'"{res["key"]}": {res["pos"]}, '
                     f.write(code + "\n")
                 f.close()
                 print("")

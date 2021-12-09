@@ -14,7 +14,7 @@ It is highly recommended to let botty run with /nopickup active. This will reduc
 
 ### 1) Graphics and Gameplay Settings
 
-All settings will automatically be set when you execute `run.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings.
+All settings will automatically be set when you execute `main.exe` and press the hotkey for "Adjust D2R settings" (default f9). Note that D2R should not run during this process, or if it does you will have to restart afterwards. It is not a 100% thing, in rare cases you might still have to fiddle around with your brightness. I suggest using the "Graphic Debugger" to verify your settings.
 **Note**: There have been issues reported with image sharpening being truned on via the graphic card settings itself outside of D2R. Try turning it off when running botty. Also HDR should be truned off.
 
 ### 2) Supported builds
@@ -38,7 +38,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 ### 4) Start Botty
 
-You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `run.exe` in the botty folder. Focus your D2R window window and press the start key (default f11). You can always force stop botty with f12.
+You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases). Start `main.exe` in the botty folder. Focus your D2R window window and press the start key (default f11). You can always force stop botty with f12.
 
 ## Graphic Debugger
 
@@ -63,60 +63,64 @@ run_pindle=1
 run_shenk=0
 ```
 
-| [general]            | Descriptions                                                                                                                                                                              |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                 | Name used in terminal and discord messages                                                                                                                                                |
-| saved_games_folder   | Optional folder path of Diablo 2 : Ressurrected saved games                                                                                                                               |
-| monitor              | Select on which monitor D2R is running in case multiple are available                                                                                                                     |
-| max_game_length_s    | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet                                             |
-| exit_key             | Pressing this key (anywhere), will force botty to shut down                                                                                                                               |
-| resume_key           | After starting the exe botty will wait for this keypress to atually start botting away                                                                                                    |
+| [general]            | Descriptions              |
+| -------------------- | --------------------------|
+| name                 | Name used in terminal and discord messages |
+| saved_games_folder   | Optional folder path of Diablo 2 : Ressurrected saved games |
+| monitor              | Select on which monitor D2R is running in case multiple are available |
+| max_game_length_s    | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet |
+| exit_key             | Pressing this key (anywhere), will force botty to shut down |
+| resume_key           | After starting the exe botty will wait for this keypress to atually start botting away |
 | graphic_debugger_key | Pressing this key will start a debug mode to check if the color filtering works with your settings. It also includes the item search and marks items it would pick up with red circles    |
-| logger_lvl           | Can be any of [info, debug] and determines how much output you see on the command line                                                                                                    |
-| randomize_runs       | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random.                                                                                                   |
-| difficulty           | Set to `normal` `nightmare` or `hell` for game difficulty                                                                                                                                 |
-| custom_discord_hook  | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume                                                                                 |
+| logger_lvl           | Can be any of [info, debug] and determines how much output you see on the command line |
+| randomize_runs       | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random |
+| difficulty           | Set to `normal` `nightmare` or `hell` for game difficulty |
+| custom_discord_hook  | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume |
 | discord_status_count | Number of games between discord status messges being sent. Leave empty for no status reports.
 | info_screenshots     | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
-| loot_screenshots     | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while...                 |
+| loot_screenshots     | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
+| run_trav     | Run Trav in each new game. Select "1" to run it "0" to leave it out. Currentl yonly hdin with teleport is supported for this run. Also specific trav gear is suggested and use_merc=0 |
 | run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 
-| [char]             | Descriptions                                                                                                                                                                                                                             |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type               | Build type. Currently only "sorceress" or "hammerdin" is supported                                                                                                                                                                       |
+| [char]             | Descriptions |
+| ------------------ | -------------------------------------------------------------------------------------------------|
+| type               | Build type. Currently only "sorceress" or "hammerdin" is supported |
 | casting_frames     | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example. |
-| stash_gold         | Bool value to stash gold each time when stashing items                                                                                                                                                                                   |
-| atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle                                                                                                                                                       |
-| atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch                                                                                                                                                     |
-| atk_len_shenk      | Attack length for hdin or number of attack sequences for sorc when fighting shenk                                                                                                                                                        |
-| num_loot_columns   | Number of columns in inventory used for loot (from left!). Remaining space can be used for charms                                                                                                                                        |
-| take_health_potion | Health percentage when healing potion will be used                                                                                                                                                                                       |
-| take_mana_potion   | Mana percentage when mana potion will be used. Currently belt managment is not very clever and it is safest to only pick up health pots and make sure mana reg is enough for pindle to not need mana pots.                               |
-| heal_merc          | Merc health percentage when giving healing potion to merc                                                                                                                                                                                |
-| chicken            | Will chicken (leave game) when player health percentage drops below set value, range 0 to 1. Set to 0 to not chicken.                                                                                                                    |
-| merc_chicken       | Will chicken (leave game) when merc health percentage drops below set value, range 0 to 1. Set to 0 to not chicken.                                                                                                                      |
-| show_items         | Hotkey for "show items"                                                                                                                                                                                                                  |
-| inventory_screen   | Hotkey to open up inventory                                                                                                                                                                                                              |
-| stand_still        | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine.                                                                                                                |
-| tp                 | Hotkey for using a town portal                                                                                                                                                                                                           |
-| belt_rows          | Integer value of how many rows the char's belt has                                                                                                                                                                                       |
-| show_belt          | Hotkey for "show belt"                                                                                                                                                                                                                   |
-| potion1            | Hotkey to take potion in slot 1                                                                                                                                                                                                          |
-| potion2            | Hotkey to take potion in slot 2                                                                                                                                                                                                          |
-| potion3            | Hotkey to take potion in slot 3                                                                                                                                                                                                          |
-| potion4            | Hotkey to take potion in slot 4                                                                                                                                                                                                          |
-| belt_rejuv_columns | Number of belt columns for rejuv potions                                                                                                                                                                                                 |
-| belt_hp_columns    | Number of belt columns for healing potions                                                                                                                                                                                               |
-| belt_mp_columns    | Number of belt columns for mana potions                                                                                                                                                                                                  |
-| cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff                                                                                                                                                               |
-| weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1)                                                                                                                                                                              |
-| battle_order       | Hotkey for battle order from cta (only needed if cta_available=1)                                                                                                                                                                        |
-| battle_command     | Hotkey for battle command from cta (only needed if cta_available=1)                                                                                                                                                                      |
+| stash_gold         | Bool value to stash gold each time when stashing items |
+| use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
+| atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
+| atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
+| atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
+| atk_len_shenk      | Attack length for hdin or number of attack sequences for sorc when fighting shenk |
+| num_loot_columns   | Number of columns in inventory used for loot (from left!). Remaining space can be used for charms |
+| take_health_potion | Health percentage when healing potion will be used |
+| take_mana_potion   | Mana percentage when mana potion will be used. Currently belt managment is not very clever and it is safest to only pick up health pots and make sure mana reg is enough for pindle to not need mana pots. |
+| heal_merc          | Merc health percentage when giving healing potion to merc |
+| chicken            | Will chicken (leave game) when player health percentage drops below set value, range 0 to 1. Set to 0 to not chicken. |
+| merc_chicken       | Will chicken (leave game) when merc health percentage drops below set value, range 0 to 1. Set to 0 to not chicken. |
+| show_items         | Hotkey for "show |
+| inventory_screen   | Hotkey to open up |
+| stand_still        | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine. |
+| force_move         | Hotkey for "force move" |
+| tp                 | Hotkey for using a town |
+| belt_rows          | Integer value of how many rows the char's belt has |
+| show_belt          | Hotkey for "show |
+| potion1            | Hotkey to take potion in slot |
+| potion2            | Hotkey to take potion in slot |
+| potion3            | Hotkey to take potion in slot |
+| potion4            | Hotkey to take potion in slot  |
+| belt_rejuv_columns | Number of belt columns for rejuv potions |
+| belt_hp_columns    | Number of belt columns for healing potions |
+| belt_mp_columns    | Number of belt columns for mana potions |
+| cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff |
+| weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
+| battle_order       | Hotkey for battle order from cta (only needed if cta_available=1) |
+| battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
 
 | [sorceress]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
@@ -139,7 +143,6 @@ run_shenk=0
 | [advanced_options]   | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
-| template_threshold   | Threshold to find templates used during pathing.                      |
 
 | [items]   | Descriptions                                                                                                            |
 | --------- | ----------------------------------------------------------------------------------------------------------------------- |

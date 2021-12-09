@@ -89,14 +89,14 @@ class Sorceress(IChar):
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_pindle"])):
-                self._main_attack(cast_pos_abs, delay, 15)
-                self._left_attack(cast_pos_abs, delay, 15)
-            wait(0.1, 0.15)
+                self._main_attack(cast_pos_abs, delay, 11)
+                self._left_attack(cast_pos_abs, delay, 11)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             if self._config.char["static_path_pindle"]:
                 self._pather.traverse_nodes_fixed("pindle_end", self)
             else:
-                self._pather.traverse_nodes(Location.PINDLE_SAVE_DIST, Location.PINDLE_END, self, force_tp=True)
+                self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
             return True
         return False
 
@@ -112,12 +112,12 @@ class Sorceress(IChar):
             for _ in range(int(self._char_config["atk_len_eldritch"])):
                 self._main_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
-            wait(0.2, 0.3)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             if self._config.char["static_path_eldritch"]:
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
-                self._pather.traverse_nodes(Location.ELDRITCH_SAVE_DIST, Location.ELDRITCH_END, self, time_out=0.6, force_tp=True)
+                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
             return True
         return False
 
@@ -133,11 +133,14 @@ class Sorceress(IChar):
             for _ in range(int(self._char_config["atk_len_shenk"])):
                 self._main_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
-            wait(0.2, 0.3)
+            wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
-            self._pather.traverse_nodes(Location.SHENK_SAVE_DIST, Location.SHENK_END, self, time_out=1.4, force_tp=True)
+            self._pather.traverse_nodes((Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
             return True
         return False
+
+    def kill_council(self) -> bool:
+        raise ValueError("Trav currently not implemented for sorc")
 
 
 if __name__ == "__main__":
@@ -154,8 +157,6 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    # char.pre_buff()
-    # char.tp_town()
-    pather.traverse_nodes_fixed("eldritch_save_dist", char)
-    char.kill_eldritch()
-    # char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], expect_loading_screen=True)
+    char.pre_buff()
+    pather.traverse_nodes_fixed("trav_save_dist", char)
+    char.kill_council()

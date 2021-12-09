@@ -73,7 +73,7 @@ class DeathManager:
         while self._do_monitor:
             if self._died: continue
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
-            # Wait until the flag is reset by run.py
+            # Wait until the flag is reset by main.py
             if self._died: continue
             self.handle_death_screen()
         Logger.debug("Stop death monitoring")
@@ -84,6 +84,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
-    template_finder = TemplateFinder(screen)
-    manager = DeathManager(screen, template_finder)
-    manager.start_monitor(None)
+    manager = DeathManager(screen)
+    manager.pick_up_corpse(config, screen)

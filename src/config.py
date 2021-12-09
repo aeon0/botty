@@ -51,6 +51,7 @@ class Config:
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
             "stand_still": self._select_val("char", "stand_still"),
+            "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
             "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
@@ -71,14 +72,16 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
+            "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
-            "atk_len_pindle": int(self._select_val("char", "atk_len_pindle")),
-            "atk_len_eldritch": int(self._select_val("char", "atk_len_eldritch")),
-            "atk_len_shenk": int(self._select_val("char", "atk_len_shenk")),
+            "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
+            "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
+            "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
+            "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             # currently no need to have anything other then static pathing set
             "static_path_pindle": True,
             "static_path_eldritch": True,
@@ -96,8 +99,7 @@ class Config:
             self.char["static_path_eldritch"] = False
 
         self.advanced_options = {
-            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")),1),10),
-            "template_threshold": float(self._select_val("advanced_options", "template_threshold")),
+            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
         }
 
         self.items = {}
