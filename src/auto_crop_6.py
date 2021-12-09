@@ -21,31 +21,26 @@ if __name__ == "__main__":
 
     config = Config()
 
-    game_color_ranges = {
-        "white": config.colors["white"],
-        "gray": config.colors["gray"],
-        "magic": config.colors["blue"],
-        "set": config.colors["green"],
-        "rare": config.colors["yellow"],
-        "unique": config.colors["gold"],
-        "runes": config.colors["orange"]
-    }
-    gaus_filter = (17, 1)
+    gaus_filter = (19, 1)
     expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14,40]]]
     expected_width_range = [int(round(num, 0)) for num in [x / 1.5 for x in [60,1280]]]
 
-    mask = cv2.imread(f"hud_mask.png")
-    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-    _,mask = cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)
+    hud_mask = cv2.imread(f"hud_mask.png")
+    hud_mask = cv2.cvtColor(hud_mask, cv2.COLOR_BGR2GRAY)
+    _,hud_mask = cv2.threshold(hud_mask, 1, 255, cv2.THRESH_BINARY)
 
     for filename in os.listdir(args.file_path):
         if filename.endswith(".png"):
             inp_img = cv2.imread(f"{args.file_path}\\{filename}")
             filename = filename[:-4]
             img = inp_img[:,:,:]
+            # apply HUD mask
             if img.shape[0]==720 and img.shape[1]==1280:
-                img = cv2.bitwise_and(img,img,mask=mask)
-
+                img = cv2.bitwise_and(img,img,mask=hud_mask)
+            # find colors matching highlight item and change to black
+            highlight_mask = color_filter(img, config.colors["item_highlight"])[0]
+            img[highlight_mask > 0] = (0,0,0)
+            # Cleanup image with erosion image as marker with morphological reconstruction
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             thresh = cv2.threshold(gray, 15, 255, cv2.THRESH_BINARY)[1]
             kernel = np.ones((7,7),np.uint8)
@@ -61,15 +56,14 @@ if __name__ == "__main__":
                     break
             mask_r=cv2.bitwise_not(marker)
             mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
-            out=cv2.bitwise_and(img, mask_color_r)
-            img=out
+            img=cv2.bitwise_and(img, mask_color_r)
+            cv2.imwrite(f"./generated/{filename}_remove_borders.png", img)
 
-            # Filter by item colors
+            # Loop by item colors
             filtered_img = np.zeros(img.shape, np.uint8)
+            game_color_ranges = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
             for key in game_color_ranges:
-                extracted_img = color_filter(img, game_color_ranges[key])[1]
-                #filtered_img = cv2.bitwise_or(filtered_img, extracted_img)
-                filtered_img = extracted_img
+                filtered_img = color_filter(img, config.colors[key])[1]
                 filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
                 # Cluster item names
                 cluster_img = np.clip(cv2.GaussianBlur(filtered_img_gray, gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
@@ -77,6 +71,7 @@ if __name__ == "__main__":
                 contours = contours[0] if len(contours) == 2 else contours[1]
                 for count, cntr in enumerate(contours):
                     x, y, w, h = cv2.boundingRect(cntr)
+                    expected_height = 1 if (expected_height_range[0] < h < expected_height_range[1]) else 0
                     x -= 0
                     y = y-5 if y>5 else 0
                     w -= 0
@@ -85,14 +80,19 @@ if __name__ == "__main__":
                     # save most likely item drop contours
                     avg = int(np.average(cropped_item))
                     contains_black = 1 if np.min(cropped_item) < 14 else 0
-                    expected_height = 1 if (expected_height_range[0] < h < expected_height_range[1]) else 0
                     expected_width = 1 if (expected_width_range[0] < w < expected_width_range[1]) else 0
-                    if contains_black and expected_height and expected_width:
-                        out = cropped_item
-
-                        avg = int(np.average(out))
-                        if 10 < avg < 35:
-                            cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}_{avg}.png", out)
+                    mostly_dark = 1 if 7 < avg < 40 else 0
+                    if contains_black and mostly_dark and expected_height and expected_width:
+                        # double-check item color (gray/white and yellow/gold overlapping contours)
+                        color_averages=[]
+                        for key2 in game_color_ranges:
+                            _, extracted_img2 = color_filter(cropped_item, config.colors[key2])
+                            extr_avg = np.average(cv2.cvtColor(extracted_img2, cv2.COLOR_BGR2GRAY))
+                            color_averages.append(extr_avg)
+                        max_index = color_averages.index(max(color_averages))
+                        item_type = game_color_ranges[max_index]
+                        if item_type == key:
+                            cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}_{avg}.png", cropped_item)
                             cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
                             cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
