@@ -45,11 +45,11 @@ class Trav:
             self._char.pre_buff()
         self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True)
         self._char.kill_council()
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items = self._pickit.pick_up_items(self._char, "Travincal")
         wait(0.2, 0.3)
         success = self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
         if success:
-            picked_up_items |= self._pickit.pick_up_items(self._char)
+            picked_up_items |= self._pickit.pick_up_items(self._char, "Travincal")
         # to make sure we see the portal
         success = self._pather.traverse_nodes([229], self._char, time_out=2.5)
         return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)

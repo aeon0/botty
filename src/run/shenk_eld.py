@@ -51,7 +51,7 @@ class ShenkEld:
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items = self._pickit.pick_up_items(self._char, "Eldritch")
 
         # Shenk
         if do_shenk:
@@ -63,6 +63,6 @@ class ShenkEld:
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END
             wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
-            picked_up_items |= self._pickit.pick_up_items(self._char)
+            picked_up_items |= self._pickit.pick_up_items(self._char, "Shenk")
 
         return (loc, picked_up_items)
