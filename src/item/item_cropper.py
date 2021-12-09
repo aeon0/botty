@@ -11,6 +11,7 @@ import time
 class ItemText:
     color_key: str = None
     roi: list[int] = None
+    data: np.ndarray = None
 
 
 class ItemCropper:
@@ -36,7 +37,7 @@ class ItemCropper:
         # Cleanup image with erosion image as marker with morphological reconstruction
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         thresh = cv2.threshold(gray, 15, 255, cv2.THRESH_BINARY)[1]
-        kernel = np.ones((5, 5), np.uint8)
+        kernel = np.ones((3, 3), np.uint8)
         marker = thresh.copy()
         marker[1:-1, 1:-1] = 0
         while True:
@@ -71,7 +72,7 @@ class ItemCropper:
                 # increase height a bit to make sure we have the full item name in the cluster
                 y = y - 5 if y > 5 else 0
                 h += 10
-                cropped_item = cleaned_img[y:y+h, x:x+w]
+                cropped_item = filtered_img[y:y+h, x:x+w]
                 # save most likely item drop contours
                 avg = int(np.average(cropped_item))
                 contains_black = True if np.min(cropped_item) < 14 else False
@@ -81,13 +82,14 @@ class ItemCropper:
                     # find item type
                     color_averages=[]
                     for key in self._item_colors:
-                        _, extracted_img2 = color_filter(cropped_item, self._config.colors[key])
-                        extr_avg = np.average(cv2.cvtColor(extracted_img2, cv2.COLOR_BGR2GRAY))
+                        _, extracted_img = color_filter(cropped_item, self._config.colors[key])
+                        extr_avg = np.average(cv2.cvtColor(extracted_img, cv2.COLOR_BGR2GRAY))
                         color_averages.append(extr_avg)
                     max_idx = color_averages.index(max(color_averages))
                     item_clusters.append(ItemText(
                         color_key=self._item_colors[max_idx],
-                        roi=[x, y, w, h]
+                        roi=[x, y, w, h],
+                        data=cropped_item
                     ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
@@ -104,8 +106,7 @@ if __name__ == "__main__":
     screen = Screen(cropper._config.general["monitor"])
 
     while 1:
-        # img = screen.grab().copy()
-        img = cv2.imread("input_images\\fire5.png") 
+        img = screen.grab().copy()
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi
