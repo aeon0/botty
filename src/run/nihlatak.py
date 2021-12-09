@@ -34,7 +34,7 @@ class Nihlatak:
             return False
         wait(0.4)
         self._ui_manager.use_wp(5, 4) # use Halls of Pain Waypoint (5th in A5)
-        #return Location.A5_Nilatak_START # I dont think I need this.
+        return Location.A5_NIHLATAK_LVL1_START # need to check this location
 
     def battle(self, do_nihlatak: bool, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if do_pre_buff: # we buff first, to get that out of the way of the whole logic that is to follow for finding the right way
@@ -43,9 +43,42 @@ class Nihlatak:
         if not template_match.valid:# check if any of these templates was found
             return False
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) # depending on what template is found we do static pathing to the stairs on level1. It expects that the static routes to be defined in game.ini named: "ni_a", "ni_b", "ni_c"
-        self._char.select_by_template(["NI1_STAIRS"]) # So the static path brought me safely to the stairs leading to HALLS OF PAIN LEVEL2 - Now, I just have to click the stairs template "NI1_STAIRS" to enter level2
-        return Location.A5_NIHLATAK_LVL2_START # and here we are, level2
+        self._char.select_by_template(["NI1_STAIRS"]) # So the static path brought me safely to the stairs leading to HALLS OF PAIN LEVEL2 - Now, I just have to click the stairs template "NI1_STAIRS" to enter level2        
+              
+        @dataclass
+        class EyeCheckData:
+            template_name: str
+            start_loc: Location
+            end_loc: Location
+
+        check_arr = [
+            EyeCheckData("NI2_A", Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B),
+            EyeCheckData("NI2_B", Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C),
+            EyeCheckData("NI2_C", Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D),
+            EyeCheckData("NI2_D", None, None),
+        ]
+
+        loc = Location.A5_NIHLATAK_LVL2_A
+
+        for data in check_arr:
+            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.65, time_out=4)
+            if template_match.valid:
+                self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak at respective position
+                break
+            elif data.start_loc is not None and data.end_loc is not None:
+                self._pather.traverse_nodes(data.start_loc, data.end_loc, self._char) # didnt find the eye at respective position, so go to next location to check
+                loc = data.end_loc
+            else:
+                return False #didnt find one, we stop, do we need to add the NIHLATAK_LVL2_CIRCLE_END here & TP up to safety?
+                #self._char.select_by_template(["NI2_SEARCH0"]) # Now, I just have to click the stairs template "NI2_SEARCH0" to enter level1 & TP home
+
+        self._char.kill_niki(loc)
+        wait(0.2, 0.3)
+        picked_up_items = self._pickit.pick_up_items(self._char)     
+        return (Location.A5_NIHLATAK_LVL2_END, picked_up_items)
+
         
+        #PLAYGROUND
         #example block
         #pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D, char) #brings us from eye check C to eye check D
         #template_match = self._template_finder.search_and_wait(["NI2_D", threshold=0.65, time_out=20) # look for the eye at location D
@@ -53,32 +86,3 @@ class Nihlatak:
         #        return False # I didnt find the eye at location D, i should go back to level1 & tp home
         #    self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak in position D
         #end example block
-
-
-        pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_A, char) # So now we traverse from stairs to the first location to check for eyes: brings us from stairs to eye check A
-        template_match = self._template_finder.search_and_wait(["NI2_A"], threshold=0.65, time_out=20)  # look for the eye at location A
-        if template_match.valid: 
-            self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) # I found the eye and now moving on to nihlatak. 
-        elif #did not find the eye in position A, so lets move on
-            pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B, char) #brings us from eye check A to eye check B
-            template_match = self._template_finder.search_and_wait(["NI2_B"], threshold=0.65, time_out=20)  # look for the eye at location B
-            self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak in position B
-        elif #did not find the eye in position B, so lets move on
-            pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C, char) #brings us from eye check B to eye check C
-            template_match = self._template_finder.search_and_wait(["NI2_C"], threshold=0.65, time_out=20)  # look for the eye at location C
-            self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak in position C
-        elif #did not find the eye in position C, so lets move on
-            pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D, char) #brings us from eye check C to eye check D
-            template_match = self._template_finder.search_and_wait(["NI2_D"], threshold=0.65, time_out=20)  # look for the eye at location D
-            self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak in position D
-        else #did not find the eye in position D, so lets move on
-            pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_D, Location.A5_NIHLATAK_LVL2_END, char) #brings us from eye check D back to the stairs - if I end up here, then I didnt find an eye and can go back to Level1 for save TP home.
-            self._char.select_by_template(["NI2_SEARCH_0"]) #obviously, I did not find what I was looking for, so better click on the stairs "NI2_SEARCH_0" here to go back to level1
-            return False # here should be a line to TP back to town & start the next run
-            
-        self._char.kill_nihlatak()
-        loc = Location.A5_NIHLATAK_END
-        wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char)     
-
-        return (loc, picked_up_items)

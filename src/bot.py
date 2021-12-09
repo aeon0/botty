@@ -1,7 +1,7 @@
 from transitions import Machine
 import time
 from char.hammerdin import Hammerdin
-from run import Pindle, ShenkEld, Trav
+from run import Pindle, ShenkEld, Trav, Nihlatak
 from template_finder import TemplateFinder
 from item_finder import ItemFinder
 from screen import Screen
@@ -63,12 +63,14 @@ class Bot:
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
+            "run_nihlatak": self._route_config["run_nihlatak"],
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit) # where to define nihlatak?
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -92,9 +94,10 @@ class Bot:
             { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
             { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
+            { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'trav'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak','trav'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -258,6 +261,19 @@ class Bot:
             self._curr_loc = res[0]
             self._picked_up_items = res[1]
             self.trigger_or_stop("end_run")
+    
+    def on_run_nihlatak(self):
+        res = False
+        self._do_runs["run_nihlatak"] = False
+        self._curr_loc = self._trav.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._trav.battle(not self._pre_buffed)
+        if self.is_last_run() or not res:
+            self.trigger_or_stop("end_game")
+        else:
+            self._curr_loc = res[0]
+            self._picked_up_items = res[1]
+            self.trigger_or_stop("end_run")
 
     def on_end_game(self):
         self._curr_loc = False
@@ -268,6 +284,7 @@ class Bot:
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
+            "run_nihlatak": self._route_config["run_nihlatak"],
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()

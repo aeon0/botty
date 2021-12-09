@@ -51,12 +51,17 @@ class Location:
     A3_TRAV_SAVE_DIST = "a3_trav_save_dist"
     A3_TRAV_END = "a3_trav_end"
     # Nihalatk
-    A5_NIHLATAK_LVL2_START = "a5_nihlatak_lvl2_start"
-    A5_NIHLATAK_LVL2_A = "a5_nihlatak_lvl2_a"
+    A5_NIHLATAK_LVL1_START = "a5_nihlatak_lvl1_start"
+    A5_NIHLATAK_LVL1_END = "a5_nihlatak_lvl1_end"
+    
+    A5_NIHLATAK_LVL2_START = "a5_nihlatak_lvl2_start" # is also circle start
+    A5_NIHLATAK_LVL2_A = "a5_nihlatak_lvl2_a" 
     A5_NIHLATAK_LVL2_B = "a5_nihlatak_lvl2_b"
     A5_NIHLATAK_LVL2_C = "a5_nihlatak_lvl2_c"
     A5_NIHLATAK_LVL2_D = "a5_nihlatak_lvl2_d"
-    A5_NIHLATAK_LVL2_END = "a5_nihlatak_lvl2_a"
+    A5_NIHLATAK_LVL2_CIRCLE_END = "a5_nihlatak_lvl2_circle_end"
+    A5_NIHLATAK_LVL2_SAVE_DIST = "a5_nihlatak_lvl2_save_dist"
+    A5_NIHLATAK_LVL2_END = "a5_nihlatak_lvl2_end"
 
 class Pather:
     """
@@ -196,14 +201,14 @@ class Pather:
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
             (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227]
+            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227],
             # Nihlatak
             (Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_A): [500], #brings us from stairs to eye check A
             (Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B): [501], #brings us from eye check A to eye check B
             (Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C): [502, 503], #brings us from eye check B to eye check C - here, we need two jumps to find the correct spot for checking for Eye at location C
             (Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D): [504], #brings us from eye check C to eye check D 505 is skipped, is just an additional teleport which can be replaced by 506
-            (Location.A5_NIHLATAK_LVL2_D, Location.A5_NIHLATAK_LVL2_END): [506], #brings us from eye check D back to the stairs - if I end up here, then I didnt find an eye and can go back to Level1 for save TP home.
-            (Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_END): [500, 501, 502, 503, 504, 506], #jumping in a circle on LVL2 - for debugging
+            (Location.A5_NIHLATAK_LVL2_D, Location.A5_NIHLATAK_LVL2_CIRCLE_END): [506], #brings us from eye check D back to the stairs - if I end up here, then I didnt find an eye and can go back to Level1 for save TP home.
+            #(Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_END): [500, 501, 502, 503, 504, 506], #jumping in a circle on LVL2 - for debugging
         }
 
     def _get_node(self, key: int, template: str):
