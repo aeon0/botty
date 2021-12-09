@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from config import Config
 from utils.misc import color_filter, cut_roi
+import time
 
 
 if __name__ == "__main__":
@@ -25,12 +26,13 @@ if __name__ == "__main__":
     expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14,40]]]
     expected_width_range = [int(round(num, 0)) for num in [x / 1.5 for x in [60,1280]]]
 
-    hud_mask = cv2.imread(f"hud_mask.png")
+    hud_mask = cv2.imread(f"assets/hud_mask.png")
     hud_mask = cv2.cvtColor(hud_mask, cv2.COLOR_BGR2GRAY)
     _,hud_mask = cv2.threshold(hud_mask, 1, 255, cv2.THRESH_BINARY)
 
     for filename in os.listdir(args.file_path):
         if filename.endswith(".png"):
+            start=time.time()
             inp_img = cv2.imread(f"{args.file_path}\\{filename}")
             filename = filename[:-4]
             img = inp_img[:,:,:]
@@ -41,6 +43,7 @@ if __name__ == "__main__":
             highlight_mask = color_filter(img, config.colors["item_highlight"])[0]
             img[highlight_mask > 0] = (0,0,0)
             # Cleanup image with erosion image as marker with morphological reconstruction
+            clean_start=time.time()
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             thresh = cv2.threshold(gray, 15, 255, cv2.THRESH_BINARY)[1]
             kernel = np.ones((7,7),np.uint8)
@@ -57,7 +60,9 @@ if __name__ == "__main__":
             mask_r=cv2.bitwise_not(marker)
             mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
             img=cv2.bitwise_and(img, mask_color_r)
-            cv2.imwrite(f"./generated/{filename}_remove_borders.png", img)
+            clean_finish=time.time()
+            print(f"{filename} clean: {clean_finish-clean_start}s")
+            #cv2.imwrite(f"./generated/{filename}_clean.png", img)
 
             # Loop by item colors
             filtered_img = np.zeros(img.shape, np.uint8)
@@ -92,8 +97,10 @@ if __name__ == "__main__":
                         max_index = color_averages.index(max(color_averages))
                         item_type = game_color_ranges[max_index]
                         if item_type == key:
-                            cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}_{avg}.png", cropped_item)
+                            #cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}.png", cropped_item)
                             cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
                             cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
+            finish=time.time()
+            print(f"{filename} total: {finish-start}s")
             cv2.imwrite(f"./generated/{filename}.png", inp_img)
