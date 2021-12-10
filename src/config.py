@@ -106,7 +106,7 @@ class Config:
         for key in self._config["items"]:
             self.items[key] = int(self._select_val("items", key))
             if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                print(f"Warning: You activated {key} in pickit, but there is no asset for {self.general['res']}")
+                print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
 
         self.colors = {}
         for key in self._game_config["colors"]:
@@ -127,34 +127,18 @@ class Config:
 
 
 if __name__ == "__main__":
-    config = Config()
+    config = Config(print_warnings=True)
 
-    # for k in config.ui_pos:
-    #     x = config.ui_pos[k]
-    #     print(f"{k}={x}")
-
-    from pathlib import Path
-    import cv2
-
+    # Check if any added items miss templates
     for k in config.items:
         if not os.path.exists(f"./assets/items/{k}.png"):
             print(f"Template not found: {k}")
-            # base_name = k.split("_")[2:]
-            # attrib = k.split("_")[0]
-            # base_name = '_'.join(base_name)
-            # if attrib == "uniq":
-            #     # print(f"{base_name}")
-            #     for path in Path("./assets/items").glob(f"*_{base_name}.png"):
-            #         print(k)
-            #         img = cv2.imread(str(path))
-            #         cv2.imwrite(f"./assets/items/{k}.png", img)
-            # else:
-            #     print(f"{attrib}_{base_name}=1")
 
+    # Check if any item templates miss a config
     for filename in os.listdir(f'assets/items'):
         filename = filename.lower()
         if filename.endswith('.png'):
             item_name = filename[:-4]
             blacklist_item = item_name.startswith("bl__")
-            if item_name not in config.items:
+            if item_name not in config.items and not blacklist_item:
                 print(f"Config not found for: " + filename)
