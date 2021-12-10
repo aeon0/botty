@@ -51,7 +51,7 @@ class ItemCropper:
         img = cv2.bitwise_and(img, mask_color_r)
         return img
 
-    def crop(self, inp_img: np.ndarray) -> list[ItemText]:
+    def crop(self, inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText]:
         start = time.time()
         cleaned_img = self.clean_img(inp_img)
         debug_str = f" | clean: {time.time() - start}"
@@ -69,8 +69,8 @@ class ItemCropper:
                 x, y, w, h = cv2.boundingRect(cntr)
                 expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
                 # increase height a bit to make sure we have the full item name in the cluster
-                y = y - 5 if y > 5 else 0
-                h += 10
+                y = y - padding_y if y > padding_y else 0
+                h += padding_y * 2
                 cropped_item = filtered_img[y:y+h, x:x+w]
                 # save most likely item drop contours
                 avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
@@ -110,6 +110,6 @@ if __name__ == "__main__":
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
         cv2.imshow("res", img)
         cv2.waitKey(1)

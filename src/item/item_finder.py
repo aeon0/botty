@@ -72,7 +72,7 @@ class ItemFinder:
     def search(self, inp_img: np.ndarray) -> List[Item]:
         img = inp_img[:,:,:]
         start = time.time()
-        item_text_clusters = self._item_cropper.crop(img)
+        item_text_clusters = self._item_cropper.crop(img, 7)
         item_list = []
         for cluster in item_text_clusters:
             x, y, w, h = cluster.roi
@@ -140,7 +140,7 @@ if __name__ == "__main__":
             # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
             cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
-            cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+            # cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
         # img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
         cv2.waitKey(1)
