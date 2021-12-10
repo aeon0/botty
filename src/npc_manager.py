@@ -16,6 +16,7 @@ class Npc:
     ANYA = "anya"
     TYRAEL = "tyrael"
     ORMUS = "ormus"
+    CAIN = "cain"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -88,11 +89,20 @@ class NpcManager:
                     }
                 },
                 "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
+            },
+            # Currently just nametag added to avoid having him focused when wanting to talk to tyrael or qual
+            Npc.CAIN: {
+                "name_tag_gold": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
             }
         }
 
     def open_npc_menu(self, npc_key: Npc) -> bool:
         roi = self._config.ui_roi["cut_skill_bar"]
+        # Check if we by chance have cain selected while pathing
+        _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
+        if self._template_finder.search(self._npcs[Npc.CAIN]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid:
+            keyboard.send("esc")
+        # Search for npc name tags by hovering to all template locations that are found
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
@@ -159,5 +169,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.ORMUS)
-    npc_manager.press_npc_btn(Npc.ORMUS, "trade")
+    npc_manager.open_npc_menu(Npc.TYRAEL)
+    # npc_manager.press_npc_btn(Npc.ORMUS, "trade")
