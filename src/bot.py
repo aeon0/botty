@@ -70,7 +70,7 @@ class Bot:
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit) # where to define nihlatak?
+        self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -85,7 +85,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', "trav"]
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -295,7 +295,7 @@ class Bot:
     def on_run_nihlatak(self):
         res = False
         self._do_runs["run_nihlatak"] = False
-        self._curr_loc = self._trav.approach(self._curr_loc)
+        self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:
-            res = self._trav.battle(not self._pre_buffed)
+            res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)

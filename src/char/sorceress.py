@@ -142,6 +142,9 @@ class Sorceress(IChar):
     def kill_council(self) -> bool:
         raise ValueError("Trav currently not implemented for sorc")
 
+    def kill_nihlatak(self, loc: Location) -> bool:
+        raise ValueError("Not implmeneted")
+
 
 if __name__ == "__main__":
     import os

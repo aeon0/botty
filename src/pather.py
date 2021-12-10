@@ -152,7 +152,7 @@ class Pather:
             501: {"NI2_SEARCH_1": (402, 278), "NI2_SEARCH_2": (212, -92), "NI2_SEARCH_3": (17, 297), "NI2_SEARCH_4": (-712, 504), "NI2_SEARCH_5": (42, 592), "NI2_SEARCH_6": (468, 895), "NI2_SEARCH_7": (-220, 111), "NI2_SEARCH_0": (567, 393), "NI2_SEARCH_8": (1349, 463)}, #STARTING POINT FOR STATIC PATH ni2_b
             502: {"NI2_SEARCH_1": (745, -67), "NI2_SEARCH_3": (360, -48), "NI2_SEARCH_4": (-369, 159), "NI2_SEARCH_5": (385, 247), "NI2_SEARCH_6": (811, 550), "NI2_SEARCH_7": (123, -234), "NI2_SEARCH_0": (910, 48), "NI2_SEARCH_8": (1692, 118)}, #transition to next
             503: {"NI2_SEARCH_3": (396, -243), "NI2_SEARCH_4": (-333, -36), "NI2_SEARCH_5": (421, 52), "NI2_SEARCH_6": (847, 355), "NI2_SEARCH_7": (159, -429), "NI2_SEARCH_0": (158, -617), "NI2_SEARCH_1": (-7, -732), "NI2_SEARCH_8": (940, -547)}, #STARTING POINT FOR STATIC PATH ni2_c
-            504: {"NI2_SEARCH_4": (-968, -234), "NI2_SEARCH_5": (-214, -146), "NI2_SEARCH_6": (212, 157), "NI2_SEARCH_3": (548, 30), "NI2_SEARCH_7": (311, -156), "NI2_SEARCH_0": (310, -344), "NI2_SEARCH_1": (145, -459), "NI2_SEARCH_8": (1092, -274)},#STARTING POINT FOR STATIC PATH ni2_d
+            504: {"NI2_SEARCH_4": (-968, -234), "NI2_SEARCH_5": (-214, -146), "NI2_SEARCH_6": (212, 157), "NI2_SEARCH_7": (311, -156), "NI2_SEARCH_0": (310, -344), "NI2_SEARCH_1": (145, -459), "NI2_SEARCH_8": (1092, -274)},#STARTING POINT FOR STATIC PATH ni2_d
             #505: {"NI2_SEARCH_5": (-788, 212), "NI2_SEARCH_6": (-362, 515), "NI2_SEARCH_7": (-263, 202), "NI2_SEARCH_0": (-264, 14), "NI2_SEARCH_1": (-429, -101), "NI2_SEARCH_8": (518, 84)}, #go back to home (actually useless tele here)
             506: {"NI2_SEARCH_1": (-199, 10), "NI2_SEARCH_7": (-33, 313), "NI2_SEARCH_8": (748, 195)}, #back to entrance
         }
@@ -400,10 +400,10 @@ if __name__ == "__main__":
                         node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
                         x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
-                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
@@ -435,4 +435,4 @@ if __name__ == "__main__":
     # pather.traverse_nodes_fixed("trav_save_dist", char)
     # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
     # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
-    display_all_nodes(pather, filter="TRAV")
+    display_all_nodes(pather, filter="NI2_")

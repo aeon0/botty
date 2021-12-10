@@ -133,7 +133,7 @@ class Hammerdin(IChar):
     # For sorcs, we might have to request to get the location where the template was found in a variable (e.g. NI2_location = "A")).
     # By calling that variable in the function, we can build this part relative to the tempalte found. 
     # The location to click for the attack could be grabbed from game.ini (similar to how ELD is killed: from save dist - one cannot see nihlatak - you attack in the direction A B C or D and spam the spells, then tele in & loot)
-    def kill_nihlatak(self) -> bool: #kills nihlatak at any position 
+    def kill_nihlatak(self, loc: Location) -> bool: #kills nihlatak at any position 
         wait(0.1, 0.15)
         # no need to move the char to the final location for nihlatak, this is done in nihlatak.py based on the four layouts A-B-C-D
         if not self._do_pre_move:

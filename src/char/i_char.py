@@ -1,4 +1,3 @@
-from typing import Tuple
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import UiManager
@@ -194,4 +193,8 @@ class IChar:
 
     @abstract
     def kill_council(self) -> bool:
+        pass
+
+    @abstract
+    def kill_nihlatak(self, loc) -> bool:
         pass
