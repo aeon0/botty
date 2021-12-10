@@ -267,8 +267,6 @@ class UiManager():
         Stashing all items in inventory. Stash UI must be open when calling the function.
         :param num_loot_columns: Number of columns used for loot from left
         """
-        # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
-        #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
         # Move cursor to center
         x, y = self._screen.convert_abs_to_monitor((0, 0))
@@ -311,6 +309,7 @@ class UiManager():
                     if self._curr_stash["gold"] > 3:
                         inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
                         if inventory_full_gold.valid:
+                            # TODO: Instead of quiting turn of gold pickup in pickit or itemfinder
                             Logger.error("All stash tabs and character are full of gold, quitting")
                             if self._config.general["custom_discord_hook"]:
                                 send_discord(f"{self._config.general['name']} all stash is full of gold, quitting", self._config.general["custom_discord_hook"])

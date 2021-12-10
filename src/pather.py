@@ -91,8 +91,7 @@ class Pather:
             122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)},
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)},
             # Shenk
-            140: {'SHENK_0': (-149, -227), 'SHENK_1': (445, -161), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13)},
-            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293)},
+            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
             142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
             143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
@@ -162,7 +161,7 @@ class Pather:
             (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST): [120, 121, 122],
             (Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END): [123],
             # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
             (Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
