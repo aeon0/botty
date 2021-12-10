@@ -11,7 +11,7 @@ import time
 class ItemText:
     color_key: str = None
     roi: list[int] = None
-    image: np.ndarray = None
+    data: np.ndarray = None
 
 class ItemCropper:
     def __init__(self):
@@ -71,25 +71,26 @@ class ItemCropper:
                 # increase height a bit to make sure we have the full item name in the cluster
                 y = y - 5 if y > 5 else 0
                 h += 10
-                cropped_item = cleaned_img[y:y+h, x:x+w]
+                cropped_item = filtered_img[y:y+h, x:x+w]
                 # save most likely item drop contours
-                avg = int(np.average(cropped_item))
+                avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
                 contains_black = True if np.min(cropped_item) < 14 else False
                 expected_width = True if (self._expected_width_range[0] < w < self._expected_width_range[1]) else False
-                mostly_dark = True if 7 < avg < 40 else False
+                mostly_dark = True if 4 < avg < 25 else False
                 if contains_black and mostly_dark and expected_height and expected_width:
-                    # find item type
+                    # double-check item color
                     color_averages=[]
-                    for key in self._item_colors:
-                        _, extracted_img2 = color_filter(cropped_item, self._config.colors[key])
-                        extr_avg = np.average(cv2.cvtColor(extracted_img2, cv2.COLOR_BGR2GRAY))
+                    for key2 in self._item_colors:
+                        _, extracted_img = color_filter(cropped_item, self._config.colors[key2])
+                        extr_avg = np.average(cv2.cvtColor(extracted_img, cv2.COLOR_BGR2GRAY))
                         color_averages.append(extr_avg)
                     max_idx = color_averages.index(max(color_averages))
-                    item_clusters.append(ItemText(
-                        color_key=self._item_colors[max_idx],
-                        roi=[x, y, w, h],
-                        image=cropped_item
-                    ))
+                    if key == self._item_colors[max_idx]:
+                        item_clusters.append(ItemText(
+                            color_key=self._item_colors[max_idx],
+                            roi=[x, y, w, h],
+                            data=cropped_item
+                        ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
         return item_clusters
@@ -105,8 +106,7 @@ if __name__ == "__main__":
     screen = Screen(cropper._config.general["monitor"])
 
     while 1:
-        # img = screen.grab().copy()
-        img = cv2.imread("input_images\\fire5.png")
+        img = screen.grab().copy()
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi

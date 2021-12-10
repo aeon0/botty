@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import math
 from config import Config
 from utils.misc import color_filter, cut_roi
+from item.item_cropper import ItemCropper
 
 
 @dataclass
@@ -26,6 +27,7 @@ class Item:
 class ItemFinder:
     def __init__(self):
         config = Config()
+        self._item_cropper = ItemCropper()
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
@@ -37,16 +39,7 @@ class ItemFinder:
             "unique": [np.array([23, 80, 140]), np.array([23, 89, 216])],
             "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
-        self._game_color_ranges = {
-            "white": config.colors["white"],
-            "gray": config.colors["gray"],
-            "magic": config.colors["blue"],
-            "set": config.colors["green"],
-            "rare": config.colors["yellow"],
-            "unique": config.colors["gold"],
-            "runes": config.colors["orange"]
-        }
-        self._gaus_filter = (17, 5)
+
         self._folder_name = "items"
         self._min_score = 0.86
         # load all templates
@@ -79,37 +72,12 @@ class ItemFinder:
     def search(self, inp_img: np.ndarray) -> List[Item]:
         img = inp_img[:,:,:]
         start = time.time()
-        # Pre filter black and highlight
-        mask1, _ = color_filter(img, self._config.colors["black"])
-        mask2, _ = color_filter(img, self._config.colors["item_highlight"])
-        filtered_img = cv2.bitwise_or(mask1, mask2)
-        contours = cv2.findContours(filtered_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = contours[0] if len(contours) == 2 else contours[1]
-        new_img = np.zeros(img.shape, np.uint8)
-        for cntr in contours:
-            x, y, w, h = cv2.boundingRect(cntr)
-            new_img[y:y+h, x:x+w] = img[y:y+h, x:x+w]
-        img = new_img
-        # Filter by item colors
-        filtered_img = np.zeros(img.shape, np.uint8)
-        for key in self._game_color_ranges:
-            _, extracted_img = color_filter(img, self._game_color_ranges[key])
-            filtered_img = cv2.bitwise_or(filtered_img, extracted_img)
-        filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-        # Cluster item names
-        cluster_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
-        contours = cv2.findContours(cluster_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = contours[0] if len(contours) == 2 else contours[1]
+        item_text_clusters = self._item_cropper.crop(img)
         item_list = []
-        for cntr in contours:
-            x, y, w, h = cv2.boundingRect(cntr)
-            x -= 5
-            y -= 5
-            w += 10
-            h += 10
+        for cluster in item_text_clusters:
+            x, y, w, h = cluster.roi
             # cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-
-            cropped_input = filtered_img[y:y+h, x:x+w]
+            cropped_input  = cluster.data
             best_score = None
             item = None
             for key in self._templates:
@@ -132,10 +100,11 @@ class ItemFinder:
                                 if template.blacklist:
                                     item = None
                                 else:
-                                    max_loc = [max_loc[0] + x, max_loc[1] + y]
                                     # Do another color hist check with the actuall found item template
-                                    cropped_roi = [*max_loc, template.data.shape[1], template.data.shape[0]]
-                                    cropped_item = cut_roi(filtered_img, cropped_roi)
+                                    # TODO: After cropping the "cropped_input" with "cropped_item", check if "cropped_input" might need to be
+                                    #       checked for other items. This would solve the issue of many items in one line being in one cluster
+                                    roi = [max_loc[0], max_loc[1], template.data.shape[1], template.data.shape[0]]
+                                    cropped_item = cut_roi(cropped_input, roi)
                                     grayscale = cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY)
                                     _, mask = cv2.threshold(grayscale, 0, 255, cv2.THRESH_BINARY)
                                     hist = cv2.calcHist([cropped_item], [0, 1, 2], mask, [8, 8, 8], [0, 256, 0, 256, 0, 256])
@@ -143,10 +112,10 @@ class ItemFinder:
                                     same_type = hist_result > 0.65 and hist_result is not np.inf
                                     if same_type:
                                         item = Item()
-                                        item.center = (int(max_loc[0] + int(template.data.shape[1] * 0.5)), int(max_loc[1] + int(template.data.shape[0] * 0.5)))
+                                        item.center = (int(max_loc[0] + x + int(template.data.shape[1] * 0.5)), int(max_loc[1] + y + int(template.data.shape[0] * 0.5)))
                                         item.name = key
                                         item.score = max_val
-                                        item.roi = [*max_loc, template.data.shape[1], template.data.shape[0]]
+                                        item.roi = [max_loc[0] + x, max_loc[1] + y, template.data.shape[1], template.data.shape[0]]
                                         center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                         item.dist = math.dist(center_abs, (0, 0))
             if item is not None and self._config.items[item.name]:
@@ -168,7 +137,7 @@ if __name__ == "__main__":
         img = screen.grab().copy()
         item_list = item_finder.search(img)
         for item in item_list:
-            print(item.name + " " + str(item.score))
+            # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
             cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
             cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
