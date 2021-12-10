@@ -46,7 +46,7 @@ class Nihlatak:
             self._char.pre_buff()
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) # depending on what template is found we do static pathing to the stairs on level1. It expects that the static routes to be defined in game.ini named: "ni_a", "ni_b", "ni_c"
         self._char.select_by_template(["NI1_STAIRS"]) # So the static path brought me safely to the stairs leading to HALLS OF PAIN LEVEL2 - Now, I just have to click the stairs template "NI1_STAIRS" to enter level2        
-        wait(1) #give myself the chance to walk down the stairs
+        wait(2) #give myself the chance to walk down the stairs
         
         @dataclass
         class EyeCheckData:
@@ -71,6 +71,7 @@ class Nihlatak:
         for data in check_arr:
             template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.65, time_out=4)
             if template_match.valid:
+                # we should replace the fixed path with the static path i now created in game.ini.
                 self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak at respective position
                 break
             elif data.start_loc is not None and data.end_loc is not None:

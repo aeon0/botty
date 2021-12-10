@@ -436,27 +436,33 @@ if __name__ == "__main__":
     # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
     # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
     # display_all_nodes(pather, filter="NI2_")
+
+    #NIHLATAK_LVL1
+    #pather.traverse_nodes_fixed("ni1_a", char)
+    #pather.traverse_nodes_fixed("ni1_b", char)
+    pather.traverse_nodes_fixed("ni1_c", char)
     
-    #Position A
+
+    ##NIHLATAK_LVL2 Position A
     #pather.traverse_nodes_fixed("ni2_circle_a", char)
     #pather.traverse_nodes_fixed("ni2_a_save_dist", char)
     #pather.traverse_nodes_fixed("ni2_a_attack", char)
     
     
-    #Position B
+    ##NIHLATAK_LVL2 Position B
     #pather.traverse_nodes_fixed("ni2_circle_a", char)
     #pather.traverse_nodes_fixed("ni2_circle_b", char)
     #pather.traverse_nodes_fixed("ni2_b_save_dist", char)
     #pather.traverse_nodes_fixed("ni2_b_attack", char)
         
-    #Position C
+    ##NIHLATAK_LVL2 Position C
     #pather.traverse_nodes_fixed("ni2_circle_a", char)
     #pather.traverse_nodes_fixed("ni2_circle_b", char)
     #pather.traverse_nodes_fixed("ni2_circle_c", char)
     #pather.traverse_nodes_fixed("ni2_c_save_dist", char)
     #pather.traverse_nodes_fixed("ni2_c_attack", char)
 
-    #Position D
+    ##NIHLATAK_LVL2 Position D
     #pather.traverse_nodes_fixed("ni2_circle_a", char)
     #pather.traverse_nodes_fixed("ni2_circle_b", char)   
     #pather.traverse_nodes_fixed("ni2_circle_c", char)
