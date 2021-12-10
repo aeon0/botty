@@ -1,6 +1,6 @@
 from belt_manager import BeltManager
 from ui_manager import UiManager
-from item_finder import ItemFinder, Item
+from item.item_finder import ItemFinder, Item
 import time
 from utils.custom_mouse import mouse
 import keyboard
@@ -23,10 +23,11 @@ class PickIt:
         self._config = Config()
         self._last_closest_item: Item = None
 
-    def pick_up_items(self, char: IChar) -> bool:
+    def pick_up_items(self, char: IChar, area: str = None) -> bool:
         """
         Pick up all items with specified char
         :param char: The character used to pick up the item
+        :param area: Specify area where item was picked up for logging
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
         found_nothing = 0
@@ -62,22 +63,34 @@ class PickIt:
             if need_pots["rejuv"] <= 0:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
+            # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
+            at_trav = area is not None and "trav" in area.lower()
+            if self._config.char["gold_trav_only"] and not at_trav:
+                item_list = [x for x in item_list if "misc_gold" not in x.name]
+
             if len(item_list) == 0:
                 # if twice no item was found, break
                 found_nothing += 1
                 if found_nothing > 1:
                     break
+                else:
+                    # Maybe we need to move cursor to another position to avoid highlighting items
+                    pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=[90, 160])
+                    time.sleep(0.2)
             else:
                 found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
                         closest_item = item
-    
+
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
                 if curr_item_to_pick is not None:
-                    if same_item_timer is None or curr_item_to_pick.name != closest_item.name:
+                    is_same_item = (curr_item_to_pick.name == closest_item.name and \
+                        abs(curr_item_to_pick.dist - closest_item.dist) < 20)
+                    if same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
                     elif time.time() - same_item_timer > 4 and not did_force_move:
@@ -106,6 +119,8 @@ class PickIt:
                         found_items = True
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
+                    if not char.can_teleport():
+                        time.sleep(0.2)
 
                     if self._ui_manager.is_overburdened():
                         Logger.warning("Inventory full, skipping pickit!")
@@ -116,11 +131,13 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
+                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2, area)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
-                    char.move((x_m, y_m))
+                    char.move((x_m, y_m), force_move=True)
+                    if not char.can_teleport():
+                        time.sleep(0.3)
                     time.sleep(0.1)
                     # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item

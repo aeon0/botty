@@ -48,8 +48,7 @@ class Location:
     A3_ASHEARA = "a3_asheara"
     # Trav
     A3_TRAV_START = "a3_trav_start"
-    A3_TRAV_SAVE_DIST = "a3_trav_save_dist"
-    A3_TRAV_END = "a3_trav_end"
+    A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
     # Nihalatk
     A5_NIHLATAK_LVL1_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_LVL1_END = "a5_nihlatak_lvl1_end"
@@ -99,13 +98,12 @@ class Pather:
             103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)}, 
             104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)}, 
             # Eldritch
-            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_1': (-307, 76)}, 
-            121: {'ELDRITCH_1': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_3': (-91, 198)}, 
-            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)}, 
-            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)}, 
+            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
+            121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_3': (-91, 198)},
+            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)},
+            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)},
             # Shenk
-            140: {'SHENK_0': (-149, -227), 'SHENK_1': (445, -161), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13)},
-            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293)},
+            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
             142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
             143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
@@ -135,15 +133,17 @@ class Pather:
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
             # Trav
-            220: {"TRAV_0": (490, 397), "TRAV_2": (-186, -118), "TRAV_1": (-216, 248), "TRAV_3": (-601, 73)},
-            221: {"TRAV_3": (-185, -51), "TRAV_1": (200, 124), "TRAV_2": (230, -242), "TRAV_5": (-843, -8)},
-            222: {"TRAV_3": (291, -6), "TRAV_5": (-367, 38), "TRAV_4": (289, 268), "TRAV_1": (676, 170), "TRAV_6": (-845, -182)},
-            223: {"TRAV_5": (-59, 97), "TRAV_6": (-537, -123), "TRAV_3": (599, 53), "TRAV_4": (597, 327)},
-            224: {"TRAV_6": (-133, -150), "TRAV_5": (345, 70), "TRAV_7": (-508, 245), "TRAV_12": (-776, -232), "TRAV_10": (-876, 117)},
-            225: {"TRAV_6": (214, -172), "TRAV_7": (-161, 223), "TRAV_12": (-429, -254), "TRAV_10": (-529, 95), "TRAV_9": (-632, -131)},
-            226: {"TRAV_12": (-3, -89), "TRAV_9": (-205, 33), "TRAV_10": (-103, 260), "TRAV_11": (-222, 214), "TRAV_13": (-523, 323)},
-            227: {"TRAV_9": (239+70, -9+30), "TRAV_11": (222+70, 173+30), "TRAV_13": (-79+70, 281+30), "TRAV_10": (341+70, 218+30), "TRAV_12": (441+70, -131+30)},
-            228: {"TRAV_11": (-47+100, -24+100), "TRAV_10": (71+100, 21+100), "TRAV_9": (-31+100, -205+100), "TRAV_13": (-348+100, 84+100), "TRAV_12": (172+100, -328+100)},
+            220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
+            221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
+            222: {"TRAV_5": (-218, 106), "TRAV_4": (120, 230), "TRAV_2": (426, 7), "TRAV_7": (-719, -166), "TRAV_1": (862, -153)},
+            223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
+            224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
+            225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
+            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263)},
+            227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
+            228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
+            229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
+            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
             # Nihlatak
             # For Level1, three maplayouts from waypoint to Level2 ("A = Bottom", " B = Large Room" and "C = Small Room"). Static paths are used here & stored in lowercase game.ini - only the stairs are checked as template
             # For Level2, there is one layout, but four possible spawning points. Therefore templates are used to teleport to each spawn point to check for the "eye" on the wall.
@@ -184,12 +184,13 @@ class Pather:
             (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST): [120, 121, 122],
             (Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END): [123],
             # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
             (Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
             (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             (Location.A4_TOWN_START, Location.A4_WP): [162],
+            (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
@@ -199,9 +200,7 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
-            (Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST): [220, 221, 222, 223, 224, 225, 226, 227],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END): [228],
-            (Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_SAVE_DIST): [227],
+            (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
             # Nihlatak
             (Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_A): [500], #brings us from stairs to eye check A
             (Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B): [501], #brings us from eye check A to eye check B
@@ -210,6 +209,17 @@ class Pather:
             (Location.A5_NIHLATAK_LVL2_D, Location.A5_NIHLATAK_LVL2_CIRCLE_END): [506], #brings us from eye check D back to the stairs - if I end up here, then I didnt find an eye and can go back to Level1 for save TP home.
             #(Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_END): [500, 501, 502, 503, 504, 506], #jumping in a circle on LVL2 - for debugging
         }
+
+    def offset_node(self, node_idx: int, offset: tuple[int, int]):
+        """Will offset any node. e.g. can be used in char files to change final attacking positions
+        :param node_idx: Index of node to be changed
+        :param offset: Offset [x, y] the node will get. +x will move node to the right, +y more to the bottom
+        """
+        for k in self._nodes[node_idx]:
+            self._nodes[node_idx][k] = (
+                self._nodes[node_idx][k][0] + offset[0],
+                self._nodes[node_idx][k][1] + offset[1]
+            )
 
     def _get_node(self, key: int, template: str):
         return (
@@ -279,31 +289,36 @@ class Pather:
 
     def traverse_nodes(
         self,
-        start_location: Location,
-        end_location: Location,
-        char: IChar,#
+        path: Union[tuple[Location, Location], list[int]],
+        char: IChar,
         time_out: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False
     ) -> bool:
-        """
-        Traverse from one location to another
-        :param start_location: Location the char is starting at
-        :param end_location: Location the char is supposed to end up
+        """Traverse from one location to another
+        :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
         :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed succesfull or False if it got stuck
         """
-        Logger.debug(f"Traverse from {start_location} to {end_location}")
-        try:
-            path = self._paths[(start_location, end_location)]
-        except KeyError:
-            if start_location == end_location:
-                return True
-            Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+        if len(path) == 0:
+            Logger.error("Path must be a list of integers or a tuple with start and end location!")
             return False
+        if type(path[0]) != int:
+            start_location = path[0]
+            end_location = path[1]
+            Logger.debug(f"Traverse from {start_location} to {end_location}")
+            try:
+                path = self._paths[(start_location, end_location)]
+            except KeyError:
+                if start_location == end_location:
+                    return True
+                Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+                return False
+        else:
+            Logger.debug(f"Traverse: {path}")
         if do_pre_move:
             char.pre_move()
         last_direction = None
@@ -325,7 +340,7 @@ class Pather:
                         # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
-                        if time_out > 1.5:
+                        if time_out > 3.1:
                             if self._config.general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
@@ -336,7 +351,7 @@ class Pather:
                     pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    print(pos_abs)
+                    Logger.debug(f"Pather: taking a random guess for next position")
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
@@ -368,7 +383,7 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
@@ -389,7 +404,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -404,11 +419,20 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
+
+    # # changing node pos and generating new code
+    # code = ""
+    # node_idx = 226
+    # offset = [0, 0]
+    # for k in pather._nodes[node_idx]:
+    #     pather._nodes[node_idx][k][0] += offset[0]
+    #     pather._nodes[node_idx][k][1] += offset[1]
+    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
+    # print(code)
+
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("pindle_save_dist", char)
-    # pather.traverse_nodes(Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST, char)
-    t = time.time()
-    pather.traverse_nodes(Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST, char)
-    print(time.time()-t)
-    # display_all_nodes(pather, filter="TRAV")
+    # pather.traverse_nodes_fixed("trav_save_dist", char)
+    # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
+    # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
+    display_all_nodes(pather, filter="TRAV")

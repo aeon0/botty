@@ -62,6 +62,12 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
 
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+        pos_m = self._screen.convert_abs_to_monitor(abs_move)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_hammers(atk_len)
+
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
         if self._config.char["static_path_pindle"]:
@@ -70,8 +76,8 @@ class Hammerdin(IChar):
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes(Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END, self, time_out=0.1)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
         self._cast_hammers(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
         self._do_redemption()
@@ -84,7 +90,7 @@ class Hammerdin(IChar):
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes(Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -95,7 +101,7 @@ class Hammerdin(IChar):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._pather.traverse_nodes(Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END, self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -103,16 +109,24 @@ class Hammerdin(IChar):
         return True
 
     def kill_council(self) -> bool:
-        end_nodes = self._config.path["trav_end"]
-        atk_len = self._char_config["atk_len_shenk"] # shouldnt this be TRAV?
-        hammer_duration = [atk_len, max(1, atk_len-1), max(1, atk_len-1), atk_len]
-        assert(len(hammer_duration))
-        for dur, node in zip(hammer_duration, end_nodes):
-            self._pather.traverse_nodes_fixed([node], self)
-            wait(0.05, 0.1)
-            self._cast_hammers(dur)
-            wait(0.05, 0.15)
-        wait(0.1, 0.15)
+        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
+        atk_len = self._char_config["atk_len_trav"]
+        # Go inside and hammer a bit
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._cast_hammers(atk_len)
+        # Move a bit back and another round
+        self._move_and_attack((40, 20), atk_len)
+        # Here we have two different attack sequences depending if tele is available or not
+        if self.can_teleport():
+            # Back to center stairs and more hammers
+            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+            self._cast_hammers(atk_len)
+            # move a bit to the top
+            self._move_and_attack((65, -30), atk_len)
+        else:
+            # Stay inside and cast hammers again moving forward
+            self._move_and_attack((40, 10), atk_len)
+            self._move_and_attack((-40, -20), atk_len)
         self._do_redemption()
         return True
 
@@ -133,6 +147,7 @@ class Hammerdin(IChar):
         #not sure if I need to return the location here - its not yet defined - using NI2_CIRCLE_END at least does noo make sense, as we are not at the stairs again. On the other hand if no eyes were found, this would be the exit point for the run.
         return True
 
+
 if __name__ == "__main__":
     import os
     import keyboard
@@ -146,6 +161,4 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    char.pre_buff()
-    pather.traverse_nodes_fixed("trav_save_dist", char)
     char.kill_council()

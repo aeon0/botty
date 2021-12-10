@@ -24,12 +24,12 @@ class A3(IAct):
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes(curr_loc, Location.A3_ORMUS, self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char): return False
         self._npc_manager.open_npc_menu(Npc.ORMUS)
         return Location.A3_ORMUS
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes(curr_loc, Location.A3_STASH_WP, self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char): return False
         wait(0.3)
         def stash_is_open_func():
             found = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
@@ -39,7 +39,7 @@ class A3(IAct):
         return Location.A3_STASH_WP
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes(curr_loc, Location.A3_STASH_WP, self._char, force_move=True): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         return self._char.select_by_template("A3_WP", found_wp_func)
@@ -47,6 +47,6 @@ class A3(IAct):
     def wait_for_tp(self) -> Union[Location, bool]:
         template_match = self._template_finder.search_and_wait("A3_TOWN_10", time_out=20)
         if template_match.valid:
-            self._pather.traverse_nodes(Location.A3_STASH_WP, Location.A3_STASH_WP, self._char, force_move=True)
+            self._pather.traverse_nodes((Location.A3_STASH_WP, Location.A3_STASH_WP), self._char, force_move=True)
             return Location.A3_STASH_WP
         return False
