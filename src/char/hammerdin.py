@@ -139,12 +139,11 @@ class Hammerdin(IChar):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._cast_hammers(0.5) # cast a few hammers to clear trash & create a cloud of protecting hammers
-        self._do_redemption() # directly cast redemption to get rid of ammunition for corpse explosion
+        #self._cast_hammers() # cast a few hammers to clear trash & create a cloud of protecting hammers
+        #self._do_redemption() # directly cast redemption to get rid of ammunition for corpse explosion
         self._cast_hammers(self._char_config["atk_len_nihlatak"]) # start the normal attack sequence
         wait(0.1, 0.15)
         self._do_redemption()
-        #not sure if I need to return the location here - its not yet defined - using NI2_CIRCLE_END at least does noo make sense, as we are not at the stairs again. On the other hand if no eyes were found, this would be the exit point for the run.
         return True
 
 
