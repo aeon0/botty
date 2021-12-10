@@ -128,11 +128,11 @@ class Pather:
             223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
             224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
             225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
-            226: {"TRAV_12": (-95, -182), "TRAV_25": (-225, 23), "TRAV_13": (-272, 185), "TRAV_11": (323, 105), 'TRAV_18': (-534, 363), 'TRAV_19': (15, 430), "TRAV_17": (-251, 232), 'TRAV_27': (408, 253)},
+            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263)},
             227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
-            229: {"TRAV_18": (-220-70, 58), "TRAV_25": (89-70, -282), "TRAV_17": (60-70, -74), "TRAV_13": (39-70, -121), "TRAV_16": (-168-70, -241)},
-            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)}
+            229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
+            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
         }
         self._paths = {
             # A5 Town
@@ -180,6 +180,15 @@ class Pather:
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226]
         }
+
+    def offset_node(self, node_idx: int, offset: tuple[int, int]):
+        """Will offset any node. e.g. can be used in char files to change final attacking positions
+        :param node_idx: Index of node to be changed
+        :param offset: Offset [x, y] the node will get. +x will move node to the right, +y more to the bottom
+        """
+        for k in self._nodes[node_idx]:
+            self._nodes[node_idx][k][0] += offset[0]
+            self._nodes[node_idx][k][1] += offset[1]
 
     def _get_node(self, key: int, template: str):
         return (
@@ -379,6 +388,17 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
+
+    # # changing node pos and generating new code
+    # code = ""
+    # node_idx = 226
+    # offset = [0, 0]
+    # for k in pather._nodes[node_idx]:
+    #     pather._nodes[node_idx][k][0] += offset[0]
+    #     pather._nodes[node_idx][k][1] += offset[1]
+    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
+    # print(code)
+
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes_fixed("trav_save_dist", char)
