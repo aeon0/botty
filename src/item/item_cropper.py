@@ -11,7 +11,7 @@ import time
 class ItemText:
     color_key: str = None
     roi: list[int] = None
-
+    image: np.ndarray = None
 
 class ItemCropper:
     def __init__(self):
@@ -36,7 +36,7 @@ class ItemCropper:
         # Cleanup image with erosion image as marker with morphological reconstruction
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         thresh = cv2.threshold(gray, 15, 255, cv2.THRESH_BINARY)[1]
-        kernel = np.ones((5, 5), np.uint8)
+        kernel = np.ones((3, 3), np.uint8)
         marker = thresh.copy()
         marker[1:-1, 1:-1] = 0
         while True:
@@ -87,7 +87,8 @@ class ItemCropper:
                     max_idx = color_averages.index(max(color_averages))
                     item_clusters.append(ItemText(
                         color_key=self._item_colors[max_idx],
-                        roi=[x, y, w, h]
+                        roi=[x, y, w, h],
+                        image=cropped_item
                     ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
@@ -105,7 +106,7 @@ if __name__ == "__main__":
 
     while 1:
         # img = screen.grab().copy()
-        img = cv2.imread("input_images\\fire5.png") 
+        img = cv2.imread("input_images\\fire5.png")
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi

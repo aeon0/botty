@@ -16,7 +16,9 @@ if __name__ == "__main__":
     parser.add_argument("--file_path", type=str, help="Path to screenshots e.g. C:/data")
     args = parser.parse_args()
 
-    args.file_path = "C:\\Users\\aliig\\Desktop\\bot\\botty-prep-ocr\\input_images"
+    args.file_path = "C:\\Users\\aliig\\Desktop\\bot\\botty-gleed-ocr\\input_images"
+    gen_truth = 1
+
 
     item_cropper = ItemCropper()
 
@@ -30,10 +32,31 @@ if __name__ == "__main__":
             for count, cluster in enumerate(item_clusters):
                 x, y, w, h = cluster.roi
                 key = cluster.color_key
-                #cv2.imwrite(f"./generated/z_contours_{filename}_{key}_{count}.png", cropped_item)
-                cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-                cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                if not gen_truth:
+                    cv2.imwrite(f"./generated/z_{filename}_{key}_{count}.png", cluster.image)
+                    cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+                    cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                else:
+                    cv2.namedWindow("item")
+                    cv2.moveWindow("item", 100, 100)
+                    cv2.imshow("item", cluster.image)
+                    cv2.waitKey(1)
+                    print("Input item name and press enter (converts to all caps)...")
+                    item_name = input()
+                    if item_name != "":
+                        out_filename = f"{key}_{item_name.replace(' ','_')}"
+                        if not os.path.exists(f"./ground_truth/{out_filename}.png"):
+                            cv2.imwrite(f"./ground_truth/{out_filename}.png", cluster.image)
+                            file1 = open(f"./ground_truth/{out_filename}.gt.txt","w")
+                            file1.write(item_name.upper())
+                            file1.close()
+                    else:
+                        print("Skipping")
+
+
+
+
 
             finish=time.time()
             print(f"{filename} total: {finish-start}s")
-            cv2.imwrite(f"./generated/{filename}.png", inp_img)
+            #cv2.imwrite(f"./generated/{filename}.png", inp_img)
