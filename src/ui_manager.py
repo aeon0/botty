@@ -24,7 +24,6 @@ class UiManager():
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
-
     def use_wp(self, act: int, idx: int):
         """
         Use Waypoint. The menu must be opened when calling the function.
