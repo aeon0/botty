@@ -63,6 +63,11 @@ class PickIt:
             if need_pots["rejuv"] <= 0:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
+            # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
+            at_trav = area is not None and "trav" in area.lower()
+            if self._config.char["gold_trav_only"] and not at_trav:
+                item_list = [x for x in item_list if "misc_gold" not in x.name]
+
             if len(item_list) == 0:
                 # if twice no item was found, break
                 found_nothing += 1
