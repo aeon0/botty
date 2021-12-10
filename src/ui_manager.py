@@ -22,7 +22,7 @@ class UiManager():
         self._config = Config()
         self._template_finder = template_finder
         self._screen = screen
-        self._curr_stash = 0 # 0: personal, 1: shared1, 2: shared2, 3: shared3
+        self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
     def use_wp(self, act: int, idx: int):
         """
@@ -282,15 +282,15 @@ class UiManager():
         # select the start stash
         personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
         stash_btn_width = self._config.ui_pos["stash_btn_width"]
-        next_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash, personal_stash_pos[1])
-        x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
+        next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash["gold"], personal_stash_pos[1])
+        x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
         mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
         wait(0.2, 0.3)
         mouse.click(button="left")
         wait(0.3, 0.4)
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
@@ -303,7 +303,32 @@ class UiManager():
                 mouse.release(button="left")
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+                wait(1.0, 1.2)
+                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+                if not inventory_no_gold.valid:
+                    Logger.info("Stash tab is full of gold, selecting next stash tab.")
+                    self._curr_stash["gold"] += 1
+                    if self._curr_stash["gold"] > 3:
+                        inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
+                        if inventory_full_gold.valid:
+                            Logger.error("All stash tabs and character are full of gold, quitting")
+                            if self._config.general["custom_discord_hook"]:
+                                send_discord(f"{self._config.general['name']} all stash is full of gold, quitting", self._config.general["custom_discord_hook"])
+                            os._exit(1)
+                        else:
+                            Logger.info("All tabs are full but character is not. Continuing.")
+                            self._curr_stash["gold"] = 3
+                    else:
+                        # move to next stash
+                        wait(0.5, 0.6)
+                        return self.stash_all_items(num_loot_columns, item_finder)
         # stash stuff
+        next_item_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash["items"], personal_stash_pos[1])
+        x_m, y_m = self._screen.convert_screen_to_monitor(next_item_stash_pos)
+        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
+        wait(0.2, 0.3)
+        mouse.click(button="left")
+        wait(0.3, 0.4)
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
@@ -355,8 +380,8 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            self._curr_stash += 1
-            if self._curr_stash > 3:
+            self._curr_stash["items"] += 1
+            if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_discord_hook"]:
                     send_discord(f"{self._config.general['name']} all stash is full, quitting", self._config.general["custom_discord_hook"])
