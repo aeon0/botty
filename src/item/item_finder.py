@@ -39,7 +39,7 @@ class ItemFinder:
             "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
 
-        self._items_to_pick = self._config.items
+        self._items_to_pick = config.items
         self._folder_name = "items"
         self._min_score = 0.86
         # load all templates
