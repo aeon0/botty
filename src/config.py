@@ -11,6 +11,8 @@ class Config:
             return self._config[section][key]
         elif section in self._pickit_config:
             return self._pickit_config[section][key]
+        elif section in self._shop_config:
+            return self._shop_config[section][key]
         else:
             return self._game_config[section][key]
 
@@ -24,6 +26,8 @@ class Config:
         self._game_config.read('config/game.ini')
         self._pickit_config = configparser.ConfigParser()
         self._pickit_config.read('config/pickit.ini')
+        self._shop_config = configparser.ConfigParser()
+        self._shop_config.read('config/shop.ini')
         self._custom = configparser.ConfigParser()
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
             self._custom.read('config/custom.ini')
@@ -129,6 +133,14 @@ class Config:
         for key in self._game_config["path"]:
             self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
+        self.shop = {
+            "shop_trap_claws": bool(int(self._select_val("claws", "shop_trap_claws"))),
+            "shop_melee_claws": bool(int(self._select_val("claws", "shop_melee_claws"))),
+            "shop_3_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_3_skills_ias_gloves"))),
+            "shop_2_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_2_skills_ias_gloves"))),
+            "trap_min_score": int(self._select_val("claws", "trap_min_score")),
+            "melee_min_score": int(self._select_val("claws", "melee_min_score")),
+        }
 
 
 if __name__ == "__main__":
