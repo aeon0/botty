@@ -46,7 +46,8 @@ class Nihlatak:
             self._char.pre_buff()
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) # depending on what template is found we do static pathing to the stairs on level1. It expects that the static routes to be defined in game.ini named: "ni_a", "ni_b", "ni_c"
         self._char.select_by_template(["NI1_STAIRS"]) # So the static path brought me safely to the stairs leading to HALLS OF PAIN LEVEL2 - Now, I just have to click the stairs template "NI1_STAIRS" to enter level2        
-
+        wait(2) #give myself the chance to walk down the stairs
+        
         @dataclass
         class EyeCheckData:
             template_name: list[str]
@@ -54,37 +55,32 @@ class Nihlatak:
             end_loc: Location
 
         check_arr = [
-            EyeCheckData(["NI2_A"], Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B),
-            EyeCheckData(["NI2_B"], Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C),
-            EyeCheckData(["NI2_C"], Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D),
-            EyeCheckData(["NI2_D"], None, None),
+            EyeCheckData(["NI2_A_SAVE_DIST"], Location.A5_NIHLATAK_LVL2_A, Location.A5_NIHLATAK_LVL2_B),
+            EyeCheckData(["NI2_B_SAVE_DIST"], Location.A5_NIHLATAK_LVL2_B, Location.A5_NIHLATAK_LVL2_C),
+            EyeCheckData(["NI2_C_SAVE_DIST"], Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D),
+            EyeCheckData(["NI2_D_SAVE_DIST"], None, None),
         ]
+
+        if not self._template_finder.search_and_wait(["NI2_SEARCH_0"], threshold=0.65, time_out=20).valid:
+            return False
+        if not self._pather.traverse_nodes((Location.A5_NIHLATAK_LVL2_START, Location.A5_NIHLATAK_LVL2_A), self._char, force_move=True):
+            return False
 
         loc = Location.A5_NIHLATAK_LVL2_A
 
         for data in check_arr:
             template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.65, time_out=4)
             if template_match.valid:
+                # we should replace the fixed path with the static path i now created in game.ini.
                 self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak at respective position
                 break
             elif data.start_loc is not None and data.end_loc is not None:
                 self._pather.traverse_nodes((data.start_loc, data.end_loc), self._char) # didnt find the eye at respective position, so go to next location to check
                 loc = data.end_loc
             else:
-                return False #didnt find one, we stop, do we need to add the NIHLATAK_LVL2_CIRCLE_END here & TP up to safety?
-                #self._char.select_by_template(["NI2_SEARCH0"]) # Now, I just have to click the stairs template "NI2_SEARCH0" to enter level1 & TP home
+                return False
 
         self._char.kill_nihlatak(loc)
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A5_NIHLATAK_LVL2_END, picked_up_items)
-
-        
-        #PLAYGROUND
-        #example block
-        #pather.traverse_nodes(Location.A5_NIHLATAK_LVL2_C, Location.A5_NIHLATAK_LVL2_D, char) #brings us from eye check C to eye check D
-        #template_match = self._template_finder.search_and_wait(["NI2_D", threshold=0.65, time_out=20) # look for the eye at location D
-        #    if not template_match.valid:
-        #        return False # I didnt find the eye at location D, i should go back to level1 & tp home
-        #    self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char) #path to nihlatak in position D
-        #end example block
