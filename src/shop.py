@@ -3,7 +3,7 @@ import logging
 import time
 import keyboard
 import os
-from shop import anya
+from shop import AnyaShopper
 from config import Config
 from logger import Logger
 from version import __version__
@@ -22,14 +22,16 @@ if __name__ == "__main__":
 
     print(f"============ Shop {__version__} [name: {config.general['name']}] ============")
     table = BeautifulTable()
-    table.rows.append(["f9", "Shop at Anya"])
+    table.rows.append(["f11", "Shop at Anya"])
     table.rows.append([config.general['exit_key'], "Stop shop"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
     
+    anya = AnyaShopper(config)
+
     while 1:
-        if keyboard.is_pressed("f9"):
-            anya.main()
+        if keyboard.is_pressed("f11"):
+            anya.run()
             break
         time.sleep(0.02)
