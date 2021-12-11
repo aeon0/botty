@@ -89,7 +89,7 @@ class AnyaShopper:
         
         # Dont touch anything below here
         self._config = config
-        self._message_sender = MessageSender
+        self._message_sender = MessageSender()
         self._screen = Screen(config.general["monitor"])
         self._template_finder = ExtendedTemplateFinder(self._screen)
         self._npc_manager = NpcManager(
