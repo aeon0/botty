@@ -22,32 +22,21 @@ class Hammerdin(IChar):
         if not self._skill_hotkeys["teleport"]:
             self._do_pre_move = False
 
-    def _cast_hammers(self, time_in_s: float):
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.05, 0.1)
-        keyboard.send(self._char_config["stand_still"], do_release=False)
-        wait(0.05, 0.1)
-        if self._skill_hotkeys["blessed_hammer"]:
-            keyboard.send(self._skill_hotkeys["blessed_hammer"])
-        wait(0.05, 0.1)
-        start = time.time()
-        while (time.time() - start) < time_in_s:
-            wait(0.06, 0.08)
-            mouse.press(button="left")
-            wait(0.5, 0.7)
-            mouse.release(button="left")
-        wait(0.01, 0.05)
-        keyboard.send(self._char_config["stand_still"], do_press=False)
-
-    def _do_redemption(self, delay: tuple[float, float] = (1.5, 2.0)):
-        if self._skill_hotkeys["redemption"]:
-            keyboard.send(self._skill_hotkeys["redemption"])
-            # cast hammers while redemption is active
+    def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
+        if aura in self._skill_hotkeys:
+            keyboard.send(self._skill_hotkeys[aura])
+            wait(0.05, 0.1)
             keyboard.send(self._char_config["stand_still"], do_release=False)
             wait(0.05, 0.1)
-            mouse.press(button="left")
-            wait(*delay)
-            mouse.release(button="left")
+            if self._skill_hotkeys["blessed_hammer"]:
+                keyboard.send(self._skill_hotkeys["blessed_hammer"])
+            wait(0.05, 0.1)
+            start = time.time()
+            while (time.time() - start) < time_in_s:
+                wait(0.06, 0.08)
+                mouse.press(button="left")
+                wait(0.5, 0.7)
+                mouse.release(button="left")
             wait(0.01, 0.05)
             keyboard.send(self._char_config["stand_still"], do_press=False)
 
@@ -87,7 +76,7 @@ class Hammerdin(IChar):
         self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
         self._cast_hammers(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_eldritch(self) -> bool:
@@ -101,7 +90,7 @@ class Hammerdin(IChar):
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_shenk(self):
@@ -112,7 +101,7 @@ class Hammerdin(IChar):
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_council(self) -> bool:
@@ -134,22 +123,19 @@ class Hammerdin(IChar):
             # Stay inside and cast hammers again moving forward
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_nihlatak(self, end_loc_key: str) -> bool:
         # Move close to nilathak
         self._pather.traverse_nodes_fixed(end_loc_key, self)
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.05, 0.15)
-        self._cast_hammers(0.6)
-        # redemption to get rid of corpses
-        self._do_redemption()
-        self._cast_hammers(self._char_config["atk_len_nihlatak"] * 0.5)
-        # move a bit back just to change position
-        self._move_and_attack((30, 10), self._char_config["atk_len_nihlatak"] * 0.5)
+        self._cast_hammers(self._char_config["atk_len_nihlatak"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_nihlatak"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.2, "redemption")
         return True
 
 

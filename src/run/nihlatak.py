@@ -51,9 +51,11 @@ class Nihlatak:
         # Depending on what template is found we do static pathing to the stairs on level1.
         # Its xpects that the static routes defined in game.ini are named: "ni1_a", "ni1_b", "ni1_c"
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
-        found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(1.0) or \
-            self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.2).valid
-        self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63)
+        found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0) or \
+            self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
+        # look for stairs
+        if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
+            return False
         # Wait until templates in lvl 2 entrance are found
         if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=20).valid:
             return False
@@ -65,7 +67,7 @@ class Nihlatak:
 
         check_arr = [
             EyeCheckData(["NI2_A_SAVE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", "ni2_a_end"),
-            EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK"], "ni2_circle_b", "ni2_b_end"),
+            EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", "ni2_b_end"),
             EyeCheckData(["NI2_C_SAVE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", "ni2_c_end"),
             EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", "ni2_d_end"),
         ]

@@ -224,12 +224,12 @@ class Pather:
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-            _, mask = cv2.threshold(diff, 15, 255, cv2.THRESH_BINARY)
+            _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
             score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-            if score > 0.2:
+            if score > 0.15:
                 i += 1
             else:
-                Logger.debug("Teleport cancel detected. Try same teleport action again.")
+                Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score})")
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -423,7 +423,7 @@ if __name__ == "__main__":
     #NIHLATAK_LVL1
     #pather.traverse_nodes_fixed("ni1_a", char)
     #pather.traverse_nodes_fixed("ni1_b", char)
-    pather.traverse_nodes_fixed("ni1_c", char)
+    # pather.traverse_nodes_fixed("ni1_c", char)
 
     ##NIHLATAK_LVL2 Position A
     #pather.traverse_nodes_fixed("ni2_circle_a", char)
@@ -432,8 +432,8 @@ if __name__ == "__main__":
     
     
     ##NIHLATAK_LVL2 Position B
-    #pather.traverse_nodes_fixed("ni2_circle_a", char)
-    #pather.traverse_nodes_fixed("ni2_circle_b", char)
+    pather.traverse_nodes_fixed("ni2_circle_a", char)
+    pather.traverse_nodes_fixed("ni2_circle_b", char)
     #pather.traverse_nodes_fixed("ni2_b_save_dist", char)
     #pather.traverse_nodes_fixed("ni2_b_attack", char)
         
