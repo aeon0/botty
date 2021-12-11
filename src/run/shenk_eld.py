@@ -1,4 +1,4 @@
-from char.i_char import IChar
+from char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
@@ -6,7 +6,7 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui_manager import UiManager
+from ui import UiManager
 from utils.misc import wait
 
 

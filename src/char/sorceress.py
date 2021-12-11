@@ -1,9 +1,9 @@
 import keyboard
 from utils.custom_mouse import mouse
-from char.i_char import IChar
+from char import IChar
 from template_finder import TemplateFinder
-from item.item_finder import ItemFinder
-from ui_manager import UiManager
+from item import ItemFinder
+from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
@@ -139,12 +139,6 @@ class Sorceress(IChar):
             return True
         return False
 
-    def kill_council(self) -> bool:
-        raise ValueError("Trav currently not implemented for sorc")
-
-    def kill_nihlatak(self, loc: Location) -> bool:
-        raise ValueError("Not implmeneted")
-
 
 if __name__ == "__main__":
     import os
@@ -152,8 +146,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char.sorceress import Sorceress
-    from ui_manager import UiManager
+    from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
@@ -162,4 +155,3 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     char.pre_buff()
     pather.traverse_nodes_fixed("trav_save_dist", char)
-    char.kill_council()

@@ -1,20 +1,20 @@
 from typing import Union
-from item.item_finder import ItemFinder
+from item import ItemFinder
 from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
-from ui_manager import UiManager
+from ui import UiManager
 from town import IAct, A3, A4, A5
 from utils.misc import wait
 
 
 class TownManager:
     def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, a3: A3, a4: A4, a5: A5):
+        self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
-        self._item_finder = ItemFinder()
-        self._config = Config()
+        self._item_finder = ItemFinder(self._config)
         self._acts: dict[Location, IAct] = {
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
@@ -41,7 +41,7 @@ class TownManager:
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1"
-        ], time_out=time_out)
+        ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    from char.hammerdin import Hammerdin
+    from char import Hammerdin
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager

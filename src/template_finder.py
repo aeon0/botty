@@ -22,14 +22,14 @@ class TemplateFinder:
     Loads images from assets/templates and assets/npc and provides search functions
     to find these assets within another image
     """
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc"]):
         self._screen = screen
         self._config = Config()
         self.last_res = None
         # load templates with their filename as key in the dict
-        template_path = "assets\\templates"
-        npc_path = "assets\\npc"
-        pathes = list_files_in_folder(npc_path) + list_files_in_folder(template_path)
+        pathes = []
+        for path in template_pathes:
+            pathes += list_files_in_folder(path)
         self._templates = {}
         for file_path in pathes:
             file_name: str = os.path.basename(file_path)

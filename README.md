@@ -145,10 +145,6 @@ run_shenk=0
 | -------------------- | --------------------------------------------------------------------- |
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
 
-| [items]   | Descriptions                                                                                                            |
-| --------- | ----------------------------------------------------------------------------------------------------------------------- |
-| item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent. |
-
 ## Support this project
 
 Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.

@@ -1,4 +1,4 @@
-from char.i_char import IChar
+from char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
@@ -6,7 +6,7 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui_manager import UiManager
+from ui import UiManager
 from utils.misc import wait
 
 
@@ -50,7 +50,8 @@ class Trav:
         wait(0.2, 0.3)
         # If we can teleport we want to move back inside and also check loot there
         if self._char.can_teleport():
-            self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
+            if not self._pather.traverse_nodes([229], self._char, time_out=2.5):
+                self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
             picked_up_items |= self._pickit.pick_up_items(self._char, "Travincal")
         # if we picked up items lets make sure we go back to the center to not hide the tp
         if picked_up_items:

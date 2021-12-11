@@ -1,29 +1,30 @@
 from transitions import Machine
 import time
-from char.hammerdin import Hammerdin
-from run import Pindle, ShenkEld, Trav, Nihlatak
-from template_finder import TemplateFinder
-from item.item_finder import ItemFinder
-from screen import Screen
-from ui_manager import UiManager
-from npc_manager import NpcManager
-from belt_manager import BeltManager
-from pather import Pather, Location
-from logger import Logger
-from char.sorceress import Sorceress
-from char.i_char import IChar
-from config import Config
-from health_manager import HealthManager
-from death_manager import DeathManager
-from town import TownManager, A3, A4, A5
-from item.pickit import PickIt
-from game_stats import GameStats
-from utils.misc import wait
 import keyboard
 import time
 import os
 import random
 from typing import Union
+
+from utils.misc import wait
+from game_stats import GameStats
+from logger import Logger
+from config import Config
+from screen import Screen
+from template_finder import TemplateFinder
+from char import IChar
+from item import ItemFinder
+from item.pickit import PickIt
+from ui import UiManager
+from ui import BeltManager
+from pather import Pather, Location
+from npc_manager import NpcManager
+from health_manager import HealthManager
+from death_manager import DeathManager
+from char.sorceress import Sorceress
+from char.hammerdin import Hammerdin
+from run import Pindle, ShenkEld, Trav, Nihlatak
+from town import TownManager, A3, A4, A5
 
 
 class Bot:
@@ -32,7 +33,7 @@ class Bot:
         self._game_stats = game_stats
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
-        self._item_finder = ItemFinder()
+        self._item_finder = ItemFinder(self._config)
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)

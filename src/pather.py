@@ -1,8 +1,3 @@
-from char.i_char import IChar
-from screen import Screen
-from template_finder import TemplateFinder
-from logger import Logger
-from char.i_char import IChar
 import math
 import keyboard
 import time
@@ -10,9 +5,14 @@ import os
 import random
 from typing import Tuple, Union, List
 import cv2
-from config import Config
-from utils.misc import is_in_roi
 import numpy as np
+
+from utils.misc import is_in_roi
+from config import Config
+from logger import Logger
+from screen import Screen
+from template_finder import TemplateFinder
+from char import IChar
 
 
 class Location:
@@ -239,11 +239,23 @@ class Pather:
         char.pre_move()
         if type(path) == str:
             path = self._config.path[path]
-        for pos in path:
-            x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+        i = 0
+        while i < len(path):
+            x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
+            t0 = self._screen.grab()
             char.move((x_m, y_m))
+            t1 = self._screen.grab()
+            # check difference between the two frames to determine if tele was good or not
+            diff = cv2.absdiff(t0, t1)
+            diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            _, mask = cv2.threshold(diff, 15, 255, cv2.THRESH_BINARY)
+            score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+            if score > 0.2:
+                i += 1
+            else:
+                Logger.debug("Teleport cancel detected. Try same teleport action again.")
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -414,7 +426,7 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import Sorceress
     from char.hammerdin import Hammerdin
-    from ui_manager import UiManager
+    from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
@@ -432,7 +444,7 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("trav_save_dist", char)
+    pather.traverse_nodes_fixed("trav_save_dist", char)
     # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
     # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
     display_all_nodes(pather, filter="NI2_")

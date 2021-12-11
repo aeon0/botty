@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import math
 from config import Config
 from utils.misc import color_filter, cut_roi
-from item.item_cropper import ItemCropper
+from item import ItemCropper
 
 
 @dataclass
@@ -25,8 +25,7 @@ class Item:
     roi: List[int] = None
 
 class ItemFinder:
-    def __init__(self):
-        config = Config()
+    def __init__(self, config: Config):
         self._item_cropper = ItemCropper()
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
@@ -40,10 +39,10 @@ class ItemFinder:
             "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
 
+        self._items_to_pick = config.items
         self._folder_name = "items"
         self._min_score = 0.86
         # load all templates
-        self._config = config
         self._templates = {}
         for filename in os.listdir(f'assets/{self._folder_name}'):
             filename = filename.lower()
@@ -53,7 +52,7 @@ class ItemFinder:
                 blacklist_item = item_name.startswith("bl__")
                 # these items will be searched for regardless of pickit setting (e.g. for runes to avoid mixup)
                 force_search = item_name.startswith("rune_")
-                if blacklist_item or ((item_name in config.items and self._config.items[item_name]) or force_search):
+                if blacklist_item or ((item_name in config.items and config.items[item_name]) or force_search):
                     data = cv2.imread(f"assets/{self._folder_name}/" + filename)
                     filtered_template = np.zeros(data.shape, np.uint8)
                     for key in self._template_color_ranges:
@@ -68,6 +67,9 @@ class ItemFinder:
                     if blacklist_item:
                         template.blacklist = True
                     self._templates[item_name] = template
+
+    def update_items_to_pick(self, config: Config):
+        self._items_to_pick = config.items
 
     def search(self, inp_img: np.ndarray) -> List[Item]:
         img = inp_img[:,:,:]
@@ -118,7 +120,7 @@ class ItemFinder:
                                         item.roi = [max_loc[0] + x, max_loc[1] + y, template.data.shape[1], template.data.shape[0]]
                                         center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                         item.dist = math.dist(center_abs, (0, 0))
-            if item is not None and self._config.items[item.name]:
+            if item is not None and self._items_to_pick[item.name]:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")
@@ -131,7 +133,7 @@ if __name__ == "__main__":
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     while 1:
         # img = cv2.imread("")
         img = screen.grab().copy()

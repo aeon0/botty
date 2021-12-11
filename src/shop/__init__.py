@@ -1,0 +1,1 @@
+from .anya import AnyaShopper

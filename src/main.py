@@ -1,23 +1,25 @@
-from bot import Bot
-from game_recovery import GameRecovery
-from game_stats import GameStats
-from health_manager import HealthManager
-from death_manager import DeathManager
-from screen import Screen
-from logger import Logger
 import keyboard
 import os
-from config import Config
-from utils.graphic_debugger import run_graphic_debugger
-from version import __version__
-from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread, send_discord
 import threading
 from beautifultable import BeautifulTable
 import time
 import logging
 import cv2
 import traceback
+
+from version import __version__
+from utils.graphic_debugger import run_graphic_debugger
+from utils.auto_settings import adjust_settings
+from utils.misc import kill_thread, send_discord
+
+from config import Config
+from screen import Screen
+from logger import Logger
+from game_recovery import GameRecovery
+from game_stats import GameStats
+from health_manager import HealthManager
+from death_manager import DeathManager
+from bot import Bot
 
 
 def run_bot(
@@ -84,9 +86,9 @@ def main():
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
-    if not os.path.exists("info_screenshots"):
+    if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
-    if not os.path.exists("loot_screenshots"):
+    if not os.path.exists("loot_screenshots") and config.general["loot_screenshots"]:
         os.system("mkdir loot_screenshots")
 
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
