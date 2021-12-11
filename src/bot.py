@@ -13,7 +13,8 @@ from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
 from char import IChar
-from item import ItemFinder, PickIt
+from item import ItemFinder
+from item.pickit import PickIt
 from ui import UiManager
 from ui import BeltManager
 from pather import Pather, Location

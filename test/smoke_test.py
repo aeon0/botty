@@ -1,9 +1,10 @@
-from game_stats import GameStats
-from logger import Logger
-from bot import Bot
-from screen import Screen
-from config import Config
 import cv2
+
+from version import __version__
+from screen import Screen
+from logger import Logger
+from game_stats import GameStats
+from bot import Bot
 
 
 class ScreenMock(Screen):

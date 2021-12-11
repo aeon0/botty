@@ -31,12 +31,15 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        # TODO: Optimize by checking if wp already has desired act active
-        pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
-        x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
-        mouse.move(x, y, randomize=8)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
+        str_to_idx_map = {"WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
+        curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
+        if curr_active_act != act:
+            pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
+            x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
+            mouse.move(x, y, randomize=8)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
         pos_wp_btn = (self._config.ui_pos["wp_first_btn_x"], self._config.ui_pos["wp_first_btn_y"] + self._config.ui_pos["wp_btn_height"] * idx)
         x, y = self._screen.convert_screen_to_monitor(pos_wp_btn)
         mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
@@ -263,6 +266,24 @@ class UiManager():
         item_list = [x for x in item_list if "potion" not in x.name]
         return len(item_list) > 0
 
+    def _move_to_stash_tab(self, stash_idx: int):
+        """Move to a specifc tab in the stash
+        :param stash_idx: idx of the stash starting at 0 (personal stash)
+        """
+        str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
+        template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["stash_btn_roi"])
+        curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
+        if curr_active_stash != stash_idx:
+            # select the start stash
+            personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
+            stash_btn_width = self._config.ui_pos["stash_btn_width"]
+            next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+            x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
+            mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
+            wait(0.2, 0.3)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
+
     def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder):
         """
         Stashing all items in inventory. Stash UI must be open when calling the function.
@@ -278,15 +299,7 @@ class UiManager():
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        # select the start stash
-        personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
-        stash_btn_width = self._config.ui_pos["stash_btn_width"]
-        next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash["gold"], personal_stash_pos[1])
-        x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
-        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
-        wait(0.2, 0.3)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
+        self._move_to_stash_tab(self._curr_stash["gold"])
         # stash gold
         if self._config.char["stash_gold"]:
             inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
@@ -323,12 +336,7 @@ class UiManager():
                         wait(0.5, 0.6)
                         return self.stash_all_items(num_loot_columns, item_finder)
         # stash stuff
-        next_item_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash["items"], personal_stash_pos[1])
-        x_m, y_m = self._screen.convert_screen_to_monitor(next_item_stash_pos)
-        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
-        wait(0.2, 0.3)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
+        self._move_to_stash_tab(self._curr_stash["items"])
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
