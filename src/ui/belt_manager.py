@@ -1,15 +1,17 @@
-from screen import Screen
-from template_finder import TemplateFinder
-from ui_manager import UiManager
-from config import Config
-from utils.misc import cut_roi, wait, color_filter
-from utils.custom_mouse import mouse
 import numpy as np
 from typing import List
 import keyboard
 import itertools
 import cv2
+
+from utils.misc import cut_roi, wait, color_filter
+from utils.custom_mouse import mouse
+
 from logger import Logger
+from config import Config
+from screen import Screen
+from template_finder import TemplateFinder
+from ui import UiManager
 
 
 class BeltManager:

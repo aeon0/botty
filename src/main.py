@@ -1,23 +1,25 @@
-from bot import Bot
-from game_recovery import GameRecovery
-from game_stats import GameStats
-from health_manager import HealthManager
-from death_manager import DeathManager
-from screen import Screen
-from logger import Logger
 import keyboard
 import os
-from config import Config
-from utils.graphic_debugger import run_graphic_debugger
-from version import __version__
-from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread, send_discord
 import threading
 from beautifultable import BeautifulTable
 import time
 import logging
 import cv2
 import traceback
+
+from version import __version__
+from utils.graphic_debugger import run_graphic_debugger
+from utils.auto_settings import adjust_settings
+from utils.misc import kill_thread, send_discord
+
+from config import Config
+from screen import Screen
+from logger import Logger
+from game_recovery import GameRecovery
+from game_stats import GameStats
+from health_manager import HealthManager
+from death_manager import DeathManager
+from bot import Bot
 
 
 def run_bot(

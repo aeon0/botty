@@ -1,8 +1,3 @@
-from char.i_char import IChar
-from screen import Screen
-from template_finder import TemplateFinder
-from logger import Logger
-from char.i_char import IChar
 import math
 import keyboard
 import time
@@ -10,9 +5,14 @@ import os
 import random
 from typing import Tuple, Union, List
 import cv2
-from config import Config
-from utils.misc import is_in_roi
 import numpy as np
+
+from utils.misc import is_in_roi
+from config import Config
+from logger import Logger
+from screen import Screen
+from template_finder import TemplateFinder
+from char import IChar
 
 
 class Location:
@@ -382,9 +382,9 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char.sorceress import Sorceress
-    from char.hammerdin import Hammerdin
-    from ui_manager import UiManager
+    from char import Sorceress
+    from char import Hammerdin
+    from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)

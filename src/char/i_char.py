@@ -1,17 +1,18 @@
-from typing import Tuple
-from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
-from ui_manager import UiManager
-from screen import Screen
-from utils.misc import wait, cut_roi, is_in_roi
+from typing import Dict, Tuple, Union, List, Callable
+import random
+import time
 import cv2
 import math
 import keyboard
+
+from utils.custom_mouse import mouse
+from utils.misc import wait, cut_roi, is_in_roi
+
 from logger import Logger
-import time
-from typing import Dict, Tuple, Union, List, Callable
 from config import Config
-import random
+from screen import Screen
+from template_finder import TemplateFinder
+from ui import UiManager
 
 
 def abstract(f):
