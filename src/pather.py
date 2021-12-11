@@ -209,11 +209,23 @@ class Pather:
         char.pre_move()
         if type(path) == str:
             path = self._config.path[path]
-        for pos in path:
-            x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+        i = 0
+        while i < len(path):
+            x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
+            t0 = self._screen.grab()
             char.move((x_m, y_m))
+            t1 = self._screen.grab()
+            # check difference between the two frames to determine if tele was good or not
+            diff = cv2.absdiff(t0, t1)
+            diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            _, mask = cv2.threshold(diff, 15, 255, cv2.THRESH_BINARY)
+            score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+            if score > 0.2:
+                i += 1
+            else:
+                Logger.debug("Teleport cancel detected. Try same teleport action again.")
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -382,8 +394,8 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char import Sorceress
-    from char import Hammerdin
+    from char.sorceress import Sorceress
+    from char.hammerdin import Hammerdin
     from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
@@ -402,7 +414,7 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("trav_save_dist", char)
+    pather.traverse_nodes_fixed("trav_save_dist", char)
     # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
     # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
-    display_all_nodes(pather, filter="TRAV")
+    # display_all_nodes(pather, filter="TRAV")
