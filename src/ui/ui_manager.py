@@ -98,7 +98,7 @@ class UiManager():
         start = time.time()
         while True:
             img = self._screen.grab()
-            is_loading_black_roi = np.average(img[:700, 0:250]) < 3.5
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.5
             if is_loading_black_roi:
                 return True
             if time_out is not None and time.time() - start > time_out:

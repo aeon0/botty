@@ -42,7 +42,14 @@ class Hammerdin(IChar):
     def _do_redemption(self, delay: tuple[float, float] = (1.5, 2.0)):
         if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
+            # cast hammers while redemption is active
+            keyboard.send(self._char_config["stand_still"], do_release=False)
+            wait(0.05, 0.1)
+            mouse.press(button="left")
             wait(*delay)
+            mouse.release(button="left")
+            wait(0.01, 0.05)
+            keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
@@ -130,18 +137,17 @@ class Hammerdin(IChar):
         self._do_redemption()
         return True
 
-    # For sorcs, we might have to request to get the location where the template was found in a variable (e.g. NI2_location = "A")).
-    # By calling that variable in the function, we can build this part relative to the tempalte found. 
-    # The location to click for the attack could be grabbed from game.ini (similar to how ELD is killed: from save dist - one cannot see nihlatak - you attack in the direction A B C or D and spam the spells, then tele in & loot)
-    def kill_nihlatak(self, loc: Location) -> bool: #kills nihlatak at any position 
-        wait(0.1, 0.15)
-        # no need to move the char to the final location for nihlatak, this is done in nihlatak.py based on the four layouts A-B-C-D
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.05, 0.15)
-        #self._cast_hammers() # cast a few hammers to clear trash & create a cloud of protecting hammers
-        #self._do_redemption() # directly cast redemption to get rid of ammunition for corpse explosion
-        self._cast_hammers(self._char_config["atk_len_nihlatak"]) # start the normal attack sequence
+    def kill_nihlatak(self, end_loc_key: str) -> bool:
+        # Move close to nilathak
+        self._pather.traverse_nodes_fixed(end_loc_key, self)
+        keyboard.send(self._skill_hotkeys["concentration"])
+        wait(0.05, 0.15)
+        self._cast_hammers(0.6)
+        # redemption to get rid of corpses
+        self._do_redemption()
+        self._cast_hammers(self._char_config["atk_len_nihlatak"] * 0.5)
+        # move a bit back just to change position
+        self._move_and_attack((30, 10), self._char_config["atk_len_nihlatak"] * 0.5)
         wait(0.1, 0.15)
         self._do_redemption()
         return True
