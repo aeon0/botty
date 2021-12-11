@@ -323,11 +323,12 @@ class UiManager():
                     if self._curr_stash["gold"] > 3:
                         inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
                         if inventory_full_gold.valid:
-                            # TODO: Instead of quiting turn of gold pickup in pickit or itemfinder
-                            Logger.error("All stash tabs and character are full of gold, quitting")
+                            msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                            Logger.info(msg)
                             if self._config.general["custom_discord_hook"]:
-                                send_discord(f"{self._config.general['name']} all stash is full of gold, quitting", self._config.general["custom_discord_hook"])
-                            os._exit(1)
+                                send_discord(f"{self._config.general['name']}: {msg}", self._config.general["custom_discord_hook"])
+                            self._config.items["misc_gold"] = 0
+                            item_finder.update_items_to_pick(self._config)
                         else:
                             Logger.info("All tabs are full but character is not. Continuing.")
                             self._curr_stash["gold"] = 3
@@ -532,6 +533,6 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
     ui_manager.stash_all_items(1, item_finder)
