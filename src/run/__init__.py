@@ -1,3 +1,3 @@
-from run.pindle import Pindle
-from run.shenk_eld import ShenkEld
-from run.trav import Trav
+from .pindle import Pindle
+from .shenk_eld import ShenkEld
+from .trav import Trav

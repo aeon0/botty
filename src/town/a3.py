@@ -1,4 +1,4 @@
-from char.i_char import IChar
+from char import IChar
 from town.i_act import IAct
 from screen import Screen
 from config import Config

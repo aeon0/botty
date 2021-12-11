@@ -1,6 +1,6 @@
 from template_finder import TemplateFinder
-from ui_manager import UiManager
-from belt_manager import BeltManager
+from ui import UiManager
+from ui import BeltManager
 from pather import Location
 import cv2
 import time

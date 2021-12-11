@@ -1,10 +1,10 @@
 from typing import Union
-from item.item_finder import ItemFinder
+from item import ItemFinder
 from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
-from ui_manager import UiManager
+from ui import UiManager
 from town import IAct, A3, A4, A5
 from utils.misc import wait
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    from char.hammerdin import Hammerdin
+    from char import Hammerdin
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager

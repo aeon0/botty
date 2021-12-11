@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import math
 from config import Config
 from utils.misc import color_filter, cut_roi
-from item.item_cropper import ItemCropper
+from item import ItemCropper
 
 
 @dataclass

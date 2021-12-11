@@ -1,16 +1,16 @@
-from belt_manager import BeltManager
-from ui_manager import UiManager
-from item.item_finder import ItemFinder, Item
 import time
-from utils.custom_mouse import mouse
 import keyboard
 import cv2
+
+from utils.custom_mouse import mouse
 from config import Config
-from char.i_char import IChar
 from logger import Logger
 from screen import Screen
-from ui_manager import UiManager
 from game_stats import GameStats
+from item import ItemFinder, Item
+from ui import UiManager
+from ui import BeltManager
+from char import IChar
 
 
 class PickIt:
@@ -123,9 +123,9 @@ class PickIt:
                         time.sleep(0.2)
 
                     if self._ui_manager.is_overburdened():
+                        picked_up_items = True
                         Logger.warning("Inventory full, skipping pickit!")
-                        # TODO: should go back to town and stash stuff then go back to picking up more stuff
-                        #       but sm states are not fine enough for such a routine right now...
+                        # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff
                         break
                     else:
                         # send log to discord
@@ -149,9 +149,9 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
-    from char.sorceress import Sorceress
-    from char.hammerdin import Hammerdin
-    from ui_manager import UiManager
+    from char import Sorceress
+    from char import Hammerdin
+    from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
     from game_stats import GameStats
