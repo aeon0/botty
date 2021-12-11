@@ -21,7 +21,8 @@ from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
 from death_manager import DeathManager
-from char import Sorceress, Hammerdin
+from char.sorceress import Sorceress
+from char.hammerdin import Hammerdin
 from run import Pindle, ShenkEld, Trav
 from town import TownManager, A3, A4, A5
 
