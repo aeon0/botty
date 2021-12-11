@@ -139,9 +139,6 @@ class Sorceress(IChar):
             return True
         return False
 
-    def kill_council(self) -> bool:
-        raise ValueError("Trav currently not implemented for sorc")
-
 
 if __name__ == "__main__":
     import os
@@ -149,7 +146,6 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char import Sorceress
     from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
@@ -159,4 +155,3 @@ if __name__ == "__main__":
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     char.pre_buff()
     pather.traverse_nodes_fixed("trav_save_dist", char)
-    char.kill_council()

@@ -160,11 +160,19 @@ class HealthManager:
 # Testing: Start dying or lossing mana and see if it works
 if __name__ == "__main__":
     import threading
+    import keyboard
+    import os
+    keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     config = Config()
     screen = Screen(config.general["monitor"])
     manager = HealthManager(screen)
+    manager._pausing = False
+    Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)
-    health_monitor_thread.daemon = True
     health_monitor_thread.start()
-    manager.set_callback(lambda: print("Hallo CB"))
-    health_monitor_thread.join()
+    while 1:
+        if manager.did_chicken():
+            manager.stop_monitor()
+            health_monitor_thread.join()
+            break
+        wait(0.5)

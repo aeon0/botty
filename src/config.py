@@ -9,6 +9,8 @@ class Config:
             return self._custom[section][key]
         elif section in self._config:
             return self._config[section][key]
+        elif section in self._pickit_config:
+            return self._pickit_config[section][key]
         else:
             return self._game_config[section][key]
 
@@ -17,12 +19,14 @@ class Config:
         # passing a single config instance through bites me in the ass
         self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
-        self._config.read('params.ini')
+        self._config.read('config/params.ini')
         self._game_config = configparser.ConfigParser()
-        self._game_config.read('game.ini')
+        self._game_config.read('config/game.ini')
+        self._pickit_config = configparser.ConfigParser()
+        self._pickit_config.read('config/pickit.ini')
         self._custom = configparser.ConfigParser()
-        if os.environ.get('RUN_ENV') != "test" and os.path.exists('custom.ini'):
-            self._custom.read('custom.ini')
+        if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
+            self._custom.read('config/custom.ini')
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
@@ -104,7 +108,7 @@ class Config:
         }
 
         self.items = {}
-        for key in self._config["items"]:
+        for key in self._pickit_config["items"]:
             self.items[key] = int(self._select_val("items", key))
             if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
