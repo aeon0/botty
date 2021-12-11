@@ -15,11 +15,6 @@ from template_finder import TemplateFinder
 from ui import UiManager
 
 
-def abstract(f):
-    def _decorator(*_):
-        raise NotImplementedError(f"Method '{f.__name__}' is abstract")
-    return _decorator
-
 class IChar:
     def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
@@ -177,22 +172,17 @@ class IChar:
             else:
                 Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
-    @abstract
     def pre_buff(self):
         pass
 
-    @abstract
     def kill_pindle(self) -> bool:
-        pass
+        raise ValueError("Pindle is not implemented!")
 
-    @abstract
     def kill_shenk(self) -> bool:
-        pass
+        raise ValueError("Shenk is not impleneted!")
 
-    @abstract
     def kill_eldritch(self) -> bool:
-        pass
+        raise ValueError("Eldritch is not implemented!")
 
-    @abstract
     def kill_council(self) -> bool:
-        pass
+        raise ValueError("Council is not implemented!")

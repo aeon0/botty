@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 import time
 import math
@@ -15,24 +14,6 @@ from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template, send_discord
 import cv2
-
-
-class ExtendedTemplateFinder(TemplateFinder):
-    def __init__(self, screen):
-        super().__init__(screen)
-        custom_templates = {
-            "CLAW1": [load_template("assets/shop/claws/claw1.png", 1.0), 1.0],
-            "CLAW2": [load_template("assets/shop/claws/claw2.png", 1.0), 1.0],
-            "CLAW3": [load_template("assets/shop/claws/claw3.png", 1.0), 1.0],
-            "TO_TRAPS": [load_template("assets/shop/claws/to_traps.png", 1.0), 1.0],
-            "3_TO_TRAPS": [load_template("assets/shop/claws/3_to_traps.png", 1.0), 1.0],
-            "2_TO_ASSA": [load_template("assets/shop/claws/2_to_assa.png", 1.0), 1.0],
-            "TO_LIGHT": [load_template("assets/shop/claws/to_light.png", 1.0), 1.0],
-            "TO_WB": [load_template("assets/shop/claws/wb.png", 1.0), 1.0],
-            "TO_DS": [load_template("assets/shop/claws/to_ds.png", 1.0), 1.0],
-            "TO_VENOM": [load_template("assets/shop/claws/to_venom.png", 1.0), 1.0],
-        }
-        self._templates.update(custom_templates)
 
 
 def exit(run_obj):
@@ -88,7 +69,7 @@ class AnyaShopper:
         # Dont touch anything below here
         self._config = config
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = ExtendedTemplateFinder(self._screen)
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )
