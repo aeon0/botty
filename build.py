@@ -66,11 +66,11 @@ if __name__ == "__main__":
 
     os.system(f"cd {botty_dir} && mkdir params && cd ..")
 
-    with open(f"{botty_dir}/params/custom.ini", "w") as f: 
+    with open(f"{botty_dir}/config/custom.ini", "w") as f: 
         f.write("; Add parameters you want to overwrite from param.ini here")
-    shutil.copy("game.ini", f"{botty_dir}/params/")
-    shutil.copy("params.ini", f"{botty_dir}/params/")
-    shutil.copy("pickit.ini", f"{botty_dir}/params/")
+    shutil.copy("config/game.ini", f"{botty_dir}/config/")
+    shutil.copy("config/params.ini", f"{botty_dir}/config/")
+    shutil.copy("config/pickit.ini", f"{botty_dir}/config/")
     shutil.copy("README.md", f"{botty_dir}/")
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()

@@ -19,14 +19,14 @@ class Config:
         # passing a single config instance through bites me in the ass
         self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
-        self._config.read('params/params.ini')
+        self._config.read('config/params.ini')
         self._game_config = configparser.ConfigParser()
-        self._game_config.read('params/game.ini')
+        self._game_config.read('config/game.ini')
         self._pickit_config = configparser.ConfigParser()
-        self._pickit_config.read('params/pickit.ini')
+        self._pickit_config.read('config/pickit.ini')
         self._custom = configparser.ConfigParser()
-        if os.environ.get('RUN_ENV') != "test" and os.path.exists('params/custom.ini'):
-            self._custom.read('params/custom.ini')
+        if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
+            self._custom.read('config/custom.ini')
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
