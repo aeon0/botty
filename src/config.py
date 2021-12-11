@@ -36,10 +36,13 @@ class Config:
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
-            "custom_discord_hook": self._select_val("general", "custom_discord_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "custom_message_hook": self._select_val("general", "custom_message_hook"),
+            "message_headers": self._select_val("general", "message_headers"),
+            "message_body_template": self._select_val("general", "message_body_template"),
+            "message_highlight": bool(int(self._select_val("general", "message_highlight"))),
         }
 
         self.routes = {}

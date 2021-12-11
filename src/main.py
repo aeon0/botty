@@ -7,10 +7,11 @@ import logging
 import cv2
 import traceback
 
+from message_sender import MessageSender
 from version import __version__
 from utils.graphic_debugger import run_graphic_debugger
 from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread, send_discord
+from utils.misc import kill_thread
 
 from config import Config
 from screen import Screen
@@ -42,6 +43,7 @@ def run_bot(
     do_restart = False
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
+    message_sender = MessageSender()
     while 1:
         health_manager.update_location(bot.get_curr_location())
         max_game_length_reached = game_stats.get_current_game_length() > config.general["max_game_length_s"]
@@ -72,8 +74,8 @@ def run_bot(
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
-        if config.general["custom_discord_hook"]:
-            send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
+        if config.general["custom_message_hook"]:
+            message_sender.send_message(f"{config.general['name']}: got stuck and can not resume")
         os._exit(1)
 
 def main():

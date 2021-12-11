@@ -7,7 +7,7 @@ import os
 import numpy as np
 
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, color_filter, send_discord
+from utils.misc import wait, cut_roi, color_filter
 
 from logger import Logger
 from config import Config
@@ -15,12 +15,15 @@ from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
 
+from message_sender import MessageSender
+
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
+        self._message_sender = MessageSender()
         self._template_finder = template_finder
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
@@ -312,8 +315,8 @@ class UiManager():
                         if inventory_full_gold.valid:
                             # TODO: Instead of quiting turn of gold pickup in pickit or itemfinder
                             Logger.error("All stash tabs and character are full of gold, quitting")
-                            if self._config.general["custom_discord_hook"]:
-                                send_discord(f"{self._config.general['name']} all stash is full of gold, quitting", self._config.general["custom_discord_hook"])
+                            if self._config.general["custom_message_hook"]:
+                                self._message_sender.send_message(f"{self._config.general['name']}: all stash is full of gold, quitting")
                             os._exit(1)
                         else:
                             Logger.info("All tabs are full but character is not. Continuing.")
@@ -383,8 +386,8 @@ class UiManager():
             self._curr_stash["items"] += 1
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
-                if self._config.general["custom_discord_hook"]:
-                    send_discord(f"{self._config.general['name']} all stash is full, quitting", self._config.general["custom_discord_hook"])
+                if self._config.general["custom_message_hook"]:
+                    self._message_sender.send_message(f"{self._config.general['name']}: all stash is full, quitting")
                 os._exit(1)
             else:
                 # move to next stash

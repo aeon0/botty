@@ -13,8 +13,10 @@ from logger import Logger
 from npc_manager import NpcManager, Npc
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
-from utils.misc import wait, load_template, send_discord
+from utils.misc import wait, load_template
 import cv2
+
+from message_sender import MessageSender
 
 
 class ExtendedTemplateFinder(TemplateFinder):
@@ -87,6 +89,7 @@ class AnyaShopper:
         
         # Dont touch anything below here
         self._config = config
+        self._message_sender = MessageSender
         self._screen = Screen(config.general["monitor"])
         self._template_finder = ExtendedTemplateFinder(self._screen)
         self._npc_manager = NpcManager(
@@ -147,7 +150,7 @@ class AnyaShopper:
                     )
                     if gg_gloves.valid:
                         mouse.click(button="right")
-                        send_discord(f"Bought awesome IAS/+3 gloves!", self._config.general["custom_discord_hook"])
+                        self._message_sender.send_message(f"{self._config.general['name']}: Bought awesome IAS/+3 gloves!")
                         Logger.info("IAS/+3 gloves bought!")
                         self.gloves_bought += 1
                         time.sleep(1)
@@ -164,7 +167,7 @@ class AnyaShopper:
                         )
                         if g_gloves.valid:
                             mouse.click(button="right")
-                            send_discord(f"Bought some decent IAS/+2 gloves", self._config.general["custom_discord_hook"])
+                            self._message_sender.send_message(f"{self._config.general['name']}: Bought some decent IAS/+2 gloves")
                             Logger.info("IAS/+2 gloves bought!")
                             self.gloves_bought += 1
                             time.sleep(1)
@@ -224,7 +227,7 @@ class AnyaShopper:
                     if trap_score > 11 and self.look_for_trap_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        send_discord(f"Bought some terrific trap Claws (score: {trap_score})", self._config.general["custom_discord_hook"])
+                        self._message_sender.send_message(f"{self._config.general['name']}: Bought some terrific trap Claws (score: {trap_score})")
                         Logger.info(f"Trap Claws (score: {trap_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
@@ -232,7 +235,7 @@ class AnyaShopper:
                     if melee_score > 11 and self.look_for_melee_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        send_discord(f"Bought some mad melee Claws (score: {melee_score})", self._config.general["custom_discord_hook"])
+                        self._message_sender.send_message(f"{self._config.general['name']}: Bought some mad melee Claws (score: {melee_score})")
                         Logger.info(f"Melee Claws (score: {melee_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)    
