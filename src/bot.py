@@ -32,7 +32,7 @@ class Bot:
         self._game_stats = game_stats
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
-        self._item_finder = ItemFinder()
+        self._item_finder = ItemFinder(self._config)
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)

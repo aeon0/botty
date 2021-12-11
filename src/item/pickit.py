@@ -167,7 +167,7 @@ if __name__ == "__main__":
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
     print(pickit.pick_up_items(char))

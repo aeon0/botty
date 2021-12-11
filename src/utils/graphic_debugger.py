@@ -10,7 +10,7 @@ from template_finder import TemplateFinder
 def run_graphic_debugger():
     config = Config()
     screen = Screen(config.general["monitor"])
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     template_finder = TemplateFinder(screen)
     search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
     while 1:

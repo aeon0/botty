@@ -11,10 +11,10 @@ from utils.misc import wait
 
 class TownManager:
     def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, a3: A3, a4: A4, a5: A5):
+        self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
-        self._item_finder = ItemFinder()
-        self._config = Config()
+        self._item_finder = ItemFinder(self._config)
         self._acts: dict[Location, IAct] = {
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
