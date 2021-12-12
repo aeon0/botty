@@ -82,7 +82,7 @@ class Bot:
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
-        self._pre_buffed = 0
+        self._pre_buffed = False
         self._stopping = False
         self._pausing = False
         self._current_threads = []
@@ -262,7 +262,8 @@ class Bot:
         self.trigger_or_stop("create_game")
 
     def on_end_run(self):
-        self._pre_buffed = True
+        if not self._config.char["pre_buff_every_run"]:
+            self._pre_buffed = True
         success = self._char.tp_town()
         if success:
             self._tps_left -= 1
