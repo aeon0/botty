@@ -50,6 +50,13 @@ class Config:
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
         }
 
+        # Added for dclone ip hunting
+        self.dclone = {
+            "search_hotip": bool(int(self._select_val("dclone", "search_hotip"))),
+            "region_ips": self._select_val("dclone", "region_ips"),
+            "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
+        }
+
         self.routes = {}
         for key in self._config["routes"]:
             self.routes[key] = bool(int(self._select_val("routes", key)))
