@@ -140,8 +140,8 @@ class Pather:
             # 501
             # 502
             # Nil - End of Arm B
-            # 505
-            # 506
+            505: {"NIL2B_1": (-97, 161), "NIL2B_2": (226, -16), "NIL2B_0": (402, -60), "NIL2B_3": (-790, 7)},
+            506: {"NIL2B_3": (-245, 260), "NIL2B_5": (-385, 182), "NIL2B_1": (448, 415), "NIL2B_2": (771, 237)},
             # Nil - End of Arm C
             510: {"NIL2C_0": (-206, 67), "NIL2C_2": (131, 178), "NIL2C_1": (-300, -127), "NIL2C_4": (-183, 373), "NIL2C_3": (-20, 433)},
             511: {"NIL2C_4": (417, 49), "NIL2C_0": (394, -257), "NIL2C_1": (300, -451), "NIL2C_3": (580, 109), "NIL2C_5": (-435, 204), "NIL2C_2": (731, -146)},
@@ -419,6 +419,8 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
+    display_all_nodes(pather, "NIL2B")
+
     # # changing node pos and generating new code
     # code = ""
     # node_idx = 226
@@ -431,7 +433,7 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([510, 511], char)
+    # pather.traverse_nodes([505, 506], char)
 
     #NIHLATAK_LVL1
     #pather.traverse_nodes_fixed("ni1_a", char)
