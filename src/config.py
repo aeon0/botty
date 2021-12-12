@@ -92,9 +92,6 @@ class Config:
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
-            # currently no need to have anything other then static pathing set
-            "static_path_pindle": True,
-            "static_path_eldritch": True,
         }
 
         self.sorceress = dict(self._config["sorceress"])
@@ -104,9 +101,6 @@ class Config:
         self.hammerdin = self._config["hammerdin"]
         if "hammerdin" in self._custom:
             self.hammerdin.update(self._custom["hammerdin"])
-        if not self.hammerdin["teleport"]:
-            self.char["static_path_pindle"] = False
-            self.char["static_path_eldritch"] = False
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
