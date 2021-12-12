@@ -99,6 +99,10 @@ class Config:
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
+            "atk_len_diablo_vizier": float(self._select_val("char", "atk_len_diablo_vizier")), #atk_len_diablo_vizier
+            "atk_len_diablo_deseis": float(self._select_val("char", "atk_len_diablo_deseis")),
+            "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
+            "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
         }
 
         self.sorceress = dict(self._config["sorceress"])

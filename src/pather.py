@@ -52,6 +52,14 @@ class Location:
     # Nihalatk
     A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
+    # Chaos Sanctuary (a = vizier, b = deseis, c = infector)
+    A4_DIABLO_WP = "a4_diablo_wp"
+    A4_DIABLO_ENTRANCE = "a4_diablo_entrance"
+    A4_DIABLO_PENTAGRAM = "a4_diablo_pentagram"
+    A4_DIABLO_A = "a4_diablo_a"
+    A4_DIABLO_B = "a4_diablo_b"
+    A4_DIABLO_C = "a4_diablo_c"
+    A4_DIABLO_END = "a4_diablo_c"
 
 
 class Pather:
@@ -149,6 +157,7 @@ class Pather:
             515: {"NIL2D_2": (66, -12), "NIL2D_0": (-141, 245), "NIL2D_1": (329, -167), "NIL2D_4": (219, 392), "NIL2D_3": (-773, 91)},
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
+            # Diablo Chaos Sanctuary 600
         }
         self._paths = {
             # A5 Town
@@ -195,6 +204,7 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
+            # Diablo Chaos Sanctuary
         }
 
     def offset_node(self, node_idx: int, offset: tuple[int, int]):
