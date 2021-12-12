@@ -19,18 +19,11 @@ All settings will automatically be set when you execute `main.exe` and press the
 
 ### 2) Supported builds
 
-#### Sorceress
-
-You can put any skills on left and right attack and see if it works out. E.g. Glacial Spike on left attack and Blizzard or right attack.
-Adjust the hotkeys in the **custom.ini** or **param.ini** for the `[char]` and `[sorceress]` section accordingly. Check out the param.ini section in the Readme for more details on each param.
-
-#### Hammerdin
-
-Your standard Hammerdin. Same story as with sorc, set up your skills in the .ini file to what you have in D2R or the other way around. When running more than just pindle or shenk you need to start with a full tome of tps in your inventory. If you do not have an engima, leave the teleport hotkey empty in the .ini file and the hammerdin will run with vigor instead.
+Check the documentation for **param.ini** further down. Currently you can set skills for Sorceress, Hammardin and Trapsin. The later two can also be set up without teleport.
 
 #### Other builds
 
-You can "highjack" the sorc or hdin config to also run other builds. There will be a more flexibel char system comming up in the upcoming releases.
+You can "highjack" any config to also run other builds. Or properly implement a new build and make a PR : )
 
 ### 3) Start Location
 
@@ -75,23 +68,25 @@ run_shenk=0
 | logger_lvl           | Can be any of [info, debug] and determines how much output you see on the command line |
 | randomize_runs       | If 0, the order will always be pindle -> eldritch/shenk. If 1 the order will be random |
 | difficulty           | Set to `normal` `nightmare` or `hell` for game difficulty |
-| custom_discord_hook  | Add your own discord hook here to get messages about drops and in case botty got stuck and can not resume |
+| custom_message_hook  | Add your own message hook here to get messages about drops and in case botty got stuck and can not resume, discord webhook is default  |
 | discord_status_count | Number of games between discord status messges being sent. Leave empty for no status reports.
 | info_screenshots     | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
 | loot_screenshots     | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
-| run_trav     | Run Trav in each new game. Select "1" to run it "0" to leave it out. Currentl yonly hdin with teleport is supported for this run. Also specific trav gear is suggested and use_merc=0 |
+| run_trav     | Run Trav in each new game. Select "1" to run it "0" to leave it out. Specific trav gear is suggested |
 | run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
+| run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
 | type               | Build type. Currently only "sorceress" or "hammerdin" is supported |
 | casting_frames     | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example. |
 | stash_gold         | Bool value to stash gold each time when stashing items |
+| gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
 | atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
@@ -117,6 +112,7 @@ run_shenk=0
 | belt_rejuv_columns | Number of belt columns for rejuv potions |
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
+| pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 | cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff |
 | weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
 | battle_order       | Hotkey for battle order from cta (only needed if cta_available=1) |
@@ -140,13 +136,19 @@ run_shenk=0
 | redemption     | Optional Hotkey for redemption                                                      |
 | vigor          | Optional Hotkey for vigor                                                           |
 
+| [trapsin]    | Descriptions                                                                        |
+| -------------- | ----------------------------------------------------------------------------------- |
+| teleport       | Optional Hotkey for teleport. If left empty trapsin will run instead of teleport.   |
+| skill_left     | Optional Hotkey for Left Skill                                                      |
+| burst_of_speed | Optional Hotkey for Burst of Speed                                                  |
+| fade           | Optional Hotkey for Fade                                                            |
+| shadow_warrior | Optional Hotkey for Shadow Warrior                                                  |
+| lightning_sentry | Required Hotkey for Lightning Sentry                                              |
+| death_sentry   | Required Hotkey for Death Sentry                                              |
+
 | [advanced_options]   | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
-
-| [items]   | Descriptions                                                                                                            |
-| --------- | ----------------------------------------------------------------------------------------------------------------------- |
-| item_type | 0: Item will not be picked up. 1: Item will be picked up. 2: Item will be picked up and a discord message will be sent. |
 
 ## Support this project
 

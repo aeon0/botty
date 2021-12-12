@@ -22,14 +22,14 @@ class TemplateFinder:
     Loads images from assets/templates and assets/npc and provides search functions
     to find these assets within another image
     """
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc"]):
         self._screen = screen
         self._config = Config()
         self.last_res = None
         # load templates with their filename as key in the dict
-        template_path = "assets\\templates"
-        npc_path = "assets\\npc"
-        pathes = list_files_in_folder(npc_path) + list_files_in_folder(template_path)
+        pathes = []
+        for path in template_pathes:
+            pathes += list_files_in_folder(path)
         self._templates = {}
         for file_path in pathes:
             file_name: str = os.path.basename(file_path)
@@ -173,7 +173,7 @@ class TemplateFinder:
                 if time_out is not None and (time.time() - start) > time_out:
                     if self._config.general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                    if not take_ss:
+                    if take_ss:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match
 

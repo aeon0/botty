@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 import time
 import math
@@ -13,26 +12,10 @@ from logger import Logger
 from npc_manager import NpcManager, Npc
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
-from utils.misc import wait, load_template, send_discord
+from utils.misc import wait, load_template
 import cv2
 
-
-class ExtendedTemplateFinder(TemplateFinder):
-    def __init__(self, screen):
-        super().__init__(screen)
-        custom_templates = {
-            "CLAW1": [load_template("assets/shop/claws/claw1.png", 1.0), 1.0],
-            "CLAW2": [load_template("assets/shop/claws/claw2.png", 1.0), 1.0],
-            "CLAW3": [load_template("assets/shop/claws/claw3.png", 1.0), 1.0],
-            "TO_TRAPS": [load_template("assets/shop/claws/to_traps.png", 1.0), 1.0],
-            "3_TO_TRAPS": [load_template("assets/shop/claws/3_to_traps.png", 1.0), 1.0],
-            "2_TO_ASSA": [load_template("assets/shop/claws/2_to_assa.png", 1.0), 1.0],
-            "TO_LIGHT": [load_template("assets/shop/claws/to_light.png", 1.0), 1.0],
-            "TO_WB": [load_template("assets/shop/claws/wb.png", 1.0), 1.0],
-            "TO_DS": [load_template("assets/shop/claws/to_ds.png", 1.0), 1.0],
-            "TO_VENOM": [load_template("assets/shop/claws/to_venom.png", 1.0), 1.0],
-        }
-        self._templates.update(custom_templates)
+from messenger import Messenger
 
 
 def exit(run_obj):
@@ -68,27 +51,26 @@ class AnyaShopper:
     """
 
     def __init__(self, config: Config):
-        
-        # Configurable part, dont touch anything above
+        self._config = config
+
         # Set look_for variables to False if you dont like your personal shopper to look for these
         # Obviously something need to be set to True, or your shopper will be very confused
         # For the trap claw scores use:
         # 7 if you are happy with any + to traps or +2 assassin
         # 9 if you want at least +2 assassin or two useful trap stats
         # 11 if you want at least +3 traps or +2 and a sentry bonus
-        # Similar for melee claws but not really worth keeping any less that 11 here since you really want both +2 assassin and a useful other stat, feedback needed 
-        
-        self.look_for_plus_2_gloves = True
-        self.look_for_plus_3_gloves = True
-        self.look_for_trap_claws = True
-        self.trap_claw_min_score = 11
-        self.look_for_melee_claws = True
-        self.melee_claw_min_score = 11
-        
-        # Dont touch anything below here
-        self._config = config
+        # Similar for melee claws but not really worth keeping any less that 11 here since you really want both +2 assassin and a useful other stat, feedback needed
+        self.look_for_plus_2_gloves = self._config.shop["shop_2_skills_ias_gloves"]
+        self.look_for_plus_3_gloves = self._config.shop["shop_3_skills_ias_gloves"]
+        self.look_for_trap_claws = self._config.shop["shop_trap_claws"]
+        self.trap_claw_min_score = self._config.shop["trap_min_score"]
+        self.look_for_melee_claws = self._config.shop["shop_melee_claws"]
+        self.melee_claw_min_score = self._config.shop["melee_min_score"]
+
+
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = ExtendedTemplateFinder(self._screen)
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._messenger = Messenger()
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )
@@ -147,7 +129,7 @@ class AnyaShopper:
                     )
                     if gg_gloves.valid:
                         mouse.click(button="right")
-                        send_discord(f"Bought awesome IAS/+3 gloves!", self._config.general["custom_discord_hook"])
+                        self._messenger.send(msg=f"{self._config.general['name']}: Bought awesome IAS/+3 gloves!")
                         Logger.info("IAS/+3 gloves bought!")
                         self.gloves_bought += 1
                         time.sleep(1)
@@ -164,7 +146,7 @@ class AnyaShopper:
                         )
                         if g_gloves.valid:
                             mouse.click(button="right")
-                            send_discord(f"Bought some decent IAS/+2 gloves", self._config.general["custom_discord_hook"])
+                            self._messenger.send(msg=f"{self._config.general['name']}: Bought some decent IAS/+2 gloves")
                             Logger.info("IAS/+2 gloves bought!")
                             self.gloves_bought += 1
                             time.sleep(1)
@@ -216,26 +198,27 @@ class AnyaShopper:
                         trap_score += 6
                     if self._template_finder.search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         melee_score += 2
+                        trap_score += 1
                     if self._template_finder.search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 4
                         
                     self.claws_evaluated += 1
                     
-                    if trap_score > 11 and self.look_for_trap_claws is True:
+                    if trap_score > self.trap_claw_min_score and self.look_for_trap_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        send_discord(f"Bought some terrific trap Claws (score: {trap_score})", self._config.general["custom_discord_hook"])
+                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some terrific trap Claws (score: {trap_score})")
                         Logger.info(f"Trap Claws (score: {trap_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
-                        
-                    if melee_score > 11 and self.look_for_melee_claws is True:
+
+                    if melee_score > self.melee_claw_min_score and self.look_for_melee_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        send_discord(f"Bought some mad melee Claws (score: {melee_score})", self._config.general["custom_discord_hook"])
+                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some mad melee Claws (score: {melee_score})")
                         Logger.info(f"Melee Claws (score: {melee_score}) bought!")
                         self.claws_bought += 1
-                        time.sleep(1)    
+                        time.sleep(1)
 
             # Done with this shopping round
             self.reset_shop()
@@ -249,7 +232,7 @@ class AnyaShopper:
                 break
             else:
                 mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
-        time.sleep(3)
+        time.sleep(2.5)
         while 1:
             success = self.select_by_template("A5_RED_PORTAL")
             success &= wait_for_loading_screen(self._screen, 2)
@@ -268,43 +251,3 @@ class AnyaShopper:
             mouse.click(button="left")
             return True
         return False
-
-def main():
-    config = Config()
-    print("Anya Shopper running, click resume key (Default F11) when close to Anya to start shopping")
-
-    anyashopper = AnyaShopper(config)
-    keyboard.add_hotkey(config.general["exit_key"], lambda: exit(run_obj=anyashopper))
-    
-    while True:
-        if keyboard.is_pressed(config.general["resume_key"]):
-            try:
-                anyashopper.run()
-            except Exception as e:
-                Logger.logger.exception(e)
-                exit(anyashopper)
-            break
-        if keyboard.is_pressed(config.general["graphic_debugger_key"]):
-            screen = Screen(config.general["monitor"])
-            tf = ExtendedTemplateFinder(screen)
-            search_templates = ["CLAW1", "CLAW2", "CLAW3", "TO_TRAPS", "3_TO_TRAPS", "2_TO_ASSA", "TO_LIGHT", "TO_WB", "TO_DS", "TO_VENOM"]
-            scores = {}
-            while True:
-                img = screen.grab()
-                display_img = img.copy()
-                for template_name in search_templates:
-                    template_match = tf.search(template_name, img)
-                    scores[template_name] = template_match.score
-                    if template_match.valid:
-                        pos = template_match.position
-                        cv2.putText(display_img, str(template_name), pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-                        cv2.circle(display_img, pos, 7, (255, 0, 0), thickness=5)
-                display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
-                print(scores)
-                cv2.imshow('test', display_img)
-                cv2.waitKey(1)
-        time.sleep(0.05)
-
-
-if __name__ == "__main__":
-    main()

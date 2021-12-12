@@ -1,20 +1,20 @@
 from typing import Union
-from item.item_finder import ItemFinder
+from item import ItemFinder
 from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
-from ui_manager import UiManager
+from ui import UiManager
 from town import IAct, A3, A4, A5
 from utils.misc import wait
 
 
 class TownManager:
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, a3: A3, a4: A4, a5: A5):
+    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a3: A3, a4: A4, a5: A5):
+        self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
-        self._item_finder = ItemFinder()
-        self._config = Config()
+        self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
@@ -41,7 +41,7 @@ class TownManager:
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1"
-        ], time_out=time_out)
+        ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -99,12 +99,14 @@ class TownManager:
         if self._acts[curr_act].can_stash():
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
+            wait(1.0)
             self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
+        wait(1.0)
         self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
         return new_loc
 
@@ -138,6 +140,7 @@ if __name__ == "__main__":
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
     from char.hammerdin import Hammerdin
+    from item import ItemFinder
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager
@@ -147,9 +150,10 @@ if __name__ == "__main__":
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
+    item_finder = ItemFinder(config)
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, a3, a4, a5)
-    print(town_manager.repair_and_fill_tps(Location.A3_TOWN_START))
+    town_manager = TownManager(template_finder, ui_manager, item_finder, a3, a4, a5)
+    print(town_manager.stash(Location.A5_STASH))

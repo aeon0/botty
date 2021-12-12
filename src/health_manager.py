@@ -1,6 +1,6 @@
 from template_finder import TemplateFinder
-from ui_manager import UiManager
-from belt_manager import BeltManager
+from ui import UiManager
+from ui import BeltManager
 from pather import Location
 import cv2
 import time
@@ -45,7 +45,7 @@ class HealthManager:
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "trav"]
+            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav"]
             prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
             if self._pausing != prev_value:
@@ -141,7 +141,7 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                merc_alive = self._template_finder.search("MERC", img, roi=self._config.ui_roi["merc_icon"]).valid
+                merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], img, roi=self._config.ui_roi["merc_icon"]).valid
                 if merc_alive:
                     merc_health_percentage = self.get_merc_health(self._config, img)
                     last_drink = time.time() - self._last_merc_healh
@@ -160,11 +160,19 @@ class HealthManager:
 # Testing: Start dying or lossing mana and see if it works
 if __name__ == "__main__":
     import threading
+    import keyboard
+    import os
+    keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     config = Config()
     screen = Screen(config.general["monitor"])
     manager = HealthManager(screen)
+    manager._pausing = False
+    Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)
-    health_monitor_thread.daemon = True
     health_monitor_thread.start()
-    manager.set_callback(lambda: print("Hallo CB"))
-    health_monitor_thread.join()
+    while 1:
+        if manager.did_chicken():
+            manager.stop_monitor()
+            health_monitor_thread.join()
+            break
+        wait(0.5)

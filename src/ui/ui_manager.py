@@ -1,18 +1,21 @@
-from screen import Screen
-from template_finder import TemplateFinder
-from typing import Tuple
-from utils.custom_mouse import mouse
+from typing import List
 import keyboard
 import time
 import cv2
 import itertools
 import os
 import numpy as np
+
+from utils.custom_mouse import mouse
+from utils.misc import wait, cut_roi, color_filter
+
 from logger import Logger
-from utils.misc import wait, cut_roi, color_filter, send_discord
 from config import Config
-from item.item_finder import ItemFinder
-from typing import List
+from screen import Screen
+from item import ItemFinder
+from template_finder import TemplateFinder
+
+from messenger import Messenger
 
 
 class UiManager():
@@ -21,8 +24,9 @@ class UiManager():
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._template_finder = template_finder
+        self._messenger = Messenger()
         self._screen = screen
-        self._curr_stash = 0 # 0: personal, 1: shared1, 2: shared2, 3: shared3
+        self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
     def use_wp(self, act: int, idx: int):
         """
@@ -30,12 +34,15 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        # TODO: Optimize by checking if wp already has desired act active
-        pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
-        x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
-        mouse.move(x, y, randomize=8)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
+        str_to_idx_map = {"WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
+        curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
+        if curr_active_act != act:
+            pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
+            x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
+            mouse.move(x, y, randomize=8)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
         pos_wp_btn = (self._config.ui_pos["wp_first_btn_x"], self._config.ui_pos["wp_first_btn_y"] + self._config.ui_pos["wp_btn_height"] * idx)
         x, y = self._screen.convert_screen_to_monitor(pos_wp_btn)
         mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
@@ -94,7 +101,7 @@ class UiManager():
         start = time.time()
         while True:
             img = self._screen.grab()
-            is_loading_black_roi = np.average(img[:700, 0:250]) < 3.5
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.5
             if is_loading_black_roi:
                 return True
             if time_out is not None and time.time() - start > time_out:
@@ -150,7 +157,7 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["go_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
@@ -163,7 +170,7 @@ class UiManager():
                 break
             else:
                 # Might be in online mode?
-                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["play_btn"], threshold=0.8)
+                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["online_btn"], threshold=0.8)
                 if found_btn.valid:
                     Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
                     return False
@@ -211,7 +218,7 @@ class UiManager():
         return avg_brightness > 16.0
 
     @staticmethod
-    def get_slot_pos_and_img(config: Config, img: np.ndarray, column: int, row: int) -> Tuple[Tuple[int, int],  np.ndarray]:
+    def get_slot_pos_and_img(config: Config, img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
         """
         Get the pos and img of a specific slot position in Inventory. Inventory must be open in the image.
         :param config: The config which should be used
@@ -259,16 +266,33 @@ class UiManager():
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
         item_list = item_finder.search(img)
-        item_list = [x for x in item_list if "potion" not in x.name]
+        item_list = [x for x in item_list if "potion" not in x.name and not \
+            (self._config.items[x.name] == 3 and not self._template_finder.search("ETHEREAL", img).valid)]
         return len(item_list) > 0
+
+    def _move_to_stash_tab(self, stash_idx: int):
+        """Move to a specifc tab in the stash
+        :param stash_idx: idx of the stash starting at 0 (personal stash)
+        """
+        str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
+        template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["stash_btn_roi"])
+        curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
+        if curr_active_stash != stash_idx:
+            # select the start stash
+            personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
+            stash_btn_width = self._config.ui_pos["stash_btn_width"]
+            next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+            x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
+            mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
+            wait(0.2, 0.3)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
 
     def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder):
         """
         Stashing all items in inventory. Stash UI must be open when calling the function.
         :param num_loot_columns: Number of columns used for loot from left
         """
-        # TODO: Do not stash portal scrolls and potions but throw them out of inventory on the ground!
-        #       then the pickit check for potions and belt free can also be removed
         Logger.debug("Searching for inventory gold btn...")
         # Move cursor to center
         x, y = self._screen.convert_abs_to_monitor((0, 0))
@@ -279,22 +303,14 @@ class UiManager():
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        # select the start stash
-        personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
-        stash_btn_width = self._config.ui_pos["stash_btn_width"]
-        next_stash_pos = (personal_stash_pos[0] + stash_btn_width * self._curr_stash, personal_stash_pos[1])
-        x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
-        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
-        wait(0.2, 0.3)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
+                self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
                 x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
                 mouse.move(x, y, randomize=4)
                 wait(0.1, 0.15)
@@ -303,7 +319,27 @@ class UiManager():
                 mouse.release(button="left")
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+                wait(1.0, 1.2)
+                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+                if not inventory_no_gold.valid:
+                    Logger.info("Stash tab is full of gold, selecting next stash tab.")
+                    self._curr_stash["gold"] += 1
+                    if self._curr_stash["gold"] > 3:
+                        # turn of gold pickup
+                        self._config.char["stash_gold"] = False
+                        self._config.items["misc_gold"] = False
+                        item_finder.update_items_to_pick(self._config)
+                        # inform user about it
+                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                        Logger.info(msg)
+                        if self._config.general["custom_message_hook"]:
+                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                    else:
+                        # move to next stash
+                        wait(0.5, 0.6)
+                        return self.stash_all_items(num_loot_columns, item_finder)
         # stash stuff
+        self._move_to_stash_tab(self._curr_stash["items"])
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
@@ -355,11 +391,11 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            self._curr_stash += 1
-            if self._curr_stash > 3:
+            self._curr_stash["items"] += 1
+            if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
-                if self._config.general["custom_discord_hook"]:
-                    send_discord(f"{self._config.general['name']} all stash is full, quitting", self._config.general["custom_discord_hook"])
+                if self._config.general["custom_message_hook"]:
+                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
                 os._exit(1)
             else:
                 # move to next stash
@@ -499,6 +535,6 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder()
+    item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
     ui_manager.stash_all_items(5, item_finder)

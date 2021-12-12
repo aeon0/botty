@@ -1,23 +1,19 @@
-from typing import Tuple
-from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
-from ui_manager import UiManager
-from screen import Screen
-from utils.misc import wait, cut_roi, is_in_roi
+from typing import Dict, Tuple, Union, List, Callable
+import random
+import time
 import cv2
 import math
 import keyboard
+
+from utils.custom_mouse import mouse
+from utils.misc import wait, cut_roi, is_in_roi
+
 from logger import Logger
-import time
-from typing import Dict, Tuple, Union, List, Callable
 from config import Config
-import random
+from screen import Screen
+from template_finder import TemplateFinder
+from ui import UiManager
 
-
-def abstract(f):
-    def _decorator(*_):
-        raise NotImplementedError(f"Method '{f.__name__}' is abstract")
-    return _decorator
 
 class IChar:
     def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
@@ -176,22 +172,20 @@ class IChar:
             else:
                 Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
-    @abstract
     def pre_buff(self):
         pass
 
-    @abstract
     def kill_pindle(self) -> bool:
-        pass
+        raise ValueError("Pindle is not implemented!")
 
-    @abstract
     def kill_shenk(self) -> bool:
-        pass
+        raise ValueError("Shenk is not impleneted!")
 
-    @abstract
     def kill_eldritch(self) -> bool:
-        pass
+        raise ValueError("Eldritch is not implemented!")
 
-    @abstract
     def kill_council(self) -> bool:
-        pass
+        raise ValueError("Council is not implemented!")
+
+    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+        raise ValueError("Nihlatak is not implemented!")

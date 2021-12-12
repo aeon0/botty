@@ -1,23 +1,26 @@
-from bot import Bot
-from game_recovery import GameRecovery
-from game_stats import GameStats
-from health_manager import HealthManager
-from death_manager import DeathManager
-from screen import Screen
-from logger import Logger
 import keyboard
 import os
-from config import Config
-from utils.graphic_debugger import run_graphic_debugger
-from version import __version__
-from utils.auto_settings import adjust_settings
-from utils.misc import kill_thread, send_discord
 import threading
 from beautifultable import BeautifulTable
 import time
 import logging
 import cv2
 import traceback
+
+from messenger import Messenger
+from version import __version__
+from utils.graphic_debugger import run_graphic_debugger
+from utils.auto_settings import adjust_settings
+from utils.misc import kill_thread
+
+from config import Config
+from screen import Screen
+from logger import Logger
+from game_recovery import GameRecovery
+from game_stats import GameStats
+from health_manager import HealthManager
+from death_manager import DeathManager
+from bot import Bot
 
 
 def run_bot(
@@ -40,6 +43,7 @@ def run_bot(
     do_restart = False
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
+    messenger = Messenger()
     while 1:
         health_manager.update_location(bot.get_curr_location())
         max_game_length_reached = game_stats.get_current_game_length() > config.general["max_game_length_s"]
@@ -70,8 +74,8 @@ def run_bot(
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
-        if config.general["custom_discord_hook"]:
-            send_discord(f"{config.general['name']} got stuck and can not resume", config.general["custom_discord_hook"])
+        if config.general["custom_message_hook"]:
+            messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
         os._exit(1)
 
 def main():
@@ -84,9 +88,9 @@ def main():
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
-    if not os.path.exists("info_screenshots"):
+    if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
-    if not os.path.exists("loot_screenshots"):
+    if not os.path.exists("loot_screenshots") and config.general["loot_screenshots"]:
         os.system("mkdir loot_screenshots")
 
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
