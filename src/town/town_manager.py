@@ -99,12 +99,14 @@ class TownManager:
         if self._acts[curr_act].can_stash():
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
+            wait(1.0)
             self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
+        wait(1.0)
         self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
         return new_loc
 
@@ -154,4 +156,4 @@ if __name__ == "__main__":
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
     town_manager = TownManager(template_finder, ui_manager, item_finder, a3, a4, a5)
-    print(town_manager.repair_and_fill_tps(Location.A3_TOWN_START))
+    print(town_manager.stash(Location.A3_STASH_WP))

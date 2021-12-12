@@ -281,8 +281,8 @@ class UiManager():
             # select the start stash
             personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
             stash_btn_width = self._config.ui_pos["stash_btn_width"]
-            next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
-            x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
+            next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+            x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
             mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")
@@ -303,7 +303,6 @@ class UiManager():
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        self._move_to_stash_tab(self._curr_stash["gold"])
         # stash gold
         if self._config.char["stash_gold"]:
             inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
@@ -311,6 +310,7 @@ class UiManager():
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
+                self._move_to_stash_tab(max(3, self._curr_stash["gold"]))
                 x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
                 mouse.move(x, y, randomize=4)
                 wait(0.1, 0.15)
@@ -325,19 +325,15 @@ class UiManager():
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     self._curr_stash["gold"] += 1
                     if self._curr_stash["gold"] > 3:
-                        inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
-                        if inventory_full_gold.valid:
-                            # turn of gold pickup
-                            self._config.items["misc_gold"] = 0
-                            item_finder.update_items_to_pick(self._config)
-                            # inform user about it
-                            msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                            Logger.info(msg)
-                            if self._config.general["custom_message_hook"]:
-                                self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
-                        else:
-                            Logger.info("All tabs are full but character is not. Continuing.")
-                            self._curr_stash["gold"] = 3
+                        # turn of gold pickup
+                        self._config.char["stash_gold"] = False
+                        self._config.items["misc_gold"] = False
+                        item_finder.update_items_to_pick(self._config)
+                        # inform user about it
+                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                        Logger.info(msg)
+                        if self._config.general["custom_message_hook"]:
+                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
