@@ -70,7 +70,7 @@ class Nihlatak:
             EyeCheckData(["NI2_A_SAVE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", [500], [501]),
             EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
             EyeCheckData(["NI2_C_SAVE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
-            EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516]),
+            EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516, 517]),
         ]
 
         end_nodes = None
