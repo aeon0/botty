@@ -17,3 +17,4 @@ dependencies:
     - pytest-env
     - pytest-pythonpath
     - graphviz
+    - psutil
