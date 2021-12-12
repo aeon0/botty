@@ -91,6 +91,7 @@ class Config:
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
+            "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
             # currently no need to have anything other then static pathing set
             "static_path_pindle": True,
             "static_path_eldritch": True,

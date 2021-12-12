@@ -128,8 +128,8 @@ class NodeRecorder:
                     code = f"{k}: " + "{"
                     for i, res in enumerate(results):
                         if res["dist"] < 900 and i < 5:
-                            code += f'"{res["key"]}": {res["pos"]}, '
-                    f.write(code + "\n")
+                            code += f'"{res["key"].upper()}": {res["pos"]}, '
+                    f.write(code + "}\n")
                 f.close()
                 print("")
             print("f8: Create Template | f9: New node at cursor | f10: update nodes with visible templates")
@@ -150,10 +150,10 @@ if __name__ == "__main__":
         try:
             for key in recorder.debug_node_pos:
                 cv2.circle(img, recorder.debug_node_pos[key], 8, (0, 0, 255), 4)
-                cv2.putText(img, str(key), recorder.debug_node_pos[key], cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                cv2.putText(img, str(key), recorder.debug_node_pos[key], cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             for key in recorder.ref_points:
                 cv2.circle(img, recorder.ref_points[key], 8, (0, 255, 0), 4)
-                cv2.putText(img, key, recorder.ref_points[key], cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                cv2.putText(img, key, recorder.ref_points[key], cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
         except Exception:
             pass
         cv2.imshow("vis", img)
