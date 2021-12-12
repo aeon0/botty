@@ -156,4 +156,4 @@ if __name__ == "__main__":
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
     town_manager = TownManager(template_finder, ui_manager, item_finder, a3, a4, a5)
-    print(town_manager.stash(Location.A3_STASH_WP))
+    print(town_manager.stash(Location.A5_STASH))
