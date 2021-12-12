@@ -264,6 +264,12 @@ class UiManager():
         img = img[:, (w//2):,:]
         item_list = item_finder.search(img)
         item_list = [x for x in item_list if "potion" not in x.name]
+        # if ethereal is required but item is non-ethereal, ignore
+        item_list_dup = item_list
+        for item in item_list_dup:
+            if self._config.items[item.name] == 3:
+                if not self._template_finder.search("ETHEREAL", img).valid:
+                    item_list.remove(item)
         return len(item_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):
