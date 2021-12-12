@@ -159,14 +159,18 @@ class Bot:
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
         # Check for the current game ip and pause if we are able to obtain the hot ip
-        cur_game_ip = get_d2r_game_ip()
-        hot_ip = self._config.dclone["dclone_hotip"]
-        Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
-        if hot_ip == cur_game_ip:
-            messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
-            print("Press Enter")
-            input()
-            os._exit(1)
+        if self._config.dclone["search_hotip"]: 
+            if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
+                cur_game_ip = get_d2r_game_ip()
+                hot_ip = self._config.dclone["dclone_hotip"]
+                Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
+                if hot_ip == cur_game_ip:
+                    messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                    print("Press Enter")
+                    input()
+                    os._exit(1)
+            else:
+                Logger.info(f"Please Enter the region ip and hot ip on config to use")
             
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:

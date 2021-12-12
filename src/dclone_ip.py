@@ -8,7 +8,7 @@ def get_d2r_game_ip():
     config = Config()
     blacklist_ip = ["127.0.0.1", "34.117", "137.221", "37.244", "117.52"]
     region_ips = []
-    for tmp in config.general["region_ips"].split(","):
+    for tmp in config.dclone["region_ips"].split(","):
         region_ips.append(tmp.strip())
     for proc in psutil.process_iter():
         if proc.name() == "D2R.exe":
@@ -48,8 +48,12 @@ def get_d2r_game_server_region_by_ip(ip):
 if __name__ == "__main__":
     config = Config()
     messenger = Messenger()
-    print(f"Current Game IP: {get_d2r_game_ip()}")
-    print(f"Current Game Server: {get_d2r_game_server_region_by_ip(get_d2r_game_ip())}")
-    messenger.send(msg=f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
-
-    
+    if config.dclone["search_hotip"]:
+        if config.dclone["region_ips"] != "" and config.dclone["dclone_hotip"] != "":
+            print(f"Current Game IP: {get_d2r_game_ip()}")
+            print(f"Current Game Server: {get_d2r_game_server_region_by_ip(get_d2r_game_ip())}")
+            messenger.send(msg=f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
+        else:
+            print(f"Please Enter the region ip and hot ip on config to use")
+    else:
+        print(f"Please Activate search_hotip on config to use")
