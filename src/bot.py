@@ -28,12 +28,13 @@ from town import TownManager, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
-from dclone_ip import get_d2r_game_ip
+from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
     def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
+        self._messenger = Messenger()
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder(self._config)
@@ -162,16 +163,15 @@ class Bot:
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
         # Check for the current game ip and pause if we are able to obtain the hot ip
-        if self._config.dclone["search_hotip"]: 
-            if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
-                cur_game_ip = get_d2r_game_ip()
-                hot_ip = self._config.dclone["dclone_hotip"]
-                Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
-                if hot_ip == cur_game_ip:
-                    messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
-                    print("Press Enter")
-                    input()
-                    os._exit(1)
+        if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
+            cur_game_ip = get_d2r_game_ip()
+            hot_ip = self._config.dclone["dclone_hotip"]
+            Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
+            if hot_ip == cur_game_ip:
+                self._messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                print("Press Enter")
+                input()
+                os._exit(1)
             else:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
             
