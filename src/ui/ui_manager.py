@@ -281,8 +281,8 @@ class UiManager():
             # select the start stash
             personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
             stash_btn_width = self._config.ui_pos["stash_btn_width"]
-            next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
-            x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
+            next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+            x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
             mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")
@@ -303,9 +303,9 @@ class UiManager():
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        self._move_to_stash_tab(self._curr_stash["gold"])
         # stash gold
         if self._config.char["stash_gold"]:
+            self._move_to_stash_tab(self._curr_stash["gold"])
             inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")

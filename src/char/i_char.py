@@ -63,7 +63,7 @@ class IChar:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
-                wait(0.4, 0.55)
+                wait(0.2, 0.3)
                 mouse.click(button="left")
                 # check the successfunction for 2 sec, if not found, try again
                 check_success_start = time.time()

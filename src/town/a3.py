@@ -29,13 +29,16 @@ class A3(IAct):
         return Location.A3_ORMUS
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char):
+            return False
         wait(0.3)
         def stash_is_open_func():
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn_stash"]).valid
+            img = self._screen.grab()
+            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
+            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
             return found
-        if not self._char.select_by_template("A3_STASH", stash_is_open_func): return False
+        if not self._char.select_by_template("A3_STASH", stash_is_open_func):
+            return False
         return Location.A3_STASH_WP
 
     def open_wp(self, curr_loc: Location) -> bool:
