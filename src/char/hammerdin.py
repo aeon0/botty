@@ -35,7 +35,7 @@ class Hammerdin(IChar):
             while (time.time() - start) < time_in_s:
                 wait(0.06, 0.08)
                 mouse.press(button="left")
-                wait(0.5, 0.7)
+                wait(0.1, 0.2)
                 mouse.release(button="left")
             wait(0.01, 0.05)
             keyboard.send(self._char_config["stand_still"], do_press=False)
@@ -126,9 +126,12 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
 
-    def kill_nihlatak(self, end_loc_key: str) -> bool:
+    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Move close to nilathak
-        self._pather.traverse_nodes_fixed(end_loc_key, self)
+        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_hammers(self._char_config["atk_len_nihlatak"] * 0.4)
         self._cast_hammers(0.8, "redemption")
         self._move_and_attack((30, 15), self._char_config["atk_len_nihlatak"] * 0.3)
@@ -152,4 +155,3 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    char.kill_council()

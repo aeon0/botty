@@ -187,5 +187,5 @@ class IChar:
     def kill_council(self) -> bool:
         raise ValueError("Council is not implemented!")
 
-    def kill_nihlatak(self, end_loc_key: str) -> bool:
+    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")

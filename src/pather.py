@@ -136,6 +136,15 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
+            # Nil - End of Arm A
+            # 501
+            # 502
+            # Nil - End of Arm B
+            # 505
+            # 506
+            # Nil - End of Arm C
+            510: {"NIL2C_0": (-206, 67), "NIL2C_2": (131, 178), "NIL2C_1": (-300, -127), "NIL2C_4": (-183, 373), "NIL2C_3": (-20, 433)},
+            511: {"NIL2C_4": (417, 49), "NIL2C_0": (394, -257), "NIL2C_1": (300, -451), "NIL2C_3": (580, 109), "NIL2C_5": (-435, 204), "NIL2C_2": (731, -146)},
         }
         self._paths = {
             # A5 Town
@@ -205,14 +214,16 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, path: Union[str, List[Tuple[float, float]]], char: IChar):
+    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar):
         if not char.can_teleport():
             error_msg = "Teleport is requiered for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
         char.pre_move()
-        if type(path) == str:
-            path = self._config.path[path]
+        if type(key) == str:
+            path = self._config.path[key]
+        else:
+            path = key
         i = 0
         while i < len(path):
             x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
@@ -230,6 +241,8 @@ class Pather:
                 i += 1
             else:
                 Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score})")
+        # if type(key) == str and ("_save_dist" in key or "_end" in key):
+        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -418,7 +431,7 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
+    pather.traverse_nodes([510, 511], char)
 
     #NIHLATAK_LVL1
     #pather.traverse_nodes_fixed("ni1_a", char)
@@ -432,8 +445,8 @@ if __name__ == "__main__":
     
     
     ##NIHLATAK_LVL2 Position B
-    pather.traverse_nodes_fixed("ni2_circle_a", char)
-    pather.traverse_nodes_fixed("ni2_circle_b", char)
+    # pather.traverse_nodes_fixed("ni2_circle_a", char)
+    # pather.traverse_nodes_fixed("ni2_circle_b", char)
     #pather.traverse_nodes_fixed("ni2_b_save_dist", char)
     #pather.traverse_nodes_fixed("ni2_b_attack", char)
         

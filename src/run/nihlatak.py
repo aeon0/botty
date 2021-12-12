@@ -63,16 +63,17 @@ class Nihlatak:
         class EyeCheckData:
             template_name: list[str]
             static_path_key: str
-            static_atk_key: str
+            save_dist_nodes: list[int]
+            end_nodes: list[int]
 
         check_arr = [
-            EyeCheckData(["NI2_A_SAVE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", "ni2_a_end"),
-            EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", "ni2_b_end"),
-            EyeCheckData(["NI2_C_SAVE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", "ni2_c_end"),
-            EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", "ni2_d_end"),
+            EyeCheckData(["NI2_A_SAVE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", [500], [501]),
+            EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
+            EyeCheckData(["NI2_C_SAVE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
+            EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516]),
         ]
 
-        atk_loc = None
+        end_nodes = None
         for data in check_arr:
             # Move to spot where eye would be visible
             self._pather.traverse_nodes_fixed(data.static_path_key, self._char)
@@ -80,16 +81,17 @@ class Nihlatak:
             template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.72, best_match=True, time_out=3)
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAVE_DIST"):
-                atk_loc = data.static_atk_key
                 self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
+                self._pather.traverse_nodes(data.save_dist_nodes, self._char, time_out=2, do_pre_move=False)
+                end_nodes = data.end_nodes
                 break
 
         # exit if path was not found
-        if atk_loc is None:
+        if end_nodes is None:
             return False
 
         # Attack & Pick items
-        self._char.kill_nihlatak(atk_loc)
+        self._char.kill_nihlatak(end_nodes)
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A5_NIHLATAK_END, picked_up_items)
