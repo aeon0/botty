@@ -1,15 +1,17 @@
 from beautifultable import BeautifulTable
 import logging
-import time
+import traceback
 import keyboard
+import time
 import os
-from shop import AnyaShopper
+from shop.anya import AnyaShopper
 from config import Config
 from logger import Logger
 from version import __version__
 
+print("HERE?")
 
-if __name__ == "__main__":
+def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
@@ -35,3 +37,12 @@ if __name__ == "__main__":
             anya.run()
             break
         time.sleep(0.02)
+
+if __name__ == "__main__":
+    # To avoid cmd just closing down, except any errors and add a input() to the end
+    try:
+        main()
+    except:
+        traceback.print_exc()
+    print("Press Enter to exit ...")
+    input()
