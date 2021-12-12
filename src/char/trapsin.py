@@ -8,49 +8,31 @@ from logger import Logger
 from screen import Screen
 from utils.misc import wait
 import random
-import time
 from typing import Tuple
 from pather import Location, Pather
 
 
-class Sorceress(IChar):
+class Trapsin(IChar):
     def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        Logger.info("Setting up Sorceress")
+        Logger.info("Setting up Trapsin")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
-
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
-        if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
-            keyboard.send(self._skill_hotkeys["telekinesis"])
-            wait(0.1, 0.2)
-            mouse.move(pos[0], pos[1])
-            wait(0.1, 0.2)
-            mouse.click(button="right")
-            # need about 0.4s delay before next capture for the item not to persist on screen
-            cast_start = time.time()
-            interval = (cast_start - prev_cast_start)
-            cast_duration_wait = (self._cast_duration - interval)
-            delay = 0.35 if cast_duration_wait <0 else (0.35+cast_duration_wait)
-            wait(delay,delay+0.1)
-            return cast_start
-        else:
-            return super().pick_up_item(pos, item_name, prev_cast_start)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
-        if self._skill_hotkeys["energy_shield"]:
-            keyboard.send(self._skill_hotkeys["energy_shield"])
+        if self._skill_hotkeys["fade"]:
+            keyboard.send(self._skill_hotkeys["fade"])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["thunder_storm"]:
-            keyboard.send(self._skill_hotkeys["thunder_storm"])
+        if self._skill_hotkeys["shadow_warrior"]:
+            keyboard.send(self._skill_hotkeys["shadow_warrior"])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["frozen_armor"]:
-            keyboard.send(self._skill_hotkeys["frozen_armor"])
+        if self._skill_hotkeys["burst_of_speed"]:
+            keyboard.send(self._skill_hotkeys["burst_of_speed"])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
@@ -69,16 +51,23 @@ class Sorceress(IChar):
             mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
+
     def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
-        keyboard.send(self._skill_hotkeys["skill_right"])
+        keyboard.send(self._skill_hotkeys["lightning_sentry"])
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
-        wait(delay[0], delay[1])
-        mouse.release(button="right")
-
+        def atk(num: int):
+            for _ in range(num):
+                mouse.press(button="right")
+                wait(0.20)
+                mouse.release(button="right")
+                wait(0.15)
+        atk(4)
+        keyboard.send(self._skill_hotkeys["death_sentry"])
+        atk(1)
+        
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
         if self.can_teleport():
@@ -145,12 +134,12 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
+    from char import Trapsin
     from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    char.pre_buff()
-    pather.traverse_nodes_fixed("trav_safe_dist", char)
+    char = Trapsin(config.trapsin, config.char, screen, t_finder, ui_manager, pather)
+

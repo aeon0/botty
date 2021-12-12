@@ -64,7 +64,7 @@ if __name__ == "__main__":
         installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
 
-    os.system(f"cd {botty_dir} && mkdir params && cd ..")
+    os.system(f"cd {botty_dir} && mkdir config && cd ..")
 
     with open(f"{botty_dir}/config/custom.ini", "w") as f: 
         f.write("; Add parameters you want to overwrite from param.ini here")

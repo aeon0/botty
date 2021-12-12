@@ -108,6 +108,10 @@ class Config:
         if "hammerdin" in self._custom:
             self.hammerdin.update(self._custom["hammerdin"])
 
+        self.trapsin = self._config["trapsin"]
+        if "trapsin" in self._custom:
+            self.trapsin.update(self._custom["trapsin"])
+
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
