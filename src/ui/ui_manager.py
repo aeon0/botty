@@ -310,7 +310,7 @@ class UiManager():
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
-                self._move_to_stash_tab(max(3, self._curr_stash["gold"]))
+                self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
                 x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
                 mouse.move(x, y, randomize=4)
                 wait(0.1, 0.15)
