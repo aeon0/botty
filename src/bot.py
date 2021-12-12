@@ -57,7 +57,7 @@ class Bot:
         a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, a3, a4, a5)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
         self._route_config = self._config.routes
 
         # Create runs

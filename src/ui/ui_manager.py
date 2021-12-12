@@ -327,12 +327,14 @@ class UiManager():
                     if self._curr_stash["gold"] > 3:
                         inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
                         if inventory_full_gold.valid:
+                            # turn of gold pickup
+                            self._config.items["misc_gold"] = 0
+                            item_finder.update_items_to_pick(self._config)
+                            # inform user about it
                             msg = "All stash tabs and character are full of gold, turn of gold pickup"
                             Logger.info(msg)
                             if self._config.general["custom_message_hook"]:
                                 self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
-                            self._config.items["misc_gold"] = 0
-                            item_finder.update_items_to_pick(self._config)
                         else:
                             Logger.info("All tabs are full but character is not. Continuing.")
                             self._curr_stash["gold"] = 3

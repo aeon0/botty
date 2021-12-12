@@ -123,7 +123,7 @@ class PickIt:
                         time.sleep(0.2)
 
                     if self._ui_manager.is_overburdened():
-                        picked_up_items = True
+                        found_items = True
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff
                         break
@@ -149,8 +149,8 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
-    from char import Sorceress
-    from char import Hammerdin
+    from char.sorceress import Sorceress
+    from char.hammerdin import Hammerdin
     from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
