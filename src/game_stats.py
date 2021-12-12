@@ -2,13 +2,17 @@ from logger import Logger
 import time
 import threading
 from config import Config
-from utils.misc import send_discord, hms
+from messenger import Messenger
+from utils.misc import hms
 import inspect
+
+from version import __version__
 
 
 class GameStats:
     def __init__(self):
         self._config = Config()
+        self._messenger = Messenger()
         self._picked_up_items = []
         self._start_time = time.time()
         self._timer = None
@@ -20,38 +24,37 @@ class GameStats:
         self._runs_failed = 0
         self._failed_game_time = 0
 
-    def _send_discord_thread(self, msg: str, color_it: bool = False):
-        if self._config.general["custom_discord_hook"]:
-            msg = f"{self._config.general['name']}: {msg}"
-            send_discord_thread = threading.Thread(
-                target=send_discord,
-                args=(msg, self._config.general["custom_discord_hook"], color_it)
+    def _send_message_thread(self, msg: str):
+        if self._config.general["custom_message_hook"]:
+            send_message_thread = threading.Thread(
+                target=self._messenger.send,
+                kwargs={"msg": msg}
             )
-            send_discord_thread.daemon = True
-            send_discord_thread.start()
+            send_message_thread.daemon = True
+            send_message_thread.start()
 
-    def log_item_pickup(self, item_name: str, send_discord: bool, area: str = None):
+    def log_item_pickup(self, item_name: str, send_message: bool, area: str = None):
         self._picked_up_items.append(item_name)
-        if send_discord:
-            msg = f"Found {item_name}"
+        if send_message:
+            msg = f"{self._config.general['name']}: Found {item_name}"
             if area is not None:
                 msg += f" at {area}"
-            self._send_discord_thread(msg, True)
+            self._send_message_thread(msg)
 
     def log_death(self):
         self._death_counter += 1
-        self._send_discord_thread(f"You have died")
+        self._send_message_thread(f"{self._config.general['name']}: You have died")
 
     def log_chicken(self):
         self._chicken_counter += 1
-        self._send_discord_thread(f"You have chickened")
+        self._send_message_thread(f"{self._config.general['name']}: You have chickened")
 
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
             if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
-                # every 20th game send a discord update about current status
-                self._send_discord_status_update()
+                # every 20th game send a message update about current status
+                self._send_status_update()
         self._game_counter += 1
         self._timer = time.time()
         Logger.info(f"Starting game #{self._game_counter}")
@@ -108,9 +111,9 @@ class GameStats:
         ''')
         return msg
 
-    def _send_discord_status_update(self):
-        msg = f"Status Report\n{self._create_msg()}\nVersion:"
-        self._send_discord_thread(msg)
+    def _send_status_update(self):
+        msg = f"{self._config.general['name']}: Status Report\\n{self._create_msg()}\\nVersion: {__version__}"
+        self._send_message_thread(msg)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()
