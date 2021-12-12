@@ -43,8 +43,11 @@ class Trav:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
-            return False
+        if self._char.can_teleport():
+            self._pather.traverse_nodes_fixed("trav_safe_dist", self._char)
+        else:
+            if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
+                return False
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char, "Travincal")
         wait(0.2, 0.3)

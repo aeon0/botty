@@ -66,27 +66,26 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self._config.char["static_path_pindle"]:
+        if self.can_teleport():
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_eldritch(self) -> bool:
-        if self._config.char["static_path_eldritch"]:
+        if self.can_teleport():
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -97,7 +96,7 @@ class Hammerdin(IChar):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)

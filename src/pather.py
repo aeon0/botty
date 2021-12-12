@@ -26,15 +26,15 @@ class Location:
     A5_LARZUK = "a5_larzuk"
     # Pindle
     A5_PINDLE_START = "a5_pindle_start"
-    A5_PINDLE_SAVE_DIST = "a5_pindle_save_dist"
+    A5_PINDLE_SAFE_DIST = "a5_pindle_safe_dist"
     A5_PINDLE_END = "a5_pindle_end"
     # Eldritch
     A5_ELDRITCH_START = "a5_eldritch_start"
-    A5_ELDRITCH_SAVE_DIST = "a5_eldritch_save_dist"
+    A5_ELDRITCH_SAFE_DIST = "a5_eldritch_safe_dist"
     A5_ELDRITCH_END = "a5_eldritch_end"
     # Shenk
     A5_SHENK_START = "a5_shenk_start"
-    A5_SHENK_SAVE_DIST = "a5_shenk_save_dist"
+    A5_SHENK_SAFE_DIST = "a5_shenk_safe_dist"
     A5_SHENK_END = "a5_shenk_end"
     # A4 Town
     A4_TOWN_START = "a4_town_start"
@@ -172,14 +172,14 @@ class Pather:
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
-            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAVE_DIST): [100, 101, 102, 103],
-            (Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END): [104],
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
             # Eldritch
-            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST): [120, 121, 122],
-            (Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END): [123],
+            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
+            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
             # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
-            (Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END): [149],
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
             (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
@@ -437,4 +437,6 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([515, 516, 517], char)
+    pather.traverse_nodes_fixed("trav_safe_dist", char)
+    print("-----")
+    # pather.traverse_nodes([226, 228, 229], char)

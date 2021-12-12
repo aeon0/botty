@@ -67,10 +67,10 @@ class Nihlatak:
             end_nodes: list[int]
 
         check_arr = [
-            EyeCheckData(["NI2_A_SAVE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", [500], [501]),
-            EyeCheckData(["NI2_B_SAVE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
-            EyeCheckData(["NI2_C_SAVE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
-            EyeCheckData(["NI2_D_SAVE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516, 517]),
+            EyeCheckData(["NI2_A_SAFE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", [500], [501]),
+            EyeCheckData(["NI2_B_SAFE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
+            EyeCheckData(["NI2_C_SAFE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
+            EyeCheckData(["NI2_D_SAFE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516, 517]),
         ]
 
         end_nodes = None
@@ -80,7 +80,7 @@ class Nihlatak:
             # Search for eye
             template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.72, best_match=True, time_out=3)
             # If it is found, move down that hallway
-            if template_match.valid and template_match.name.endswith("_SAVE_DIST"):
+            if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
                 self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
                 self._pather.traverse_nodes(data.save_dist_nodes, self._char, time_out=2, do_pre_move=False)
                 end_nodes = data.end_nodes

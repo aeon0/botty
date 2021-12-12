@@ -82,7 +82,7 @@ class Sorceress(IChar):
 
     def kill_pindle(self) -> bool:
         delay = [0.2, 0.3]
-        if self._config.char["static_path_pindle"]:
+        if self.can_teleport():
             pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         else:
             pindle_pos_abs = self._pather.find_abs_node_pos(104, self._screen.grab())
@@ -93,10 +93,10 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
-            if self._config.char["static_path_pindle"]:
+            if self.can_teleport():
                 self._pather.traverse_nodes_fixed("pindle_end", self)
             else:
-                self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
+                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
             return True
         return False
 
@@ -114,10 +114,10 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
-            if self._config.char["static_path_eldritch"]:
+            if self.can_teleport():
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
-                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
             return True
         return False
 
@@ -135,7 +135,7 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
-            self._pather.traverse_nodes((Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+            self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
             return True
         return False
 
@@ -154,4 +154,4 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     char.pre_buff()
-    pather.traverse_nodes_fixed("trav_save_dist", char)
+    pather.traverse_nodes_fixed("trav_safe_dist", char)
