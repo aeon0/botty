@@ -25,8 +25,9 @@ from char.sorceress import Sorceress
 from char.hammerdin import Hammerdin
 from run import Pindle, ShenkEld, Trav
 from town import TownManager, A3, A4, A5
+
 # Added for dclone ip hunt
-from utils.misc import send_discord
+from messenger import Messenger
 from dclone_ip import get_d2r_game_ip
 
 class Bot:
@@ -156,6 +157,17 @@ class Bot:
         self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
+
+        # Check for the current game ip and pause if we are able to obtain the hot ip
+        cur_game_ip = get_d2r_game_ip()
+        hot_ip = self._config.dclone["dclone_hotip"]
+        Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
+        if hot_ip == cur_game_ip:
+            messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+            print("Press Enter")
+            input()
+            os._exit(1)
+            
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
             self._ran_no_pickup = True
@@ -215,16 +227,6 @@ class Bot:
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
-
-        # Check for the current game ip and pause if we are able to obtain the hot ip
-        cur_game_ip = get_d2r_game_ip()
-        hot_ip = self._config.general["dclone_hotip"]
-        Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
-        if hot_ip == cur_game_ip:
-            send_discord("Dclone IP Found", self._config.general["custom_discord_hook"])
-            print("Press Enter")
-            input()
-            os._exit(1)
 
         # Start a new run
         started_run = False

@@ -2,7 +2,7 @@
 # Reference: https://psutil.readthedocs.io/en/latest/
 import psutil
 from config import Config
-from utils.misc import send_discord
+from messenger import Messenger
 
 def get_d2r_game_ip():
     config = Config()
@@ -46,8 +46,10 @@ def get_d2r_game_server_region_by_ip(ip):
         return "Blizzard Server"
             
 if __name__ == "__main__":
-    config = Config()     
+    config = Config()
+    messenger = Messenger()
     print(f"Current Game IP: {get_d2r_game_ip()}")
     print(f"Current Game Server: {get_d2r_game_server_region_by_ip(get_d2r_game_ip())}")
-    send_discord("Dclone IP Found", config.general["custom_discord_hook"])
+    messenger.send(msg=f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
+
     

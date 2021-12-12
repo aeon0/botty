@@ -48,9 +48,12 @@ class Config:
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
-            # Added for dclone ip hunting
-            "region_ips": self._select_val("general", "region_ips"),
-            "dclone_hotip": self._select_val("general", "dclone_hotip"),
+        }
+
+        # Added for dclone ip hunting
+        self.dclone = {
+            "region_ips": self._select_val("dclone", "region_ips"),
+            "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
         }
 
         self.routes = {}
