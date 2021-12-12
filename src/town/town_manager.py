@@ -10,11 +10,11 @@ from utils.misc import wait
 
 
 class TownManager:
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, a3: A3, a4: A4, a5: A5):
+    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a3: A3, a4: A4, a5: A5):
         self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
-        self._item_finder = ItemFinder(self._config)
+        self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
@@ -137,7 +137,8 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    from char import Hammerdin
+    from char.hammerdin import Hammerdin
+    from item import ItemFinder
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager
@@ -147,9 +148,10 @@ if __name__ == "__main__":
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
+    item_finder = ItemFinder(config)
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, a3, a4, a5)
+    town_manager = TownManager(template_finder, ui_manager, item_finder, a3, a4, a5)
     print(town_manager.repair_and_fill_tps(Location.A3_TOWN_START))
