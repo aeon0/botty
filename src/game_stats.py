@@ -27,7 +27,6 @@ class GameStats:
         self._location = None
         
     def update_location(self, loc: str):
-        Logger.info(f"update_location #{loc}")
         if self._location != loc:
             self._location = str(loc)
             
