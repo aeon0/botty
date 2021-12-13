@@ -93,5 +93,5 @@ class Nihlatak:
         # Attack & Pick items
         self._char.kill_nihlatak(end_nodes)
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items = self._pickit.pick_up_items(self._char, "Nihlatak")
         return (Location.A5_NIHLATAK_END, picked_up_items)
