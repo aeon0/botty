@@ -305,7 +305,7 @@ class UiManager():
         Logger.debug("Found inventory gold btn")
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
@@ -320,7 +320,7 @@ class UiManager():
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 wait(1.0, 1.2)
-                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     self._curr_stash["gold"] += 1
