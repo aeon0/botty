@@ -52,7 +52,7 @@ class Trapsin(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
 
-    def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
+    def _right_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
         keyboard.send(self._skill_hotkeys["lightning_sentry"])
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -77,7 +77,7 @@ class Trapsin(IChar):
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_pindle"])):
-                self._main_attack(cast_pos_abs, delay, 11)
+                self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
@@ -98,7 +98,7 @@ class Trapsin(IChar):
         if eld_pos_abs is not None:
             cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_eldritch"])):
-                self._main_attack(cast_pos_abs, delay, 90)
+                self._right_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
@@ -119,7 +119,7 @@ class Trapsin(IChar):
         if shenk_pos_abs is not None:
             cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_shenk"])):
-                self._main_attack(cast_pos_abs, delay, 90)
+                self._right_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
