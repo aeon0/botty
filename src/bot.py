@@ -312,7 +312,7 @@ class Bot:
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location("Trav")
+        self._game_stats.update_location("Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
