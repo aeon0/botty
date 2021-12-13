@@ -59,7 +59,7 @@ class Sorceress(IChar):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
-        for _ in range(6):
+        for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
@@ -69,7 +69,7 @@ class Sorceress(IChar):
             mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _main_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
+    def _right_attack(self, cast_pos_abs: Tuple[float, float], delay: float, spray: float = 10):
         keyboard.send(self._skill_hotkeys["skill_right"])
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -88,7 +88,7 @@ class Sorceress(IChar):
         if pindle_pos_abs is not None:
             cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_pindle"])):
-                self._main_attack(cast_pos_abs, delay, 11)
+                self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
@@ -109,7 +109,7 @@ class Sorceress(IChar):
         if eld_pos_abs is not None:
             cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_eldritch"])):
-                self._main_attack(cast_pos_abs, delay, 90)
+                self._right_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
@@ -130,13 +130,30 @@ class Sorceress(IChar):
         if shenk_pos_abs is not None:
             cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_shenk"])):
-                self._main_attack(cast_pos_abs, delay, 90)
+                self._right_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
             return True
         return False
+
+    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+        # Find nilhlatak position
+        delay = [0.2, 0.3]
+        nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+        if nihlatak_pos_abs is None:
+            return False
+        # Attack
+        cast_pos_abs = [nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9]
+        atk_sequences = int(self._char_config["atk_len_nihlatak"])
+        print(atk_sequences)
+        for _ in range(atk_sequences):
+            self._right_attack(cast_pos_abs, delay, 90)
+            self._left_attack(cast_pos_abs, delay, 90)
+        # Move to items
+        self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
+        return True
 
 
 if __name__ == "__main__":
@@ -152,5 +169,5 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
-    char.pre_buff()
-    pather.traverse_nodes_fixed("trav_safe_dist", char)
+    #char.pre_buff()
+    char.kill_nihlatak([506])
