@@ -6,6 +6,7 @@ from logger import Logger
 import cv2
 from typing import List, Tuple
 import os
+from math import cos, sin, dist
 
 
 def wait(min_seconds, max_seconds = None):
@@ -65,3 +66,11 @@ def list_files_in_folder(path: str):
         for name in files:
             r.append(os.path.join(root, name))
     return r
+
+def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
+    theta = np.deg2rad(deg)
+    rot_matrix = np.array([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]])
+    return np.dot(rot_matrix, vec)
+
+def unit_vector(vec: np.ndarray) -> np.ndarray:
+    return vec / dist(vec, (0, 0))
