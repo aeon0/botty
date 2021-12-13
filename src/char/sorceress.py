@@ -6,11 +6,12 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-from utils.misc import wait
+from utils.misc import wait, rotate_vec, unit_vector
 import random
 import time
 from typing import Tuple
 from pather import Location, Pather
+import numpy as np
 
 
 class Sorceress(IChar):
@@ -141,16 +142,21 @@ class Sorceress(IChar):
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         delay = [0.2, 0.3]
-        nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-        if nihlatak_pos_abs is None:
-            return False
-        # Attack
-        cast_pos_abs = [nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9]
         atk_sequences = int(self._char_config["atk_len_nihlatak"])
-        print(atk_sequences)
-        for _ in range(atk_sequences):
-            self._right_attack(cast_pos_abs, delay, 90)
-            self._left_attack(cast_pos_abs, delay, 90)
+        for i in range(atk_sequences):
+            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            if nihlatak_pos_abs is not None:
+                cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+                atk_sequences = int(self._char_config["atk_len_nihlatak"])
+                self._right_attack(cast_pos_abs, delay, 90)
+                self._left_attack(cast_pos_abs, delay, 90)
+                # Do some tele "dancing" after each sequence
+                if i < atk_sequences - 1:
+                    rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
+                    tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
+                    pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
+                    self.pre_move()
+                    self.move(pos_m)
         # Move to items
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
@@ -170,4 +176,4 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     #char.pre_buff()
-    char.kill_nihlatak([506])
+    char.kill_nihlatak([501])
