@@ -4,6 +4,7 @@ import threading
 from config import Config
 from messenger import Messenger
 from utils.misc import hms
+from pather import Location
 import inspect
 
 from version import __version__
@@ -23,6 +24,18 @@ class GameStats:
         self._death_counter = 0
         self._runs_failed = 0
         self._failed_game_time = 0
+        self._location = None
+        
+    def update_location(self, loc: str):
+        Logger.info(f"update_location #{loc}")
+        if self._location != loc:
+            self._location = str(loc)
+            
+    def get_location_msg(self):
+        if self._location is not None:
+            return f" at {self._location}"
+        else: 
+            return ""
 
     def _send_message_thread(self, msg: str):
         if self._config.general["custom_message_hook"]:
@@ -36,18 +49,18 @@ class GameStats:
     def log_item_pickup(self, item_name: str, send_message: bool, area: str = None):
         self._picked_up_items.append(item_name)
         if send_message:
-            msg = f"{self._config.general['name']}: Found {item_name}"
-            if area is not None:
-                msg += f" at {area}"
+            msg = f"{self._config.general['name']}: Found {item_name}{self.get_location_msg()}"
             self._send_message_thread(msg)
 
     def log_death(self):
         self._death_counter += 1
-        self._send_message_thread(f"{self._config.general['name']}: You have died")
+        msg = f"{self._config.general['name']}: You have died{self.get_location_msg()}"
+        self._send_message_thread(msg)
 
     def log_chicken(self):
         self._chicken_counter += 1
-        self._send_message_thread(f"{self._config.general['name']}: You have chickened")
+        msg = f"{self._config.general['name']}: You have chickened{self.get_location_msg()}"
+        self._send_message_thread(msg)
 
     def log_start_game(self):
         if self._game_counter > 0:
