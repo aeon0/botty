@@ -1,12 +1,12 @@
-from char.i_char import IChar
+from char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
 from typing import Union
-from pickit import PickIt
+from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui_manager import UiManager
+from ui import UiManager
 from utils.misc import wait
 
 
@@ -48,10 +48,11 @@ class Pindle:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        if self._config.char["static_path_pindle"]:
-            self._pather.traverse_nodes_fixed("pindle_save_dist", self._char)
+        # move to pindle
+        if self._char.can_teleport():
+            self._pather.traverse_nodes_fixed("pindle_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A5_PINDLE_START, Location.A5_PINDLE_SAVE_DIST), self._char):
+            if not self._pather.traverse_nodes((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):
                 return False
         self._char.kill_pindle()
         wait(0.2, 0.3)

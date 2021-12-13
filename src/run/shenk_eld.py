@@ -1,12 +1,12 @@
-from char.i_char import IChar
+from char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
 from typing import Union
-from pickit import PickIt
+from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui_manager import UiManager
+from ui import UiManager
 from utils.misc import wait
 
 
@@ -43,10 +43,10 @@ class ShenkEld:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        if self._config.char["static_path_eldritch"]:
-            self._pather.traverse_nodes_fixed("eldritch_save_dist", self._char)
+        if self._char.can_teleport():
+            self._pather.traverse_nodes_fixed("eldritch_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST), self._char, force_move=True):
+            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST), self._char, force_move=True):
                 return False
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
@@ -58,7 +58,7 @@ class ShenkEld:
             Logger.info("Run Shenk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
-            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST), self._char):
+            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
                 return False
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END

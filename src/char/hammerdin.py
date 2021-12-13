@@ -1,8 +1,8 @@
 import keyboard
 from utils.custom_mouse import mouse
-from char.i_char import IChar
+from char import IChar
 from template_finder import TemplateFinder
-from ui_manager import UiManager
+from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
@@ -22,27 +22,23 @@ class Hammerdin(IChar):
         if not self._skill_hotkeys["teleport"]:
             self._do_pre_move = False
 
-    def _cast_hammers(self, time_in_s: float):
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.05, 0.1)
-        keyboard.send(self._char_config["stand_still"], do_release=False)
-        wait(0.05, 0.1)
-        if self._skill_hotkeys["blessed_hammer"]:
-            keyboard.send(self._skill_hotkeys["blessed_hammer"])
-        wait(0.05, 0.1)
-        start = time.time()
-        while (time.time() - start) < time_in_s:
-            wait(0.06, 0.08)
-            mouse.press(button="left")
-            wait(0.5, 0.7)
-            mouse.release(button="left")
-        wait(0.01, 0.05)
-        keyboard.send(self._char_config["stand_still"], do_press=False)
-
-    def _do_redemption(self, delay: tuple[float, float] = (1.5, 2.0)):
-        if self._skill_hotkeys["redemption"]:
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(*delay)
+    def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
+        if aura in self._skill_hotkeys:
+            keyboard.send(self._skill_hotkeys[aura])
+            wait(0.05, 0.1)
+            keyboard.send(self._char_config["stand_still"], do_release=False)
+            wait(0.05, 0.1)
+            if self._skill_hotkeys["blessed_hammer"]:
+                keyboard.send(self._skill_hotkeys["blessed_hammer"])
+            wait(0.05, 0.1)
+            start = time.time()
+            while (time.time() - start) < time_in_s:
+                wait(0.06, 0.08)
+                mouse.press(button="left")
+                wait(0.1, 0.2)
+                mouse.release(button="left")
+            wait(0.01, 0.05)
+            keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
@@ -70,42 +66,41 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self._config.char["static_path_pindle"]:
+        if self.can_teleport():
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_eldritch(self) -> bool:
-        if self._config.char["static_path_eldritch"]:
+        if self.can_teleport():
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_shenk(self):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_council(self) -> bool:
@@ -127,7 +122,22 @@ class Hammerdin(IChar):
             # Stay inside and cast hammers again moving forward
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
-        self._do_redemption()
+        self._cast_hammers(1.6, "redemption")
+        return True
+
+    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+        # Move close to nilathak
+        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_nihlatak"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_nihlatak"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption")
         return True
 
 
@@ -137,11 +147,10 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui_manager import UiManager
+    from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    char.kill_council()

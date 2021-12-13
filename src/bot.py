@@ -1,38 +1,44 @@
 from transitions import Machine
 import time
-from char.hammerdin import Hammerdin
-from run import Pindle, ShenkEld, Trav
-from template_finder import TemplateFinder
-from item_finder import ItemFinder
-from screen import Screen
-from ui_manager import UiManager
-from npc_manager import NpcManager
-from belt_manager import BeltManager
-from pather import Pather, Location
-from logger import Logger
-from char.sorceress import Sorceress
-from char.i_char import IChar
-from config import Config
-from health_manager import HealthManager
-from death_manager import DeathManager
-from town import TownManager, A3, A4, A5
-from pickit import PickIt
-from game_stats import GameStats
-from utils.misc import wait
 import keyboard
 import time
 import os
 import random
 from typing import Union
 
+from utils.misc import wait
+from game_stats import GameStats
+from logger import Logger
+from config import Config
+from screen import Screen
+from template_finder import TemplateFinder
+from char import IChar
+from item import ItemFinder
+from item.pickit import PickIt
+from ui import UiManager
+from ui import BeltManager
+from pather import Pather, Location
+from npc_manager import NpcManager
+from health_manager import HealthManager
+from death_manager import DeathManager
+from char.sorceress import Sorceress
+from char.trapsin import Trapsin
+from char.hammerdin import Hammerdin
+from run import Pindle, ShenkEld, Trav, Nihlatak
+from town import TownManager, A3, A4, A5
+
+# Added for dclone ip hunt
+from messenger import Messenger
+from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
     def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
+        self._messenger = Messenger()
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
-        self._item_finder = ItemFinder()
+        self._item_finder = ItemFinder(self._config)
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
@@ -43,6 +49,8 @@ class Bot:
             self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "trapsin":
+            self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -52,7 +60,7 @@ class Bot:
         a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, a3, a4, a5)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
         self._route_config = self._config.routes
 
         # Create runs
@@ -63,19 +71,21 @@ class Bot:
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
+            "run_nihlatak": self._route_config["run_nihlatak"],
         }
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
-        self._pre_buffed = 0
+        self._pre_buffed = False
         self._stopping = False
         self._pausing = False
         self._current_threads = []
@@ -83,7 +93,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', "trav"]
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -92,9 +102,10 @@ class Bot:
             { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
             { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
+            { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'trav'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak','trav'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -116,7 +127,7 @@ class Bot:
     def toggle_pause(self):
         self._pausing = not self._pausing
         if self._pausing:
-            Logger.info(f"Pause at next state change...") 
+            Logger.info(f"Pause at next state change...")
         else:
             Logger.info(f"Resume")
             self._game_stats.resume_timer()
@@ -153,6 +164,20 @@ class Bot:
         self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
+
+        # Check for the current game ip and pause if we are able to obtain the hot ip
+        if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
+            cur_game_ip = get_d2r_game_ip()
+            hot_ip = self._config.dclone["dclone_hotip"]
+            Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
+            if hot_ip == cur_game_ip:
+                self._messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                print("Press Enter")
+                input()
+                os._exit(1)
+            else:
+                Logger.info(f"Please Enter the region ip and hot ip on config to use")
+            
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
             self._ran_no_pickup = True
@@ -186,11 +211,12 @@ class Bot:
         self._no_stash_counter += 1
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         if self._picked_up_items or force_stash:
-            self._no_stash_counter = 0
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
+            self._no_stash_counter = 0
+            self._picked_up_items = False
             wait(1.0)
 
         # Check if we are out of tps or need repairing
@@ -205,7 +231,7 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        merc_alive = self._template_finder.search("MERC", self._screen.grab(), threshold=0.9, roi=[0, 0, 200, 200]).valid
+        merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
         if not merc_alive and self._config.char["use_merc"]:
             Logger.info("Resurrect merc")
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
@@ -222,15 +248,47 @@ class Bot:
         if not started_run:
             self.trigger_or_stop("end_game")
 
+    def on_end_game(self, failed: bool = False):
+        self._curr_loc = False
+        self._pre_buffed = False
+        self._ui_manager.save_and_exit()
+        self._game_stats.log_end_game(failed=failed)
+        self._do_runs = {
+            "run_trav": self._route_config["run_trav"],
+            "run_pindle": self._route_config["run_pindle"],
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
+            "run_nihlatak": self._route_config["run_nihlatak"],
+        }
+        if self._config.general["randomize_runs"]:
+            self.shuffle_runs()
+        wait(0.2, 0.5)
+        self.trigger_or_stop("create_game")
+
+    def on_end_run(self):
+        if not self._config.char["pre_buff_every_run"]:
+            self._pre_buffed = True
+        success = self._char.tp_town()
+        if success:
+            self._tps_left -= 1
+            self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
+            if self._curr_loc:
+                return self.trigger_or_stop("maintenance")
+        if not self._ui_manager.has_tps():
+            self._tps_left = 0
+        self.trigger_or_stop("end_game", failed=True)
+
     # All the runs go here
     # ==================================
     def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
-        if self.is_last_run() or not res:
-            failed = not res
-            self.trigger_or_stop("end_game", failed=failed)
+        # either fill member variables with result data or mark run as failed
+        failed_run = True
+        if res:
+            failed_run = False
+            self._curr_loc, self._picked_up_items = res
+        # in case its the last run or the run was failed, end game, otherwise move to next run
+        if self.is_last_run() or failed_run:
+            self.trigger_or_stop("end_game", failed=failed_run)
         else:
-            self._curr_loc = res[0]
-            self._picked_up_items = res[1]
             self.trigger_or_stop("end_run")
 
     def on_run_pindle(self):
@@ -257,29 +315,10 @@ class Bot:
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
-    def on_end_game(self, failed: bool = False):
-        self._curr_loc = False
-        self._pre_buffed = False
-        self._ui_manager.save_and_exit()
-        self._game_stats.log_end_game(failed=failed)
-        self._do_runs = {
-            "run_trav": self._route_config["run_trav"],
-            "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
-        }
-        if self._config.general["randomize_runs"]:
-            self.shuffle_runs()
-        wait(0.2, 0.5)
-        self.trigger_or_stop("create_game")
-
-    def on_end_run(self):
-        self._pre_buffed = True
-        success = self._char.tp_town()
-        if success:
-            self._tps_left -= 1
-            self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
-            if self._curr_loc:
-                return self.trigger_or_stop("maintenance")
-        if not self._ui_manager.has_tps():
-            self._tps_left = 0
-        self.trigger_or_stop("end_game", failed=True)
+    def on_run_nihlatak(self):
+        res = False
+        self._do_runs["run_nihlatak"] = False
+        self._curr_loc = self._nihlatak.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._nihlatak.battle(not self._pre_buffed)
+        self._ending_run_helper(res)

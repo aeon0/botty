@@ -1,8 +1,3 @@
-from char.i_char import IChar
-from screen import Screen
-from template_finder import TemplateFinder
-from logger import Logger
-from char.i_char import IChar
 import math
 import keyboard
 import time
@@ -10,9 +5,14 @@ import os
 import random
 from typing import Tuple, Union, List
 import cv2
-from config import Config
-from utils.misc import is_in_roi
 import numpy as np
+
+from utils.misc import is_in_roi
+from config import Config
+from logger import Logger
+from screen import Screen
+from template_finder import TemplateFinder
+from char import IChar
 
 
 class Location:
@@ -26,15 +26,15 @@ class Location:
     A5_LARZUK = "a5_larzuk"
     # Pindle
     A5_PINDLE_START = "a5_pindle_start"
-    A5_PINDLE_SAVE_DIST = "a5_pindle_save_dist"
+    A5_PINDLE_SAFE_DIST = "a5_pindle_safe_dist"
     A5_PINDLE_END = "a5_pindle_end"
     # Eldritch
     A5_ELDRITCH_START = "a5_eldritch_start"
-    A5_ELDRITCH_SAVE_DIST = "a5_eldritch_save_dist"
+    A5_ELDRITCH_SAFE_DIST = "a5_eldritch_safe_dist"
     A5_ELDRITCH_END = "a5_eldritch_end"
     # Shenk
     A5_SHENK_START = "a5_shenk_start"
-    A5_SHENK_SAVE_DIST = "a5_shenk_save_dist"
+    A5_SHENK_SAFE_DIST = "a5_shenk_safe_dist"
     A5_SHENK_END = "a5_shenk_end"
     # A4 Town
     A4_TOWN_START = "a4_town_start"
@@ -49,6 +49,10 @@ class Location:
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
+    # Nihalatk
+    A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
+    A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
+
 
 class Pather:
     """
@@ -91,8 +95,7 @@ class Pather:
             122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119)},
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109)},
             # Shenk
-            140: {'SHENK_0': (-149, -227), 'SHENK_1': (445, -161), 'SHENK_17': (-500, 235), 'SHENK_15': (80, 13)},
-            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293)},
+            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
             142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
             143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
@@ -128,11 +131,24 @@ class Pather:
             223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
             224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
             225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
-            226: {"TRAV_12": (-95, -182), "TRAV_25": (-225, 23), "TRAV_13": (-272, 185), "TRAV_11": (323, 105), 'TRAV_18': (-534, 363), 'TRAV_19': (15, 430), "TRAV_17": (-251, 232), 'TRAV_27': (408, 253)},
+            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263)},
             227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
-            229: {"TRAV_18": (-220-70, 58), "TRAV_25": (89-70, -282), "TRAV_17": (60-70, -74), "TRAV_13": (39-70, -121), "TRAV_16": (-168-70, -241)},
-            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)}
+            229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
+            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
+            # Nil - End of Arm A
+            500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
+            501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
+            # Nil - End of Arm B
+            505: {"NIL2B_1": (-97, 161), "NIL2B_2": (226, -16), "NIL2B_0": (402, -60), "NIL2B_3": (-790, 7)},
+            506: {"NIL2B_3": (-245, 260), "NIL2B_5": (-385, 182), "NIL2B_1": (448, 415), "NIL2B_2": (771, 237)},
+            # Nil - End of Arm C
+            510: {"NIL2C_0": (-206, 67), "NIL2C_2": (131, 178), "NIL2C_1": (-300, -127), "NIL2C_4": (-183, 373), "NIL2C_3": (-20, 433), "NIL2C_6": (310, -320)},
+            511: {"NIL2C_4": (417, 49), "NIL2C_0": (394, -257), "NIL2C_1": (300, -451), "NIL2C_3": (580, 109), "NIL2C_5": (-435, 204), "NIL2C_2": (731, -146)},
+            # Nil - End of Arm D
+            515: {"NIL2D_2": (66, -12), "NIL2D_0": (-141, 245), "NIL2D_1": (329, -167), "NIL2D_4": (219, 392), "NIL2D_3": (-773, 91)},
+            516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
+            517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
         }
         self._paths = {
             # A5 Town
@@ -156,14 +172,14 @@ class Pather:
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
-            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAVE_DIST): [100, 101, 102, 103],
-            (Location.A5_PINDLE_SAVE_DIST, Location.A5_PINDLE_END): [104],
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
             # Eldritch
-            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAVE_DIST): [120, 121, 122],
-            (Location.A5_ELDRITCH_SAVE_DIST, Location.A5_ELDRITCH_END): [123],
+            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
+            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
             # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAVE_DIST): [140, 141, 142, 143, 144, 145, 146, 147, 148],
-            (Location.A5_SHENK_SAVE_DIST, Location.A5_SHENK_END): [149],
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
             (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
@@ -178,8 +194,19 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # Trav
-            (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226]
+            (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
+
+    def offset_node(self, node_idx: int, offset: tuple[int, int]):
+        """Will offset any node. e.g. can be used in char files to change final attacking positions
+        :param node_idx: Index of node to be changed
+        :param offset: Offset [x, y] the node will get. +x will move node to the right, +y more to the bottom
+        """
+        for k in self._nodes[node_idx]:
+            self._nodes[node_idx][k] = (
+                self._nodes[node_idx][k][0] + offset[0],
+                self._nodes[node_idx][k][1] + offset[1]
+            )
 
     def _get_node(self, key: int, template: str):
         return (
@@ -191,19 +218,35 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, path: Union[str, List[Tuple[float, float]]], char: IChar):
+    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar):
         if not char.can_teleport():
             error_msg = "Teleport is requiered for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
         char.pre_move()
-        if type(path) == str:
-            path = self._config.path[path]
-        for pos in path:
-            x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+        if type(key) == str:
+            path = self._config.path[key]
+        else:
+            path = key
+        i = 0
+        while i < len(path):
+            x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
+            t0 = self._screen.grab()
             char.move((x_m, y_m))
+            t1 = self._screen.grab()
+            # check difference between the two frames to determine if tele was good or not
+            diff = cv2.absdiff(t0, t1)
+            diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+            score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+            if score > 0.15:
+                i += 1
+            else:
+                Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score})")
+        # if type(key) == str and ("_save_dist" in key or "_end" in key):
+        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -360,10 +403,10 @@ if __name__ == "__main__":
                         node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
                         x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
-                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
-                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+                        cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
@@ -374,14 +417,26 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import Sorceress
     from char.hammerdin import Hammerdin
-    from ui_manager import UiManager
+    from ui import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
+
+    # display_all_nodes(pather, "NIL2D")
+
+    # # changing node pos and generating new code
+    # code = ""
+    # node_idx = 226
+    # offset = [0, 0]
+    # for k in pather._nodes[node_idx]:
+    #     pather._nodes[node_idx][k][0] += offset[0]
+    #     pather._nodes[node_idx][k][1] += offset[1]
+    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
+    # print(code)
+
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("trav_save_dist", char)
-    # pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_SAVE_DIST), char)
-    # pather.traverse_nodes((Location.A3_TRAV_SAVE_DIST, Location.A3_TRAV_END), char)
-    display_all_nodes(pather, filter="TRAV")
+    pather.traverse_nodes_fixed("trav_safe_dist", char)
+    print("-----")
+    # pather.traverse_nodes([226, 228, 229], char)
