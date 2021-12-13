@@ -139,6 +139,44 @@ class Sorceress(IChar):
             return True
         return False
 
+    def kill_council(self) -> bool:
+        delay = [0.2, 0.3]
+        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
+        # Go inside cast stuff in general direction
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
+        if atk_pos_abs is None:
+            atk_pos_abs = [-300, -200]
+        cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
+        self._right_attack(cast_pos_abs, delay, 80)
+        self._left_attack(cast_pos_abs, delay, 80)
+        self._right_attack((0, 0), delay, 30)
+        self._left_attack(cast_pos_abs, delay, 80)
+        # move a bit back
+        pos_m = self._screen.convert_abs_to_monitor((160, 30))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
+        if atk_pos_abs is None:
+            atk_pos_abs = [-200, -80]
+        self._left_attack(cast_pos_abs, delay, 60)
+        self._right_attack(cast_pos_abs, delay, 60)
+        self._right_attack((0, 0), delay, 60)
+        # Move outside
+        # Move a bit back and another round
+        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+        cast_pos_abs = np.array([-300, -100])
+        self._left_attack(cast_pos_abs, delay, 60)
+        self._right_attack(cast_pos_abs, delay, 60)
+        self._right_attack((0, 0), delay, 30)
+        wait(0.4)
+        # move a bit back
+        pos_m = self._screen.convert_abs_to_monitor((100, -100))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._right_attack((0, 0), delay, 80)
+        return True
+
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         delay = [0.2, 0.3]
@@ -147,7 +185,6 @@ class Sorceress(IChar):
             nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
             if nihlatak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
-                atk_sequences = int(self._char_config["atk_len_nihlatak"])
                 self._right_attack(cast_pos_abs, delay, 90)
                 self._left_attack(cast_pos_abs, delay, 90)
                 # Do some tele "dancing" after each sequence
@@ -176,4 +213,4 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Sorceress(config.sorceress, config.char, screen, t_finder, ui_manager, pather)
     #char.pre_buff()
-    char.kill_nihlatak([501])
+    char.kill_council()
