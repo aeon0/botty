@@ -6,7 +6,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-from utils.misc import wait
+from utils.misc import wait, cut_roi, is_in_roi
 import time
 from pather import Pather, Location
 
@@ -40,6 +40,40 @@ class Barbarian(IChar):
             mouse.release(button="right")
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
+
+    def _do_hork(self, hork_time: int):
+        # Outburst's fine work below
+        # save current skill img
+        wait(0.1)
+        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+        wait(0.5)
+        keyboard.send(self._char_config["weapon_switch"])
+        wait(0.5)
+        #hork
+        if self._skill_hotkeys["find_item"]:
+            keyboard.send(self._skill_hotkeys["find_item"])
+            wait(0.5, 0.15)
+        mouse.move(637, 354)
+        wait(0.5, 0.15)
+        mouse.press(button="right")
+        wait(hork_time)
+        mouse.release(button="right")
+        wait(1)
+        keyboard.send(self._char_config["weapon_switch"])
+        wait(0.5, 0.15)
+        # Make sure that we are back at the previous skill
+        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+        if max_val < 0.96:
+            Logger.warning("Failed to switch weapon, try again")
+            wait(1.2)
+            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+            if max_val < 0.96:
+                keyboard.send(self._char_config["weapon_switch"])
+                wait(0.4)
+            else:
+                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     def pre_buff(self):
         # keyboard.send(self._char_config["weapon_switch"])

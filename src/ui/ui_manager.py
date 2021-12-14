@@ -79,7 +79,7 @@ class UiManager():
 
     def is_left_skill_selected(self, template_list: List[str]) -> bool:
         """
-        :return: Bool if skill is currently the selected skill on the right skill slot.
+        :return: Bool if skill is currently the selected skill on the left skill slot.
         """
         for template in template_list:
             if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
