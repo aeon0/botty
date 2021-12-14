@@ -36,21 +36,21 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(3, 3) # use Halls of Pain Waypoint (3rd in A4)
+        self._ui_manager.use_wp(4, 2) # use Halls of Pain Waypoint (3rd in A4)
         return Location.A4_DIABLO_WP
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
-        #template_match = self._template_finder.search_and_wait(["diablo_entrance"], threshold=0.65, time_out=20)
-        #if not template_match.valid:
-        #    return False
         if do_pre_buff:
             self._char.pre_buff()
         found = False
-        # we tele from WP upwards until we find our tempalte for conda eentrance
+        # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
+        self._pather.traverse_nodes([600], self._char)
+        # we tele from WP upwards until we find our tempalte for entrance
         while not found:
-            found = self._template_finder("diablo_entrance").valid
+            found = self._template_finder.search_and_wait(["diablo_cs_1"], threshold=0.8, time_out=0.5).valid
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
         Logger.debug("Arrived at Chaos Sanctuary Entrance")
+        # we tele from Entrance upwards until we find our tempalte for Pentagram
         # we tele to pentagram
         # we tele to A
         # we check for layout of A (L or Y ) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
@@ -73,6 +73,7 @@ class Diablo:
 
         # Depending on what template is found we do static pathing to the stairs on level1.
         # Its xpects that the static routes defined in game.ini are named: "ni1_a", "ni1_b", "ni1_c"
+        """
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
         found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0) or \
             self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
@@ -117,4 +118,5 @@ class Diablo:
         self._char.kill_diablo(end_nodes) #should be relative to current location ( a = vizier, b = deseis, c = infector, d = diablo)
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
+        """
         return (Location.A4_DIABLO_END, picked_up_items)

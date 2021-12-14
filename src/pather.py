@@ -54,6 +54,7 @@ class Location:
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
     # Chaos Sanctuary (a = vizier, b = deseis, c = infector)
     A4_DIABLO_WP = "a4_diablo_wp"
+    A4_DIABLO_START = "a4_diablo_start"
     A4_DIABLO_ENTRANCE = "a4_diablo_entrance"
     A4_DIABLO_PENTAGRAM = "a4_diablo_pentagram"
     A4_DIABLO_A = "a4_diablo_a"
@@ -158,6 +159,9 @@ class Pather:
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
             # Diablo Chaos Sanctuary 600
+            600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
+            601: {"DIABLO_CS_1": (107, 187), "DIABLO_CS_0": (-128, -242), "DIABLO_CS_2": (289, -7), }, #entrance to cs
+
         }
         self._paths = {
             # A5 Town
@@ -447,6 +451,9 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes_fixed("trav_safe_dist", char)
+    pather.traverse_nodes([600], char)
+    pather.traverse_nodes_fixed("diablo_wp_entrance", char)
+    pather.traverse_nodes([601], char)
+    pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
     print("-----")
-    # pather.traverse_nodes([226, 228, 229], char)
+    
