@@ -45,11 +45,18 @@ class Diablo:
         found = False
         # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
         self._pather.traverse_nodes([600], self._char)
-        # we tele from WP upwards until we find our tempalte for entrance
+        Logger.debug("Calibrating Postion to start my Tele Journey through River of Flame")
         while not found:
-            found = self._template_finder.search_and_wait(["diablo_cs_1"], threshold=0.8, time_out=0.5).valid
+            found = self._template_finder.search_and_wait(["DIABLO_CS_0", "DIABLO_CS_1", "DIABLO_CS_2"], threshold=0.8, time_out=0.1).valid
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
         Logger.debug("Arrived at Chaos Sanctuary Entrance")
+        self._char.kill_cs_trash()
+        Logger.debug("Kill these Demon Trash")
+        picked_up_items = self._pickit.pick_up_items(self._char)
+        Logger.debug("Loot their bloody corpses")
+        self._pather.traverse_nodes([601], self._char)
+        Logger.debug("Calibrating Position exactly at Door to Chaos Sanctuary Entrance")
+
         # we tele from Entrance upwards until we find our tempalte for Pentagram
         # we tele to pentagram
         # we tele to A

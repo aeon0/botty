@@ -103,6 +103,7 @@ class Config:
             "atk_len_diablo_deseis": float(self._select_val("char", "atk_len_diablo_deseis")),
             "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
+            "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
         }
 
         self.sorceress = dict(self._config["sorceress"])

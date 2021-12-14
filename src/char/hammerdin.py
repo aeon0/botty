@@ -142,7 +142,20 @@ class Hammerdin(IChar):
 
 #Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo 
 
-    def kill_vizier(self, end_nodes: list[int]) -> bool:
+    def kill_cs_trash(self) -> bool:
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption")
+        return True
+
+    def kill_vizier(self) -> bool:
         # Move close to vizier
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
@@ -157,7 +170,7 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
 
-    def kill_deseis(self, end_nodes: list[int]) -> bool:
+    def kill_deseis(self) -> bool:
         # Move close to deseis
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
@@ -172,7 +185,7 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
 
-    def kill_infector(self, end_nodes: list[int]) -> bool:
+    def kill_infector(self) -> bool:
         # Move close to infector
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
@@ -187,7 +200,7 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
 
-    def kill_diablo(self, end_nodes: list[int]) -> bool:
+    def kill_diablo(self) -> bool:
         # Move close to diablo
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
