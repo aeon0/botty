@@ -100,7 +100,7 @@ run_shenk=0
 | merc_chicken       | Will chicken (leave game) when merc health percentage drops below set value, range 0 to 1. Set to 0 to not chicken. |
 | show_items         | Hotkey for "show |
 | inventory_screen   | Hotkey to open up |
-| stand_still        | Hotkey for "stand still". Note this can not be the default shift key as it would interfere with the merc healing routine. |
+| stand_still        | Hotkey for "stand still".  |
 | force_move         | Hotkey for "force move" |
 | tp                 | Hotkey for using a town |
 | belt_rows          | Integer value of how many rows the char's belt has |

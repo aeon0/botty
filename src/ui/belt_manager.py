@@ -80,7 +80,10 @@ class BeltManager:
                 key = f"potion{i+1}"
                 if merc:
                     Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc. HP: {(stats[0]*100):.1f}%")
-                    keyboard.send(f"left shift + {self._config.char[key]}")
+                    if keyboard.is_pressed('shift'):
+                        keyboard.send(f"{self._config.char[key]}")
+                    else:
+                        keyboard.send(f"left shift + {self._config.char[key]}")
                 else:
                     Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                     keyboard.send(self._config.char[key])
