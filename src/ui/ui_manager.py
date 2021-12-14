@@ -77,6 +77,15 @@ class UiManager():
                 return True
         return False
 
+    def is_left_skill_selected(self, template_list: List[str]) -> bool:
+        """
+        :return: Bool if skill is currently the selected skill on the right skill slot.
+        """
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+                return True
+        return False
+
     def is_overburdened(self) -> bool:
         """
         :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.

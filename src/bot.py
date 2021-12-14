@@ -24,6 +24,7 @@ from death_manager import DeathManager
 from char.sorceress import Sorceress
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
+from char.barbarian import Barbarian
 from run import Pindle, ShenkEld, Trav, Nihlatak
 from town import TownManager, A3, A4, A5
 
@@ -51,6 +52,8 @@ class Bot:
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "barbarian":
+            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
