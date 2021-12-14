@@ -52,7 +52,7 @@ class ItemFinder:
                 blacklist_item = item_name.startswith("bl__")
                 # these items will be searched for regardless of pickit setting (e.g. for runes to avoid mixup)
                 force_search = item_name.startswith("rune_")
-                if blacklist_item or ((item_name in config.items and config.items[item_name]) or force_search):
+                if blacklist_item or ((item_name in config.items and config.items[item_name].pickit_type) or force_search):
                     data = cv2.imread(f"assets/{self._folder_name}/" + filename)
                     filtered_template = np.zeros(data.shape, np.uint8)
                     for key in self._template_color_ranges:
@@ -120,7 +120,7 @@ class ItemFinder:
                                         item.roi = [max_loc[0] + x, max_loc[1] + y, template.data.shape[1], template.data.shape[0]]
                                         center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                         item.dist = math.dist(center_abs, (0, 0))
-            if item is not None and self._items_to_pick[item.name]:
+            if item is not None and self._items_to_pick[item.name].pickit_type:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")

@@ -262,10 +262,40 @@ class UiManager():
         wait(0.2, 0.3)
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
-        item_list = item_finder.search(img)
-        item_list = [x for x in item_list if "potion" not in x.name and not \
-            (self._config.items[x.name] == 3 and not self._template_finder.search("ETHEREAL", img).valid)]
-        return len(item_list) > 0
+        original_list = item_finder.search(img)
+
+        keep_list = []
+        for x in original_list:
+            include = True
+            exclude = False
+            if "potion" in x.name:
+                break
+            include_props = self._config.items[x.name].include
+            if include_props:
+                include = False
+                for include_prop in include_props:
+                    template_match = self._template_finder.search(include_prop, img, threshold=0.95)
+                    # current behavior is ANY of the include properties
+                    if template_match.valid:
+                        include = True
+                        Logger.debug(f"{x.name}: Found required {include_prop} ({template_match.score*100:.1f}% confidence), keep")
+                        break
+            if not include:
+                Logger.debug(f"{x.name}: Required {include_props} not found, discard")
+                break
+            exclude_props = self._config.items[x.name].exclude
+            if exclude_props:
+                for exclude_prop in exclude_props:
+                    template_match = self._template_finder.search(exclude_prop, img, threshold=0.95)
+                    # current behavior is ANY of the exclude properties
+                    if template_match.valid:
+                        exclude = True
+                        Logger.debug(f"{x.name}: Found exclusion {exclude_prop} ({template_match.score*100:.1f}% confidence), discard")
+                        break
+            if include and not exclude:
+                keep_list.append(x)
+
+        return len(keep_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash

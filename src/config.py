@@ -1,7 +1,14 @@
 import configparser
 import numpy as np
 import os
+import re
+from dataclasses import dataclass, field
 
+@dataclass
+class ItemProps:
+    pickit_type: int = 0
+    include: list[str] = None
+    exclude: list[str] = None
 
 class Config:
     def _select_val(self, section: str, key: str = None):
@@ -122,8 +129,8 @@ class Config:
 
         self.items = {}
         for key in self._pickit_config["items"]:
-            self.items[key] = int(self._select_val("items", key))
-            if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+            self.items[key] = self.parse_item_config_string(key)
+            if self.items[key].pickit_type > 0 and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
 
         self.colors = {}
@@ -151,6 +158,18 @@ class Config:
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
         }
 
+    def parse_item_config_string(self, key: str = None) -> ItemProps:
+        item_props = ItemProps()
+        # split string by commas NOT contained within parentheses
+        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key))
+        item_props.pickit_type = int(item_string_as_list[0])
+        # convert string[1] and [2] to lists, remove unecessary characters
+        strip_chars = { ord("("): None, ord(")"): None, ord(" "): None }
+        try: item_props.include = list(filter(None, item_string_as_list[1].translate(strip_chars).split(',')))
+        except: pass
+        try: item_props.exclude = list(filter(None, item_string_as_list[2].translate(strip_chars).split(',')))
+        except: pass
+        return item_props
 
 if __name__ == "__main__":
     config = Config(print_warnings=True)
