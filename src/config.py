@@ -161,7 +161,7 @@ class Config:
     def parse_item_config_string(self, key: str = None) -> ItemProps:
         item_props = ItemProps()
         # split string by commas NOT contained within parentheses
-        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key))
+        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key)).upper()
         item_props.pickit_type = int(item_string_as_list[0])
         # convert string[1] and [2] to lists, remove unecessary characters
         strip_chars = { ord("("): None, ord(")"): None, ord(" "): None }
