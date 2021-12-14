@@ -37,7 +37,7 @@ class ShenkEld:
         self._ui_manager.use_wp(5, 1)
         return Location.A5_ELDRITCH_START
 
-    def battle(self, do_shenk: bool, do_pre_buff: bool,game_stats) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch
         game_stats.update_location("Eldritch")
         if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
