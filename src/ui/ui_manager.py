@@ -263,8 +263,7 @@ class UiManager():
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
         original_list = item_finder.search(img)
-
-        keep_list = []
+        filtered_list = []
         for x in original_list:
             if "potion" in x.name: continue
             include = True
@@ -292,9 +291,8 @@ class UiManager():
                         Logger.debug(f"{x.name}: Found exclusion {exclude_prop} ({template_match.score*100:.1f}% confidence), discard")
                         break
             if include and not exclude:
-                keep_list.append(x)
-
-        return len(keep_list) > 0
+                filtered_list.append(x)
+        return len(filtered_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
