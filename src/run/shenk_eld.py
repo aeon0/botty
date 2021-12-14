@@ -37,8 +37,9 @@ class ShenkEld:
         self._ui_manager.use_wp(5, 1)
         return Location.A5_ELDRITCH_START
 
-    def battle(self, do_shenk: bool, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_shenk: bool, do_pre_buff: bool,game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch
+        game_stats.update_location("Eldritch")
         if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
@@ -56,6 +57,7 @@ class ShenkEld:
         # Shenk
         if do_shenk:
             Logger.info("Run Shenk")
+            game_stats.update_location("Shenk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
             if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
