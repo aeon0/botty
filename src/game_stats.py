@@ -4,7 +4,6 @@ import threading
 from config import Config
 from messenger import Messenger
 from utils.misc import hms
-from pather import Location
 import inspect
 
 from version import __version__
