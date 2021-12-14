@@ -266,10 +266,9 @@ class UiManager():
 
         keep_list = []
         for x in original_list:
+            if "potion" in x.name: continue
             include = True
             exclude = False
-            if "potion" in x.name:
-                break
             include_props = self._config.items[x.name].include
             if include_props:
                 include = False
@@ -282,7 +281,7 @@ class UiManager():
                         break
             if not include:
                 Logger.debug(f"{x.name}: Required {include_props} not found, discard")
-                break
+                continue
             exclude_props = self._config.items[x.name].exclude
             if exclude_props:
                 for exclude_prop in exclude_props:

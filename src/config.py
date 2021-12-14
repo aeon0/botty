@@ -2,7 +2,7 @@ import configparser
 import numpy as np
 import os
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 @dataclass
 class ItemProps:
@@ -130,7 +130,7 @@ class Config:
         self.items = {}
         for key in self._pickit_config["items"]:
             self.items[key] = self.parse_item_config_string(key)
-            if self.items[key].pickit_type > 0 and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+            if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
 
         self.colors = {}
