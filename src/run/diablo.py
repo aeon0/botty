@@ -43,45 +43,28 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         found = False
-        # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
-        self._pather.traverse_nodes([600], self._char)
-        Logger.debug("Calibrating Postion to start my Tele Journey through River of Flame")
+        """ RIVER OF FLAME PART """
+        self._pather.traverse_nodes([600], self._char) # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
         #while not found:
         #    found = self._template_finder.search_and_wait(["DIABLO_CS_0", "DIABLO_CS_1", "DIABLO_CS_2", "DIABLO_CS_3", "DIABLO_CS_4"], threshold=0.8, time_out=0.1).valid
         #    self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-        #Logger.debug("Arrived at Chaos Sanctuary Entrance")
-        #Logger.debug("Kill these Demon Trash")
-        #self._char.kill_cs_trash()
-        #Logger.debug("Loot their bloody corpses")
-        #picked_up_items = self._pickit.pick_up_items(self._char)
-        #Logger.debug("Calibrating Position exactly at Door to Chaos Sanctuary Entrance")
-        #self._pather.traverse_nodes([601], self._char)
-        # we tele from Entrance upwards until we find our tempalte for Pentagram
+        #self._pather.traverse_nodes([601], self._char) #Calibrating Position exactly at Door to Chaos Sanctuary Entrance
+        """ CHAOS SANTUARY PART """
         while not found:
-            found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid
-            self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-        Logger.debug("Arrived at Pentagram")
-        # we tele to pentagram
-        self._pather.traverse_nodes([602], self._char)
-        Logger.debug("Calibrating at Pentagram")
+            found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid # searching for pentagram tempaltes...
+            self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # we tele top right towards the pentagram
+        self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        """ SEAL (A) VIZIER PART"""
         # we tele to A
-        # we check for layout of A (L or Y ) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
+        # we check for layout of A (L or Y) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
         # we pop the seals and kill vizier
         # we tele back to pentagram
-        # we tele to B
-        self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char)
-        # we check for layout of B (U or S) - just one seal. U = seal top left, S = seal top right
-        Logger.debug("Checking Layout of Seal B")
-        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1", ], threshold=0.8, time_out=0.1).valid:
-            Logger.debug("Seal B Layout S found")
-            self._pather.traverse_nodes_fixed("diablo_pentagram_b_s_seal", self._char)
-            Logger.debug("Gonna pop De Seis Seal (B-S) now")
-            while not found:
-                found = self._template_finder.search_and_wait(["DIABLO_SEAL_B_U_DESEIS_ACTIVE"], threshold=0.8, time_out=0.1).valid
-            if not self._char.select_by_template(["DIABLO_SEAL_B_S_DESEIS"], threshold=0.63, time_out=4):
-                pos_m = self._screen.convert_abs_to_monitor((0, 0))
-                self.mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                return False
+        """ SEAL (B) DE SEIS PART """
+        self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char) # we tele to B
+
+        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1", ], threshold=0.8, time_out=0.1).valid: #Seal B Layout S found"
+            self._pather.traverse_nodes_fixed("diablo_pentagram_b_s_seal", self._char) #pop De Seis Seal (B-S)
+            self._char.select_by_template(["DIABLO_SEAL_B_S_DESEIS"], threshold=0.63, time_out=4)
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
             Logger.debug("Kill these Demon Trash")
             self._char.kill_cs_trash()
@@ -89,46 +72,32 @@ class Diablo:
             picked_up_items = self._pickit.pick_up_items(self._char)
             Logger.debug("Calibrating at Seal B Layout S")
             self._pather.traverse_nodes([630], self._char)
-        else:
-            Logger.debug("Seal B Layout U found")
-            self._pather.traverse_nodes_fixed("diablo_pentagram_b_u_seal", self._char)
-            Logger.debug("Kill these Demon Trash")
-            self._char.kill_cs_trash()
-            Logger.debug("Loot their bloody corpses")
-            picked_up_items = self._pickit.pick_up_items(self._char)
-            wait(3)
-            Logger.debug("Gonna pop De Seis Seal (B-U) now")
-            if not self._char.select_by_template(["DIABLO_SEAL_B_U_DESEIS"], threshold=0.63, time_out=4): #we migt have to add a failsafe check here: if the active template is found.
-                return False
-            wait(2)
-            Logger.debug("Kill these Demon Trash again")
-            self._char.kill_cs_trash()
-            Logger.debug("Loot their bloody corpses")
-            picked_up_items = self._pickit.pick_up_items(self._char)
-            Logger.debug("Calibrating at Seal B Layout U")
-            self._pather.traverse_nodes([640], self._char)
-            Logger.debug("I am now calibrated at Seal B Layout U")
-            self._pather.traverse_nodes_fixed("diablo_pentagram_b_u_safe_dist", self._char)
-            Logger.debug("I am now on my way to save_dist at Seal B Layout U to kill De Seis")
-            Logger.debug("Kill these Demon Trash")
+            self._pather.traverse_nodes_fixed("diablo_pentagram_b_s_safe_dist", self._char) # go to de seis
             self._char.kill_deseis()
-            Logger.debug("Loot their bloody corpses")
             picked_up_items = self._pickit.pick_up_items(self._char)
-            Logger.debug("lets go back to Pentagram")
-            self._pather.traverse_nodes_fixed("diablo_pentagram_b_u_safe_dist", self._char)
             while not found:
-                found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid
+                found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid # we tele back to pentagram
                 self._pather.traverse_nodes_fixed("diablo_b_end_pentagram", self._char)
-            Logger.debug("Arrived at Pentagram")           
-            # we tele back to pentagram
-
+        else: #Then it has to be Seal B Layout U
+            self._pather.traverse_nodes_fixed("diablo_pentagram_b_u_seal", self._char)
+            self._char.kill_cs_trash()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            if not self._char.select_by_template(["DIABLO_SEAL_B_U_DESEIS"], threshold=0.63, time_out=4): # Pop the seal we migt have to add a failsafe check here: if the active template is found.
+                return False
+            wait(2) # give her some time to walk & click
+            self._pather.traverse_nodes([640], self._char) #Calibrating at Seal B Layout U
+            self._pather.traverse_nodes_fixed("diablo_pentagram_b_u_safe_dist", self._char) # go to de seis
+            self._char.kill_deseis()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            while not found:
+                found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid # we tele back to pentagram
+                self._pather.traverse_nodes_fixed("diablo_b_end_pentagram", self._char) 
+        """ SEAL (C) INFECTOR PART """
         # we tele to C
         # we check for layout of C
         # we pop the seals and kill infector (F or G) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
         # we tele back to pentagram
-        
-        # we kill diablo
-
+        """ KILL DIABLO PART """       
         #self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
         # Attack & Pick items
         self._char.kill_diablo() #should be relative to current location ( a = vizier, b = deseis, c = infector, d = diablo)
