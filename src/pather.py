@@ -160,21 +160,21 @@ class Pather:
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
             # Diablo Chaos Sanctuary 600
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
-            601: {"DIABLO_CS_1": (107, 187), "DIABLO_CS_0": (-128, -242), "DIABLO_CS_2": (289, -7), }, #entrance to cs
+            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), "DIABLO_CS_ENTRANCE_1": (299, 226), }, #entrance to cs
             602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram
-            # SEAL A L VIZIER
+            # SEAL A L VIZIER FIRST
             #610
-            # SEAL A Y VIZIER
+            # SEAL A Y VIZIER SECOND
             #620
-            # SEAL B S DESEIS
+            # SEAL B S DESEIS FIRST
             630: {"DIABLO_SEAL_B_S_5": (-67, 57), "DIABLO_SEAL_B_S_1": (206, -5), "DIABLO_SEAL_B_S_2": (-370, -32), "DIABLO_SEAL_B_S_7": (-120, 356), "DIABLO_SEAL_B_S_4": (368, 106), }, #find the seal
             #631: {"DIABLO_SEAL_B_S_1": (80, -135), "DIABLO_SEAL_B_S_5": (-193, -73), "DIABLO_SEAL_B_S_4": (242, -24), "DIABLO_SEAL_B_S_7": (-246, 226), "DIABLO_SEAL_B_S_6": (486, -30), }, #tele next to seal to pop
             #632: {"DIABLO_SEAL_B_S_6": (-92, 186), "DIABLO_SEAL_B_S_4": (-336, 192), "DIABLO_SEAL_B_S_5": (-771, 143), },#tele sideways
-            # SEAL B U DESEIS
+            # SEAL B U DESEIS SECOND
             640: {"DIABLO_B_U_CALIBRATE_1": (-11, 131), "DIABLO_B_U_CALIBRATE_3": (181, -12), "DIABLO_B_U_CALIBRATE_0": (-82, 331), "DIABLO_B_U_CALIBRATE_2": (370, 99), "DIABLO_B_U_CALIBRATE_5": (268, 279), },
-            # SEAL C G INFECTOR
+            # SEAL C G INFECTOR FIRST
             #650
-            # SEAL C F INFECTOR
+            # SEAL C F INFECTOR SECOND
             #660
 
 
@@ -453,7 +453,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    # display_all_nodes(pather, "NIL2D")
+    #display_all_nodes(pather, "diablo")
 
     # # changing node pos and generating new code
     # code = ""
@@ -469,13 +469,13 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     #pather.traverse_nodes([600], char)
     #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
-    #pather.traverse_nodes([601], char)
+    pather.traverse_nodes([601], char)
     #pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
-    #pather.traverse_nodes([602], char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b_s_seal", char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b_safe_dist", char)
-    pather.traverse_nodes([640], char)
-    pather.traverse_nodes_fixed("diablo_pentagram_b_u_safe_dist", char)
+    #pather.traverse_nodes([630], char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b_s_safe_dist", char)
     print("-----")
     
