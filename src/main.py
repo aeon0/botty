@@ -76,8 +76,7 @@ def run_bot(
         Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
         if config.general["custom_message_hook"]:
             messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
-        os._exit(1) 
-
+        os._exit(1)
 def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
