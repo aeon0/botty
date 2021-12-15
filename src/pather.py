@@ -244,7 +244,7 @@ class Pather:
             if score > 0.15:
                 i += 1
             else:
-                Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score})")
+                Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score:.4f})")
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 
