@@ -157,19 +157,16 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
-                # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
                 mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
-                # click!
                 mouse.click(button="left")
                 break
             else:
-                # Might be in online mode?
                 found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["online_btn"], threshold=0.8)
                 if found_btn.valid:
                     Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
@@ -305,7 +302,7 @@ class UiManager():
         Logger.debug("Found inventory gold btn")
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
@@ -320,7 +317,7 @@ class UiManager():
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 wait(1.0, 1.2)
-                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     self._curr_stash["gold"] += 1
@@ -537,4 +534,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.start_game()

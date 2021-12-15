@@ -23,7 +23,7 @@ class Hammerdin(IChar):
             self._do_pre_move = False
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
-        if aura in self._skill_hotkeys:
+        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
             wait(0.05, 0.1)
             keyboard.send(self._char_config["stand_still"], do_release=False)

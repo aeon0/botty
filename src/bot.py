@@ -294,6 +294,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
+        self._game_stats.update_location("Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             res = self._pindle.battle(not self._pre_buffed)
@@ -302,14 +303,16 @@ class Bot:
     def on_run_shenk(self):
         res = False
         self._do_runs["run_shenk"] = False
+        self._game_stats.update_location("Shenk")
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
-            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed)
+            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
+        self._game_stats.update_location("Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
@@ -318,6 +321,7 @@ class Bot:
     def on_run_nihlatak(self):
         res = False
         self._do_runs["run_nihlatak"] = False
+        self._game_stats.update_location("Nihlatak")
         self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
