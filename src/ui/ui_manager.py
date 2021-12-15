@@ -276,7 +276,7 @@ class UiManager():
                     # current behavior is ANY of the include properties
                     if template_match.valid:
                         include = True
-                        Logger.debug(f"{x.name}: Found required {include_prop} ({template_match.score*100:.1f}% confidence), keep")
+                        Logger.debug(f"{x.name} has required {include_prop} ({template_match.score*100:.1f}% confidence), keep")
                         break
             if not include:
                 Logger.debug(f"{x.name}: Required {include_props} not found, discard")
@@ -288,7 +288,7 @@ class UiManager():
                     # current behavior is ANY of the exclude properties
                     if template_match.valid:
                         exclude = True
-                        Logger.debug(f"{x.name}: Found exclusion {exclude_prop} ({template_match.score*100:.1f}% confidence), discard")
+                        Logger.debug(f"{x.name} has exclusion {exclude_prop} ({template_match.score*100:.1f}% confidence), discard")
                         break
             if include and not exclude:
                 filtered_list.append(x)
