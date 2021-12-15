@@ -77,6 +77,15 @@ class UiManager():
                 return True
         return False
 
+    def is_left_skill_selected(self, template_list: List[str]) -> bool:
+        """
+        :return: Bool if skill is currently the selected skill on the left skill slot.
+        """
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+                return True
+        return False
+
     def is_overburdened(self) -> bool:
         """
         :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.
@@ -157,19 +166,16 @@ class UiManager():
             # it returns a bool value (True or False) if the button was found, and the position of it
             # roi = Region of interest. It reduces the search area and can be adapted within game.ini
             # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN","PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
+            found_btn = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
             if found_btn.name == "PLAY_BTN":
                 # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
-                # move the mouse to the play button and randomize the position a bit. +-35 pixel in x direction, +-7 pixel in y direction
                 mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
-                # click!
                 mouse.click(button="left")
                 break
             else:
-                # Might be in online mode?
                 found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["online_btn"], threshold=0.8)
                 if found_btn.valid:
                     Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
@@ -281,8 +287,8 @@ class UiManager():
             # select the start stash
             personal_stash_pos = (self._config.ui_pos["stash_personal_btn_x"], self._config.ui_pos["stash_personal_btn_y"])
             stash_btn_width = self._config.ui_pos["stash_btn_width"]
-            next_gold_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
-            x_m, y_m = self._screen.convert_screen_to_monitor(next_gold_stash_pos)
+            next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+            x_m, y_m = self._screen.convert_screen_to_monitor(next_stash_pos)
             mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")
@@ -303,14 +309,14 @@ class UiManager():
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        self._move_to_stash_tab(self._curr_stash["gold"])
         # stash gold
         if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
+                self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
                 x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
                 mouse.move(x, y, randomize=4)
                 wait(0.1, 0.15)
@@ -320,24 +326,24 @@ class UiManager():
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 wait(1.0, 1.2)
-                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.97)
+                # move cursor away from button to interfere with screen grab
+                mouse.move(-120, 0, absolute=False, randomize=15)
+                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     self._curr_stash["gold"] += 1
+                    if self._config.general["info_screenshots"]:
+                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
-                        inventory_full_gold = self._template_finder.search("INVENTORY_FULL_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.98)
-                        if inventory_full_gold.valid:
-                            # turn of gold pickup
-                            self._config.items["misc_gold"] = 0
-                            item_finder.update_items_to_pick(self._config)
-                            # inform user about it
-                            msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                            Logger.info(msg)
-                            if self._config.general["custom_message_hook"]:
-                                self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
-                        else:
-                            Logger.info("All tabs are full but character is not. Continuing.")
-                            self._curr_stash["gold"] = 3
+                        # turn of gold pickup
+                        self._config.char["stash_gold"] = False
+                        self._config.items["misc_gold"] = False
+                        item_finder.update_items_to_pick(self._config)
+                        # inform user about it
+                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                        Logger.info(msg)
+                        if self._config.general["custom_message_hook"]:
+                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -541,4 +547,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.start_game()
