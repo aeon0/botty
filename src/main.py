@@ -53,6 +53,30 @@ def run_bot(
                 Logger.info(f"Max game length reached. Attempting to restart {config.general['name']}!")
                 if config.general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
+            elif death_manager.died():
+                game_stats.log_death()
+            elif health_manager.did_chicken():
+                game_stats.log_chicken()
+            bot.stop()
+            kill_thread(bot_thread)
+            # Try to recover from whatever situation we are and go back to hero selection
+            do_restart = game_recovery.go_to_hero_selection()
+            break
+        time.sleep(0.5)
+    bot_thread.join()
+    if do_restart:
+        # Reset flags before running a new bot
+        death_manager.reset_death_flag()
+        health_manager.reset_chicken_flag()
+        game_stats.log_end_game(failed=max_game_length_reached)
+        return run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager, True)
+    else:
+        if config.general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
+        Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
+        if config.general["custom_message_hook"]:
+            messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
+        os._exit(1) 
 
 def main():
     config = Config(print_warnings=True)
