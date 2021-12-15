@@ -23,11 +23,11 @@ class PickIt:
         self._config = Config()
         self._last_closest_item: Item = None
 
-    def pick_up_items(self, char: IChar, area: str = None) -> bool:
+    def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
         """
         Pick up all items with specified char
         :param char: The character used to pick up the item
-        :param area: Specify area where item was picked up for logging
+        :param is_at_trav: Dirty hack to reduce gold pickup only to trav area, should be removed once we can determine the amount of gold reliably
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
         found_nothing = 0
@@ -64,8 +64,7 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
-            at_trav = area is not None and "trav" in area.lower()
-            if self._config.char["gold_trav_only"] and not at_trav:
+            if self._config.char["gold_trav_only"] and not is_at_trav:
                 item_list = [x for x in item_list if "misc_gold" not in x.name]
 
             if len(item_list) == 0:
@@ -131,7 +130,7 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2, area)
+                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()

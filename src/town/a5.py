@@ -39,13 +39,16 @@ class A5(IAct):
         return False
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_STASH), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_STASH), self._char):
+            return False
         wait(0.5, 0.6)
         def stash_is_open_func():
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn_stash"]).valid
+            img = self._screen.grab()
+            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
+            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
             return found
-        if not self._char.select_by_template(["A5_STASH", "A5_STASH_2"], stash_is_open_func): return False
+        if not self._char.select_by_template(["A5_STASH", "A5_STASH_2"], stash_is_open_func):
+            return False
         return Location.A5_STASH
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:

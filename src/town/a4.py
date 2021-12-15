@@ -22,7 +22,8 @@ class A4(IAct):
     def can_resurrect(self) -> bool: return True
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
+            return False
         if self._npc_manager.open_npc_menu(Npc.TYRAEL):
             self._npc_manager.press_npc_btn(Npc.TYRAEL, "resurrect")
             return Location.A4_TYRAEL_STASH

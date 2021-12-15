@@ -49,13 +49,13 @@ class Trav:
             if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
                 return False
         self._char.kill_council()
-        picked_up_items = self._pickit.pick_up_items(self._char, "Travincal")
+        picked_up_items = self._pickit.pick_up_items(self._char, is_at_trav=True)
         wait(0.2, 0.3)
         # If we can teleport we want to move back inside and also check loot there
         if self._char.can_teleport():
             if not self._pather.traverse_nodes([229], self._char, time_out=2.5):
                 self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
-            picked_up_items |= self._pickit.pick_up_items(self._char, "Travincal")
+            picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
         # if we picked up items lets make sure we go back to the center to not hide the tp
         if picked_up_items:
             self._pather.traverse_nodes([229], self._char, time_out=2.5)
