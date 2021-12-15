@@ -161,6 +161,22 @@ class Pather:
             # Diablo Chaos Sanctuary 600
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
             601: {"DIABLO_CS_1": (107, 187), "DIABLO_CS_0": (-128, -242), "DIABLO_CS_2": (289, -7), }, #entrance to cs
+            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram
+            # SEAL A L VIZIER
+            #610
+            # SEAL A Y VIZIER
+            #620
+            # SEAL B S DESEIS
+            630: {"DIABLO_SEAL_B_S_5": (-67, 57), "DIABLO_SEAL_B_S_1": (206, -5), "DIABLO_SEAL_B_S_2": (-370, -32), "DIABLO_SEAL_B_S_7": (-120, 356), "DIABLO_SEAL_B_S_4": (368, 106), }, #find the seal
+            #631: {"DIABLO_SEAL_B_S_1": (80, -135), "DIABLO_SEAL_B_S_5": (-193, -73), "DIABLO_SEAL_B_S_4": (242, -24), "DIABLO_SEAL_B_S_7": (-246, 226), "DIABLO_SEAL_B_S_6": (486, -30), }, #tele next to seal to pop
+            #632: {"DIABLO_SEAL_B_S_6": (-92, 186), "DIABLO_SEAL_B_S_4": (-336, 192), "DIABLO_SEAL_B_S_5": (-771, 143), },#tele sideways
+            # SEAL B U DESEIS
+            640: {"DIABLO_B_U_CALIBRATE_1": (-11, 131), "DIABLO_B_U_CALIBRATE_3": (181, -12), "DIABLO_B_U_CALIBRATE_0": (-82, 331), "DIABLO_B_U_CALIBRATE_2": (370, 99), "DIABLO_B_U_CALIBRATE_5": (268, 279), },
+            # SEAL C G INFECTOR
+            #650
+            # SEAL C F INFECTOR
+            #660
+
 
         }
         self._paths = {
@@ -451,9 +467,15 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([600], char)
-    pather.traverse_nodes_fixed("diablo_wp_entrance", char)
-    pather.traverse_nodes([601], char)
-    pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
+    #pather.traverse_nodes([600], char)
+    #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
+    #pather.traverse_nodes([601], char)
+    #pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
+    #pather.traverse_nodes([602], char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b_s_seal", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b_safe_dist", char)
+    pather.traverse_nodes([640], char)
+    pather.traverse_nodes_fixed("diablo_pentagram_b_u_safe_dist", char)
     print("-----")
     
