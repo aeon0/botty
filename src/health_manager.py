@@ -15,6 +15,7 @@ from config import Config
 
 
 class HealthManager:
+    merc_death = False
     def __init__(self, screen: Screen):
         self._config = Config()
         self._screen = screen
@@ -42,6 +43,9 @@ class HealthManager:
     def reset_chicken_flag(self):
         self._did_chicken = False
         self._pausing = True
+
+    def reset_merc_death_flag(self):
+        HealthManager.merc_death = False
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
@@ -141,19 +145,23 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], img, roi=self._config.ui_roi["merc_icon"]).valid
-                if merc_alive:
-                    merc_health_percentage = self.get_merc_health(self._config, img)
-                    last_drink = time.time() - self._last_merc_healh
-                    if merc_health_percentage < self._config.char["merc_chicken"]:
-                        Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
-                        self._do_chicken(img)
-                    if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
-                        self._belt_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_healh = time.time()
-                    elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
-                        self._belt_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_healh = time.time()
+                if self._config.char["use_merc"] and HealthManager.merc_death == False:
+                    merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], img, roi=self._config.ui_roi["merc_icon"]).valid
+                    if merc_alive and HealthManager.merc_death == False:
+                        merc_health_percentage = self.get_merc_health(self._config, img)
+                        last_drink = time.time() - self._last_merc_healh
+                        if merc_health_percentage < self._config.char["merc_chicken"]:
+                            Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
+                            self._do_chicken(img)
+                        if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
+                            self._belt_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
+                            self._last_merc_healh = time.time()
+                        elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
+                            self._belt_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
+                            self._last_merc_healh = time.time()
+                    else:
+                        HealthManager.merc_death = True
+
         Logger.debug("Stop health monitoring")
 
 

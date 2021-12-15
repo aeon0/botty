@@ -46,6 +46,9 @@ def run_bot(
     messenger = Messenger()
     while 1:
         health_manager.update_location(bot.get_curr_location())
+        if HealthManager.merc_death == True:
+            game_stats.log_merc_death(bot.get_curr_location())
+            HealthManager.merc_death = None
         max_game_length_reached = game_stats.get_current_game_length() > config.general["max_game_length_s"]
         if max_game_length_reached or death_manager.died() or health_manager.did_chicken():
             # Some debug and logging
@@ -54,9 +57,9 @@ def run_bot(
                 if config.general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
             elif death_manager.died():
-                game_stats.log_death()
+                game_stats.log_death(bot.get_curr_location())
             elif health_manager.did_chicken():
-                game_stats.log_chicken()
+                game_stats.log_chicken(bot.get_curr_location())
             bot.stop()
             kill_thread(bot_thread)
             # Try to recover from whatever situation we are and go back to hero selection

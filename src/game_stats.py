@@ -5,6 +5,7 @@ from config import Config
 from messenger import Messenger
 from utils.misc import hms
 import inspect
+from pather import Pather, Location
 
 from version import __version__
 
@@ -42,17 +43,17 @@ class GameStats:
                 msg += f" at {area}"
             self._send_message_thread(msg)
 
-    def log_death(self):
+    def log_death(self, loc: Location):
         self._death_counter += 1
-        self._send_message_thread(f"{self._config.general['name']}: You have died")
+        self._send_message_thread(f"{self._config.general['name']}: You have died at {loc}")
 
-    def log_chicken(self):
+    def log_chicken(self, loc: Location):
         self._chicken_counter += 1
-        self._send_message_thread(f"{self._config.general['name']}: You have chickened")
+        self._send_message_thread(f"{self._config.general['name']}: You have chickened at {loc}")
 
-    def log_merc_death(self):
+    def log_merc_death(self, loc: Location):
             self._merc_death_counter += 1
-            self._send_message_thread(f"{self._config.general['name']}: Merc has died")        
+            self._send_message_thread(f"{self._config.general['name']}: Merc has died at {loc}")
 
     def log_start_game(self):
         if self._game_counter > 0:
