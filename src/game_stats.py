@@ -21,6 +21,7 @@ class GameStats:
         self._game_counter = 0
         self._chicken_counter = 0
         self._death_counter = 0
+        self._merc_death_counter = 0
         self._runs_failed = 0
         self._failed_game_time = 0
         self._location = None
@@ -59,6 +60,10 @@ class GameStats:
         self._chicken_counter += 1
         msg = f"{self._config.general['name']}: You have chickened{self.get_location_msg()}"
         self._send_message_thread(msg)
+
+    def log_merc_death(self):
+            self._merc_death_counter += 1
+            self._send_message_thread(f"{self._config.general['name']}: Merc has died")        
 
     def log_start_game(self):
         if self._game_counter > 0:
@@ -118,6 +123,7 @@ class GameStats:
             Avg Game Length: {avg_length_str}
             Chickens: {self._chicken_counter}
             Deaths: {self._death_counter}
+            Merc deaths: {self._merc_death_counter}
             Failed runs: {self._runs_failed}
         ''')
         return msg
