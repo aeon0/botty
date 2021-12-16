@@ -57,10 +57,10 @@ class Location:
     A4_DIABLO_START = "a4_diablo_start"
     A4_DIABLO_ENTRANCE = "a4_diablo_entrance"
     A4_DIABLO_PENTAGRAM = "a4_diablo_pentagram"
-    A4_DIABLO_A = "a4_diablo_a"
-    A4_DIABLO_B = "a4_diablo_b"
-    A4_DIABLO_C = "a4_diablo_c"
-    A4_DIABLO_END = "a4_diablo_c"
+    A4_DIABLO_A_LAYOUTCHECK = "a4_diablo_a_layoutcheck"
+    A4_DIABLO_B_LAYOUTCHECK = "a4_diablo_b_layoutcheck"
+    A4_DIABLO_C_LAYOUTCHECK = "a4_diablo_c_layoutcheck"
+    A4_DIABLO_END = "a4_diablo_end"
 
 
 class Pather:
@@ -160,21 +160,19 @@ class Pather:
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
             # Diablo Chaos Sanctuary 600
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
-            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), "DIABLO_CS_ENTRANCE_1": (299, 226), }, #entrance to cs
-            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram
-            # SEAL A L VIZIER FIRST
+            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, #entrance to cs -> rebuild with new templates
+            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram -> rebuild with new templates
+            # SEAL A VIZIER FIRST
             #610
-            # SEAL A Y VIZIER SECOND
+            # SEAL A VIZIER SECOND
             #620
-            # SEAL B S DESEIS FIRST
-            630: {"DIABLO_SEAL_B_S_5": (-67, 57), "DIABLO_SEAL_B_S_1": (206, -5), "DIABLO_SEAL_B_S_2": (-370, -32), "DIABLO_SEAL_B_S_7": (-120, 356), "DIABLO_SEAL_B_S_4": (368, 106), }, #find the seal
-            #631: {"DIABLO_SEAL_B_S_1": (80, -135), "DIABLO_SEAL_B_S_5": (-193, -73), "DIABLO_SEAL_B_S_4": (242, -24), "DIABLO_SEAL_B_S_7": (-246, 226), "DIABLO_SEAL_B_S_6": (486, -30), }, #tele next to seal to pop
-            #632: {"DIABLO_SEAL_B_S_6": (-92, 186), "DIABLO_SEAL_B_S_4": (-336, 192), "DIABLO_SEAL_B_S_5": (-771, 143), },#tele sideways
-            # SEAL B U DESEIS SECOND
-            640: {"DIABLO_B_U_CALIBRATE_1": (-11, 131), "DIABLO_B_U_CALIBRATE_3": (181, -12), "DIABLO_B_U_CALIBRATE_0": (-82, 331), "DIABLO_B_U_CALIBRATE_2": (370, 99), "DIABLO_B_U_CALIBRATE_5": (268, 279), },
-            # SEAL C G INFECTOR FIRST
+            # SEAL B DESEIS FIRST 
+            630: {"DIABLO_SEAL_B1_ACTIVE": (-67, 57), "DIABLO_SEAL_B1_1": (206, -5), "DIABLO_SEAL_B1_2": (-370, -32), "DIABLO_SEAL_B1_7": (-120, 356), "DIABLO_SEAL_B1_4": (368, 106), }, # -> rebuild new templates
+            # SEAL B DESEIS SECOND
+            640: {"DIABLO_B2_CALIBRATE_1": (-11, 131), "DIABLO_B2_CALIBRATE_3": (181, -12), "DIABLO_B2_CALIBRATE_0": (-82, 331), "DIABLO_B2_CALIBRATE_2": (370, 99), "DIABLO_B2_CALIBRATE_5": (268, 279), }, #-> rebuild new templates
+            # SEAL C INFECTOR FIRST
             #650
-            # SEAL C F INFECTOR SECOND
+            # SEAL C INFECTOR SECOND
             #660
 
 
@@ -453,7 +451,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "diablo")
+    #display_all_nodes(pather, "diablo_seal_b1_3")
 
     # # changing node pos and generating new code
     # code = ""
@@ -473,9 +471,9 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b_s_seal", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b_safe_dist", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
     #pather.traverse_nodes([630], char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b_s_safe_dist", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
     print("-----")
     

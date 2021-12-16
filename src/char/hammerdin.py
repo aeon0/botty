@@ -176,11 +176,11 @@ class Hammerdin(IChar):
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
-        self._cast_hammers(self._char_config["atk_len_diablo_deseis"] * 0.4)
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((400, 15), self._char_config["atk_len_diablo_deseis"] * 0.3)
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-400, -15), self._char_config["atk_len_diablo_deseis"] * 0.4)
+        self._cast_hammers(self._char_config["atk_len_diablo_deseis"])
+        self._move_and_attack((300, 150), self._char_config["atk_len_diablo_deseis"] *0.3)
+        self._move_and_attack((-300, -150), self._char_config["atk_len_diablo_deseis"]* 0.3)
+        #self._move_and_attack((-150, 300), self._char_config["atk_len_diablo_deseis"] *0.5)
+        #self._move_and_attack((150, -300), self._char_config["atk_len_diablo_deseis"] *0.5)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         return True
