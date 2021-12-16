@@ -93,7 +93,29 @@ class Diablo:
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         else: #Then it has to be Seal A second Layout L
             Logger.debug("A = SECOND LAYOUT (L) - first seal pops")            
-            wait(5)
+            self._pather.traverse_nodes_fixed("diablo_pentagram_a2_seal", self._char) # we tele to upper seal (not popping boss, to have a common template between both seals)
+            self._pather.traverse_nodes([620], self._char) #Calibrating at upper Seal A SECOND Layout (L)
+            self._char.kill_cs_trash()
+            wait(2)
+            self._pather.traverse_nodes([620], self._char) #Calibrating AGAIN at upper Seal A SECOND Layout (L) AFTER KILLING TRASH
+            self._char.select_by_template(["DIABLO_A2_CALIBRATION_5"], threshold=0.50, time_out=4) #threshold lowered
+            wait(1) # give me some time to click it
+            Logger.debug("pop to seal")
+            self._pather.traverse_nodes([621], self._char) #Calibrating at lower Seal A SECOND Layout (L)
+            self._char.kill_cs_trash()
+            self._pather.traverse_nodes([622], self._char) #Move to pop upper seal
+            self._char.kill_cs_trash()
+            self._char.select_by_template(["DIABLO_A2_VIZIER_MOUSEOVER"], threshold=0.63, time_out=4) 
+            wait(1) # give me some time to click it
+            Logger.debug("pop to seal")
+            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
+            Logger.debug("calibrating at attack position")
+            self._char.kill_vizier()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
+            Logger.debug("calibrating at attack position")
+            self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char) #lets go home
+            self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         # we pop the seals and kill vizier
         # we tele back to pentagram
         # SEAL (B) DE SEIS PART 
@@ -136,16 +158,38 @@ class Diablo:
         self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char) # we tele to B
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid: #Seal C First Layout G found"
             Logger.debug("C = FIRST LAYOUT (G)")
-            wait(5)
+            self._pather.traverse_nodes_fixed("diablo_pentagram_c1_seal", self._char)
+            self._pather.traverse_nodes([650], self._char) # pop seal1 boss
+            self._char.select_by_template(["DIABLO_C1_CALIBRATE_2_CLOSED"], threshold=0.63, time_out=4)
+            wait(2)
+            self._pather.traverse_nodes([651], self._char) # fight
+            self._char.kill_infector()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._pather.traverse_nodes([651], self._char) # fight
+            self._pather.traverse_nodes([652], self._char) # pop seal2
+            self._char.select_by_template(["DIABLO_C1_CALIBRATE_8"], threshold=0.63, time_out=4)
+            wait(2)
+            self._pather.traverse_nodes_fixed("diablo_c1_end_pentagram", self._char)
+            self._pather.traverse_nodes([602], self._char) # calibrate pentagram
+            wait(15)#waiting for Diablo to spawn
         else: #Then it has to be Seal C Layout F
             Logger.debug("C = SECOND LAYOUT (F)")
-            wait(5)
-        # we tele to C
-        # we check for layout of C
-        # we pop the seals and kill infector (F=1 or G=2) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
-        # we tele back to pentagram
+            # we pop the seals and kill infector (F=1 or G=2) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
+            self._pather.traverse_nodes_fixed("diablo_pentagram_c2_seal", self._char)
+            self._char.select_by_template(["DIABLO_C2_SEAL_NOBOSS"], threshold=0.50, time_out=4)
+            wait(2)
+            self._pather.traverse_nodes([660], self._char) # fight
+            self._char.select_by_template(["DIABLO_C2_SEAL_BOSS"], threshold=0.63, time_out=4)
+            wait(2)
+            self._char.kill_infector()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._pather.traverse_nodes([661], self._char) # fight
+            # we tele back to pentagram
+            self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char)
+            self._pather.traverse_nodes([602], self._char) # calibrate pentagram
+            wait(20)#waiting for Diablo to spawn
         # KILL DIABLO PART        
-        self._pather.traverse_nodes([602], self._char) #calibrating at Pentagram to kill dia
+        self._pather.traverse_nodes([602], self._char) #calibrating at Pentagram to kill diablo
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
