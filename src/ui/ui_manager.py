@@ -278,29 +278,46 @@ class UiManager():
             include = True
             exclude = False
             include_props = self._config.items[x.name].include
+            include_bool_type = self._config.items[x.name].include_type
             if include_props:
                 include = False
-                for include_prop in include_props:
-                    template_match = self._template_finder.search(include_prop, img, threshold=0.95)
-                    # current behavior is ANY of the include properties
+                found_props=[]
+                for prop in include_props:
+                    template_match = self._template_finder.search(prop, img, threshold=0.95)
                     if template_match.valid:
-                        include = True
-                        Logger.debug(f"{x.name} has required {include_prop} ({template_match.score*100:.1f}% confidence), keep")
-                        break
+                        if include_bool_type == "AND":
+                            found_props.append(True)
+                        else:
+                            include = True
+                            #Logger.debug(f"{x.name} has required {prop} ({template_match.score*100:.1f}% confidence), keep if no exclusions")
+                            break
+                if include_bool_type == "AND" and len(found_props) > 0 and all(found_props):
+                    include = True
+                    #Logger.debug(f"{x.name} has {include_bool_type}({include_props}), keep if no exclusions")
             if not include:
-                Logger.debug(f"{x.name}: Required {include_props} not found, discard")
+                Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, discard")
                 continue
             exclude_props = self._config.items[x.name].exclude
+            exclude_bool_type = self._config.items[x.name].exclude_type
             if exclude_props:
-                for exclude_prop in exclude_props:
-                    template_match = self._template_finder.search(exclude_prop, img, threshold=0.95)
-                    # current behavior is ANY of the exclude properties
+                found_props=[]
+                for prop in exclude_props:
+                    template_match = self._template_finder.search(prop, img, threshold=0.95)
                     if template_match.valid:
-                        exclude = True
-                        Logger.debug(f"{x.name} has exclusion {exclude_prop} ({template_match.score*100:.1f}% confidence), discard")
-                        break
+                        if exclude_bool_type == "AND":
+                            found_props.append(True)
+                        else:
+                            exclude = True
+                            #Logger.debug(f"{x.name} has exclusion {prop} ({template_match.score*100:.1f}% confidence), discard")
+                            break
+                if exclude_bool_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                    exclude = True
+                    #Logger.debug(f"{x.name} has all exclusions {exclude_props}, discard")
+                    break
             if include and not exclude:
+                Logger.debug(f"{x.name} required {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}, keep")
                 filtered_list.append(x)
+
         return len(filtered_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):

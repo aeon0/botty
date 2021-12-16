@@ -53,7 +53,7 @@ class Bot:
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
+            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -180,7 +180,7 @@ class Bot:
                 os._exit(1)
             else:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
-            
+
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
             self._ran_no_pickup = True

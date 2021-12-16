@@ -9,6 +9,8 @@ class ItemProps:
     pickit_type: int = 0
     include: list[str] = None
     exclude: list[str] = None
+    include_type: str = "OR"
+    exclude_type: str = "OR"
 
 class Config:
     def _select_val(self, section: str, key: str = None):
@@ -119,7 +121,7 @@ class Config:
         self.trapsin = self._config["trapsin"]
         if "trapsin" in self._custom:
             self.trapsin.update(self._custom["trapsin"])
-            
+
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
@@ -166,12 +168,16 @@ class Config:
         item_props = ItemProps()
         # split string by commas NOT contained within parentheses
         item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
-        item_props.pickit_type = int(item_string_as_list[0])
-        # convert string[1] and [2] to lists, remove unecessary characters
-        strip_chars = { ord("("): None, ord(")"): None, ord(" "): None }
-        try: item_props.include = list(filter(None, item_string_as_list[1].translate(strip_chars).split(',')))
+        trim_strs=["AND", "OR", "(", ")", " "]
+        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
+        item_props.pickit_type = int(clean_string[0])
+        try:
+            item_props.include = clean_string[1].split(',')
+            item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
         except: pass
-        try: item_props.exclude = list(filter(None, item_string_as_list[2].translate(strip_chars).split(',')))
+        try:
+            item_props.exclude = clean_string[2].split(',')
+            item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
         except: pass
         return item_props
 
