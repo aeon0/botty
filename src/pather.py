@@ -174,7 +174,7 @@ class Pather:
             622: {"DIABLO_A2_CALIBRATION_8": (92, -37), "DIABLO_A2_CALIBRATION_10": (-422, 32), "DIABLO_A2_CALIBRATION_0": (-469, 32), "DIABLO_A2_CALIBRATION_7": (478, -45), },#seal pop lower seal vizier
             623: {"DIABLO_A2_CALIBRATION_10": (-223, 107), "DIABLO_A2_CALIBRATION_0": (176, 176), "DIABLO_A2_CALIBRATION_8": (291, 37), "DIABLO_A2_CALIBRATION_7": (677, 30), },#go home
             # SEAL B DESEIS FIRST 
-            630: {"DIABLO_SEAL_B1_ACTIVE": (-67, 57), "DIABLO_SEAL_B1_1": (206, -5), "DIABLO_SEAL_B1_2": (-370, -32), "DIABLO_SEAL_B1_7": (-120, 356), "DIABLO_SEAL_B1_4": (368, 106), }, # -> rebuild new templates
+            630: {"DIABLO_SEAL_B1_3ACTIVE": (-67, 57), "DIABLO_SEAL_B1_1": (206, -5), "DIABLO_SEAL_B1_2": (-370, -32), "DIABLO_SEAL_B1_7": (-120, 356), "DIABLO_SEAL_B1_4": (368, 106), }, # -> rebuild new templates
             # SEAL B DESEIS SECOND
             640: {"DIABLO_B2_CALIBRATE_1": (-11, 131), "DIABLO_B2_CALIBRATE_3": (181, -12), "DIABLO_B2_CALIBRATE_0": (-82, 331), "DIABLO_B2_CALIBRATE_2": (370, 99), "DIABLO_B2_CALIBRATE_5": (268, 279), }, #-> rebuild new templates
             # SEAL C INFECTOR FIRST G
