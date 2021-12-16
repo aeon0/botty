@@ -289,11 +289,9 @@ class UiManager():
                             found_props.append(True)
                         else:
                             include = True
-                            #Logger.debug(f"{x.name} has required {prop} ({template_match.score*100:.1f}% confidence), keep if no exclusions")
                             break
                 if include_bool_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
-                    #Logger.debug(f"{x.name} has {include_bool_type}({include_props}), keep if no exclusions")
             if not include:
                 Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, discard")
                 continue
@@ -308,11 +306,9 @@ class UiManager():
                             found_props.append(True)
                         else:
                             exclude = True
-                            #Logger.debug(f"{x.name} has exclusion {prop} ({template_match.score*100:.1f}% confidence), discard")
                             break
                 if exclude_bool_type == "AND" and len(exclude_props) > 0 and all(found_props):
                     exclude = True
-                    #Logger.debug(f"{x.name} has all exclusions {exclude_props}, discard")
                     break
             if include and not exclude:
                 Logger.debug(f"{x.name} required {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}, keep")
