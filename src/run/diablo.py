@@ -56,16 +56,50 @@ class Diablo:
             found = self._template_finder.search_and_wait(["DIABLO_PENTX_0", "DIABLO_PENTX_1", "DIABLO_PENTX_2", "DIABLO_PENTX_3", "DIABLO_PENTX_4"], threshold=0.8, time_out=0.1).valid # searching for pentagram tempaltes...
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # we tele top right towards the pentagram
         self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        wait(2)
         Logger.debug("I calibrated at Pentagram")
+        self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        wait(2)
+        Logger.debug("I now REALLY calibrated at Pentagram")
+        wait(2)
         # SEAL (A) VIZIER PART
         # we tele to A
-        # we check for layout of A (L=1 or Y=2) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
+        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we tele to B
+        # we check for layout of A (Y=1 or L=2) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
+        Logger.debug("Checking Layout")
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid: #Seal B First Layout S found"
+            Logger.debug("A = FIRST LAYOUT (Y) - upper seal pops")
+            Logger.debug("go to seal")
+            self._pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", self._char) # we tele to upper seal (not popping boss, to have a common template between both seals)
+            self._pather.traverse_nodes([610], self._char) #Calibrating at upper Seal A FIRST Layout (Y)
+            self._char.kill_cs_trash()
+            wait(2)
+            self._pather.traverse_nodes([610], self._char) #Calibrating AGAIN at upper Seal A FIRST Layout (Y) AFTER KILLING TRASH
+            self._char.select_by_template(["DIABLO_A_SEALS_1_CLOSE"], threshold=0.50, time_out=4) #threshold lowered
+            wait(1) # give me some time to click it
+            Logger.debug("pop to seal")
+            self._pather.traverse_nodes([613], self._char) #Calibrating at lower Seal A FIRST Layout (Y) -> we might have to remove the inactive seal from the 612 & 613 
+            self._char.select_by_template(["DIABLO_A_SEALS_7_CLOSE"], threshold=0.63, time_out=4) 
+            self._char.kill_cs_trash()
+            wait(1) # give me some time to click it
+            Logger.debug("pop to seal")
+            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
+            Logger.debug("calibrating at attack position")
+            self._char.kill_deseis()
+            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
+            Logger.debug("calibrating at attack position")
+            self._pather.traverse_nodes_fixed("diablo_a1_end_pentagram", self._char) #lets go home
+            self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        else: #Then it has to be Seal A second Layout L
+            Logger.debug("A = SECOND LAYOUT (L) - first seal pops")            
+            wait(5)
         # we pop the seals and kill vizier
         # we tele back to pentagram
         # SEAL (B) DE SEIS PART 
         self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char) # we tele to B
         Logger.debug("Checking Layout")
-        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1", ], threshold=0.8, time_out=0.1).valid: #Seal B First Layout S found"
+        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid: #Seal B First Layout S found"
             Logger.debug("B = FIRST LAYOUT (S)")
             self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) #pop De Seis Seal (B-S)
             Logger.debug("go to seal")

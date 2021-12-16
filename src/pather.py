@@ -162,9 +162,13 @@ class Pather:
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, #entrance to cs -> rebuild with new templates
             602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram -> rebuild with new templates
-            # SEAL A VIZIER FIRST
-            #610
-            # SEAL A VIZIER SECOND
+            # SEAL A VIZIER FIRST= Y    
+            610: {"DIABLO_A_SEALS_1": (-68, 60), "DIABLO_A_SEALS_0": (249, -105), "DIABLO_A_SEALS_2": (-296, 205), "DIABLO_A_SEALS_4": (373, 40), }, #travers to uuupper seal pop location "DIABLO_A_SEALS_3": (-87, 314), 
+            611: {"DIABLO_A_SEALS_11": (-217, -39), "DIABLO_A_SEALS_7": (204, -96), "DIABLO_A_SEALS_0": (-251, 124), "DIABLO_A_SEALS_4": (-127, 269), "DIABLO_A_SEALS_8": (336, 132), }, #upper Seal pop location
+            612: {"DIABLO_A_SEALS_8": (122, 66), "DIABLO_A_SEALS_7": (-10, -162), "DIABLO_A_SEALS_5": (169, 129), "DIABLO_A_SEALS_6": (344, -187), "DIABLO_A_SEALS_11": (-431, -105), }, #travers to lower seal
+            613: {"DIABLO_A_SEALS_7": (98, 11), "DIABLO_A_SEALS_11": (-323, 69), "DIABLO_A_SEALS_8": (230, 240), "DIABLO_A_SEALS_5": (277, 302), "DIABLO_A_SEALS_0": (-357, 232), }, #lower seal pop loation
+            614: {"DIABLO_A_SEALS_9": (15, -207), "DIABLO_A_SEALS_11": (264, 74), "DIABLO_A_SEALS_0": (230, 237), "DIABLO_A_SEALS_10": (-552, 220), "DIABLO_A_SEALS_8": (817, 245), }, #Vizier Attack Position
+            # SEAL A VIZIER SECOND = L
             #620
             # SEAL B DESEIS FIRST 
             630: {"DIABLO_SEAL_B1_ACTIVE": (-67, 57), "DIABLO_SEAL_B1_1": (206, -5), "DIABLO_SEAL_B1_2": (-370, -32), "DIABLO_SEAL_B1_7": (-120, 356), "DIABLO_SEAL_B1_4": (368, 106), }, # -> rebuild new templates
@@ -451,7 +455,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "diablo_seal_b1_3")
+    #display_all_nodes(pather, "diablo_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -467,8 +471,22 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     #pather.traverse_nodes([600], char)
     #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
-    pather.traverse_nodes([601], char)
-    #pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
+    #pather.traverse_nodes([601], char)
+    #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
+    
+    ### SEAL A ###
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
+    pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", char)
+    pather.traverse_nodes([610], char)
+    #pather.traverse_nodes([611], char)
+    #pather.traverse_nodes([612], char)
+    #pather.traverse_nodes([613], char)
+    #pather.traverse_nodes([614], char)
+    #pather.traverse_nodes([611, 612, 613, 614], char)
+    #pather.traverse_nodes_fixed("diablo_a1_end_pentagram", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    ### SEAL B ###
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", char)
