@@ -132,18 +132,21 @@ class Diablo:
             picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes_fixed("diablo_b2_end_pentagram", self._char) 
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
-        """
         # SEAL (C) INFECTOR PART 
+        self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char) # we tele to B
+        if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid: #Seal C First Layout G found"
+            Logger.debug("C = FIRST LAYOUT (G)")
+            wait(5)
+        else: #Then it has to be Seal C Layout F
+            Logger.debug("C = SECOND LAYOUT (F)")
+            wait(5)
         # we tele to C
         # we check for layout of C
         # we pop the seals and kill infector (F=1 or G=2) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
         # we tele back to pentagram
         # KILL DIABLO PART        
-        self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
-        #self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-        # Attack & Pick items
-        self._char.kill_diablo() #should be relative to current location ( a = vizier, b = deseis, c = infector, d = diablo)
+        self._pather.traverse_nodes([602], self._char) #calibrating at Pentagram to kill dia
+        self._char.kill_diablo() 
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
-        """
         return (Location.A4_DIABLO_END, picked_up_items)

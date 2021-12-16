@@ -477,8 +477,8 @@ if __name__ == "__main__":
     ### SEAL A ###
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
-    pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", char)
-    pather.traverse_nodes([610], char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", char)
+    #pather.traverse_nodes([610], char)
     #pather.traverse_nodes([611], char)
     #pather.traverse_nodes([612], char)
     #pather.traverse_nodes([613], char)
@@ -492,6 +492,13 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
     #pather.traverse_nodes([630], char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
+    ### SEAL C ###
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_c1_seal", char)
+    #pather.traverse_nodes_fixed("diablo_pentagram_c1_safe_dist", char)
+    #pather.traverse_nodes([640], char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
     print("-----")
     
