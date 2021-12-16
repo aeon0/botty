@@ -57,7 +57,6 @@ class Diablo:
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # we tele top right towards the pentagram
         self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         Logger.debug("I calibrated at Pentagram")
-        wait(1)
         # SEAL (A) VIZIER PART
         # we tele to A
         # we check for layout of A (L=1 or Y=2) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
