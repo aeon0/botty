@@ -63,7 +63,8 @@ class GameStats:
 
     def log_merc_death(self):
             self._merc_death_counter += 1
-            self._send_message_thread(f"{self._config.general['name']}: Merc has died")
+            # TODO: That message comes up a bit often, either make a param for it or remove it completely
+            # self._send_message_thread(f"{self._config.general['name']}: Merc has died{self.get_location_msg()}")
 
     def log_start_game(self):
         if self._game_counter > 0:
