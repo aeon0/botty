@@ -77,6 +77,15 @@ class UiManager():
                 return True
         return False
 
+    def is_left_skill_selected(self, template_list: List[str]) -> bool:
+        """
+        :return: Bool if skill is currently the selected skill on the left skill slot.
+        """
+        for template in template_list:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+                return True
+        return False
+
     def is_overburdened(self) -> bool:
         """
         :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.
@@ -317,10 +326,14 @@ class UiManager():
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 wait(1.0, 1.2)
+                # move cursor away from button to interfere with screen grab
+                mouse.move(-120, 0, absolute=False, randomize=15)
                 inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     self._curr_stash["gold"] += 1
+                    if self._config.general["info_screenshots"]:
+                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
                         # turn of gold pickup
                         self._config.char["stash_gold"] = False

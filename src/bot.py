@@ -24,6 +24,7 @@ from death_manager import DeathManager
 from char.sorceress import Sorceress
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
+from char.barbarian import Barbarian
 from run import Pindle, ShenkEld, Trav, Nihlatak
 from town import TownManager, A3, A4, A5
 
@@ -51,6 +52,8 @@ class Bot:
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "barbarian":
+            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -234,6 +237,7 @@ class Bot:
         merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
         if not merc_alive and self._config.char["use_merc"]:
             Logger.info("Resurrect merc")
+            self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)

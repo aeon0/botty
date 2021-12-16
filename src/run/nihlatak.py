@@ -57,7 +57,7 @@ class Nihlatak:
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
             return False
         # Wait until templates in lvl 2 entrance are found
-        if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=20).valid:
+        if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False
         @dataclass
         class EyeCheckData:
@@ -67,7 +67,7 @@ class Nihlatak:
             end_nodes: list[int]
 
         check_arr = [
-            EyeCheckData(["NI2_A_SAFE_DIST", "NI2_A_NOATTACK"], "ni2_circle_a", [500], [501]),
+            EyeCheckData(["NI2_A_SAFE_DIST", "NI2_A_NOATTACK", "NI2_A_SAFE_DIST_2", "NI2_A_NOATTACK_2"], "ni2_circle_a", [500], [501]),
             EyeCheckData(["NI2_B_SAFE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
             EyeCheckData(["NI2_C_SAFE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
             EyeCheckData(["NI2_D_SAFE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516, 517]),
@@ -93,5 +93,5 @@ class Nihlatak:
         # Attack & Pick items
         self._char.kill_nihlatak(end_nodes)
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char, "Nihlatak")
+        picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A5_NIHLATAK_END, picked_up_items)

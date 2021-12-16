@@ -21,6 +21,7 @@ class GameStats:
         self._game_counter = 0
         self._chicken_counter = 0
         self._death_counter = 0
+        self._merc_death_counter = 0
         self._runs_failed = 0
         self._failed_game_time = 0
         self._location = None
@@ -44,7 +45,7 @@ class GameStats:
             send_message_thread.daemon = True
             send_message_thread.start()
 
-    def log_item_pickup(self, item_name: str, send_message: bool, area: str = None):
+    def log_item_pickup(self, item_name: str, send_message: bool):
         self._picked_up_items.append(item_name)
         if send_message:
             msg = f"{self._config.general['name']}: Found {item_name}{self.get_location_msg()}"
@@ -59,6 +60,11 @@ class GameStats:
         self._chicken_counter += 1
         msg = f"{self._config.general['name']}: You have chickened{self.get_location_msg()}"
         self._send_message_thread(msg)
+
+    def log_merc_death(self):
+            self._merc_death_counter += 1
+            # TODO: That message comes up a bit often, either make a param for it or remove it completely
+            # self._send_message_thread(f"{self._config.general['name']}: Merc has died{self.get_location_msg()}")
 
     def log_start_game(self):
         if self._game_counter > 0:
@@ -118,6 +124,7 @@ class GameStats:
             Avg Game Length: {avg_length_str}
             Chickens: {self._chicken_counter}
             Deaths: {self._death_counter}
+            Merc deaths: {self._merc_death_counter}
             Failed runs: {self._runs_failed}
         ''')
         return msg
@@ -137,4 +144,4 @@ class GameStats:
 
 if __name__ == "__main__":
     game_stats = GameStats()
-    game_stats.log_item_pickup("rune_12", True, "shenk")
+    game_stats.log_item_pickup("rune_12", True)

@@ -112,6 +112,10 @@ class Config:
         self.trapsin = self._config["trapsin"]
         if "trapsin" in self._custom:
             self.trapsin.update(self._custom["trapsin"])
+            
+        self.barbarian = self._config["barbarian"]
+        if "barbarian" in self._custom:
+            self.barbarian.update(self._custom["barbarian"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
