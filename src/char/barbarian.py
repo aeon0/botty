@@ -9,7 +9,7 @@ from screen import Screen
 from utils.misc import wait, cut_roi, is_in_roi
 import time
 from pather import Pather, Location
-
+import cv2
 
 class Barbarian(IChar):
     def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
@@ -25,8 +25,6 @@ class Barbarian(IChar):
             self._do_pre_move = False
 
     def _cast_war_cry(self, time_in_s: float):
-        #  keyboard.send(self._skill_hotkeys["concentration"])
-        #  wait(0.05, 0.1)
         keyboard.send(self._char_config["stand_still"], do_release=False)
         wait(0.05, 0.1)
         if self._skill_hotkeys["war_cry"]:
@@ -76,21 +74,19 @@ class Barbarian(IChar):
                 Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     def pre_buff(self):
-        # keyboard.send(self._char_config["weapon_switch"])
-        # wait(0.3, 0.35)
+        wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
-        wait(0.08, 0.19)
+        wait(1)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
         keyboard.send(self._char_config["battle_orders"])
-        wait(0.08, 0.19)
+        wait(1)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
         keyboard.send(self._skill_hotkeys["shout"])
-        wait(0.08, 0.19)
+        wait(1)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
- #       keyboard.send(self._char_config["weapon_switch"])
         wait(0.3, 0.35)
 
     def pre_move(self):
@@ -121,7 +117,7 @@ class Barbarian(IChar):
         self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
         self._cast_war_cry(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
-        self._do_hork(4)
+        self._do_hork(self._char_config["hork_time_pindle"])
         return True
 
     def kill_eldritch(self) -> bool:
@@ -135,7 +131,7 @@ class Barbarian(IChar):
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
-        self._do_hork(4)
+        self._do_hork(self._char_config["hork_time_eldritch"])
         return True
 
     def kill_shenk(self):
@@ -146,7 +142,7 @@ class Barbarian(IChar):
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
-        self._do_hork(7)
+        self._do_hork(self._char_config["hork_time_shenk"])
         return True
 
     def kill_council(self) -> bool:
@@ -168,7 +164,7 @@ class Barbarian(IChar):
             # Stay inside and cast war cry again moving forward
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
-        self._do_hork(5)
+        self._do_hork(self._char_config["hork_time_council"])
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
@@ -184,7 +180,7 @@ class Barbarian(IChar):
         self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_war_cry(1.2)
-        self._do_hork(5)
+        self._do_hork(self._char_config["hork_time_nihlatak"])
         return True
 
 if __name__ == "__main__":

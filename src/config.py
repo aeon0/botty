@@ -99,6 +99,11 @@ class Config:
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
+            "hork_time_pindle": float(self._select_val("char", "hork_time_pindle")),
+            "hork_time_eldritch": float(self._select_val("char", "hork_time_eldritch")),
+            "hork_time_shenk": float(self._select_val("char", "hork_time_shenk")),
+            "hork_time_council": float(self._select_val("char", "hork_time_council")),
+            "hork_time_nihlatak": float(self._select_val("char", "hork_time_nihlatak")),
         }
 
         self.sorceress = dict(self._config["sorceress"])
