@@ -172,11 +172,11 @@ class Config:
         clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
         item_props.pickit_type = int(clean_string[0])
         try:
-            item_props.include = clean_string[1].split(',')
+            item_props.include = clean_string[1].split(',') if clean_string[1] else None
             item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
         except: pass
         try:
-            item_props.exclude = clean_string[2].split(',')
+            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
             item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
         except: pass
         return item_props
