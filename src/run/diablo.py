@@ -132,16 +132,16 @@ class Diablo:
             self._char.kill_cs_trash()
             wait(2) #let hammercloud clear up
             self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], threshold=0.50, time_out=5) #threshold lowered            
-            wait(0.5)
+            wait(1)
             self._pather.traverse_nodes([621], self._char) #traverse
             self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], threshold=0.50, time_out=5) #failsafe 2nd try           
-            wait(0.5)
+            wait(1)
             Logger.info("A2L Pop Fake Seal")
             self._pather.traverse_nodes([622, 623], self._char) #traverse
             self._char.kill_cs_trash() # sometimes there is a single caster below seal2 blocking viziers spawn.
             wait(2) #let hammercloud clear up
             self._char.select_by_template(["DIA_A2L_0", "DIA_A2L_1"], threshold=0.50, time_out=5) #threshold lowered    
-            wait(0.5)
+            wait(1)
             Logger.info("A2L Pop Boss Seal")
             self._pather.traverse_nodes([622], self._char) #go to safe dist -> the idea is to make the merc move away from vizier spawn. if there is a stray monster at the spawn, vizier will only come if cleared and our attack sequence might miss.
             self._char.kill_vizier()
@@ -176,6 +176,7 @@ class Diablo:
             self._char.kill_deseis()
             picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char)
+            #hi digga, dass kannst Du löschen hier!
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         else: #Then it has to be Seal B Layout U
             Logger.debug("B = SECOND LAYOUT (U)")
@@ -199,16 +200,15 @@ class Diablo:
             self._pather.traverse_nodes([650], self._char) # pop seal1 boss
             self._char.select_by_template(["DIABLO_C1_CALIBRATE_2_CLOSED"], threshold=0.5, time_out=4)
             wait(2)
-            self._pather.traverse_nodes([651], self._char) # fight
+            self._pather.traverse_nodes([652], self._char) # fight 651
             self._char.kill_infector()
             picked_up_items = self._pickit.pick_up_items(self._char)
-            self._pather.traverse_nodes([651], self._char) # fight
-            self._pather.traverse_nodes([652], self._char) # pop seal2
+            self._pather.traverse_nodes([652], self._char) # pop seal 651, 
             self._char.select_by_template(["DIABLO_C1_CALIBRATE_8"], threshold=0.5, time_out=4)
             wait(2)
             self._pather.traverse_nodes_fixed("diablo_c1_end_pentagram", self._char)
             self._pather.traverse_nodes([602], self._char) # calibrate pentagram
-            wait(15)#waiting for Diablo to spawn
+            wait(9)#waiting for Diablo to spawn
         else: #Then it has to be Seal C Layout F
             Logger.debug("C = SECOND LAYOUT (F)")
             # we pop the seals and kill infector (F=1 or G=2) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
@@ -224,7 +224,7 @@ class Diablo:
             # we tele back to pentagram
             self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char)
             self._pather.traverse_nodes([602], self._char) # calibrate pentagram
-            wait(20)#waiting for Diablo to spawn
+            wait(9)#waiting for Diablo to spawn
         # KILL DIABLO PART        
         self._pather.traverse_nodes([602], self._char) #calibrating at Pentagram to kill diablo
         self._char.kill_diablo() 
