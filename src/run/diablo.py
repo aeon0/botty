@@ -76,7 +76,7 @@ class Diablo:
             self._pather.traverse_nodes_fixed("diablo_a1_seal1", self._char)
             Logger.info("A1Y SAFE_DIST")
             self._char.kill_cs_trash()
-            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
             Logger.info("Clear Trash A1Y Fake Seal from SAFE_DIST")
             self._pather.traverse_nodes([610], self._char) # calibrate A1Y Seal1 Noboss - we fight bit away from the seal to keep the template-check later on clear
             self._pather.traverse_nodes([611], self._char) # yes it looks stupid but going back between 610 and 611 ensures we are at the right place to pop the seal
@@ -88,7 +88,7 @@ class Diablo:
             self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss
             self._char.kill_cs_trash()
             Logger.info("Clear Trash A1Y Boss Seal")
-            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss recalibrate after loot
             self._pather.traverse_nodes([610], self._char) # go to A1Y Seal2 Boss recalibrate after loot
             self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss recalibrate after loot
@@ -101,7 +101,7 @@ class Diablo:
             self._pather.traverse_nodes([614], self._char) # go to fight vizier
             Logger.info("A1Y REALLY Calibrate at SAFE DIST")
             self._char.kill_vizier()
-            picked_up_items = self._pickit.pick_up_items(self._char)
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes([614], self._char) # calibrate at SAFE_DIST before headding back to pentagram
             Logger.info("A1Y Calibrate at SAFE DIST")
             self._pather.traverse_nodes_fixed("diablo_a1_end_pentagram", self._char) #lets go home
@@ -109,29 +109,31 @@ class Diablo:
             Logger.info("I calibrated at PENTAGRAM")
         else: #Then it has to be Seal A second Layout L
             Logger.info("A = SECOND LAYOUT (L) - first seal pops")            
-            self._pather.traverse_nodes_fixed("diablo_pentagram_a2_seal", self._char) # we tele to upper seal (not popping boss, to have a common template between both seals)
-            self._pather.traverse_nodes([620], self._char) #Calibrating at upper Seal A SECOND Layout (L)
+            self._pather.traverse_nodes_fixed("diablo_a2_safe_dist", self._char) # we between the seals
             self._char.kill_cs_trash()
-            wait(2)
-            self._pather.traverse_nodes([620], self._char) #Calibrating AGAIN at upper Seal A SECOND Layout (L) AFTER KILLING TRASH
-            self._char.select_by_template(["DIABLO_A2_CALIBRATION_5"], threshold=0.5, time_out=4) #threshold lowered
-            wait(1) # give me some time to click it
-            Logger.info("pop seal boss")
-            self._pather.traverse_nodes([621], self._char) #Calibrating at lower Seal A SECOND Layout (L)
+            Logger.info("Clear Trash A2L SAFE DIST")
+            self._pather.traverse_nodes([621], self._char)
             self._char.kill_cs_trash()
-            self._pather.traverse_nodes([622], self._char) #Move to pop upper seal
-            self._char.kill_cs_trash()
-            self._char.select_by_template(["DIABLO_A2_VIZIER_MOUSEOVER"], threshold=0.5, time_out=4) 
-            wait(1) # give me some time to click it
-            Logger.info("pop seal")
-            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.info("calibrating at attack position to fight Vizier")
+            Logger.info("Clear Trash A2L FAKE Seal")
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
+            self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3"], threshold=0.50, time_out=5) #threshold lowered            
+            wait(1)
+            Logger.info("A2L Pop Fake Seal")
+            #self._pather.traverse_nodes([622], self._char) #traverse
+            self._pather.traverse_nodes([623], self._char)
+            self._char.select_by_template(["DIA_A2L_0", "DIA_A2L_1"], threshold=0.50, time_out=5) #threshold lowered    
+            wait(1)
+            Logger.info("A2L Pop Boss Seal")
+            self._pather.traverse_nodes([622], self._char) #go to safe dist
             self._char.kill_vizier()
-            picked_up_items = self._pickit.pick_up_items(self._char)
-            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.info("calibrating at attack position to return home")
-            self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char) #lets go home
+            Logger.info("Kill Vizier")
+            self._picked_up_items = self._pickit.pick_up_items(self._char)
+            self._pather.traverse_nodes([622], self._char) #go to safe dist
+            Logger.info("A2L Calibrate at Safe Dist after Loot")
+            self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char)
+            Logger.info("A2L Going Home to Pentagram")
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+            Logger.info("Calibrated at Pentagram")
         # we pop the seals and kill vizier
         # we tele back to pentagram
         # SEAL (B) DE SEIS PART 
