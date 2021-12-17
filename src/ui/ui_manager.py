@@ -277,7 +277,8 @@ class UiManager():
             if "potion" in x.name: continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
-            if not (include_props and exclude_props):
+            if not (include_props or exclude_props):
+                Logger.debug(f"Stashing {x.name}")
                 filtered_list.append(x)
                 continue
             include = True
@@ -314,7 +315,7 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name} required {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}, keep")
+                Logger.debug(f"{x.name} required {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}, stashing")
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
