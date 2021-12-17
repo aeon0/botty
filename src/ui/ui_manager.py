@@ -281,9 +281,7 @@ class UiManager():
                 filtered_list.append(x)
                 continue
             include = True
-            exclude = False
             include_bool_type = self._config.items[x.name].include_type
-            exclude_bool_type = self._config.items[x.name].exclude_type
             if include_props:
                 include = False
                 found_props=[]
@@ -300,7 +298,8 @@ class UiManager():
             if not include:
                 Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, discard")
                 continue
-
+            exclude = False
+            exclude_bool_type = self._config.items[x.name].exclude_type
             if exclude_props:
                 found_props=[]
                 for prop in exclude_props:
