@@ -275,10 +275,15 @@ class UiManager():
         filtered_list = []
         for x in original_list:
             if "potion" in x.name: continue
+            include_props = self._config.items[x.name].include
+            exclude_props = self._config.items[x.name].exclude
+            if not (include_props and exclude_props):
+                filtered_list.append(x)
+                continue
             include = True
             exclude = False
-            include_props = self._config.items[x.name].include
             include_bool_type = self._config.items[x.name].include_type
+            exclude_bool_type = self._config.items[x.name].exclude_type
             if include_props:
                 include = False
                 found_props=[]
@@ -295,8 +300,7 @@ class UiManager():
             if not include:
                 Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, discard")
                 continue
-            exclude_props = self._config.items[x.name].exclude
-            exclude_bool_type = self._config.items[x.name].exclude_type
+
             if exclude_props:
                 found_props=[]
                 for prop in exclude_props:
