@@ -297,7 +297,7 @@ class UiManager():
                 if include_bool_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
-                Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, discard")
+                Logger.debug(f"{x.name}: Discarding. {include_bool_type}({include_props})={include}")
                 continue
             exclude = False
             exclude_bool_type = self._config.items[x.name].exclude_type
@@ -315,7 +315,7 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Required {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}, stashing")
+                Logger.debug(f"{x.name}: Stashing. {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
