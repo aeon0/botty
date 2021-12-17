@@ -117,12 +117,25 @@ class Sorceress(IChar):
         else:
             eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
         if eld_pos_abs is not None:
-            cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_eldritch"])):
-                self._right_attack(cast_pos_abs, delay, 90)
-                self._left_attack(cast_pos_abs, delay, 90)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-            # Move to items
+        #move up
+            pos_m = self._screen.convert_abs_to_monitor((0, -175))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._cast_static()
+            #move down
+            pos_m = self._screen.convert_abs_to_monitor((0, 150))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(1.50)
+            self._right_attack((-100, -400), delay, 20)
+            self._cast_static()
+            #move down
+            pos_m = self._screen.convert_abs_to_monitor((0, 100))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._right_attack((-100, -300), delay, 20)
+            self._cast_static()
+            wait(5.0)
             if self.can_teleport():
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
@@ -140,8 +153,32 @@ class Sorceress(IChar):
         if shenk_pos_abs is not None:
             cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_shenk"])):
-                self._right_attack(cast_pos_abs, delay, 90)
-                self._left_attack(cast_pos_abs, delay, 90)
+                pos_m = self._screen.convert_abs_to_monitor((75, 150))
+                self.pre_move()
+                self.move(pos_m, force_move=True)
+                self._right_attack((-450, -175), delay, 10)
+                self._left_attack((-350, 130), delay, 30)
+                self._cast_static()
+                pos_m = self._screen.convert_abs_to_monitor((-75, -150))
+                self.pre_move()
+                self.move(pos_m, force_move=True)
+                self._right_attack((250, -230), delay, 30)
+                self._cast_static()
+                self._right_attack((0, 0), delay, 30)
+                pos_m = self._screen.convert_abs_to_monitor((75, 150))
+                self.pre_move()
+                self.move(pos_m, force_move=True)
+                self._right_attack((-450, -175), delay, 10)
+                self._cast_static()
+                self._left_attack((-450, -175), delay, 10)
+                wait(1.0)
+                pos_m = self._screen.convert_abs_to_monitor((200, 50))
+                self._right_attack((-350, 125), delay, 10)
+                self._cast_static()
+                self._left_attack((-350, -130), delay, 30)
+                wait(3.5)
+                self.pre_move()
+                self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
@@ -149,43 +186,103 @@ class Sorceress(IChar):
         return False
 
     def kill_council(self) -> bool:
-        delay = [0.2, 0.3]
+        delay = [0.1, 0.1]
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         # Go inside cast stuff in general direction
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
-        atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
-        if atk_pos_abs is None:
-            atk_pos_abs = [-300, -200]
-        cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
+        #node 1 middle inside
+        self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
+        atk_pos_abs = self._pather.find_abs_node_pos(302, self._screen.grab())
+        #attack 1
+        cast_pos_abs = np.array([-200, -100])
         self._right_attack(cast_pos_abs, delay, 80)
-        self._cast_static()
         self._left_attack(cast_pos_abs, delay, 80)
-        self._right_attack((0, 0), delay, 30)
-        self._left_attack(cast_pos_abs, delay, 80)
-        # move a bit back
+        wait(1.0)
+        self._right_attack((-350, -100), delay, 20)
+        wait(0.1)
+        #dodge right
+        pos_m = self._screen.convert_abs_to_monitor((575, 75))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(0.1)
+        #attack 2
+        self._right_attack((-350, -100), delay, 30)
+        self._left_attack((-350, -100), delay, 30)
+        wait(1.0)
+        self._right_attack((-350, -100), delay, 20)
+        wait(1.5)
+        #dodge down
+        pos_m = self._screen.convert_abs_to_monitor((-400, 150))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #attack 3
+        self._right_attack((-75, -200), delay, 30)
+        self._left_attack((-100, -200), delay, 30)
+        wait(1.0)
+        self._right_attack((-75, -200), delay, 20)
+        wait(1.5)
+        #dodge up
+        pos_m = self._screen.convert_abs_to_monitor((-100, -500))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #new node top left
+        self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
+        cast_pos_abs = np.array([50, 100])
+        wait(0.1)
+        #attack 4
+        self._right_attack(cast_pos_abs, delay, 60)
+        self._left_attack(cast_pos_abs, delay, 60)
+        wait(1.0)
+        self._right_attack(cast_pos_abs, delay, 60)
+        self._left_attack(cast_pos_abs, delay, 60)
+        wait(1.0)
+        # new node buttom stairs
+        self._pather.traverse_nodes([302], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([304], self, time_out=2.5, force_tp=True)
+        #Attack 5
+        cast_pos_abs = np.array([-250, -350])
+        self._right_attack(cast_pos_abs, delay, 60)
+        self._left_attack(cast_pos_abs, delay, 60)
+        wait(1.0)
+        self._right_attack((200, -200), delay, 30)
+        self._left_attack(cast_pos_abs, delay, 60)
+        wait(0.5)
+        #dodge right
         pos_m = self._screen.convert_abs_to_monitor((160, 30))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
-        if atk_pos_abs is None:
-            atk_pos_abs = [-200, -80]
-        self._left_attack(cast_pos_abs, delay, 60)
+        #attack 6
+        cast_pos_abs = np.array([-100, -100])
         self._right_attack(cast_pos_abs, delay, 60)
-        self._right_attack((0, 0), delay, 60)
-        # Move outside
-        # Move a bit back and another round
-        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
-        cast_pos_abs = np.array([-300, -100])
         self._left_attack(cast_pos_abs, delay, 60)
-        self._right_attack(cast_pos_abs, delay, 60)
-        self._cast_static()
-        self._right_attack((0, 0), delay, 30)
-        wait(0.4)
-        # move a bit back
-        pos_m = self._screen.convert_abs_to_monitor((100, -100))
+        wait(1.0)
+        self._right_attack((-100, -100), delay, 30)
+        self._left_attack(cast_pos_abs, delay, 60)
+        wait(1.0)
+        #relocate
+        pos_m = self._screen.convert_abs_to_monitor((-160, 30))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._right_attack((0, 0), delay, 80)
+        self._right_attack((200, -200), delay, 30)
+        self._left_attack((+50, -200), delay, 30)
+        wait(1.0)
+        #new node bottom left inside
+        self._pather.traverse_nodes([305], self, time_out=2.0, force_tp=True)
+        self._right_attack((50, -100), delay, 30)
+        #noorc Kill
+        pos_m = self._screen.convert_abs_to_monitor((50, -100))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(0.5)
+        #attack 7
+        self._right_attack((200, 0), delay, 30)
+        self._cast_static()
+        self._left_attack((+350, +150), delay, 30)
+        self._right_attack((250, 0), delay, 30)
+        self._cast_static()
+        self._left_attack((-200, +150), delay, 30)
+        self._right_attack((250, 0), delay, 30)
+        self._cast_static()
+        wait(3.0)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
