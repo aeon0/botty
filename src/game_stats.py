@@ -6,8 +6,6 @@ from messenger import Messenger
 from utils.misc import hms
 import inspect
 from beautifultable import BeautifulTable
-import pprint
-
 from version import __version__
 
 
