@@ -159,7 +159,7 @@ class Pather:
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
             # Diablo Chaos Sanctuary 600
-            600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121), }, #waypoint
+            600: {"DIABLO_1": (-127, -11)}, #waypoint , "DIABLO_0": (310, -121), 
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, #entrance to cs -> rebuild with new templates
             602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram -> rebuild with new templates
             # SEAL A VIZIER FIRST= Y    
@@ -486,21 +486,17 @@ if __name__ == "__main__":
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
     
     ### SEAL A1 ###
-    pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("dia_pentagram_a_layout_check", char)
-    pather.traverse_nodes_fixed("dia_a1_seal1", char)
-    pather.traverse_nodes([610], char) # calibrate pentagram
-    pather.traverse_nodes([611], char) # calibrate pentagram
-    pather.traverse_nodes([614], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_a1_seal1", char)
-    #pather.traverse_nodes_fixed("diablo_a1_safe_dist", char)
-    #pather.traverse_nodes_fixed("diablo_a1_seal2", char)
-    #pather.traverse_nodes_fixed("diablo_a1_end", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_pentagram_a_layout_check", char)
+    #pather.traverse_nodes_fixed("dia_a1_seal1", char)
+    #pather.traverse_nodes([610], char) # calibrate pentagram
+    #pather.traverse_nodes([611], char) # calibrate pentagram
+    #pather.traverse_nodes([614], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_a1_end_pentagram", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
         ### SEAL A2 ###
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
     #pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", char)
     #pather.traverse_nodes([610], char)
     #pather.traverse_nodes([611], char)
