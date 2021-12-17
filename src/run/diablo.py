@@ -156,6 +156,7 @@ class Diablo:
             self._char.kill_deseis()
             picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char)
+            #hi digga, dass kannst Du löschen hier!
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         else: #Then it has to be Seal B Layout U
             Logger.debug("B = SECOND LAYOUT (U)")
