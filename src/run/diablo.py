@@ -39,39 +39,59 @@ class Diablo:
         self._ui_manager.use_wp(4, 2) # use Halls of Pain Waypoint (3rd in A4)
         return Location.A4_DIABLO_WP
 
+    def _river_of_flames(self):
+        # Calibrate postion at wp to ensure success for all river of flames layouts
+        self._pather.traverse_nodes([600], self._char)
+        Logger.debug("Calibrated ROF WP")
+        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
+        # Looping in smaller teleport steps to make sure we find the entrance
+        found = False
+        templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
+        while not found:
+            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid
+            if not found:
+                self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
+        # Calibrate at entrance to Chaos Sanctuary
+        self._pather.traverse_nodes([601], self._char, threshold=0.8)
+        Logger.debug("Calibrated at Entrance of CS")
+
+        # Might be needed for calibration to clear mobs
+        # self._char.kill_cs_trash()
+        # Logger.info("Clear Trash at CS Entrance")
+        # picked_up_items = self._pickit.pick_up_items(self._char)
+
+    def _cs_pentagram(self):
+        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
+        Logger.info("Moving towards pentagram")
+        found = False
+        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+        while not found:
+            found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
+            if not found:
+                self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char)
+        self._pather.traverse_nodes([602], self._char, threshold=0.82)
+        Logger.info("Calibrated at pentagram")
+
+    def _seal_a(self):
+        # Seal A: Vizier (to the left)
+        # self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char)
+        # if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+        #     Logger.info("A = FIRST LAYOUT (Y) - upper seal pops")
+        # else:
+        #     Logger.info("A = SECOND LAYOUT (L) - first seal pops")
+
+        self._pather.traverse_nodes_fixed("diablo_a1_seal1", self._char)
+
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if do_pre_buff:
             self._char.pre_buff()
-        """ RIVER OF FLAME PART """
-        found = False
-        self._pather.traverse_nodes([600], self._char) # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
-        Logger.info("I calibrated at ROF WP")
-        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # WITHOUT LOOP TO SPEED UP
-        Logger.info("I head towards CS entrance & now switch to Template Looping to slow down & not to overshoot")
-        while not found:
-            found = self._template_finder.search_and_wait(["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"], threshold=0.8, time_out=0.1).valid
-            self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char) # THIS THING TYPICALLY OVERSHOOTS BY ONE TELEPORT.
-        #self._char.kill_cs_trash()
-        #Logger.info("Clear Trash at CS Entrance")
-        #picked_up_items = self._pickit.pick_up_items(self._char) #might be needed for hell difficulty not go get into FHR whilst calibrating. But the attack position is bad for hammers - everything in the wall :/
-        self._pather.traverse_nodes([601], self._char) #Calibrating Position exactly at Door to Chaos Sanctuary Entrance HERE, WE HAVE AN ISSUE OF THE STEP BEFORE WAS OVERSHOOTING. WE MIGHT NEED MORE TEMPLATES DEEPER INTO THE CS ENTRANCE
-        Logger.info("I calibrated at CS Entrance")
-        # CHAOS SANTUARY PART
-        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char) # WITHOUT LOOP TO SPEED UP
-        Logger.info("I head towards CS PENTRAGRAM & now switch to Template Looping to slow down & not to overshoot")
-        found = False
-        while not found:
-            found = self._template_finder.search_and_wait(["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"], threshold=0.8, time_out=0.1).valid # searching for pentagram tempaltes... same, like for 610
-            #found = self._template_finder.search_and_wait(["DIABLO_PENTX_0", "DIABLO_PENTX_1", "DIABLO_PENTX_2", "DIABLO_PENTX_3", "DIABLO_PENTX_4"], threshold=0.8, time_out=0.1).valid # searching for pentagram tempaltes... unique templates for this step of code
-            self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char) # we tele top right towards the pentagram
-        self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
-        Logger.info("I calibrated at PENTAGRAM")
-        # SEAL (A) VIZIER PART
-        # we tele to A
-        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we tele to B
+
+        self._river_of_flames()
+        self._cs_pentagram()
+
         # we check for layout of A (Y=1 or L=2) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
         Logger.info("Checking Layout at A")
-        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid: #Seal B First Layout S found"
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
             Logger.info("A = FIRST LAYOUT (Y) - upper seal pops")
             self._pather.traverse_nodes_fixed("diablo_a1_seal1", self._char)
             Logger.info("A1Y SAFE_DIST")
@@ -211,3 +231,23 @@ class Diablo:
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, picked_up_items)
+
+
+if __name__ == "__main__":
+    from screen import Screen
+    import keyboard
+    from game_stats import GameStats
+    import os
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui import UiManager
+    from bot import Bot
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    game_stats = GameStats()
+    bot = Bot(screen, game_stats, False)
+    # bot._diablo.battle(True)
+    # bot._diablo._traverse_river_of_flames()
+    # bot._diablo._cs_pentagram()
+    bot._diablo._seal_a()

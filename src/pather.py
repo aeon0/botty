@@ -158,10 +158,12 @@ class Pather:
             515: {"NIL2D_2": (66, -12), "NIL2D_0": (-141, 245), "NIL2D_1": (329, -167), "NIL2D_4": (219, 392), "NIL2D_3": (-773, 91)},
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
-            # Diablo Chaos Sanctuary 600
+           
+            # Diablo Chaos Sanctuary
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint  
-            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, #entrance to cs -> rebuild with new templates
-            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), }, #diablo attack position at pentagram -> rebuild with new templates "DIABLO_PENT_3": (-267, -145), "DIABLO_PENT_2": (-143, 277), 
+            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
+            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
+            
             # SEAL A VIZIER FIRST= Y    
             #610: {"DIABLO_A_SEALS_1": (-68, 60), "DIABLO_A_SEALS_0": (249, -105), "DIABLO_A_SEALS_2": (-296, 205), "DIABLO_A_SEALS_4": (373, 40), }, #travers to uuupper seal pop location "DIABLO_A_SEALS_3": (-87, 314), 
             #611: {"DIABLO_A_SEALS_11": (-217, -39), "DIABLO_A_SEALS_7": (204, -96), "DIABLO_A_SEALS_0": (-251, 124), "DIABLO_A_SEALS_4": (-127, 269), "DIABLO_A_SEALS_8": (336, 132), }, #upper Seal pop location
@@ -324,9 +326,16 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
-    def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = self._template_finder.search([*node], img, best_match=False, roi=self._config.ui_roi["cut_skill_bar"], use_grayscale=True)
+        template_match = self._template_finder.search(
+            [*node],
+            img,
+            best_match=False,
+            threshold=threshold,
+            roi=self._config.ui_roi["cut_skill_bar"],
+            use_grayscale=True
+        )
         if template_match.valid:
             # Get reference position of template in abs coordinates
             ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
@@ -344,7 +353,8 @@ class Pather:
         time_out: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
-        force_move: bool = False
+        force_move: bool = False,
+        threshold: float = 0.68
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
@@ -408,7 +418,7 @@ class Pather:
                     last_move = time.time()
 
                 # Find any template and calc node position from it
-                node_pos_abs = self.find_abs_node_pos(node_idx, img)
+                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < self._config.ui_pos["reached_node_dist"]:
@@ -433,7 +443,7 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.81)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
@@ -470,7 +480,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #xxdisplay_all_nodes(pather,"DIABLO_")
+    display_all_nodes(pather, "DIABLO_PENT")
 
     # # changing node pos and generating new code
     # code = ""
@@ -502,7 +512,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
     #pather.traverse_nodes_fixed("diablo_a2_safe_dist", char)
-    pather.traverse_nodes([620], char)
+    # pather.traverse_nodes([620], char)
     #pather.traverse_nodes([621], char)
     #pather.traverse_nodes([622], char)
     #pather.traverse_nodes([623], char)
