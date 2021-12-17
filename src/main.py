@@ -77,8 +77,6 @@ def run_bot(
         if config.general["custom_message_hook"]:
             messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
         os._exit(1)
-
-
 def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
