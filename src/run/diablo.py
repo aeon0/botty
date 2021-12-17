@@ -45,46 +45,57 @@ class Diablo:
         """ RIVER OF FLAME PART """
         found = False
         self._pather.traverse_nodes([600], self._char) # we use the template of WP to orient ourselves & bring is in the best postion to start our tele journey
+        Logger.info("I calibrated at ROF WP")
+        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # WITHOUT LOOP TO SPEED UP
+        Logger.info("I head towards CS entrance & now switch to Template Looping to slow down & not to overshoot")
         while not found:
             found = self._template_finder.search_and_wait(["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"], threshold=0.8, time_out=0.1).valid
-            self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # THIS THING TYPICALLY OVERSHOOTS BY ONE TELEPORT.
+            self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char) # THIS THING TYPICALLY OVERSHOOTS BY ONE TELEPORT.
         self._pather.traverse_nodes([601], self._char) #Calibrating Position exactly at Door to Chaos Sanctuary Entrance HERE, WE HAVE AN ISSUE OF THE STEP BEFORE WAS OVERSHOOTING. WE MIGHT NEED MORE TEMPLATES DEEPER INTO THE CS ENTRANCE
-        Logger.debug("I calibrated at CS entrance")
-        # CHAOS SANTUARY PART 
+        Logger.info("I calibrated at CS entrance")
+        # CHAOS SANTUARY PART
+        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char) # WITHOUT LOOP TO SPEED UP
+        Logger.info("I head towards CS PENTRAGRAM & now switch to Template Looping to slow down & not to overshoot")
         found = False
         while not found:
             found = self._template_finder.search_and_wait(["DIABLO_PENTX_0", "DIABLO_PENTX_1", "DIABLO_PENTX_2", "DIABLO_PENTX_3", "DIABLO_PENTX_4"], threshold=0.8, time_out=0.1).valid # searching for pentagram tempaltes...
-            self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) # we tele top right towards the pentagram
+            self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char) # we tele top right towards the pentagram
         self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        Logger.info("I calibrated at PENTAGRAM")
         # SEAL (A) VIZIER PART
         # we tele to A
-        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we tele to B
+        self._pather.traverse_nodes_fixed("dia_pentagram_a_layout_check", self._char) # we tele to B
         # we check for layout of A (Y=1 or L=2) L first seal pops boss, upper does not. Y upper seal pops boss, lower does not
-        Logger.debug("Checking Layout")
+        Logger.info("Checking Layout at A")
         if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid: #Seal B First Layout S found"
-            Logger.debug("A = FIRST LAYOUT (Y) - upper seal pops")
-            Logger.debug("go to seal")
-            self._pather.traverse_nodes_fixed("diablo_pentagram_a_seal_boss", self._char) # we tele to upper seal (not popping boss, to have a common template between both seals)
-            self._pather.traverse_nodes([610], self._char) #Calibrating AGAIN at upper Seal A FIRST Layout (Y) AFTER KILLING TRASH
+            Logger.info("A = FIRST LAYOUT (Y) - upper seal pops")
+            self._pather.traverse_nodes_fixed("dia_a1_seal1", self._char)
+            Logger.info("A1Y SAFE_DIST")
             self._char.kill_cs_trash()
-            self._char.select_by_template(["DIABLO_A_SEALS_1_CLOSE"], threshold=0.50, time_out=4) #threshold lowered
-            wait(1) # give me some time to click it
-            Logger.debug("pop to seal")
-            self._pather.traverse_nodes([613], self._char) #Calibrating at lower Seal A FIRST Layout (Y) -> we might have to remove the inactive seal from the 612 & 613 
-            self._char.select_by_template(["DIABLO_A_SEALS_7_CLOSE"], threshold=0.5, time_out=4) 
+            Logger.info("Clearing Trash suffciently far away from trash")
+            # loot
+            self._pather.traverse_nodes([610], self._char) # calibrate A1Y Seal1 Noboss
             self._char.kill_cs_trash()
-            wait(1) # give me some time to click it
-            Logger.debug("pop to seal")
-            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.debug("calibrating at attack position")
+            self._char.select_by_template(["DIA_A1Y_0"], threshold=0.50, time_out=5) #threshold lowered
+            wait(3)
+            Logger.info("A1Y Pop Fake Seal")
+            self._pather.traverse_nodes([610], self._char) # calibrate A1Y Seal1 Noboss
+            self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss
+            self._char.kill_cs_trash()
+            wait(3) #let the dust clear
+            self._char.select_by_template(["DIA_A1Y_8"], threshold=0.50, time_out=5) #threshold lowered
+            wait(3)
+            Logger.info("A1Y Pop Boss Seal")            
+            self._pather.traverse_nodes([614], self._char) # calibrate pentagram
+            Logger.info("A1Y Calibrate at SAFE DIST")
             self._char.kill_vizier()
             picked_up_items = self._pickit.pick_up_items(self._char)
-            self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.debug("calibrating at attack position")
+            self._pather.traverse_nodes([614], self._char) # calibrate pentagram
+            Logger.info("A1Y Calibrate at SAFE DIST")
             self._pather.traverse_nodes_fixed("diablo_a1_end_pentagram", self._char) #lets go home
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         else: #Then it has to be Seal A second Layout L
-            Logger.debug("A = SECOND LAYOUT (L) - first seal pops")            
+            Logger.info("A = SECOND LAYOUT (L) - first seal pops")            
             self._pather.traverse_nodes_fixed("diablo_pentagram_a2_seal", self._char) # we tele to upper seal (not popping boss, to have a common template between both seals)
             self._pather.traverse_nodes([620], self._char) #Calibrating at upper Seal A SECOND Layout (L)
             self._char.kill_cs_trash()
@@ -92,20 +103,20 @@ class Diablo:
             self._pather.traverse_nodes([620], self._char) #Calibrating AGAIN at upper Seal A SECOND Layout (L) AFTER KILLING TRASH
             self._char.select_by_template(["DIABLO_A2_CALIBRATION_5"], threshold=0.5, time_out=4) #threshold lowered
             wait(1) # give me some time to click it
-            Logger.debug("pop to seal")
+            Logger.info("pop seal boss")
             self._pather.traverse_nodes([621], self._char) #Calibrating at lower Seal A SECOND Layout (L)
             self._char.kill_cs_trash()
             self._pather.traverse_nodes([622], self._char) #Move to pop upper seal
             self._char.kill_cs_trash()
             self._char.select_by_template(["DIABLO_A2_VIZIER_MOUSEOVER"], threshold=0.5, time_out=4) 
             wait(1) # give me some time to click it
-            Logger.debug("pop to seal")
+            Logger.info("pop seal")
             self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.debug("calibrating at attack position")
+            Logger.info("calibrating at attack position to fight Vizier")
             self._char.kill_vizier()
             picked_up_items = self._pickit.pick_up_items(self._char)
             self._pather.traverse_nodes([614], self._char) #Calibrating at Vizier attack position -> we might need to remove the seals from the 614 orientation point
-            Logger.debug("calibrating at attack position")
+            Logger.info("calibrating at attack position to return home")
             self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char) #lets go home
             self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
         # we pop the seals and kill vizier
