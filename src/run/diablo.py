@@ -78,9 +78,7 @@ class Diablo:
             self._char.kill_cs_trash()
             self._picked_up_items = self._pickit.pick_up_items(self._char)
             Logger.info("Clear Trash A1Y Fake Seal from SAFE_DIST")
-            self._pather.traverse_nodes([610], self._char) # calibrate A1Y Seal1 Noboss - we fight bit away from the seal to keep the template-check later on clear
-            self._pather.traverse_nodes([611], self._char) # yes it looks stupid but going back between 610 and 611 ensures we are at the right place to pop the seal
-            self._pather.traverse_nodes([610], self._char) # here we go, lets pop the seal
+            self._pather.traverse_nodes([610, 611, 610], self._char) # calibrate A1Y Seal1 Noboss - we fight bit away from the seal to keep the template-check later on clear
             Logger.info("Calibrating after Loot")            
             self._char.select_by_template(["DIA_A1Y_0", "DIA_A1Y_0_MOUSEOVER"], threshold=0.50, time_out=5) #threshold lowered
             wait(1)
@@ -89,9 +87,7 @@ class Diablo:
             self._char.kill_cs_trash()
             Logger.info("Clear Trash A1Y Boss Seal")
             self._picked_up_items = self._pickit.pick_up_items(self._char)
-            self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss recalibrate after loot
-            self._pather.traverse_nodes([610], self._char) # go to A1Y Seal2 Boss recalibrate after loot
-            self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss recalibrate after loot
+            self._pather.traverse_nodes([611, 610, 611], self._char) # go to A1Y Seal2 Boss recalibrate after loot
             Logger.info("Calibrating after Loot")   
             self._char.select_by_template(["DIA_A1Y_8", "DIA_A1Y_8_MOUSEOVER"], threshold=0.50, time_out=5) #threshold lowered
             wait(1)
@@ -112,19 +108,22 @@ class Diablo:
             self._pather.traverse_nodes_fixed("diablo_a2_safe_dist", self._char) # we between the seals
             self._char.kill_cs_trash()
             Logger.info("Clear Trash A2L SAFE DIST")
-            self._pather.traverse_nodes([621], self._char)
+            self._pather.traverse_nodes([622, 621, 620], self._char) #traverse
             self._char.kill_cs_trash()
-            Logger.info("Clear Trash A2L FAKE Seal")
-            self._picked_up_items = self._pickit.pick_up_items(self._char)
-            self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3"], threshold=0.50, time_out=5) #threshold lowered            
-            wait(1)
+            wait(2) #let hammercloud clear up
+            self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], threshold=0.50, time_out=5) #threshold lowered            
+            wait(0.5)
+            self._pather.traverse_nodes([621], self._char) #traverse
+            self._char.select_by_template(["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], threshold=0.50, time_out=5) #failsafe 2nd try           
+            wait(0.5)
             Logger.info("A2L Pop Fake Seal")
-            #self._pather.traverse_nodes([622], self._char) #traverse
-            self._pather.traverse_nodes([623], self._char)
+            self._pather.traverse_nodes([622, 623], self._char) #traverse
+            self._char.kill_cs_trash() # sometimes there is a single caster below seal2 blocking viziers spawn.
+            wait(2) #let hammercloud clear up
             self._char.select_by_template(["DIA_A2L_0", "DIA_A2L_1"], threshold=0.50, time_out=5) #threshold lowered    
-            wait(1)
+            wait(0.5)
             Logger.info("A2L Pop Boss Seal")
-            self._pather.traverse_nodes([622], self._char) #go to safe dist
+            self._pather.traverse_nodes([622], self._char) #go to safe dist -> the idea is to make the merc move away from vizier spawn. if there is a stray monster at the spawn, vizier will only come if cleared and our attack sequence might miss.
             self._char.kill_vizier()
             Logger.info("Kill Vizier")
             self._picked_up_items = self._pickit.pick_up_items(self._char)
@@ -143,15 +142,15 @@ class Diablo:
             Logger.debug("B = FIRST LAYOUT (S)")
             self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) #pop De Seis Seal (B-S)
             Logger.debug("go to seal")
+            Logger.debug("Kill these Demon Trash")
+            self._char.kill_cs_trash()
+            Logger.debug("Loot their bloody corpses")
+            picked_up_items = self._pickit.pick_up_items(self._char) # after looting we are completely off-track, we need to calibrate again.
+            Logger.debug("Calibrating at Seal B SECPOND Layout S")
+            wait(1)
             self._char.select_by_template(["DIABLO_SEAL_B1_3"], threshold=0.5, time_out=4)
             Logger.debug("pop to seal")
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-            #Logger.debug("Kill these Demon Trash")
-            #self._char.kill_cs_trash()
-            #Logger.debug("Loot their bloody corpses")
-            #picked_up_items = self._pickit.pick_up_items(self._char) # after looting we are completely off-track, we need to calibrate again.
-            Logger.debug("Calibrating at Seal B SECPOND Layout S")
-            wait(1)
             self._pather.traverse_nodes([630], self._char)
             self._pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", self._char) # go to de seis
             self._char.kill_deseis()
