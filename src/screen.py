@@ -65,7 +65,7 @@ class Screen:
                 break
         if not found_offsets:
             if self._config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/error_d2r_window_now_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
+                cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
             Logger.error("Could not find D2R logo at hero selection or template for ingame, shutting down")
             Logger.error(f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)")
             raise RuntimeError("Could not determine window offset. Please make sure you have the D2R window " +
