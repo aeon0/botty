@@ -254,7 +254,7 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_end_game(self, failed: bool = False):
-        if self._config.general["info_screenshots"]:
+        if self._config.general["info_screenshots"] and failed:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
