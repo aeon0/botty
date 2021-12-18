@@ -4,6 +4,7 @@ import keyboard
 import time
 import os
 import random
+import cv2
 from typing import Union
 
 from utils.misc import wait
@@ -253,6 +254,8 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_end_game(self, failed: bool = False):
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
