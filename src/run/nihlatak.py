@@ -59,6 +59,7 @@ class Nihlatak:
         # Wait until templates in lvl 2 entrance are found
         if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False
+        wait(1.0) # wait to make sure the red writing is gone one we check for the eye
         @dataclass
         class EyeCheckData:
             template_name: list[str]
