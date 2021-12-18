@@ -116,20 +116,21 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_B1(self): # WORK IN PROGRESS
+    def _seal_B1(self): # DONE
         seal_layout = "B1S"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) #pop De Seis Seal (B-S)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) # to to seal
         self._char.kill_cs_trash()
-        self._picked_up_items = self._pickit.pick_up_items(self._char) # after looting we are completely off-track, we need to calibrate again.
-        # we should calibrate here
-        self._sealdance(["DIA_B1S_active"], ["DIABLO_SEAL_B1_3"], seal_layout, False)
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([630], self._char)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", self._char) # go to de seis
+        self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout, False)
+        self._pather.traverse_nodes([631, 632, 633], self._char)
         self._char.kill_deseis()
         self._picked_up_items = self._pickit.pick_up_items(self._char) # we should calibrate after looting
-        self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char)
-        self._pather.traverse_nodes([602], self._char) #we arrived there and are now calibrating at Pentagram
+        self._pather.traverse_nodes([633], self._char)
+        self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char) #lets go home
+        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_B2(self): # WORK IN PROGRESS
         seal_layout = "B2U"
