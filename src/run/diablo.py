@@ -74,14 +74,15 @@ class Diablo:
         Logger.info("Clear Trash A1Y Fake Seal from SAFE_DIST")
         self._pather.traverse_nodes([610, 611, 610], self._char) # calibrate A1Y Seal1 Noboss - we fight bit away from the seal to keep the template-check later on clear
         Logger.info("Calibrating after Loot")
-        found = False
-        templates = ["DIA_A1Y_5"]
-        while not found: # Looping to click the seal while the open seal is not found
-            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
-            if not found:
-            	self._char.select_by_template(["DIA_A1Y_0", "DIA_A1Y_0_MOUSEOVER"], threshold=0.50, time_out=5) #low threshold seal pop nonboss seal both for mouseover and non mouseover graphic
-                wait(1)
-                Logger.info("A1Y Pop Fake Seal")
+        #found = False
+        #templates = ["DIA_A1Y_5"]
+        #while not found: # Looping to click the seal while the open seal is not found
+        #    found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
+        #    if not found:
+            	# might add a small displacement teleport here to change the perspective on the seal
+        self._char.select_by_template(["DIA_A1Y_0", "DIA_A1Y_0_MOUSEOVER"], threshold=0.50, time_out=5) #low threshold seal pop nonboss seal both for mouseover and non mouseover graphic
+        wait(1)
+        Logger.info("A1Y Pop Fake Seal")
         self._pather.traverse_nodes([611], self._char) # go to A1Y Seal2 Boss
         self._char.kill_cs_trash()
         Logger.info("Clear Trash A1Y Boss Seal")
@@ -230,7 +231,8 @@ class Diablo:
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
-        return (Location.A4_DIABLO_END, picked_up_items)
+        return True
+        return (Location.A4_DIABLO_END, picked_up_items)#there is an error  ValueError: State 'diablo' is not a registered state.
 
 """
 if __name__ == "__main__":
