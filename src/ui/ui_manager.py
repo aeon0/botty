@@ -295,7 +295,6 @@ class UiManager():
                         continue
                     if template_match.valid:
                         if include_bool_type == "AND":
-                            Logger.debug(f"found {prop}")
                             found_props.append(True)
                         else:
                             include = True
