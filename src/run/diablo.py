@@ -142,8 +142,8 @@ class Diablo:
         self._pather.traverse_nodes([630], self._char) #back to seal      
         self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout, False) #pop
         self._pather.traverse_nodes([631, 632], self._char) # , 633 is somehow BUGGED
-        #wait(0.5) #let them come
-        #self._pather.traverse_nodes([633], self._char) # , 633 is somehow BUGGED
+        self._pather.traverse_nodes([633], self._char) # , 633 is somehow BUGGED - sends us too far to the left in the lava
+        wait(0.5) #let them come
         self._char.kill_deseis() # we let him come to us
         Logger.info("Kill De Seis")
         self._picked_up_items = self._pickit.pick_up_items(self._char)
