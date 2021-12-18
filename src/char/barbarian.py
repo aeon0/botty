@@ -11,6 +11,7 @@ import time
 from pather import Pather, Location
 import cv2
 
+
 class Barbarian(IChar):
     def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Barbarian")
@@ -189,7 +190,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui_manager import UiManager
+    from ui.ui_manager import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
