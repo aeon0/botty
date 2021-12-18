@@ -290,8 +290,9 @@ class UiManager():
                     try:
                         template_match = self._template_finder.search(prop, img, threshold=0.95)
                     except:
-                        Logger.error(f"{x.name}: can't find property {prop}")
-                        template_match.valid = False
+                        Logger.error(f"{x.name}: can't find template for required {prop}, stashing just in case")
+                        filtered_list.append(x)
+                        continue
                     if template_match.valid:
                         if include_bool_type == "AND":
                             found_props.append(True)
@@ -311,8 +312,9 @@ class UiManager():
                     try:
                         template_match = self._template_finder.search(prop, img, threshold=0.95)
                     except:
-                        Logger.error(f"{x.name}: can't find property {prop}")
-                        template_match.valid = False
+                        Logger.error(f"{x.name}: can't find template for exclusion {prop}, stashing just in case")
+                        filtered_list.append(x)
+                        continue
                     if template_match.valid:
                         if exclude_bool_type == "AND":
                             found_props.append(True)
