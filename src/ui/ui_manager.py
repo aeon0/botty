@@ -295,10 +295,13 @@ class UiManager():
                         continue
                     if template_match.valid:
                         if include_bool_type == "AND":
+                            Logger.debug(f"found {prop}")
                             found_props.append(True)
                         else:
                             include = True
                             break
+                    else:
+                        found_props.append(False)
                 if include_bool_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
@@ -321,6 +324,8 @@ class UiManager():
                         else:
                             exclude = True
                             break
+                    else:
+                        found_props.append(False)
                 if exclude_bool_type == "AND" and len(exclude_props) > 0 and all(found_props):
                     exclude = True
                     break
