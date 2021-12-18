@@ -11,10 +11,12 @@ from utils.misc import wait
 from dataclasses import dataclass
 from utils.custom_mouse import mouse #for sealdance
 from screen import Screen #for sealdance
+import keyboard
 
 class Diablo:
     def __init__(
         self,
+        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -23,6 +25,7 @@ class Diablo:
         pickit: PickIt
     ):
         self._config = Config()
+        self._screen = screen
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
@@ -68,14 +71,25 @@ class Diablo:
 
     def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found): # we could add a variable for moveoment_found_close_by, if TRUE, we could call kill_cs_trash
         while not found: # Looping to click the seal while the open seal is not found
+            #keyboard.send(self._skill_hotkeys["redemption"]) # cast redemption to clear template from corpses.
+            pos_m = self._screen.convert_abs_to_monitor((0, 0)) #move the mouse away before checking the template
+            mouse.move(*pos_m, randomize=[90, 160])
+            wait(0.2)
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.8, time_out=0.1, take_ss=False).valid 
             Logger.info(seal_layout + ": check if open")
-            if not found: # do a little hop & try to click the seal
+            if not found: 
+                # do a little hop & try to click the seal
                 #x_m, y_m = self._screen.convert_abs_to_monitor(self._pos_abs)
-                #self._char.move((x_m, y_m), force_move=True) # this piece should be a random movement along X-axis - should we add someing like rand(0.2,-0.2) before x_m? We dont want to jump too far
-                self._char.select_by_template(seal_closedtemplates, threshold=0.50, time_out=5)
-                wait(1)
-                Logger.info(seal_layout + ": is open")
+                #self._char.move((x_m -50, y_m -50), force_move=True) # this piece should be a random movement along X-axis - should we add someing like rand(0.2,-0.2) before x_m? We dont want to jump too far
+                #i = 0
+                #while True:
+                #direction = 1 if i % 2 == 0 else -1
+                #x_m, y_m = self._screen.convert_abs_to_monitor([40 * direction, 40 * direction])
+                #i += 1
+                self._char.select_by_template(seal_closedtemplates, threshold=0.50, time_out=5) #we need to add a function that moves the mouse away from the seal during check
+                wait(0.5)
+                Logger.info(seal_layout + ": trying to open")
+            Logger.info(seal_layout + ": is open")
 
     def _seal_A1(self): # WORK IN PROGRESS - TOO MUCH JUMPING BETWEEN SEALS
         seal_layout = "A1Y"
@@ -116,18 +130,25 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_B1(self): # DONE
+    def _seal_B1(self): # ALMOST DONE - WORKS INCENSISTEND - POS 633 sometimes sends us to the lava on the left until pather gets stuck and exits
         seal_layout = "B1S"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) # to to seal
-        self._char.kill_cs_trash()
+        self._char.kill_cs_trash() # at seal
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([630], self._char)
-        self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout, False)
-        self._pather.traverse_nodes([631, 632, 633], self._char)
-        self._char.kill_deseis()
-        self._picked_up_items = self._pickit.pick_up_items(self._char) # we should calibrate after looting
-        self._pather.traverse_nodes([633], self._char)
+        self._pather.traverse_nodes([632], self._char) #clear other side, too
+        self._char.kill_cs_trash() # across gap - if they get fana on hell we are doomed
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([630], self._char) #back to seal      
+        self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout, False) #pop
+        self._pather.traverse_nodes([631, 632], self._char) # , 633 is somehow BUGGED
+        #wait(0.5) #let them come
+        #self._pather.traverse_nodes([633], self._char) # , 633 is somehow BUGGED
+        self._char.kill_deseis() # we let him come to us
+        Logger.info("Kill De Seis")
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([632], self._char) # calibrate after looting
+        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char) #lets go home
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
@@ -149,21 +170,29 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_C1(self): # ALMOST DONE - WORKS CONSISTENTLY WELL - REQUIRES OPEN SEAL SCREENSHOTS
+    def _seal_C1(self): # ALMOST DONE - WORKS CONSISTENTLY WELL - RENAME SCREENSHOTS, POS 651 sometimes sends us to the lava on the right until pather gets stuck and exits
         seal_layout = "C1G"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_c1_seal", self._char)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_c1_seal", self._char) # safe_dist
+        self._char.kill_cs_trash()
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([650], self._char) # pop seal1 boss
-        self._char.select_by_template(["DIABLO_C1_CALIBRATE_2_CLOSED"], threshold=0.5, time_out=4)
-        wait(2)
-        self._pather.traverse_nodes([652], self._char) # fight 651
+        self._sealdance(["DIA_C1G_FAKE_ACTIVE"], ["DIABLO_C1_CALIBRATE_2_CLOSED", "DIA_C1G_FAKE_MOUSEOVER"], seal_layout + "1", False)
+        #self._char.select_by_template(["DIABLO_C1_CALIBRATE_2_CLOSED"], threshold=0.5, time_out=4)
+        #wait(0.5)
+        self._pather.traverse_nodes([651], self._char) # fight 651
         self._char.kill_infector()
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        Logger.info("Kill Infector")
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([652], self._char) # pop seal 651, 
-        self._char.select_by_template(["DIABLO_C1_CALIBRATE_8"], threshold=0.5, time_out=4)
-        wait(2)
+        self._sealdance(["DIA_C1G_BOSS_ACTIVE"], ["DIABLO_C1_CALIBRATE_8", "DIA_C1G_BOSS_MOUSEOVER"], seal_layout + "2", False)
+        #self._char.select_by_template(["DIABLO_C1_CALIBRATE_8"], threshold=0.5, time_out=4)
+        #wait(0.5)
+        self._pather.traverse_nodes([652], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("diablo_c1_end_pentagram", self._char)
         self._pather.traverse_nodes([602], self._char) # calibrate pentagram
+        Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_C2(self): # WORK IN PROGRESS
         seal_layout = "C2F"
@@ -176,7 +205,7 @@ class Diablo:
         self._char.select_by_template(["DIABLO_C2_SEAL_BOSS"], threshold=0.5, time_out=4)
         wait(2)
         self._char.kill_infector()
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        self.picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([661], self._char) # fight
         # we tele back to pentagram
         self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char)
@@ -187,13 +216,8 @@ class Diablo:
             self._char.pre_buff()
         self._river_of_flames()
         self._cs_pentagram()
-        # Seal A: Vizier (to the left)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
-        Logger.info("Checking Layout at A")
-        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-            self._seal_A1()
-        else:
-            self._seal_A2()
+        # we should randomize A - B - C each run, just because we can
+
         # Seal B: De Seis (to the top)
         self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
         Logger.debug("Checking Layout at B")
@@ -201,6 +225,15 @@ class Diablo:
             self._seal_B1()
         else:
             self._seal_B2()
+
+        # Seal A: Vizier (to the left)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
+        Logger.info("Checking Layout at A")
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+            self._seal_A1()
+        else:
+            self._seal_A2()
+
         # Seal C: Infector (to the right)    
         self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
