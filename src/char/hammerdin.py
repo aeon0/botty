@@ -104,6 +104,9 @@ class Hammerdin(IChar):
         return True
 
     def kill_council(self) -> bool:
+        if not self._do_pre_move:
+            keyboard.send(self._skill_hotkeys["concentration"])
+            wait(0.05, 0.15)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit

@@ -56,6 +56,7 @@ class PickIt:
 
             # Check if we need to pick up certain pots more pots
             need_pots = self._belt_manager.get_pot_needs()
+            Logger.debug(f"Will pickup: {need_pots}")
             if need_pots["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if need_pots["health"] <= 0:
