@@ -168,7 +168,7 @@ class Config:
         item_props = ItemProps()
         # split string by commas NOT contained within parentheses
         item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
-        trim_strs=["AND", "OR", "(", ")", " "]
+        trim_strs=["AND(", "OR(", "(", ")", " "]
         clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
         item_props.pickit_type = int(clean_string[0])
         try:
