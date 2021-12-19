@@ -489,7 +489,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_C2F")
+    #display_all_nodes(pather, "DIA_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -538,12 +538,12 @@ if __name__ == "__main__":
     #pather.traverse_nodes([633], char)
     #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
         ### SEAL B2U ###
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
-    #pather.traverse_nodes([630], char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
+    pather.traverse_nodes_fixed("diablo_pentagram_b2_seal", char)
+    #pather.traverse_nodes_fixed("diablo_pentagramx_b2_safe_dist", char)
+    #pather.traverse_nodes([640], char)
+    #pather.traverse_nodes_fixed("diablo_b1_safe_dist", char)
         ### SEAL C1G ###
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", char)
