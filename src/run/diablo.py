@@ -69,6 +69,32 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char, threshold=0.82)
         Logger.info("Calibrated at PENTAGRAM")
 
+# === LIST OF ISSUES ===
+# SEALDANCE: 
+#   - clicks whilst moving the mouse away when checking for ACTIVE seal
+#   - add a failsave that after 2 failed tries to activate seal a kill_trashmobs sequence (for redemption) is launched
+#   - hop away after you click on the seal to make room for the template check (or make template smaller)
+#   - seals should ideally be activated from the left
+#   - seal can activate from a slight distance, if we stand ON the seal after activating, the template check fails
+
+# RIVER OF FLAME: 
+#   - urdars sometimes stun, therefore 1 tele is skipped, and we get stuck in an upwards tele loop, never finding CS entrance
+
+# VIZIER A1L: 
+#   - stuck on upper seal check (seems a sealdance issue)
+#   - vizier sometimes spawns below seal and does not move up to safe_dist for dying there in our hammerwave. Adapted attack sequence to move towards this place
+
+# DE SEIS B2F:
+#   - too far at the wall during de seis attack sequence (hammering the wall)
+#   - relate to above one: safe_dist not found when attack sequence too far left
+
+# INFECTOR C2F:
+#   - infector fights: good balance between jumps (reset merc) & hammers (clear crowd)
+#   - add trash loot?
+#   - fix postion 661 to get rid of _hopleft & _hopright static paths
+#   - sometimes does not _hopright after sealclick to move to safe_dist (seems sealdance issue)
+
+
     def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found): # we could add a variable for moveoment_found_close_by, if TRUE, we could call kill_cs_trash
         #KEY LEARNING: MAKE SURE THAT YOU APPROACH ALL SEALS FROM THE LEFT WHEN TRYING TO OPEN THEM!
         while not found: # Looping to click the seal while the open seal is not found
@@ -223,13 +249,6 @@ class Diablo:
             self._char.pre_buff()
         self._river_of_flames()
         self._cs_pentagram()
-        # Seal C: Infector (to the right)    
-        self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
-        Logger.debug("Checking Layout at C")
-        if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-            self._seal_C1() #stable
-        else:
-            self._seal_C2() # stable, but sometimes ranged mobs at top seal block the template check for open seal, botty then gets stuck
         # Seal A: Vizier (to the left)
         self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
         Logger.info("Checking Layout at A")
@@ -243,7 +262,14 @@ class Diablo:
         if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
             self._seal_B1() #seal works stable, except de seis kill
         else:
-            self._seal_B2() 
+            self._seal_B2()
+        # Seal C: Infector (to the right)    
+        self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
+        Logger.debug("Checking Layout at C")
+        if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+            self._seal_C1() #stable
+        else:
+            self._seal_C2() # stable, but sometimes ranged mobs at top seal block the template check for open seal, botty then gets stuck 
         # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(9)
