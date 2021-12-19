@@ -290,7 +290,7 @@ class UiManager():
                     try:
                         template_match = self._template_finder.search(prop, img, threshold=0.95)
                     except:
-                        Logger.error(f"{x.name}: can't find template file for required {prop}, mark as true just in case")
+                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
                         found_props.append(x)
                         continue
                     if template_match.valid:
@@ -312,9 +312,9 @@ class UiManager():
                 found_props=[]
                 for prop in exclude_props:
                     try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.95)
+                        template_match = self._template_finder.search(prop, img, threshold=0.97)
                     except:
-                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, mark as false just in case")
+                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
                         continue
                     if template_match.valid:
                         if exclude_logic_type == "AND":
@@ -328,7 +328,7 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
