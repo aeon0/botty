@@ -310,7 +310,6 @@ class Bot:
     def on_run_shenk(self):
         res = False
         self._do_runs["run_shenk"] = False
-        self._game_stats.update_location("Shenk")
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
             res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed, self._game_stats)
