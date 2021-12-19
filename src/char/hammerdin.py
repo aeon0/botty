@@ -168,9 +168,9 @@ class Hammerdin(IChar):
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_hammers(self._char_config["atk_len_diablo_vizier"] * 0.4)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo_vizier"] * 0.3)
+        self._move_and_attack((60, 160), self._char_config["atk_len_diablo_vizier"] * 0.3)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._move_and_attack((60, 160), self._char_config["atk_len_diablo_vizier"] * 0.4)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption") 
         return True
@@ -193,9 +193,9 @@ class Hammerdin(IChar):
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, 30), self._char_config["atk_len_diablo_infector"] * 0.3)
+        self._move_and_attack((60, -30), self._char_config["atk_len_diablo_infector"] * 0.3)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, 30), self._char_config["atk_len_diablo_infector"] * 0.4)
+        self._move_and_attack((60, -30), self._char_config["atk_len_diablo_infector"] * 0.4)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption") 
         return True
