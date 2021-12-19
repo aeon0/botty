@@ -282,7 +282,7 @@ class UiManager():
                 filtered_list.append(x)
                 continue
             include = True
-            include_bool_type = self._config.items[x.name].include_type
+            include_logic_type = self._config.items[x.name].include_type
             if include_props:
                 include = False
                 found_props=[]
@@ -294,20 +294,20 @@ class UiManager():
                         found_props.append(x)
                         continue
                     if template_match.valid:
-                        if include_bool_type == "AND":
+                        if include_logic_type == "AND":
                             found_props.append(True)
                         else:
                             include = True
                             break
                     else:
                         found_props.append(False)
-                if include_bool_type == "AND" and len(found_props) > 0 and all(found_props):
+                if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
-                Logger.debug(f"{x.name}: Discarding. Required {include_bool_type}({include_props})={include}")
+                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
                 continue
             exclude = False
-            exclude_bool_type = self._config.items[x.name].exclude_type
+            exclude_logic_type = self._config.items[x.name].exclude_type
             if exclude_props:
                 found_props=[]
                 for prop in exclude_props:
@@ -317,18 +317,18 @@ class UiManager():
                         Logger.error(f"{x.name}: can't find template file for exclusion {prop}, mark as false just in case")
                         continue
                     if template_match.valid:
-                        if exclude_bool_type == "AND":
+                        if exclude_logic_type == "AND":
                             found_props.append(True)
                         else:
                             exclude = True
                             break
                     else:
                         found_props.append(False)
-                if exclude_bool_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. {include_bool_type}({include_props})={include}, exclude {exclude_bool_type}({exclude_props})={exclude}")
+                Logger.debug(f"{x.name}: Stashing. {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
