@@ -252,7 +252,7 @@ class Sorceress(IChar):
         trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_infector_attack"][0])
         if trash_pos_abs is not None:
             cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_diablo_infector"])):
+            for _ in range(int(self._char_config["atk_len_diablo_infector"] * 0.5)):
                 self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
