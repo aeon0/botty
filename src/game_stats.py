@@ -148,6 +148,7 @@ class GameStats:
             totals["chickens"] += stats["chickens"]
             totals["deaths"] += stats["deaths"]
             totals["merc_deaths"] += stats["merc_deaths"]
+            totals["failed_runs"] += stats["failed_runs"]
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
         table.rows.append(["Total", totals["items"], totals["chickens"], totals["deaths"], totals["merc_deaths"], totals["failed_runs"]])
         table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
