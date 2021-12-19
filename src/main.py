@@ -12,7 +12,6 @@ from version import __version__
 from utils.graphic_debugger import run_graphic_debugger
 from utils.auto_settings import adjust_settings
 from utils.misc import kill_thread
-
 from config import Config
 from screen import Screen
 from logger import Logger

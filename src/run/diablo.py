@@ -70,26 +70,29 @@ class Diablo:
         Logger.info("Calibrated at PENTAGRAM")
 
     def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found): # we could add a variable for moveoment_found_close_by, if TRUE, we could call kill_cs_trash
+        #KEY LEARNING: MAKE SURE THAT YOU APPROACH ALL SEALS FROM THE LEFT WHEN TRYING TO OPEN THEM!
         while not found: # Looping to click the seal while the open seal is not found
             #keyboard.send(self._skill_hotkeys["redemption"]) # cast redemption to clear template from corpses.
             pos_m = self._screen.convert_abs_to_monitor((0, 0)) #move the mouse away before checking the template
             mouse.move(*pos_m, randomize=[90, 160])
             wait(0.2)
+            #self._seal_redemption()
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.8, time_out=0.1, take_ss=False).valid 
             Logger.info(seal_layout + ": check if open")
             if not found: 
                 # do a little hop & try to click the seal
-                #x_m, y_m = self._screen.convert_abs_to_monitor(self._pos_abs)
-                #self._char.move((x_m -50, y_m -50), force_move=True) # this piece should be a random movement along X-axis - should we add someing like rand(0.2,-0.2) before x_m? We dont want to jump too far
-                #i = 0
-                #while True:
-                #direction = 1 if i % 2 == 0 else -1
-                #x_m, y_m = self._screen.convert_abs_to_monitor([40 * direction, 40 * direction])
-                #i += 1
-                self._char.select_by_template(seal_closedtemplates, threshold=0.50, time_out=5) #we need to add a function that moves the mouse away from the seal during check
+                """x_m, y_m = self._screen.convert_abs_to_monitor(self._pos_abs)
+                self._char.move((x_m -50, y_m -50), force_move=True) # this piece should be a random movement along X-axis - should we add someing like rand(0.2,-0.2) before x_m? We dont want to jump too far
+                i = 0
+                while True:
+                direction = 1 if i % 2 == 0 else -1
+                x_m, y_m = self._screen.convert_abs_to_monitor([40 * direction, 40 * direction])
+                i += 1
+                """
+                self._char.select_by_template(seal_closedtemplates, threshold=0.50, time_out=5)
                 wait(0.5)
                 Logger.info(seal_layout + ": trying to open")
-            Logger.info(seal_layout + ": is open")
+            Logger.info(seal_layout + ": is open") # this message is also sent if the seal is closed and the sealdance starts again - however should only be sent if the seal is really open.
 
     def _seal_A1(self): # WORK IN PROGRESS - TOO MUCH JUMPING BETWEEN SEALS
         seal_layout = "A1Y"
@@ -130,7 +133,7 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_B1(self): # ALMOST DONE - WORKS INCENSISTEND - POS 633 sometimes sends us to the lava on the left until pather gets stuck and exits
+    def _seal_B1(self): # ALMOST DONE - SEAL WORKS - DE SEIS KILL IS INCONSISTEND (DUE TO DIFFERENT SPAWNS & HIM KITING)
         seal_layout = "B1S"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) # to to seal
@@ -141,10 +144,9 @@ class Diablo:
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([630], self._char) #back to seal      
         self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout, False) #pop
-        self._pather.traverse_nodes([631, 632], self._char) # , 633 is somehow BUGGED
-        self._pather.traverse_nodes([633], self._char) # , 633 is somehow BUGGED - sends us too far to the left in the lava
-        wait(0.5) #let them come
-        self._char.kill_deseis() # we let him come to us
+        self._pather.traverse_nodes([630], self._char) #633 is bugged
+        self._pather.traverse_nodes_fixed("diablo_b1_safe_dist", self._char)
+        self._char.kill_deseis()
         Logger.info("Kill De Seis")
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([632], self._char) # calibrate after looting
@@ -197,52 +199,53 @@ class Diablo:
     def _seal_C2(self): # WORK IN PROGRESS
         seal_layout = "C2F"
         Logger.info("Seal Layout: " + seal_layout)
-        # we pop the seals and kill infector (F=1 or G=2) F first seal pops boss, upper does not. G lower seal pops boss, upper does not (can moat trick infector here)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_c2_seal", self._char)
-        self._char.select_by_template(["DIABLO_C2_SEAL_NOBOSS"], threshold=0.5, time_out=4)
-        wait(2)
-        self._pather.traverse_nodes([660], self._char) # fight
-        self._char.select_by_template(["DIABLO_C2_SEAL_BOSS"], threshold=0.5, time_out=4)
-        wait(2)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_c2_seal", self._char) # moving close to upper seal
+        self._pather.traverse_nodes([660], self._char) # position between seals
+        self._char.kill_cs_trash()
+        self._sealdance(["DIA_C2F_FAKE_ACTIVE"], ["DIA_C2F_FAKE_MOUSEOVER", "DIA_C2F_FAKE_CLOSED"], seal_layout + "-Seal1", False)
+        self._pather.traverse_nodes([660], self._char) # transition to boss seal
+        self._pather.traverse_nodes_fixed("diablo_c2f_hopleft", self._char) # moving to lower seal - dirty solution with static path, as the 661 does not work well
+        self._char.kill_cs_trash()
+        #self._pather.traverse_nodes([661], self._char) # transition to boss seal # we sometimes get stuck here, might need more templates
+        self._sealdance(["DIA_C2F_BOSS_ACTIVE"], ["DIA_C2F_BOSS_MOUSEOVER", "DIA_C2F_BOSS_CLOSED"], seal_layout + "-Seal1", False)
+        self._pather.traverse_nodes_fixed("diablo_c2f_hopright", self._char) # move to fight position - dirty solution with static path, as the 661 does not work well
+        Logger.info("Kill Infector") 
         self._char.kill_infector()
         self.picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([661], self._char) # fight
-        # we tele back to pentagram
-        self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char)
-        self._pather.traverse_nodes([602], self._char) # calibrate pentagram
+        self._pather.traverse_nodes([660], self._char) # transition to boss seal
+        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
+        self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char) #lets go home
+        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        Logger.info("Calibrated at PENTAGRAM")
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]: # WORK IN PROGRESS - DOES NOT EXIT GAME AFTER DIABLO KILL
+    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if do_pre_buff:
             self._char.pre_buff()
         self._river_of_flames()
         self._cs_pentagram()
-        # we should randomize A - B - C each run, just because we can
-
-        # Seal B: De Seis (to the top)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
-        Logger.debug("Checking Layout at B")
-        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
-            self._seal_B1()
-        else:
-            self._seal_B2()
-
-        # Seal A: Vizier (to the left)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
-        Logger.info("Checking Layout at A")
-        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-            self._seal_A1()
-        else:
-            self._seal_A2()
-
         # Seal C: Infector (to the right)    
         self._pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-            self._seal_C1()
+            self._seal_C1() #stable
         else:
-            self._seal_C2()
+            self._seal_C2() # stable, but sometimes ranged mobs at top seal block the template check for open seal, botty then gets stuck
+        # Seal A: Vizier (to the left)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
+        Logger.info("Checking Layout at A")
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+            self._seal_A1() 
+        else:
+            self._seal_A2() # stable, but sometimes vizier spawns below the boss seal and cannot be killed (he does not come to the fighting spot).
+        # Seal B: De Seis (to the top)
+        self._pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
+        Logger.debug("Checking Layout at B")
+        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
+            self._seal_B1() #seal works stable, except de seis kill
+        else:
+            self._seal_B2() 
         # Diablo
-        Logger.debug("Waiting for Diablo to spawn")
+        Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(9)
         self._char.kill_diablo() 
         wait(0.2, 0.3)
