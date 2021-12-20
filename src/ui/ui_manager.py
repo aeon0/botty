@@ -274,7 +274,7 @@ class UiManager():
         original_list = item_finder.search(img)
         filtered_list = []
         for x in original_list:
-            if "potion" in x.name: continue
+            if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
@@ -291,8 +291,7 @@ class UiManager():
                         template_match = self._template_finder.search(prop, img, threshold=0.95)
                     except:
                         Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                        found_props.append(x)
-                        continue
+                        template_match = lambda: None; template_match.valid = True
                     if template_match.valid:
                         if include_logic_type == "AND":
                             found_props.append(True)
@@ -315,7 +314,7 @@ class UiManager():
                         template_match = self._template_finder.search(prop, img, threshold=0.97)
                     except:
                         Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
-                        continue
+                        template_match = lambda: None; template_match.valid = False
                     if template_match.valid:
                         if exclude_logic_type == "AND":
                             found_props.append(True)

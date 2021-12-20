@@ -3,6 +3,7 @@ import numpy as np
 import os
 import re
 from dataclasses import dataclass
+from logger import Logger
 
 @dataclass
 class ItemProps:
@@ -174,11 +175,17 @@ class Config:
         try:
             item_props.include = clean_string[1].split(',') if clean_string[1] else None
             item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
-        except: pass
+        except IndexError as error:
+            pass
+        except Exception as exception:
+            Logger.error(exception, False)
         try:
             item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
             item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
-        except: pass
+        except IndexError as error:
+            pass
+        except Exception as exception:
+            Logger.error(exception, False)
         return item_props
 
 if __name__ == "__main__":
