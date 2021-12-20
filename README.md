@@ -48,19 +48,20 @@ run_pindle=1
 run_shenk=0
 ```
 
-| [general]            | Descriptions              |
-| -------------------- | --------------------------|
-| name                 | Name used in terminal and discord messages |
-| monitor              | Select on which monitor D2R is running in case multiple are available |
-| custom_message_hook  | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
-| logger_lvl           | Can be any of [info, debug] and determines how much output you see on the command line |
-| max_game_length_s    | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet |
-| randomize_runs       | 0: the order will be as seen in the params.ini. 1: the order will be random |
-| difficulty           | Set to `normal` `nightmare` or `hell` for game difficulty |
-| discord_status_count | Number of games between discord status messges being sent. Leave empty for no status reports.
-| info_screenshots     | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
-| loot_screenshots     | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
-| saved_games_folder   | Optional folder path of Diablo 2 : Ressurrected saved games that will be used to overwrite when running the "auto settings" |
+| [general]                | Descriptions              |
+| --------------------     | --------------------------|
+| name                     | Name used in terminal and discord messages |
+| monitor                  | Select on which monitor D2R is running in case multiple are available |
+| custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
+| logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line |
+| max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
+| randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
+| difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
+| discord_status_count     | Number of games between discord status messges being sent. Leave empty for no status reports.
+| discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
+| info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
+| loot_screenshots         | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
+| saved_games_folder       | Optional folder path of Diablo 2 : Ressurrected saved games that will be used to overwrite when running the "auto settings" |
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
