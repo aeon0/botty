@@ -220,6 +220,8 @@ class Sorceress(IChar):
                 self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
+        #self._picked_up_items = self._pickit.pick_up_items(self._char)
+        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
         return True
     
     def kill_vizier(self) -> bool: # we could also add seal_layout to differentiate attack patterns.
@@ -233,6 +235,8 @@ class Sorceress(IChar):
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
             self._pather.traverse_nodes_fixed("diablo_vizier_fromattack", self)
+        #self._picked_up_items = self._pickit.pick_up_items(self._char)
+        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
         return True
         
 
@@ -245,6 +249,8 @@ class Sorceress(IChar):
                 self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
+        #self._picked_up_items = self._pickit.pick_up_items(self._char)
+        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
         return True
 
     def kill_infector(self) -> bool:
@@ -256,6 +262,8 @@ class Sorceress(IChar):
                 self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
+        #self._picked_up_items = self._pickit.pick_up_items(self._char)
+        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
         return True
 
     def kill_diablo(self) -> bool:
@@ -267,6 +275,8 @@ class Sorceress(IChar):
                 self._right_attack(cast_pos_abs, delay, 11)
                 self._left_attack(cast_pos_abs, delay, 11)
             wait(self._cast_duration, self._cast_duration + 0.2)
+        #self._picked_up_items = self._pickit.pick_up_items(self._char)
+        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
         return True
 
 if __name__ == "__main__":

@@ -164,46 +164,35 @@ class Pather:
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
             602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
             
-            # SEAL A VIZIER FIRST= Y    
-            #610: {"DIABLO_A_SEALS_1": (-68, 60), "DIABLO_A_SEALS_0": (249, -105), "DIABLO_A_SEALS_2": (-296, 205), "DIABLO_A_SEALS_4": (373, 40), }, #travers to uuupper seal pop location "DIABLO_A_SEALS_3": (-87, 314), 
-            #611: {"DIABLO_A_SEALS_11": (-217, -39), "DIABLO_A_SEALS_7": (204, -96), "DIABLO_A_SEALS_0": (-251, 124), "DIABLO_A_SEALS_4": (-127, 269), "DIABLO_A_SEALS_8": (336, 132), }, #upper Seal pop location
-            #612: {"DIABLO_A_SEALS_8": (122, 66), "DIABLO_A_SEALS_7": (-10, -162), "DIABLO_A_SEALS_5": (169, 129), "DIABLO_A_SEALS_6": (344, -187), "DIABLO_A_SEALS_11": (-431, -105), }, #travers to lower seal
-            #613: {"DIABLO_A_SEALS_7": (98, 11), "DIABLO_A_SEALS_11": (-323, 69), "DIABLO_A_SEALS_8": (230, 240), "DIABLO_A_SEALS_5": (277, 302), "DIABLO_A_SEALS_0": (-357, 232), }, #lower seal pop loation
-            #614: {"DIABLO_A_SEALS_9": (15, -207), "DIABLO_A_SEALS_11": (264, 74), "DIABLO_A_SEALS_0": (230, 237), "DIABLO_A_SEALS_10": (-552, 220), "DIABLO_A_SEALS_8": (817, 245), }, #Vizier Attack Position
-            610: {"DIA_A1Y_0": (116, 10), "DIA_A1Y_5": (123, -7), "DIA_A1Y_2": (-248, 76), "DIA_A1Y_1": (-231, 174), "DIA_A1Y_6": (232, 249), },
-            611: {"DIA_A1Y_9": (62, -82), "DIA_A1Y_11": (-127, 41), "DIA_A1Y_8": (-135, 35), "DIA_A1Y_10": (-117, 316), "DIA_A1Y_1": (285, -180), },
-            #612: {"DIA_A1Y_10": (-40, -48), "DIA_A1Y_11": (-50, -323), "DIA_A1Y_9": (139, -446), "DIA_A1Y_1": (362, -544), "DIA_A1Y_6": (525, -530), },
-            #613: {"DIA_A1Y_10": (69, 65), "DIA_A1Y_11": (59, -210), "DIA_A1Y_9": (248, -333), "DIA_A1Y_1": (471, -431), "DIA_A1Y_12": (-440, -581), },
-            614: {"DIA_A1Y_7": (194, -178), "DIA_A1Y_4": (193, -184), "DIA_A1Y_12": (-388, 32), "DIA_A1Y_9": (300, 279), "DIA_A1Y_11": (111, 402), },
-            # SEAL A VIZIER SECOND = L
-            #620: {"DIABLO_A2_CALIBRATION_0": (118, -304), "DIABLO_A2_CALIBRATION_10": (165, -304), "DIABLO_A2_CALIBRATION_1": (679, -340), "DIABLO_A2_CALIBRATION_8": (679, -373),},#seal pop upper seal
-            #621: {"DIABLO_A2_CALIBRATION_5": (-620, 276), "DIABLO_A2_CALIBRATION_6": (-620, 280), "DIABLO_A2_CALIBRATION_4": (-610, 602), },#travese seal1 to 2
-            #622: {"DIABLO_A2_CALIBRATION_8": (92, -37), "DIABLO_A2_CALIBRATION_10": (-422, 32), "DIABLO_A2_CALIBRATION_0": (-469, 32), "DIABLO_A2_CALIBRATION_7": (478, -45), },#seal pop lower seal vizier
-            #623: {"DIABLO_A2_CALIBRATION_10": (-223, 107), "DIABLO_A2_CALIBRATION_0": (176, 176), "DIABLO_A2_CALIBRATION_8": (291, 37), "DIABLO_A2_CALIBRATION_7": (677, 30), },#go home
-            620: {"DIA_A2L_3": (-126, 16), "DIA_A2L_7": (-132, 22), "DIA_A2L_9": (23, -273), "DIA_A2L_4": (34, -285), "DIA_A2L_5": (-186, -313), }, #might be crap
-            621: {"DIA_A2L_3": (-71, 138), "DIA_A2L_7": (-76, 144), "DIA_A2L_9": (79, -151), "DIA_A2L_4": (90, -163), "DIA_A2L_5": (-130, -191), }, #upper fake seal
-            622: {"DIA_A2L_4": (-221, -75), "DIA_A2L_9": (-232, -63), "DIA_A2L_0": (381, -138), "DIA_A2L_11": (398, -148), "DIA_A2L_7": (-387, 232), }, #traverse and safe dist
-            623: {"DIA_A2L_0": (132, -4), "DIA_A2L_11": (149, -14), "DIA_A2L_4": (-470, 59), "DIA_A2L_9": (-481, 71), "DIA_A2L_10": (548, -117), }, #lower boss seal
-            # SEAL B1S DESEIS FIRST 
-            # 630: {"DIABLO_SEAL_B1_3ACTIVE": (-67, 57), "DIABLO_SEAL_B1_1": (206, -5), "DIABLO_SEAL_B1_2": (-370, -32), "DIABLO_SEAL_B1_7": (-120, 356), "DIABLO_SEAL_B1_4": (368, 106), }, # -> rebuild new templates
-            630: {"DIA_B1S_3": (96, 49), "DIA_B1S_1": (-157, 67), "DIA_B1S_4": (-162, -117), "DIA_B1S_5": (235, -141), "DIA_B1S_2": (409, 48), "DIA_B1S_1_ACTIVE": (-157, 67), }, # seal
-            631: {"DIA_B1S_2": (132, -79), "DIA_B1S_3": (-180, -78), "DIA_B1S_5": (-43, -268), "DIA_B1S_6": (336, 73), "DIA_B1S_7": (428, -24), }, # sealside ready to cross - calibrate for seal
-            632: {"DIA_B1S_7": (5, 187), "DIA_B1S_6": (-87, 284), "DIA_B1S_2": (-291, 132), "DIA_B1S_5": (-466, -57), "DIA_B1S_8": (467, -161), }, # crossed
-            633: {"DIA_B1S_633_2_1": (-547, 197), "DIA_B1S_633_2_0": (475, 91)}, # fixed 633 pos
-            #633: {"DIA_B1S_8": (-10, -273), "DIA_B1S_7": (-472, 75), "DIA_B1S_6": (-565, 172), "DIA_B1S_2": (-768, 20), }, # de seis - calibrate after loot . bugged, teles towards the wall
-            634: {"DIA_B1S_633_1": (379, 1), "DIA_B1S_633_0": (-428, 2), }, # corner de seis
-            # SEAL B2U DESEIS SECOND
-            640: {"DIABLO_B2_CALIBRATE_1": (-11, 131), "DIABLO_B2_CALIBRATE_3": (181, -12), "DIABLO_B2_CALIBRATE_0": (-82, 331), "DIABLO_B2_CALIBRATE_2": (370, 99), "DIABLO_B2_CALIBRATE_5": (268, 279), }, #-> rebuild new templates
-            # SEAL C INFECTOR FIRST G
+            # SEAL A1L_new Vizier
+            #610: {},
+
+            # SEAL A2Y_new Vizier
+            620: {"DIA_A2Y_0": (76, -113), "DIA_A2Y_3": (-161, -247), "DIA_A2Y_4": (379, -4), "DIA_A2Y_5": (-353, 150), }, #approach (from layout check) towards safe_dist - this is also where spells should be aimed at from safe_dist         
+            621: {"DIA_A2Y_4": (198, -164), "DIA_A2Y_8": (227, -146), "DIA_A2Y_19": (207, 250), "DIA_A2Y_22": (209, 243), }, # safe_dist (adding cornerstones might help)
+            622: {"DIA_A2Y_22": (83, 164), "DIA_A2Y_19": (81, 171), "DIA_A2Y_7": (190, 156), "DIA_A2Y_8": (101, -225), "DIA_A2Y_4": (72, -243), }, # center
+            623: {"DIA_A2Y_12": (37, -156), "DIA_A2Y_9": (38, 195), "DIA_A2Y_1": (-152, -147), "DIA_A2Y_8": (-281, -73), }, # Fake seal far
+            624: {"DIA_A2Y_15": (156, -16), "DIA_A2Y_15_OPEN": (156, -16),"DIA_A2Y_11": (157, -10), "DIA_A2Y_11_OPEN": (157, -10), "DIA_A2Y_14": (158, -20), "DIA_A2Y_14_OPEN": (158, -20), "DIA_A2Y_10": (160, -6), "DIA_A2Y_10_OPEN": (160, -6), "DIA_A2Y_9": (-213, 58), }, # Fake seal close
+            625: {"DIA_A2Y_19": (264, 24), "DIA_A2Y_22": (266, 17), "DIA_A2Y_17": (208, 213), "DIA_A2Y_17_OPEN": (208, 213), "DIA_A2Y_20": (209, 214), "DIA_A2Y_20_OPEN": (209, 214),}, #boss seal far
+            626: {"DIA_A2Y_7": (14, -146), "DIA_A2Y_21": (139, -63), "DIA_A2Y_24": (-149, 61), "DIA_A2Y_20": (-150, 59), "DIA_A2Y_20_OPEN": (-150, 59), "DIA_A2Y_23": (-150, 59), "DIA_A2Y_23_OPEN": (-150, 59), }, # boss seal close
+
+            # SEAL B1S_new De Seis
+            #630:
+
+            # SEAL B2U_new De Seis
+            640: {"DIA_B2U2_2": (60, 31), "DIA_B2U2_3": (-211, -107), "DIA_B2U2_4": (-90, -224), "DIA_B2U2_5": (-211, -119), "DIA_B2U2_0": (-91, -233), }, #approach (from layout check) towards safe_dist - this is also where spells should be aimed at from safe_dist                   
+            641: {"DIA_B2U_2": (88, -31), "DIA_B2U_1": (56, 111), "DIA_B2U_5": (-77, -173), "DIA_B2U_6": (176, -155), "DIA_B2U_7": (-151, 212), }, #safe_dist
+            642: {"DIA_B2U_7": (-122, 5), "DIA_B2U_1": (85, -96), "DIA_B2U_8": (235, 3), "DIA_B2U_2": (117, -238), "DIA_B2U_9": (-245, -129), }, #boss seal far
+            643: {"DIA_B2U_12": (67, -2), "DIA_B2U_14": (-157, -91), "DIA_B2U_13": (19, -181), "DIA_B2U_10_MOUSEOVER": (-284, 7), "DIA_B2U_11_CLOSED": (-284, 7), "DIA_B2U_15_OPEN": (-287, 2), }, #boss seal close
+
+            #SEAL C1F_new Infector
             #650
-            650: {"DIABLO_C1_CALIBRATE_3": (-135, 224), "DIABLO_C1_CALIBRATE_1": (300, 127), "DIABLO_C1_CALIBRATE_4": (-363, 163), "DIABLO_C1_CALIBRATE_0": (-363, 210), "DIABLO_C1_CALIBRATE_6": (-362, 255), }, #tele to pop non boss seal c1 layout
-            651: {"DIABLO_C1_CALIBRATE_4": (246, 106), "DIABLO_C1_CALIBRATE_0": (246, 153), "DIABLO_C1_CALIBRATE_6": (247, 198), "DIABLO_C1_CALIBRATE_8": (-148, 311), "DIABLO_C1_CALIBRATE_3": (474, 167), },#transverse
-            652: {"DIABLO_C1_CALIBRATE_8": (104, 45), "DIABLO_C1_CALIBRATE_7": (-113, 234), "DIABLO_C1_CALIBRATE_5": (-348, -131), "DIABLO_C1_CALIBRATE_6": (499, -68), "DIABLO_C1_CALIBRATE_4": (498, -160), },#tele to pop boss seal c1 layout
-            # SEAL C INFECTOR SECOND F
-            #660: {"DIABLO_C2_CALIBRATE_0": (-382, 291), "DIABLO_C2_CALIBRATE_2": (-772, 84), }, #calibrate at non boss seal after popping
-            #661: {"DIABLO_CS2_SEAL_BOSS_0": (179, -222), "DIABLO_CS2_SEAL_BOSS_2": (371, -6), "DIABLO_CS2_SEAL_BOSS_1": (-204, -354), }, #calibrate after 2nd seal popped
-            660: {"DIA_C2F_3": (87, 177), "DIA_C2F_0": (358, -174), "DIA_C2F_2": (-436, 132), "DIA_C2F_2A": (-436, 132), "DIA_C2F_1": (-552, -16), "DIA_C2F_4": (713, -27), }, #close to fake seal & fighting spot for trash
-            661: {"DIA_C2F_3": (-327, 137), "DIA_C2F_2": (-850, 92), "DIA_C2F_2A": (-850, 92), "DIA_C2F_5_2": (366,-56)}, #close to boss seal & fighting spot for infector
+
+            #SEAL C2G_new Infector
+            660: {"DIA_C2G2_3": (-233, -35), "DIA_C2G2_1": (-340, 178), "DIA_C2G2_0": (-514, -106), "DIA_C2G2_2": (587, -65), }, #approach
+            661: {"DIA_C2G_4_CLOSED": (137, -79), "DIA_C2G_4_OPEN": (137, -79), "DIA_C2G_5_MOUSEOVER": (139, -85), "DIA_C2G_1": (15, 186), "DIA_C2G_11": (-242, 72), "DIA_C2G_7": (-243, 80), }, # boss seal close & safe dist for sorc
+            662: {"DIA_C2G_6": (39, 126), "DIA_C2G_12": (106, 216), "DIA_C2G_9_CLOSED": (-106, 258), "DIA_C2G_8_MOUSEOVER": (-108, 259), "DIA_C2G_8_OPEN": (-108, 259), "DIA_C2G_11": (280, 31), },# safe dist hammerdin
+            663: {"DIA_C2G_12": (44, -56), "DIA_C2G_6": (-22, -146), "DIA_C2G_9_CLOSED": (-168, -14), "DIA_C2G_8_MOUSEOVER": (-170, -13), "DIA_C2G_8_OPEN": (-170, -13), "DIA_C2G_14_MOUSEOVER": (-173, -13), "DIA_C2G_13_CLOSED": (-173, -13), "DIA_C2G_13_OPEN": (-173, -13), }, # fake seal close or safe dist hammerdin
 
 
         }
@@ -489,7 +478,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_")
+    #display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
     # code = ""
@@ -508,60 +497,41 @@ if __name__ == "__main__":
     #pather.traverse_nodes([601], char)
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
     
-        ### SEAL A1Y ###
+    # NEW A2Y
     #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_a1_seal1", char)
-    #pather.traverse_nodes([610], char) # calibrate pentagram
-    #pather.traverse_nodes([611], char) # calibrate pentagram
-    #pather.traverse_nodes([614], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_a1_end_pentagram", char)
+    #pather.traverse_nodes_fixed("dia_a_layout", char)
+    #pather.traverse_nodes([620], char) # approach
+    #pather.traverse_nodes([621], char) # safe dist
+    #pather.traverse_nodes([622], char) # center
+    #pather.traverse_nodes([623], char) # left fake far
+    #pather.traverse_nodes([624], char) # left fake close
+    #pather.traverse_nodes([622], char) # center
+    #pather.traverse_nodes([625], char) # right boss far
+    #pather.traverse_nodes([626], char) # right boss close
+    #pather.traverse_nodes([622], char) # center
+    #pather.traverse_nodes_fixed("dia_a2y_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
-        ### SEAL A2L ###
+
+    # NEW B2U
     #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_a_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_a2_safe_dist", char)
-    # pather.traverse_nodes([620], char)
-    #pather.traverse_nodes([621], char)
-    #pather.traverse_nodes([622], char)
-    #pather.traverse_nodes([623], char)
-    #pather.traverse_nodes([622], char)
-    #pather.traverse_nodes_fixed("diablo_a2_end_pentagram", char)
-        ### SEAL B1S ###
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
-    #pather.traverse_nodes([630], char)
-    #pather.traverse_nodes([631], char)
-    #pather.traverse_nodes([632], char)
-    #pather.traverse_nodes([633], char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_b1_safe_dist", char)
-        ### SEAL B2U ###
+    #pather.traverse_nodes_fixed("dia_b_layout", char)
+    #pather.traverse_nodes([640], char) # approach
+    #pather.traverse_nodes([641], char) # safe dist 
+    #pather.traverse_nodes([642], char) # seal boss far
+    #pather.traverse_nodes([643], char) # seal boss close
+    #pather.traverse_nodes([641], char) # safe dist 
+    #pather.traverse_nodes_fixed("dia_b2u_home", char)
+
+    # NEW C2G
     pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("diablo_pentagram_b_layout_check", char)
-    pather.traverse_nodes_fixed("diablo_pentagram_b2_seal", char)
-    #pather.traverse_nodes_fixed("diablo_pentagramx_b2_safe_dist", char)
-    #pather.traverse_nodes([640], char)
-    #pather.traverse_nodes_fixed("diablo_b1_safe_dist", char)
-        ### SEAL C1G ###
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_c1_seal", char)
-    #pather.traverse_nodes([650], char) # calibrate pentagram
-    #pather.traverse_nodes([651], char) # calibrate pentagram
-    #pather.traverse_nodes([652], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_c1_end_pentagram", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-        ### SEAL C2F ###
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_pentagram_c_layout_check", char)
-    #pather.traverse_nodes_fixed("diablo_pentagram_c2_seal", char)
-    #pather.traverse_nodes([660], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_c2f_hopleft", char)
-    #pather.traverse_nodes_fixed("diablo_c2f_hopright", char)
-    #pather.traverse_nodes([661], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("diablo_c2_end_pentagram", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_c_layout", char)
+    pather.traverse_nodes([660], char) # approach
+    pather.traverse_nodes([661], char) # seal boss close
+    pather.traverse_nodes([662], char) # safe dist
+    pather.traverse_nodes([663], char) # seal fake close
+    pather.traverse_nodes_fixed("dia_c2g_home", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+
+
     print("-----")
     
