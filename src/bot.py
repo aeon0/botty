@@ -301,7 +301,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
-        self._game_stats.update_location("Pindle")
+        self._game_stats.update_location("Pin" if self._config.general['discord_status_condensed'] else "Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             res = self._pindle.battle(not self._pre_buffed)
@@ -318,7 +318,7 @@ class Bot:
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location("Travincal")
+        self._game_stats.update_location("Trav" if self._config.general['discord_status_condensed'] else "Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
@@ -327,7 +327,7 @@ class Bot:
     def on_run_nihlatak(self):
         res = False
         self._do_runs["run_nihlatak"] = False
-        self._game_stats.update_location("Nihlatak")
+        self._game_stats.update_location("Nihl" if self._config.general['discord_status_condensed'] else "Nihlatak")
         self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
