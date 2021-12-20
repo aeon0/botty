@@ -123,7 +123,7 @@ class Diablo:
 #   - clicks whilst moving the mouse away when checking for ACTIVE seal
 #   - add a failsave that after 2 failed tries to activate seal a kill_trashmobs sequence (for redemption) is launched
 #   - hop away after you click on the seal to make room for the template check (or make template smaller)
-#   - seals should ideally be activated from the left, bugged seal at B2U from top
+#   - seals should ideally be activated from the left
 #   - seal can activate from a slight distance, if we stand ON the seal after activating, the template check fails
 
 # RIVER OF FLAME: 
@@ -135,21 +135,20 @@ class Diablo:
 #   - need more templates to calibrate after looting
 
 # VIZIER A2Y: 
-#   - need more templates to calibrate after looting
+#   - template 622 does not work properly
+#   - if you enter with too much flying trash, templates will not be recognized & pather gets stuck.
 
 # DE SEIS B1U:
-#   - safe dist too high, hammers the wall, but if too low, the sealbug blocks the seal
-#   - de seis template not visible when mobs spawn (640).
-#   - need more templates to calibrate after looting
+#   - at seal all hammers hit the wall, but position is important, otherwise the seal bugs
 
 # DE SEIS B2F:
 #   - too far at the wall during de seis attack sequence (hammering the wall)
 #   - relate to above one: safe_dist not found when attack sequence too far left
 
-# INFECTOR C1G:
-#   - works well :) still, might add some templates to calibrate after looting
+# INFECTOR C2G:
+#   - gets stuck after opening seal - the mobs are too big, masking the sealcheck graphic (maybe smaller graphic?)
 
-# INFECTOR C2F:
+# INFECTOR C1F:
 #   - works well :) still, might add some templates to calibrate after looting
 #   - therefore, trash loot is currently off
 #   - fix postion 661 to get rid of _hopleft & _hopright static paths
@@ -159,21 +158,22 @@ class Diablo:
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("dia_a2y_approach", self._char) #bring us from layout check towards the place where we should see our nodes
+        self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
         self._pather.traverse_nodes([621, 623], self._char) # Traverse to safe_dist
-        #self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
+        self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
         #self._pather.traverse_nodes([626, 625], self._char) # Traverse to other seal
         #self._char.kill_cs_trash() #Clear Trash A1Y boss & loot
         self._pather.traverse_nodes([624], self._char) # Calibrate at upper seal 610
         self._sealdance(["DIA_A2Y_15_OPEN"], ["DIA_A2Y_14_CLOSED","DIA_A2Y_15_MOUSEOVER"], seal_layout + "-Seal1", False)
         self._pather.traverse_nodes([626], self._char) # Calibrate at upper seal 610
         self._sealdance(["DIA_A2Y_24_OPEN"], ["DIA_A2Y_24_CLOSED", "DIA_A2Y_23_MOUSEOVER"], seal_layout + "-Seal2", False)
-        self._pather.traverse_nodes([622,621], self._char) # go to safe_dist to fight vizier
+        self._pather.traverse_nodes([625,621], self._char) # go to safe_dist to fight vizier
         Logger.info("Kill Vizier")
         self._char.kill_vizier() # we could also add seal_layout to the function for differentiating attack patterns.
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([621], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
-        self._pather.traverse_nodes_fixed("diablo_a2y_home", self._char) #lets go home
+        self._pather.traverse_nodes_fixed("dia_a2y_home", self._char) #lets go home
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
