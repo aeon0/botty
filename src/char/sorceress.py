@@ -123,20 +123,21 @@ class Sorceress(IChar):
             self.move(pos_m, force_move=True)
             self._cast_static()
             #move down
-            pos_m = self._screen.convert_abs_to_monitor((0, 50))
+            pos_m = self._screen.convert_abs_to_monitor((0, 65))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(0.70)
-            self._right_attack((-100, -400), delay, 50)
+            self._right_attack((-170, -350), delay, 50)
             self._cast_static()
             #move down
-            pos_m = self._screen.convert_abs_to_monitor((0, 20))
+            pos_m = self._screen.convert_abs_to_monitor((0, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
             self._right_attack((100, -300), delay, 20)
             self._cast_static()
             wait(1.0)
             self._right_attack((-50, -130), delay, 50)
+            self._cast_static()
             if self.can_teleport():
                 self._pather.traverse_nodes_fixed("eldritch_end", self)
             else:
@@ -159,48 +160,53 @@ class Sorceress(IChar):
                 self.pre_move()
                 self.move(pos_m, force_move=True)
                 #top left attack
-                self._cast_static()
-                #top right posistion
-                pos_m = self._screen.convert_abs_to_monitor((650, -220))
+                #self._cast_static()
+                #lower left posistion
+                pos_m = self._screen.convert_abs_to_monitor((350, 220))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
-                #top right attack
                 self._cast_static()
-                self._right_attack((400, 20), delay, 10)
+                self._right_attack((-170, 70), delay, 10)
+                self._left_attack((170, 70), delay, 30)
                 #bottom right posistion
-                pos_m = self._screen.convert_abs_to_monitor((300, 230))
+                pos_m = self._screen.convert_abs_to_monitor((100, 50))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
                 #botton right attack
+                #self._right_attack((-200, 70), delay, 10)
                 self._cast_static()
-                self._right_attack((-320, -70), delay, 10)
+                #self._left_attack((-200, 70), delay, 30)
+                self._right_attack((400, 100), delay, 10)
                 #bottom right reposistion
-                pos_m = self._screen.convert_abs_to_monitor((-300, 170))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
+                #pos_m = self._screen.convert_abs_to_monitor((-100, -50))
+                #self.pre_move()
+                #self.move(pos_m, force_move=True)
+                #self.pre_move()
+                #self.move(pos_m, force_move=True)
                 #bottom right attack
                 self._cast_static()
-                self._right_attack((450, 190), delay, 10)
+                self._right_attack((0, -250), delay, 10)
+                #self._right_attack((450, 190), delay, 10)
                 #bottom left posistion
-                pos_m = self._screen.convert_abs_to_monitor((-100, -70))
+                pos_m = self._screen.convert_abs_to_monitor((150, -240))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
                 #bottom left attack
                 self._cast_static()
-                self._right_attack((-350, 160), delay, 10)
+                self._right_attack((-200, 75), delay, 10)
                 #Shenk Kill
-                pos_m = self._screen.convert_abs_to_monitor((100, -20))
+                pos_m = self._screen.convert_abs_to_monitor((-150, 240))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
                 #shenk attack 1
                 self._cast_static()
                 self._right_attack((10, -70), delay, 10)
-                #shenk teledance
-                pos_m = self._screen.convert_abs_to_monitor((-50, -75))
+                #shenk teledance 2
+                pos_m = self._screen.convert_abs_to_monitor((70, -100))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
-                #final attack
                 self._cast_static()
+
             #wait(self._cast_duration, self._cast_duration + 0.2)
             # Move to items
             self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
@@ -214,6 +220,10 @@ class Sorceress(IChar):
         #node 1 middle inside
         self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
         atk_pos_abs = self._pather.find_abs_node_pos(302, self._screen.grab())
+        pos_m = self._screen.convert_abs_to_monitor((300, 75))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(0.1)
         #attack 1
         cast_pos_abs = np.array([-270, -80])
         self._right_attack(cast_pos_abs, delay, 80)
@@ -221,27 +231,34 @@ class Sorceress(IChar):
         self._cast_static()
         self._right_attack((-350, -100), delay, 80)
         #dodge right (heal merc)
-        pos_m = self._screen.convert_abs_to_monitor((270, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(0.1)
+        #pos_m = self._screen.convert_abs_to_monitor((300, 75))
+        #self.pre_move()
+        #self.move(pos_m, force_move=True)
+        #wait(0.1)
         #attack 2
-        self._right_attack((-350, -40), delay, 80)
-        self._left_attack((-350, -80), delay, 40)
-        pos_m = self._screen.convert_abs_to_monitor((100, 50))
+        #self._right_attack((-350, -40), delay, 80)
+        #self._left_attack((-350, -80), delay, 40)
+        #dodge down (heal merc more)
+        pos_m = self._screen.convert_abs_to_monitor((-100, 20))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._right_attack((-350, -60), delay, 80)
+        self._right_attack((-350, -200), delay, 80)
+        self._left_attack((-350, -200), delay, 30)
+        self._cast_static()
+        self._right_attack((-350, -200), delay, 80)
         #reposistion
-        pos_m = self._screen.convert_abs_to_monitor((-475, -75))
+        pos_m = self._screen.convert_abs_to_monitor((-350, -100))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #new node top left
         self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
         cast_pos_abs = np.array([50, 100])
+        pos_m = self._screen.convert_abs_to_monitor((-75, -50))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
         wait(0.1)
         #attack 4
-        self._right_attack((75, 100), delay, 80)
+        self._right_attack((100, 100), delay, 80)
         self._left_attack((-75, -60), delay, 30)
         self._cast_static()
         self._right_attack((-75, -50), delay, 80)
@@ -258,33 +275,34 @@ class Sorceress(IChar):
         self._right_attack((-175, -200), delay, 30)
         self._left_attack(cast_pos_abs, delay, 60)
         self._cast_static()
-        self._right_attack((175, -250), delay, 30)
-        #new node bottom left inside
-        self._pather.traverse_nodes([305], self, time_out=2.0, force_tp=True)
+        self._right_attack((175, -270), delay, 30)
         #noorc Kill
-        pos_m = self._screen.convert_abs_to_monitor((275, -70))
+        pos_m = self._screen.convert_abs_to_monitor((500, -270))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        pos_m = self._screen.convert_abs_to_monitor((100, -70))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #noorc attack 1
-        self._right_attack((50, 0), delay, 30)
+        self._right_attack((-100, 0), delay, 30)
         self._cast_static()
-        self._left_attack((-50, 50), delay, 10)
-        self._right_attack((-50, 0), delay, 30)
+        self._left_attack((-100, 50), delay, 10)
+        self._right_attack((-150, 0), delay, 30)
         #noorc teledance side
-        pos_m = self._screen.convert_abs_to_monitor((50, 0))
+        pos_m = self._screen.convert_abs_to_monitor((-50, 0))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #noorc attack 2
-        self._right_attack((40, 50), delay, 30)
+        self._right_attack((-40, 0), delay, 30)
         self._cast_static()
-        self._left_attack((-50, 50), delay, 10)
-        self._right_attack((10, 10), delay, 30)
+        self._left_attack((-50, 0), delay, 10)
+        self._right_attack((-85, 20), delay, 30)
         #noorc teledance forward
-        pos_m = self._screen.convert_abs_to_monitor((-200, 200))
+        pos_m = self._screen.convert_abs_to_monitor((-400, 200))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #nooric attack 3
-        self._right_attack((-50, 20), delay, 30)
+        self._right_attack((-50, -100), delay, 30)
         #noorc reposition
         pos_m = self._screen.convert_abs_to_monitor((400, -250))
         self.pre_move()
@@ -292,6 +310,7 @@ class Sorceress(IChar):
         #noorc last attack
         self._right_attack((-50, 20), delay, 30)
         self._cast_static()
+        self._right_attack((-100, 20), delay, 30)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
