@@ -178,14 +178,14 @@ class Config:
         except IndexError as error:
             pass
         except Exception as exception:
-            Logger.error(exception, False)
+            Logger.error(f"Item parsing error: {exception}")
         try:
             item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
             item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
         except IndexError as error:
             pass
         except Exception as exception:
-            Logger.error(exception, False)
+            Logger.error(f"Item parsing error: {exception}")
         return item_props
 
 if __name__ == "__main__":
