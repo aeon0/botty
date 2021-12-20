@@ -168,13 +168,23 @@ class Pather:
             #610: {},
 
             # SEAL A2Y_new Vizier
+            # LEFT SEAL
+            # DIA_A2Y_10_OPEN  DIA_A2Y_10_MOUSEOVER
+            # DIA_A2Y_11_OPEN  DIA_A2Y_11_CLOSED
+            # DIA_A2Y_14_OPEN  DIA_A2Y_14_CLOSED
+            # DIA_A2Y_15_OPEN  DIA_A2Y_15_MOUSEOVER
+            # RIGHT SEAL
+            # DIA_A2Y_17_OPEN   DIA_A2Y_17_CLOSED
+            # DIA_A2Y_20_OPEN   DIA_A2Y_20_MOUSEOVER
+            # DIA_A2Y_23_OPEN   DIA_A2Y_23_MOUSEOVER
+            # DIA_A2Y_24_OPEN   DIA_A2Y_24_CLOSED
             620: {"DIA_A2Y_0": (76, -113), "DIA_A2Y_3": (-161, -247), "DIA_A2Y_4": (379, -4), "DIA_A2Y_5": (-353, 150), }, #approach (from layout check) towards safe_dist - this is also where spells should be aimed at from safe_dist         
             621: {"DIA_A2Y_4": (198, -164), "DIA_A2Y_8": (227, -146), "DIA_A2Y_19": (207, 250), "DIA_A2Y_22": (209, 243), }, # safe_dist (adding cornerstones might help)
             622: {"DIA_A2Y_22": (83, 164), "DIA_A2Y_19": (81, 171), "DIA_A2Y_7": (190, 156), "DIA_A2Y_8": (101, -225), "DIA_A2Y_4": (72, -243), }, # center
             623: {"DIA_A2Y_12": (37, -156), "DIA_A2Y_9": (38, 195), "DIA_A2Y_1": (-152, -147), "DIA_A2Y_8": (-281, -73), }, # Fake seal far
-            624: {"DIA_A2Y_15": (156, -16), "DIA_A2Y_15_OPEN": (156, -16),"DIA_A2Y_11": (157, -10), "DIA_A2Y_11_OPEN": (157, -10), "DIA_A2Y_14": (158, -20), "DIA_A2Y_14_OPEN": (158, -20), "DIA_A2Y_10": (160, -6), "DIA_A2Y_10_OPEN": (160, -6), "DIA_A2Y_9": (-213, 58), }, # Fake seal close
-            625: {"DIA_A2Y_19": (264, 24), "DIA_A2Y_22": (266, 17), "DIA_A2Y_17": (208, 213), "DIA_A2Y_17_OPEN": (208, 213), "DIA_A2Y_20": (209, 214), "DIA_A2Y_20_OPEN": (209, 214),}, #boss seal far
-            626: {"DIA_A2Y_7": (14, -146), "DIA_A2Y_21": (139, -63), "DIA_A2Y_24": (-149, 61), "DIA_A2Y_20": (-150, 59), "DIA_A2Y_20_OPEN": (-150, 59), "DIA_A2Y_23": (-150, 59), "DIA_A2Y_23_OPEN": (-150, 59), }, # boss seal close
+            624: {"DIA_A2Y_14_CLOSED": (156, -16), "DIA_A2Y_15_OPEN": (156, -16),"DIA_A2Y_11_CLOSED": (157, -10), "DIA_A2Y_11_OPEN": (157, -10), "DIA_A2Y_14_CLOSED": (158, -20), "DIA_A2Y_14_OPEN": (158, -20), "DIA_A2Y_11_CLOSED": (160, -6), "DIA_A2Y_10_MOUSEOVER": (160, -6), "DIA_A2Y_10_OPEN": (160, -6), "DIA_A2Y_9": (-213, 58), }, # Fake seal close
+            625: {"DIA_A2Y_19": (264, 24), "DIA_A2Y_22": (266, 17), "DIA_A2Y_17_CLOSED": (208, 213), "DIA_A2Y_17_OPEN": (208, 213), "DIA_A2Y_20_CLOSED": (209, 214), "DIA_A2Y_20_OPEN": (209, 214),}, #boss seal far
+            626: {"DIA_A2Y_7": (14, -146), "DIA_A2Y_21": (139, -63), "DIA_A2Y_24_OPEN": (-149, 61), "DIA_A2Y_20_CLOSED": (-150, 59), "DIA_A2Y_20_MOUSEOVER": (-150, 59), "DIA_A2Y_20_OPEN": (-150, 59), "DIA_A2Y_23_CLOSED": (-150, 59), "DIA_A2Y_23_MOUSEOVER": (-150, 59), "DIA_A2Y_23_OPEN": (-150, 59), }, # boss seal close
 
             # SEAL B1S_new De Seis
             #630:

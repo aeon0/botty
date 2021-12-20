@@ -155,7 +155,7 @@ class Diablo:
 #   - fix postion 661 to get rid of _hopleft & _hopright static paths
 #   - sometimes does not _hopright after sealclick to move to safe_dist (seems sealdance issue)
 
-    def _seal_A2(self): # WORK IN PROGRESS - looting deactivated, interferes with positioning
+    def _seal_A2(self): # WORK IN PROGRESS - 622 seems bugged - also the naming of seals is mess dude!
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("dia_a2y_approach", self._char) #bring us from layout check towards the place where we should see our nodes
@@ -164,9 +164,9 @@ class Diablo:
         #self._pather.traverse_nodes([626, 625], self._char) # Traverse to other seal
         #self._char.kill_cs_trash() #Clear Trash A1Y boss & loot
         self._pather.traverse_nodes([624], self._char) # Calibrate at upper seal 610
-        self._sealdance(["DIA_A1Y_5"], ["DIA_A1Y_0", "DIA_A1Y_0_MOUSEOVER"], seal_layout + "-Seal1", False)
+        self._sealdance(["DIA_A2Y_15_OPEN"], ["DIA_A2Y_14_CLOSED","DIA_A2Y_15_MOUSEOVER"], seal_layout + "-Seal1", False)
         self._pather.traverse_nodes([626], self._char) # Calibrate at upper seal 610
-        self._sealdance(["DIA_A1Y_11"],["DIA_A1Y_8", "DIA_A1Y_8_MOUSEOVER"], seal_layout + "-Seal2", False)
+        self._sealdance(["DIA_A2Y_24_OPEN"], ["DIA_A2Y_24_CLOSED", "DIA_A2Y_23_MOUSEOVER"], seal_layout + "-Seal2", False)
         self._pather.traverse_nodes([622,621], self._char) # go to safe_dist to fight vizier
         Logger.info("Kill Vizier")
         self._char.kill_vizier() # we could also add seal_layout to the function for differentiating attack patterns.
