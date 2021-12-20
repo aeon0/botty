@@ -148,7 +148,7 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
-    from char.sorceress import Sorceress
+    from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
     from template_finder import TemplateFinder

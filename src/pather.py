@@ -421,7 +421,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char.sorceress import Sorceress
+    from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
     config = Config()
@@ -441,8 +441,7 @@ if __name__ == "__main__":
     #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
     # print(code)
 
-    # ui_manager = UiManager(screen, t_finder)
-    # char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes_fixed("trav_safe_dist", char)
-    # print("-----")
+    ui_manager = UiManager(screen, t_finder)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    pather.traverse_nodes_fixed("trav_safe_dist", char)
     # pather.traverse_nodes([226, 228, 229], char)
