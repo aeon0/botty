@@ -69,12 +69,10 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char, threshold=0.82)
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found): # we could add a variable for moveoment_found_close_by, if TRUE, we could call kill_cs_trash
-        #KEY LEARNING: MAKE SURE THAT YOU APPROACH ALL SEALS FROM THE LEFT WHEN TRYING TO OPEN THEM!
+    def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found):
         i = 0
-        while i <=9 and not found: # Looping to click the seal while the open seal is not found
-            #keyboard.send(self._skill_hotkeys["redemption"]) # cast redemption to clear template from corpses?
-            pos_m = self._screen.convert_abs_to_monitor((0, 0)) #move the mouse away before checking the template
+        while i <=4 and not found: # Looping to click the seal while the open seal is not found
+            pos_m = self._screen.convert_abs_to_monitor((0, 0)) #remove mouse from seal
             mouse.move(*pos_m, randomize=[90, 160])
             mouse.click
             wait(0.3)
@@ -82,6 +80,9 @@ class Diablo:
             Logger.info(seal_layout + ": check if open - loop")
             i += 1
             if not found: 
+                if i >= 2:
+                    Logger.info(seal_layout + "getting despreate after " + str(i) + " tries, trying to kill trash now")
+                    self._char.kill_cs_trash()
                 # do a little random hop & try to click the seal
                 """x_m, y_m = self._screen.convert_abs_to_monitor(self._pos_abs)
                 self._char.move((x_m -50, y_m -50), force_move=True) # this piece should be a random movement along X-axis - should we add someing like rand(0.2,-0.2) before x_m? We dont want to jump too far
@@ -94,86 +95,35 @@ class Diablo:
                 self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
                 wait(1)
                 Logger.info(seal_layout + ": trying to open " + str(i) + " of 10 times")
-            Logger.info(seal_layout + ": is open") # this message is also sent if the seal is closed and the sealdance starts again - however should only be sent if the seal is really open.
-
-
-#    def _clearseal(self, seal_layout, seal_boss, hasfake, killtrash, nodes_approach, nodes_safe_dist, nodes_seal_fake, nodes_seal_boss, nodes_end):
-#        Logger.info(seal_layout + " - seal layout found")           
-#        self._pather.traverse_nodes_fixed("diablo_" + str(len(seal_layout) -= 2)) + "_approach", self._char) # safe_dist
-#        self._pather.traverse_nodes(seal_layout), self._char) # calibrate safe_dist
-#        if killtrash: self._char.kill_cs_trash(nodes_safe_dist) #Clear Trash A1Y safe-dist & loot
-#            Logger.info(seal_layout + " - traversing to boss seal" )
-#            self._pather.traverse_nodes(nodes_seal_boss), self._char) # at seal
-#            if killtrash: # clear trash true?
-#                Logger.info(seal_layout + " - killing trash at boss seal")
-#                self._char.kill_cs_trash(nodes_seal_fake)
-#                if loottrash: self._picked_up_items = self._pickit.pick_up_items(self._char)
-#                self._pather.traverse_nodes(nodes_seal_boss, self._char) # here we have to take care, we only want to calibrate at the last node
-#                seal_type = "BOSS"
-#                sealdance(["DIA_" + seal_layout + "_" seal_type + "CLOSED", "DIA_" + seal_layout + "_" + seal_type + "MOUSEOVER"],["DIA_" + seal_layout + "_" + seal_type "ACTIVE"], seal_layout)
-#        self._pather.traverse_nodes_fixed("diablo_" + str(len(seal_layout) -= 2)) + "_safe_dist", self._char) # safe_dist
-#        kill_sealboss (seal_boss)
-#        self._picked_up_items = self._pickit.pick_up_items(self._char)
-#        self._pather.traverse_nodes(nodes_end, self._char) # Move to Pentagram
-#        Logger.info("Calibrated at PENTAGRAM")        
-
-
-# === LIST OF ISSUES ===
-# SEALDANCE: 
-#   - clicks whilst moving the mouse away when checking for ACTIVE seal
-#   - add a failsave that after 2 failed tries to activate seal a kill_trashmobs sequence (for redemption) is launched
-#   - hop away after you click on the seal to make room for the template check (or make template smaller)
-#   - seals should ideally be activated from the left
-#   - seal can activate from a slight distance, if we stand ON the seal after activating, the template check fails
+            else:
+                Logger.info(seal_layout + ": is open")
+        #take SS & exit game
 
 # RIVER OF FLAME: 
-#   - urdars sometimes stun, therefore 1 tele is skipped, and we get stuck in an infinite "diablo_wp_entrance_loop", never finding CS entrance
+#   - mew fiends sometimes stun, therefore 1 tele is skipped, and we get stuck in an infinite "diablo_wp_entrance_loop", never finding CS entrance
 
-# VIZIER A1L: 
-#   - stuck on upper seal check (seems a sealdance issue)
-#   - vizier sometimes spawns below seal and does not move up to safe_dist for dying there in our hammerwave. Adapted attack sequence to move towards this place
-#   - need more templates to calibrate after looting
 
-# VIZIER A2Y: 
-#   - template 622 does not work properly
-#   - if you enter with too much flying trash, templates will not be recognized & pather gets stuck.
-
-# DE SEIS B1U:
-#   - at seal all hammers hit the wall, but position is important, otherwise the seal bugs
-
-# DE SEIS B2F:
-#   - too far at the wall during de seis attack sequence (hammering the wall)
-#   - relate to above one: safe_dist not found when attack sequence too far left
-
-# INFECTOR C2G:
-#   - gets stuck after opening seal - the mobs are too big, masking the sealcheck graphic (maybe smaller graphic?)
-
-# INFECTOR C1F:
-#   - works well :) still, might add some templates to calibrate after looting
-#   - therefore, trash loot is currently off
-#   - fix postion 661 to get rid of _hopleft & _hopright static paths
-#   - sometimes does not _hopright after sealclick to move to safe_dist (seems sealdance issue)
-
-    def _seal_A2(self): # WORK IN PROGRESS - 622 seems bugged - also the naming of seals is mess dude!
+    def _seal_A2(self): # WORKS STABLE
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
-        #self._pather.traverse_nodes_fixed("dia_a2y_approach", self._char) #bring us from layout check towards the place where we should see our nodes
-        self._pather.traverse_nodes([620, 621, 622], self._char) # Calibrate at left fake seal
-        self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
-        self._pather.traverse_nodes([622, 624], self._char) # Calibrate at left fake seal
-        self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
-        self._pather.traverse_nodes([625], self._char) # Calibrate at left fake seal
-        self._sealdance(["DIA_A2Y3_32_OPEN"], ["DIA_A2Y3_32_CLOSED","DIA_A2Y3_32_MOUSEOVER"], seal_layout + "-Seal1", False)
-        self._pather.traverse_nodes([626], self._char) # Calibrate at right fake seal
-        self._sealdance(["DIA_A2Y3_35_OPEN"], ["DIA_A2Y3_35_CLOSED", "DIA_A2Y3_35_MOUSEOVER"], seal_layout + "-Seal2", False)
-        self._pather.traverse_nodes([625, 624, 622], self._char) # go to safe_dist to fight vizier |Bug #622 jumps to 621 oO
+        self._pather.traverse_nodes([622], self._char) # safe_dist
+        self._char.kill_cs_trash()
+        self._pather.traverse_nodes([624], self._char) # far left fake seal
+        self._char.kill_cs_trash()
+        self._pather.traverse_nodes([625], self._char) # close left fake seal
+        #self._char.kill_cs_trash()
+        self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Seal1", False)
+        self._pather.traverse_nodes([626], self._char) #  close right boss seal
+        self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Seal2", False)
+        self._pather.traverse_nodes([627, 623, 622], self._char) # to safe_dist
         Logger.info("Kill Vizier")
-        self._char.kill_vizier() # we could also add seal_layout to the function for differentiating attack patterns.
+        self._char.kill_vizier(623, 624)
+        self._pather.traverse_nodes([623], self._char) # loot at center
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([622], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        self._pather.traverse_nodes([602], self._char) # Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_A1(self): # DONE

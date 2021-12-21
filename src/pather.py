@@ -168,23 +168,14 @@ class Pather:
             #610: {},
 
             # SEAL A2Y_new Vizier
-            #620: {"DIA_A2Y_0": (76, -113), "DIA_A2Y_3": (-161, -247), "DIA_A2Y_4": (379, -4), "DIA_A2Y_5": (-353, 150), }, #approach (from layout check) towards safe_dist - this is also where spells should be aimed at from safe_dist         
-            #621: {"DIA_A2Y_4": (198, -164), "DIA_A2Y_8": (227, -146), "DIA_A2Y_19": (207, 250), "DIA_A2Y_22": (209, 243), }, # safe_dist (adding cornerstones might help)
-            #622: {"DIA_A2Y_22": (83, 164), "DIA_A2Y_19": (81, 171), "DIA_A2Y_7": (190, 156), "DIA_A2Y_8": (101, -225), "DIA_A2Y_4": (72, -243), }, # center <- this thing is somehow broken (adding cornerstones might help)
-            #623: {"DIA_A2Y_12": (37, -156), "DIA_A2Y_9": (38, 195), "DIA_A2Y_1": (-152, -147), "DIA_A2Y_8": (-281, -73), }, # Fake seal far
-            #624: {"DIA_A2Y_14_CLOSED": (156, -16), "DIA_A2Y_15_OPEN": (156, -16),"DIA_A2Y_11_CLOSED": (157, -10), "DIA_A2Y_11_OPEN": (157, -10), "DIA_A2Y_14_CLOSED": (158, -20), "DIA_A2Y_14_OPEN": (158, -20), "DIA_A2Y_11_CLOSED": (160, -6), "DIA_A2Y_10_MOUSEOVER": (160, -6), "DIA_A2Y_10_OPEN": (160, -6), "DIA_A2Y_9": (-213, 58), }, # Fake seal close
-            #625: {"DIA_A2Y_19": (264, 24), "DIA_A2Y_22": (266, 17), "DIA_A2Y_17_CLOSED": (208, 213), "DIA_A2Y_17_OPEN": (208, 213), "DIA_A2Y_20_OPEN": (209, 214),}, #boss seal far
-            #626: {"DIA_A2Y_7": (14, -146), "DIA_A2Y_21": (139, -63), "DIA_A2Y_24_OPEN": (-149, 61), "DIA_A2Y_20_MOUSEOVER": (-150, 59), "DIA_A2Y_20_OPEN": (-150, 59), "DIA_A2Y_24_CLOSED": (-150, 59), "DIA_A2Y_23_MOUSEOVER": (-150, 59), "DIA_A2Y_23_OPEN": (-150, 59), }, # boss seal close
-            620: {"DIA_A2Y3_9": (-75, 92), "DIA_A2Y3_0": (19, 148), "DIA_A2Y3_3": (115, -178), "DIA_A2Y3_15": (-99, 229), "DIA_A2Y3_26": (-69, 280), }, #approach
-            621: {"DIA_A2Y3_16": (129, -5), "DIA_A2Y3_2": (-117, -146), "DIA_A2Y3_5": (191, 97), "DIA_A2Y3_15": (281, 65), "DIA_A2Y3_9": (305, -72), }, #approach
-            622: {"DIA_A2Y3_5": (139, -138), "DIA_A2Y3_11": (-100, 182), "DIA_A2Y3_16": (77, -240), "DIA_A2Y3_26": (259, -119), "DIA_A2Y3_15": (229, -170), }, #safe-dist
-            #623: {'DIA_A2Y3_11': 0.8342002630233765, 'DIA_A2Y3_15': 0.838763415813446, 'DIA_A2Y3_19': 0.9594608545303345, 'DIA_A2Y3_20': 0.9323690533638, 'DIA_A2Y3_25': 0.9476560950279236, 'DIA_A2Y3_26': 0.8681550621986389, 'DIA_A2Y3_5': 0.8682641386985779, 'DIA_A2Y3_8': 0.8949125409126282},
-            623: {"DIA_A2Y3_42": (159, 203), "DIA_A2Y3_26": (29, -257), "DIA_A2Y3_36": (163, 204), "DIA_A2Y3_5": (-91, -276), "DIA_A2Y3_15": (-1, -308), },#center
-            624: {"DIA_A2Y3_1": (48, -162), "DIA_A2Y3_8": (-132, -128), "DIA_A2Y3_22": (122, -159), "DIA_A2Y3_20": (74, 204), "DIA_A2Y3_14": (-88, -214), },#fake far left
-            625: {"DIA_A2Y3_32_OPEN": (173, -40), "DIA_A2Y3_32_CLOSED": (173, -40), "DIA_A2Y3_32_MOUSEOVER": (173, -40), "DIA_A2Y3_23_OPEN": (173, -41), "DIA_A2Y3_23_CLOSED": (173, -41), "DIA_A2Y3_23_MOUSEOVER": (173, -41), "DIA_A2Y3_25": (-121, 145), "DIA_A2Y3_20": (-196, 58), "DIA_A2Y3_33": (4, 225), }, #fake close left
-            626: {"DIA_A2Y3_36": (-80, -119), "DIA_A2Y3_42": (-83, -120), "DIA_A2Y3_35_OPEN": (-146, 44), "DIA_A2Y3_35_CLOSED": (-146, 44), "DIA_A2Y3_35_MOUSEOVER": (-146, 44), "DIA_A2Y3_40_CLOSED": (-148, 44), "DIA_A2Y3_40_OPEN": (-148, 44), "DIA_A2Y3_40_MOUSEOVER": (-148, 44), "DIA_A2Y3_26": (156, -9), }, #boss close right
-            627: {"DIA_A2Y3_42": (215, 4), "DIA_A2Y3_40_CLOSED": (150, 168), "DIA_A2Y3_40_OPEN": (150, 168), "DIA_A2Y3_40_MOUSEOVER": (150, 168), "DIA_A2Y3_35_OPEN": (152, 168), "DIA_A2Y3_35_CLOSED": (152, 168), "DIA_A2Y3_35_MOUSEOVER": (152, 168), "DIA_A2Y3_13": (-158, -168), "DIA_A2Y3_39": (-230, 180), }, #boss far right
-
+            620: {"DIA_A2Y4_35": (64, -15), "DIA_A2Y4_34": (71, -32), "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_MOUSEOVER": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_31": (199, 7), "DIA_A2Y4_19": (234, 27), "DIA_A2Y4_37": (-238, 123), }, #approach
+            621: {"DIA_A2Y4_37": (-15, -3), "DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_2": (-194, -121), "DIA_A2Y4_33": (129, -214), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach
+            622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_37": (59, -268), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist
+            623: {"DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), }, #center
+            624: {"DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_35": (-56, 279), "DIA_A2Y4_31": (149, 260), }, #left far fake
+            625: {"DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_31": (-141, 98), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), }, #left close fake "DIA_A2Y4_28": (-271, -123), "DIA_A2Y4_35": (-346, 117)},
+            626: {"DIA_A2Y4_28": (272, -111), "DIA_A2Y4_31": (364, -194), "DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# "DIA_A2Y4_39": (-610, -38), "DIA_A2Y4_19": (-14, -20),  "DIA_A2Y4_40": (-575, -38), #"DIA_A2Y4_22": (288, -228), "DIA_A2Y4_38": (-607, -44),  }, #right close boss
+            627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
 
 
             # SEAL B1S_new De Seis
@@ -489,7 +480,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_A2Y3")
+    #display_all_nodes(pather, "DIA_A2Y4")
 
     # # changing node pos and generating new code
     # code = ""
@@ -519,7 +510,8 @@ if __name__ == "__main__":
     #pather.traverse_nodes([624], char) # left fake far
     #pather.traverse_nodes([625], char) # left fake close
     #pather.traverse_nodes([626], char) # center
-    pather.traverse_nodes([627], char) # right boss far
+    #pather.traverse_nodes([627], char) # right boss far
+
     #pather.traverse_nodes_fixed("dia_a2y_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
 

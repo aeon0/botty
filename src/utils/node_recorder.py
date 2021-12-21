@@ -127,7 +127,7 @@ class NodeRecorder:
                     results = sorted(new_path, key=lambda r: r["dist"])
                     code = f"{k}: " + "{"
                     for i, res in enumerate(results):
-                        if res["dist"] < 900 and i < 5:
+                        if res["dist"] < 900 and i < 10: #10 templates by node instead of 5 - required for chaos sanctuary consistency
                             code += f'"{res["key"].upper()}": {res["pos"]}, '
                     f.write(code + "}\n")
                 f.close()

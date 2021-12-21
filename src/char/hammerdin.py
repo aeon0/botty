@@ -156,14 +156,20 @@ class Hammerdin(IChar):
         #self._cast_hammers(1.2, "cleansing") # would make sense to add cleansing to CS, due to the tons of curses (that also interfere with the seal logic)
         return True
     
-    def kill_vizier(self) -> bool: # we could also add seal_layout to differentiate attack patterns.
+    def kill_vizier(self, node1, node2) -> bool: # we could also add seal_layout to differentiate attack patterns.
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_hammers(self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.25)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.25)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
+        self._picked_up_items = self._pickit.pick_up_items(self)
+        self._pather.traverse_nodes([node1], self)
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.25)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.25)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._pather.traverse_nodes([node2], self)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.25)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.25)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption") 
         return True
