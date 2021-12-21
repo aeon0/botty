@@ -271,10 +271,66 @@ class UiManager():
         wait(0.2, 0.3)
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
-        item_list = item_finder.search(img)
-        item_list = [x for x in item_list if "potion" not in x.name and not \
-            (self._config.items[x.name] == 3 and not self._template_finder.search("ETHEREAL", img).valid)]
-        return len(item_list) > 0
+        original_list = item_finder.search(img)
+        filtered_list = []
+        for x in original_list:
+            if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
+            include_props = self._config.items[x.name].include
+            exclude_props = self._config.items[x.name].exclude
+            if not (include_props or exclude_props):
+                Logger.debug(f"{x.name}: Stashing")
+                filtered_list.append(x)
+                continue
+            include = True
+            include_logic_type = self._config.items[x.name].include_type
+            if include_props:
+                include = False
+                found_props=[]
+                for prop in include_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.95)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = True
+                    if template_match.valid:
+                        if include_logic_type == "AND":
+                            found_props.append(True)
+                        else:
+                            include = True
+                            break
+                    else:
+                        found_props.append(False)
+                if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
+                    include = True
+            if not include:
+                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                continue
+            exclude = False
+            exclude_logic_type = self._config.items[x.name].exclude_type
+            if exclude_props:
+                found_props=[]
+                for prop in exclude_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.97)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = False
+                    if template_match.valid:
+                        if exclude_logic_type == "AND":
+                            found_props.append(True)
+                        else:
+                            exclude = True
+                            break
+                    else:
+                        found_props.append(False)
+                if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                    exclude = True
+                    break
+            if include and not exclude:
+                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                filtered_list.append(x)
+
+        return len(filtered_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
