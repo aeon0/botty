@@ -157,21 +157,20 @@ class Diablo:
     def _seal_A2(self): # WORK IN PROGRESS - 622 seems bugged - also the naming of seals is mess dude!
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("dia_a2y_approach", self._char) #bring us from layout check towards the place where we should see our nodes
+        #self._pather.traverse_nodes_fixed("dia_a2y_approach", self._char) #bring us from layout check towards the place where we should see our nodes
+        self._pather.traverse_nodes([620, 621, 622], self._char) # Calibrate at left fake seal
         self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
-        self._pather.traverse_nodes([621, 623], self._char) # Traverse to safe_dist
+        self._pather.traverse_nodes([622, 624], self._char) # Calibrate at left fake seal
         self._char.kill_cs_trash() #Clear Trash A1Y safe-dist & loot
-        #self._pather.traverse_nodes([626, 625], self._char) # Traverse to other seal
-        #self._char.kill_cs_trash() #Clear Trash A1Y boss & loot
-        self._pather.traverse_nodes([624], self._char) # Calibrate at upper seal 610
-        self._sealdance(["DIA_A2Y_15_OPEN"], ["DIA_A2Y_14_CLOSED","DIA_A2Y_15_MOUSEOVER"], seal_layout + "-Seal1", False)
-        self._pather.traverse_nodes([626], self._char) # Calibrate at upper seal 610
-        self._sealdance(["DIA_A2Y_24_OPEN"], ["DIA_A2Y_24_CLOSED", "DIA_A2Y_23_MOUSEOVER"], seal_layout + "-Seal2", False)
-        self._pather.traverse_nodes([625,621], self._char) # go to safe_dist to fight vizier
+        self._pather.traverse_nodes([625], self._char) # Calibrate at left fake seal
+        self._sealdance(["DIA_A2Y3_32_OPEN"], ["DIA_A2Y3_32_CLOSED","DIA_A2Y3_32_MOUSEOVER"], seal_layout + "-Seal1", False)
+        self._pather.traverse_nodes([626], self._char) # Calibrate at right fake seal
+        self._sealdance(["DIA_A2Y3_35_OPEN"], ["DIA_A2Y3_35_CLOSED", "DIA_A2Y3_35_MOUSEOVER"], seal_layout + "-Seal2", False)
+        self._pather.traverse_nodes([625, 624, 622], self._char) # go to safe_dist to fight vizier |Bug #622 jumps to 621 oO
         Logger.info("Kill Vizier")
         self._char.kill_vizier() # we could also add seal_layout to the function for differentiating attack patterns.
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([621], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        self._pather.traverse_nodes([622], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char) #lets go home
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
@@ -290,6 +289,7 @@ class Diablo:
             self._seal_A2() 
         else:
             self._seal_A1() # stable, but sometimes vizier spawns below the boss seal and cannot be killed (he does not come to the fighting spot).
+        """
         # Seal B: De Seis (to the top)
         self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
         Logger.debug("Checking Layout at B")
@@ -309,6 +309,7 @@ class Diablo:
         wait(9)
         self._char.kill_diablo() 
         wait(0.2, 0.3)
+        """
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, picked_up_items) #there is an error  ValueError: State 'diablo' is not a registered state.
 

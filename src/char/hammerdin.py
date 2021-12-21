@@ -152,7 +152,7 @@ class Hammerdin(IChar):
         self._cast_hammers(0.8, "redemption")
         self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
         wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption")
+        self._cast_hammers(2, "redemption")
         #self._cast_hammers(1.2, "cleansing") # would make sense to add cleansing to CS, due to the tons of curses (that also interfere with the seal logic)
         return True
     
