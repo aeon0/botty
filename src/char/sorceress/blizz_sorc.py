@@ -105,42 +105,30 @@ class BlizzSorc(Sorceress):
             cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
             for _ in range(int(self._char_config["atk_len_shenk"])):
                 #top left position
-                pos_m = self._screen.convert_abs_to_monitor((80, 170))
+                pos_m = self._screen.convert_abs_to_monitor((100, 170))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
-                #top left attack
-                #self._cast_static()
                 #lower left posistion
-                pos_m = self._screen.convert_abs_to_monitor((350, 220))
+                pos_m = self._screen.convert_abs_to_monitor((330, 220))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
                 self._cast_static()
                 self._right_attack((-170, 70), delay, 10)
                 self._left_attack((170, 70), delay, 30)
-                #bottom right posistion
+                #teledance 1
                 pos_m = self._screen.convert_abs_to_monitor((100, 50))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
-                #botton right attack
-                #self._right_attack((-200, 70), delay, 10)
+                #teledance attack 1
                 self._cast_static()
-                #self._left_attack((-200, 70), delay, 30)
                 self._right_attack((400, 100), delay, 10)
-                #bottom right reposistion
-                #pos_m = self._screen.convert_abs_to_monitor((-100, -50))
-                #self.pre_move()
-                #self.move(pos_m, force_move=True)
-                #self.pre_move()
-                #self.move(pos_m, force_move=True)
-                #bottom right attack
                 self._cast_static()
                 self._right_attack((0, -250), delay, 10)
-                #self._right_attack((450, 190), delay, 10)
-                #bottom left posistion
+                #teledance 2
                 pos_m = self._screen.convert_abs_to_monitor((150, -240))
                 self.pre_move()
                 self.move(pos_m, force_move=True)
-                #bottom left attack
+                #teledance attack 2
                 self._cast_static()
                 self._right_attack((-200, 75), delay, 10)
                 #Shenk Kill
@@ -179,15 +167,6 @@ class BlizzSorc(Sorceress):
         self._left_attack(cast_pos_abs, delay, 30)
         self._cast_static()
         self._right_attack((-350, -100), delay, 80)
-        #dodge right (heal merc)
-        #pos_m = self._screen.convert_abs_to_monitor((300, 75))
-        #self.pre_move()
-        #self.move(pos_m, force_move=True)
-        #wait(0.1)
-        #attack 2
-        #self._right_attack((-350, -40), delay, 80)
-        #self._left_attack((-350, -80), delay, 40)
-        #dodge down (heal merc more)
         pos_m = self._screen.convert_abs_to_monitor((-100, 20))
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -195,7 +174,7 @@ class BlizzSorc(Sorceress):
         self._left_attack((-350, -200), delay, 30)
         self._cast_static()
         self._right_attack((-350, -200), delay, 80)
-        #reposistion
+        #move back (heal merc)
         pos_m = self._screen.convert_abs_to_monitor((-350, -100))
         self.pre_move()
         self.move(pos_m, force_move=True)
