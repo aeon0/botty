@@ -453,6 +453,9 @@ class UiManager():
         mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="left")
+        # another click to dismiss popup message in case you have not enough gold to repair, preventing tome not being bought back
+        wait(0.1, 0.15)
+        mouse.click(button="left")
         wait(0.5, 0.6)
         tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
         if not tp_tome.valid:
