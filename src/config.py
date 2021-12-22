@@ -68,6 +68,9 @@ class Config:
         }
 
         self.routes = {}
+        order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
+        self.routes_order = [x.strip() for x in order_str.split(",")]
+        del self._config["routes"]["order"]
         for key in self._config["routes"]:
             self.routes[key] = bool(int(self._select_val("routes", key)))
 
