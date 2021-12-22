@@ -155,6 +155,7 @@ class BlizzSorc(Sorceress):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         # Go inside cast stuff in general direction
         #node 1 middle inside
+        self._pather.traverse_nodes_fixed([(1262, 265)], self)
         self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
         atk_pos_abs = self._pather.find_abs_node_pos(302, self._screen.grab())
         pos_m = self._screen.convert_abs_to_monitor((300, 75))
@@ -174,7 +175,7 @@ class BlizzSorc(Sorceress):
         self._left_attack((-350, -200), delay, 30)
         self._cast_static()
         self._right_attack((-350, -200), delay, 80)
-        #move back (heal merc)
+        #reposistion
         pos_m = self._screen.convert_abs_to_monitor((-350, -100))
         self.pre_move()
         self.move(pos_m, force_move=True)
