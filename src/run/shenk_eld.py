@@ -8,6 +8,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
+from ui import BeltManager
 
 
 class ShenkEld:
@@ -17,14 +18,17 @@ class ShenkEld:
         pather: Pather,
         town_manager: TownManager,
         ui_manager: UiManager,
+        belt_manager: BeltManager,
         char: IChar,
         pickit: PickIt
+        
     ):
         self._config = Config()
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
+        self._belt_manager = belt_manager
         self._char = char
         self._pickit = pickit
 
@@ -52,6 +56,7 @@ class ShenkEld:
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
         wait(0.2, 0.3)
+        self._belt_manager.update_pot_needs()
         picked_up_items = self._pickit.pick_up_items(self._char)
 
         # Shenk
@@ -65,6 +70,7 @@ class ShenkEld:
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END
             wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
+            self._belt_manager.update_pot_needs()
             picked_up_items |= self._pickit.pick_up_items(self._char)
 
         return (loc, picked_up_items)
