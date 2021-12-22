@@ -8,7 +8,6 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
-from ui import BeltManager
 
 
 class Trav:
@@ -18,7 +17,6 @@ class Trav:
         pather: Pather,
         town_manager: TownManager,
         ui_manager: UiManager,
-        belt_manager: BeltManager,
         char: IChar,
         pickit: PickIt
     ):
@@ -27,7 +25,6 @@ class Trav:
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
-        self._belt_manager = belt_manager
         self._char = char
         self._pickit = pickit
 
@@ -58,7 +55,6 @@ class Trav:
         if self._char.can_teleport():
             if not self._pather.traverse_nodes([229], self._char, time_out=2.5):
                 self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
-                self._belt_manager.update_pot_needs()
             picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
         # Make sure we go back to the center to not hide the tp
         self._pather.traverse_nodes([230], self._char, time_out=2.5)

@@ -86,9 +86,7 @@ class BeltManager:
                 else:
                     Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                     keyboard.send(self._config.char[key])
-                Logger.debug(f"Before drink: {self._pot_needs}")
                 self._pot_needs[potion_type] = max(0, self._pot_needs[potion_type] + 1)
-                Logger.debug(f"After drink: {self._pot_needs}")
                 return True
         return False
 
@@ -178,7 +176,6 @@ class BeltManager:
         wait(0.2, 0.25)
         keyboard.send(self._config.char["inventory_screen"])
         wait(0.5)
-
 
 
 if __name__ == "__main__":
