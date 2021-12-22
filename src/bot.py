@@ -126,6 +126,9 @@ class Bot:
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
+    def get_belt_manager(self) -> BeltManager:
+        return self._belt_manager
+
     def get_curr_location(self):
         return self._curr_loc
 
