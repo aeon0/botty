@@ -18,7 +18,7 @@ class Messenger:
             elif " uniq_" in msg or "rare" in msg:
                 # TODO: It is more gold than yellow, find a better yellow highlight
                 msg = f"```fix\\n- {msg} \\n```"
-            elif " eth_" in msg:
+            elif " gray_" in msg:
                 msg = f"```python\\n# {msg} \\n```"
             else:
                 msg = f"```\\n{msg} \\n```"

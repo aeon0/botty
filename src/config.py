@@ -1,7 +1,17 @@
 import configparser
 import numpy as np
 import os
+import re
+from dataclasses import dataclass
+from logger import Logger
 
+@dataclass
+class ItemProps:
+    pickit_type: int = 0
+    include: list[str] = None
+    exclude: list[str] = None
+    include_type: str = "OR"
+    exclude_type: str = "OR"
 
 class Config:
     def _select_val(self, section: str, key: str = None):
@@ -141,8 +151,8 @@ class Config:
 
         self.items = {}
         for key in self._pickit_config["items"]:
-            self.items[key] = int(self._select_val("items", key))
-            if self.items[key] and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+            self.items[key] = self.parse_item_config_string(key)
+            if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
                 print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
 
         self.colors = {}
@@ -170,6 +180,28 @@ class Config:
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
         }
 
+    def parse_item_config_string(self, key: str = None) -> ItemProps:
+        item_props = ItemProps()
+        # split string by commas NOT contained within parentheses
+        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
+        trim_strs=["AND(", "OR(", "(", ")", " "]
+        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
+        item_props.pickit_type = int(clean_string[0])
+        try:
+            item_props.include = clean_string[1].split(',') if clean_string[1] else None
+            item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
+        except IndexError as error:
+            pass
+        except Exception as exception:
+            Logger.error(f"Item parsing error: {exception}")
+        try:
+            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
+            item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
+        except IndexError as error:
+            pass
+        except Exception as exception:
+            Logger.error(f"Item parsing error: {exception}")
+        return item_props
 
 if __name__ == "__main__":
     config = Config(print_warnings=True)

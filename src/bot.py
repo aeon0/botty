@@ -183,7 +183,7 @@ class Bot:
                 os._exit(1)
             else:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
-            
+
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
             self._ran_no_pickup = True

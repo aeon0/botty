@@ -59,6 +59,7 @@ class Nihlatak:
         # Wait until templates in lvl 2 entrance are found
         if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False
+        wait(1.0) # wait to make sure the red writing is gone once we check for the eye
         @dataclass
         class EyeCheckData:
             template_name: list[str]
@@ -79,7 +80,7 @@ class Nihlatak:
             # Move to spot where eye would be visible
             self._pather.traverse_nodes_fixed(data.circle_static_path_key, self._char)
             # Search for eye
-            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.72, best_match=True, time_out=3)
+            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.7, best_match=True, time_out=3)
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
                 self._pather.traverse_nodes_fixed(data.destination_static_path_key, self._char)
