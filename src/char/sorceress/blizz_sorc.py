@@ -60,95 +60,78 @@ class BlizzSorc(Sorceress):
 
     def kill_eldritch(self) -> bool:
         delay = [0.2, 0.3]
-        pos_abs = self._pather.find_abs_node_pos(1, self._screen.grab())
-        if pos_abs is not None:
-            eld_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-        else:
-            eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
-        if eld_pos_abs is not None:
         #move up
-            pos_m = self._screen.convert_abs_to_monitor((0, -175))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            self._cast_static()
-            #move down
-            pos_m = self._screen.convert_abs_to_monitor((0, 65))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            wait(0.70)
-            self._right_attack((-170, -350), delay, 50)
-            self._cast_static()
-            #move down
-            pos_m = self._screen.convert_abs_to_monitor((0, 50))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            self._right_attack((100, -300), delay, 20)
-            self._cast_static()
-            wait(1.0)
-            self._right_attack((-50, -130), delay, 50)
-            self._cast_static()
-            if self.can_teleport():
-                self._pather.traverse_nodes_fixed("eldritch_end", self)
-            else:
-                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
-            return True
-        return False
+        pos_m = self._screen.convert_abs_to_monitor((0, -175))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_static()
+        #move down
+        pos_m = self._screen.convert_abs_to_monitor((0, 65))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(0.70)
+        self._right_attack((-170, -350), delay, 50)
+        self._cast_static()
+        #move down
+        pos_m = self._screen.convert_abs_to_monitor((0, 50))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._right_attack((100, -300), delay, 20)
+        self._cast_static()
+        wait(1.0)
+        self._right_attack((-50, -130), delay, 50)
+        self._cast_static()
+        if self.can_teleport():
+            self._pather.traverse_nodes_fixed("eldritch_end", self)
+        else:
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+        return True
 
     def kill_shenk(self) -> bool:
         delay = [0.2, 0.3]
-        pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
-        if pos_abs is not None:
-            shenk_pos_abs = [pos_abs[0] * 0.9, pos_abs[1] * 0.9]
-        else:
-            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
-        if shenk_pos_abs is not None:
-            cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_shenk"])):
-                #top left position
-                pos_m = self._screen.convert_abs_to_monitor((100, 170))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                #lower left posistion
-                pos_m = self._screen.convert_abs_to_monitor((330, 220))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                self._cast_static()
-                self._right_attack((-170, 70), delay, 10)
-                self._left_attack((170, 70), delay, 30)
-                #teledance 1
-                pos_m = self._screen.convert_abs_to_monitor((100, 50))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                #teledance attack 1
-                self._cast_static()
-                self._right_attack((400, 100), delay, 10)
-                self._cast_static()
-                self._right_attack((0, -250), delay, 10)
-                #teledance 2
-                pos_m = self._screen.convert_abs_to_monitor((150, -240))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                #teledance attack 2
-                self._cast_static()
-                self._right_attack((-200, 75), delay, 10)
-                #Shenk Kill
-                pos_m = self._screen.convert_abs_to_monitor((-150, 240))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                #shenk attack 1
-                self._cast_static()
-                self._right_attack((10, -70), delay, 10)
-                #shenk teledance 2
-                pos_m = self._screen.convert_abs_to_monitor((70, -100))
-                self.pre_move()
-                self.move(pos_m, force_move=True)
-                self._cast_static()
-
-            #wait(self._cast_duration, self._cast_duration + 0.2)
-            # Move to items
-            self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
-            return True
-        return False
+        #top left position
+        pos_m = self._screen.convert_abs_to_monitor((100, 170))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #lower left posistion
+        pos_m = self._screen.convert_abs_to_monitor((330, 220))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_static()
+        self._right_attack((-170, 70), delay, 10)
+        self._left_attack((170, 70), delay, 30)
+        #teledance 1
+        pos_m = self._screen.convert_abs_to_monitor((100, 50))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #teledance attack 1
+        self._cast_static()
+        self._right_attack((400, 100), delay, 10)
+        self._cast_static()
+        self._right_attack((0, -250), delay, 10)
+        #teledance 2
+        pos_m = self._screen.convert_abs_to_monitor((150, -240))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #teledance attack 2
+        self._cast_static()
+        self._right_attack((-200, 75), delay, 10)
+        #Shenk Kill
+        pos_m = self._screen.convert_abs_to_monitor((-150, 240))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        #shenk attack 1
+        self._cast_static()
+        self._right_attack((10, -70), delay, 10)
+        #shenk teledance 2
+        pos_m = self._screen.convert_abs_to_monitor((70, -100))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_static()
+        #wait(self._cast_duration, self._cast_duration + 0.2)
+        # Move to items
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        return True
 
     def kill_council(self) -> bool:
         delay = [0.1, 0.1]
@@ -157,7 +140,6 @@ class BlizzSorc(Sorceress):
         #node 1 middle inside
         self._pather.traverse_nodes_fixed([(1262, 265)], self)
         self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
-        atk_pos_abs = self._pather.find_abs_node_pos(302, self._screen.grab())
         pos_m = self._screen.convert_abs_to_monitor((300, 75))
         self.pre_move()
         self.move(pos_m, force_move=True)
