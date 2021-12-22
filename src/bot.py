@@ -5,7 +5,9 @@ import time
 import os
 import random
 import cv2
+from copy import copy
 from typing import Union
+from collections import OrderedDict
 
 from utils.misc import wait
 from game_stats import GameStats
@@ -66,6 +68,7 @@ class Bot:
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
         self._route_config = self._config.routes
+        self._route_order = self._config.routes_order
 
         # Create runs
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
@@ -77,6 +80,10 @@ class Bot:
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
         }
+        # Adapt order to the config
+        self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
+        self._do_runs_reset = copy(self._do_runs)
+        Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
@@ -151,7 +158,7 @@ class Bot:
     def shuffle_runs(self):
         tmp = list(self._do_runs.items())
         random.shuffle(tmp)
-        self._do_runs = dict(tmp)
+        self._do_runs = OrderedDict(tmp)
 
     def is_last_run(self):
         found_unfinished_run = False
@@ -260,12 +267,7 @@ class Bot:
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
-        self._do_runs = {
-            "run_trav": self._route_config["run_trav"],
-            "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
-            "run_nihlatak": self._route_config["run_nihlatak"],
-        }
+        self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         wait(0.2, 0.5)
