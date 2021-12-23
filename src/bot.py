@@ -28,7 +28,7 @@ from char.sorceress import Sorceress
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-from run import Pindle, ShenkEld, Trav, Nihlatak, Diablo, diablo
+from run import Pindle, ShenkEld, Trav, Nihlatak, Diablo
 from town import TownManager, A3, A4, A5
 
 # Added for dclone ip hunt
@@ -118,7 +118,7 @@ class Bot:
             { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'diablo', 'before': "on_run_diablo"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak','trav', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
             { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'diablo', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)

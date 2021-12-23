@@ -12,6 +12,7 @@ from version import __version__
 from utils.graphic_debugger import run_graphic_debugger
 from utils.auto_settings import adjust_settings
 from utils.misc import kill_thread
+
 from config import Config
 from screen import Screen
 from logger import Logger
@@ -77,6 +78,8 @@ def run_bot(
         if config.general["custom_message_hook"]:
             messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
         os._exit(1)
+
+
 def main():
     config = Config(print_warnings=True)
     if config.general["logg_lvl"] == "info":
