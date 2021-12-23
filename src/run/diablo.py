@@ -159,27 +159,26 @@ class Diablo:
         Logger.info("Calibrated at PENTAGRAM")
         return True
 
-    def _seal_B1(self): # old nodes, need to rework
+    def _seal_B1(self): #NEW
         seal_layout = "B1S"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_b1_seal", self._char) # to to seal
-        self._char.kill_cs_trash() # at seal
+        if not self._pather.traverse_nodes([630, 631], self._char): return False
+        self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([632], self._char) #clear other side, too
-        self._char.kill_cs_trash() # across gap - if they get fana on hell we are doomed
+        if not self._pather.traverse_nodes([631, 632, 633], self._char): return False
+        self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([630], self._char) #back to seal      
-        self._sealdance(["DIA_B1S_1_ACTIVE"], ["DIA_B1S_1", "DIA_B1S_0"], seal_layout) #pop
-        self._pather.traverse_nodes([630], self._char) #633 is bugged
-        self._pather.traverse_nodes_fixed("diablo_b1_safe_dist", self._char)
+        if not self._pather.traverse_nodes([634], self._char): return False
+        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED", "DIA_B1S2_23_MOUSEOVER"], seal_layout)
+        if not self._pather.traverse_nodes([634, 636], self._char): return False
         Logger.info("Kill De Seis")
-        self._char.kill_deseis([641], [640], [646])
+        if not self._char.kill_deseis([637], [631], [630]): return False
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([640], self._char) #approach
+        if not self._pather.traverse_nodes([637], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([632], self._char) # calibrate after looting
-        self._pather.traverse_nodes_fixed("diablo_b1_end_pentagram", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        if not self._pather.traverse_nodes([630], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
+        if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_B2(self): # WORKS STABLE
@@ -203,7 +202,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_C1(self) -> bool: #Nodes work - not pressuretested yet
+    def _seal_C1(self) -> bool: #NEW
         seal_layout = "C1F"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([650], self._char): return False
@@ -226,7 +225,7 @@ class Diablo:
         Logger.info("Calibrated at PENTAGRAM")
         return True
 
-    def _seal_C2(self) -> bool: # WORKS STABLE
+    def _seal_C2(self) -> bool:
         seal_layout = "C2G"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
@@ -255,6 +254,13 @@ class Diablo:
         # TODO: Option to clear trash?
         if not self._cs_pentagram():
             return False
+        # Seal B: De Seis (to the top)
+        self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
+        Logger.debug("Checking Layout at B")
+        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
+            self._seal_B1()
+        else:
+            self._seal_B2()
         # Seal C: Infector (to the right)
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
@@ -273,13 +279,6 @@ class Diablo:
         else:
             if not self._seal_A1():
                 return False
-        # Seal B: De Seis (to the top)
-        self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we check for layout of B (1=S or 2=U) - just one seal to pop.
-        Logger.debug("Checking Layout at B")
-        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
-            self._seal_B1()
-        else:
-            self._seal_B2()
         # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(5)
