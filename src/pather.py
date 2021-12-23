@@ -449,7 +449,7 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.81)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
@@ -470,7 +470,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -486,7 +486,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIA_A2")
 
     # # changing node pos and generating new code
     # code = ""
@@ -522,7 +522,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes_fixed("dia_a2y_approach", char)
-    #pather.traverse_nodes([620], char) # approach
+    pather.traverse_nodes([620], char, threshold=0.78) # approach
     #pather.traverse_nodes([621], char) # approach
     #pather.traverse_nodes([622], char) # safe dist
     #pather.traverse_nodes([623], char) # center
@@ -565,16 +565,11 @@ if __name__ == "__main__":
     #pather.traverse_nodes([662], char) # seal boss far
     #pather.traverse_nodes([663], char) # safe dist
     #pather.traverse_nodes([664], char) # seal fake far
-    pather.traverse_nodes([665], char) # seal fake close
+    # pather.traverse_nodes([665], char) # seal fake close
     #pather.traverse_nodes([664], char) # seal fake far
     #pather.traverse_nodes([663], char) # safe dist
     #pather.traverse_nodes([662], char) # seal boss far
     #pather.traverse_nodes([661], char) # seal boss close
     #pather.traverse_nodes([660], char) # approach
-    pather.traverse_nodes_fixed("dia_c2g_home", char)
-    pather.traverse_nodes([602], char) # calibrate pentagram
-
-
-    print("-----")
-    
-    
+    # pather.traverse_nodes_fixed("dia_c2g_home", char)
+    # pather.traverse_nodes([602], char) # calibrate pentagram
