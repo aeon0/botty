@@ -82,6 +82,20 @@ class TownManager:
         Logger.warning(f"Could not heal in {curr_act}. Continue without healing")
         return curr_loc
 
+    def buy_pots(self, curr_loc: Location, healing_pots: int = 0, mana_pots: int = 0) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can buy pots in current act
+        if self._acts[curr_act].can_buy_pots():
+            new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
+            if not new_loc: return False
+            self._ui_manager.buy_pots(healing_pots, mana_pots)
+            wait(0.1, 0.2)
+            self._ui_manager.close_vendor_screen()
+            return new_loc
+        Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
+        return curr_loc
+
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False

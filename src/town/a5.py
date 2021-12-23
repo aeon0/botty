@@ -21,6 +21,7 @@ class A5(IAct):
     def get_wp_location(self) -> Location: return Location.A5_WP
 
     def can_heal(self) -> bool: return True
+    def can_buy_pots(self) -> bool: return True
     def can_resurrect(self) -> bool: return True
     def can_stash(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
@@ -30,6 +31,12 @@ class A5(IAct):
         self._npc_manager.open_npc_menu(Npc.MALAH)
         if not self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True): return False
         return Location.A5_TOWN_START
+
+    def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_MALAH), self._char, force_move=True): return False
+        self._npc_manager.open_npc_menu(Npc.MALAH)
+        self._npc_manager.press_npc_btn(Npc.MALAH, "trade")
+        return Location.A5_MALAH
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
@@ -52,7 +59,7 @@ class A5(IAct):
         return Location.A5_STASH
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char): return
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char): return False
         self._npc_manager.open_npc_menu(Npc.LARZUK)
         self._npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
         return Location.A5_LARZUK
