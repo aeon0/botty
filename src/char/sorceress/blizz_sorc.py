@@ -131,8 +131,8 @@ class BlizzSorc(Sorceress):
                 self._cast_static()
         #wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
-        return True
+                self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+                return True
 
     def kill_council(self) -> bool:
         delay = [0.1, 0.1]
