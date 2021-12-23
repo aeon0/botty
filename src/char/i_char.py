@@ -150,14 +150,12 @@ class IChar:
         wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
         wait(0.1, 0.19)
-        for _ in range(2):
-            mouse.click(button="right")
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+        mouse.click(button="right")
+        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
         keyboard.send(self._char_config["battle_orders"])
         wait(0.1, 0.19)
-        for _ in range(2):
-            mouse.click(button="right")
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+        mouse.click(button="right")
+        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
         keyboard.send(self._char_config["weapon_switch"])
         wait(0.3, 0.35)
         # Make sure that we are back at the previous skill
