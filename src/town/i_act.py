@@ -9,6 +9,8 @@ class IAct:
     # Wait until we arrive in town after using town portal (by searching for templates close it)
     def wait_for_tp(self) -> Union[Location, bool]: return False
 
+    # Is buying pots implemented for this Town?
+    def can_buy_pots(self) -> bool: return False
     # Is healing implemented for this Town?
     def can_heal(self) -> bool: return False
     # Is merc resurrection implemented for this Town?
@@ -18,6 +20,7 @@ class IAct:
     # Is trade/repair implemented in this Town?
     def can_trade_and_repair(self) -> bool: return False
     # If any of the above functions return True for the Town, the respective method must be implemented
+    def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]: return False
     def heal(self, curr_loc: Location) -> Union[Location, bool]: return False
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]: return False
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]: return False

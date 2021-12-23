@@ -217,9 +217,22 @@ class Bot:
 
         # Check if should need some healing
         img = self._screen.grab()
-        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2:
+        buy_pots = self._belt_manager.should_buy_pots()
+        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2 or buy_pots:
             Logger.info("Healing at next possible Vendor")
-            self._curr_loc = self._town_manager.heal(self._curr_loc)
+            if buy_pots:
+                pot_needs = self._belt_manager.get_pot_needs()
+                self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                wait(0.5, 0.8)
+                self._belt_manager.update_pot_needs()
+                # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
+                if self._curr_loc == Location.A5_MALAH:
+                    if self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True):
+                        self._curr_loc = Location.A5_TOWN_START
+                    else:
+                        self._curr_loc = False
+            else:
+                self._curr_loc = self._town_manager.heal(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
