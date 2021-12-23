@@ -171,14 +171,14 @@ class Pather:
             613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357), 
             614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308), 
             615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218), 
-            
+
 
             # SEAL A2Y_new Vizier
             620: {"DIA_A2Y4_35": (64, -15), "DIA_A2Y4_34": (71, -32), "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_MOUSEOVER": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_31": (199, 7), "DIA_A2Y4_19": (234, 27), "DIA_A2Y4_37": (-238, 123), }, #approach
             621: {"DIA_A2Y4_37": (-15, -3), "DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_2": (-194, -121), "DIA_A2Y4_33": (129, -214), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach
             622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_37": (59, -268), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist
-            623: {"DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), }, #center
-            624: {"DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_35": (-56, 279), "DIA_A2Y4_31": (149, 260), }, #left far fake
+            623: {"DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_20": (-500, 146), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), }, #center
+            624: {"DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_20": (-934, 274), "DIA_A2Y4_15": (-780, 186), "DIA_A2Y4_13": (-1000, 140), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_35": (-56, 279), "DIA_A2Y4_31": (149, 260), }, #left far fake
             625: {"DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_31": (-141, 98), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), }, #left close fake "DIA_A2Y4_28": (-271, -123), "DIA_A2Y4_35": (-346, 117)},
             626: {"DIA_A2Y4_28": (272, -111), "DIA_A2Y4_31": (364, -194), "DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# "DIA_A2Y4_39": (-610, -38), "DIA_A2Y4_19": (-14, -20),  "DIA_A2Y4_40": (-575, -38), #"DIA_A2Y4_22": (288, -228), "DIA_A2Y4_38": (-607, -44),  }, #right close boss
             627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
@@ -458,7 +458,7 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.81)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
@@ -479,7 +479,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -495,7 +495,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_C1F2")
+    #display_all_nodes(pather, "DIA_A2Y4")
 
     # # changing node pos and generating new code
     # code = ""
@@ -547,7 +547,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes_fixed("dia_a2y_approach", char)
-    #pather.traverse_nodes([620], char) # approach
+    #pather.traverse_nodes([620], char, threshold=0.78) # approach
     #pather.traverse_nodes([621], char) # approach
     #pather.traverse_nodes([622], char) # safe dist
     #pather.traverse_nodes([623], char) # center
@@ -584,15 +584,15 @@ if __name__ == "__main__":
     # NEW C1F
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_c_layout", char)
-    pather.traverse_nodes([650], char) # approach
-    pather.traverse_nodes([651], char) # seal boss close
-    pather.traverse_nodes([652], char) # seal boss far
-    pather.traverse_nodes([653], char) # safe dist
-    pather.traverse_nodes([654], char) # seal fake far
-    pather.traverse_nodes([653], char) # safe dist
-    pather.traverse_nodes([652], char) # seal boss far
-    pather.traverse_nodes([651], char) # seal boss close
-    pather.traverse_nodes([650], char) # approach
+    #pather.traverse_nodes([650], char) # approach
+    #pather.traverse_nodes([651], char) # seal boss close
+    #pather.traverse_nodes([652], char) # seal boss far
+    #pather.traverse_nodes([653], char) # safe dist
+    #pather.traverse_nodes([654], char) # seal fake far
+    #pather.traverse_nodes([653], char) # safe dist
+    #pather.traverse_nodes([652], char) # seal boss far
+    #pather.traverse_nodes([651], char) # seal boss close
+    #pather.traverse_nodes([650], char) # approach
     #pather.traverse_nodes_fixed("dia_c2g_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
 
@@ -604,16 +604,11 @@ if __name__ == "__main__":
     #pather.traverse_nodes([662], char) # seal boss far
     #pather.traverse_nodes([663], char) # safe dist
     #pather.traverse_nodes([664], char) # seal fake far
-    #pather.traverse_nodes([665], char) # seal fake close
+    # pather.traverse_nodes([665], char) # seal fake close
     #pather.traverse_nodes([664], char) # seal fake far
     #pather.traverse_nodes([663], char) # safe dist
     #pather.traverse_nodes([662], char) # seal boss far
     #pather.traverse_nodes([661], char) # seal boss close
     #pather.traverse_nodes([660], char) # approach
-    #pather.traverse_nodes_fixed("dia_c2g_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-
-
-    print("-----")
-    
-    
+    # pather.traverse_nodes_fixed("dia_c2g_home", char)
+    # pather.traverse_nodes([602], char) # calibrate pentagram
