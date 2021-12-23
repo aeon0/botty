@@ -174,7 +174,7 @@ class Diablo:
         Logger.info("Kill De Seis")
         if not self._char.kill_deseis([637], [631], [630]): return False
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([637], self._char): return False
+        if not self._pather.traverse_nodes([631, 632, 634, 636, 637], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([630], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
