@@ -4,7 +4,10 @@ import keyboard
 import time
 import os
 import random
+import cv2
+from copy import copy
 from typing import Union
+from collections import OrderedDict
 
 from utils.misc import wait
 from game_stats import GameStats
@@ -25,7 +28,7 @@ from char.sorceress import Sorceress
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-from run import Pindle, ShenkEld, Trav, Nihlatak, Diablo, diablo
+from run import Pindle, ShenkEld, Trav, Nihlatak, Diablo
 from town import TownManager, A3, A4, A5
 
 # Added for dclone ip hunt
@@ -53,7 +56,7 @@ class Bot:
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
+            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -65,6 +68,7 @@ class Bot:
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
         self._route_config = self._config.routes
+        self._route_order = self._config.routes_order
 
         # Create runs
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
@@ -77,6 +81,10 @@ class Bot:
             "run_nihlatak": self._route_config["run_nihlatak"],
             "run_diablo": self._route_config["run_diablo"],
         }
+        # Adapt order to the config
+        self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
+        self._do_runs_reset = copy(self._do_runs)
+        Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
@@ -110,7 +118,7 @@ class Bot:
             { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'diablo', 'before': "on_run_diablo"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak','trav', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
             { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'diablo', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
@@ -120,6 +128,9 @@ class Bot:
         from transitions.extensions import GraphMachine
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
+
+    def get_belt_manager(self) -> BeltManager:
+        return self._belt_manager
 
     def get_curr_location(self):
         return self._curr_loc
@@ -153,7 +164,7 @@ class Bot:
     def shuffle_runs(self):
         tmp = list(self._do_runs.items())
         random.shuffle(tmp)
-        self._do_runs = dict(tmp)
+        self._do_runs = OrderedDict(tmp)
 
     def is_last_run(self):
         found_unfinished_run = False
@@ -183,7 +194,7 @@ class Bot:
                 os._exit(1)
             else:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
-            
+
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup:
             self._ran_no_pickup = True
@@ -256,17 +267,13 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_end_game(self, failed: bool = False):
+        if self._config.general["info_screenshots"] and failed:
+            cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
-        self._do_runs = {
-            "run_trav": self._route_config["run_trav"],
-            "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
-            "run_nihlatak": self._route_config["run_nihlatak"],
-            "run_diablo": self._route_config["run_diablo"],
-        }
+        self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         wait(0.2, 0.5)
@@ -302,7 +309,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
-        self._game_stats.update_location("Pindle")
+        self._game_stats.update_location("Pin" if self._config.general['discord_status_condensed'] else "Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             res = self._pindle.battle(not self._pre_buffed)
@@ -311,7 +318,6 @@ class Bot:
     def on_run_shenk(self):
         res = False
         self._do_runs["run_shenk"] = False
-        self._game_stats.update_location("Shenk")
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
             res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed, self._game_stats)
@@ -320,7 +326,7 @@ class Bot:
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location("Travincal")
+        self._game_stats.update_location("Trav" if self._config.general['discord_status_condensed'] else "Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
@@ -329,7 +335,7 @@ class Bot:
     def on_run_nihlatak(self):
         res = False
         self._do_runs["run_nihlatak"] = False
-        self._game_stats.update_location("Nihlatak")
+        self._game_stats.update_location("Nihl" if self._config.general['discord_status_condensed'] else "Nihlatak")
         self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)

@@ -8,10 +8,9 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
-from dataclasses import dataclass
-from utils.custom_mouse import mouse #for sealdance
-from screen import Screen #for sealdance
-import keyboard
+from utils.custom_mouse import mouse
+from screen import Screen
+
 
 class Diablo:
     def __init__(
@@ -40,7 +39,7 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(4, 2) # use Halls of Pain Waypoint (3rd in A4)
+        self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
 
     def _river_of_flames(self):
@@ -56,6 +55,18 @@ class Diablo:
                 self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
         self._pather.traverse_nodes([601], self._char, threshold=0.8) # Calibrate at entrance to Chaos Sanctuary to ensure success reaching pentagram
         Logger.debug("Calibrated at CS ENTRANCE")
+
+    def _cs_pentagram(self):
+        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
+        Logger.info("Moving to PENTAGRAM")
+        found = False
+        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+        while not found:
+            found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
+            if not found:
+                self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char) # Looping in smaller teleport steps to make sure we find the pentagram
+        self._pather.traverse_nodes([602], self._char, threshold=0.82)
+        Logger.info("Calibrated at PENTAGRAM")
 
     def _cs_clear_trash(self):
         self._pather.traverse_nodes_fixed("diablo_chaos_clear1", self._char)
@@ -162,10 +173,10 @@ class Diablo:
         self._char.kill_vizier([623], [624])
         self._pather.traverse_nodes([623], self._char) # loot at center
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([622], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        self._pather.traverse_nodes([622], self._char, threshold=0.78) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Pentagram
+        self._pather.traverse_nodes([602], self._char, threshold=0.82) # Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_B1(self): # old nodes, need to rework
@@ -257,8 +268,7 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         self._river_of_flames()
-        #if diablo_clear_cs_trash self._cs_clear_trash()
-        #else: 
+        # TODO: Option to clear trash?
         self._cs_pentagram()
         Logger.info("Calibrated at PENTAGRAM")
         ### Seal A: Vizier (to the left)
@@ -308,5 +318,4 @@ if __name__ == "__main__":
     # bot._diablo.battle(True)
     # bot._diablo._traverse_river_of_flames()
     # bot._diablo._cs_pentagram()
-    bot._diablo._seal_a()
 """

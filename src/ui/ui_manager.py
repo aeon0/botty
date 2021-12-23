@@ -156,31 +156,19 @@ class UiManager():
         :return: Bool if action was successful
         """
         Logger.debug("Wait for Play button")
-        # To test the start_game() function seperatly, just run:
-        # (botty) >> python src/ui_manager.py
-        # then go to D2r window -> press "f11", you can exit with "f12"
         while 1:
-            # grab img which will be used to search the "play button"
             img = self._screen.grab()
-            # the template finder can be used to search for a specific template, in this case the play btn.
-            # it returns a bool value (True or False) if the button was found, and the position of it
-            # roi = Region of interest. It reduces the search area and can be adapted within game.ini
-            # by running >> python src/screen.py you can visualize all of the currently set region of interests
-            found_btn = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
+            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
+            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True)
+            found_btn = found_btn_off if found_btn_off.valid else found_btn_on
             if found_btn.name == "PLAY_BTN":
-                # We need to convert the position to monitor coordinates (e.g. if someone is using 2 monitors or windowed mode)
                 x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
                 mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
-            else:
-                found_btn = self._template_finder.search("PLAY_BTN", img, roi=self._config.ui_roi["online_btn"], threshold=0.8)
-                if found_btn.valid:
-                    Logger.error("Botty only works for single player. Please switch to offline mode and restart botty!")
-                    return False
-            time.sleep(3.0)
+            wait(2.0, 3.0)
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
@@ -271,10 +259,66 @@ class UiManager():
         wait(0.2, 0.3)
         _, w, _ = img.shape
         img = img[:, (w//2):,:]
-        item_list = item_finder.search(img)
-        item_list = [x for x in item_list if "potion" not in x.name and not \
-            (self._config.items[x.name] == 3 and not self._template_finder.search("ETHEREAL", img).valid)]
-        return len(item_list) > 0
+        original_list = item_finder.search(img)
+        filtered_list = []
+        for x in original_list:
+            if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
+            include_props = self._config.items[x.name].include
+            exclude_props = self._config.items[x.name].exclude
+            if not (include_props or exclude_props):
+                Logger.debug(f"{x.name}: Stashing")
+                filtered_list.append(x)
+                continue
+            include = True
+            include_logic_type = self._config.items[x.name].include_type
+            if include_props:
+                include = False
+                found_props=[]
+                for prop in include_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.95)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = True
+                    if template_match.valid:
+                        if include_logic_type == "AND":
+                            found_props.append(True)
+                        else:
+                            include = True
+                            break
+                    else:
+                        found_props.append(False)
+                if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
+                    include = True
+            if not include:
+                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                continue
+            exclude = False
+            exclude_logic_type = self._config.items[x.name].exclude_type
+            if exclude_props:
+                found_props=[]
+                for prop in exclude_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.97)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = False
+                    if template_match.valid:
+                        if exclude_logic_type == "AND":
+                            found_props.append(True)
+                        else:
+                            exclude = True
+                            break
+                    else:
+                        found_props.append(False)
+                if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                    exclude = True
+                    break
+            if include and not exclude:
+                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                filtered_list.append(x)
+
+        return len(filtered_list) > 0
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
@@ -451,6 +495,9 @@ class UiManager():
         wait(0.1, 0.15)
         x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
         mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
+        wait(0.1, 0.15)
+        mouse.click(button="left")
+        # another click to dismiss popup message in case you have not enough gold to repair, preventing tome not being bought back
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)

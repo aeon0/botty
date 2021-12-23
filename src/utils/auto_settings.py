@@ -2,9 +2,11 @@ import json
 import os
 from config import Config
 from mss import mss
+from utils.misc import close_down_d2
 
 
 def adjust_settings():
+    close_down_d2()
     # You might not belive it, but there are cases where users press f9 and just dont read any console output and think everything is done
     # so for now, removing this warning as it seems there has never been anybody actually backing up the original settings anyway...
     # print("Warning: This will overwrite some of your graphics and gameplay settings. D2R must not be running during this action! Continue with Enter...")
@@ -43,7 +45,7 @@ def adjust_settings():
     # write back to settings.json
     with open(d2_saved_games + "\\Settings.json", 'w') as outfile:
         json.dump(curr_settings, outfile)
-    print("Changed settings succesfully. You can now start D2R and botty.")
+    print("Adapted settings succesfully. You can now restart D2r and botty.")
 
 
 if __name__ == "__main__":
