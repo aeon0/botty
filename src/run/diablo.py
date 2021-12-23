@@ -142,24 +142,24 @@ class Diablo:
     def _seal_A2(self) -> bool:
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
-        if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([624], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([624], self._char): return False
         self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([625], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([625], self._char): return False
         #self._char.kill_cs_trash()
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Seal1"): return False
-        if not self._pather.traverse_nodes([626], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([626], self._char): return False
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Seal2"): return False
-        if not self._pather.traverse_nodes([627, 623, 622], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([627, 622], self._char): return False
         Logger.info("Kill Vizier")
         self._char.kill_vizier([623], [624])
-        if not self._pather.traverse_nodes([623], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char)
-        if not self._pather.traverse_nodes([602], self._char, threshold=0.82): return False
+        if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
         return True
 
