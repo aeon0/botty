@@ -115,18 +115,32 @@ class Config:
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
         }
 
-        self.sorceress = dict(self._config["sorceress"])
+        # Sorc base config
+        sorc_base_cfg = dict(self._config["sorceress"])
         if "sorceress" in self._custom:
-            self.sorceress.update(dict(self._custom["sorceress"]))
+            sorc_base_cfg.update(dict(self._custom["sorceress"]))
+        # blizz sorc
+        self.blizz_sorc = dict(self._config["blizz_sorc"])
+        if "blizz_sorc" in self._custom:
+            self.blizz_sorc.update(dict(self._custom["blizz_sorc"]))
+        self.blizz_sorc.update(sorc_base_cfg)
+        # light sorc
+        self.light_sorc = dict(self._config["light_sorc"])
+        if "light_sorc" in self._custom:
+            self.light_sorc.update(dict(self._custom["light_sorc"]))
+        self.light_sorc.update(sorc_base_cfg)
 
+        # Palandin config
         self.hammerdin = self._config["hammerdin"]
         if "hammerdin" in self._custom:
             self.hammerdin.update(self._custom["hammerdin"])
 
+        # Assasin config
         self.trapsin = self._config["trapsin"]
         if "trapsin" in self._custom:
             self.trapsin.update(self._custom["trapsin"])
 
+        # Barbarian config
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
