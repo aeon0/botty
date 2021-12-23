@@ -162,11 +162,11 @@ class Hammerdin(IChar):
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._cast_hammers(1, "redemption")
-        self._pather.traverse_nodes([node1], self)
+        self._pather.traverse_nodes(node1, self)
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._cast_hammers(1, "redemption")
-        self._pather.traverse_nodes([node2], self)
+        self._pather.traverse_nodes(node2, self)
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         wait(0.1, 0.15)
@@ -174,21 +174,25 @@ class Hammerdin(IChar):
         return True
         
 
-    def kill_deseis(self, node1, node2) -> bool:
+    def kill_deseis(self, node1, node2, node3) -> bool:
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._cast_hammers(1, "redemption")
-        self._pather.traverse_nodes([node1], self)
+        self._pather.traverse_nodes(node1, self)
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._cast_hammers(1, "redemption")
-        self._pather.traverse_nodes([node2], self)
+        self._pather.traverse_nodes(node2, self)
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(node3, self)
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption") 
+        self._cast_hammers(1, "redemption") 
         return True
 
     def kill_infector(self) -> bool:
