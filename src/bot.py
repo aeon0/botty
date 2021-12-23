@@ -24,7 +24,7 @@ from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
 from death_manager import DeathManager
-from char.sorceress import Sorceress
+from char.sorceress import LightSorc, BlizzSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
@@ -49,8 +49,10 @@ class Bot:
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
 
         # Create Character
-        if self._config.char["type"] == "sorceress":
-            self._char: IChar = Sorceress(self._config.sorceress, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        if self._config.char["type"] in ["sorceress", "light_sorc"]:
+            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "blizz_sorc":
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":

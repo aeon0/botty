@@ -88,9 +88,12 @@ class Nihlatak:
                 end_nodes = data.end_nodes
                 break
 
-        # exit if path was not found
+        # circle back and just assume path a if we failed to find the "eye"
         if end_nodes is None:
-            return False
+            self._pather.traverse_nodes_fixed("ni2_circle_back_to_a", self._char)
+            self._pather.traverse_nodes_fixed(check_arr[0].destination_static_path_key, self._char)
+            self._pather.traverse_nodes(check_arr[0].save_dist_nodes, self._char, time_out=2, do_pre_move=False)
+            end_nodes = check_arr[0].end_nodes
 
         # Attack & Pick items
         self._char.kill_nihlatak(end_nodes)

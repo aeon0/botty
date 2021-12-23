@@ -145,6 +145,12 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
+            300: {"TRAV-SAVE-DIST_4": (-101, 134), "TRAV-SAVE-DIST_5": (72, 220), "TRAV-SAVE-DIST_1": (237, -24), "TRAV-SAVE-DIST_3": (-318, 224), "TRAV-SAVE-DIST_11": (472, 39)},
+            301: {"TRAV-SAVE-DIST_7": (178, -33), "TRAV-SAVE-DIST_6": (170, 157), "TRAV-SAVE-DIST_0": (88, -235), "TRAV-SAVE-DIST_5": (-335, -95), "TRAV-SAVE-DIST_8": (444, -108)},
+            302: {"TRAV-SAVE-DIST_0": (-18, 6), "TRAV-SAVE-DIST_7": (73, 208), "TRAV-SAVE-DIST_8": (339, 133), "TRAV-SAVE-DIST_6": (65, 398), "TRAV-SAVE-DIST_5": (-440, 146)},
+            303: {"TRAV_SAVE_DIST_2": (-119, 277), "TRAV_SAVE_DIST_1": (-1, 470), "TRAV_SAVE_DIST_0": (313, 420)},
+            304: {"TRAV_SAVE_DIST_8": (125, -148), "TRAV_SAVE_DIST_7": (-187, 55), "TRAV_SAVE_DIST_5": (-207, 59), "TRAV_SAVE_DIST_6": (267, 183), "TRAV_SAVE_DIST_4": (-159, 403)},
+            305: {"LAST_TRAV_NODE_1": (314, -281), "LAST_TRAV_NODE_0": (-166, -405), "LAST_TRAV_NODE_2": (-1, -439)}, 
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -493,7 +499,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from char.sorceress import Sorceress
+    from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
     config = Config()
