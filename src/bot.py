@@ -223,6 +223,12 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
+        # DYE
+        # buy pots 
+        if self._belt_manager.get_hpot_needs() >= 4:
+            Logger.info("Getting pots")
+            self._curr_loc = self._town_manager.fill_pots_town_DYE(self._curr_loc)   
+
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         self._no_stash_counter += 1
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])

@@ -529,6 +529,23 @@ class UiManager():
             return False
         return True
 
+    def buy_pot_DYE(self) -> bool:
+        """
+        buy pots from Malah or Ormus. Vendor inventory needs to be open!
+        :return: Bool if success
+        """
+        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if not h_pot.valid:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(h_pot.position)
+        keyboard.send('shift', do_release=False)
+        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        wait(0.1, 0.15)
+        mouse.click(button="right")
+        wait(0.1, 0.15)
+        keyboard.send('shift', do_press=False)
+        return True
+
     def has_tps(self) -> bool:
         """
         :return: Returns True if botty has town portals available. False otherwise

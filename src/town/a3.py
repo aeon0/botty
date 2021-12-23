@@ -28,6 +28,14 @@ class A3(IAct):
         self._npc_manager.open_npc_menu(Npc.ORMUS)
         return Location.A3_ORMUS
 
+    # DYE
+    def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char): return
+        self._npc_manager.open_npc_menu(Npc.ORMUS)
+        self._npc_manager.press_npc_btn(Npc.ORMUS, "trade")
+        return Location.A3_ORMUS
+    def can_buy_pots(self) -> bool: return True
+
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char):
             return False

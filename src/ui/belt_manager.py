@@ -1,4 +1,4 @@
-import numpy as np
+iimport numpy as np
 from typing import List
 import keyboard
 import itertools
@@ -31,6 +31,9 @@ class BeltManager:
 
     def get_pot_needs(self):
         return self._pot_needs
+
+    def get_hpot_needs(self):
+        return self._pot_needs["health"]    
 
     def _potion_type(self, img: np.ndarray) -> str:
         """
@@ -73,7 +76,7 @@ class BeltManager:
             self._config.ui_pos["potion_height"]
         ]
         return cut_roi(img, roi)
-
+        
     def drink_potion(self, potion_type: str, merc: bool = False, stats: List = []) -> bool:
         img = self._screen.grab()
         for i in range(4):
@@ -179,7 +182,7 @@ class BeltManager:
 
 
 if __name__ == "__main__":
-    keyboard.wait("f11")
+    keyboard.wait("f7")
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)

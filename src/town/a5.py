@@ -20,6 +20,7 @@ class A5(IAct):
 
     def get_wp_location(self) -> Location: return Location.A5_WP
 
+    def can_buy_pots(self) -> bool: return False
     def can_heal(self) -> bool: return True
     def can_resurrect(self) -> bool: return True
     def can_stash(self) -> bool: return True
