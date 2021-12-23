@@ -143,8 +143,7 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
 
-#Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo 
-
+    #Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo
     def kill_cs_trash(self) -> bool:
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -159,7 +158,7 @@ class Hammerdin(IChar):
         #self._cast_hammers(1.2, "cleansing") # would make sense to add cleansing to CS, due to the tons of curses (that also interfere with the seal logic)
         return True
     
-    def kill_vizier(self, node1, node2) -> bool:
+    def kill_vizier(self, node1: int, node2: int) -> bool:
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
@@ -175,9 +174,8 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption") 
         return True
-        
 
-    def kill_deseis(self, node1, node2) -> bool:
+    def kill_deseis(self, node1: int, node2: int) -> bool:
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
@@ -220,6 +218,7 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         return True
+
 
 if __name__ == "__main__":
     import os

@@ -208,76 +208,7 @@ class Sorceress(IChar):
         # Move to items
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
-        
-#Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo 
 
-    def kill_cs_trash(self) -> bool:
-        delay = [0.2, 0.3]
-        trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_trash_attack"][0])
-        if trash_pos_abs is not None:
-            cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_cs_trashmobs"] * 2)):
-                self._right_attack(cast_pos_abs, delay, 11)
-                self._left_attack(cast_pos_abs, delay, 11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-        #self._picked_up_items = self._pickit.pick_up_items(self._char)
-        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
-        return True
-    
-    def kill_vizier(self) -> bool: # we could also add seal_layout to differentiate attack patterns.
-        self._pather.traverse_nodes_fixed("diablo_vizier_toattack", self)
-        delay = [0.2, 0.3]
-        trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_vizier_attack"][0])
-        if trash_pos_abs is not None:
-            cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_diablo_vizier"])):
-                self._right_attack(cast_pos_abs, delay, 11)
-                self._left_attack(cast_pos_abs, delay, 11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-            self._pather.traverse_nodes_fixed("diablo_vizier_fromattack", self)
-        #self._picked_up_items = self._pickit.pick_up_items(self._char)
-        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
-        return True
-        
-
-    def kill_deseis(self) -> bool:
-        delay = [0.2, 0.3]
-        trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_deseis_attack"][0])
-        if trash_pos_abs is not None:
-            cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_diablo_deseis"])):
-                self._right_attack(cast_pos_abs, delay, 11)
-                self._left_attack(cast_pos_abs, delay, 11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-        #self._picked_up_items = self._pickit.pick_up_items(self._char)
-        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
-        return True
-
-    def kill_infector(self) -> bool:
-        delay = [0.2, 0.3]
-        trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_infector_attack"][0])
-        if trash_pos_abs is not None:
-            cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_diablo_infector"] * 0.5)):
-                self._right_attack(cast_pos_abs, delay, 11)
-                self._left_attack(cast_pos_abs, delay, 11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-        #self._picked_up_items = self._pickit.pick_up_items(self._char)
-        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
-        return True
-
-    def kill_diablo(self) -> bool:
-        delay = [0.2, 0.3]
-        trash_pos_abs = self._screen.convert_screen_to_abs(self._config.path["diablo_attack"][0])
-        if trash_pos_abs is not None:
-            cast_pos_abs = [trash_pos_abs[0] * 0.9, trash_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config["atk_len_diablo"])):
-                self._right_attack(cast_pos_abs, delay, 11)
-                self._left_attack(cast_pos_abs, delay, 11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-        #self._picked_up_items = self._pickit.pick_up_items(self._char)
-        #self._pather.traverse_nodes(nodes_calibration, self._char) # calibrate at position
-        return True
 
 if __name__ == "__main__":
     import os

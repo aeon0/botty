@@ -190,17 +190,17 @@ class IChar:
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
 
-    def kill_diablo(self, end_nodes: list[int]) -> bool:
+    def kill_diablo(self) -> bool:
         raise ValueError("Diablo is not implemented!")
 
-    def kill_deseis(self, end_nodes: list[int]) -> bool:
+    def kill_deseis(self, node1: int, node2: int) -> bool:
         raise ValueError("Diablo De Seis is not implemented!")
 
-    def kill_infector(self, end_nodes: list[int]) -> bool:
+    def kill_infector(self) -> bool:
         raise ValueError("Diablo Infector is not implemented!")
 
-    def kill_vizier(self, end_nodes: list[int]) -> bool:
+    def kill_vizier(self, node1: int, node2: int) -> bool:
         raise ValueError("Diablo Vizier is not implemented!")
 
-    def kill_cs_trash(self, end_nodes: list[int]) -> bool:
+    def kill_cs_trash(self) -> bool:
         raise ValueError("Diablo CS Trash is not implemented!")

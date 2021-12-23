@@ -8,10 +8,9 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
-from dataclasses import dataclass
-from utils.custom_mouse import mouse #for sealdance
-from screen import Screen #for sealdance
-import keyboard
+from utils.custom_mouse import mouse
+from screen import Screen
+
 
 class Diablo:
     def __init__(
@@ -40,7 +39,7 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(4, 2) # use Halls of Pain Waypoint (3rd in A4)
+        self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
 
     def _river_of_flames(self):
@@ -56,6 +55,18 @@ class Diablo:
                 self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
         self._pather.traverse_nodes([601], self._char, threshold=0.8) # Calibrate at entrance to Chaos Sanctuary to ensure success reaching pentagram
         Logger.debug("Calibrated at CS ENTRANCE")
+
+    def _cs_pentagram(self):
+        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
+        Logger.info("Moving to PENTAGRAM")
+        found = False
+        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+        while not found:
+            found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
+            if not found:
+                self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char) # Looping in smaller teleport steps to make sure we find the pentagram
+        self._pather.traverse_nodes([602], self._char, threshold=0.82)
+        Logger.info("Calibrated at PENTAGRAM")
 
     def _cs_clear_trash(self):
         self._pather.traverse_nodes_fixed("diablo_chaos_clear1", self._char)
@@ -80,18 +91,6 @@ class Diablo:
         Logger.info("Killing CS Trash 7/7")
         self._char.kill_cs_trash() #create a node to enable calibration after looting
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
-
-    def _cs_pentagram(self):
-        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
-        Logger.info("Moving to PENTAGRAM")
-        found = False
-        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
-        while not found:
-            found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
-            if not found:
-                self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char) # Looping in smaller teleport steps to make sure we find the pentagram
-        self._pather.traverse_nodes([602], self._char, threshold=0.82)
-        Logger.info("Calibrated at PENTAGRAM")
 
     def _sealdance(self, seal_opentemplates, seal_closedtemplates, seal_layout, found):
         i = 0
@@ -123,10 +122,6 @@ class Diablo:
                 Logger.info(seal_layout + ": is open")
         #take SS & exit game
 
-# RIVER OF FLAME: 
-#   - mew fiends sometimes stun, therefore 1 tele is skipped, and we get stuck in an infinite "diablo_wp_entrance_loop", never finding CS entrance
-
-
     def _seal_A2(self): # WORKS STABLE
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
@@ -144,29 +139,29 @@ class Diablo:
         self._char.kill_vizier(623, 624)
         self._pather.traverse_nodes([623], self._char) # loot at center
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([622], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        self._pather.traverse_nodes([622], self._char, threshold=0.78) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Pentagram
+        self._pather.traverse_nodes([602], self._char, threshold=0.82) # Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_A1(self): # old nodes, need to rework
         seal_layout = "A1L"
-        Logger.info("Seal Layout: " + seal_layout)           
+        Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("diablo_a2_safe_dist", self._char) # safe_dist
         self._char.kill_cs_trash()
-        self._pather.traverse_nodes([620], self._char) # Calibrate at upper seal 620
+        self._pather.traverse_nodes([620], self._char, threshold=0.78) # Calibrate at upper seal 620
         self._sealdance(["DIA_A2L_7"], ["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], seal_layout + "1", False)
-        self._pather.traverse_nodes([622, 623], self._char) # traverse to lower seal
+        self._pather.traverse_nodes([622, 623], self._char, threshold=0.78) # traverse to lower seal
         self._sealdance(["DIA_A2L_11"], ["DIA_A2L_0", "DIA_A2L_1"], seal_layout + "2", False)
-        self._pather.traverse_nodes([622], self._char) # fight vizier at safe_dist -> the idea is to make the merc move away from vizier spawn. if there is a stray monster at the spawn, vizier will only come if this mob is cleared and our attack sequence might miss.
+        self._pather.traverse_nodes([622], self._char, threshold=0.78) # fight vizier at safe_dist -> the idea is to make the merc move away from vizier spawn. if there is a stray monster at the spawn, vizier will only come if this mob is cleared and our attack sequence might miss.
         Logger.info("Kill Vizier")
         self._char.kill_vizier()
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([622], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        self._pather.traverse_nodes([622], self._char, threshold=0.78) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        self._pather.traverse_nodes([602], self._char, threshold=0.82) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_B1(self): # old nodes, need to rework
@@ -256,10 +251,8 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         self._river_of_flames()
-        #if diablo_clear_cs_trash self._cs_clear_trash()
-        #else: 
+        # TODO: Option to clear trash?
         self._cs_pentagram()
-        Logger.info("Calibrated at PENTAGRAM")
         # Seal A: Vizier (to the left)
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we check for layout of A (1=Y or 2=L) L lower seal pops boss, upper does not. Y upper seal pops boss, lower does not
         Logger.info("Checking Layout at A")
@@ -274,7 +267,7 @@ class Diablo:
             self._seal_B1() #seal works stable, except de seis kill
         else:
             self._seal_B2()
-        # Seal C: Infector (to the right)    
+        # Seal C: Infector (to the right)
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
@@ -289,7 +282,7 @@ class Diablo:
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, picked_up_items) #there is an error  ValueError: State 'diablo' is not a registered state.
 
-"""
+
 if __name__ == "__main__":
     from screen import Screen
     import keyboard
@@ -307,5 +300,3 @@ if __name__ == "__main__":
     # bot._diablo.battle(True)
     # bot._diablo._traverse_river_of_flames()
     # bot._diablo._cs_pentagram()
-    bot._diablo._seal_a()
-"""
