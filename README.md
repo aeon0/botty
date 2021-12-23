@@ -112,14 +112,23 @@ run_shenk=0
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 
+### Builds
 | [sorceress]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | teleport      | Required Hotkey for teleport                                                  |
-| skill_left    | Required Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike) |
-| skill_right   | Required Hotkey for skill that is used on right mouse btn (e.g. Blizzard)     |
 | frozen_armor  | Optional Hotkey for frozen armor (or any of the other armors)                 |
 | energy_shield | Optional Hotkey for energy shield                                             |
 | thunder_storm | Optional Hotkey for thunder storm                                             |
+
+| [light_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| chain_lightning | Optional Hotkey for chain_lightning (must be bound to left skill)           |
+| lightning     | Required Hotkey for lightning (must be bound to right skill)                  |
+
+| [blizz_sorc]   | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
+| blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |
 
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
