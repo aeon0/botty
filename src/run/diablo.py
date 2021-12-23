@@ -114,6 +114,30 @@ class Diablo:
             cv2.imwrite(f"./info_screenshots/failed_seal_{seal_layout}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
+    def _seal_A1(self): # WORKS STABLE
+        seal_layout = "A1L"
+        Logger.info("Seal Layout: " + seal_layout)
+        self._pather.traverse_nodes([611], self._char) # approach & safe-dist
+        self._char.kill_cs_trash()
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([612, 613], self._char) # center
+        self._char.kill_cs_trash()
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([614], self._char) # close right fake seal
+        #self._char.kill_cs_trash()
+        self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Seal2", [614], [613], False)
+        self._pather.traverse_nodes([613, 615], self._char) #  close left boss seal 
+        self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Seal1", [615], [612], False)
+        self._pather.traverse_nodes([612, 611, 610], self._char) # safe-dist
+        Logger.info("Kill Vizier")
+        self._char.kill_vizier([612], [611]) #610
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([610], self._char) # calibrate after looting
+        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
+        self._pather.traverse_nodes_fixed("dia_a1l_home", self._char) #lets go home
+        self._pather.traverse_nodes([602], self._char) # Pentagram
+        Logger.info("Calibrated at PENTAGRAM")
+
     def _seal_A2(self): # WORKS STABLE
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
@@ -239,6 +263,26 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
+    def _seal_C2(self): # WORKS STABLE
+        seal_layout = "C2G"
+        Logger.info("Seal Layout: " + seal_layout)
+        self._pather.traverse_nodes([660, 661, 662], self._char) # approach
+        self._char.kill_cs_trash()
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([661], self._char) # approach
+        self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "1", [661], [662], False)
+        self._pather.traverse_nodes([662, 663], self._char) # fight 651
+        Logger.info("Kill Infector")
+        self._char.kill_infector()
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([664, 665], self._char) # pop seal 651, 
+        self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "2", [665], [664], False)
+        self._pather.traverse_nodes([665], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
+        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
+        self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
+        self._pather.traverse_nodes([602], self._char) # calibrate pentagram
+        Logger.info("Calibrated at PENTAGRAM")
+
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
         if do_pre_buff:
@@ -264,21 +308,20 @@ class Diablo:
             self._seal_B1()
         else:
             self._seal_B2()
-        # Seal C: Infector (to the right)
+        ### Seal C: Infector (to the right)    
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
             self._seal_C2() #stable
         else:
             self._seal_C1() # stable, but sometimes ranged mobs at top seal block the template check for open seal, botty then gets stuck 
-        # Diablo
+        ### Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(5)
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, self._picked_up_items) #there is an error  ValueError: State 'diablo' is not a registered state.
-
 
 if __name__ == "__main__":
     from screen import Screen
