@@ -183,7 +183,7 @@ class Pather:
             626: {"DIA_A2Y4_28": (272, -111), "DIA_A2Y4_31": (364, -194), "DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# "DIA_A2Y4_39": (-610, -38), "DIA_A2Y4_19": (-14, -20),  "DIA_A2Y4_40": (-575, -38), #"DIA_A2Y4_22": (288, -228), "DIA_A2Y4_38": (-607, -44),  }, #right close boss
             627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
 
-            # SEAL B1S_new De Seisy
+            # SEAL B1S_new De Seis
             #630:
 
             # SEAL B2U_new De Seis
@@ -196,8 +196,8 @@ class Pather:
             646: {"DIA_B2U2_1": (37, 203), "DIA_B2U2_14": (31, 246), "DIA_B2U2_6": (-248, 67), "DIA_B2U2_13": (-327, 117), }, #safe-dist2
 
             #SEAL C1F_new Infector
-            650: {"DIA_C1F2_0": (76, -132), "DIA_C1F2_6": (-61, 192), "DIA_C1F2_4": (-237, 115), "DIA_C1F2_1": (236, -155), "DIA_C1F2_15_OPEN": (-49, -353), "DIA_C1F2_15_CLOSED": (-49, -353),"DIA_C1F2_15_MOUSEOVER": (-49, -353),"DIA_C1F2_11_OPEN": (-48, -355), "DIA_C1F2_11_CLOSED": (-48, -355), "DIA_C1F2_11_MOUSEOVER": (-48, -355), "DIA_C1F2_9": (275, -249), "DIA_C1F2_3": (372, 13), "DIA_C1F2_10": (-412, 67), "DIA_C1F2_7": (-411, 90), },#approach
-            651: {"DIA_C1F2_0": (-38, 164), "DIA_C1F2_11_OPEN": (-162, -59), "DIA_C1F2_11_CLOSED": (-162, -59),"DIA_C1F2_11_MOUSEOVER": (-162, -59),"DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_1": (122, 141), "DIA_C1F2_9": (293, -98), "DIA_C1F2_12": (-334, -183), "DIA_C1F2_21": (-345, -169), "DIA_C1F2_16": (-506, -55), "DIA_C1F2_5": (472, 195), "DIA_C1F2_6": (-175, 488), },#seal boss close 
+            650: {"DIA_C1F2_0": (76, -132), "DIA_C1F2_6": (-61, 192), "DIA_C1F2_4": (-237, 115), "DIA_C1F2_1": (236, -155), "DIA_C1F2_3": (372, 13), "DIA_C1F2_10": (-412, 67), "DIA_C1F2_7": (-411, 90), },#approach "DIA_C1F2_15_OPEN": (-49, -353), "DIA_C1F2_15_CLOSED": (-49, -353),"DIA_C1F2_15_MOUSEOVER": (-49, -353),"DIA_C1F2_11_OPEN": (-48, -355), "DIA_C1F2_11_CLOSED": (-48, -355), "DIA_C1F2_11_MOUSEOVER": (-48, -355), "DIA_C1F2_9": (275, -249),
+            651: {"DIA_C1F2_1": (122, 141), "DIA_C1F2_0": (-38, 164), "DIA_C1F2_11_OPEN": (-162, -59), "DIA_C1F2_11_CLOSED": (-162, -59),"DIA_C1F2_11_MOUSEOVER": (-162, -59),"DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_15_OPEN": (-163, -57), "DIA_C1F2_9": (293, -98), "DIA_C1F2_12": (-334, -183), "DIA_C1F2_21": (-345, -169), "DIA_C1F2_16": (-506, -55), "DIA_C1F2_5": (472, 195), "DIA_C1F2_6": (-175, 488), },#seal boss close #
             652: {"DIA_C1F2_22": (5, -56), "DIA_C1F2_16": (50, -53), "DIA_C1F2_14": (-139, -112), "DIA_C1F2_27": (-105, 241), "DIA_C1F2_21": (211, -167), "DIA_C1F2_12": (222, -181), "DIA_C1F2_10": (31, 366), "DIA_C1F2_20": (-330, -214), "DIA_C1F2_15_OPEN": (393, -55),"DIA_C1F2_15_CLOSED": (393, -55),"DIA_C1F2_15_MOUSEOVER": (393, -55), "DIA_C1F2_11_OPEN": (394, -57), "DIA_C1F2_11_CLOSED": (394, -57),"DIA_C1F2_11_MOUSEOVER": (394, -57),},#seal boss far & safe dist(fight infector here)
             653: {"DIA_C1F2_20": (191, -123), "DIA_C1F2_23_OPEN": (-240, 180),"DIA_C1F2_23_CLOSED": (-240, 180),"DIA_C1F2_23_MOUSEOVER": (-240, 180), "DIA_C1F2_17": (-238, 185), "DIA_C1F2_18": (-336, 54), "DIA_C1F2_19": (170, 296), "DIA_C1F2_14": (382, -21), "DIA_C1F2_13": (148, 389), "DIA_C1F2_25": (161, 397), "DIA_C1F2_22": (526, 35), "DIA_C1F2_29": (-528, -10), },#seal fake far
             654: {"DIA_C1F2_17": (-103, -12), "DIA_C1F2_23_OPEN": (-105, -17), "DIA_C1F2_23_CLOSED": (-105, -17),"DIA_C1F2_23_MOUSEOVER": (-105, -17),"DIA_C1F2_18": (-201, -143), "DIA_C1F2_19": (305, 99), "DIA_C1F2_13": (283, 192), "DIA_C1F2_26": (-342, 55), "DIA_C1F2_25": (296, 200), "DIA_C1F2_29": (-393, -207), "DIA_C1F2_20": (326, -320), "DIA_C1F2_24": (-486, 25), }, #seal fake close
@@ -495,7 +495,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_A2Y4")
+    display_all_nodes(pather, "DIA_C1F2")
 
     # # changing node pos and generating new code
     # code = ""
@@ -584,15 +584,15 @@ if __name__ == "__main__":
     # NEW C1F
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_c_layout", char)
-    #pather.traverse_nodes([650], char) # approach
+    pather.traverse_nodes([650], char) # approach
+    pather.traverse_nodes([651], char) # seal boss close
+    pather.traverse_nodes([652], char) # seal boss far
+    pather.traverse_nodes([653], char) # safe dist
+    pather.traverse_nodes([654], char) # seal fake far
+    pather.traverse_nodes([653], char) # safe dist
+    pather.traverse_nodes([652], char) # seal boss far
     #pather.traverse_nodes([651], char) # seal boss close
-    #pather.traverse_nodes([652], char) # seal boss far
-    #pather.traverse_nodes([653], char) # safe dist
-    #pather.traverse_nodes([654], char) # seal fake far
-    #pather.traverse_nodes([653], char) # safe dist
-    #pather.traverse_nodes([652], char) # seal boss far
-    #pather.traverse_nodes([651], char) # seal boss close
-    #pather.traverse_nodes([650], char) # approach
+    pather.traverse_nodes([650], char) # approach
     #pather.traverse_nodes_fixed("dia_c2g_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
 
