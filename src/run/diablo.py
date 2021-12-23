@@ -114,31 +114,32 @@ class Diablo:
             cv2.imwrite(f"./info_screenshots/failed_seal_{seal_layout}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
-    def _seal_A1(self): # WORKS STABLE
+    def _seal_A1(self) -> bool:
         seal_layout = "A1L"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes([611], self._char) # approach & safe-dist
+        if not self._pather.traverse_nodes([611], self._char): return False
         self._char.kill_cs_trash()
-        self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([612, 613], self._char) # center
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([612, 613], self._char): return False
         self._char.kill_cs_trash()
-        self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([614], self._char) # close right fake seal
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([614], self._char): return False
         #self._char.kill_cs_trash()
-        self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Seal2", [614], [613], False)
-        self._pather.traverse_nodes([613, 615], self._char) #  close left boss seal 
-        self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Seal1", [615], [612], False)
-        self._pather.traverse_nodes([612, 611, 610], self._char) # safe-dist
+        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Seal2"): return False
+        if not self._pather.traverse_nodes([613, 615], self._char): return False
+        if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Seal1"): return False
+        if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
         Logger.info("Kill Vizier")
-        self._char.kill_vizier([612], [611]) #610
-        self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([610], self._char) # calibrate after looting
+        self._char.kill_vizier([612], [611])
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([610], self._char): return False
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_a1l_home", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Pentagram
+        if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
+        return True
 
-    def _seal_A2(self): # WORKS STABLE
+    def _seal_A2(self) -> bool:
         seal_layout = "A2Y"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
@@ -152,7 +153,7 @@ class Diablo:
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Seal2"): return False
         if not self._pather.traverse_nodes([627, 623, 622], self._char, threshold=0.82): return False
         Logger.info("Kill Vizier")
-        self._char.kill_vizier(623, 624)
+        self._char.kill_vizier([623], [624])
         if not self._pather.traverse_nodes([623], self._char, threshold=0.82): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
@@ -160,25 +161,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_a2y_home", self._char)
         if not self._pather.traverse_nodes([602], self._char, threshold=0.82): return False
         Logger.info("Calibrated at PENTAGRAM")
-
-    def _seal_A1(self):
-        seal_layout = "A1L"
-        Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("diablo_a2_safe_dist", self._char)
-        self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([620], self._char, threshold=0.82): return False
-        if not self._sealdance(["DIA_A2L_7"], ["DIA_A2L_2", "DIA_A2L_3", "DIA_A2L_2_621", "DIA_A2L_2_620", "DIA_A2L_2_620_MOUSEOVER"], seal_layout + "-Seal1"): return False
-        if not self._pather.traverse_nodes([622, 623], self._char, threshold=0.82): return False
-        if not self._sealdance(["DIA_A2L_11"], ["DIA_A2L_0", "DIA_A2L_1"], seal_layout + "-Seal2"): return False
-        if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
-        Logger.info("Kill Vizier")
-        self._char.kill_vizier()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([622], self._char, threshold=0.82): return False
-        Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
-        self._pather.traverse_nodes_fixed("diablo_a2_end_pentagram", self._char)
-        if not self._pather.traverse_nodes([602], self._char, threshold=0.82): return False
-        Logger.info("Calibrated at PENTAGRAM")
+        return True
 
     def _seal_B1(self): # old nodes, need to rework
         seal_layout = "B1S"
@@ -194,7 +177,9 @@ class Diablo:
         self._pather.traverse_nodes([630], self._char) #633 is bugged
         self._pather.traverse_nodes_fixed("diablo_b1_safe_dist", self._char)
         Logger.info("Kill De Seis")
-        self._char.kill_deseis()
+        self._char.kill_deseis([641], [640], [646])
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([640], self._char) #approach
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([632], self._char) # calibrate after looting
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
@@ -214,17 +199,19 @@ class Diablo:
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout)
         self._pather.traverse_nodes([643, 642, 646], self._char) #seal far, safe dist
         Logger.info("Kill De Seis")
-        self._char.kill_deseis(641,640)
+        self._char.kill_deseis([641], [640], [646])
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([640], self._char) #approach
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([640], self._char) #approach
-        self._pather.traverse_nodes_fixed("dia_b2u_home", self._char) 
+        self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_C2(self): # WORKS STABLE
         seal_layout = "C2G"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes([660, 661], self._char) # approach
+        self._pather.traverse_nodes([660, 661, 662], self._char) # approach
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([661], self._char) # approach
@@ -232,7 +219,7 @@ class Diablo:
         self._pather.traverse_nodes([662, 663], self._char) # fight 651
         Logger.info("Kill Infector")
         self._char.kill_infector()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([664, 665], self._char) # pop seal 651, 
         self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "2")
         self._pather.traverse_nodes([665], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
@@ -270,13 +257,13 @@ class Diablo:
         self._char.kill_cs_trash()
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([661], self._char) # approach
-        self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "1", [661], [662], False)
+        self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "1")
         self._pather.traverse_nodes([662, 663], self._char) # fight 651
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items = self._pickit.pick_up_items(self._char)
         self._pather.traverse_nodes([664, 665], self._char) # pop seal 651, 
-        self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "2", [665], [664], False)
+        self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "2")
         self._pather.traverse_nodes([665], self._char) # calibrate at SAFE_DIST after looting, before returning to pentagram
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
         self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
@@ -308,14 +295,14 @@ class Diablo:
             self._seal_B1()
         else:
             self._seal_B2()
-        ### Seal C: Infector (to the right)    
+        # Seal C: Infector (to the right)
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char)  # we check for layout of C (1=G or 2=F) G lower seal pops boss, upper does not. F first seal pops boss, second does not
         Logger.debug("Checking Layout at C")
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
             self._seal_C2() #stable
         else:
             self._seal_C1() # stable, but sometimes ranged mobs at top seal block the template check for open seal, botty then gets stuck 
-        ### Diablo
+        # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(5)
         self._char.kill_diablo() 
