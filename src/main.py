@@ -89,6 +89,7 @@ def main():
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
+    os.system("mkdir stats")
     if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
     if not os.path.exists("loot_screenshots") and config.general["loot_screenshots"]:

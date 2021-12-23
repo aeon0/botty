@@ -1,11 +1,12 @@
-from logger import Logger
 import time
 import threading
+import inspect
+from beautifultable import BeautifulTable
+
+from logger import Logger
 from config import Config
 from messenger import Messenger
 from utils.misc import hms
-import inspect
-from beautifultable import BeautifulTable
 from version import __version__
 
 
@@ -26,6 +27,7 @@ class GameStats:
         self._failed_game_time = 0
         self._location = None
         self._location_stats = {}
+        self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         
     def update_location(self, loc: str):
         if self._location != loc:
@@ -76,8 +78,6 @@ class GameStats:
 
     def log_merc_death(self):
         self._merc_death_counter += 1
-        # TODO: That message comes up a bit often, either make a param for it or remove it completely
-        # self._send_message_thread(f"{self._config.general['name']}: Merc has died{self.get_location_msg()}")
         if self._location is not None:
             self._location_stats[self._location]["merc_deaths"] += 1
 
@@ -150,7 +150,14 @@ class GameStats:
             totals["merc_deaths"] += stats["merc_deaths"]
             totals["failed_runs"] += stats["failed_runs"]
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
-        table.rows.append(["T" if self._config.general['discord_status_condensed'] else "Total", totals["items"], totals["chickens"], totals["deaths"], totals["merc_deaths"], totals["failed_runs"]])
+        table.rows.append([
+            "T" if self._config.general['discord_status_condensed'] else "Total",
+            totals["items"],
+            totals["chickens"],
+            totals["deaths"],
+            totals["merc_deaths"],
+            totals["failed_runs"]
+        ])
         if self._config.general['discord_status_condensed']:
             table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
         else:
@@ -165,17 +172,18 @@ class GameStats:
 
     def _save_stats_to_file(self):
         msg = self._create_msg()
-        msg += "\nItems:"        
+        msg += "\nItems:"
         for location in self._location_stats:
             stats = self._location_stats[location]
             msg += f"\n  {location}:"
             for item_name in stats["items"]:
                 msg += f"\n    {item_name}"
 
-        with open("stats.log", "w+") as f:
+        with open(f"stats/{self._stats_filename}", "w+") as f:
             f.write(msg)
 
 
 if __name__ == "__main__":
     game_stats = GameStats()
     game_stats.log_item_pickup("rune_12", True)
+    game_stats._save_stats_to_file()
