@@ -7,7 +7,11 @@ import cv2
 from typing import List, Tuple
 import os
 from math import cos, sin, dist
+import subprocess
 
+
+def close_down_d2():
+    subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
 
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:

@@ -9,6 +9,7 @@ from screen import Screen
 from utils.misc import wait, cut_roi, is_in_roi
 import time
 from pather import Pather, Location
+import cv2
 
 
 class Barbarian(IChar):
@@ -193,7 +194,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui_manager import UiManager
+    from ui.ui_manager import UiManager
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)

@@ -161,12 +161,12 @@ class IChar:
         # Make sure that we are back at the previous skill
         skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val < 0.96:
+        if max_val < 0.9:
             Logger.warning("Failed to switch weapon, try again")
             wait(1.2)
             skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val < 0.96:
+            if max_val < 0.9:
                 keyboard.send(self._char_config["weapon_switch"])
                 wait(0.4)
             else:
