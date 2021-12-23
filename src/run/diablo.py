@@ -129,10 +129,10 @@ class Diablo:
                 Logger.info(seal_layout + ": is open")
         #take SS & exit game
 
-# RIVER OF FLAME: 
-#   - mew fiends sometimes stun, therefore 1 tele is skipped, and we get stuck in an infinite "diablo_wp_entrance_loop", never finding CS entrance
+    # RIVER OF FLAME: 
+    #   - mew fiends sometimes stun, therefore 1 tele is skipped, and we get stuck in an infinite "diablo_wp_entrance_loop", never finding CS entrance
 
-    def _seal_A1(self): # WORKS STABLE
+    def _seal_A1(self): # NEW - needs testing
         seal_layout = "A1L"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes([611], self._char) # approach & safe-dist
@@ -222,26 +222,27 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char) # Move to Pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_C1(self): # old nodes, need to rework
+    def _seal_C1(self): # NEW - pls test
         seal_layout = "C1F"
         Logger.info("Seal Layout: " + seal_layout)
-        self._pather.traverse_nodes_fixed("diablo_pentagram_c2_seal", self._char) # moving close to upper seal
-        self._pather.traverse_nodes([660], self._char) # position between seals
+        self._pather.traverse_nodes([650], self._char) # approach
         self._char.kill_cs_trash()
-        self._sealdance(["DIA_C2F_FAKE_ACTIVE"], ["DIA_C2F_FAKE_MOUSEOVER", "DIA_C2F_FAKE_CLOSED"], seal_layout + "-Seal1", False)
-        self._pather.traverse_nodes([660], self._char) # transition to boss seal
-        self._pather.traverse_nodes_fixed("diablo_c2f_hopleft", self._char) # moving to lower seal - dirty solution with static path, as the 661 does not work well
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([651,653], self._char) # approach
         self._char.kill_cs_trash()
-        #self._pather.traverse_nodes([661], self._char) # transition to boss seal # we sometimes get stuck here, might need more templates
-        self._sealdance(["DIA_C2F_BOSS_ACTIVE"], ["DIA_C2F_BOSS_MOUSEOVER", "DIA_C2F_BOSS_CLOSED"], seal_layout + "-Seal1", False)
-        self._pather.traverse_nodes_fixed("diablo_c2f_hopright", self._char) # move to fight position - dirty solution with static path, as the 661 does not work well
-        Logger.info("Kill Infector") 
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([651], self._char) # seal boss close
+        self._sealdance(["DIA_C1F2_8_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F_8_MOUSEOVER"], seal_layout + "1", [651], [652], False)
+        self._pather.traverse_nodes([652], self._char) # clear center
+        Logger.info("Kill Infector")
         self._char.kill_infector()
-        self.picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([660], self._char) # transition to boss seal
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([653, 654], self._char) # seak fake close
+        self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2", [665], [664], False)
+        self._pather.traverse_nodes([653, 652, 650], self._char) # approach
         Logger.info("Calibrated at " + seal_layout + " SAFE_DIST")
-        self._pather.traverse_nodes_fixed("diablo_c2_end_pentagram", self._char) #lets go home
-        self._pather.traverse_nodes([602], self._char) # Move to Pentagram
+        self._pather.traverse_nodes_fixed("dia_c2f_home", self._char)
+        self._pather.traverse_nodes([602], self._char) # calibrate pentagram
         Logger.info("Calibrated at PENTAGRAM")
 
     def _seal_C2(self): # WORKS STABLE
