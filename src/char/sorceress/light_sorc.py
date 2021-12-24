@@ -170,16 +170,3 @@ class LightSorc(Sorceress):
         self._left_attack(cast_pos_abs, delay, 90)
         wait(0.1, 0.15)
         return True
-        
-    def kill_summoner(self) -> bool:
-        # Move to center
-        self._pather.traverse_nodes([401], self, time_out=0.8, do_pre_move=False)
-        # Attack
-        delay = [0.2, 0.3]
-        cast_pos_abs = np.array([-300, -100])
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
-        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._right_attack(cast_pos_abs, delay, 90)
-        self._left_attack(cast_pos_abs, delay, 90)
-        wait(0.1, 0.15)
-        return True
