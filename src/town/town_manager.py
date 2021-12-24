@@ -5,7 +5,7 @@ from config import Config
 from pather import Location
 from logger import Logger
 from ui import UiManager
-from town import IAct, A3, A4, A5
+from town import IAct, A2, A3, A4, A5
 from utils.misc import wait
 
 
