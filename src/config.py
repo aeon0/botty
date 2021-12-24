@@ -108,6 +108,7 @@ class Config:
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
+            "atk_len_arc": float(self._select_val("char", "atk_len_arc")),
             "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
