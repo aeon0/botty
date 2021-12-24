@@ -123,7 +123,6 @@ run_shenk=0
 | [light_sorc]  | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | chain_lightning | Optional Hotkey for chain_lightning (must be bound to left skill)           |
-| lightning     | Required Hotkey for lightning (must be bound to right skill)                  |
 
 | [blizz_sorc]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
