@@ -28,8 +28,8 @@ from char.sorceress import LightSorc, BlizzSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-from run import Pindle, ShenkEld, Trav, Nihlatak
-from town import TownManager, A3, A4, A5
+from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
+from town import TownManager, A2, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
@@ -68,7 +68,8 @@ class Bot:
         a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
+        a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -81,6 +82,7 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
+            "run_arcane": self._route_config["run_arcane"],
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
@@ -92,6 +94,7 @@ class Bot:
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -106,7 +109,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -117,8 +120,8 @@ class Bot:
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
             { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak','trav'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -351,4 +354,13 @@ class Bot:
         self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
+        self._ending_run_helper(res)
+    
+    def on_run_arcane(self):
+        res = False
+        self._do_runs["run_arcane"] = False
+        self._game_stats.update_location("Arc" if self._config.general['discord_status_condensed'] else "Arcane")
+        self._curr_loc = self._arcane.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._arcane.battle(not self._pre_buffed)
         self._ending_run_helper(res)
