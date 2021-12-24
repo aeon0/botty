@@ -17,7 +17,7 @@ class LightSorc(Sorceress):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         if self._skill_hotkeys["chain_lightning"]:
             keyboard.send(self._skill_hotkeys["chain_lightning"])
-        for _ in range(5):
+        for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
             pos_m = self._screen.convert_abs_to_monitor((x, y))
@@ -27,11 +27,25 @@ class LightSorc(Sorceress):
             mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
+    def _lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
+        if not self._skill_hotkeys["lightning"]:
+            raise ValueError("You did not set lightning hotkey!")
+        keyboard.send(self._skill_hotkeys["lightning"])
+        for _ in range(3):
+            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            mouse.move(*cast_pos_monitor)
+            mouse.press(button="right")
+            wait(delay[0], delay[1])
+            mouse.release(button="right")
+
     def kill_pindle(self) -> bool:
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_pindle"])):
             self._chain_lightning(cast_pos_abs, spray=11)
+        self._lightning(cast_pos_abs, spray=11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
         self._pather.traverse_nodes_fixed("pindle_end", self)
@@ -42,8 +56,9 @@ class LightSorc(Sorceress):
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_eldritch"])):
             self._chain_lightning(cast_pos_abs, spray=90)
-        wait(self._cast_duration, self._cast_duration + 0.2)
+        self._lightning(cast_pos_abs, spray=50)
         # Move to items
+        wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes_fixed("eldritch_end", self)
         return True
 
@@ -54,8 +69,9 @@ class LightSorc(Sorceress):
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_shenk"])):
             self._chain_lightning(cast_pos_abs, spray=90)
-        wait(self._cast_duration, self._cast_duration + 0.2)
+        self._lightning(cast_pos_abs, spray=60)
         # Move to items
+        wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
         return True
 
@@ -77,6 +93,7 @@ class LightSorc(Sorceress):
         self._cast_static()
         for _ in range(atk_len_trav_2):
             self._chain_lightning(cast_pos_abs, spray=80)
+        self._lightning(cast_pos_abs, spray=60)
         # move a bit back
         pos_m = self._screen.convert_abs_to_monitor((160, 30))
         self.pre_move()
@@ -86,6 +103,7 @@ class LightSorc(Sorceress):
             Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
             atk_pos_abs = [-200, -80]
         self._chain_lightning(cast_pos_abs, spray=60)
+        self._lightning(cast_pos_abs, spray=60)
         # Move outside
         # Move a bit back and another round
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
@@ -120,7 +138,10 @@ class LightSorc(Sorceress):
                 pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
                 self.pre_move()
                 self.move(pos_m)
+            else:
+                self._lightning(cast_pos_abs, spray=60)
         # Move to items
+        wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
 
