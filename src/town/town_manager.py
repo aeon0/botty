@@ -10,7 +10,7 @@ from utils.misc import wait
 
 
 class TownManager:
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a3: A3, a4: A4, a5: A5):
+    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a2: A2, a3: A3, a4: A4, a5: A5):
         self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
