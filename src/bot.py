@@ -91,7 +91,7 @@ class Bot:
         self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._nihlatak = Nihlatak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
