@@ -68,8 +68,12 @@ class Arcane:
             return False
    
         # Depending on what template is found we do static pathing to the end.
+<<<<<<< HEAD
         #self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
         self._pather.traverse_nodes_fixed('arc_top_right', self._char)
+=======
+        self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
+>>>>>>> 0ced527adf333628722d2074a828196397414868
         
         # Attack
         self._char.kill_summoner()
