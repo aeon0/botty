@@ -135,16 +135,16 @@ class Pather:
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
             # A2 town
-            300: {"A2_TOWN_LIGHT_WELL": (-38, -256), "A2_TOWN_MEDIUM_WELL": (-38, -256), "A2_TOWN_DARK_WELL": (-38, -256)},
-            301: {"A2_TOWN_LIGHT_FIRE1": (218, -257), "A2_TOWN_MEDIUM_FIRE1": (218, -257), "A2_TOWN_DARK_FIRE1": (218, -257), "A2_TOWN_LIGHT_CORNER": (476, -184), "A2_TOWN_MEDIUM_CORNER": (476, -184), "A2_TOWN_DARK_CORNER": (476, -184)},
-            302: {"A2_TOWN_TREE": (356, -192)},
-            303: {"A2_TOWN_LIGHT_FIRE2": (131, 317), "A2_TOWN_DARK_FIRE2": (131, 317), "A2_TOWN_MEDIUM_BOXES": (-417, -103), "A2_TOWN_DARK_BOXES": (-417, -103)},
-            304: {"A2_TOWN_LIGHT_FIRE2": (345, -134), "A2_TOWN_DARK_FIRE2": (345, -134), "A2_TOWN_LIGHT_HUT": (-230, -181), "A2_TOWN_DARK_HUT": (-230, -181), "A2_TOWN_LIGHT_ROOF": (247, 14), "A2_TOWN_MEDIUM_ROOF": (247, 14), "A2_TOWN_DARK_ROOF": (247, 14)},
-            305: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
-            305: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
-            306: {"A2_TOWN_BARREL": (-158, -7)},
-            307: {"A2_TOWN_BARREL": (-580, -26), "A2_TOWN_LIGHT_HUT": (442, 78), "A2_TOWN_DARK_HUT": (442, 78)},
-            308: {"A2_TOWN_LIGHT_HUT": (-36, -25), "A2_TOWN_DARK_HUT": (-36, -25), "A2_TOWN_LIGHT_FIRE2": (535, 19), "A2_TOWN_DARK_FIRE2": (535, 19)},
+            400: {"A2_TOWN_LIGHT_WELL": (-38, -256), "A2_TOWN_MEDIUM_WELL": (-38, -256), "A2_TOWN_DARK_WELL": (-38, -256)},
+            401: {"A2_TOWN_LIGHT_FIRE1": (218, -257), "A2_TOWN_MEDIUM_FIRE1": (218, -257), "A2_TOWN_DARK_FIRE1": (218, -257), "A2_TOWN_LIGHT_CORNER": (476, -184), "A2_TOWN_MEDIUM_CORNER": (476, -184), "A2_TOWN_DARK_CORNER": (476, -184)},
+            402: {"A2_TOWN_TREE": (356, -192)},
+            403: {"A2_TOWN_LIGHT_FIRE2": (131, 317), "A2_TOWN_DARK_FIRE2": (131, 317), "A2_TOWN_MEDIUM_BOXES": (-417, -103), "A2_TOWN_DARK_BOXES": (-417, -103)},
+            404: {"A2_TOWN_LIGHT_FIRE2": (345, -134), "A2_TOWN_DARK_FIRE2": (345, -134), "A2_TOWN_LIGHT_HUT": (-230, -181), "A2_TOWN_DARK_HUT": (-230, -181), "A2_TOWN_LIGHT_ROOF": (247, 14), "A2_TOWN_MEDIUM_ROOF": (247, 14), "A2_TOWN_DARK_ROOF": (247, 14)},
+            405: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
+            405: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
+            406: {"A2_TOWN_BARREL": (-158, -7)},
+            407: {"A2_TOWN_BARREL": (-580, -26), "A2_TOWN_LIGHT_HUT": (442, 78), "A2_TOWN_DARK_HUT": (442, 78)},
+            408: {"A2_TOWN_LIGHT_HUT": (-36, -25), "A2_TOWN_DARK_HUT": (-36, -25), "A2_TOWN_LIGHT_FIRE2": (535, 19), "A2_TOWN_DARK_FIRE2": (535, 19)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -164,8 +164,8 @@ class Pather:
             304: {"TRAV_SAVE_DIST_8": (125, -148), "TRAV_SAVE_DIST_7": (-187, 55), "TRAV_SAVE_DIST_5": (-207, 59), "TRAV_SAVE_DIST_6": (267, 183), "TRAV_SAVE_DIST_4": (-159, 403)},
             305: {"LAST_TRAV_NODE_1": (314, -281), "LAST_TRAV_NODE_0": (-166, -405), "LAST_TRAV_NODE_2": (-1, -439)}, 
             # Arcane
-            400: {"ARC_START": (486, -149)},
-            401: {"ARC_END_1": (363, 5), "ARC_ALTAR": (0, 0)},
+            450: {"ARC_START": (486, -149)},
+            451: {"ARC_END_1": (363, 5), "ARC_ALTAR": (0, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -224,13 +224,13 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # A2 Town
-            (Location.A2_TOWN_START, Location.A2_WP): [300, 301, 302, 303, 304],
-            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [300, 301, 302, 305, 306],
-            (Location.A2_FARA_STASH, Location.A2_WP): [307, 308, 304],
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405, 406],
+            (Location.A2_FARA_STASH, Location.A2_WP): [407, 408, 404],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
             # Arcane
-            (Location.A2_ARC_START, Location.A2_ARC_CHECKPOINT): [400],
+            (Location.A2_ARC_START, Location.A2_ARC_CHECKPOINT): [450],
         }
 
     def offset_node(self, node_idx: int, offset: tuple[int, int]):
