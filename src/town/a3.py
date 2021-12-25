@@ -25,7 +25,7 @@ class A3(IAct):
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
         self._npc_manager.open_npc_menu(Npc.ORMUS)
         return Location.A3_ORMUS
 
@@ -36,7 +36,7 @@ class A3(IAct):
         return Location.A3_ORMUS
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char):
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True):
             return False
         wait(0.3)
         def stash_is_open_func():
