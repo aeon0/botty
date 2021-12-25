@@ -379,9 +379,9 @@ class UiManager():
                     if self._config.general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
-                        # turn of gold pickup
+                        # turn off gold pickup
                         self._config.char["stash_gold"] = False
-                        self._config.items["misc_gold"] = False
+                        self._config.items["misc_gold"].pickit_type = 0
                         item_finder.update_items_to_pick(self._config)
                         # inform user about it
                         msg = "All stash tabs and character are full of gold, turn of gold pickup"
