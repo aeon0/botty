@@ -76,7 +76,7 @@ if __name__ == "__main__":
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()
 
-   if new_version_code is not None:
+if new_version_code is not None:
         with open('src/version.py', 'w') as f:
             f.write(new_dev_version_code)
         os.system(f'git add .')
