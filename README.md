@@ -139,7 +139,7 @@ run_shenk=0
 | redemption     | Optional Hotkey for redemption                                                      |
 | vigor          | Optional Hotkey for vigor                                                           |
 
-| [trapsin]    | Descriptions                                                                        |
+| [trapsin]      | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
 | teleport       | Optional Hotkey for teleport. If left empty trapsin will run instead of teleport.   |
 | skill_left     | Optional Hotkey for Left Skill                                                      |
@@ -156,6 +156,16 @@ run_shenk=0
 | shout          | Required Hotkey for Shout                                                           |
 | war_cry        | Required Hotkey for War Cry                                                         |
 | find_item      | Optional Hotkey for Find Item                                                       |
+
+| [fishymancer]  | Descriptions                                                                        |
+| -------------- | ----------------------------------------------------------------------------------- |
+| teleport       | Optional Hotkey for teleport. If left empty barb will run instead of teleport.      |
+| raise_skeleton | Required Hotkey for Raise Skeleton                                                  |
+| amplify_damage | Required Hotkey for Amplify Damage                                                  |
+| clay_golem     | Required Hotkey for Clay Golem                                                      |
+| corpse_explosion | Required Hotkey for Corpse Explosion                                              |
+| poisen_nova    | Optional Hotkey for Poisen Nova                                                     |
+| bone_armor     | Optional Hotkey for Bone Armor                                                      |
 
 | [dclone]             | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |
