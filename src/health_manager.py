@@ -20,7 +20,7 @@ class HealthManager:
         self._screen = screen
         self._template_finder = TemplateFinder(screen)
         self._ui_manager = UiManager(screen, self._template_finder)
-        self._belt_manager = BeltManager(screen, self._template_finder)
+        self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()
@@ -32,6 +32,9 @@ class HealthManager:
 
     def stop_monitor(self):
         self._do_monitor = False
+
+    def set_belt_manager(self, belt_manager: BeltManager):
+        self._belt_manager = belt_manager
 
     def set_callback(self, callback):
         self._callback = callback

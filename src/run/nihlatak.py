@@ -9,11 +9,14 @@ from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
+from screen import Screen
+import random
 
 
 class Nihlatak:
     def __init__(
         self,
+        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -22,6 +25,7 @@ class Nihlatak:
         pickit: PickIt
     ):
         self._config = Config()
+        self._screen = screen
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
@@ -55,40 +59,49 @@ class Nihlatak:
             self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
-            return False
+            # do a random tele jump and try again
+            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            self._char.move(pos_m, force_move=True)
+            if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
+                return False
         # Wait until templates in lvl 2 entrance are found
         if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False
+        wait(1.0) # wait to make sure the red writing is gone once we check for the eye
         @dataclass
         class EyeCheckData:
             template_name: list[str]
-            static_path_key: str
+            destination_static_path_key: str
+            circle_static_path_key: str
             save_dist_nodes: list[int]
             end_nodes: list[int]
 
         check_arr = [
-            EyeCheckData(["NI2_A_SAFE_DIST", "NI2_A_NOATTACK", "NI2_A_SAFE_DIST_2", "NI2_A_NOATTACK_2"], "ni2_circle_a", [500], [501]),
-            EyeCheckData(["NI2_B_SAFE_DIST", "NI2_B_NOATTACK", "NI2_B_NOATTACK_2"], "ni2_circle_b", [505], [506]),
-            EyeCheckData(["NI2_C_SAFE_DIST", "NI2_C_NOATTACK"], "ni2_circle_c", [510], [511]),
-            EyeCheckData(["NI2_D_SAFE_DIST", "NI2_D_NOATTACK"], "ni2_circle_d", [515], [516, 517]),
+            EyeCheckData(["NI2_A_1_SAFE_DIST", "NI2_A_2_SAFE_DIST", "NI2_A_1_NOATTACK", "NI2_A_2_NOATTACK"], "ni2_a_safe_dist", "ni2_circle_a", [500], [501]),
+            EyeCheckData(["NI2_B_1_SAFE_DIST", "NI2_B_1_NOATTACK", "NI2_B_2_NOATTACK"], "ni2_b_safe_dist", "ni2_circle_b", [505], [506]),
+            EyeCheckData(["NI2_C_1_SAFE_DIST", "NI2_C_1_NOATTACK"], "ni2_c_safe_dist", "ni2_circle_c", [510], [511]),
+            EyeCheckData(["NI2_D_1_SAFE_DIST", "NI2_D_1_NOATTACK"], "ni2_d_safe_dist", "ni2_circle_d", [515], [516, 517]),
         ]
 
         end_nodes = None
         for data in check_arr:
             # Move to spot where eye would be visible
-            self._pather.traverse_nodes_fixed(data.static_path_key, self._char)
+            self._pather.traverse_nodes_fixed(data.circle_static_path_key, self._char)
             # Search for eye
-            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.72, best_match=True, time_out=3)
+            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.7, best_match=True, time_out=3)
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
-                self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
+                self._pather.traverse_nodes_fixed(data.destination_static_path_key, self._char)
                 self._pather.traverse_nodes(data.save_dist_nodes, self._char, time_out=2, do_pre_move=False)
                 end_nodes = data.end_nodes
                 break
 
-        # exit if path was not found
+        # circle back and just assume path a if we failed to find the "eye"
         if end_nodes is None:
-            return False
+            self._pather.traverse_nodes_fixed("ni2_circle_back_to_a", self._char)
+            self._pather.traverse_nodes_fixed(check_arr[0].destination_static_path_key, self._char)
+            self._pather.traverse_nodes(check_arr[0].save_dist_nodes, self._char, time_out=2, do_pre_move=False)
+            end_nodes = check_arr[0].end_nodes
 
         # Attack & Pick items
         self._char.kill_nihlatak(end_nodes)

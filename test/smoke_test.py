@@ -1,16 +1,8 @@
-import cv2
-
 from version import __version__
-from screen import Screen
 from logger import Logger
 from game_stats import GameStats
 from bot import Bot
-
-
-class ScreenMock(Screen):
-    def grab(self):
-        img = cv2.imread("test/hero_select.png")
-        return img
+from mocks.screen_mock import ScreenMock
 
 
 class TestSmoke:

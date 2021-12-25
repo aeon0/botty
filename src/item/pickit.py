@@ -130,7 +130,7 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name] == 2)
+                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name].pickit_type == 2)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
@@ -148,7 +148,7 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
-    from char.sorceress import Sorceress
+    from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
     from template_finder import TemplateFinder

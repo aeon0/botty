@@ -40,6 +40,7 @@ def run_bot(
     # Register that thread to the death and health manager so they can stop the bot thread if needed
     death_manager.set_callback(lambda: bot.stop() or kill_thread(bot_thread))
     health_manager.set_callback(lambda: bot.stop() or kill_thread(bot_thread))
+    health_manager.set_belt_manager(bot.get_belt_manager())
     do_restart = False
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
     keyboard.add_hotkey(config.general['resume_key'], lambda: bot.toggle_pause())
@@ -88,6 +89,7 @@ def main():
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
+    os.system("mkdir stats")
     if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
     if not os.path.exists("loot_screenshots") and config.general["loot_screenshots"]:
