@@ -205,19 +205,24 @@ class Diablo:
     def _seal_C1(self) -> bool: #NEW
         seal_layout = "C1F"
         Logger.info("Seal Layout: " + seal_layout)
-        if not self._pather.traverse_nodes([651, 652, 653], self._char): return False
+        if not self._pather.traverse_nodes([651], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([652, 651], self._char): return False
+        if not self._pather.traverse_nodes([651], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_651_654", self._char)
+        if not self._pather.traverse_nodes([654], self._char): return False
+        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
         if not self._sealdance(["DIA_C1F2_8_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER"], seal_layout + "1"): return False
-        if not self._pather.traverse_nodes([652], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_651_652", self._char)
+        #if not self._pather.traverse_nodes([652], self._char): return False
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([652,651 ,652, 653, 654], self._char): return False # sometimes she gets stuck towards 651 652, 653,
-        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
-        if not self._pather.traverse_nodes([653, 652, 650], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_c2f_home", self._char)
+        #if not self._pather.traverse_nodes([652,651 ,652, 653, 654], self._char): return False # sometimes she gets stuck towards 651 652, 653,
+        #if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
+        #if not self._pather.traverse_nodes([653, 652, 650], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
         return True
