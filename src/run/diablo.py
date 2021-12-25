@@ -206,11 +206,11 @@ class Diablo:
         seal_layout = "C1F"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([651], self._char): return False
-        self._char.kill_cs_trash()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([651], self._char): return False
         self._pather.traverse_nodes_fixed("dia_c1f_651_654", self._char)
         if not self._pather.traverse_nodes([654], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
         if not self._sealdance(["DIA_C1F2_8_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER"], seal_layout + "1"): return False
