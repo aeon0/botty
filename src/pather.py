@@ -311,6 +311,16 @@ class Pather:
             new_range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
+        # Check if clicking on merc img
+        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
+        if is_in_roi(self._config.ui_roi["merc_icon"], screen_pos):
+            width = self._config.ui_roi["merc_icon"][2]
+            height = self._config.ui_roi["merc_icon"][3]
+            w_abs, h_abs = self._screen.convert_screen_to_abs((width, height))
+            fw = abs(w_abs / float(abs_pos[0]))
+            fh = abs(h_abs / float(abs_pos[1]))
+            f = max(fw, fh)
+            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
