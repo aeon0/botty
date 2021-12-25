@@ -159,24 +159,18 @@ class Diablo:
         Logger.info("Calibrated at PENTAGRAM")
         return True
 
-    def _seal_B1(self): #NEW
+    def _seal_B1(self): #NEW & dirty
         seal_layout = "B1S"
         Logger.info("Seal Layout: " + seal_layout)
-        if not self._pather.traverse_nodes([630, 631], self._char): return False #had to add one additional node 6301 - if it works it should become 630 
+        self._pather.traverse_nodes_fixed("dia_b1s_layout2_seal", self._char)
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([631, 632, 633, 634], self._char): return False
-        self._char.kill_cs_trash()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([634], self._char): return False
+        self._pather.traverse_nodes([634], self._char) # seal boss far
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED", "DIA_B1S2_23_MOUSEOVER"], seal_layout)
-        if not self._pather.traverse_nodes([634, 636], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char)
         Logger.info("Kill De Seis")
-        if not self._char.kill_deseis([637], [632], [631]): return False
+        if not self._char.kill_deseis([632], [631], [632]): return False
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([631, 632, 633, 634, 636, 637], self._char): return False
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([637], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
@@ -202,26 +196,21 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
 
-    def _seal_C1(self) -> bool: #NEW
+    def _seal_C1(self) -> bool: #NEW & dirty
         seal_layout = "C1F"
         Logger.info("Seal Layout: " + seal_layout)
-        if not self._pather.traverse_nodes([651], self._char): return False
-        if not self._pather.traverse_nodes([651], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_c1f_651_654", self._char)
-        if not self._pather.traverse_nodes([654], self._char): return False
+        if not self._pather.traverse_nodes([701, 702], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([703], self._char): return False
         if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
+        #if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
         if not self._sealdance(["DIA_C1F2_8_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER"], seal_layout + "1"): return False
-        self._pather.traverse_nodes_fixed("dia_c1f_651_652", self._char)
-        #if not self._pather.traverse_nodes([652], self._char): return False
+        if not self._pather.traverse_nodes([702], self._char): return False
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        #if not self._pather.traverse_nodes([652,651 ,652, 653, 654], self._char): return False # sometimes she gets stuck towards 651 652, 653,
-        #if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
-        #if not self._pather.traverse_nodes([653, 652, 650], self._char): return False
         self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")

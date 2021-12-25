@@ -223,6 +223,11 @@ class Pather:
             664: {"DIA_C2G2_20": (-214, -66), "DIA_C2G2_21_OPEN": (237, 137), "DIA_C2G2_21_CLOSED": (237, 137),"DIA_C2G2_21_MOUSEOVER": (237, 137),"DIA_C2G2_19": (-284, -135), "DIA_C2G2_9": (315, 22), "DIA_C2G2_10": (419, -16), "DIA_C2G2_17": (428, -52), "DIA_C2G2_8": (442, 115), "DIA_C2G2_5": (868, 63), }, # seal fake far "DIA_C2G2_16": (122, -361), #"DIA_C2G2_23": (126, -240),
             665: {"DIA_C2G2_8": (43, -27), "DIA_C2G2_9": (-85, -121), "DIA_C2G2_10": (19, -158), "DIA_C2G2_21_OPEN": (-163, -6), "DIA_C2G2_21_CLOSED": (-163, -6),"DIA_C2G2_21_MOUSEOVER": (-163, -6),"DIA_C2G2_17": (28, -194),  "DIA_C2G2_5": (468, -80), "DIA_C2G2_14": (480, -153), "DIA_C2G2_22": (503, 208), "DIA_C2G2_20": (-614, -208), }, # seal boss close #"DIA_C2G2_23": (-260, 258),
 
+            #SEAL C1F_new Infector TEST
+            700: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164),"DIA_C1F5_4": (475, -273), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
+            701: {"DIA_C1F5_5": (142, -167), "DIA_C1F5_0": (364, 201), "DIA_C1F5_13": (-237, 416), "DIA_C1F5_3": (-2, 495), "DIA_C1F5_18": (-479, -185), "DIA_C1F5_4": (585, -30), "DIA_C1F5_19": (521, 290), "DIA_C1F5_16": (615, 407),"DIA_C1F5_16_OPEN": (615, 407), }, #"DIA_C1F5_22": (259, 453),  "DIA_C1F5_20": (-378, -37), 
+            702: {"DIA_C1F5_18": (113, -234), "DIA_C1F5_5": (734, -216), },
+            703: {"DIA_C1F5_16": (-117, 3), "DIA_C1F5_16_OPEN": (-117, 3), "DIA_C1F5_23": (-130, 172), "DIA_C1F5_19": (-211, -114), "DIA_C1F5_25": (295, 62), "DIA_C1F5_15": (289, 108), "DIA_C1F5_24": (270, 225), "DIA_C1F5_22": (-473, 49), "DIA_C1F5_18": (429, -342), }, #"DIA_C1F5_4": (-147, -434), "DIA_C1F5_20": (-161, -366), 
 
 
         }
@@ -511,8 +516,8 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L")
-    display_all_nodes(pather, "DIA_A2Y")
-    #display_all_nodes(pather, "DIA_C1F")
+    #display_all_nodes(pather, "DIA_A2Y")
+    #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
@@ -599,9 +604,13 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW B1S
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #fxexepather.traverse_nodes_fixed("dia_b_layout", char)
-    #pather.traverse_nodes_fixed("dia_b_layout2", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_b_layout", char)
+    pather.traverse_nodes_fixed("dia_b_layout2", char)
+    pather.traverse_nodes([634], char) # seal boss far
+    pather.traverse_nodes([635], char) # seal boss close
+    pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
+
     """
     pather.traverse_nodes([630], char) # approach
     pather.traverse_nodes([631], char) # corner left
@@ -626,8 +635,9 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW C1F
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_c_layout", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_c_layout", char)
+    pather.traverse_nodes_fixed("dia_c_layout2", char)
     #pather.traverse_nodes([650], char) # approach
     #pather.traverse_nodes([651], char) # seal boss close
     #pather.traverse_nodes_fixed("dia_c1f_651_654", char)
@@ -640,7 +650,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([652], char) # seal boss far
     #pather.traverse_nodes([651], char) # seal boss close
     #pather.traverse_nodes([650], char) # approach
-    pather.traverse_nodes_fixed("dia_c1f_home", char)
+    #pather.traverse_nodes_fixed("dia_c1f_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW C2G
