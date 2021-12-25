@@ -189,13 +189,14 @@ class Pather:
             627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
 
             # SEAL B1S_new De Seis
-            630: {"DIA_B1S2_0": (286, -179), "DIA_B1S2_3": (-66, -165), "DIA_B1S2_8": (272, 25), "DIA_B1S2_14": (315, 108), "DIA_B1S2_16": (-67, 320), }, # approach "DIA_B1S2_28": (6, -76), "DIA_B1S2_24": (3, 9), "DIA_B1S2_27": (9, -142),  "DIA_B1S2_29": (-214, -6), "DIA_B1S2_30": (246, 25),
+            630: {"DIA_B1S3_1": (201, -191), "DIA_B1S3_6": (369, 38), "DIA_B1S3_0": (494, -45), "DIA_B1S3_3": (489, -172), "DIA_B1S3_4": (723, -39),}, #cross river "DIA_B1S3_2": (297, -297), 
+            #630: {"DIA_B1S2_3": (-66, -165), "DIA_B1S2_8": (272, 25), "DIA_B1S2_14": (315, 108), "DIA_B1S2_16": (-67, 320), }, # approach "DIA_B1S2_28": (6, -76), "DIA_B1S2_24": (3, 9), "DIA_B1S2_27": (9, -142),  "DIA_B1S2_29": (-214, -6), "DIA_B1S2_30": (246, 25), #"DIA_B1S2_0": (286, -179), 
             631: {"DIA_B1S2_2": (-232, -78), "DIA_B1S2_3": (169, -361), "DIA_B1S2_5": (-225, -86), "DIA_B1S2_12": (-29, 199), "DIA_B1S2_13": (-358, 52), "DIA_B1S2_15": (-42, 210), "DIA_B1S2_16": (168, 124), "DIA_B1S2_18": (-197, 117), }, #corner left "DIA_B1S2_24": (238, -187), "DIA_B1S2_29": (21, -202),
             632: {"DIA_B1S2_2": (87, -224), "DIA_B1S2_8": (-330, -95), "DIA_B1S2_11": (-120, -306), "DIA_B1S2_12": (290, 53), "DIA_B1S2_13": (-38, -93), "DIA_B1S2_15": (277, 64), "DIA_B1S2_17": (-200, 25), "DIA_B1S2_18": (122, -29), "DIA_B1S2_19": (-174, 287), "DIA_B1S2_21": (-307, -67), }, #corner
             633: {"DIA_B1S2_2": (99, 278), "DIA_B1S2_6": (37, -391), "DIA_B1S2_8": (-285, -280), "DIA_B1S2_13": (352, -100), "DIA_B1S2_19": (216, 279), "DIA_B1S2_20": (-208, 69), "DIA_B1S2_21": (83, -75), "DIA_B1S2_25": (62, -114), "DIA_B1S2_26": (-96, -228), }, #corner right "DIA_B1S2_28": (-236, 55), 
             634: {"DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),}, #seal close #"DIA_B1S2_28": (-20, 289), "DIA_B1S2_9": (384, -164), "DIA_B1S2_27": (376, 114), 
             635: {"DIA_B1S2_7": (315, -167), "DIA_B1S2_8": (169, 21), "DIA_B1S2_24_OPEN": (-108, 9), "DIA_B1S2_24_CLOSED": (-108, 9),"DIA_B1S2_24_MOUSEOVER": (-108, 9),"DIA_B1S2_26": (357, 73), "DIA_B1S2_27": (-94, -146),"DIA_B1S2_29": (-325, -6),  "DIA_B1S2_30": (143, 21),}, # seal far "DIA_B1S2_0": (183, -183),  "DIA_B1S2_14": (213, 104), 
-            636: {"DIA_B1S2_2": (193, 261), "DIA_B1S2_4": (383, -111), "DIA_B1S2_5": (187, 256), "DIA_B1S2_6": (-252, 100), "DIA_B1S2_7": (-427, 23), "DIA_B1S2_9": (-169, 57), "DIA_B1S2_11": (-20, 177), "DIA_B1S2_25": (-228, 377), "DIA_B1S2_26": (-386, 262), }, #cross river #"DIA_B1S2_28": (-100, 68), 
+            636: {"DIA_B1S2_4": (383, -111), "DIA_B1S2_5": (187, 256), "DIA_B1S2_6": (-252, 100), "DIA_B1S2_7": (-427, 23), "DIA_B1S2_11": (-20, 177),  "DIA_B1S2_25": (-228, 377), },#"DIA_B1S2_26": (-386, 262), }, #cross river #"DIA_B1S2_28": (-100, 68), "DIA_B1S2_2": (193, 261), "DIA_B1S2_9": (-169, 57),}, 
             637: {"DIA_B1S2_2": (-210, 122), "DIA_B1S2_4": (-20, -251), "DIA_B1S2_5": (-216, 116), "DIA_B1S2_6": (-663, -35), "DIA_B1S2_7": (-838, -112), "DIA_B1S2_11": (-430, 42), "DIA_B1S2_26": (-796, 127), }, #close circle "DIA_B1S2_28": (-552, -99),
 
             # SEAL B2U_new De Seis
@@ -507,7 +508,12 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_B1S2")
+    #display_all_nodes(pather, "DIA_B1S")
+    #display_all_nodes(pather, "DIA_B2U")
+    #display_all_nodes(pather, "DIA_A1L")
+    #display_all_nodes(pather, "DIA_A2Y")
+    display_all_nodes(pather, "DIA_C1F")
+    #display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
     # code = ""
@@ -594,7 +600,9 @@ if __name__ == "__main__":
 
     # NEW B1S
     #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_b_layout", char)
+    #fxexepather.traverse_nodes_fixed("dia_b_layout", char)
+    #pather.traverse_nodes_fixed("dia_b_layout2", char)
+    """
     pather.traverse_nodes([630], char) # approach
     pather.traverse_nodes([631], char) # corner left
     pather.traverse_nodes([632], char) # corner
@@ -603,7 +611,7 @@ if __name__ == "__main__":
     pather.traverse_nodes([635], char) # seal boss close
     pather.traverse_nodes([636], char) # river cross
     pather.traverse_nodes([637], char) # close circle
-    pather.traverse_nodes([630], char) # approach
+    pather.traverse_nodes([6301], char) # approach
     pather.traverse_nodes([631], char) # corner left
     pather.traverse_nodes([632], char) # corner
     pather.traverse_nodes([633], char) # corner right
@@ -613,7 +621,7 @@ if __name__ == "__main__":
     pather.traverse_nodes([631], char) # approach
     pather.traverse_nodes([633], char) # approach
     pather.traverse_nodes([636], char) # approach
-    
+    """
     
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
@@ -635,6 +643,7 @@ if __name__ == "__main__":
     # NEW C2G
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_c_layout", char)
+    #pather.traverse_nodes_fixed("dia_c_layout2", char)
     #pather.traverse_nodes([660], char) # approach
     #pather.traverse_nodes([661], char) # seal boss close
     #pather.traverse_nodes([662], char) # seal boss far

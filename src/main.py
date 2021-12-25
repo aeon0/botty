@@ -117,7 +117,7 @@ def main():
             health_monitor_thread = threading.Thread(target=health_manager.start_monitor)
             health_monitor_thread.daemon = True
             health_monitor_thread.start()
-            # Run death monitor thread
+            # Run death monitor threadx
             death_manager = DeathManager(screen)
             death_monitor_thread = threading.Thread(target=death_manager.start_monitor)
             death_monitor_thread.daemon = True
