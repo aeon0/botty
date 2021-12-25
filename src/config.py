@@ -145,6 +145,11 @@ class Config:
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
 
+        # Necromancer config
+        self.fishymancer = self._config["fishymancer"]
+        if "fishymancer" in self._custom:
+            self.fishymancer.update(self._custom["fishymancer"])
+
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
