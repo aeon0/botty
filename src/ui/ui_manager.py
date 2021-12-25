@@ -586,14 +586,23 @@ class UiManager():
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if self._config.general["difficulty"].upper() == 'NIGHTMARE':
+            healingpotion = "GREATER_HEALING_POTION"
+            manapotion = "GREATER_MANA_POTION"
+        elif self._config.general["difficulty"].upper() == 'HELL':
+             healingpotion = "SUPER_HEALING_POTION"
+             manapotion = "SUPER_MANA_POTION"
+        else:
+             healingpotion = "HEALING_POTION"
+             manapotion = "MANA_POTION"
+        h_pot = self._template_finder.search_and_wait(healingpotion, roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if h_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(h_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        m_pot = self._template_finder.search_and_wait(manapotion, roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if m_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(m_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
