@@ -19,9 +19,9 @@ class A2(IAct):
         self._template_finder = template_finder
 
     def get_wp_location(self) -> Location: return Location.A2_WP
-    def can_heal(self) -> bool: return True
     def can_stash(self) -> bool: return True
     def can_buy_pots(self) -> bool: return False
+    def can_heal(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
