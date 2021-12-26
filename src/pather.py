@@ -513,10 +513,10 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_B1S")
+    #xedisplay_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L")
-    display_all_nodes(pather, "DIA_A2Y")
+    #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
 
@@ -604,6 +604,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW B1S
+    pather.traverse_nodes([632], char) # corner
     """
     pather.traverse_nodes([602], char) # calibrate pentagram
     pather.traverse_nodes_fixed("dia_b_layout", char)

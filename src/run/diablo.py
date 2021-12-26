@@ -191,7 +191,10 @@ class Diablo:
         Logger.info("Kill De Seis")
         if not self._char.kill_deseis([632], [631], [632]): return False
         self._picked_up_items = self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
+        #self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
+        Logger.info(seal_layout + "Looping to Pentagram")
+        if not self._loop_pentagram("dia_b1s_home_loop"):
+            return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
 
@@ -227,11 +230,14 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
         #if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
         if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "1"): return False
-        if not self._pather.traverse_nodes([702], self._char): return False
+        #if not self._pather.traverse_nodes([702], self._char): return False
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
+        #self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
+        Logger.info(seal_layout + "Looping to Pentagram")
+        if not self._loop_pentagram("dia_c1f_home_loop"):
+            return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
         return True
@@ -283,6 +289,7 @@ class Diablo:
         # Seal C: Infector (to the right)
         if do_pre_buff:
             self._char.pre_buff()
+        self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
         #self._char.kill_cs_trash() # clear the trash there  splitting C approach & killing trash reduces consistency
@@ -341,3 +348,7 @@ if __name__ == "__main__":
     # else:
     #     bot._diablo._seal_A1()
     bot._diablo._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], "TEST-Seal1")
+
+
+# issue log:
+# B layoutcheck fails -> maybe make smaller templates, if a flying enemy is above the template, its getting masked & not recognized.
