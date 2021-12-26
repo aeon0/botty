@@ -516,7 +516,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L")
-    #display_all_nodes(pather, "DIA_A2Y")
+    display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
 
@@ -604,14 +604,13 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW B1S
+    """
     pather.traverse_nodes([602], char) # calibrate pentagram
     pather.traverse_nodes_fixed("dia_b_layout", char)
     pather.traverse_nodes_fixed("dia_b_layout2", char)
     pather.traverse_nodes([634], char) # seal boss far
     pather.traverse_nodes([635], char) # seal boss close
     pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
-
-    """
     pather.traverse_nodes([630], char) # approach
     pather.traverse_nodes([631], char) # corner left
     pather.traverse_nodes([632], char) # corner
@@ -635,9 +634,9 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW C1F
-    pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("dia_c_layout", char)
-    pather.traverse_nodes_fixed("dia_c_layout2", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_c_layout", char)
+    #pather.traverse_nodes_fixed("dia_c_layout2", char)
     #pather.traverse_nodes([650], char) # approach
     #pather.traverse_nodes([651], char) # seal boss close
     #pather.traverse_nodes_fixed("dia_c1f_651_654", char)

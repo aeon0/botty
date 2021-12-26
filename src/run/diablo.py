@@ -84,6 +84,22 @@ class Diablo:
         Logger.info("Calibrated at PENTAGRAM")
         return True
 
+    def _loop_pentagram(self, path) -> bool:
+        found = False
+        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+        start_time = time.time()
+        while not found and time.time() - start_time < 10:
+            found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
+            if not found:
+                self._pather.traverse_nodes_fixed(path, self._char)
+        if not found:
+            if self._config.general["info_screenshots"]:
+                cv2.imwrite(f"./info_screenshots/failed_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            return False
+        self._pather.traverse_nodes([602], self._char, threshold=0.82)
+        Logger.info("Calibrated at PENTAGRAM")
+        return True
+
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str) -> bool:
         i = 0
         while i < 4:
@@ -146,7 +162,8 @@ class Diablo:
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([625], self._char): return False
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Seal1"): return False
-        if not self._pather.traverse_nodes([626], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #lets go home
+        #if not self._pather.traverse_nodes([626], self._char): return False
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Seal2"): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
         Logger.info("Kill Vizier")
@@ -154,7 +171,10 @@ class Diablo:
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([622], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_a2y_home", self._char)
+        #self._pather.traverse_nodes_fixed("dia_a2y_home", self._char)
+        Logger.info(seal_layout + "Looping to Pentagram")
+        if not self._loop_pentagram("dia_a2y_home_loop"):
+            return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
         return True
@@ -206,7 +226,7 @@ class Diablo:
         if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "2"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
         #if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
-        if not self._sealdance(["DIA_C1F2_8_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER"], seal_layout + "1"): return False
+        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "1"): return False
         if not self._pather.traverse_nodes([702], self._char): return False
         Logger.info("Kill Infector")
         self._char.kill_infector()
@@ -245,23 +265,7 @@ class Diablo:
         # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
-      
-        # Seal A: Vizier (to the left)
-        if do_pre_buff:
-            self._char.pre_buff()
-        if not self._pather.traverse_nodes([602], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        #self._char.kill_cs_trash() # clear the trash there  splitting A approach & killing trash reduces consistency
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot  splitting A approach & killing trash reduces consistency
-        #self._pather.traverse_nodes_fixed("dia_a_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.  splitting A approach & killing trash reduces consistency
-        Logger.info("Checking Layout at A")
-        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-            if not self._seal_A2():
-                return False
-        else:
-            if not self._seal_A1():
-                return False  
-
+    
         # Seal B: De Seis (to the top)
         if do_pre_buff:
             self._char.pre_buff()
@@ -291,7 +295,20 @@ class Diablo:
         else:
             if not self._seal_C1():
                 return False
-
+        
+        # Seal A: Vizier (to the left)
+        if do_pre_buff:
+            self._char.pre_buff()
+        if not self._pather.traverse_nodes([602], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
+        Logger.info("Checking Layout at A")
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+            if not self._seal_A2():
+                return False
+        else:
+            if not self._seal_A1():
+                return False  
+        
         # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         wait(5)
