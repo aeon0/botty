@@ -186,14 +186,12 @@ class Hammerdin(IChar):
         self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
         self._cast_hammers(1, "redemption")
         self._pather.traverse_nodes(nodes2, self)
-        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"])
         self._cast_hammers(1, "redemption")
         self._pather.traverse_nodes(nodes3, self)
-        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"])
         wait(0.1, 0.15)
-        self._cast_hammers(1, "redemption") 
+        self._cast_hammers(2, "redemption") 
         return True
 
     def kill_infector(self) -> bool:
@@ -214,11 +212,11 @@ class Hammerdin(IChar):
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_hammers(self._char_config["atk_len_diablo"] * 0.4)
+        self._cast_hammers(self._char_config["atk_len_diablo"] * 0.5)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((30, 15), self._char_config["atk_len_diablo"] * 0.3)
+        self._move_and_attack((60, 30), self._char_config["atk_len_diablo"])
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo"] * 0.4)
+        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         return True
