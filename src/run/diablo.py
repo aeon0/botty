@@ -185,12 +185,12 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_b1s_layout2_seal", self._char)
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        self._pather.traverse_nodes([634], self._char) # seal boss far
+        if not self._pather.traverse_nodes([634], self._char): return False # seal boss far
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED", "DIA_B1S2_23_MOUSEOVER"], seal_layout)
         self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char)
         Logger.info("Kill De Seis")
         if not self._char.kill_deseis([632], [631], [632]): return False
-        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         Logger.info(seal_layout + "Looping to Pentagram")
         if not self._loop_pentagram("dia_b1s_home_loop"):
@@ -211,7 +211,7 @@ class Diablo:
         if not self._pather.traverse_nodes([643, 642, 646], self._char): return False
         Logger.info("Kill De Seis")
         if not self._char.kill_deseis([641], [640], [646]): return False
-        self._picked_up_items = self._pickit.pick_up_items(self._char)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
