@@ -242,15 +242,18 @@ class Diablo:
             self._char.pre_buff()
         if not self._river_of_flames():
             return False
-        # TODO: Option to clear trash?
+        # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
       
         # Seal A: Vizier (to the left)
+        if do_pre_buff:
+            self._char.pre_buff()
+        if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        self._char.kill_cs_trash() # clear the trash there
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot
-        self._pather.traverse_nodes_fixed("dia_a_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.
+        #self._char.kill_cs_trash() # clear the trash there  splitting A approach & killing trash reduces consistency
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot  splitting A approach & killing trash reduces consistency
+        #self._pather.traverse_nodes_fixed("dia_a_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.  splitting A approach & killing trash reduces consistency
         Logger.info("Checking Layout at A")
         if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
             if not self._seal_A2():
@@ -260,6 +263,9 @@ class Diablo:
                 return False  
 
         # Seal B: De Seis (to the top)
+        if do_pre_buff:
+            self._char.pre_buff()
+        if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
         self._char.kill_cs_trash() # clear the trash there
         self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot
@@ -271,10 +277,13 @@ class Diablo:
             self._seal_B2()   
 
         # Seal C: Infector (to the right)
+        if do_pre_buff:
+            self._char.pre_buff()
+        if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
-        self._char.kill_cs_trash() # clear the trash there
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot
-        self._pather.traverse_nodes_fixed("dia_c_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.
+        #self._char.kill_cs_trash() # clear the trash there  splitting C approach & killing trash reduces consistency
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot  splitting C approach & killing trash reduces consistency
+        #self._pather.traverse_nodes_fixed("dia_c_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.  splitting C approach & killing trash reduces consistency
         Logger.debug("Checking Layout at C")
         if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
             if not self._seal_C2():
