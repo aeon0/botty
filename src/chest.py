@@ -30,11 +30,14 @@ class Chest:
     ) -> float:
         score = 100
         templates = self._templates
-        while score >= threshold:
+        while len(templates) > 0:
             template_match = self._template_finder.search(templates, self._screen.grab(), threshold=threshold)
             score = template_match.score
-            if(score < threshold):
+            if template_match.name is None:
                 break
+            if score <= threshold:
+                templates.remove(template_match.name)
+                continue
             if template_match.valid:
                 Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
@@ -57,6 +60,9 @@ class Chest:
         threshold: float = 0.75
     ) -> bool:
         # keep opening chests till no matches nearby
+        score = 100
+        while score >= threshold:
+            score = self.open_up_chest(time_out, threshold)
         score = 100
         while score >= threshold:
             score = self.open_up_chest(time_out, threshold)
