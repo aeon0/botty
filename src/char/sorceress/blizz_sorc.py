@@ -252,13 +252,14 @@ class BlizzSorc(Sorceress):
     
     def kill_summoner(self) -> bool:
         # Move to center
-        self._pather.traverse_nodes([401], self, time_out=0.8, do_pre_move=False)
+        self._pather.traverse_nodes([451], self, time_out=0.8, do_pre_move=False)
         # Attack
         delay = [0.2, 0.3]
-        cast_pos_abs = np.array([-300, -100])
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        cast_pos_abs = np.array([0, 0])
+        pos_m = self._screen.convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._right_attack(cast_pos_abs, delay, 90)
-        self._left_attack(cast_pos_abs, delay, 90)
-        wait(0.1, 0.15)
+        for _ in range(int(self._char_config["atk_len_arc"])):
+            self._right_attack(cast_pos_abs, delay, 11)
+            self._left_attack(cast_pos_abs, delay, 11)
+        wait(self._cast_duration, self._cast_duration + 0.2)
         return True

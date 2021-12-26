@@ -8,7 +8,6 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
-from screen import Screen
 from chest import Chest
 
 class Arcane:

@@ -42,7 +42,8 @@ class IChar:
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
         time_out: float = 8,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        telekinesis = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it
