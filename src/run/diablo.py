@@ -318,7 +318,7 @@ class Diablo:
         
         # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
-        wait(5)
+        wait(3)
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
