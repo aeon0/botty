@@ -165,7 +165,7 @@ class Pather:
             305: {"LAST_TRAV_NODE_1": (314, -281), "LAST_TRAV_NODE_0": (-166, -405), "LAST_TRAV_NODE_2": (-1, -439)}, 
             # Arcane
             450: {"ARC_START": (486, -149)},
-            451: {"ARC_END_1": (363, 5), "ARC_END_2": (0, 0), "ARC_ALTAR": (0, 0)},
+            451: {"ARC_END_1": (363, 65), "ARC_END_2": (0, 60), "ARC_ALTAR": (0, 60)},
             452: {"ARC_END_1": (-171, 226), "ARC_END_2": (-533, 220)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},

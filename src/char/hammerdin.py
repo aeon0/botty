@@ -144,8 +144,6 @@ class Hammerdin(IChar):
         return True
 
     def kill_summoner(self) -> bool:
-        # Move to center
-        self._pather.traverse_nodes([451], self, time_out=0.8, do_pre_move=False)
         # move mouse to below altar
         pos_m = self._screen.convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

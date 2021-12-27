@@ -251,8 +251,6 @@ class BlizzSorc(Sorceress):
         return True
     
     def kill_summoner(self) -> bool:
-        # Move to center
-        self._pather.traverse_nodes([451], self, time_out=0.8, do_pre_move=False)
         # Attack
         delay = [0.2, 0.3]
         cast_pos_abs = np.array([0, 0])
