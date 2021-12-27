@@ -43,7 +43,7 @@ class A3(IAct):
             found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
             found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
             return found
-        if not self._char.select_by_template("A3_STASH", stash_is_open_func):
+        if not self._char.select_by_template("A3_STASH", stash_is_open_func, telekinesis=True):
             return False
         return Location.A3_STASH_WP
 
