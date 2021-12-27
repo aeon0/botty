@@ -63,4 +63,32 @@ class Arcane:
         self._chest.open_up_chests()
         picked_up_items = self._pickit.pick_up_items(self._char)
         
+        template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=2)
+        if template_match.valid:
+            def go_act4():
+                wait(2)
+                self._ui_manager.use_wp(4, 0)
+                return True
+            def wait_for_canyon():
+                template_match = self._template_finder.search_and_wait(["CANYON"], threshold=0.70)
+                if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
+                    Logger.debug("Did not find altar")
+                else:
+                    return True
+            def go_canyon():
+                wait(1)
+                # dismiss altar speech
+                self._char.move([0,20])
+                if not self._char.select_by_template(["A5_RED_PORTAL"], wait_for_canyon, time_out=2, telekinesis=True):
+                    Logger.debug("Did not find red portal")
+                else:
+                    return True
+            if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3):
+                # teleport and try again
+                self._pather.traverse_nodes_fixed([[625,370]], self._char)
+                if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3):
+                    Logger.debug("could not reach altar")
+            else:
+                return (Location.A2_ARC_END, picked_up_items)
+        
         return (Location.A2_ARC_END, picked_up_items)
