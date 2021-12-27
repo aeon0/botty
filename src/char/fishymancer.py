@@ -133,11 +133,13 @@ class Fishymancer(IChar):
                 wait(self._cast_duration, self._cast_duration + 4.5)
             if difficulty == "nightmare":
                 for _ in range(int(self._char_config["atk_len_pindle"])+1):
-                    self._amplify_damage(cast_pos_abs, delay, 11)
-                    self._amplify_damage(cast_pos_abs_skel, delay, 11)
+                    self._amplify_damage(cast_pos_abs, delay, 12)
+                    self._amplify_damage(cast_pos_abs_skel, delay, 12)                   
+                    self._raise_skeleton(cast_pos_abs_skel, delay, 12,1)
                     self._corpse_explosion(cast_pos_abs, delay, 11)
-                    self._raise_skeleton(cast_pos_abs_skel, delay, 11,1)
                     wait(self._cast_duration, self._cast_duration + 2.5)
+                    cast_pos_abs_golem = [30, 30]
+                    self._clay_golem(cast_pos_abs_golem, delay, 11)
                 self._corpse_explosion(cast_pos_abs, delay, 11)
                 wait(self._cast_duration, self._cast_duration + 5.5)
             # Move to items
