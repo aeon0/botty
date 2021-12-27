@@ -165,8 +165,10 @@ class Pather:
             305: {"LAST_TRAV_NODE_1": (314, -281), "LAST_TRAV_NODE_0": (-166, -405), "LAST_TRAV_NODE_2": (-1, -439)}, 
             # Arcane
             450: {"ARC_START": (486, -149)},
-            451: {"ARC_END_1": (363, 65), "ARC_END_2": (0, 60), "ARC_ALTAR": (0, 60)},
+            451: {"ARC_END_1": (439, 39), "ARC_END_2": (63, 37)},
             452: {"ARC_END_1": (-171, 226), "ARC_END_2": (-533, 220)},
+            453: {"ARC_START": (-451, -34)},
+            454: {"ARC_END_2": (43, 47), "ARC_END_3": (43, -159)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -266,6 +268,7 @@ class Pather:
         else:
             path = key
         i = 0
+        stuck_count = 0
         while i < len(path):
             x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
@@ -281,7 +284,10 @@ class Pather:
             if score > 0.15:
                 i += 1
             else:
+                stuck_count += 1
                 Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score:.4f})")
+                if stuck_count >= 5:
+                    break
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 

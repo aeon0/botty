@@ -14,7 +14,7 @@ class Chest:
         self._char = char
         self._template_finder = template_finder
         self._folder_name = "chests"
-        self._min_score = 0.75
+        self._min_score = 0.8
         # load all templates
         self._templates = []
         for filename in os.listdir(f'assets/{self._folder_name}/{template}'):
@@ -26,7 +26,7 @@ class Chest:
     def open_up_chest(
         self,  
         time_out: float = 8,
-        threshold: float = 0.75
+        threshold: float = 0.8
     ) -> float:
         score = 100
         templates = self._templates
@@ -43,8 +43,7 @@ class Chest:
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 # act as picking up a potion to support telekinesis
                 self._char.pick_up_item([x_m, y_m], 'potion')
-                if not self._char.can_teleport():
-                    time.sleep(0.2)
+                time.sleep(0.5)
                 locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
                 if locked_chest.valid:
                     templates.remove(template_match.name)
@@ -86,4 +85,4 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, template_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     chest = Chest(char, template_finder, 'arcane')
-    chest.open_up_chests()
+    chest.open_up_chests(threshold=0.8)

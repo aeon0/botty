@@ -185,14 +185,14 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ARC_END_1", "ARC_END_2", "ARC_ALTAR", "ARC_ALTAR2", "ARC_STASH4"]
+    search_templates = ["ARC_END_1", "ARC_END_2", "ARC_END_3",]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
         display_img = img.copy()
         start = time.time()
         for key in search_templates:
-            template_match = template_finder.search(key, img, best_match=True, threshold=0.35, use_grayscale=True)
+            template_match = template_finder.search(key, img, best_match=True, threshold=0.7, use_grayscale=True)
             if template_match.valid:
                 cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
