@@ -67,7 +67,7 @@ class Arcane:
         if template_match.valid:
             def go_act4():
                 wait(2)
-                self._1ui_manager.use_wp(4, 0)
+                self._ui_manager.use_wp(4, 0)
                 return True
             def wait_for_canyon():
                 template_match = self._template_finder.search_and_wait(["CANYON"], threshold=0.70)
