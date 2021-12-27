@@ -69,11 +69,12 @@ class Arcane:
         template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=2)
         if template_match.valid:
             def go_act4():
-                wait(2)
+                wait(0.5)
                 self._ui_manager.use_wp(4, 0)
                 return True
             def wait_for_canyon():
-                template_match = self._template_finder.search_and_wait(["CANYON"], threshold=0.70)
+                self._template_finder.search_and_wait(["CANYON"], threshold=0.70)
+                self._pather.traverse_nodes_fixed([[665,10]], self._char)
                 if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
                     Logger.debug("Did not find altar")
                 return (Location.A2_ARC_END, picked_up_items)
@@ -83,7 +84,7 @@ class Arcane:
                 self._char.move([0,20])
                 if not self._char.select_by_template(["A5_RED_PORTAL"], wait_for_canyon, time_out=2, telekinesis=True):
                     Logger.debug("Did not find red portal")
-                    return (Location.A2_ARC_END, picked_up_items)
+                    return False
                 else:
                     return True
             if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.75, telekinesis=True):
