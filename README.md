@@ -125,7 +125,7 @@ run_shenk=0
 | chain_lightning | Optional Hotkey for chain_lightning (must be bound to left skill)           |
 | lightning     | Required Hotkey for lightning (must be bound to right skill)                  |
 
-| [blizz_sorc]  | Descriptions                                                                  |
+| [blizz_sorc]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
 | blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |

@@ -4,7 +4,6 @@ from game_stats import GameStats
 from bot import Bot
 from mocks.screen_mock import ScreenMock
 
-
 class TestSmoke:
     """
     Just import Bot and create an instance to ensure there is no major issue e.g. indent error

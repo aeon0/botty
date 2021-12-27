@@ -9,14 +9,11 @@ from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
-from screen import Screen
-import random
 
 
 class Nihlatak:
     def __init__(
         self,
-        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -25,7 +22,6 @@ class Nihlatak:
         pickit: PickIt
     ):
         self._config = Config()
-        self._screen = screen
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
@@ -59,11 +55,7 @@ class Nihlatak:
             self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
-            # do a random tele jump and try again
-            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
-            self._char.move(pos_m, force_move=True)
-            if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
-                return False
+            return False
         # Wait until templates in lvl 2 entrance are found
         if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False

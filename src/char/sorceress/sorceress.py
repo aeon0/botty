@@ -1,4 +1,5 @@
 import keyboard
+from typing import Dict, Tuple, Union, List, Callable
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
@@ -32,6 +33,40 @@ class Sorceress(IChar):
             return cast_start
         else:
             return super().pick_up_item(pos, item_name, prev_cast_start)
+            
+    def select_by_template(
+        self,
+        template_type:  Union[str, List[str]],
+        success_func: Callable = None,
+        time_out: float = 8,
+        threshold: float = 0.68,
+        telekinesis = False
+    ) -> bool:
+        if type(template_type) == list and "A5_STASH" in template_type:
+            # sometimes waypoint is opened and stash not found because of that, check for that
+            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
+                keyboard.send("esc")
+        start = time.time()
+        while time_out is None or (time.time() - start) < time_out:
+            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
+            if template_match.valid:
+                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
+                if self._skill_hotkeys["telekinesis"] and telekinesis:
+                    keyboard.send(self._skill_hotkeys["telekinesis"])
+                    wait(0.1, 0.2)
+                    mouse.move(x_m, y_m)
+                    wait(0.2, 0.3)
+                    mouse.click(button="right")
+                else:
+                    mouse.move(x_m, y_m)
+                    wait(0.2, 0.3)
+                    mouse.click(button="left")
+                # check the successfunction for 2 sec, if not found, try again
+                check_success_start = time.time()
+                while time.time() - check_success_start < 2:
+                    if success_func is None or success_func():
+                        return True
+        return False
 
     def pre_buff(self):
         if self._char_config["cta_available"]:
@@ -52,11 +87,11 @@ class Sorceress(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _cast_static(self, duration: float = 1.4):
+    def _cast_static(self):
         if self._skill_hotkeys["static_field"]:
             keyboard.send(self._skill_hotkeys["static_field"])
             wait(0.1, 0.13)
             start = time.time()
-            while time.time() - start < duration:
+            while time.time() - start < 1.4:
                 mouse.click(button="right")
                 wait(self._cast_duration)

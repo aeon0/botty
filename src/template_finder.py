@@ -22,7 +22,7 @@ class TemplateFinder:
     Loads images from assets/templates and assets/npc and provides search functions
     to find these assets within another image
     """
-    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties"]):
+    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests"]):
         self._screen = screen
         self._config = Config()
         self.last_res = None
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["REPAIR_NEEDED"]
+    search_templates = ["ARC_END_1", "ARC_END_2", "ARC_ALTAR", "ARC_ALTAR2", "ARC_STASH4"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
@@ -196,7 +196,8 @@ if __name__ == "__main__":
             if template_match.valid:
                 cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
-                print(f"Name: {template_match.name} Pos: {template_match.position}, Score: {template_match.score}")
+                x, y = template_match.position
+                print(f"Name: {template_match.name} Pos: {template_match.position}, Dist: {625-x, 360-y}, Score: {template_match.score}")
         # print(time.time() - start)
         display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
         cv2.imshow('test', display_img)
