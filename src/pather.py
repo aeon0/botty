@@ -515,7 +515,7 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
-    display_all_nodes(pather, "DIA_A1L")
+    #display_all_nodes(pather, "DIA_A1L")
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
@@ -533,7 +533,12 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_c_layout_bold", char)
+    #pather.traverse_nodes([615], char) # seal boss close
     
+
+
     ### DIABLO
 
     # CS
@@ -604,7 +609,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
 
     # NEW B1S
-    pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([632], char) # corner
     """
     pather.traverse_nodes([602], char) # calibrate pentagram
     pather.traverse_nodes_fixed("dia_b_layout", char)
