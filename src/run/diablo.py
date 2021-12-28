@@ -129,7 +129,7 @@ class Diablo:
         return found
 
     def _seal_A1(self) -> bool:
-        seal_layout = "A1L"
+        seal_layout = "A1-L"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([611], self._char): return False
         self._char.kill_cs_trash()
@@ -154,7 +154,7 @@ class Diablo:
         return True
 
     def _seal_A2(self) -> bool:
-        seal_layout = "A2Y"
+        seal_layout = "A2-Y"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash()
@@ -178,7 +178,7 @@ class Diablo:
         return True
 
     def _seal_B1(self): #NEW & dirty
-        seal_layout = "B1S"
+        seal_layout = "B1-S"
         Logger.info("Seal Layout: " + seal_layout)
         self._pather.traverse_nodes_fixed("dia_b1s_layout2_seal", self._char)
         self._char.kill_cs_trash()
@@ -197,7 +197,7 @@ class Diablo:
         return True
 
     def _seal_B2(self): # WORKS STABLE
-        seal_layout = "B2U"
+        seal_layout = "B2-U"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([640], self._char): return False
         self._char.kill_cs_trash() # at safe_dist
@@ -222,7 +222,7 @@ class Diablo:
         return True
 
     def _seal_C1(self) -> bool: # The boss Seal takes several tries to recognize. Maybe we need new templates
-        seal_layout = "C1F"
+        seal_layout = "C1-F"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([701, 702], self._char): return False
         self._char.kill_cs_trash()
@@ -243,7 +243,7 @@ class Diablo:
         return True
 
     def _seal_C2(self) -> bool:
-        seal_layout = "C2G"
+        seal_layout = "C2-G"
         Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
         self._char.kill_cs_trash()
@@ -352,4 +352,5 @@ if __name__ == "__main__":
 # C1F traverse 702 does not work after opening boss seal (if infector is "fast" and mobs are already approaching) -> fixed by using static path
 # C layout check fails 
 # A1L - if vizier spawns at 610 pr 611 you tele to nirvana
+# A1L - sometimes you tele above fake seal from save_dist & end up in an endless tele loop
 # Idea: directly teleport to seals & pop them
