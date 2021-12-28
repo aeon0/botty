@@ -63,7 +63,7 @@ class Diablo:
                 cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         if not self._pather.traverse_nodes([601], self._char, threshold=0.8): return False
-        Logger.debug("Calibrated at CS ENTRANCE")
+        Logger.info("Calibrated at CS ENTRANCE")
         return True
 
     def _cs_pentagram(self) -> bool:
@@ -250,6 +250,23 @@ class Diablo:
         #if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([664, 665], self._char): return False
+        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
+        if not self._pather.traverse_nodes([661], self._char): return False
+        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
+        self._pather.traverse_nodes_fixed("dia_c2g_663", self._char) # REPLACES: #if not self._pather.traverse_nodes([662, 663], self._char): return False
+        Logger.info(seal_layout + ": Kill Boss C (Infector)")
+        self._char.kill_infector()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # Lets go home
+        Logger.info(seal_layout + ": Looping to Pentagram")
+        if not self._loop_pentagram("dia_c2g_home_loop"): # looping home finds pentagram3, this calibrates too low :(
+            return False
+        if not self._pather.traverse_nodes([602], self._char): return False
+        Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        return True
+        
+        """
         if not self._pather.traverse_nodes([661], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
         self._pather.traverse_nodes_fixed("dia_c2g_663", self._char) # REPLACES: #if not self._pather.traverse_nodes([662, 663], self._char): return False
@@ -266,6 +283,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         return True
+        """
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
@@ -276,7 +294,7 @@ class Diablo:
         # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
-            
+        """ 
         # Seal A: Vizier (to the left)
         if do_pre_buff:
             self._char.pre_buff()
@@ -309,6 +327,7 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         self._char.kill_cs_trash()
+        """ 
         if not self._pather.traverse_nodes([602], self._char): return False
         #self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char) # we go to layout check
@@ -355,11 +374,6 @@ if __name__ == "__main__":
 
 
 # issue log:
-# B layoutcheck fails -> maybe make smaller templates, if a flying enemy is above the template, its getting masked & not recognized.
-# B layoutcheck -> if not getting knocked back and everything runs perfectly well, you get stuck in teleport loop due to having the same teleport twice in game.ini 508,6
 # C1F traverse 702 does not work after opening boss seal (if infector is "fast" and mobs are already approaching) -> fixed by using static path
-# C layout check fails 
 # A1L - if vizier spawns at 610 pr 611 you tele to nirvana
-# A1L - sometimes you tele above fake seal from save_dist & end up in an endless tele loop
-# B2U - in approach to layoutcheck, massive mob groups slow down & put you in hit recovery, so the run fails.
-# Idea: directly teleport to seals & pop them
+# C2G looping home brings us too low
