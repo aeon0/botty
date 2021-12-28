@@ -71,12 +71,12 @@ class Arcane:
                             return False
                         return True
                     return False
-                if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.75, telekinesis=True):
+                self._pather.traverse_nodes([461], self._char, time_out=0.7, force_move=True)
+                if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.70, telekinesis=True):
                     # teleport and try again
                     self._pather.traverse_nodes_fixed([[625,370]], self._char)
-                    if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.75, telekinesis=True):
+                    if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.60, telekinesis=True):
                         Logger.debug("could not reach altar")
-                        return False
                 return True
     
         if do_pre_buff:
@@ -101,7 +101,7 @@ class Arcane:
         # Move to center
         template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.5)
         if not template_match.valid:
-            self._pather.traverse_nodes([451], self._char, time_out=0.8, force_move=True)
+            self._pather.traverse_nodes([451], self._char, time_out=0.7, force_move=True)
         else:
             self._pather.traverse_nodes_fixed([[500,40]], self._char)
         
@@ -117,6 +117,9 @@ class Arcane:
             return (Location.A2_ARC_END, picked_up_items)
         
         # Get in position to return
+        template_match = self._template_finder.search_and_wait(["ARC_END_1", "ARC_END_2"], threshold=0.80, time_out=0.5)
+        if not template_match.valid:
+            return (Location.A2_ARC_END, picked_up_items)
         self._pather.traverse_nodes(([452]), self._char, force_move=True)
         template_match = self._template_finder.search_and_wait(["ARC_END_1"], roi=[730,60,170,130], threshold=0.80, time_out=2)
         if not template_match.valid:
@@ -124,14 +127,17 @@ class Arcane:
         
         # Return to wp
         self._pather.traverse_nodes_fixed('arc_top_right_return', self._char)
+        self._pather.traverse_nodes_fixed([[20,360]], self._char)
         template_match = self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=2)
         if not template_match.valid:
             return (Location.A2_ARC_END, picked_up_items)
         if do_pre_buff:
+            Logger.debug("Rebuff")
             self._char.pre_buff()    
-
+        
         # Run top left
         self._pather.traverse_nodes(([453]), self._char, force_move=True)
+        self._pather.traverse_nodes_fixed([[20,360]], self._char)
         self._pather.traverse_nodes_fixed('arc_top_left', self._char)
         
         # Move to center
@@ -141,6 +147,86 @@ class Arcane:
         else:
             self._pather.traverse_nodes_fixed([[500,40]], self._char)
         
+        # Attack
+        self._char.kill_summoner()
+
+        # Chests & Pick items
+        wait(0.5)
+        self._chest.open_up_chests(threshold=0.8)
+        picked_up_items = self._pickit.pick_up_items(self._char)
+        
+        if enter_portal():
+            return (Location.A2_ARC_END, picked_up_items)
+        
+        # Get in position to return
+        self._pather.traverse_nodes(([455]), self._char, force_move=True)
+        template_match = self._template_finder.search_and_wait(["ARC_END_3", "ARC_END_2"], roi=[68,282,140,100], threshold=0.60, time_out=2)
+        if not template_match.valid:
+            return (Location.A2_ARC_END, picked_up_items)
+            
+        # Return to wp
+        self._pather.traverse_nodes_fixed('arc_top_left_return', self._char)
+        self._pather.traverse_nodes_fixed([[1250,700]], self._char)
+        template_match = self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=2)
+        if not template_match.valid:
+            return (Location.A2_ARC_END, picked_up_items)
+        if do_pre_buff:
+            Logger.debug("Rebuff")
+            self._char.pre_buff()
+
+        # Run bottom right
+        self._pather.traverse_nodes(([456]), self._char, force_move=True)
+        self._pather.traverse_nodes_fixed([[1250,700]], self._char)
+        self._pather.traverse_nodes_fixed('arc_top_left_return', self._char)
+        self._pather.traverse_nodes_fixed([[900,100]], self._char)
+        
+        # Move to center
+        template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.5)
+        if not template_match.valid:
+            self._pather.traverse_nodes([457], self._char, time_out=0.7, force_move=True)
+        else:
+            self._pather.traverse_nodes_fixed([[500,40]], self._char)
+            
+        # Attack
+        self._char.kill_summoner()
+
+        # Chests & Pick items
+        wait(0.5)
+        self._chest.open_up_chests(threshold=0.8)
+        picked_up_items = self._pickit.pick_up_items(self._char)
+        
+        if enter_portal():
+            return (Location.A2_ARC_END, picked_up_items)
+            
+        # Get in position to return
+        self._pather.traverse_nodes(([458]), self._char, force_move=True)
+        template_match = self._template_finder.search_and_wait(["ARC_END_1", "ARC_END_2", "ARC_END_3"], threshold=0.60, time_out=2)
+        if not template_match.valid:
+            return (Location.A2_ARC_END, picked_up_items)
+            
+        # Return to wp
+        self._pather.traverse_nodes_fixed('arc_top_left', self._char)
+        self._pather.traverse_nodes_fixed([[20,20]], self._char)
+        template_match = self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=2)
+        if not template_match.valid:
+            return (Location.A2_ARC_END, picked_up_items)
+        if do_pre_buff:
+            Logger.debug("Rebuff")
+            self._char.pre_buff()
+
+        # Run bottom left
+        self._pather.traverse_nodes(([459]), self._char, force_move=True)
+        self._pather.traverse_nodes_fixed([[20,700]], self._char)
+        self._pather.traverse_nodes_fixed([[20,700]], self._char)
+        self._pather.traverse_nodes_fixed('arc_top_right_return', self._char)
+        
+        # Move to center
+        template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.5)
+        if not template_match.valid:
+            self._pather.traverse_nodes([460], self._char, time_out=0.8, force_move=True)
+        else:
+            self._pather.traverse_nodes_fixed([[500,40]], self._char)
+            
         # Attack
         self._char.kill_summoner()
 
