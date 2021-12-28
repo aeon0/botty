@@ -250,14 +250,18 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([661], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "1"): return False
-        if not self._pather.traverse_nodes([662, 663], self._char): return False
+        #if not self._pather.traverse_nodes([662, 663], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_c2g_663", self._char)
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "2"): return False
         if not self._pather.traverse_nodes([665], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
+        #self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
+        Logger.info(seal_layout + ": Looping to Pentagram")
+        if not self._loop_pentagram("dia_c2g_home_loop"):
+            return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("Calibrated at PENTAGRAM")
         return True
