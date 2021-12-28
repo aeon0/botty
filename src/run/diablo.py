@@ -330,6 +330,7 @@ class Diablo:
         #self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at C (Infector)")
+        self._char.kill_cs_trash()
         #if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.75, time_out=0.5).valid:
         if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.75, time_out=0.5).valid:
             if not self._seal_C2():
@@ -339,7 +340,7 @@ class Diablo:
                 return False
 
         # Diablo
-        Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
+        Logger.info("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
         self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char)
         Logger.debug("Moving a bit up & Recalibrating")
         if not self._pather.traverse_nodes([602], self._char): return False
