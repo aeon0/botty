@@ -277,7 +277,7 @@ class Diablo:
             self._char.pre_buff()
         if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
-        self._char.kill_cs_trash() # clear the trash there
+        #self._char.kill_cs_trash() # clear the trash there is causing more issues than it solves.
         # self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot | LOOTING DEACTIAVED, it brings us away from our path to the layout_b_check and the run will fail. we could add some kind of logic: if something was looted, he needs to tele twice to the top. if no loot, then only once. or we introduce a calibration spot here.
         self._pather.traverse_nodes_fixed("dia_b_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.
         Logger.debug("Checking Layout at B")
