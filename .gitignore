@@ -22,3 +22,6 @@ info_screenshots/
 loot_screenshots/
 stats/
 .venv
+.coverage
+htmlcov/
+coverage.xml
