@@ -1,5 +1,5 @@
 import cv2
-from typing import Tuple, List
+from typing import Tuple
 import numpy as np
 import time
 import os
@@ -22,7 +22,7 @@ class Item:
     name: str = None
     score: float = -1.0
     dist: float = -1.0
-    roi: List[int] = None
+    roi: list[int] = None
 
 class ItemFinder:
     def __init__(self, config: Config):
@@ -71,17 +71,7 @@ class ItemFinder:
     def update_items_to_pick(self, config: Config):
         self._items_to_pick = config.items
 
-    @staticmethod
-    def sort_items(item_list):
-        relevance_list = {"_potion": 1, "misc_gold": 1, "unique_": 15, "rune_": 20}
-        def relevance_score(name):
-            for key in relevance_list:
-                if key in name:
-                    return relevance_list[key]
-            return 10
-        return sorted(item_list, key=lambda i: relevance_score(i), reverse=True)
-
-    def search(self, inp_img: np.ndarray) -> List[Item]:
+    def search(self, inp_img: np.ndarray) -> list[Item]:
         img = inp_img[:,:,:]
         start = time.time()
         item_text_clusters = self._item_cropper.crop(img, 7)
@@ -134,7 +124,7 @@ class ItemFinder:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")
-        return self.sort_items(item_list)
+        return item_list
 
 
 # Testing: Throw some stuff on the ground see if it is found
