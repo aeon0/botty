@@ -70,6 +70,7 @@ run_shenk=0
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -94,6 +95,7 @@ run_shenk=0
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
+| atk_len_arc        | Attack length for hdin/sorc fighting arcane  |
 | atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
 | atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
@@ -111,6 +113,7 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
+| always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
@@ -125,7 +128,7 @@ run_shenk=0
 | chain_lightning | Optional Hotkey for chain_lightning (must be bound to left skill)           |
 | lightning     | Required Hotkey for lightning (must be bound to right skill)                  |
 
-| [blizz_sorc]   | Descriptions                                                                  |
+| [blizz_sorc]  | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
 | blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |

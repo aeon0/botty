@@ -13,6 +13,7 @@ dependencies:
     - beautifultable
     - pytweening
     - requests
+    - coverage
     - pytest
     - pytest-env
     - pytest-pythonpath
