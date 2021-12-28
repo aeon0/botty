@@ -102,7 +102,7 @@ class Diablo:
         i = 0
         while i < 4:
             # try to select seal
-            Logger.info(seal_layout + ": trying to open (try #" + str(i+1) + " of 5")
+            Logger.info(seal_layout + ": trying to open (try #" + str(i+1) + " of 5)")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
             wait(1)
             # check if seal is opened
@@ -116,7 +116,7 @@ class Diablo:
                 mouse.move(*pos_m, randomize=[90, 160])
                 wait(0.3)
                 if i >= 2:
-                    Logger.info(seal_layout + ": failed " + str(i) + " tries, trying to kill trash now")
+                    Logger.info(seal_layout + ": failed " + str(i+1) + " of 5 times, trying to kill trash now")
                     self._char.kill_cs_trash()
                 else:
                     # do a little random hop & try to click the seal
@@ -147,7 +147,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([610], self._char): return False
         Logger.info(seal_layout + ": Looping to Pentagram")
-        if not self._loop_pentagram("dia_a2y_home_loop"):
+        if not self._loop_pentagram("dia_a1l_home_loop"):
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
@@ -274,17 +274,6 @@ class Diablo:
         # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
-    
-        # Seal B: De Seis (to the top)
-        if do_pre_buff:
-            self._char.pre_buff()
-        if not self._pather.traverse_nodes([602], self._char): return False
-        self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
-        Logger.debug("Checking Layout at B")
-        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
-            self._seal_B1()
-        else:
-            self._seal_B2()   
 
         # Seal A: Vizier (to the left)
         if do_pre_buff:
@@ -298,6 +287,17 @@ class Diablo:
         else:
             if not self._seal_A1():
                 return False  
+
+        # Seal B: De Seis (to the top)
+        if do_pre_buff:
+            self._char.pre_buff()
+        if not self._pather.traverse_nodes([602], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
+        Logger.debug("Checking Layout at B")
+        if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
+            self._seal_B1()
+        else:
+            self._seal_B2()   
 
         # Seal C: Infector (to the right)
         if do_pre_buff:
@@ -351,3 +351,4 @@ if __name__ == "__main__":
 # B layoutcheck -> if not getting knocked back and everything runs perfectly well, you get stuck in teleport loop due to having the same teleport twice in game.ini 508,6
 # C1F traverse 702 does not work after opening boss seal (if infector is "fast" and mobs are already approaching) -> fixed by using static path
 # C layout check fails 
+# A1L - if vizier spawns at 610 pr 611 you tele to nirvana
