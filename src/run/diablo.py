@@ -235,7 +235,7 @@ class Diablo:
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
-        Logger.info(seal_layout + "Looping to Pentagram")
+        Logger.info(seal_layout + ": Looping to Pentagram")
         if not self._loop_pentagram("dia_c1f_home_loop"):
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
@@ -278,7 +278,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
         self._char.kill_cs_trash() # clear the trash there
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot
+        # self._picked_up_items |= self._pickit.pick_up_items(self._char) #and loot | LOOTING DEACTIAVED, it brings us away from our path to the layout_b_check and the run will fail. we could add some kind of logic: if something was looted, he needs to tele twice to the top. if no loot, then only once. or we introduce a calibration spot here.
         self._pather.traverse_nodes_fixed("dia_b_layout2", self._char) # then we move to the corner and check for layout of B (1=S or 2=U) - just one seal to pop.
         Logger.debug("Checking Layout at B")
         if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.8, time_out=0.1).valid:
