@@ -46,8 +46,14 @@ jobs:
           python -c "import sys; print(sys.version)"
           coverage run --source=./src -m pytest -v -s
           coverage html
+          coverage xml
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
           path: htmlcov/
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: coverage.xml
