@@ -248,8 +248,6 @@ class Diablo:
         seal_layout = "C2-G"
         Logger.info("Seal Layout: " + seal_layout)
         #if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
-        self._char.kill_cs_trash()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
         if not self._pather.traverse_nodes([661], self._char): return False
@@ -342,6 +340,9 @@ class Diablo:
 
         # Diablo
         Logger.debug("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
+        self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char)
+        Logger.debug("Moving a bit up & Recalibrating")
+        if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
