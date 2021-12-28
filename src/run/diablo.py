@@ -230,7 +230,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
         #if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
         if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "1"): return False
-        if not self._pather.traverse_nodes([702], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_702", self._char) #if not self._pather.traverse_nodes([702], self._char): return False
         Logger.info("Kill Infector")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -352,3 +352,5 @@ if __name__ == "__main__":
 
 # issue log:
 # B layoutcheck fails -> maybe make smaller templates, if a flying enemy is above the template, its getting masked & not recognized.
+# B layoutcheck -> if not getting knocked back and everything runs perfectly well, you get stuck in teleport loop due to having the same teleport twice in game.ini 508,6
+# C1F traverse 702 does not work after opening boss seal (if infector is "fast" and mobs are already approaching)
