@@ -71,6 +71,16 @@ class ItemFinder:
     def update_items_to_pick(self, config: Config):
         self._items_to_pick = config.items
 
+    @staticmethod
+    def sort_items(item_list):
+        relevance_list = {"_potion": 1, "misc_gold": 1, "unique_": 15, "rune_": 20}
+        def relevance_score(name):
+            for key in relevance_list:
+                if key in name:
+                    return relevance_list[key]
+            return 10
+        return sorted(item_list, key=lambda i: relevance_score(i), reverse=True)
+
     def search(self, inp_img: np.ndarray) -> List[Item]:
         img = inp_img[:,:,:]
         start = time.time()
@@ -124,7 +134,7 @@ class ItemFinder:
                 item_list.append(item)
         elapsed = time.time() - start
         # print(f"Item Search: {elapsed}")
-        return item_list
+        return self.sort_items(item_list)
 
 
 # Testing: Throw some stuff on the ground see if it is found
