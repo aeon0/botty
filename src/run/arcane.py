@@ -216,6 +216,3 @@ class Arcane:
             return (Location.A2_ARC_END, picked_up_items)
         
         return (Location.A2_ARC_END, picked_up_items)
-
-        Logger.debug("Fim teste")
-        wait(20)
