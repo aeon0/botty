@@ -86,7 +86,7 @@ class Diablo:
 
     def _loop_pentagram(self, path) -> bool:
         found = False
-        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2"] #, "DIABLO_PENT_3" -> sometimes causes calibration BELOW pentagram
+        templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
             found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
