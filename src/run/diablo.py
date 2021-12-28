@@ -292,7 +292,7 @@ class Diablo:
         # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
-        """ 
+        
         # Seal A: Vizier (to the left)
         if do_pre_buff:
             self._char.pre_buff()
@@ -325,7 +325,6 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         self._char.kill_cs_trash()
-        """ 
         if not self._pather.traverse_nodes([602], self._char): return False
         #self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char) # we go to layout check
