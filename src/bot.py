@@ -254,7 +254,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair:
+        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
