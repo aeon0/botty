@@ -47,7 +47,7 @@ jobs:
           coverage run --source=./src -m pytest -v -s
           coverage xml
       - name: Upload Coverage to Codecov
-          uses: codecov/codecov-action@v2
-          with:
-            verbose: true
-            files: ./coverage.xml
+        uses: codecov/codecov-action@v2
+        with:
+          verbose: true
+          files: ./coverage.xml
