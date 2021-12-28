@@ -42,12 +42,7 @@ class Barbarian(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _do_hork(self, hork_time: int):
-        # Outburst's fine work below
-        # save current skill img
-        wait(0.1)
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         wait(0.5)
-        #hork
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
@@ -59,8 +54,6 @@ class Barbarian(IChar):
         wait(1)
 
     def pre_buff(self):
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
         wait(0.08, 0.19)
         mouse.click(button="right")
@@ -73,8 +66,6 @@ class Barbarian(IChar):
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
 
     def pre_move(self):
         # select teleport if available
