@@ -227,8 +227,8 @@ class Diablo:
         seal_layout = "C1-F"
         Logger.info("Seal Layout: " + seal_layout)
         #if not self._pather.traverse_nodes([701, 702], self._char): return False
-        self._char.kill_cs_trash()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._char.kill_cs_trash()
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([703], self._char): return False
         if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char) # REPLACES: if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
