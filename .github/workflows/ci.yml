@@ -39,9 +39,15 @@ jobs:
         run: |
           C:\Miniconda\condabin\conda.bat init powershell
           set PYTHONPATH=./src
-      - name: Pytest
+      - name: Pytest & Coverage
         shell: powershell
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
-          pytest -v -s
+          coverage run --source=./src -m pytest -v -s
+          coverage html
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: htmlcov/
