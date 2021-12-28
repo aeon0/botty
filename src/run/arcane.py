@@ -50,21 +50,27 @@ class Arcane:
                     self._ui_manager.use_wp(4, 0)
                     return True
                 def wait_for_canyon():
-                    self._template_finder.search_and_wait(["CANYON"], threshold=0.70)
+                    wait(0.5)
+                    self._template_finder.search_and_wait(["CANYON"], threshold=0.70, time_out=2)
                     self._pather.traverse_nodes_fixed([[665,10]], self._char)
                     if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
                         Logger.debug("Did not find altar")
                         return False
                     return True
                 def go_canyon():
-                    wait(1)
+                    template_match = self._template_finder.search_and_wait(["ARC_SPEECH"], threshold=0.70, time_out=2)
+                    if not template_match.valid:
+                        return False
                     # dismiss altar speech
                     self._pather.traverse_nodes_fixed([[625,360]], self._char)
                     wait(1)
-                    if not self._char.select_by_template(["ARC_RED_PORTAL"], wait_for_canyon, time_out=2, telekinesis=True):
-                        Logger.debug("Did not find red portal")
-                        return False
-                    return True
+                    template_match = self._template_finder.search_and_wait(["ARC_RED_PORTAL"], threshold=0.70, time_out=1)
+                    if template_match.valid:
+                        if not self._char.select_by_template(["ARC_RED_PORTAL"], wait_for_canyon, time_out=2, telekinesis=True):
+                            Logger.debug("Did not find red portal")
+                            return False
+                        return True
+                    return False
                 if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.75, telekinesis=True):
                     # teleport and try again
                     self._pather.traverse_nodes_fixed([[625,370]], self._char)
