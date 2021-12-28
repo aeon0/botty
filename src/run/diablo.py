@@ -36,7 +36,7 @@ class Diablo:
         self._picked_up_items = False
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
-        Logger.info("Run Diablo | BETA Version, please do not run without supervision")
+        Logger.info("Run Diablo /!\ BETA Version /!\ please do not run without supervision.")
         if not self._char.can_teleport():
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):
@@ -138,11 +138,11 @@ class Diablo:
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
-        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER", "DIA_A1L2_14_CLOSED_DARK"], seal_layout + "- Fake"): return False
+        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER", "DIA_A1L2_14_CLOSED_DARK"], seal_layout + "-Fake"): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
-        if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "- Boss"): return False
+        if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss"): return False
         if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
-        Logger.info("Kill Sealboss A: Vizier")
+        Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier([612], [611])
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([610], self._char): return False
@@ -161,11 +161,11 @@ class Diablo:
         if not self._pather.traverse_nodes([624], self._char): return False
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([625], self._char): return False
-        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + " - Fake"): return False
+        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626
-        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + " - Boss"): return False
+        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss"): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
-        Logger.info("Kill Sealboss A: Vizier")
+        Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier([623], [624])
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -184,9 +184,9 @@ class Diablo:
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([634], self._char): return False # seal boss far
-        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED", "DIA_B1S2_23_MOUSEOVER"], seal_layout + " - Boss")
+        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED", "DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss")
         self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char)
-        Logger.info("Kill Sealboss B: De Seis")
+        Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis([632], [631], [632]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info(seal_layout + ": Looping to Pentagram")
@@ -206,9 +206,9 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         wait(1) #give it some time to clear the templates
         if not self._pather.traverse_nodes([643, 644], self._char): return False
-        self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + " - Boss")
+        self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss")
         if not self._pather.traverse_nodes([643, 642, 646], self._char): return False
-        Logger.info("Kill Sealboss B: De Seis")
+        Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis([641], [640], [646]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
@@ -228,11 +228,11 @@ class Diablo:
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([703], self._char): return False
-        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + " - Fake"): return False
+        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char) # REPLACES: if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
-        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + " - Boss"): return False
+        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "-Boss"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_702", self._char) #if not self._pather.traverse_nodes([702], self._char): return False
-        Logger.info("Kill Sealboss C: Infector")
+        Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info(seal_layout + ": Looping to Pentagram")
@@ -249,13 +249,13 @@ class Diablo:
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([661], self._char): return False
-        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + " - Boss"): return False
+        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
         self._pather.traverse_nodes_fixed("dia_c2g_663", self._char) # REPLACES: #if not self._pather.traverse_nodes([662, 663], self._char): return False
-        Logger.info("Kill Sealboss C: Infector")
+        Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
-        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + " - Fake"): return False
+        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
         if not self._pather.traverse_nodes([665], self._char): return False
         # Lets go home
         Logger.info(seal_layout + ": Looping to Pentagram")
@@ -353,4 +353,5 @@ if __name__ == "__main__":
 # C layout check fails 
 # A1L - if vizier spawns at 610 pr 611 you tele to nirvana
 # A1L - sometimes you tele above fake seal from save_dist & end up in an endless tele loop
+# B2U - in approach to layoutcheck, massive mob groups slow down & put you in hit recovery, so the run fails.
 # Idea: directly teleport to seals & pop them
