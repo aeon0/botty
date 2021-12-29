@@ -16,7 +16,7 @@ class TestGameStats:
         ("some_potion", False),
         ("super_healing_potion", False),
     ])
-    def test_adjust_abs_range_to_screen(self, item_name: str, item_should_be_added: bool):
+    def test_log_item_pickup(self, item_name: str, item_should_be_added: bool):
         self.game_stats.update_location("test_location")
         previous_item_count = len(self.game_stats._location_stats["test_location"]["items"])
         self.game_stats.log_item_pickup(item_name, send_message=False)

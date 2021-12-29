@@ -53,6 +53,8 @@ class Arcane:
                     wait(0.5)
                     self._template_finder.search_and_wait(["CANYON"], threshold=0.70, time_out=2)
                     self._pather.traverse_nodes_fixed([[665,10]], self._char)
+                    if self._chest.open_up_chest(threshold=0.8) > 0.8:
+                        self._pickit.pick_up_items(self._char)
                     if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
                         Logger.debug("Did not find altar")
                         return False
@@ -114,9 +116,6 @@ class Arcane:
             template_match = self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=2)
             if not template_match.valid:
                 return False
-            if do_pre_buff:
-                Logger.debug("Rebuff")
-                self._char.pre_buff()
             return True
                 
         def get_in_position(path: float) -> bool:
@@ -133,7 +132,7 @@ class Arcane:
     
         if do_pre_buff:
             self._char.pre_buff()
-        
+
         # Run top right
         self._pather.traverse_nodes(([450]), self._char, force_move=True)
         self._pather.traverse_nodes_fixed('arc_top_right', self._char)
@@ -175,6 +174,9 @@ class Arcane:
             return (Location.A2_ARC_END, picked_up_items)
       
         # Run bottom right
+        if do_pre_buff:
+            self._char.pre_buff()
+        
         self._pather.traverse_nodes(([456]), self._char, force_move=True)
         self._pather.traverse_nodes_fixed([[1250,700]], self._char)
         self._pather.traverse_nodes_fixed('arc_bottom_right', self._char)
@@ -193,7 +195,7 @@ class Arcane:
        
         if not return_wp('arc_top_left', [20,20]):
             return (Location.A2_ARC_END, picked_up_items)
-      
+
         # Run bottom left
         self._pather.traverse_nodes(([459]), self._char, force_move=True)
         self._pather.traverse_nodes_fixed([[20,700]], self._char)
