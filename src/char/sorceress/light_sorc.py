@@ -4,7 +4,6 @@ from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple
 from pather import Location
 import numpy as np
 
@@ -145,7 +144,7 @@ class LightSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
-        
+
     def kill_summoner(self) -> bool:
         # Attack
         delay = [0.2, 0.3]

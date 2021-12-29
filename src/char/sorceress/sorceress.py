@@ -87,11 +87,11 @@ class Sorceress(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _cast_static(self):
+    def _cast_static(self, duration: float = 1.4):
         if self._skill_hotkeys["static_field"]:
             keyboard.send(self._skill_hotkeys["static_field"])
             wait(0.1, 0.13)
             start = time.time()
-            while time.time() - start < 1.4:
+            while time.time() - start < duration:
                 mouse.click(button="right")
                 wait(self._cast_duration)
