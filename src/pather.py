@@ -168,7 +168,8 @@ class Pather:
             # Diablo Chaos Sanctuary
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint  
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
-            602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
+            #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
+            602: {"DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
             
             # SEAL A1L_new Vizier
             610: {"DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52), 
@@ -519,6 +520,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIA_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -532,19 +534,14 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    
-    #pather.traverse_nodes([602], char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
-    #pather.traverse_nodes_fixed("dia_c_layout_bold", char)
-    #pather.traverse_nodes([615], char) # seal boss close
-    
 
-
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    #xpather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    
     ### DIABLO
 
     # CS
@@ -681,4 +678,5 @@ if __name__ == "__main__":
     #pather.traverse_nodes([660], char) # approach
     #pather.traverse_nodes_fixed("dia_c2g_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
+
 
