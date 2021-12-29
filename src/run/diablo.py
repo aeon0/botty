@@ -116,8 +116,9 @@ class Diablo:
                 mouse.move(*pos_m, randomize=[90, 160])
                 wait(0.3)
                 if i >= 2:
-                    Logger.info(seal_layout + ": failed " + str(i+1) + " of 5 times, trying to kill trash now")
+                    Logger.info(seal_layout + ": failed " + str(i+2) + " of 5 times, trying to kill trash now")
                     self._char.kill_cs_trash()
+                    wait(1) #let the hammers clear & check the template
                 else:
                     # do a little random hop & try to click the seal
                     direction = 1 if i % 2 == 0 else -1

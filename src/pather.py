@@ -533,8 +533,14 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     
-    pather.traverse_nodes([602], char)
-    pather.traverse_nodes_fixed("dia_c_layout_bold", char)
+    #pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b2u_home_loop", char)
+    #pather.traverse_nodes_fixed("dia_c_layout_bold", char)
     #pather.traverse_nodes([615], char) # seal boss close
     
 
