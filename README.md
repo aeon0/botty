@@ -1,6 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
+Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only and is not meant for online usage. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
 
 [**Download here**](https://github.com/aeon0/botty/releases) and got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
