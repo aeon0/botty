@@ -189,6 +189,8 @@ def _pre_buff_cta(self):
         if not template_match.valid:
             #still no BC?! well they must not have BC bound or CTA equipped
             Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
+            #disable the cta_available so it doesn't try anymore. good idea rpul
+            self._char_config["cta_available"] = 0
         else:
            
             mouse.click(button="right")
