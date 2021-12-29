@@ -69,94 +69,111 @@ class BlizzSorc(Sorceress):
         return True
 
     def kill_shenk(self) -> bool:
-        # Top left position
         pos_m = self._screen.convert_abs_to_monitor((100, 170))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        # Lower left posistion
-        self._pather.traverse_nodes([151], self, time_out=2.5)
+        #lower left posistion
+        self._pather.traverse_nodes([151], self, time_out=2.5, force_tp=False)
         self._cast_static()
-        self._blizzard((-170, 70))
+        self._blizzard((-250, 100), spray=10)
         self._ice_blast((60, 70), spray=30)
-        # Teledance 1
-        pos_m = self._screen.convert_abs_to_monitor((100, 50))
+        self._blizzard((400, 200), spray=10)
+        self._cast_static()
+        self._ice_blast((-300, 100), spray=30)
+        self._blizzard((185, 200), spray=10)
+        pos_m = self._screen.convert_abs_to_monitor((-10, 10))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        # Teledance attack 1
         self._cast_static()
-        self._blizzard((400, 100))
-        self._cast_static()
-        self._blizzard((0, -250))
-        wait(0.3)
-        # Teledance 2
+        self._blizzard((-300, -270), spray=10)
+        self._ice_blast((-20, 30), spray=30)
+        wait(1.0)
+        #teledance 2
         pos_m = self._screen.convert_abs_to_monitor((150, -240))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        # Teledance attack 2
+        #teledance attack 2
         self._cast_static()
-        self._blizzard((-200, 75))
+        self._blizzard((450, -250), spray=10)
+        self._ice_blast((150, -100), spray=30)
+        self._blizzard((0, -250), spray=10)
         wait(0.3)
-        # Shenk Kill
-        self._pather.traverse_nodes([151], self, time_out=2.5)
-        # Shenk attack 1
+        #Shenk Kill
         self._cast_static()
-        self._blizzard((10, -70))
-        wait(0.3)
-        # Shenk teledance 2
-        pos_m = self._screen.convert_abs_to_monitor((90, -170))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_static()
+        self._blizzard((100, -50), spray=10)
         # Move to items
-        wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
         return True
 
     def kill_council(self) -> bool:
-        atk_len_trav = max(1, int(self._char_config["atk_len_trav"]) - 1)
-        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        # Go inside cast stuff in general direction
-        self._pather.traverse_nodes_fixed([(1262, 265)], self)
-        self._pather.offset_node(229, [350, 100])
-        self._pather.traverse_nodes([229], self, time_out=2.5, force_tp=True)
-        self._pather.offset_node(229, [-350, -100])
-        atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
-        if atk_pos_abs is None:
-            Logger.debug("Could not find node [230]. Using static attack coordinates instead.")
-            atk_pos_abs = [-300, -200]
-        else:
-            atk_pos_abs = [atk_pos_abs[0], atk_pos_abs[1] + 70]
-        cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
-        cast_pos_abs_bliz = np.array([atk_pos_abs[0] * 0.25, atk_pos_abs[1] * 0.25])
-        for _ in range(atk_len_trav):
-            self._blizzard(cast_pos_abs_bliz, spray=120)
-            self._ice_blast(cast_pos_abs, spray=90)
+        # Move inside to the right
+        self._pather.traverse_nodes_fixed([(1110, 120)], self)
+        self._pather.offset_node(300, (80, -110))
+        self._pather.traverse_nodes([300], self, time_out=5.5, force_tp=True)
+        self._pather.offset_node(300, (-80, 110))
+        # Attack to the left
+        self._blizzard((-150, 10), spray=80)
+        self._ice_blast((-300, 50), spray=30)
+        # Tele back and attack
+        pos_m = self._screen.convert_abs_to_monitor((-50, 200))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._blizzard((-235, -230), spray=80)
+        wait(1.0)
+        # Move to far left
+        self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
+        # Attack to RIGHT
+        self._blizzard((100, 150), spray=80)
+        self._ice_blast((230, 230), spray=30)
+        wait(0.5)
+        self._blizzard((310, 260), spray=80)
+        wait(1.0)
+        # Move to bottom of stairs
+        self.pre_move()
+        for p in [(450, 100), (-190, 200)]:
+            pos_m = self._screen.convert_abs_to_monitor(p)
+            self.move(pos_m, force_move=True)
+        self._pather.traverse_nodes([304], self, time_out=2.5, force_tp=True)
+        # Attack to center of stairs
+        self._blizzard((-175, -200), spray=30)
+        self._ice_blast((30, -60), spray=30)
+        wait(0.5)
+        self._blizzard((175, -270), spray=30)
+        wait(1.0)
+        # Move back inside
+        self._pather.traverse_nodes_fixed([(1110, 15)], self)
+        self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
+        # Attack to center
+        self._blizzard((-100, 0), spray=10)
         self._cast_static()
-        # move a bit back
-        pos_m = self._screen.convert_abs_to_monitor((110, 30))
+        self._ice_blast((-300, 30), spray=10)
+        self._blizzard((-175, 50), spray=10)
+        wait(1.0)
+        # Move back outside and attack
+        pos_m = self._screen.convert_abs_to_monitor((-430, 230))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
-        if atk_pos_abs is None:
-            Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
-            atk_pos_abs = [-200, -80]
-        self._blizzard((-70, -40), spray=50)
-        self._ice_blast(cast_pos_abs, spray=60)
-        # Move outside
-        # Move a bit back and another round
+        self._blizzard((-50, -150), spray=30)
+        self._cast_static()
+        # Move back inside and attack
+        pos_m = self._screen.convert_abs_to_monitor((150, -350))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        # Attack sequence center
+        self._blizzard((-100, 35), spray=30)
+        self._cast_static()
+        self._blizzard((-150, 20), spray=30)
+        wait(1.0)
+        # Move inside
+        pos_m = self._screen.convert_abs_to_monitor((100, -30))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        # Attack sequence to center
+        self._blizzard((-50, 50), spray=30)
+        self._cast_static()
+        self._ice_blast((-30, 50), spray=10)
+        # Move outside since the trav.py expects to start searching for items there if char can teleport
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
-        cast_pos_abs = np.array([-100, -50])
-        for _ in range(atk_len_trav):
-            self._blizzard(cast_pos_abs, spray=60)
-            self._ice_blast(cast_pos_abs, spray=60)
-        # move a bit back
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        cast_pos_abs = np.array([-50, -100])
-        for _ in range(atk_len_trav):
-            self._blizzard(cast_pos_abs, spray=40)
-            self._ice_blast(cast_pos_abs, spray=30)
-        self._blizzard(cast_pos_abs, spray=40)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:

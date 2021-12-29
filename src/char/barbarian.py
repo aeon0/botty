@@ -6,10 +6,9 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-from utils.misc import wait, cut_roi, is_in_roi
+from utils.misc import wait, cut_roi
 import time
 from pather import Pather, Location
-import cv2
 
 
 class Barbarian(IChar):
@@ -36,49 +35,25 @@ class Barbarian(IChar):
         start = time.time()
         while (time.time() - start) < time_in_s:
             wait(0.06, 0.08)
-            mouse.press(button="right")
-            wait(0.5, 0.7)
-            mouse.release(button="right")
+            mouse.click(button="right")
+            wait(2, 2.2)
+            mouse.click(button="right")
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _do_hork(self, hork_time: int):
-        # Outburst's fine work below
-        # save current skill img
-        wait(0.1)
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         wait(0.5)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.5)
-        #hork
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
-        mouse.move(637, 354)
+        mouse.move(960, 487)
         wait(0.5, 0.15)
         mouse.press(button="right")
         wait(hork_time)
         mouse.release(button="right")
         wait(1)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.5, 0.15)
-        # Make sure that we are back at the previous skill
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val < 0.96:
-            Logger.warning("Failed to switch weapon, try again")
-            wait(1.2)
-            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val < 0.96:
-                keyboard.send(self._char_config["weapon_switch"])
-                wait(0.4)
-            else:
-                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     def pre_buff(self):
-        # keyboard.send(self._char_config["weapon_switch"])
-        # wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
         wait(0.08, 0.19)
         mouse.click(button="right")
@@ -91,8 +66,6 @@ class Barbarian(IChar):
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
- #       keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
 
     def pre_move(self):
         # select teleport if available
