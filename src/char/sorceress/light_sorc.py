@@ -4,7 +4,6 @@ from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple
 from pather import Location
 import numpy as np
 
@@ -145,7 +144,7 @@ class LightSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
-        
+
     def kill_summoner(self) -> bool:
         # Attack
         delay = [0.2, 0.3]
@@ -157,3 +156,22 @@ class LightSorc(Sorceress):
             self._left_attack(cast_pos_abs, delay, 11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
+
+
+if __name__ == "__main__":
+    import os
+    import keyboard
+    from screen import Screen
+    from template_finder import TemplateFinder
+    from pather import Pather
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui import UiManager
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    t_finder = TemplateFinder(screen)
+    pather = Pather(screen, t_finder)
+    ui_manager = UiManager(screen, t_finder)
+    char = LightSorc(config.light_sorc, config.char, screen, t_finder, ui_manager, pather)
+    char.kill_council()
