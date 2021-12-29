@@ -160,6 +160,24 @@ class IChar:
         wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
         wait(0.1, 0.19)
+        
+        #check for BO - damn you rpuls
+        roi = self._config.ui_roi["skill_right"]
+        img = self._screen.grab()
+        template_match = self._template_finder.search(
+            ["BO"],
+            img,
+            threshold=0.66,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if not template_match.valid:
+            #switch because we are on the wrong weapon!
+            Logger.warning("Incorrect weapon for CTA! swapping weapons.")
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
+            keyboard.send(self._char_config["battle_command"])
+       
         mouse.click(button="right")
         wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
         keyboard.send(self._char_config["battle_orders"])
