@@ -43,7 +43,7 @@ class Chest:
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 # act as picking up a potion to support telekinesis
                 self._char.pick_up_item([x_m, y_m], 'potion')
-                time.sleep(0.5)
+                time.sleep(0.2)
                 locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
                 if locked_chest.valid:
                     templates.remove(template_match.name)

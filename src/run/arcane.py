@@ -78,16 +78,8 @@ class Arcane:
                     if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.60, telekinesis=True):
                         Logger.debug("could not reach altar")
                 return True
-        """       
-        def move_center(template: float):
-            template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.5)
-            if not template_match.valid:
-                self._pather.traverse_nodes([template], self._char, time_out=0.7, force_move=True)
-            else:
-                self._pather.traverse_nodes_fixed([[500,40]], self._char)
-        """
+                
         def move_center(transverse=[]) -> bool:
-            Logger.debug("Find center")
             def find_center() -> bool:
                 template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.50, time_out=0.5)
                 if template_match.valid:
@@ -102,6 +94,7 @@ class Arcane:
                 return False
             if not find_center():
                 self._char.kill_summoner()
+                chest_loot()
                 # move and try again
                 self._pather.traverse_nodes_fixed([[700,500]], self._char)
                 if not find_center():
