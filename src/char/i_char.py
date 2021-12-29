@@ -153,34 +153,45 @@ class IChar:
         return False
 
     def _pre_buff_cta(self):
-        # save current skill img
-        wait(0.1)
+        # Save current skill img
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
-        keyboard.send(self._char_config["battle_command"])
-        wait(0.1, 0.19)
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-        keyboard.send(self._char_config["battle_orders"])
-        wait(0.1, 0.19)
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
-        # Make sure that we are back at the previous skill
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val < 0.9:
-            Logger.warning("Failed to switch weapon, try again")
-            wait(1.2)
+        # Try to switch weapons and select bo until we find the skill on the right skill slot
+        start = time.time()
+        switch_sucess = False
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
+            keyboard.send(self._char_config["battle_command"])
+            wait(0.1, 0.19)
+            if self._ui_manager.is_right_skill_selected(["BC"]):
+                switch_sucess = True
+                break
+
+        if not switch_sucess:
+            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
+            self._char_config["cta_available"] = 0
+        else:
+            # We switched succesfully, let's pre buff
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+            keyboard.send(self._char_config["battle_orders"])
+            wait(0.1, 0.19)
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+
+        # Make sure the switch back to the original weapon is good
+        start = time.time()
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
             skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val < 0.9:
-                keyboard.send(self._char_config["weapon_switch"])
-                wait(0.4)
+            if max_val > 0.9:
+                break
             else:
-                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
+                Logger.warning("Failed to switch weapon, try again")
+                wait(0.5)
+
 
     def pre_buff(self):
         pass
@@ -189,7 +200,7 @@ class IChar:
         raise ValueError("Pindle is not implemented!")
 
     def kill_shenk(self) -> bool:
-        raise ValueError("Shenk is not impleneted!")
+        raise ValueError("Shenk is not implemented!")
 
     def kill_eldritch(self) -> bool:
         raise ValueError("Eldritch is not implemented!")
