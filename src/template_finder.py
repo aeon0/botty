@@ -185,7 +185,13 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ARC_STASH3", "ARC_STASH11"]
+    templates = []
+    for filename in os.listdir(f'assets/templates/a2_town'):
+        filename = filename.lower()
+        if filename.endswith('.png'):
+            filename = filename[:-4].upper()
+            templates.append(filename)
+    search_templates = [templates]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()

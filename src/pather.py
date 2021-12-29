@@ -49,6 +49,7 @@ class Location:
     # A2 Town
     A2_TOWN_START = "a2_town_start"
     A2_WP = "a2_wp"
+    A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
     # Trav
     A3_TRAV_START = "a3_trav_start"
@@ -145,6 +146,9 @@ class Pather:
             406: {"A2_TOWN_BARREL": (-158, -7)},
             407: {"A2_TOWN_BARREL": (-580, -26), "A2_TOWN_LIGHT_HUT": (442, 78), "A2_TOWN_DARK_HUT": (442, 78)},
             408: {"A2_TOWN_LIGHT_HUT": (-36, -25), "A2_TOWN_DARK_HUT": (-36, -25), "A2_TOWN_LIGHT_FIRE2": (535, 19), "A2_TOWN_DARK_FIRE2": (535, 19)},
+            409: {"A2_TOWN_LIGHT_FIRE2": (-347, -176), "A2_TOWN_DARK_FIRE2": (-347, -176), "A2_TOWN_ROOF2": (510, 159)},
+            410: {"A2_TOWN_LIGHT_HUT": (-192, -229), "A2_TOWN_DARK_HUT": (-192, -229), "A2_TOWN_BARREL": (322, 146), "A2_TOWN_ROOF2": (-281, 92)},
+            411: {"A2_TOWN_BARREL": (-58, -84)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -233,6 +237,7 @@ class Pather:
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405, 406],
             (Location.A2_FARA_STASH, Location.A2_WP): [407, 408, 404],
+            (Location.A2_TP, Location.A2_FARA_STASH): [409, 410, 411],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
@@ -477,7 +482,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "ARC")
+    #display_all_nodes(pather, "ARC")
 
     # # changing node pos and generating new code
     # code = ""
@@ -491,5 +496,6 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    #pather.traverse_nodes([459], char)
-    pather.traverse_nodes_fixed("arc_bottom_left", char)
+    pather.traverse_nodes([409, 410, 411], char)
+    pather.traverse_nodes((Location.A2_FARA_STASH, Location.A2_WP), char, force_move=True)
+    #pather.traverse_nodes_fixed("arc_bottom_left", char)
