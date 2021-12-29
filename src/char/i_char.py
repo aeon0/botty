@@ -191,8 +191,8 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
-                
-                
+
+
     def pre_buff(self):
         pass
 
@@ -200,7 +200,7 @@ class IChar:
         raise ValueError("Pindle is not implemented!")
 
     def kill_shenk(self) -> bool:
-        raise ValueError("Shenk is not impleneted!")
+        raise ValueError("Shenk is not implemented!")
 
     def kill_eldritch(self) -> bool:
         raise ValueError("Eldritch is not implemented!")
