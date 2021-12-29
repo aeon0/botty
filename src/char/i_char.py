@@ -152,10 +152,10 @@ class IChar:
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
-    def _pre_buff_cta(self):
+def _pre_buff_cta(self):
         # save current skill img
         wait(0.1)
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])      
         keyboard.send(self._char_config["weapon_switch"])
         wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
@@ -177,28 +177,41 @@ class IChar:
             keyboard.send(self._char_config["weapon_switch"])
             wait(0.3, 0.35)
             keyboard.send(self._char_config["battle_command"])
-       
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-        keyboard.send(self._char_config["battle_orders"])
-        wait(0.1, 0.19)
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
-        # Make sure that we are back at the previous skill
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val < 0.9:
-            Logger.warning("Failed to switch weapon, try again")
-            wait(1.2)
+            
+        #now we check AGAIN to verify that they even HAVE cta
+        template_match = self._template_finder.search(
+            ["BO"],
+            img,
+            threshold=0.66,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if not template_match.valid:
+            #still no BC?! well they must not have BC bound or CTA equipped
+            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
+        else:
+           
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+            keyboard.send(self._char_config["battle_orders"])
+            wait(0.1, 0.19)
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
+            # Make sure that we are back at the previous skill
             skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
             if max_val < 0.9:
-                keyboard.send(self._char_config["weapon_switch"])
-                wait(0.4)
-            else:
-                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
+                Logger.warning("Failed to switch weapon, try again")
+                wait(1.2)
+                skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+                _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+                if max_val < 0.9:
+                    keyboard.send(self._char_config["weapon_switch"])
+                    wait(0.4)
+                else:
+                    Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
 
     def pre_buff(self):
         pass
