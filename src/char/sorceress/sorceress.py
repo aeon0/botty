@@ -40,7 +40,7 @@ class Sorceress(IChar):
         success_func: Callable = None,
         time_out: float = 8,
         threshold: float = 0.68,
-        telekinesis = False
+        telekinesis: bool = False
     ) -> bool:
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
@@ -51,16 +51,13 @@ class Sorceress(IChar):
             template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
             if template_match.valid:
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-                if self._skill_hotkeys["telekinesis"] and telekinesis:
-                    keyboard.send(self._skill_hotkeys["telekinesis"])
-                    wait(0.1, 0.2)
-                    mouse.move(x_m, y_m)
-                    wait(0.2, 0.3)
-                    mouse.click(button="right")
-                else:
-                    mouse.move(x_m, y_m)
-                    wait(0.2, 0.3)
-                    mouse.click(button="left")
+                if not self._skill_hotkeys["telekinesis"] and telekinesis:
+                    return super().select_by_template(template_type, success_func, time_out, threshold)
+                keyboard.send(self._skill_hotkeys["telekinesis"])
+                wait(0.1, 0.2)
+                mouse.move(x_m, y_m)
+                wait(0.2, 0.3)
+                mouse.click(button="right")
                 # check the successfunction for 2 sec, if not found, try again
                 check_success_start = time.time()
                 while time.time() - check_success_start < 2:

@@ -42,6 +42,7 @@ class Chest:
                 Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 # act as picking up a potion to support telekinesis
+                # TODO: this workaround needs a proper solution.
                 self._char.pick_up_item([x_m, y_m], 'potion')
                 time.sleep(0.2)
                 locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
@@ -59,10 +60,11 @@ class Chest:
         threshold: float = 0.75
     ) -> bool:
         # keep opening chests till no matches nearby
-        score = 100
+        score = 1
         while score >= threshold:
             score = self.open_up_chest(time_out, threshold)
-        score = 100
+        score = 1
+        # If we get a locked chest without any keys left, it will remove the template from the list to avoid endless loop through the locked chest and the duplicated chest wont be clicked. Sometimes it doenst recognize the chest in the first attempt, but it does in the second after opening the others
         while score >= threshold:
             score = self.open_up_chest(time_out, threshold)
         return True

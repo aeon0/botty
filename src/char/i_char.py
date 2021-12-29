@@ -43,7 +43,7 @@ class IChar:
         success_func: Callable = None,
         time_out: float = 8,
         threshold: float = 0.68,
-        telekinesis = False
+        telekinesis: bool = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it

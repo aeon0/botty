@@ -31,8 +31,8 @@ class Arcane:
     
     def approach(self, start_loc: Location) -> Union[bool, Location]:
         Logger.info("Run Arcane")
-        #if not self._char.can_teleport():
-        #    raise ValueError("Arcane requires teleport")
+        if not self._char.can_teleport():
+            raise ValueError("Arcane requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
