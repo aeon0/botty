@@ -493,5 +493,5 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([454], char)
-    pather.traverse_nodes_fixed("arc_bottom_right", char)
+    pather.traverse_nodes([452], char)
+    pather.traverse_nodes_fixed("arc_bottom_left", char)
