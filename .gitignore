@@ -22,5 +22,4 @@ info_screenshots/
 loot_screenshots/
 stats/
 .venv
-src/bot.py.bak
 *.bak
