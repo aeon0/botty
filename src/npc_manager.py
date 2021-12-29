@@ -16,6 +16,7 @@ class Npc:
     ANYA = "anya"
     TYRAEL = "tyrael"
     ORMUS = "ormus"
+    FARA = "fara"
     CAIN = "cain"
 
 class NpcManager:
@@ -89,6 +90,17 @@ class NpcManager:
                     }
                 },
                 "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
+            },
+            Npc.FARA: {
+                "name_tag_white": color_filter(self._template_finder.get_template("FARA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("FARA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade_repair": {
+                        "white": color_filter(self._template_finder.get_template("TRADE_REPAIR"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_REPAIR_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
             },
             # Currently just nametag added to avoid having him focused when wanting to talk to tyrael or qual
             Npc.CAIN: {

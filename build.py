@@ -78,3 +78,4 @@ if __name__ == "__main__":
     if new_version_code is not None:
         os.system(f'git add .')
         os.system(f'git commit -m "Bump version to v{args.version}"')
+        
