@@ -54,9 +54,3 @@ class A2(IAct):
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
-    def wait_for_tp(self) -> Union[Location, bool]:
-        template_match = self._template_finder.search_and_wait("A3_TOWN_10", time_out=20)
-        if template_match.valid:
-            self._pather.traverse_nodes((Location.A3_STASH_WP, Location.A3_STASH_WP), self._char, force_move=True)
-            return Location.A3_STASH_WP
-        return False
