@@ -155,7 +155,7 @@ class IChar:
     def _pre_buff_cta(self):
         # save current skill img
         wait(0.1)
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])      
+        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
         keyboard.send(self._char_config["weapon_switch"])
         wait(0.3, 0.35)
         keyboard.send(self._char_config["battle_command"])
