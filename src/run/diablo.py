@@ -301,8 +301,11 @@ class Diablo:
         #self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char)
         Logger.info("Checking Layout at A (Vizier)")
+        found = False
+        if self._config.general["info_screenshots"] and not found:
+            cv2.imwrite(f"./info_screenshots/layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-        if self._template_finder.search_and_wait(["DIA_A2L_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2L_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2L_FAKE_CLOSED_LAYOUTCHECK3"], threshold=0.75, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
             if not self._seal_A2():
                 return False
         else:
@@ -316,8 +319,11 @@ class Diablo:
         #self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at B (De Seis)")
+        found = False
+        if self._config.general["info_screenshots"] and not found:
+            cv2.imwrite(f"./info_screenshots/layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.75, time_out=0.5).valid:
-        if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.75, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
             self._seal_B1()
         else:
             self._seal_B2()   
@@ -331,8 +337,11 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at C (Infector)")
         self._char.kill_cs_trash()
+        found = False
+        if self._config.general["info_screenshots"] and not found:
+            cv2.imwrite(f"./info_screenshots/layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.75, time_out=0.5).valid:
-        if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.75, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
             if not self._seal_C2():
                 return False
         else:
