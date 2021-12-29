@@ -132,12 +132,12 @@ class Diablo:
     def _seal_A1(self) -> bool:
         seal_layout = "A1-L"
         Logger.info("Seal Layout: " + seal_layout)
-        #if not self._pather.traverse_nodes([611], self._char): return False
-        #self._char.kill_cs_trash()
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        #if not self._pather.traverse_nodes([612, 613], self._char): return False
-        #self._char.kill_cs_trash()
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([611], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([612, 613], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_MOUSEOVER", "DIA_A1L2_14_CLOSED_DARK"], seal_layout + "-Fake"): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
@@ -159,11 +159,11 @@ class Diablo:
     def _seal_A2(self) -> bool:
         seal_layout = "A2-Y"
         Logger.info("Seal Layout: " + seal_layout)
-        #if not self._pather.traverse_nodes([622], self._char): return False
-        #self._char.kill_cs_trash()
-        #if not self._pather.traverse_nodes([624], self._char): return False
-        #self._char.kill_cs_trash()
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([622], self._char): return False
+        self._char.kill_cs_trash()
+        if not self._pather.traverse_nodes([624], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([625], self._char): return False
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED","DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626
@@ -292,16 +292,16 @@ class Diablo:
         #if do_pre_buff:
         #    self._char.pre_buff() # not needed if seals exectued in right order
         if not self._pather.traverse_nodes([602], self._char): return False
-        #self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char) # While this is a faster approach it leads to more failure & chicken
+        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
+        #self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char) # While this is a faster approach it leads to more failure & chicken
         Logger.info("Checking Layout at A (Vizier)")
         self._char.kill_cs_trash()
         Logger.info("Waiting to clear the flying hammers")
         wait(4)
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        #if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-        if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid: #lowered threshold - lots of missed A2Y layouts
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+        #if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid: #lowered threshold - lots of missed A2Y layouts
             if not self._seal_A2():
                 return False
         else:
