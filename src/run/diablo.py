@@ -216,8 +216,8 @@ class Diablo:
         #if not self._pather.traverse_nodes([643, 644], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss")
-        #if not self._pather.traverse_nodes([642, 646], self._char): return False #643, 642, 
-        self._pather.traverse_nodes_fixed("dia_b2u_bold_deseis", self._char)
+        if not self._pather.traverse_nodes([642, 646], self._char): return False #643, 642, 
+        #self._pather.traverse_nodes_fixed("dia_b2u_bold_deseis", self._char) # high failure rate.
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis([641], [640], [646]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -242,7 +242,7 @@ class Diablo:
         if not self._pather.traverse_nodes([703], self._char): return False
         if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char) # REPLACES: if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
-        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_8_MOUSEOVER","DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "-Boss"): return False
+        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_11_CLOSED", "DIA_C1F2_11_MOUSEOVER","DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "-Boss"): return False # "DIA_C1F2_8_MOUSEOVER", is recognized often, but slows seals down. commented out for testing
         self._pather.traverse_nodes_fixed("dia_c1f_702", self._char) #if not self._pather.traverse_nodes([702], self._char): return False
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector()
@@ -260,14 +260,14 @@ class Diablo:
         seal_layout = "C2-G"
         Logger.info("Seal Layout: " + seal_layout)
         #if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
-        if not self._pather.traverse_nodes([664, 665], self._char): return False
-        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
-        if not self._pather.traverse_nodes([661], self._char): return False
+        if not self._pather.traverse_nodes([663, 662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
         self._pather.traverse_nodes_fixed("dia_c2g_663", self._char) # REPLACES: #if not self._pather.traverse_nodes([662, 663], self._char): return False
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([664, 665], self._char): return False
+        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
         # Lets go home
         Logger.info(seal_layout + ": Looping to Pentagram")
         if not self._loop_pentagram("dia_c2g_home_loop"): # looping home finds pentagram3, this calibrates too low :(
@@ -289,8 +289,8 @@ class Diablo:
             return False
         
         # Seal A: Vizier (to the left)
-        if do_pre_buff:
-            self._char.pre_buff()
+        #if do_pre_buff:
+        #    self._char.pre_buff() # not needed if seals exectued in right order
         if not self._pather.traverse_nodes([602], self._char): return False
         #self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char) # While this is a faster approach it leads to more failure & chicken
@@ -301,7 +301,7 @@ class Diablo:
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-        if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid: #lowered threshold - lots of missed A2Y layouts
             if not self._seal_A2():
                 return False
         else:
@@ -311,6 +311,7 @@ class Diablo:
         # Seal B: De Seis (to the top) | Layout check sometimes fails for B1S
         if do_pre_buff:
             self._char.pre_buff()
+        self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([602], self._char): return False
         #self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
@@ -382,3 +383,4 @@ if __name__ == "__main__":
 # C1F traverse 702 does not work after opening boss seal (if infector is "fast" and mobs are already approaching) -> fixed by using static path
 # A1L - if vizier spawns at 610 pr 611 you tele to nirvana
 # C2G looping home brings us too low
+# B2U - static path from seal to 646 - otherwise you get stuck whilst searcdhing for nodes & fanamobs just kill you

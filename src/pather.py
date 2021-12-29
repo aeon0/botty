@@ -519,8 +519,8 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_A1L")
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
-    #display_all_nodes(pather, "DIA_C2G")
-    display_all_nodes(pather, "DIA_")
+    #xedisplay_all_nodes(pather, "DIA_C2G")
+    #display_all_nodes(pather, "DIA_NEW_PENT")
 
     # # changing node pos and generating new code
     # code = ""
@@ -535,11 +535,13 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
 
-    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
-    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
-    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
-    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
-    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes([632], char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes([602], char)
     #xpather.traverse_nodes_fixed("dia_c1f_home_loop", char)
     
     ### DIABLO
