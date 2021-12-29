@@ -93,8 +93,8 @@ class Diablo:
             if not found:
                 self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
-            if self._config.general["info_screenshots"]:
-                cv2.imwrite(f"./info_screenshots/failed_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #    if self._config.general["info_screenshots"]:
+        #        cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         return True
 
@@ -132,10 +132,10 @@ class Diablo:
     def _seal_A1(self) -> bool:
         seal_layout = "A1-L"
         Logger.info("Seal Layout: " + seal_layout)
-        #if not self._pather.traverse_nodes([611], self._char): return False
-        #self._char.kill_cs_trash()
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        #if not self._pather.traverse_nodes([612, 613], self._char): return False
+        if not self._pather.traverse_nodes([611], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([612, 613], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
@@ -152,14 +152,16 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
     def _seal_A2(self) -> bool:
         seal_layout = "A2-Y"
         Logger.info("Seal Layout: " + seal_layout)
-        #if not self._pather.traverse_nodes([622], self._char): return False
-        #self._char.kill_cs_trash()
-        #if not self._pather.traverse_nodes([624], self._char): return False
+        if not self._pather.traverse_nodes([622], self._char): return False
+        self._char.kill_cs_trash()
+        if not self._pather.traverse_nodes([624], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([625], self._char): return False
@@ -177,6 +179,8 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
     def _seal_B1(self): #NEW & dirty
@@ -196,6 +200,8 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
     def _seal_B2(self): # WORKS STABLE
@@ -222,6 +228,8 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
     def _seal_C1(self) -> bool: # The boss Seal takes several tries to recognize. Maybe we need new templates
@@ -243,6 +251,8 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
     def _seal_C2(self) -> bool:
@@ -263,26 +273,9 @@ class Diablo:
             return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
-        
-        """
-        if not self._pather.traverse_nodes([661], self._char): return False
-        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
-        self._pather.traverse_nodes_fixed("dia_c2g_663", self._char) # REPLACES: #if not self._pather.traverse_nodes([662, 663], self._char): return False
-        Logger.info(seal_layout + ": Kill Boss C (Infector)")
-        self._char.kill_infector()
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([664, 665], self._char): return False
-        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
-        if not self._pather.traverse_nodes([665], self._char): return False
-        # Lets go home
-        Logger.info(seal_layout + ": Looping to Pentagram")
-        if not self._loop_pentagram("dia_c2g_home_loop"):
-            return False
-        if not self._pather.traverse_nodes([602], self._char): return False
-        Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
-        return True
-        """
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
@@ -298,14 +291,15 @@ class Diablo:
         if do_pre_buff:
             self._char.pre_buff()
         if not self._pather.traverse_nodes([602], self._char): return False
-        #self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char)
+        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
+        #self._pather.traverse_nodes_fixed("dia_a_layout_bold", self._char) # While this is a faster approach it leads to more failure & chicken
         Logger.info("Checking Layout at A (Vizier)")
-        found = False
-        if self._config.general["info_screenshots"] and not found:
+        self._char.kill_cs_trash()
+        wait(2)
+        if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        #if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
-        if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIABLO_A_LAYOUTCHECK0", "DIABLO_A_LAYOUTCHECK1", "DIABLO_A_LAYOUTCHECK2"], threshold=0.8, time_out=0.1).valid:
+        #if self._template_finder.search_and_wait(["DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK1", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK2", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK3", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK4", "DIA_A2Y_FAKE_CLOSED_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
             if not self._seal_A2():
                 return False
         else:
@@ -319,8 +313,7 @@ class Diablo:
         #self._pather.traverse_nodes_fixed("dia_b_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at B (De Seis)")
-        found = False
-        if self._config.general["info_screenshots"] and not found:
+        if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_B_LAYOUTCHECK0", "DIABLO_B_LAYOUTCHECK1"], threshold=0.75, time_out=0.5).valid:
         if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
@@ -336,9 +329,8 @@ class Diablo:
         #self._pather.traverse_nodes_fixed("dia_c_layout", self._char) # we go to layout check
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at C (Infector)")
-        self._char.kill_cs_trash()
-        found = False
-        if self._config.general["info_screenshots"] and not found:
+        #self._char.kill_cs_trash() #wait(2) #kill trash & wait for hammers to clear to improve layout check consistency
+        if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.75, time_out=0.5).valid:
         if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
@@ -355,6 +347,8 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo() 
         wait(0.2, 0.3)
+        if self._config.general["info_screenshots"] and not found:
+            cv2.imwrite(f"./info_screenshots/dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, self._picked_up_items) #there is an error  ValueError: State 'diablo' is not a registered state.
 
