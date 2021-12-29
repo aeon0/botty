@@ -208,3 +208,22 @@ class BlizzSorc(Sorceress):
             self._left_attack(cast_pos_abs, delay, 11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
+    
+    
+if __name__ == "__main__":
+    import os
+    import keyboard
+    from screen import Screen
+    from template_finder import TemplateFinder
+    from pather import Pather
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui import UiManager
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    t_finder = TemplateFinder(screen)
+    pather = Pather(screen, t_finder)
+    ui_manager = UiManager(screen, t_finder)
+    char = BlizzSorc(config.blizz_sorc, config.char, screen, t_finder, ui_manager, pather)
+    char.kill_council()
