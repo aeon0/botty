@@ -53,7 +53,6 @@ class BlizzSorc(Sorceress):
         return True
 
     def kill_eldritch(self) -> bool:
-        delay = [0.2, 0.3]
         #move up
         pos_m = self._screen.convert_abs_to_monitor((0, -175))
         self.pre_move()
