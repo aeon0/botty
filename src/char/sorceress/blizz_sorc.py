@@ -79,10 +79,7 @@ class BlizzSorc(Sorceress):
         self._blizzard((-50, -130), spray=10)
         self._cast_static()
         wait(3.0)
-        if self.can_teleport():
-            self._pather.traverse_nodes_fixed("eldritch_end", self)
-        else:
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+        self._pather.traverse_nodes_fixed("eldritch_end", self)
         return True
 
     def kill_shenk(self) -> bool:
