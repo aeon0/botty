@@ -114,7 +114,8 @@ run_shenk=0
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
-| id_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
+| id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
+| open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
@@ -133,6 +134,10 @@ run_shenk=0
 | ------------- | ----------------------------------------------------------------------------- |
 | ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
 | blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |
+
+| [nova_sorc]   | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| nova          | Required Hotkey for Nova (must be bound to right skill)                       |
 
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |

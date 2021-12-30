@@ -10,6 +10,7 @@ from ui import UiManager
 from utils.misc import wait
 from chest import Chest
 
+
 class Arcane:
     def __init__(
         self,
@@ -40,7 +41,6 @@ class Arcane:
         return Location.A2_ARC_START
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
-    
         def enter_portal():
             # Get to act 4 via canyon in case of summoner
             template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2", "ARC_ALTAR3"], threshold=0.70, time_out=1)
@@ -53,7 +53,7 @@ class Arcane:
                     wait(0.5)
                     self._template_finder.search_and_wait(["CANYON"], threshold=0.70, time_out=2)
                     self._pather.traverse_nodes_fixed([[665,10]], self._char)
-                    if self._chest.open_up_chest(threshold=0.8) > 0.8:
+                    if self._chest.open_up_chests(threshold=0.8):
                         self._pickit.pick_up_items(self._char)
                     if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
                         Logger.debug("Did not find altar")
@@ -101,14 +101,15 @@ class Arcane:
                 self._pather.traverse_nodes_fixed([[700,500]], self._char)
                 if not find_center():
                     Logger.debug("Could not find the way back")
-                    return False    
+                    return False 
             return True
-                
+
         def chest_loot() -> bool:
             wait(0.5)
-            self._chest.open_up_chests(threshold=0.8)
-            return self._pickit.pick_up_items(self._char)
-            
+            if self._chest.open_up_chests(threshold=0.8):
+                return self._pickit.pick_up_items(self._char)
+            return False
+
         def return_wp(path: str, traverse = []) -> bool:
             Logger.debug("Returning to wp")
             self._pather.traverse_nodes_fixed(path, self._char)
@@ -117,7 +118,7 @@ class Arcane:
             if not template_match.valid:
                 return False
             return True
-                
+
         def get_in_position(path: float) -> bool:
             Logger.debug("Get in position")
             template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_CENTER", "ARC_END_1", "ARC_END_2"], threshold=0.50, time_out=1)
@@ -127,19 +128,18 @@ class Arcane:
             self._pather.traverse_nodes(([path]), self._char, force_move=True)
             template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_CENTER"], threshold=0.50, time_out=2)
             return template_match.valid
-    
+
         picked_up_items = False
-    
         if do_pre_buff:
             self._char.pre_buff()
 
         # Run top right
         self._pather.traverse_nodes(([450]), self._char, force_move=True)
         self._pather.traverse_nodes_fixed('arc_top_right', self._char)
-        
+
         if not move_center([[500,40]]):
             return (Location.A2_ARC_END, picked_up_items)
-            
+
         self._char.kill_summoner()
 
         picked_up_items = picked_up_items or chest_loot()
@@ -152,9 +152,9 @@ class Arcane:
 
         if not return_wp('arc_bottom_left', [20,360]):
             return (Location.A2_ARC_END, picked_up_items)
-  
+
         # Run top left
-        self._pather.traverse_nodes(([453]), self._char, force_move=True)
+        self._pather.traverse_nodes(([453]), self._char, force_tp=True)
         self._pather.traverse_nodes_fixed([[20,20]], self._char)
         self._pather.traverse_nodes_fixed('arc_top_left', self._char)
         

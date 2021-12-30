@@ -7,6 +7,7 @@ from screen import Screen
 from char import IChar
 from config import Config
 
+
 class Chest:
     def __init__(self, char: IChar, template_finder: TemplateFinder, template: str = None):
         config = Config()
@@ -14,7 +15,6 @@ class Chest:
         self._char = char
         self._template_finder = template_finder
         self._folder_name = "chests"
-        self._min_score = 0.8
         # load all templates
         self._templates = []
         for filename in os.listdir(f'assets/{self._folder_name}/{template}'):
@@ -22,53 +22,33 @@ class Chest:
             if filename.endswith('.png'):
                 chest = filename[:-4].upper()
                 self._templates.append(chest)
-                
-    def open_up_chest(
-        self,  
-        time_out: float = 8,
-        threshold: float = 0.8
-    ) -> float:
-        score = 100
+
+    def open_up_chests(self, time_out: float = 12.0, threshold: float = 0.8) -> bool:
+        Logger.debug("Open chests")
         templates = self._templates
-        while len(templates) > 0:
-            template_match = self._template_finder.search(templates, self._screen.grab(), threshold=threshold)
-            score = template_match.score
-            if template_match.name is None:
+        found_chest = True
+        start = time.time()
+        while time.time() - start < time_out:
+            t = time.time()
+            template_match = self._template_finder.search(templates, self._screen.grab(), threshold=threshold, best_match=True)
+            print(time.time() - t)
+            if not template_match.valid:
                 break
-            if score <= threshold:
+            found_chest = True
+            Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
+            x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
+            # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
+            self._char.pick_up_item([x_m, y_m], 'potion')
+            time.sleep(0.3)
+            locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
+            if locked_chest.valid:
                 templates.remove(template_match.name)
+                Logger.debug("No more keys, removing locked chest template")
                 continue
-            if template_match.valid:
-                Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
-                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-                # act as picking up a potion to support telekinesis
-                # TODO: this workaround needs a proper solution.
-                self._char.pick_up_item([x_m, y_m], 'potion')
-                time.sleep(0.2)
-                locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
-                if locked_chest.valid:
-                    templates.remove(template_match.name)
-                    Logger.debug("No more keys")
-                    continue
-                return template_match.score
         Logger.debug("No chests left")
-        return 0
-        
-    def open_up_chests(
-        self,
-        time_out: float = 8,
-        threshold: float = 0.75
-    ) -> bool:
-        # keep opening chests till no matches nearby
-        score = 1
-        while score >= threshold:
-            score = self.open_up_chest(time_out, threshold)
-        score = 1
-        # If we get a locked chest without any keys left, it will remove the template from the list to avoid endless loop through the locked chest and the duplicated chest wont be clicked. Sometimes it doenst recognize the chest in the first attempt, but it does in the second after opening the others
-        while score >= threshold:
-            score = self.open_up_chest(time_out, threshold)
-        return True
-        
+        return found_chest
+
+
 if __name__ == "__main__":
     import keyboard
     import os

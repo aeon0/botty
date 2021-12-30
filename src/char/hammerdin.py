@@ -152,10 +152,11 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         # Move a bit back and another round
-        self._move_and_attack((0, 80), self._char_config["atk_len_arc"]*0.5)
+        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
-        return True                                
+        return True
+
 
 if __name__ == "__main__":
     import os
