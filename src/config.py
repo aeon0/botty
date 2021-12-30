@@ -131,6 +131,11 @@ class Config:
         if "light_sorc" in self._custom:
             self.light_sorc.update(dict(self._custom["light_sorc"]))
         self.light_sorc.update(sorc_base_cfg)
+        # nova sorc
+        self.nova_sorc = dict(self._config["nova_sorc"])
+        if "nova_sorc" in self._custom:
+            self.nova_sorc.update(dict(self._custom["nova_sorc"]))
+        self.nova_sorc.update(sorc_base_cfg)
 
         # Palandin config
         self.hammerdin = self._config["hammerdin"]
