@@ -175,6 +175,7 @@ class Pather:
             457: {"ARC_PLATFORM_3": (-174, -103), "ARC_CENTER": (-146, -120), "ARC_END_1": (218, -109), "ARC_END_2": (-307, -59)},
             459: {"ARC_START": (-356, 258)},
             460: {"ARC_END_1": (468, 35), "ARC_END_2": (101, 37), "ARC_END_3": (98, -175)},
+            # TODO: add "ARC_ALTAR2" to nodes for 461
             461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-276, 208), "ARC_CENTER": (46, 14)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
@@ -264,7 +265,7 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar):
+    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
             error_msg = "Teleport is requiered for static pathing"
             Logger.error(error_msg)
@@ -294,9 +295,10 @@ class Pather:
                 stuck_count += 1
                 Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score:.4f})")
                 if stuck_count >= 5:
-                    break
+                    return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -467,7 +469,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -483,7 +485,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "ARC")
+    # display_all_nodes(pather, "ARC")
 
     # # changing node pos and generating new code
     # code = ""
@@ -497,5 +499,5 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([400, 401, 402, 403, 404], char)
-    #pather.traverse_nodes_fixed("arc_bottom_left", char)
+    # pather.traverse_nodes([452], char)
+    pather.traverse_nodes_fixed("arc_top_right_backward", char)

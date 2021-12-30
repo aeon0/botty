@@ -8,6 +8,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
+from dataclasses import dataclass
 from chest import Chest
 
 
@@ -29,7 +30,7 @@ class Arcane:
         self._char = char
         self._pickit = pickit
         self._chest = Chest(self._char, self._template_finder, 'arcane')
-    
+
     def approach(self, start_loc: Location) -> Union[bool, Location]:
         Logger.info("Run Arcane")
         if not self._char.can_teleport():
@@ -40,174 +41,95 @@ class Arcane:
         self._ui_manager.use_wp(2, 7)
         return Location.A2_ARC_START
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
-        def enter_portal():
-            # Get to act 4 via canyon in case of summoner
-            template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2", "ARC_ALTAR3"], threshold=0.70, time_out=1)
-            if template_match.valid:
-                def go_act4():
-                    wait(0.5)
-                    self._ui_manager.use_wp(4, 0)
+    def _find_summoner(self, traverse_to_summoner: list[tuple[float, float]]) -> bool:
+        # Check if we arrived at platform
+        template_match_platform = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.55, time_out=0.6, take_ss=False)
+        if template_match_platform.valid:
+            # Check if we found Summoner
+            template_match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.6)
+            if template_match_summoner.valid:
+                # Seems like we jumped right anot the platform
+                if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
                     return True
-                def wait_for_canyon():
-                    wait(0.5)
-                    self._template_finder.search_and_wait(["CANYON"], threshold=0.70, time_out=2)
-                    self._pather.traverse_nodes_fixed([[665,10]], self._char)
-                    if self._chest.open_up_chests(threshold=0.8):
-                        self._pickit.pick_up_items(self._char)
-                    if not self._char.select_by_template(["CANYON"], go_act4, telekinesis=True):
-                        Logger.debug("Did not find altar")
-                        return False
-                    return True
-                def go_canyon():
-                    template_match = self._template_finder.search_and_wait(["ARC_SPEECH"], threshold=0.70, time_out=2)
-                    if not template_match.valid:
-                        return False
-                    # dismiss altar speech
-                    self._pather.traverse_nodes_fixed([[625,360]], self._char)
-                    wait(1)
-                    template_match = self._template_finder.search_and_wait(["ARC_RED_PORTAL"], threshold=0.70, time_out=1)
-                    if template_match.valid:
-                        if not self._char.select_by_template(["ARC_RED_PORTAL"], wait_for_canyon, time_out=2, telekinesis=True):
-                            Logger.debug("Did not find red portal")
-                            return False
-                        return True
-                    return False
-                self._pather.traverse_nodes([461], self._char, time_out=0.7, force_move=True)
-                if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.70, telekinesis=True):
-                    # teleport and try again
-                    self._pather.traverse_nodes_fixed([[625,370]], self._char)
-                    if not self._char.select_by_template(["ARC_ALTAR", "ARC_ALTAR2"], go_canyon, time_out=3, threshold=0.60, telekinesis=True):
-                        Logger.debug("could not reach altar")
-                return True
-                
-        def move_center(transverse=[]) -> bool:
-            def find_center() -> bool:
-                template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.50, time_out=0.5)
-                if template_match.valid:
-                    self._pather.traverse_nodes([451], self._char, time_out=0.7, force_move=True)
-                    return True
-                else:
-                    self._pather.traverse_nodes_fixed(transverse, self._char)
-                    template_match = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2"], threshold=0.70, time_out=0.5)
-                    if template_match.valid:
-                        self._pather.traverse_nodes([461], self._char, time_out=0.7, force_move=True)
-                        return True
-                return False
-            if not find_center():
-                self._char.kill_summoner()
-                chest_loot()
-                # move and try again
-                self._pather.traverse_nodes_fixed([[700,500]], self._char)
-                if not find_center():
-                    Logger.debug("Could not find the way back")
-                    return False 
-            return True
-
-        def chest_loot() -> bool:
-            wait(0.5)
-            if self._chest.open_up_chests(threshold=0.8):
-                return self._pickit.pick_up_items(self._char)
             return False
-
-        def return_wp(path: str, traverse = []) -> bool:
-            Logger.debug("Returning to wp")
-            self._pather.traverse_nodes_fixed(path, self._char)
-            self._pather.traverse_nodes_fixed([traverse], self._char)
-            template_match = self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=2)
-            if not template_match.valid:
-                return False
+        # We might have arrived at summoner, move up stairs with static traverse
+        self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
+        if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
             return True
+        return False
 
-        def get_in_position(path: float) -> bool:
-            Logger.debug("Get in position")
-            template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_CENTER", "ARC_END_1", "ARC_END_2"], threshold=0.50, time_out=1)
-            if not template_match.valid:
-                Logger.debug("Failed to set position to return")
-                return False
-            self._pather.traverse_nodes(([path]), self._char, force_move=True)
-            template_match = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_CENTER"], threshold=0.50, time_out=2)
-            return template_match.valid
+    def _return_to_wp(self, calib_node: int, path: str, traverse = list[tuple[float, float]]) -> bool:
+        Logger.debug("Returning to wp")
+        if not self._pather.traverse_nodes([calib_node], self._char, force_tp=True):
+            Logger.debug("Could not find calibration node")
+            return False
+        if not self._pather.traverse_nodes_fixed(path, self._char):
+            return False
+        if not self._pather.traverse_nodes_fixed(traverse, self._char):
+            return False
+        if not self._template_finder.search_and_wait(["ARC_START"], threshold=0.70, time_out=3.5):
+            Logger.debug("Could not find start template")
+            return False
+        return True
+
+    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+        picked_up_items = False
+        @dataclass
+        class PathData:
+            calib_node_start: int
+            # custom calib static jump to have static pathes work for all layouts
+            calib_jump_start: list[tuple[float, float]]
+            static_path_forward: str
+            jump_to_summoner: list[tuple[float, float]]
+            calib_node_back: int
+            static_path_backward: str
+            # custom calib static jump to have static pathes work for all layouts
+            calib_jump_back: list[tuple[float, float]]
+
+        path_arr = [
+            PathData(450, None, "arc_top_right", [(500, 40)], 452, "arc_bottom_left", [(20, 360)]),
+            PathData(453, [(20, 20)], "arc_top_left", [(500, 40)], 454, "arc_bottom_right", [(1250,700)]),
+            PathData(456, [(1250, 700)], "arc_bottom_right", [(500, 40)], 457, "arc_top_left", [(20, 20)]),
+            PathData(459, [(20, 700)], "arc_bottom_left", [(500, 20), (700, 100)], None, None, None)
+        ]
 
         picked_up_items = False
-        if do_pre_buff:
-            self._char.pre_buff()
+        for data in path_arr:
+            if do_pre_buff:
+                self._char.pre_buff()
+            # calibrating at start and moving towards the end of the arm
+            self._pather.traverse_nodes([data.calib_node_start], self._char, force_tp=True)
+            if data.calib_jump_start is not None:
+                self._pather.traverse_nodes_fixed(data.calib_jump_start, self._char)
+            if not self._pather.traverse_nodes_fixed(data.static_path_forward, self._char):
+                return False
+            found = self._find_summoner(data.jump_to_summoner)
+            # Kill the summoner or trash mob
+            self._char.kill_summoner()
+            if not found and self._config.char["open_chests"]:
+                self._chest.open_up_chests()
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+            if found:
+                return (Location.A2_ARC_END, picked_up_items)
+            elif data.static_path_backward is not None:
+                # Move back to waypoint
+                if not self._return_to_wp(data.calib_node_back, data.static_path_backward, data.calib_jump_back):
+                    return False
+        return False
 
-        # Run top right
-        self._pather.traverse_nodes(([450]), self._char, force_move=True)
-        self._pather.traverse_nodes_fixed('arc_top_right', self._char)
 
-        if not move_center([[500,40]]):
-            return (Location.A2_ARC_END, picked_up_items)
-
-        self._char.kill_summoner()
-
-        picked_up_items = picked_up_items or chest_loot()
-        
-        if enter_portal():
-            return (Location.A2_ARC_END, picked_up_items)
-           
-        if not get_in_position(452):
-            return (Location.A2_ARC_END, picked_up_items)
-
-        if not return_wp('arc_bottom_left', [20,360]):
-            return (Location.A2_ARC_END, picked_up_items)
-
-        # Run top left
-        self._pather.traverse_nodes(([453]), self._char, force_tp=True)
-        self._pather.traverse_nodes_fixed([[20,20]], self._char)
-        self._pather.traverse_nodes_fixed('arc_top_left', self._char)
-        
-        move_center([[500,40]])
-        
-        self._char.kill_summoner()
-
-        picked_up_items = picked_up_items or chest_loot()
-        
-        if enter_portal():
-            return (Location.A2_ARC_END, picked_up_items)
-            
-        if not get_in_position(454):
-            return (Location.A2_ARC_END, picked_up_items)
-               
-        if not return_wp('arc_bottom_right', [1250,700]):
-            return (Location.A2_ARC_END, picked_up_items)
-      
-        # Run bottom right
-        if do_pre_buff:
-            self._char.pre_buff()
-        
-        self._pather.traverse_nodes(([456]), self._char, force_move=True)
-        self._pather.traverse_nodes_fixed([[1250,700]], self._char)
-        self._pather.traverse_nodes_fixed('arc_bottom_right', self._char)
-        
-        move_center([[500,40]])
-
-        self._char.kill_summoner()
-
-        picked_up_items = picked_up_items or chest_loot()
-        
-        if enter_portal():
-            return (Location.A2_ARC_END, picked_up_items)
-            
-        if not get_in_position(457):
-            return (Location.A2_ARC_END, picked_up_items)
-       
-        if not return_wp('arc_top_left', [20,20]):
-            return (Location.A2_ARC_END, picked_up_items)
-
-        # Run bottom left
-        self._pather.traverse_nodes(([459]), self._char, force_move=True)
-        self._pather.traverse_nodes_fixed([[20,700]], self._char)
-        self._pather.traverse_nodes_fixed('arc_bottom_left', self._char)
-        
-        move_center([[500,20], [700,100]])
-
-        self._char.kill_summoner()
-
-        picked_up_items = picked_up_items or chest_loot()
-        
-        if enter_portal():
-            return (Location.A2_ARC_END, picked_up_items)
-        
-        return (Location.A2_ARC_END, picked_up_items)
+if __name__ == "__main__":
+    from screen import Screen
+    import keyboard
+    from game_stats import GameStats
+    import os
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui import UiManager
+    from bot import Bot
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    game_stats = GameStats()
+    bot = Bot(screen, game_stats, False)
+    print(bot._arcane._return_to_wp(454, "arc_bottom_right", [(1250,700)]))
