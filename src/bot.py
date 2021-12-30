@@ -24,7 +24,7 @@ from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
 from death_manager import DeathManager
-from char.sorceress import LightSorc, BlizzSorc
+from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
@@ -53,6 +53,8 @@ class Bot:
             self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "blizz_sorc":
             self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "nova_sorc":
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
@@ -220,9 +222,23 @@ class Bot:
 
         # Check if should need some healing
         img = self._screen.grab()
-        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2:
-            Logger.info("Healing at next possible Vendor")
-            self._curr_loc = self._town_manager.heal(self._curr_loc)
+        buy_pots = self._belt_manager.should_buy_pots()
+        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2 or buy_pots:
+            if buy_pots:
+                Logger.info("Buy pots at next possible Vendor")
+                pot_needs = self._belt_manager.get_pot_needs()
+                self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                wait(0.5, 0.8)
+                self._belt_manager.update_pot_needs()
+                # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
+                if self._curr_loc == Location.A5_MALAH:
+                    if self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True):
+                        self._curr_loc = Location.A5_TOWN_START
+                    else:
+                        self._curr_loc = False
+            else:
+                Logger.info("Healing at next possible Vendor")
+                self._curr_loc = self._town_manager.heal(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
@@ -230,6 +246,11 @@ class Bot:
         self._no_stash_counter += 1
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         if self._picked_up_items or force_stash:
+            if self._config.char["id_items"]:
+                Logger.info("Identifying items")
+                self._curr_loc = self._town_manager.identify(self._curr_loc)
+                if not self._curr_loc:
+                    return self.trigger_or_stop("end_game", failed=True)
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
             if not self._curr_loc:
@@ -240,7 +261,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair:
+        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)

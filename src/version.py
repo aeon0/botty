@@ -1,1 +1,1 @@
-__version__ = '0.5.0-diablo'
+__version__ = '0.6.1-dev'

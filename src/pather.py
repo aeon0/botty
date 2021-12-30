@@ -113,6 +113,8 @@ class Pather:
             147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67)},
             148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139)},
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
+            150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160)},
+            151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
             # A4 town
             160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
             161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
@@ -145,12 +147,10 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
-            300: {"TRAV-SAVE-DIST_4": (-101, 134), "TRAV-SAVE-DIST_5": (72, 220), "TRAV-SAVE-DIST_1": (237, -24), "TRAV-SAVE-DIST_3": (-318, 224), "TRAV-SAVE-DIST_11": (472, 39)},
-            301: {"TRAV-SAVE-DIST_7": (178, -33), "TRAV-SAVE-DIST_6": (170, 157), "TRAV-SAVE-DIST_0": (88, -235), "TRAV-SAVE-DIST_5": (-335, -95), "TRAV-SAVE-DIST_8": (444, -108)},
-            302: {"TRAV-SAVE-DIST_0": (-18, 6), "TRAV-SAVE-DIST_7": (73, 208), "TRAV-SAVE-DIST_8": (339, 133), "TRAV-SAVE-DIST_6": (65, 398), "TRAV-SAVE-DIST_5": (-440, 146)},
-            303: {"TRAV_SAVE_DIST_2": (-119, 277), "TRAV_SAVE_DIST_1": (-1, 470), "TRAV_SAVE_DIST_0": (313, 420)},
-            304: {"TRAV_SAVE_DIST_8": (125, -148), "TRAV_SAVE_DIST_7": (-187, 55), "TRAV_SAVE_DIST_5": (-207, 59), "TRAV_SAVE_DIST_6": (267, 183), "TRAV_SAVE_DIST_4": (-159, 403)},
-            305: {"LAST_TRAV_NODE_1": (314, -281), "LAST_TRAV_NODE_0": (-166, -405), "LAST_TRAV_NODE_2": (-1, -439)}, 
+            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39)},
+            301: {"TRAV_V3_7": (63, -113), "TRAV_V3_6": (55, 77), "TRAV_V3_0": (-27, -315), "TRAV_V3_5": (-450, -175), "TRAV_V3_8": (329, -188)},
+            302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
+            304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -250,7 +250,8 @@ class Pather:
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
-            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
+            (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],          
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
@@ -357,6 +358,16 @@ class Pather:
             # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
             new_range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
+            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
+        # Check if clicking on merc img
+        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
+        if is_in_roi(self._config.ui_roi["merc_icon"], screen_pos):
+            width = self._config.ui_roi["merc_icon"][2]
+            height = self._config.ui_roi["merc_icon"][3]
+            w_abs, h_abs = self._screen.convert_screen_to_abs((width, height))
+            fw = abs(w_abs / float(abs_pos[0]))
+            fh = abs(h_abs / float(abs_pos[1]))
+            f = max(fw, fh)
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 

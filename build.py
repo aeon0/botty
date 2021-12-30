@@ -33,7 +33,7 @@ def clean_up():
         os.remove("shopper.spec")
 
 if __name__ == "__main__":
-    new_dev_version_code = None
+    new_version_code = None
     if args.version != "":
         print(f"Releasing new version: {args.version}")
         os.system(f"git checkout -b new-release-v{args.version}")
@@ -43,7 +43,6 @@ if __name__ == "__main__":
             version_code = f.read()
         version_code = version_code.split("=")
         new_version_code = f"{version_code[0]}= '{args.version}'"
-        new_dev_version_code = f"{version_code[0]}= '{args.version}-dev'"
         with open('src/version.py', 'w') as f:
             f.write(new_version_code)
     else:
@@ -76,8 +75,6 @@ if __name__ == "__main__":
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()
 
-    if new_dev_version_code is not None:
-        with open('src/version.py', 'w') as f:
-            f.write(new_dev_version_code)
+    if new_version_code is not None:
         os.system(f'git add .')
         os.system(f'git commit -m "Bump version to v{args.version}"')

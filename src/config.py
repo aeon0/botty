@@ -102,6 +102,7 @@ class Config:
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
+            "id_items": bool(int(self._select_val("char", "ID_items"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
@@ -118,6 +119,7 @@ class Config:
             "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
+            "always_repair": bool(int(self._select_val("char", "always_repair"))),
         }
 
         # Sorc base config
@@ -134,6 +136,11 @@ class Config:
         if "light_sorc" in self._custom:
             self.light_sorc.update(dict(self._custom["light_sorc"]))
         self.light_sorc.update(sorc_base_cfg)
+        # nova sorc
+        self.nova_sorc = dict(self._config["nova_sorc"])
+        if "nova_sorc" in self._custom:
+            self.nova_sorc.update(dict(self._custom["nova_sorc"]))
+        self.nova_sorc.update(sorc_base_cfg)
 
         # Palandin config
         self.hammerdin = self._config["hammerdin"]

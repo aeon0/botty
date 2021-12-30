@@ -183,7 +183,7 @@ class HumanCurve():
         return res
 
 class mouse:
-    # TODO: Not sure nice, this will execute every single time someone imports custom_mouse...
+    # TODO: Not nice, this will execute every single time someone imports custom_mouse...
     _config = Config()
 
     @staticmethod

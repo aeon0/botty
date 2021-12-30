@@ -1,6 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
+Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only and is not meant for online usage. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
 
 [**Download here**](https://github.com/aeon0/botty/releases) and got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
@@ -111,15 +111,26 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
+| always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
+| id_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
 
+### Builds
 | [sorceress]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | teleport      | Required Hotkey for teleport                                                  |
-| skill_left    | Required Hotkey for skill that is used on left mouse btn (e.g. Glacial Spike) |
-| skill_right   | Required Hotkey for skill that is used on right mouse btn (e.g. Blizzard)     |
 | frozen_armor  | Optional Hotkey for frozen armor (or any of the other armors)                 |
 | energy_shield | Optional Hotkey for energy shield                                             |
 | thunder_storm | Optional Hotkey for thunder storm                                             |
+
+| [light_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| chain_lightning | Optional Hotkey for chain_lightning (must be bound to left skill)           |
+| lightning     | Required Hotkey for lightning (must be bound to right skill)                  |
+
+| [blizz_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
+| blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |
 
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
