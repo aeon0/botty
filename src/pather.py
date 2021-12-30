@@ -139,7 +139,7 @@ class Pather:
             400: {"A2_TOWN_LIGHT_WELL": (-38, -256), "A2_TOWN_MEDIUM_WELL": (-38, -256), "A2_TOWN_DARK_WELL": (-38, -256)},
             401: {"A2_TOWN_LIGHT_FIRE1": (218, -257), "A2_TOWN_MEDIUM_FIRE1": (218, -257), "A2_TOWN_DARK_FIRE1": (218, -257), "A2_TOWN_LIGHT_CORNER": (476, -184), "A2_TOWN_MEDIUM_CORNER": (476, -184), "A2_TOWN_DARK_CORNER": (476, -184)},
             402: {"A2_TOWN_TREE": (356, -192)},
-            403: {"A2_TOWN_LIGHT_HUT": (-457, 289), "A2_TOWN_DARK_HUT": (-457, 289), "A2_TOWN_MEDIUM_BOXES": (-412, -132), "A2_TOWN_DARK_BOXES": (-412, -132)},
+            403: {"A2_TOWN_LIGHT_HUT": (-361, 145), "A2_TOWN_DARK_HUT": (-361, 145), "A2_TOWN_MEDIUM_BOXES": (-254, -221), "A2_TOWN_DARK_BOXES": (-254, -221)},
             404: {"A2_TOWN_LIGHT_FIRE2": (345, -134), "A2_TOWN_DARK_FIRE2": (345, -134), "A2_TOWN_LIGHT_HUT": (-230, -181), "A2_TOWN_DARK_HUT": (-230, -181), "A2_TOWN_LIGHT_ROOF": (247, 14), "A2_TOWN_MEDIUM_ROOF": (247, 14), "A2_TOWN_DARK_ROOF": (247, 14)},
             405: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
             405: {"A2_TOWN_MEDIUM_BOXES": (486, -55), "A2_TOWN_DARK_BOXES": (486, -55), "A2_TOWN_LIGHT_WELL": (-308, 85), "A2_TOWN_MEDIUM_WELL": (-308, 85), "A2_TOWN_DARK_WELL": (-308, 85)},
@@ -496,5 +496,5 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes([400, 401, 402, 405, 406], char)
+    pather.traverse_nodes([400, 401, 402, 403, 404], char)
     #pather.traverse_nodes_fixed("arc_bottom_left", char)
