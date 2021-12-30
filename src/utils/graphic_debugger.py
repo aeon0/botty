@@ -6,8 +6,14 @@ from item import ItemFinder
 from config import Config
 from template_finder import TemplateFinder
 
+running = False
+
 
 def run_graphic_debugger():
+    global running
+    if running:
+        return
+    running = True
     config = Config()
     screen = Screen(config.general["monitor"])
     item_finder = ItemFinder(config)
