@@ -24,7 +24,7 @@ from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
 from death_manager import DeathManager
-from char.sorceress import LightSorc, BlizzSorc
+from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
@@ -53,6 +53,8 @@ class Bot:
             self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "blizz_sorc":
             self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "nova_sorc":
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
