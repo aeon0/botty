@@ -16,8 +16,8 @@ from logger import Logger
 
 
 def start_bot(config: Config):
-    game_controller = GameController()
-    game_controller_thread = threading.Thread(target=game_controller.run_bot, args=[config])
+    game_controller = GameController(config)
+    game_controller_thread = threading.Thread(target=game_controller.run_bot)
     game_controller_thread.daemon = True
     game_controller_thread.start()
 
