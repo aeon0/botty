@@ -18,8 +18,7 @@ from utils.misc import kill_thread
 
 
 class GameController:
-
-    def __init__(self, config):
+    def __init__(self, config: Config):
         self._config = config
         self.screen = Screen(self._config.general["monitor"])
         # Run health monitor thread
@@ -76,10 +75,7 @@ class GameController:
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {self._config.general['name']}!")
                     if self._config.general["info_screenshots"]:
-                        cv2.imwrite(
-                            "./info_screenshots/info_max_game_length_reached_" + time.strftime(
-                                "%Y%m%d_%H%M%S") + ".png",
-                            bot._screen.grab())
+                        cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
                 elif self.death_manager.died():
                     self.game_stats.log_death()
                 elif self.health_manager.did_chicken():

@@ -8,12 +8,12 @@ from utils.misc import close_down_d2
 
 
 def get_d2r_folder(config: Config) -> str:
-    '''
+    """
     Get D2r folder
     try to find pre-set D2r folder
     :param config: the general config possibly containing 'saved_games_folder'
     :return: the D2r folder full path
-    '''
+    """
 
     d2_saved_games = config.general["saved_games_folder"]
     if not d2_saved_games:
@@ -40,10 +40,13 @@ def backup_settings(config: Config):
 
 
 def restore_settings_from_backup(config: Config):
-    close_down_d2()
     d2_saved_games = get_d2r_folder(config)
-    shutil.copyfile(d2_saved_games + "\\Settings_backup.json", d2_saved_games + "\\Settings.json")
-    print("Settings restored successfully.")
+    if os.path.exists(d2_saved_games + "\\Settings_backup.json"):
+        close_down_d2()
+        shutil.copyfile(d2_saved_games + "\\Settings_backup.json", d2_saved_games + "\\Settings.json")
+        print("Settings restored successfully.")
+    else:
+        print("No backup was found, couldn't restore settings.")
 
 
 def adjust_settings(config: Config):
