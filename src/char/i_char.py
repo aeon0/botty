@@ -193,7 +193,6 @@ class IChar:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
 
-
     def pre_buff(self):
         pass
 
