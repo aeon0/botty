@@ -1,5 +1,5 @@
 import cv2
-from typing import Tuple, List
+from typing import Tuple
 import numpy as np
 import time
 import os
@@ -22,7 +22,7 @@ class Item:
     name: str = None
     score: float = -1.0
     dist: float = -1.0
-    roi: List[int] = None
+    roi: list[int] = None
 
 class ItemFinder:
     def __init__(self, config: Config):
@@ -71,7 +71,7 @@ class ItemFinder:
     def update_items_to_pick(self, config: Config):
         self._items_to_pick = config.items
 
-    def search(self, inp_img: np.ndarray) -> List[Item]:
+    def search(self, inp_img: np.ndarray) -> list[Item]:
         img = inp_img[:,:,:]
         start = time.time()
         item_text_clusters = self._item_cropper.crop(img, 7)
