@@ -47,10 +47,10 @@ class A5(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_CAIN), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
-            return Location.A5_CAIN
+            return Location.A5_QUAL_KEHK
         return False
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
