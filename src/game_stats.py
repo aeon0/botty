@@ -14,7 +14,6 @@ class GameStats:
     def __init__(self):
         self._config = Config()
         self._messenger = Messenger()
-        self._picked_up_items = []
         self._start_time = time.time()
         self._timer = None
         self._timepaused = None
@@ -54,8 +53,8 @@ class GameStats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
     def log_item_pickup(self, item_name: str, send_message: bool):
-        self._picked_up_items.append(item_name)
-        if self._location is not None:
+        filtered_items = ["_potion", "misc_gold"]
+        if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
 
         if send_message:

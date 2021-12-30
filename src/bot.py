@@ -242,7 +242,7 @@ class Bot:
         force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         if self._picked_up_items or force_stash:
             #if ID item is set, then let's id them before we stash them.
-            if self._config.char["ID_items"]:
+            if self._config.char["id_items"]:
                 Logger.info("Identifying items")
                 #do the iding stuff here.
                 self._curr_loc = self._town_manager.identify(self._curr_loc)
@@ -259,7 +259,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair:
+        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)

@@ -90,7 +90,6 @@ class NpcManager:
                 },
                 "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
             },
-            
             # Currently just nametag added to avoid having him focused when wanting to talk to tyrael or qual
             #added in the ability to ID items at cain.
             Npc.CAIN: {

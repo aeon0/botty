@@ -23,9 +23,7 @@ class A5(IAct):
     def can_heal(self) -> bool: return True
     def can_buy_pots(self) -> bool: return True
     def can_resurrect(self) -> bool: return True
-
     def can_identify(self) -> bool: return True
-
     def can_stash(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
 

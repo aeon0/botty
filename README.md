@@ -112,7 +112,7 @@ run_shenk=0
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
-| ID_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
+| id_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
