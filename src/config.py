@@ -102,6 +102,7 @@ class Config:
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
+            "id_items": bool(int(self._select_val("char", "ID_items"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),

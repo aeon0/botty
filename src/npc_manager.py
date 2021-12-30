@@ -91,8 +91,17 @@ class NpcManager:
                 "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
             },
             # Currently just nametag added to avoid having him focused when wanting to talk to tyrael or qual
+            #added in the ability to ID items at cain.
             Npc.CAIN: {
+                "name_tag_white": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "identify": {
+                        "white": color_filter(self._template_finder.get_template("IDENTIFY"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("IDENTIFY_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["CAIN_0", "CAIN_1", "CAIN_2", "CAIN_3"]
             }
         }
 
