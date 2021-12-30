@@ -62,7 +62,7 @@ def main():
     table.rows.append([config.general['restore_settings_from_backup_key'], "Restore D2R settings from backup"])
     table.rows.append([config.general['settings_backup_key'], "Backup D2R current settings"])
     table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
-    table.rows.append([config.general['graphic_debugger_key'], "Graphic debugger"])
+    table.rows.append([config.general['graphic_debugger_key'], "Start / Stop Graphic debugger"])
     table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
     table.rows.append([config.general['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]

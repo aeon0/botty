@@ -10,6 +10,13 @@ from template_finder import TemplateFinder
 
 
 class GraphicDebuggerController:
+    """
+    This class takes care of handling the graphic debugger by starting and stopping it.
+
+    The variable is_running is static and should be accessed only by the main thread or it is subject
+    to race condition, if you plan to touch it from within a thread you might have to
+    add a locking mechanism to order to access it.
+    """
     is_running = False
 
     def __init__(self, config: Config):
