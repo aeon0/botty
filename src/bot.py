@@ -262,7 +262,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
@@ -372,4 +372,5 @@ class Bot:
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             res = self._arcane.battle(not self._pre_buffed)
+        self._tps_left -= self._arcane.used_tps
         self._ending_run_helper(res)

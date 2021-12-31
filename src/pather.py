@@ -177,6 +177,7 @@ class Pather:
             460: {"ARC_END_1": (468, 35), "ARC_END_2": (101, 37), "ARC_END_3": (98, -175)},
             # TODO: add "ARC_ALTAR2" to nodes for 461
             461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-276, 208), "ARC_CENTER": (46, 14)},
+            462: {"ARC_CENTER_2": (0, 0), "ARC_CENTER": (0, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -501,4 +502,4 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     # pather.traverse_nodes([452], char)
-    pather.traverse_nodes_fixed("arc_top_right_backward", char)
+    pather.traverse_nodes_fixed("arc_top_right", char)
