@@ -16,6 +16,7 @@ from item import ItemFinder
 from template_finder import TemplateFinder
 
 from messenger import Messenger
+from game_stats import GameStats
 
 
 class UiManager():
@@ -25,6 +26,7 @@ class UiManager():
         self._config = Config()
         self._template_finder = template_finder
         self._messenger = Messenger()
+        self._game_stats = GameStats()
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
@@ -384,10 +386,13 @@ class UiManager():
                         self._config.items["misc_gold"].pickit_type = 0
                         item_finder.update_items_to_pick(self._config)
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                        msg = "All stash tabs and character are full of gold, turning off gold pickup"
                         Logger.info(msg)
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                                if self._config.general['discord_enhanced']:
+                                    self._game_stats._pretty_discord('is full of gold!','turning off gold pickup, as the stash is full of gold. ', 'ff0000', 'https://i.imgur.com/t9PdWZ3.png')
+                                else:
+                                    self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -449,7 +454,11 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                        if self._config.general["custom_message_hook"]:
+                            if self._config.general['discord_enhanced']:
+                                self._game_stats._pretty_discord('has a full stash!','Quitting the game since we can\'t save any more items.. ', 'ff0000', 'https://diablo2.wiki.fextralife.com/file/Diablo-2/concentration_paladin_skills_diablo_2_resurrected_wiki_guide_132px.png')
+                            else:
+                                self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
                 os._exit(1)
             else:
                 # move to next stash
