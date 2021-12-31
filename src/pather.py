@@ -175,8 +175,7 @@ class Pather:
             457: {"ARC_PLATFORM_3": (-174, -103), "ARC_CENTER": (-146, -120), "ARC_END_1": (218, -109), "ARC_END_2": (-307, -59)},
             459: {"ARC_START": (-356, 258)},
             460: {"ARC_END_1": (468, 35), "ARC_END_2": (101, 37), "ARC_END_3": (98, -175)},
-            # TODO: add "ARC_ALTAR2" to nodes for 461
-            461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-276, 208), "ARC_CENTER": (46, 14)},
+            461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-272, 200), "ARC_CENTER_2": (67, 41), "ARC_END_STAIRS": (76, -344), "ARC_END_STAIRS_2": (60, -160)},
             462: {"ARC_CENTER_2": (0, 0), "ARC_CENTER": (0, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
@@ -212,7 +211,7 @@ class Pather:
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
             (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
-            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],          
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
@@ -488,7 +487,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    # display_all_nodes(pather, "ARC")
+    display_all_nodes(pather, "ARC_")
 
     # # changing node pos and generating new code
     # code = ""

@@ -46,19 +46,16 @@ class Arcane:
         # Try to calibarte at center of platform
         self._pather.traverse_nodes([462], self._char, time_out=1.0)
         # Check if we arrived at platform
-        template_match_platform = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.55, time_out=0.6, take_ss=False)
-        if template_match_platform.valid:
-            # Check if we found Summoner
-            template_match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR2", "ARC_END_STAIRS"], threshold=0.77, time_out=0.6)
-            if template_match_summoner.valid:
-                # Seems like we jumped right anot the platform
-                if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
-                    return True
-            return False
-        # We might have arrived at summoner, move up stairs with static traverse
-        self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
-        if self._pather.traverse_nodes([461], self._char, time_out=1.0, force_tp=True):
-            return True
+        match_platform = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.55, time_out=0.6, take_ss=False)
+        match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"], threshold=0.79, time_out=0.6, take_ss=False)
+        if not match_platform.valid and not match_summoner.valid:
+            # We might have arrived at summoner, move up stairs with static traverse
+            self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
+            # try to match summoner again
+            match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"], threshold=0.79, time_out=0.6, take_ss=False)
+        if match_summoner.valid:
+            if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
+                return True
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
