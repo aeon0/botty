@@ -59,21 +59,31 @@ class GameStats:
 
         if send_message:
             msg = f"{self._config.general['name']}: Found {item_name}{self.get_location_msg()}"
-            self._send_message_thread(msg)
+            if self._config.general['discord_enhanced']:
+                self._pretty_discord('looted an item.','looted a ' + item_name + " " + self.get_location_msg(), 'ff0000', 'https://i.imgur.com/o0KAfk7.png')
+            else:
+                self._send_message_thread(msg)
 
     def log_death(self):
         self._death_counter += 1
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
         msg = f"{self._config.general['name']}: You have died{self.get_location_msg()}"
-        self._send_message_thread(msg)
+        
+        if self._config.general['discord_enhanced']:
+            self._pretty_discord('died.','killed ' + self.get_location_msg(), 'ff0000', 'https://img.rankedboost.com/wp-content/plugins/diablo-2/assets/skill/Corpse%20Explosion.png')
+        else:
+            self._send_message_thread(msg)
 
     def log_chicken(self):
         self._chicken_counter += 1
         if self._location is not None:
             self._location_stats[self._location]["chickens"] += 1
         msg = f"{self._config.general['name']}: You have chickened{self.get_location_msg()}"
-        self._send_message_thread(msg)
+        if self._config.general['discord_enhanced']:
+            self._pretty_discord('ran away!','Chickened ' + self.get_location_msg(), 'ff0000', 'https://img.rankedboost.com/wp-content/plugins/diablo-2/assets/skill/Raven.png')
+        else:
+            self._send_message_thread(msg)
 
     def log_merc_death(self):
         self._merc_death_counter += 1
@@ -125,6 +135,7 @@ class GameStats:
         else:
             return time.time() - self._timer
 
+
     def _create_msg(self):
         elapsed_time = time.time() - self._start_time
         elapsed_time_str = hms(elapsed_time)
@@ -167,7 +178,10 @@ class GameStats:
 
     def _send_status_update(self):
         msg = f"{self._config.general['name']}: Status Report\\n{self._create_msg()}\\nVersion: {__version__}"
-        self._send_message_thread(msg)
+        if self._config.general['discord_enhanced']:
+            self._pretty_status()
+        else:
+            self._send_message_thread(msg)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()
@@ -180,6 +194,68 @@ class GameStats:
 
         with open(f"stats/{self._stats_filename}", "w+") as f:
             f.write(msg)
+
+    def _pretty_status(self):
+        elapsed_time = time.time() - self._start_time
+        elapsed_time_str = hms(elapsed_time)
+        avg_length_str = "n/a"
+        good_games_count = self._game_counter - self._runs_failed
+        if good_games_count > 0:
+            good_games_time = elapsed_time - self._failed_game_time
+            avg_length = good_games_time / float(good_games_count)
+            avg_length_str = hms(avg_length)
+
+
+        from discord_webhook import DiscordWebhook, DiscordEmbed
+
+        webhook = DiscordWebhook(url=self._config.general['custom_message_hook'], username=self._config.general['name'])
+
+        embed = DiscordEmbed(
+            title="Status Update", description="", color='03b2f8'
+        )
+        # set thumbnail
+        embed.set_thumbnail(url='https://i.imgur.com/413wqmJ.png')
+        embed.set_footer(text='Botty v.' + __version__ + ' by Aeon')
+        embed.set_timestamp()
+        # Set `inline=False` for the embed field to occupy the whole line
+        embed.add_embed_field(name="Session length:", value=elapsed_time_str, inline=False)
+        embed.add_embed_field(name="Number of Games:", value=self._game_counter, inline=False)
+        embed.add_embed_field(name="Avg Game Length:", value=avg_length_str, inline=False)
+
+        totals = { "items": 0, "chickens": 0, "deaths": 0, "merc_deaths": 0, "failed_runs": 0 }
+        for location in self._location_stats:
+            stats = self._location_stats[location]
+            totals["items"] += len(stats["items"])
+            totals["chickens"] += stats["chickens"]
+            totals["deaths"] += stats["deaths"]
+            totals["merc_deaths"] += stats["merc_deaths"]
+            totals["failed_runs"] += stats["failed_runs"]
+            locValue=f'Items: {len(stats["items"])} \nChickens: {stats["chickens"]}\nDeaths: {stats["deaths"]}\nMerc Deaths: {stats["merc_deaths"]}\nFailed Runs: {stats["failed_runs"]}'
+            locTotals=f'Items: {totals["items"]}\nChickens: {totals["chickens"]}\nDeaths: {totals["deaths"]}\nMerc Deaths: {totals["merc_deaths"]}\nFailed Runs: {totals["failed_runs"]}'
+            embed.add_embed_field(name=location, value=locValue)
+        embed.add_embed_field(name="Totals", value=locTotals, inline=False)
+
+        webhook.add_embed(embed)
+        response = webhook.execute()
+
+
+    def _pretty_discord(self, title, message, color, icon):
+        from discord_webhook import DiscordWebhook, DiscordEmbed
+
+        webhook = DiscordWebhook(url=self._config.general['custom_message_hook'], username=self._config.general['name'])
+        # create embed object for webhook
+        title = self._config.general['name'] + " " + title
+        embed = DiscordEmbed(title=title, description=message, color=color, username='test')
+        # set thumbnail
+        embed.set_thumbnail(url=icon)
+        #set footer
+        embed.set_footer(text='Botty v.' + __version__ + ' by Aeon')
+        # set timestamp (default is now)
+        embed.set_timestamp()
+        # add embed object to webhook
+        webhook.add_embed(embed)
+        response = webhook.execute()
+
 
 
 if __name__ == "__main__":
