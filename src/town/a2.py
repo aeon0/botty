@@ -58,6 +58,5 @@ class A2(IAct):
         template_match = self._template_finder.search_and_wait(["A2_TOWN_LIGHT_FIRE2", "A2_TOWN_DARK_FIRE2"], time_out=20)
         if template_match.valid:
             self._pather.traverse_nodes((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
-            self._pather.traverse_nodes((Location.A2_FARA_STASH, Location.A2_WP), self._char, force_move=True)
-            return Location.A2_WP
+            return Location.A2_FARA_STASH
         return False
