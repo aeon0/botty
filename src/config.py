@@ -50,6 +50,8 @@ class Config:
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
+            "restore_settings_from_backup_key": self._select_val("general", "restore_settings_from_backup_key"),
+            "settings_backup_key": self._select_val("general", "settings_backup_key"),
             "graphic_debugger_key": self._select_val("general", "graphic_debugger_key"),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
