@@ -108,4 +108,4 @@ class GameController:
         GameController.is_running = False
 
     def toggle_pause_bot(self):
-        self.bot.toggle_pause()
+        if self.bot: self.bot.toggle_pause()
