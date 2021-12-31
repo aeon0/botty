@@ -242,6 +242,7 @@ class Pather:
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405, 406],
             (Location.A2_FARA_STASH, Location.A2_WP): [407, 408, 404],
             (Location.A2_TP, Location.A2_FARA_STASH): [409, 410, 411],
+            (Location.A2_WP, Location.A2_FARA_STASH): [404, 408, 407, 406],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
