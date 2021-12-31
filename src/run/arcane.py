@@ -46,14 +46,19 @@ class Arcane:
         # Try to calibarte at center of platform
         self._pather.traverse_nodes([462], self._char, time_out=1.0)
         # Check if we arrived at platform
-        match_platform = self._template_finder.search_and_wait(["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"], threshold=0.55, time_out=0.6, take_ss=False)
-        match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"], threshold=0.79, time_out=0.6, take_ss=False)
+        templates_platform = ["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"]
+        tempaltes_summoner = ["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"]
+        match_platform = self._template_finder.search_and_wait(templates_platform, threshold=0.55, time_out=0.5, use_grayscale=True, take_ss=False)
+        match_summoner = self._template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, time_out=0.5, use_grayscale=True, take_ss=False)
         if not match_platform.valid and not match_summoner.valid:
+            print("FOUND NOTHING")
             # We might have arrived at summoner, move up stairs with static traverse
             self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
             # try to match summoner again
-            match_summoner = self._template_finder.search_and_wait(["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"], threshold=0.79, time_out=0.6, take_ss=False)
+            print("MATCH SUMMONER AGAIN")
+            match_summoner = self._template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, time_out=1.0, use_grayscale=True, take_ss=False)
         if match_summoner.valid:
+            print("FOUND HIM")
             if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
                 return True
         return False
@@ -63,16 +68,14 @@ class Arcane:
         @dataclass
         class PathData:
             calib_node_start: int
-            # custom calib static jump to have static pathes work for all layouts
-            calib_jump_start: list[tuple[float, float]]
             static_path_forward: str
             jump_to_summoner: list[tuple[float, float]]
 
         path_arr = [
-            PathData(450, None, "arc_top_right", [(500, 40)]),
-            PathData(453, [(20, 20)], "arc_top_left", [(500, 40)]),
-            PathData(456, [(1250, 700)], "arc_bottom_right", [(500, 40)]),
-            PathData(459, [(20, 700)], "arc_bottom_left", [(500, 20), (700, 100)])
+            PathData(450, "arc_top_right", [(500, 40)]),
+            PathData(453, "arc_top_left", [(500, 40)]),
+            PathData(456, "arc_bottom_right", [(500, 40)]),
+            PathData(459, "arc_bottom_left", [(500, 20), (700, 100)])
         ]
 
         picked_up_items = False
@@ -83,8 +86,6 @@ class Arcane:
         for i, data in enumerate(path_arr):
             # calibrating at start and moving towards the end of the arm
             self._pather.traverse_nodes([data.calib_node_start], self._char, force_tp=True)
-            if data.calib_jump_start is not None:
-                self._pather.traverse_nodes_fixed(data.calib_jump_start, self._char)
             if not self._pather.traverse_nodes_fixed(data.static_path_forward, self._char):
                 return False
             found = self._find_summoner(data.jump_to_summoner)
