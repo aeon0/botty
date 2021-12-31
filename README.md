@@ -1,6 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
+Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only and is not meant for online usage. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
 
 [**Download here**](https://github.com/aeon0/botty/releases) and got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
@@ -112,6 +112,7 @@ run_shenk=0
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
+| id_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
