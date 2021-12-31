@@ -44,7 +44,6 @@ class GameController:
         self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         self.health_manager.set_belt_manager(self.bot.get_belt_manager())
         do_restart = False
-        keyboard.add_hotkey(self._config.general['resume_key'], lambda: self.bot.toggle_pause())
         messenger = Messenger()
         while 1:
             self.health_manager.update_location(self.bot.get_curr_location())
