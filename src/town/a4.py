@@ -34,7 +34,7 @@ class A4(IAct):
         wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
-        return self._char.select_by_template(["A4_WP", "A4_WP_2"], found_wp_func, threshold=0.62)
+        return self._char.select_by_template(["A4_WP", "A4_WP_2"], found_wp_func, threshold=0.62, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
         success = self._template_finder.search_and_wait(["A4_TOWN_4", "A4_TOWN_5", "A4_TOWN_6"], time_out=20).valid

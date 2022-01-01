@@ -7,7 +7,6 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from utils.custom_mouse import mouse
 
 
 class A3(IAct):
@@ -22,6 +21,7 @@ class A3(IAct):
     def get_wp_location(self) -> Location: return Location.A3_STASH_WP
     def can_buy_pots(self) -> bool: return True
     def can_heal(self) -> bool: return True
+    def can_identify(self) -> bool: return True
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
@@ -44,7 +44,7 @@ class A3(IAct):
             found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
             found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
             return found
-        if not self._char.select_by_template("A3_STASH", stash_is_open_func):
+        if not self._char.select_by_template("A3_STASH", stash_is_open_func, telekinesis=True):
             return False
         return Location.A3_STASH_WP
 
@@ -52,7 +52,7 @@ class A3(IAct):
         if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
-        return self._char.select_by_template("A3_WP", found_wp_func)
+        return self._char.select_by_template("A3_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
         template_match = self._template_finder.search_and_wait("A3_TOWN_10", time_out=20)
@@ -60,3 +60,10 @@ class A3(IAct):
             self._pather.traverse_nodes((Location.A3_STASH_WP, Location.A3_STASH_WP), self._char, force_move=True)
             return Location.A3_STASH_WP
         return False
+
+    def identify(self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char): return False
+        if self._npc_manager.open_npc_menu(Npc.CAIN):
+            self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
+            return Location.A3_STASH_WP
+        return False        
