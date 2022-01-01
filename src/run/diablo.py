@@ -131,10 +131,9 @@ class Diablo:
 
     def _seal_A1(self) -> bool:
         seal_layout = "A1-L"
-        Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        return False
+        Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([611], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -161,10 +160,9 @@ class Diablo:
 
     def _seal_A2(self) -> bool:
         seal_layout = "A2-Y"
-        Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        return False
+        Logger.info("Seal Layout: " + seal_layout)
         if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([623, 624], self._char): return False
@@ -189,8 +187,10 @@ class Diablo:
             cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_B1(self): #NEW & dirty
+    def _seal_B1(self):
         seal_layout = "B1-S"
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Seal Layout: " + seal_layout)
         #self._pather.traverse_nodes_fixed("dia_b1s_layout2_seal", self._char)
         self._char.kill_cs_trash()
@@ -210,9 +210,10 @@ class Diablo:
             cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_B2(self): # WORKS STABLE
+    def _seal_B2(self):
         seal_layout = "B2-U"
-        Logger.info("Seal Layout: " + seal_layout)
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if not self._pather.traverse_nodes([640], self._char): return False
         #self._char.kill_cs_trash() # at safe_dist
         #if not self._pather.traverse_nodes([641, 642], self._char): return False
@@ -239,9 +240,11 @@ class Diablo:
             cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_C1(self) -> bool: # The boss Seal takes several tries to recognize. Maybe we need new templates
+    def _seal_C1(self) -> bool: #700 nodes to be renamed to 650
         seal_layout = "C1-F"
         Logger.info("Seal Layout: " + seal_layout)
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if not self._pather.traverse_nodes([701, 702], self._char): return False
         #self._char.kill_cs_trash()
         #self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -265,6 +268,8 @@ class Diablo:
     def _seal_C2(self) -> bool:
         seal_layout = "C2-G"
         Logger.info("Seal Layout: " + seal_layout)
+        if self._config.general["info_screenshots"]:
+            cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if not self._pather.traverse_nodes([660, 661, 662], self._char): return False
         if not self._pather.traverse_nodes([663, 662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss"): return False
@@ -293,7 +298,7 @@ class Diablo:
         # TODO: Option to clear trash
         if not self._cs_pentagram():
             return False
-        
+
         # Seal A: Vizier (to the left)
         #if do_pre_buff:
         #    self._char.pre_buff() # not needed if seals exectued in right order
@@ -341,7 +346,7 @@ class Diablo:
         #if self._config.general["info_screenshots"]:
         #    cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #if self._template_finder.search_and_wait(["DIABLO_C_LAYOUTCHECK0", "DIABLO_C_LAYOUTCHECK1", "DIABLO_C_LAYOUTCHECK2"], threshold=0.75, time_out=0.5).valid:
-        if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4"], threshold=0.85, time_out=0.5).valid:
             if not self._seal_C2():
                 return False
         else:
@@ -356,7 +361,7 @@ class Diablo:
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        return (Location.A4_DIABLO_END, self._picked_up_items) #there is an error  ValueError: State 'diablo' is not a registered state.
+        return (Location.A4_DIABLO_END, self._picked_up_items)
 
 if __name__ == "__main__":
     from screen import Screen
