@@ -10,11 +10,13 @@ from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
+from screen import Screen
 
 
 class Arcane:
     def __init__(
         self,
+        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -29,7 +31,7 @@ class Arcane:
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
-        self._chest = Chest(self._char, self._template_finder, 'arcane')
+        self._chest = Chest(screen, self._char, self._template_finder, 'arcane')
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
