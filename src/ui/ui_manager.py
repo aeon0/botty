@@ -73,7 +73,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_right"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -82,7 +82,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the left skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_left"]).valid:
                 return True
         return False
 

@@ -164,7 +164,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(self._char_config["battle_command"])
             wait(0.1, 0.19)
-            if self._ui_manager.is_right_skill_selected(["BC"]):
+            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
 
