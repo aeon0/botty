@@ -56,10 +56,10 @@ class A4(IAct):
         return False        
         
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_VENDOR), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
         self._npc_manager.open_npc_menu(Npc.JAMELLA)
         self._npc_manager.press_npc_btn(Npc.JAMELLA, "trade")
-        return Location.A4_VENDOR        
+        return Location.A4_JAMELLA        
         
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char):
