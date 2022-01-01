@@ -30,30 +30,31 @@ class Chest:
         templates = self._templates
         found_chest = True
         start = time.time()
-        self._char.pre_move()
         while time.time() - start < time_out:
             template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True)
-            if not template_match.valid and time.time() - start > 1.5:
-                # search for at least 1.5 second, if no chest found, break
-                break
-            found_chest = True
-            Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
-            x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-            # move mouse and check for label
-            mouse.move(x_m, y_m, delay_factor=[0.4, 0.6])
-            wait(0.1, 0.15)
-            chest_label = self._template_finder.search("CHEST_LABEL", self._screen.grab(), threshold=0.85)
-            if chest_label.valid:
-                # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
-                self._char.pick_up_item([x_m, y_m], 'potion')
-                wait(0.1, 0.15)
-                locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
-                if locked_chest.valid:
-                    templates.remove(template_match.name)
-                    Logger.debug("No more keys, removing locked chest template")
-                    continue
+            # search for at least 1.5 second, if no chest found, break
+            if not template_match.valid:
+                if time.time() - start > 1.5:
+                    break
             else:
-                templates.remove(template_match.name)
+                found_chest = True
+                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
+                # move mouse and check for label
+                mouse.move(x_m, y_m, delay_factor=[0.4, 0.6])
+                wait(0.13, 0.16)
+                chest_label = self._template_finder.search("CHEST_LABEL", self._screen.grab(), threshold=0.85)
+                if chest_label.valid:
+                    Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
+                    # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
+                    self._char.pick_up_item([x_m, y_m], 'potion')
+                    wait(0.13, 0.16)
+                    locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
+                    if locked_chest.valid:
+                        templates.remove(template_match.name)
+                        Logger.debug("No more keys, removing locked chest template")
+                        continue
+                else:
+                    templates.remove(template_match.name)
         Logger.debug("No chests left")
         return found_chest
 
