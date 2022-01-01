@@ -146,7 +146,7 @@ class Diablo:
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss"): return False
         if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
-        self._char.kill_vizier(seal_layout, [612], [611])
+        self._char.kill_vizier([612], [611]) #seal_layout, 
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #if not self._pather.traverse_nodes([610], self._char): return False #not calibrating here brings us home safely.
         Logger.info(seal_layout + ": Looping to Pentagram")
