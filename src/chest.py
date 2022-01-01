@@ -23,7 +23,7 @@ class Chest:
                 chest = filename[:-4].upper()
                 self._templates.append(chest)
 
-    def open_up_chests(self, time_out: float = 12.0, threshold: float = 0.8) -> bool:
+    def open_up_chests(self, time_out: float = 12.0, threshold: float = 0.74) -> bool:
         Logger.debug("Open chests")
         templates = self._templates
         found_chest = True
