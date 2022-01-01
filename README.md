@@ -23,7 +23,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 ### 4) Start Botty
 
-You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases) (the .rar file!). Start `main.exe` in the botty folder. Focus your D2R window and press the start key (default f11). You can always force stop botty with f12.
+You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases) (the .rar file!). Start `main.exe` in the botty folder. Focus your D2R window and press the start key (default f11). You can always force stop botty with f12. Note: Botty will use the /nopickup command in the first game to avoid pickup up trash while traversing. This command will only allow item pickup when "show items" is active.
 
 ## Graphic Debugger
 
