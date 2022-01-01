@@ -6,6 +6,8 @@ from template_finder import TemplateFinder
 from screen import Screen
 from char import IChar
 from config import Config
+from utils.custom_mouse import mouse
+from utils.misc import wait
 
 
 class Chest:
@@ -23,7 +25,7 @@ class Chest:
                 chest = filename[:-4].upper()
                 self._templates.append(chest)
 
-    def open_up_chests(self, time_out: float = 8.0, threshold: float = 0.835) -> bool:
+    def open_up_chests(self, time_out: float = 8.0, threshold: float = 0.65) -> bool:
         Logger.debug("Open chests")
         templates = self._templates
         found_chest = True
@@ -36,14 +38,21 @@ class Chest:
             found_chest = True
             Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
             x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-            # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
-            self._char.pick_up_item([x_m, y_m], 'potion')
-            time.sleep(0.3)
-            locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
-            if locked_chest.valid:
+            # move mouse and check for label
+            mouse.move(x_m, y_m, delay_factor=[0.4, 0.6])
+            wait(0.1, 0.15)
+            chest_label = self._template_finder.search("CHEST_LABEL", self._screen.grab(), threshold=0.85)
+            if chest_label.valid:
+                # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
+                self._char.pick_up_item([x_m, y_m], 'potion')
+                wait(0.1, 0.15)
+                locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
+                if locked_chest.valid:
+                    templates.remove(template_match.name)
+                    Logger.debug("No more keys, removing locked chest template")
+                    continue
+            else:
                 templates.remove(template_match.name)
-                Logger.debug("No more keys, removing locked chest template")
-                continue
         Logger.debug("No chests left")
         return found_chest
 
