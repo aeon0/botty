@@ -40,7 +40,8 @@ class Location:
     A4_TOWN_START = "a4_town_start"
     A4_WP = "a4_town_wp"
     A4_TYRAEL_STASH = "a4_tyrael_stash"
-    A4_VENDOR = "a4_vendor"
+    A4_JAMELLA = "a4_jamella"
+    A4_HALBU = "a4_halbu"
     # A3 Town
     A3_TOWN_START = "a3_town_start"
     A3_ORMUS = "a3_ormus"
