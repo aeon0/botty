@@ -152,8 +152,8 @@ class LightSorc(Sorceress):
         pos_m = self._screen.convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         for _ in range(int(self._char_config["atk_len_arc"])):
-            self._right_attack(cast_pos_abs, delay, 11)
-            self._left_attack(cast_pos_abs, delay, 11)
+            self._chain_lightning(cast_pos_abs, delay, 11)
+            self._lightning(cast_pos_abs, delay, 11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
 
