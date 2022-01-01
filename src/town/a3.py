@@ -20,6 +20,7 @@ class A3(IAct):
 
     def get_wp_location(self) -> Location: return Location.A3_STASH_WP
     def can_buy_pots(self) -> bool: return True
+    def can_identify(self) -> bool: return True    
     def can_heal(self) -> bool: return True
     def can_identify(self) -> bool: return True
     def can_stash(self) -> bool: return True
@@ -66,4 +67,8 @@ class A3(IAct):
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A3_STASH_WP
+<<<<<<< Updated upstream
         return False        
+=======
+        return False
+>>>>>>> Stashed changes

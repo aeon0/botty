@@ -121,6 +121,7 @@ class Pather:
             162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
             163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
             164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559)},
+            165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
             # A3 town
             180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
             181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
@@ -214,11 +215,23 @@ class Pather:
             (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
             (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
-            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
-            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             (Location.A4_TOWN_START, Location.A4_WP): [162],
             (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
-            # A3 Town
+            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],  
+            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],            
+            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_WP, Location.A4_JAMELLA): [162, 163, 164],
+            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],           
+            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
+            (Location.A4_TYRAEL_STASH, Location.A4_JAMELLA): [161, 160, 162, 163, 164],
+            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],            
+            (Location.A4_JAMELLA, Location.A4_WP): [164, 163, 162],
+            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],            
+            (Location.A4_JAMELLA, Location.A4_HALBU): [165],              
+            (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
+            (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
+            (Location.A4_HALBU, Location.A4_JAMELLA): [164],        
+            # A3 Town0
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
             (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
@@ -477,7 +490,11 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
+<<<<<<< Updated upstream
     display_all_nodes(pather, "A2_TOWN")
+=======
+    display_all_nodes(pather, "A4_TOWN")
+>>>>>>> Stashed changes
 
     # # changing node pos and generating new code
     # code = ""
