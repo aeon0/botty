@@ -490,11 +490,8 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-<<<<<<< Updated upstream
-    display_all_nodes(pather, "A2_TOWN")
-=======
     display_all_nodes(pather, "A4_TOWN")
->>>>>>> Stashed changes
+
 
     # # changing node pos and generating new code
     # code = ""
