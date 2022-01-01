@@ -269,7 +269,7 @@ class UiManager():
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
                 continue
             include = True
@@ -319,7 +319,7 @@ class UiManager():
                     break
             if include and not exclude:
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
 
         return len(filtered_list) > 0

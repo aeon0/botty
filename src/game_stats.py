@@ -1,3 +1,4 @@
+import numpy as np
 import time
 import threading
 import inspect
@@ -38,14 +39,14 @@ class GameStats:
         if self._location not in self._location_stats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
-    def log_item_keep(self, item_name: str, send_message: bool):
+    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray):
         filtered_items = ["_potion", "misc_gold"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send({"type": "item", "item": item_name, "location": self._location})
+            self._messenger.send({"type": "item", "item": item_name, "location": self._location, "image": img})
 
     def log_death(self):
         self._death_counter += 1

@@ -1,4 +1,5 @@
 from config import Config
+import cv2
 import discord
 from discord import Webhook, RequestsWebhookAdapter, Color
 
@@ -8,11 +9,15 @@ class DiscordEmbeds:
         
     def send(self, msgData):       
         webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter())
-
-        if msgData["type"] == "item":             
+        file = None
+        
+        if msgData["type"] == "item":
+            
             e = discord.Embed(title=f"{self._config.general['name']} found an item", description=f"{msgData['item']} at {msgData['location']}", color=self.get_Item_Color( msgData['item']))
-            # file = discord.File(msgData['image'], filename="image.png")
-            # e.set_image(url="attachment://image.png")
+            # if msgData["image"]:
+            cv2.imwrite(f"./loot_screenshots/{msgData['item']}.png", msgData['image'])  
+            file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename="image.png")
+            e.set_image(url="attachment://image.png")
         elif msgData["type"] == "death":
             msg = f"{self._config.general['name']}: You have died at {msgData['location']}"
             e = discord.Embed(title=f"{self._config.general['name']} has died", color=Color.dark_red())
@@ -25,8 +30,10 @@ class DiscordEmbeds:
         elif msgData["type"] == "message":
             e = discord.Embed(title=f"{self._config.general['name']} Update", description=f"```{msgData['message']}```", color=Color.dark_teal())
 
-        webhook.send(embed=e)
-        # webhook.send(embed=e, file=file)
+        if file: 
+            webhook.send(embed=e, file=file)
+        else:
+            webhook.send(embed=e)
 
     def get_Item_Color(self, item):
         if "magic_" in item:
