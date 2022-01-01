@@ -1,5 +1,6 @@
 import keyboard
 import time
+import numpy as np
 from char.sorceress import Sorceress
 from utils.custom_mouse import mouse
 from logger import Logger
@@ -52,21 +53,27 @@ class NovaSorc(Sorceress):
 
     def kill_council(self) -> bool:
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        atk_len = self._char_config["atk_len_trav"] * 0.4
+        atk_len = self._char_config["atk_len_trav"] * 0.5
+        # change node to be further to the right
+        offset_229 = np.array([200, 100])
+        self._pather.offset_node(229, offset_229)
         def clear_inside():
-            self._pather.traverse_nodes([228, 229], self, time_out=1.2, force_tp=True)
+            self._pather.traverse_nodes([228, 229], self, time_out=0.8, force_tp=True)
+            self._cast_static(0.6)
             self._nova(atk_len)
+            self._move_and_attack((-40, -20), atk_len)
             self._move_and_attack((40, 20), atk_len)
+            self._move_and_attack((-40, -20), atk_len)
         def clear_outside():
-            self._pather.traverse_nodes([226], self, time_out=1.2, force_tp=True)
+            self._pather.traverse_nodes([226], self, time_out=0.8, force_tp=True)
+            self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((45, -20), atk_len)
-        self._cast_static(0.5)
-        clear_inside()
-        self._cast_static(0.5)
-        clear_outside()
+            self._move_and_attack((-45, 20), atk_len)
         clear_inside()
         clear_outside()
+        # change back node as it is used in trav.py
+        self._pather.offset_node(229, -offset_229)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
@@ -111,4 +118,4 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = NovaSorc(config.nova_sorc, config.char, screen, t_finder, ui_manager, pather)
-    char._nova(2)
+    char.kill_council()
