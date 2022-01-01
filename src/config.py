@@ -56,6 +56,7 @@ class Config:
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
+            "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),

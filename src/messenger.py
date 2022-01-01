@@ -1,43 +1,42 @@
+from dataclasses import dataclass
 from config import Config
-import json
-import requests
+import threading
 
+from api import GenericApi
+from api import DiscordEmbeds
+
+from logger import Logger
+
+@dataclass
+class MsgData:
+    type: str = None
+    item: str = None
+    location: str = None
+    message: str = None
 
 class Messenger:
     def __init__(self):
         self._config = Config()
 
-    def send(self, msg):
-        if self._config.advanced_options['message_highlight']:
-            if " magic_" in msg:
-                msg = f"```ini\\n[ {msg} \\n```"
-            elif " set_" in msg:
-                msg = f"```diff\\n+ {msg} \\n```"
-            elif " rune_" in msg:
-                msg = f"```css\\n[ {msg} ]\\n```"
-            elif " uniq_" in msg or "rare" in msg:
-                # TODO: It is more gold than yellow, find a better yellow highlight
-                msg = f"```fix\\n- {msg} \\n```"
-            elif " gray_" in msg:
-                msg = f"```python\\n# {msg} \\n```"
-            else:
-                msg = f"```\\n{msg} \\n```"
-
-        self._send(msg=msg)
-
-    def _send(self, msg):
-        url = self._config.general['custom_message_hook']
-        if not url:
+    def _send(self, msgData: MsgData):
+        Logger.debug(f"Messenger {msgData}")
+        if self._config.general["message_api_type"] == "generic":
+            message_api = GenericApi()
+        elif self._config.general["message_api_type"] == "discord":
+            message_api = DiscordEmbeds()
+        else:
             return
-
-        headers = {}
-        if self._config.advanced_options['message_headers']:
-            headers = json.loads(self._config.advanced_options['message_headers'])
-
-        data = json.loads(self._config.advanced_options['message_body_template'].format(msg=msg), strict=False)
-
-        requests.post(url, headers=headers, json=data)
-
+        
+        message_api.send(msgData)
+        
+    def send(self, msgData: MsgData):
+        if self._config.general["custom_message_hook"]:
+            send_message_thread = threading.Thread(
+                target=self._send,
+                kwargs={"msgData": msgData}
+            )
+            send_message_thread.daemon = True
+            send_message_thread.start()
 
 if __name__ == "__main__":
     messenger = Messenger()
