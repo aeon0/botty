@@ -89,7 +89,7 @@ class Arcane:
             found = self._find_summoner(data.jump_to_summoner)
             # Kill the summoner or trash mob
             self._char.kill_summoner()
-            if not found and self._config.char["open_chests"]:
+            if self._config.char["open_chests"]:
                 self._chest.open_up_chests()
             picked_up_items |= self._pickit.pick_up_items(self._char)
             if found:
