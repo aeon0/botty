@@ -19,7 +19,8 @@ class Npc:
     FARA = "fara"
     CAIN = "cain"
     JAMELLA = "jamella"    
-
+    HALBU = "halbu" 
+    
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
