@@ -97,6 +97,8 @@ class Arcane:
             elif i < len(path_arr) - 1:
                 # Open TP and return back to town, walk to wp and start over
                 if not self._char.tp_town():
+                    Logger.warning("TP to town failed, cancel run")
+                    self.used_tps += 20
                     return False
                 self.used_tps += 1
                 if not self._town_manager.wait_for_tp(Location.A2_TP):
