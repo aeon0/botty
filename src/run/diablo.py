@@ -207,6 +207,7 @@ class Diablo:
 
     def _seal_B2(self):
         seal_layout = "B2-U"
+        Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### CLEAR TRASH & APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
@@ -266,6 +267,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake"): return False
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         ### GO HOME ###
         Logger.info(seal_layout + ": Looping to Pentagram")
         if not self._loop_pentagram("dia_c2g_home_loop"): return False
@@ -358,4 +360,5 @@ if __name__ == "__main__":
 # B1S - Layout check sometimes fails for -> failed run, can only be caught by timeout for traverse nodes
 # B2U - Loop Returning home after killing De Seis does not recognize pentagram & goes towards CS entrance -> failed run, caught by pentagram loop timeout
 # If a stash is located near a bossfight, there wont be any fight. Botty will just try to click the stash
+# We should loot after a sealdance (esp. Infector Seal)
 # It might make sense to change ALL the fights to just static paths. in the heat of battle the nodes sometimes are not recognized, leading to chicken.
