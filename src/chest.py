@@ -10,8 +10,8 @@ from config import Config
 
 class Chest:
     def __init__(self, char: IChar, template_finder: TemplateFinder, template: str = None):
-        config = Config()
-        self._screen = Screen(config.general["monitor"])
+        self._config = Config()
+        self._screen = Screen(self._config.general["monitor"])
         self._char = char
         self._template_finder = template_finder
         self._folder_name = "chests"
@@ -30,7 +30,7 @@ class Chest:
         start = time.time()
         while time.time() - start < time_out:
             t = time.time()
-            template_match = self._template_finder.search(templates, self._screen.grab(), threshold=threshold, best_match=True)
+            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True)
             print(time.time() - t)
             if not template_match.valid:
                 break
@@ -40,7 +40,7 @@ class Chest:
             # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
             self._char.pick_up_item([x_m, y_m], 'potion')
             time.sleep(0.3)
-            locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=threshold)
+            locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
             if locked_chest.valid:
                 templates.remove(template_match.name)
                 Logger.debug("No more keys, removing locked chest template")
