@@ -360,7 +360,7 @@ class Diablo:
         wait(0.2, 0.3)
         if self._config.general["info_screenshots"]:
             cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A4_DIABLO_END, self._picked_up_items)
 
 if __name__ == "__main__":
