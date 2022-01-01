@@ -41,15 +41,13 @@ class NovaSorc(Sorceress):
     def kill_eldritch(self) -> bool:
         self._pather.traverse_nodes_fixed([(675, 30)], self)
         self._cast_static(0.6)
-        atk_len = max(1.3, self._char_config["atk_len_eldritch"] - 0.7)
-        self._nova(atk_len)
+        self._nova(self._char_config["atk_len_eldritch"])
         return True
 
     def kill_shenk(self) -> bool:
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0)
         self._cast_static(0.6)
-        atk_len = max(1.5, self._char_config["atk_len_shenk"] - 1.0)
-        self._nova(atk_len)
+        self._nova(self._char_config["atk_len_shenk"])
         return True
 
     def kill_council(self) -> bool:
@@ -82,6 +80,18 @@ class NovaSorc(Sorceress):
         self._nova(atk_len)
         self._move_and_attack((50, 25), atk_len)
         self._move_and_attack((-70, -35), atk_len)
+        return True
+
+    def kill_summoner(self) -> bool:
+        # move mouse to below altar
+        pos_m = self._screen.convert_abs_to_monitor((0, 20))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        # Attack
+        self._nova(self._char_config["atk_len_arc"])
+        # Move a bit back and another round
+        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
+        wait(0.1, 0.15)
+        self._nova(self._char_config["atk_len_arc"] * 0.5)
         return True
 
 
