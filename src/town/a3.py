@@ -10,6 +10,7 @@ from utils.misc import wait
 from utils.custom_mouse import mouse
 
 
+
 class A3(IAct):
     def __init__(self, screen: Screen, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
         self._config = Config()
@@ -22,6 +23,7 @@ class A3(IAct):
     def get_wp_location(self) -> Location: return Location.A3_STASH_WP
     def can_buy_pots(self) -> bool: return True
     def can_heal(self) -> bool: return True
+    def can_identify(self) -> bool: return True    
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
