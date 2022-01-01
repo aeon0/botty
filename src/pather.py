@@ -167,16 +167,11 @@ class Pather:
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
             # Arcane
             450: {"ARC_START": (49, 62)},
-            451: {"ARC_PLATFORM_1": (0, 0), "ARC_PLATFORM_2": (125, -70), "ARC_CENTER": (131, -78)},
-            452: {"ARC_PLATFORM_2": (-249, 69), "ARC_CENTER": (-242, 62), "ARC_END_1": (122, 73), "ARC_END_2": (-245, 76), "ARC_END_3": (-248, -136)},
             453: {"ARC_START": (-259, 62)},
-            454: {"ARC_PLATFORM_1": (237, 72), "ARC_PLATFORM_3": (210, 89), "ARC_CENTER": (237, 72), "ARC_END_1": (601, 82), "ARC_END_2": (234, 86), "ARC_END_3": (232, -127)},
             456: {"ARC_START": (145, 264)},
-            457: {"ARC_PLATFORM_3": (-174, -103), "ARC_CENTER": (-146, -120), "ARC_END_1": (218, -109), "ARC_END_2": (-307, -59)},
             459: {"ARC_START": (-356, 258)},
-            460: {"ARC_END_1": (468, 35), "ARC_END_2": (101, 37), "ARC_END_3": (98, -175)},
             461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-272, 200), "ARC_CENTER_2": (67, 41), "ARC_END_STAIRS": (76, -344), "ARC_END_STAIRS_2": (60, -160)},
-            462: {"ARC_CENTER_2": (0, 0), "ARC_CENTER": (0, 0)},
+            462: {"ARC_PLATFORM_1": (0, -100), "ARC_PLATFORM_2": (50, -100), "ARC_PLATFORM_3": (70, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},

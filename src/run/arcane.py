@@ -43,24 +43,22 @@ class Arcane:
         return Location.A2_ARC_START
 
     def _find_summoner(self, traverse_to_summoner: list[tuple[float, float]]) -> bool:
-        # Try to calibarte at center of platform
-        self._pather.traverse_nodes([462], self._char, time_out=1.0)
         # Check if we arrived at platform
         templates_platform = ["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"]
         tempaltes_summoner = ["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"]
         match_platform = self._template_finder.search_and_wait(templates_platform, threshold=0.55, time_out=0.5, use_grayscale=True, take_ss=False)
         match_summoner = self._template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, time_out=0.5, use_grayscale=True, take_ss=False)
         if not match_platform.valid and not match_summoner.valid:
-            print("FOUND NOTHING")
             # We might have arrived at summoner, move up stairs with static traverse
             self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
             # try to match summoner again
-            print("MATCH SUMMONER AGAIN")
             match_summoner = self._template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, time_out=1.0, use_grayscale=True, take_ss=False)
         if match_summoner.valid:
-            print("FOUND HIM")
             if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
                 return True
+        else:
+            # Traverse to center of platform
+            self._pather.traverse_nodes([462], self._char, time_out=1.3, force_tp=True)
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
