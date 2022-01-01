@@ -76,6 +76,26 @@ def adjust_settings(config: Config):
         json.dump(curr_settings, outfile)
     print("Adapted settings succesfully. You can now restart D2R.")
 
+def check_settings(config: Config) -> dict:
+    # find monitor res
+    sct = mss()
+    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
+    if len(sct.monitors) == 1:
+        print("How do you not have a monitor connected?!")
+        os._exit(1)
+    if monitor_idx >= len(sct.monitors):
+        monitor_idx = 1
+    d2_saved_games = get_d2r_folder(config)
+    # adjust settings
+    f = open(d2_saved_games + "\\Settings.json")
+    curr_settings = json.load(f)
+    f = open("assets/d2r_settings.json")
+    new_settings = json.load(f)
+    diff_settings = {}
+    for key in new_settings:
+        if key != "Window Mode" and curr_settings[key] != new_settings[key]:
+            diff_settings[key] = [curr_settings[key], new_settings[key]]
+    return diff_settings
 
 if __name__ == "__main__":
     adjust_settings()
