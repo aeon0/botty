@@ -146,8 +146,7 @@ class Pather:
             406: {"A2_TOWN_BARREL": (-158, -7)},
             407: {"A2_TOWN_BARREL": (-580, -26), "A2_TOWN_LIGHT_HUT": (442, 78), "A2_TOWN_DARK_HUT": (442, 78)},
             408: {"A2_TOWN_LIGHT_HUT": (-36, -25), "A2_TOWN_DARK_HUT": (-36, -25), "A2_TOWN_LIGHT_FIRE2": (535, 19), "A2_TOWN_DARK_FIRE2": (535, 19)},
-            409: {"A2_TOWN_LIGHT_FIRE2": (-347, -176), "A2_TOWN_DARK_FIRE2": (-347, -176), "A2_TOWN_ROOF2": (510, 159)},
-            410: {"A2_TOWN_LIGHT_HUT": (-192, -229), "A2_TOWN_DARK_HUT": (-192, -229), "A2_TOWN_BARREL": (322, 146), "A2_TOWN_ROOF2": (-281, 92)},
+            410: {"A2_TOWN_BLUE_TP": (-618, 110), "A2_TOWN_LIGHT_HUT": (-192, -229), "A2_TOWN_DARK_HUT": (-192, -229), "A2_TOWN_BARREL": (322, 146), "A2_TOWN_ROOF2": (-281, 92)},
             411: {"A2_TOWN_BARREL": (-58, -84)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
@@ -235,7 +234,7 @@ class Pather:
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405, 406],
             (Location.A2_FARA_STASH, Location.A2_WP): [407, 408, 404],
-            (Location.A2_TP, Location.A2_FARA_STASH): [409, 410, 411],
+            (Location.A2_TP, Location.A2_FARA_STASH): [410, 411],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 408, 407, 406],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
@@ -408,7 +407,7 @@ class Pather:
                             Logger.error("Got stuck exit pather")
                         return False
 
-                # Sometimes we get stuck at rocks and stuff, after 2.5 seconds force a move into the last know direction
+                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last know direction
                 if not did_force_move and time.time() - last_move > 3.1:
                     pos_abs = (0, 150)
                     if last_direction is not None:
@@ -482,7 +481,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "ARC_")
+    display_all_nodes(pather, "A2_TOWN")
 
     # # changing node pos and generating new code
     # code = ""
