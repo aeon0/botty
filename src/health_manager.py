@@ -48,7 +48,7 @@ class HealthManager:
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav"]
+            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav", "arc"]
             prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
             if self._pausing != prev_value:

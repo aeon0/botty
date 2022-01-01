@@ -23,7 +23,7 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 ### 4) Start Botty
 
-You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases) (the .rar file!). Start `main.exe` in the botty folder. Focus your D2R window and press the start key (default f11). You can always force stop botty with f12.
+You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases) (the .rar file!). Start `main.exe` in the botty folder. Focus your D2R window and press the start key (default f11). You can always force stop botty with f12. Note: Botty will use the /nopickup command in the first game to avoid pickup up trash while traversing. This command will only allow item pickup when "show items" is active.
 
 ## Graphic Debugger
 
@@ -70,6 +70,7 @@ run_shenk=0
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -94,6 +95,7 @@ run_shenk=0
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
+| atk_len_arc        | Attack length for hdin/sorc fighting arcane  |
 | atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
 | atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
@@ -112,7 +114,8 @@ run_shenk=0
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
-| id_items    	     | will identify items at cain before stashing them. Cain must be recused for this to work.|
+| id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
+| open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
@@ -131,6 +134,10 @@ run_shenk=0
 | ------------- | ----------------------------------------------------------------------------- |
 | ice_blast     | Optional Hotkey for ice_blast (must be bound to left skill)                   |
 | blizzard      | Required Hotkey for Blizzard (must be bound to right skill)                   |
+
+| [nova_sorc]   | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| nova          | Required Hotkey for Nova (must be bound to right skill)                       |
 
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
