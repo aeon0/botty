@@ -141,6 +141,7 @@ class GameStats:
         ''')
         totals = { "items": 0, "chickens": 0, "deaths": 0, "merc_deaths": 0, "failed_runs": 0 }
         table = BeautifulTable()
+        table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
         for location in self._location_stats:
             stats = self._location_stats[location]
             totals["items"] += len(stats["items"])
@@ -178,7 +179,7 @@ class GameStats:
             for item_name in stats["items"]:
                 msg += f"\n    {item_name}"
 
-        with open(f"stats/{self._stats_filename}", "w+") as f:
+        with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
             f.write(msg)
 
 
