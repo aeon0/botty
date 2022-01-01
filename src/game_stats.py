@@ -38,7 +38,7 @@ class GameStats:
         if self._location not in self._location_stats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
-    def log_item_pickup(self, item_name: str, send_message: bool):
+    def log_item_keep(self, item_name: str, send_message: bool):
         filtered_items = ["_potion", "misc_gold"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
@@ -177,5 +177,5 @@ class GameStats:
 
 if __name__ == "__main__":
     game_stats = GameStats()
-    game_stats.log_item_pickup("rune_12", True)
+    game_stats.log_item_keep("rune_12", True)
     game_stats._save_stats_to_file()
