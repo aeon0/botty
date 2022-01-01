@@ -152,7 +152,7 @@ class LightSorc(Sorceress):
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         for _ in range(int(self._char_config["atk_len_arc"])):
             self._chain_lightning(cast_pos_abs, spray=11)
-        self._lightning(cast_pos_abs, spray=50)
+            self._lightning(cast_pos_abs, spray=50)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
 
