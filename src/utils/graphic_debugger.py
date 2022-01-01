@@ -56,12 +56,12 @@ class GraphicDebuggerController:
         cv2.namedWindow(self.window_name_images)
         # Now create 6 trackbars that will control the lower and upper range of H,S and V channels.
         # The Arguments are like this: Name of trackbar, window name, range,callback function. For Hue the range is 0-179 and for S,V its 0-255.
-        cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 179, lambda: None)
-        cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda: None)
-        cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda: None)
-        cv2.createTrackbar("H - Upper", self.window_name_trackbars, 179, 179, lambda: None)
-        cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda: None)
-        cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda: None)
+        cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 179, lambda x: None)
+        cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
+        cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
+        cv2.createTrackbar("H - Upper", self.window_name_trackbars, 179, 179, lambda x: None)
+        cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
+        cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
         while True:
             # Get the new values of the trackbar in real time as the user changes them
             cv2.pollKey()  # This is needed only to keep the gui work as it handles the HighGUI events
@@ -87,7 +87,7 @@ class GraphicDebuggerController:
         end_time = time.time()
         while 1:
             # Heavy processing ahead, don't do it at every loop
-            if end_time - start_time < 0.5:
+            if end_time - start_time < 0.75:
                 end_time = time.time()
                 continue
             start_time = time.time()
@@ -141,12 +141,12 @@ if __name__ == "__main__":
     # H,S and V channels. The Arguments are like this: Name of trackbar,
     # window name, range,callback function. For Hue the range is 0-179 and
     # for S,V its 0-255.
-    cv2.createTrackbar("H - Lower", "window_name", 0, 179, lambda: None)
-    cv2.createTrackbar("S - Lower", "window_name", 0, 255, lambda: None)
-    cv2.createTrackbar("V - Lower", "window_name", 0, 255, lambda: None)
-    cv2.createTrackbar("H - Upper", "window_name", 179, 179, lambda: None)
-    cv2.createTrackbar("S - Upper", "window_name", 255, 255, lambda: None)
-    cv2.createTrackbar("V - Upper", "window_name", 255, 255, lambda: None)
+    cv2.createTrackbar("H - Lower", "window_name", 0, 179, lambda x: None)
+    cv2.createTrackbar("S - Lower", "window_name", 0, 255, lambda x: None)
+    cv2.createTrackbar("V - Lower", "window_name", 0, 255, lambda x: None)
+    cv2.createTrackbar("H - Upper", "window_name", 179, 179, lambda x: None)
+    cv2.createTrackbar("S - Upper", "window_name", 255, 255, lambda x: None)
+    cv2.createTrackbar("V - Upper", "window_name", 255, 255, lambda x: None)
     debugger = GraphicDebuggerController(Config())
     debugger.start()
 
