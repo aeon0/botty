@@ -2,31 +2,20 @@ from dataclasses import dataclass
 from config import Config
 import json
 import requests
-from logger import Logger
-
-@dataclass
-class MsgData:
-    type: str = None
-    item: str = None
-    location: str = None
-    message: str = None
 
 class GenericApi:
     def __init__(self):
         self._config = Config()
-        Logger.debug(f"__init__")
 
-    def send(self, msgData: MsgData):
-        Logger.debug(f"{msgData}")
+    def send(self, msgData):
         if msgData["type"] == "item":
-             msg = f"{self._config.general['name']}: Found {msgData['item']}{self.get_location_msg(msgData['location'])}"
+             msg = f"{self._config.general['name']}: Found {msgData['item']} at {msgData['location']}"
         elif msgData["type"] == "death":
-            msg = f"{self._config.general['name']}: You have died{self.get_location_msg(msgData['location'])}"
+            msg = f"{self._config.general['name']}: You have died at {msgData['location']}"
         elif msgData["type"] == "chicken":
-            msg = f"{self._config.general['name']}: You have chickened{self.get_location_msg(msgData['location'])}"
+            msg = f"{self._config.general['name']}: You have chickened at {msgData['location']}"
         elif msgData["type"] == "message":
             msg = msgData['message']
-
 
         if self._config.advanced_options['message_highlight']:
             if " magic_" in msg:

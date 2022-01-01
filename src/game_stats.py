@@ -5,7 +5,7 @@ from beautifultable import BeautifulTable
 
 from logger import Logger
 from config import Config
-from messenger import Messenger, MsgData
+from messenger import Messenger
 from utils.misc import hms
 from version import __version__
 
@@ -45,7 +45,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send(MsgData(type="item", item=item_name, location=self._location))
+            self._messenger.send({"type": "item", "item": item_name, "location": self._location})
 
     def log_death(self):
         self._death_counter += 1
@@ -53,7 +53,7 @@ class GameStats:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
             
-        self._messenger.send(MsgData(type="death", location=self._location))
+        self._messenger.send({"type": "death", "location": self._location})
 
     def log_chicken(self):
         self._chicken_counter += 1
@@ -61,7 +61,7 @@ class GameStats:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
 
-        self._messenger.send(MsgData(type="chicken", location=self._location))
+        self._messenger.send({"type": "chicken", "location": self._location})
 
     def log_merc_death(self):
         self._merc_death_counter += 1
@@ -157,7 +157,7 @@ class GameStats:
 
     def _send_status_update(self):
         msg = f"{self._config.general['name']}: Status Report\\n{self._create_msg()}\\nVersion: {__version__}"
-        self._messenger.send(MsgData(type="message", message=msg))
+        self._messenger.send({"type": "message", "message": msg})
 
     def _save_stats_to_file(self):
         msg = self._create_msg()
