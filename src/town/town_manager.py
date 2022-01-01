@@ -16,7 +16,7 @@ class TownManager:
         self._ui_manager = ui_manager
         self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
-            Location.A2_TOWN_START: a2,           
+            Location.A2_TOWN_START: a2,
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
             Location.A5_TOWN_START: a5
@@ -32,7 +32,7 @@ class TownManager:
         elif loc.upper().startswith("A3_"):
             location = Location.A3_TOWN_START
         elif loc.upper().startswith("A2_"):
-            location = Location.A2_TOWN_START                                    
+            location = Location.A2_TOWN_START
         return location
 
     def wait_for_town_spawn(self, time_out: float = None) -> Location:
@@ -44,7 +44,7 @@ class TownManager:
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1",
-            "A2_TOWN_LIGHT_WELL", "A2_TOWN_MEDIUM_WELL", "A2_TOWN_DARK_WELL"
+            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10"
         ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
