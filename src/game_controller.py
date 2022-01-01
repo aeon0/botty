@@ -2,9 +2,9 @@ import os
 import threading
 import time
 
-import keyboard
 from cv2 import cv2
 
+from utils.auto_settings import check_settings
 from bot import Bot
 from config import Config
 from death_manager import DeathManager
@@ -81,6 +81,11 @@ class GameController:
             os._exit(1)
 
     def start(self):
+        # Check if we user should update the d2r settings
+        diff = check_settings(self._config)
+        if len(diff) > 0:
+            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
+            Logger.warning(f"{diff}")
         self.screen = Screen(self._config.general["monitor"])
         # Run health monitor thread
         self.health_manager = HealthManager(self.screen)
