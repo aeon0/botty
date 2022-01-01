@@ -7,11 +7,13 @@ import logging
 import cv2
 import traceback
 
+
 from messenger import Messenger
 from version import __version__
 from utils.graphic_debugger import run_graphic_debugger
 from utils.auto_settings import adjust_settings
 from utils.misc import kill_thread
+from restart import restart_game
 
 from config import Config
 from screen import Screen
@@ -74,10 +76,17 @@ def run_bot(
     else:
         if config.general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", bot._screen.grab())
-        Logger.error(f"{config.general['name']} could not recover from a max game length violation. Shutting down everything.")
+        Logger.error(f"{config.general['name']} could not recover from a max game length violation. Restarting")
         if config.general["custom_message_hook"]:
-            messenger.send(msg=f"{config.general['name']}: got stuck and can not resume")
-        os._exit(1)
+            messenger.send(msg=f"{config.general['name']}: got stuck and is restarting")
+        if restart_game(config.general["d2r_path"]):
+            # Reset flags before running a new bot
+            death_manager.reset_death_flag()
+            health_manager.reset_chicken_flag()
+            game_stats.log_end_game(failed=max_game_length_reached)
+            screen = Screen(config.general["monitor"])
+            if screen.found_offsets:
+                return run_bot(config, screen, game_recovery, game_stats, death_manager, health_manager, True)
 
 def main():
     config = Config(print_warnings=True)

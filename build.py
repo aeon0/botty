@@ -31,6 +31,8 @@ def clean_up():
         os.remove("health_manager.spec")
     if os.path.exists("shopper.spec"):
         os.remove("shopper.spec")
+    if os.path.exists("restart.spec"):
+        os.remove("restart.spec")
 
 if __name__ == "__main__":
     new_version_code = None
@@ -59,7 +61,7 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(botty_dir)
 
-    for exe in ["main.py", "shopper.py", "health_manager.py"]:
+    for exe in ["main.py", "shopper.py", "health_manager.py","restart.py"]:
         installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
 

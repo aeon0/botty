@@ -1,3 +1,4 @@
+from utils.custom_mouse import mouse
 from death_manager import DeathManager
 from screen import Screen
 from template_finder import TemplateFinder
@@ -23,7 +24,7 @@ class GameRecovery:
         time.sleep(0.1)
         keyboard.release(self._config.char["show_items"])
         start = time.time()
-        while (time.time() - start) < 60:
+        while (time.time() - start) < 20:
             # make sure we are not on loading screen
             is_loading = True
             while is_loading:
@@ -32,6 +33,16 @@ class GameRecovery:
             # lets just see if you might already be at hero selection
             found = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=1, take_ss=False, roi=self._config.ui_roi["hero_selection_logo"]).valid
             if found:
+                offline_tab = self._template_finder.search(["OFFLINE_TAB","OFFLINE_TAB_DARK"], self._screen.grab(), roi=self._config.ui_roi["offline_tab"], threshold=0.8, best_match=True)
+                if offline_tab.valid:
+                    # x, y = self._screen.convert_screen_to_monitor(offline_tab)
+                    # can test other locations like below
+                    offline_width = self._config.ui_pos["offline_width"]
+                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
+                    x, y = self._screen.convert_screen_to_monitor(tab)
+                    mouse.move(x, y, randomize=8)
+                    time.sleep(0.5)
+                    mouse.click(button="left")
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():
@@ -40,7 +51,7 @@ class GameRecovery:
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
             time.sleep(1)
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"]
-            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85)
+            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.8)
             if template_match.valid:
                 self._ui_manager.save_and_exit()
             else:
