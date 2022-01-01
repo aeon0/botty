@@ -55,7 +55,7 @@ class A2(IAct):
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        template_match = self._template_finder.search_and_wait(["A2_TOWN_LIGHT_FIRE2", "A2_TOWN_DARK_FIRE2"], time_out=20)
+        template_match = self._template_finder.search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19"], time_out=20)
         if template_match.valid:
             self._pather.traverse_nodes((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
             return Location.A2_FARA_STASH
