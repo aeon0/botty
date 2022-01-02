@@ -80,7 +80,7 @@ class A4(IAct):
         return Location.A4_JAMELLA
         
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_HALBU), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_HALBU), self._char): return False
         self._npc_manager.open_npc_menu(Npc.HALBU)
         self._npc_manager.press_npc_btn(Npc.HALBU, "trade_repair")
-        return Location.A5_HALBU        
+        return Location.A4_HALBU        
