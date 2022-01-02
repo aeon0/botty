@@ -13,24 +13,26 @@ class DiscordEmbeds:
         file = None
         
         if msgData["type"] == "item":
+            imgName = msgData['item'].replace('_', '-')
+
             cv2.imwrite(f"./loot_screenshots/{msgData['item']}.png", msgData['image'])  
-            file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename="image.png")
+            file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename=f"{imgName}.png")
             e = discord.Embed(
                 title=f"{msgData['item']} at {msgData['location']}", 
                 color=self.get_Item_Color( msgData['item']),
                 timestamp=datetime.datetime.now()
             )
-            e.set_image(url="attachment://image.png")
+            e.set_image(url=f"attachment://{imgName}.png")
 
         elif msgData["type"] == "death":
-            file = discord.File(msgData['image_path'], filename="image.png")
+            file = discord.File(msgData['image_path'], filename="death.png")
             e = discord.Embed(title=f"{self._config.general['name']} has died at {msgData['location']}", color=Color.dark_red())
-            e.set_image(url="attachment://image.png")
+            e.set_image(url="attachment://death.png")
 
         elif msgData["type"] == "chicken": 
-            file = discord.File(msgData['image_path'], filename="image.png")
+            file = discord.File(msgData['image_path'], filename="chicken.png")
             e = discord.Embed(title=f"{self._config.general['name']} has chickened at {msgData['location']}", color=Color.dark_grey())
-            e.set_image(url="attachment://image.png")
+            e.set_image(url="attachment://chicken.png")
 
         elif msgData["type"] == "message":
             e = discord.Embed(title=f"{self._config.general['name']} Update", description=f"```{msgData['message']}```", color=Color.dark_teal())
