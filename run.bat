@@ -3,7 +3,7 @@ CLS
 :MENU
 ECHO.
 ECHO ...............................................
-ECHO PRESS 1, 2, 3 OR 4 to select your task
+ECHO PRESS 1, 2, 3, 4 or 5 select your task
 ECHO ...............................................
 ECHO.
 ECHO 1 - Install Env
@@ -12,7 +12,7 @@ ECHO 3 - Compile
 ECHO 4 - Run Botty
 Echo 5 - Exit
 ECHO.
-SET /P M=Type 1, 2, 3, or 4 then press ENTER:
+SET /P M=Type 1, 2, 3, 4 or 5 then press ENTER:
 IF %M%==1 GOTO INSTALL
 IF %M%==2 GOTO UPDATE
 IF %M%==3 GOTO COMPILE
