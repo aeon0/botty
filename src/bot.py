@@ -183,7 +183,7 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 

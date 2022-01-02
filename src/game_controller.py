@@ -2,7 +2,7 @@ import os
 import threading
 import time
 
-from cv2 import cv2
+import cv2
 
 from utils.auto_settings import check_settings
 from bot import Bot
@@ -84,28 +84,15 @@ class GameController:
                 self.death_manager.reset_death_flag()
                 self.health_manager.reset_chicken_flag()
                 self.game_stats.log_end_game(failed=max_game_length_reached)
-                screen = Screen(self._config.general["monitor"])
-                if screen.found_offsets:
-                    return self.run_bot(True)
+                if self.setup_screen():
+                    self.start_health_manager()
+                    self.start_death_manager()
+                    self.run_bot(pick_corpse=True)
 
     def start(self):
-        # Check if we user should update the d2r settings
-        diff = check_settings(self._config)
-        if len(diff) > 0:
-            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
-            Logger.warning(f"{diff}")
-        self.screen = Screen(self._config.general["monitor"])
-        # Run health monitor thread
-        self.health_manager = HealthManager(self.screen)
-        self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
-        self.health_monitor_thread.daemon = True
-        self.health_monitor_thread.start()
-        # Run death monitor thread
-        self.death_manager = DeathManager(self.screen)
-        self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
-        self.death_monitor_thread.daemon = True
-        self.death_monitor_thread.start()
-        self.game_recovery = GameRecovery(self.screen, self.death_manager)
+        self.setup_screen()
+        self.start_health_manager()
+        self.start_death_manager()
         self.game_stats = GameStats()
         self.game_controller_thread = threading.Thread(target=self.run_bot)
         self.game_controller_thread.daemon = False
@@ -118,6 +105,32 @@ class GameController:
         if self.bot_thread: kill_thread(self.bot_thread)
         if self.game_controller_thread: kill_thread(self.game_controller_thread)
         GameController.is_running = False
+       
+    def setup_screen(self):
+        # Check if we user should update the d2r settings
+        diff = check_settings(self._config)
+        if len(diff) > 0:
+            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
+            Logger.warning(f"{diff}")
+        self.screen = Screen(self._config.general["monitor"])
+        if self.screen.found_offsets:
+            return True
+        return False
+
+    def start_health_manager(self):
+        # Run health monitor thread
+        self.health_manager = HealthManager(self.screen)
+        self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
+        self.health_monitor_thread.daemon = True
+        self.health_monitor_thread.start()
+
+    def start_death_manager(self):
+        # Run death monitor thread
+        self.death_manager = DeathManager(self.screen)
+        self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
+        self.death_monitor_thread.daemon = True
+        self.death_monitor_thread.start()
+        self.game_recovery = GameRecovery(self.screen, self.death_manager)
 
     def toggle_pause_bot(self):
         if self.bot: self.bot.toggle_pause()

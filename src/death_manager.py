@@ -42,6 +42,7 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
+        time.sleep(1)
         template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
@@ -58,7 +59,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if self._template_finder.search("D2_LOGO_HS", self._screen.grab(), roi=self._config.ui_roi["hero_selection_logo"]).valid:
+            if self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")

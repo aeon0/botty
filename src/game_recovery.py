@@ -18,7 +18,6 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
-        time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         time.sleep(0.1)
@@ -31,12 +30,12 @@ class GameRecovery:
                 is_loading = self._template_finder.search("LOADING", self._screen.grab()).valid
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            found = self._template_finder.search_and_wait("D2_LOGO_HS", time_out=1, take_ss=False, roi=self._config.ui_roi["hero_selection_logo"]).valid
+            found = self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], time_out=1, roi=self._config.ui_roi["main_menu_top_left"]).valid
             if found:
-                offline_tab = self._template_finder.search(["OFFLINE_TAB","OFFLINE_TAB_DARK"], self._screen.grab(), roi=self._config.ui_roi["offline_tab"], threshold=0.8, best_match=True)
+                offline_tab = self._template_finder.search_and_wait(["OFFLINE_TAB","OFFLINE_TAB_DARK"], time_out=1, roi=self._config.ui_roi["offline_tab"], threshold=0.8)
                 if offline_tab.valid:
                     # x, y = self._screen.convert_screen_to_monitor(offline_tab)
-                    # can test other locations like below
+                    # Can test other locations like below
                     offline_width = self._config.ui_pos["offline_width"]
                     tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
                     x, y = self._screen.convert_screen_to_monitor(tab)
