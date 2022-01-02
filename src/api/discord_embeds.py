@@ -13,8 +13,6 @@ class DiscordEmbeds:
         file = None
         
         if msgData["type"] == "item":
-            
-            # if msgData["image"]:
             cv2.imwrite(f"./loot_screenshots/{msgData['item']}.png", msgData['image'])  
             file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename="image.png")
             e = discord.Embed(
@@ -48,9 +46,9 @@ class DiscordEmbeds:
         elif "set_" in item:
             return Color.green()
         elif "rune_" in item:
-            return Color.gold()
-        elif "uniq_" in item or "rare" in item:
             return Color.dark_gold()
+        elif "uniq_" in item or "rare" in item:
+            return Color.gold()
         elif "gray_" in item:
             return Color.darker_grey()
         else:
