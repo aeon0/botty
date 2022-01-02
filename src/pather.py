@@ -232,7 +232,7 @@ class Pather:
             (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
             (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
             (Location.A4_HALBU, Location.A4_JAMELLA): [164],        
-            # A3 Town0
+            # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
             (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
