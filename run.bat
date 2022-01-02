@@ -3,7 +3,7 @@ CLS
 :MENU
 ECHO.
 ECHO ...............................................
-ECHO PRESS 1, 2, 3, 4 or 5 select your task
+ECHO PRESS 1, 2, 3, 4 or 5 to select your task
 ECHO ...............................................
 ECHO.
 ECHO 1 - Install Env
