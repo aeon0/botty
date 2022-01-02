@@ -24,16 +24,16 @@ class GameRecovery:
         time.sleep(0.1)
         keyboard.release(self._config.char["show_items"])
         start = time.time()
-        while (time.time() - start) < 20:
+        while (time.time() - start) < 30:
             # make sure we are not on loading screen
             is_loading = True
             while is_loading:
                 is_loading = self._template_finder.search("LOADING", self._screen.grab()).valid
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            found = self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], time_out=1, roi=self._config.ui_roi["main_menu_top_left"]).valid
+            found = self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid
             if found:
-                offline_tab = self._template_finder.search_and_wait(["OFFLINE_TAB","OFFLINE_TAB_DARK"], time_out=1, roi=self._config.ui_roi["offline_tab"], threshold=0.8)
+                offline_tab = self._template_finder.search(["OFFLINE_TAB","OFFLINE_TAB_DARK"], self._screen.grab(), roi=self._config.ui_roi["offline_tab"], threshold=0.8)
                 if offline_tab.valid:
                     # x, y = self._screen.convert_screen_to_monitor(offline_tab)
                     # Can test other locations like below
@@ -49,9 +49,7 @@ class GameRecovery:
                 time.sleep(1)
                 continue
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
-            time.sleep(1)
-            templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"]
-            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85)
+            template_match = self._template_finder.search(["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"], self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85)
             if template_match.valid:
                 self._ui_manager.save_and_exit()
             else:
