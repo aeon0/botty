@@ -1,5 +1,6 @@
 from config import Config
 import cv2
+import datetime
 import discord
 from discord import Webhook, RequestsWebhookAdapter, Color
 
@@ -13,19 +14,25 @@ class DiscordEmbeds:
         
         if msgData["type"] == "item":
             
-            e = discord.Embed(title=f"{self._config.general['name']} found an item", description=f"{msgData['item']} at {msgData['location']}", color=self.get_Item_Color( msgData['item']))
             # if msgData["image"]:
             cv2.imwrite(f"./loot_screenshots/{msgData['item']}.png", msgData['image'])  
             file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename="image.png")
+            e = discord.Embed(
+                title=f"{msgData['item']} at {msgData['location']}", 
+                color=self.get_Item_Color( msgData['item']),
+                timestamp=datetime.datetime.now()
+            )
             e.set_image(url="attachment://image.png")
-        elif msgData["type"] == "death":
-            msg = f"{self._config.general['name']}: You have died at {msgData['location']}"
-            e = discord.Embed(title=f"{self._config.general['name']} has died", color=Color.dark_red())
-            e.add_field(name="Location", value=msgData['location'])
 
-        elif msgData["type"] == "chicken":
-            e = discord.Embed(title=f"{self._config.general['name']} has chickened", color=Color.dark_grey())
-            e.add_field(name="Location", value=msgData['location'])
+        elif msgData["type"] == "death":
+            file = discord.File(msgData['image_path'], filename="image.png")
+            e = discord.Embed(title=f"{self._config.general['name']} has died at {msgData['location']}", color=Color.dark_red())
+            e.set_image(url="attachment://image.png")
+
+        elif msgData["type"] == "chicken": 
+            file = discord.File(msgData['image_path'], filename="image.png")
+            e = discord.Embed(title=f"{self._config.general['name']} has chickened at {msgData['location']}", color=Color.dark_grey())
+            e.set_image(url="attachment://image.png")
 
         elif msgData["type"] == "message":
             e = discord.Embed(title=f"{self._config.general['name']} Update", description=f"```{msgData['message']}```", color=Color.dark_teal())

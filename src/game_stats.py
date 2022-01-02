@@ -48,21 +48,21 @@ class GameStats:
         if send_message:
             self._messenger.send({"type": "item", "item": item_name, "location": self._location, "image": img})
 
-    def log_death(self):
+    def log_death(self, img: str):
         self._death_counter += 1
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
             
-        self._messenger.send({"type": "death", "location": self._location})
+        self._messenger.send({"type": "death", "location": self._location, "image_path": img})
 
-    def log_chicken(self):
+    def log_chicken(self, img: str):
         self._chicken_counter += 1
         if self._location is not None:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
 
-        self._messenger.send({"type": "chicken", "location": self._location})
+        self._messenger.send({"type": "chicken", "location": self._location, "image_path": img})
 
     def log_merc_death(self):
         self._merc_death_counter += 1

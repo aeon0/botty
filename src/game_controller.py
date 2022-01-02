@@ -55,9 +55,9 @@ class GameController:
                     if self._config.general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
                 elif self.death_manager.died():
-                    self.game_stats.log_death()
+                    self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
-                    self.game_stats.log_chicken()
+                    self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection

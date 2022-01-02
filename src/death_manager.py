@@ -18,6 +18,7 @@ class DeathManager:
         self._do_monitor = False
         self._loop_delay = 1.0
         self._callback = None
+        self._last_death_screenshot = None
 
     def get_loop_delay(self):
         return self._loop_delay
@@ -42,9 +43,13 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        img = self._screen.grab()
+        template_match = self._template_finder.search("YOU_HAVE_DIED", img, threshold=0.9, roi=self._config.ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
+            if self._config.general["info_screenshots"]:
+                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+                cv2.imwrite(self._last_death_screenshot, img)
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if self._callback is not None:
                 self._callback()
