@@ -15,6 +15,9 @@ class ItemProps:
 
 class Config:
     def _select_val(self, section: str, key: str = None):
+        value_from_env = os.getenv(f'BOTTY_{section.upper()}_{key.upper() if key is not None else ""}')
+        if value_from_env is not None:
+            return value_from_env
         if section in self._custom and key in self._custom[section]:
             return self._custom[section][key]
         elif section in self._config:
