@@ -18,6 +18,8 @@ class Npc:
     ORMUS = "ormus"
     FARA = "fara"
     CAIN = "cain"
+    JAMELLA = "jamella"    
+    HALBU = "halbu" 
     DROGNAN = "drognan"
 
 class NpcManager:
@@ -115,6 +117,28 @@ class NpcManager:
                     }
                 },
                 "template_group": ["CAIN_0", "CAIN_1", "CAIN_2", "CAIN_3"]
+            },
+            Npc.JAMELLA: {
+                "name_tag_white": color_filter(self._template_finder.get_template("JAMELLA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("JAMELLA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3"]
+            },
+            Npc.HALBU: {
+                "name_tag_white": color_filter(self._template_finder.get_template("HALBU_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("HALBU_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade_repair": {
+                        "white": color_filter(self._template_finder.get_template("TRADE_REPAIR"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_REPAIR_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
             },
             Npc.DROGNAN: {
                 "name_tag_white": color_filter(self._template_finder.get_template("DROGNAN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
