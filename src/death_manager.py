@@ -42,7 +42,6 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        time.sleep(1)
         template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")

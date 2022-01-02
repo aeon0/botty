@@ -18,6 +18,7 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
+        time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         time.sleep(0.1)
@@ -50,7 +51,7 @@ class GameRecovery:
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
             time.sleep(1)
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"]
-            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.8)
+            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85)
             if template_match.valid:
                 self._ui_manager.save_and_exit()
             else:
