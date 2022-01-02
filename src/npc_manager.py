@@ -18,6 +18,7 @@ class Npc:
     ORMUS = "ormus"
     FARA = "fara"
     CAIN = "cain"
+    DROGNAN = "drognan"
 
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -114,6 +115,17 @@ class NpcManager:
                     }
                 },
                 "template_group": ["CAIN_0", "CAIN_1", "CAIN_2", "CAIN_3"]
+            },
+            Npc.DROGNAN: {
+                "name_tag_white": color_filter(self._template_finder.get_template("DROGNAN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("DROGNAN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["DROGNAN_FRONT", "DROGNAN_LEFT", "DROGNAN_RIGHT_SIDE"]
             }
         }
 
