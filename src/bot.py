@@ -98,6 +98,7 @@ class Bot:
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
+        self._ids_left = 0 # assume half full id book
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -251,13 +252,14 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
+        if self._tps_left < random.randint(2, 5) or self._ids_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
+            self._ids_left = 20
             wait(1.0)
 
         # Check if merc needs to be revived
@@ -298,6 +300,7 @@ class Bot:
         success = self._char.tp_town()
         if success:
             self._tps_left -= 1
+            self._ids_left -= 1
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")

@@ -2,6 +2,7 @@ import configparser
 import numpy as np
 import os
 import re
+import yaml
 from dataclasses import dataclass
 from logger import Logger
 
@@ -39,6 +40,7 @@ class Config:
         self._shop_config = configparser.ConfigParser()
         self._shop_config.read('config/shop.ini')
         self._custom = configparser.ConfigParser()
+        self.advanced_pickit_config = yaml.safe_load(open('config/advanced_pickit.yaml'))
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
             self._custom.read('config/custom.ini')
 

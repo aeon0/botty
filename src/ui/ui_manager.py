@@ -249,7 +249,7 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray,x_m=0, y_m=0) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
@@ -263,6 +263,59 @@ class UiManager():
         filtered_list = []
         for x in original_list:
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
+            #TODO
+            template_match = self._template_finder.search("UNIDENTIFIED", img, threshold=0.95)
+            if template_match.valid:
+                identified = False
+            else:
+                identified = True
+            Stash_global = True
+            advanced_props = self._config.advanced_pickit_config
+            if ("uniq" in x.name):
+                items = self._config.advanced_pickit_config['uniques']
+            elif ("magic" in x.name):
+                items = self._config.advanced_pickit_config['magics']
+            elif ("rare" in x.name):
+                items = self._config.advanced_pickit_config['rares']    
+            for item in items:
+                check_properties = False
+                Stash = True
+                for key, value in item.items():
+                    if x.name in key:
+                        Stash_global = False
+                        check_properties = True
+                        Logger.debug (print (key))
+                        Logger.debug (print (value))
+                        Logger.debug (f"found {x.name} in advanced item yaml-file")
+                    if not identified and check_properties:
+                        self.identify_item (img, x_m, y_m)
+                    if check_properties and value != None:
+                        try:
+                            if (key == "ethereal") and value == 0:
+                                prop = (str (1) + "_"+ key).upper()  
+                                template_match = self._template_finder.search(prop, img, threshold=0.95)
+                                if (not template_match.valid):
+                                    template_match.valid = True
+                            else:  
+                                prop = (str (value) + "_"+ key).upper()
+                                template_match = self._template_finder.search(prop, img, threshold=0.95)
+                        except:
+                            Logger.error(f"{x.name}: can't find template file for required, ignore just in case")
+                            template_match = lambda: None; template_match.valid = True
+                        if template_match.valid:
+                            Logger.debug (f"Valid property {key}: {value}") 
+                        else:
+                            Logger.debug (f"No valid property {key}: {value}")
+                            Stash = False
+                if Stash and check_properties:
+                    Logger.debug(f"{x.name}: Stashing")
+                    filtered_list.append(x)
+                    break    
+            if Stash_global:
+                Logger.debug(f"{x.name}: Stashing")
+                filtered_list.append(x)  
+                break  
+            '''
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
@@ -317,6 +370,7 @@ class UiManager():
             if include and not exclude:
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
+            '''
 
         return len(filtered_list) > 0
 
@@ -404,7 +458,7 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                if self._keep_item(item_finder, hovered_item):
+                if self._keep_item(item_finder, hovered_item, x_m, y_m):
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -527,6 +581,32 @@ class UiManager():
         tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
         if not tp_tome.valid:
             return False
+        #implement logic for rebuying ID-Tome
+        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not id_tome.valid:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(id_tome.position)
+        keyboard.send('ctrl', do_release=False)
+        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        wait(0.1, 0.15)
+        mouse.press(button="left")
+        wait(0.25, 0.35)
+        mouse.release(button="left")
+        wait(0.5, 0.6)
+        keyboard.send('ctrl', do_press=False)
+        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if not id_tome.valid:
+            return False
+        x, y = self._screen.convert_screen_to_monitor(id_tome.position)
+        keyboard.send('ctrl', do_release=False)
+        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        wait(0.1, 0.15)
+        mouse.click(button="right")
+        wait(0.1, 0.15)
+        keyboard.send('ctrl', do_press=False)
+        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        if not id_tome.valid:
+            return False
         return True
 
     def has_tps(self) -> bool:
@@ -601,6 +681,18 @@ class UiManager():
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
+    def identify_item (self, img, x_m, y_m):
+        tome_ID = self._template_finder.search("ID_TOME", img, threshold=0.95)
+        if tome_ID.valid:
+            x, y = self._screen.convert_screen_to_monitor(tome_ID.position)
+            mouse.move(640+x, y, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.click(button="right")
+            wait(0.9, 1.1)
+            mouse.move(x_m, y_m, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.click(button="left")
+            wait(0.9, 1.1)
+        else:
+            Logger.warning("Cant find ID Tome")
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
@@ -615,4 +707,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots(3, 4)
+    ui_manager.stash_all_items (5, item_finder)

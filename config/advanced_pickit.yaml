@@ -1,0 +1,71 @@
+#Advanced pickit to specify atributes that needs to be matched to stash items
+#All items needs to be selected in the pickit.ini
+#To use a any value just use 0
+#The following attributes are supported
+#sockets [0,1,2,3,4,5,6]
+#Life [0, 20]
+#Attackrating [0, 20]
+#magicfind [0, 7]
+#maximum_damage [0, 3]
+#strenght [0]
+#dexterity [0]
+#faster_cast_rate [0]
+#blessed_hammer [3]
+#bone_spear [3]
+#bone_spirit [3]
+#bow_skills [3]
+#ethereal [0, 1] 0 = non ethereal, 1 = ethereal
+#==================================================================#
+#<<<<<<<<<<<<<<<<<<<<<<<<<< MAGIC ITEMS >>>>>>>>>>>>>>>>>>>>>>>>>>>#
+#==================================================================#
+magics:
+- magic_monarch:
+  sockets: 4
+  ethereal: 0
+
+- magic_small_charm:
+  magicfind: 7
+  ethereal: 0
+
+- magic_small_charm:
+  Life: 20
+
+- magic_small_charm:
+  attack_rating: 20
+
+- magic_small_charm:
+  maximum_damage: 3
+  attack_rating: 20
+
+- magic_small_charm:
+  all_resistance: 5
+
+- magic_grand_charm:
+  Life: 20
+
+- magic_circlet:
+  ethereal: 0
+- magic_coronet:
+  ethereal: 0
+- magic_diadem:
+  ethereal: 0
+- magic_tiara:
+  ethereal: 0
+  
+#==================================================================#
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<< UNIQUES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
+#==================================================================#
+uniques:
+- uniq_weapon_eschuta_temper:
+  sorceress_skills: 3
+  lightning_damage: 15
+
+- uniq_weapon_eschuta_temper:
+  sorceress_skills: 2
+
+#==================================================================#
+#<<<<<<<<<<<<<<<<<<<<<<<<<<< RARE ITEMS >>>>>>>>>>>>>>>>>>>>>>>>>>>#
+#==================================================================#
+rares:
+- rare_circlet:
+  ethereal: 1
