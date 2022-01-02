@@ -7,7 +7,6 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from utils.custom_mouse import mouse
 
 
 class A3(IAct):
