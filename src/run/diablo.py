@@ -107,8 +107,8 @@ class Diablo:
             # return False
         self._pather.traverse_nodes([602], self._char, threshold=0.82)
         Logger.info("Calibrated at PENTAGRAM")
-        self._char.kill_cs_trash() # WiZ tuning
-        Logger.info("Pentagram clearing") # WiZ tuning
+        self._char.kill_cs_trash_pentagram() # WiZ tuning
+        Logger.info("Pentagram cleared") # WiZ tuning
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # WiZ tuning
         wait(0.2) # WiZ tuning
         return True
