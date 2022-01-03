@@ -139,8 +139,9 @@ class BlizzSorc(Sorceress):
         self.move(pos_m, force_move=True)
         wait(0.5)
         # Move to far left
-        self._pather.offset_node(301, (-80, -30))
+        self._pather.offset_node(301, (-80, -50))
         self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
+        self._pather.offset_node(301, (80, 50))
         # Attack to RIGHT
         self._blizzard((100, 150), spray=80)
         self._ice_blast((230, 230), spray=20)
