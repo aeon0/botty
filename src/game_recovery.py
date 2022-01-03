@@ -38,8 +38,8 @@ class GameRecovery:
                     if offline_tab.name == "OFFLINE_TAB_DARK":
                         #We need to press escape before clicking the tab
                         keyboard.send("esc")
-                    # x, y = self._screen.convert_screen_to_monitor(offline_tab)
-                    # Can test other locations like below
+                        time.sleep(0.2)
+                    # Right now it selects the tab to the left of offline
                     offline_width = self._config.ui_pos["offline_width"]
                     tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
                     x, y = self._screen.convert_screen_to_monitor(tab)

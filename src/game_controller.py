@@ -88,7 +88,11 @@ class GameController:
                     self.start_health_manager_thread()
                     self.start_death_manager_thread()
                     self.game_recovery = GameRecovery(self.screen, self.death_manager)
-                    self.run_bot(pick_corpse=True)
+                    return self.run_bot(True)
+            Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
+            if self._config.general["custom_message_hook"]:
+                messenger.send(msg=f"{self._config.general['name']}: got stuck and will now quit")
+            os.exit(1)
 
     def start(self):
         self.setup_screen()
