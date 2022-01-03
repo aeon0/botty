@@ -11,11 +11,11 @@ class IApi:
         self._send(msg)
         
     def send_death(self, location: str, image_path: str = None):
-        msg = f"You have died  at {location}"
+        msg = f"You have died at {location}"
         self._send(msg)
         
     def send_chicken(self, location: str, image_path: str = None):
-        msg = f"You have chickened  at {location}"
+        msg = f"You have chickened at {location}"
         self._send(msg)
         
     def send_stash(self):

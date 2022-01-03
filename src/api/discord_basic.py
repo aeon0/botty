@@ -1,31 +1,8 @@
 from .i_api import IApi
-from config import Config
 import json
-import numpy as np
 import requests
 
 class DiscordBasic(IApi):
-    def __init__(self):
-        self._config = Config()
-
-    def send_item(self, item: str, image:  np.ndarray, location: str):
-        super().send_item(item, image, location)
-        
-    def send_death(self, location, image_path):
-        super().send_death(location)
-        
-    def send_chicken(self, location, image_path):
-        super().send_chicken(location)
-        
-    def send_stash(self):
-        super().send_stash()
-
-    def send_gold(self):
-        super().send_gold()
-
-    def send_message(self, msg: str):
-        super().send_message(msg)
-
     def _send(self, msg: str):
         msg = self._advanced_colors(msg)
         url = self._config.general['custom_message_hook']
@@ -57,7 +34,3 @@ class DiscordBasic(IApi):
                 msg = f"```\\n{msg} \\n```"
         
         return msg
-
-if __name__ == "__main__":
-    generalApi = DiscordBasic()
-    generalApi.send(msg=f" uniq_test")
