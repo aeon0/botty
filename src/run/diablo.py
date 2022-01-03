@@ -107,7 +107,7 @@ class Diablo:
             # return False
         self._pather.traverse_nodes([602], self._char, threshold=0.82)
         Logger.info("Calibrated at PENTAGRAM")
-        self._char.kill_cs_trash_pentagram() # WiZ tuning
+        #self._char.kill_cs_trash_pentagram() # WiZ tuning
         Logger.info("Pentagram cleared") # WiZ tuning
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # WiZ tuning
         wait(0.2) # WiZ tuning
@@ -216,7 +216,7 @@ class Diablo:
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Seal Layout: " + seal_layout)
-        return false
+        return False
         ### CLEAR TRASH & APPROACH SEAL ###
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -239,7 +239,7 @@ class Diablo:
         seal_layout = "B2-U"
         Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        return false
+        return False
         ### CLEAR TRASH & APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_SEAL_MOUSEOVER"], seal_layout + "-Boss")
@@ -327,9 +327,9 @@ class Diablo:
             if not self._seal_A1(): return False  
         """
         # Seal B: De Seis (to the top)
-        if do_pre_buff: self._char.pre_buff()
-        self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([602], self._char): return False
+        #if do_pre_buff: self._char.pre_buff()
+        #self._char.kill_cs_trash()
+        #if not self._pather.traverse_nodes([602], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at B (De Seis)")
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -338,17 +338,17 @@ class Diablo:
             Logger.info("B1S Layout_check 1/2: B1S templates found")
             if not self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
                 Logger.info("B1S Layout_check 2/2: B2U templates NOT found - all fine, proceeding with B1S")
-            if not self._seal_B1(): 
-                Logger.info("B1S Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
-                return False
+                if not self._seal_B1(): return False
+            Logger.info("B1S Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
+                
 
         if not self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
             Logger.debug("B2U Layout_check 1/2: B1S templates NOT found")
             if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
                 Logger.debug("B2U Layout_check 2/2: B2U templates found - all fine, proceeding with B2U")
-                if not self._seal_B2(): 
-                    Logger.debug("B2U Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
-                    return False
+                if not self._seal_B2(): return False
+            Logger.debug("B2U Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
+                    
     
         # Seal C: Infector (to the right)
         if do_pre_buff: self._char.pre_buff()
