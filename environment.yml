@@ -20,3 +20,4 @@ dependencies:
     - graphviz
     - psutil
     - pywin32
+    - pillow

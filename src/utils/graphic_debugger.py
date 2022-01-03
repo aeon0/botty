@@ -8,6 +8,8 @@ from screen import Screen
 from item import ItemFinder
 from config import Config
 from template_finder import TemplateFinder
+import tkinter as tk
+from PIL import ImageTk, Image
 
 
 class GraphicDebuggerController:
@@ -33,6 +35,7 @@ class GraphicDebuggerController:
         self.lower_range = np.array([0, 0, 0])
         self.upper_range = np.array([179, 255, 255])
         self.stacked = None
+        self.app = None
 
     def start(self):
         self.item_finder = ItemFinder(self.config)
@@ -46,38 +49,57 @@ class GraphicDebuggerController:
         GraphicDebuggerController.is_running = True
 
     def stop(self):
+        if self.app: self.app.destroy()
         if self.debugger_thread: kill_thread(self.debugger_thread)
         if self.ui_thread: kill_thread(self.ui_thread)
         cv2.destroyAllWindows()
         GraphicDebuggerController.is_running = False
 
     def run_debgger_ui(self):
-        cv2.namedWindow(self.window_name_trackbars)
-        cv2.namedWindow(self.window_name_images)
-        # Now create 6 trackbars that will control the lower and upper range of H,S and V channels.
-        # The Arguments are like this: Name of trackbar, window name, range,callback function. For Hue the range is 0-179 and for S,V its 0-255.
-        cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        cv2.createTrackbar("H - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        while True:
-            # Get the new values of the trackbar in real time as the user changes them
-            cv2.pollKey()  # This is needed only to keep the gui work as it handles the HighGUI events
-            l_h = cv2.getTrackbarPos("H - Lower", self.window_name_trackbars)
-            l_s = cv2.getTrackbarPos("S - Lower", self.window_name_trackbars)
-            l_v = cv2.getTrackbarPos("V - Lower", self.window_name_trackbars)
-            u_h = cv2.getTrackbarPos("H - Upper", self.window_name_trackbars)
-            u_s = cv2.getTrackbarPos("S - Upper", self.window_name_trackbars)
-            u_v = cv2.getTrackbarPos("V - Upper", self.window_name_trackbars)
-            #self.ui_lock.acquire()
-            self.lower_range = np.array([l_h, l_s, l_v])
-            self.upper_range = np.array([u_h, u_s, u_v])
-            # The debugger has processed some stuff, display it in a separate window
-            if self.stacked is not None:
-                cv2.imshow(self.window_name_images, self.stacked)
-            #self.ui_lock.release()
+        self.app = tk.Tk()
+        self.app.title("Graphic Debugger - Layer Creator")
+        self.panel = None
+
+        self.app.mainloop()
+        # cv2.namedWindow(self.window_name_trackbars)
+        # cv2.namedWindow(self.window_name_images)
+        # # Now create 6 trackbars that will control the lower and upper range of H,S and V channels.
+        # # The Arguments are like this: Name of trackbar, window name, range,callback function. For Hue the range is 0-179 and for S,V its 0-255.
+        # cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
+        # cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
+        # cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
+        # cv2.createTrackbar("H - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
+        # cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
+        # cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
+        # while True:
+        #     # Get the new values of the trackbar in real time as the user changes them
+        #     cv2.pollKey()  # This is needed only to keep the gui work as it handles the HighGUI events
+        #     l_h = cv2.getTrackbarPos("H - Lower", self.window_name_trackbars)
+        #     l_s = cv2.getTrackbarPos("S - Lower", self.window_name_trackbars)
+        #     l_v = cv2.getTrackbarPos("V - Lower", self.window_name_trackbars)
+        #     u_h = cv2.getTrackbarPos("H - Upper", self.window_name_trackbars)
+        #     u_s = cv2.getTrackbarPos("S - Upper", self.window_name_trackbars)
+        #     u_v = cv2.getTrackbarPos("V - Upper", self.window_name_trackbars)
+        #     #self.ui_lock.acquire()
+        #     self.lower_range = np.array([l_h, l_s, l_v])
+        #     self.upper_range = np.array([u_h, u_s, u_v])
+        #     # The debugger has processed some stuff, display it in a separate window
+        #     if self.stacked is not None:
+        #         cv2.imshow(self.window_name_images, self.stacked)
+        #     #self.ui_lock.release()
+
+    def _add_image(self, img):
+        b, g, r = cv2.split(img)
+        im = Image.fromarray(cv2.merge((r, g, b)))
+        imgtk = ImageTk.PhotoImage(image=im)
+        if self.panel is None:
+            self.panel = tk.Label(self.app, image=imgtk)
+            self.panel.image = imgtk
+            self.panel.pack()
+        else:
+            self.panel.configure(image=imgtk)
+            self.panel.image = imgtk
+
 
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
@@ -138,6 +160,7 @@ class GraphicDebuggerController:
             #filtered_img
             # The processing was done in this thread, now pass it to the ui to display it on the window
             self.ui_lock.acquire()
+            self._add_image(comb_img)
             self.stacked = comb_img
             self.ui_lock.release()
             end_time = time.time()
