@@ -85,18 +85,18 @@ class GameController:
                 self.health_manager.reset_chicken_flag()
                 self.game_stats.log_end_game(failed=max_game_length_reached)
                 if self.setup_screen():
-                    self.start_health_manager()
-                    self.start_death_manager()
+                    self.start_health_manager_thread()
+                    self.start_death_manager_thread()
+                    self.game_recovery = GameRecovery(self.screen, self.death_manager)
                     self.run_bot(pick_corpse=True)
 
     def start(self):
         self.setup_screen()
-        self.start_health_manager()
-        self.start_death_manager()
+        self.start_health_manager_thread()
+        self.start_death_manager_thread()
+        self.game_recovery = GameRecovery(self.screen, self.death_manager)
         self.game_stats = GameStats()
-        self.game_controller_thread = threading.Thread(target=self.run_bot)
-        self.game_controller_thread.daemon = False
-        self.game_controller_thread.start()
+        self.start_game_controller_thread()
         GameController.is_running = True
 
     def stop(self):
@@ -117,20 +117,25 @@ class GameController:
             return True
         return False
 
-    def start_health_manager(self):
+    def start_health_manager_thread(self):
         # Run health monitor thread
         self.health_manager = HealthManager(self.screen)
         self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
-    def start_death_manager(self):
+    def start_death_manager_thread(self):
         # Run death monitor thread
         self.death_manager = DeathManager(self.screen)
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()
-        self.game_recovery = GameRecovery(self.screen, self.death_manager)
+
+    def start_game_controller_thread(self):
+        # Run game controller thread
+        self.game_controller_thread = threading.Thread(target=self.run_bot)
+        self.game_controller_thread.daemon = False
+        self.game_controller_thread.start()
 
     def toggle_pause_bot(self):
         if self.bot: self.bot.toggle_pause()
