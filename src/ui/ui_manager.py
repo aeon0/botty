@@ -315,12 +315,14 @@ class UiManager():
                     if Stash and check_properties:
                         Logger.debug(f"{x.name}: Stashing")
                         filtered_list.append(x)
-                        break    
+                        break 
+                '''  
                 if Stash_global:
                     Logger.debug(f"{x.name}: Stashing")
                     filtered_list.append(x)  
                     break
-            else:  
+                '''
+            if advanced_pickit == False or Stash_global:  
                 include_props = self._config.items[x.name].include
                 exclude_props = self._config.items[x.name].exclude
                 if not (include_props or exclude_props):
@@ -587,7 +589,7 @@ class UiManager():
         if not tp_tome.valid:
             return False
         #implement logic for rebuying ID-Tome
-        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        id_tome = self._template_finder.search_and_wait(["ID_TOME", "ID_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
         if not id_tome.valid:
             return False
         x, y = self._screen.convert_screen_to_monitor(id_tome.position)
@@ -631,6 +633,17 @@ class UiManager():
                 if self._config.general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return template_match.valid
+        else:
+            return False
+
+    def has_ids (self) -> bool:
+        if self._config.char["inventory_screen"]:
+            keyboard.send(self._config.char["inventory_screen"])
+            id_tome = self._template_finder.search_and_wait("ID_TOME_RED", roi=self._config.ui_roi["inventory"], time_out=3)
+            keyboard.send(self._config.char["inventory_screen"])
+            if (id_tome.valid):
+                return False
+            return True
         else:
             return False
 
