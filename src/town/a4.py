@@ -25,8 +25,7 @@ class A4(IAct):
     def can_heal(self) -> bool: return True
     def can_stash(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
-    
-    
+
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
             return False
@@ -47,20 +46,21 @@ class A4(IAct):
         if success:
             return Location.A4_TOWN_START
         return False
-        
+
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char): return False
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A4_TYRAEL_STASH
-        return False        
-        
+        return False
+
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
-        self._npc_manager.open_npc_menu(Npc.JAMELLA)
-        self._npc_manager.press_npc_btn(Npc.JAMELLA, "trade")
-        return Location.A4_JAMELLA        
-        
+        if self._npc_manager.open_npc_menu(Npc.JAMELLA):
+            self._npc_manager.press_npc_btn(Npc.JAMELLA, "trade")
+            return Location.A4_JAMELLA
+        return False
+
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char):
             return False
@@ -72,15 +72,17 @@ class A4(IAct):
             return found
         if not self._char.select_by_template(["A4_TOWN_2"], stash_is_open_func):
             return False
-        return Location.A4_TYRAEL_STASH      
+        return Location.A4_TYRAEL_STASH
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
-        self._npc_manager.open_npc_menu(Npc.JAMELLA)
-        return Location.A4_JAMELLA
-        
+        if self._npc_manager.open_npc_menu(Npc.JAMELLA):
+            return Location.A4_JAMELLA
+        return False
+
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_HALBU), self._char): return False
-        self._npc_manager.open_npc_menu(Npc.HALBU)
-        self._npc_manager.press_npc_btn(Npc.HALBU, "trade_repair")
-        return Location.A4_HALBU        
+        if self._npc_manager.open_npc_menu(Npc.HALBU):
+            self._npc_manager.press_npc_btn(Npc.HALBU, "trade_repair")
+            return Location.A4_HALBU
+        return False
