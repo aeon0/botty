@@ -46,7 +46,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send({"type": "item", "item": item_name, "location": self._location, "image": img})
+            self._messenger.send_item(item_name, img, self._location)
 
     def log_death(self, img: str):
         self._death_counter += 1
@@ -54,7 +54,7 @@ class GameStats:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
             
-        self._messenger.send({"type": "death", "location": self._location, "image_path": img})
+        self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
         self._chicken_counter += 1
@@ -62,7 +62,7 @@ class GameStats:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
 
-        self._messenger.send({"type": "chicken", "location": self._location, "image_path": img})
+        self._messenger.send_chicken(self._location, img)
 
     def log_merc_death(self):
         self._merc_death_counter += 1
@@ -126,11 +126,7 @@ class GameStats:
             avg_length = good_games_time / float(good_games_count)
             avg_length_str = hms(avg_length)
 
-        msg = inspect.cleandoc(f'''
-            Session length: {elapsed_time_str}
-            Games: {self._game_counter}
-            Avg Game Length: {avg_length_str}
-        ''')
+        msg = f'\nSession length: {elapsed_time_str}\nGames: {self._game_counter}\nAvg Game Length: {avg_length_str}'
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
@@ -158,8 +154,8 @@ class GameStats:
         return msg
 
     def _send_status_update(self):
-        msg = f"{self._config.general['name']}: Status Report\\n{self._create_msg()}\\nVersion: {__version__}"
-        self._messenger.send({"type": "message", "message": msg})
+        msg = f"{self._config.general['name']}: Status Report\n{self._create_msg()}\nVersion: {__version__}"
+        self._messenger.send_message(msg)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()

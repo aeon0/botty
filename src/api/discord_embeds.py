@@ -68,7 +68,7 @@ class DiscordEmbeds(IApi):
 
     def _send_embed(self, e, file = None):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
-        e.timestamp=datetime.datetime.today()
+        e.timestamp=datetime.datetime.now(datetime.timezone.utc)
 
         self._webhook.send(embed=e, file=file, username=self._config.general['name'])
 

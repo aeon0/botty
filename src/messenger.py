@@ -35,9 +35,14 @@ class Messenger:
 
 if __name__ == "__main__":
     messenger = Messenger()
-    msgData = {}
-    msgData["type"] = "item"
-    msgData["item"] = "uniq_test"
-    # msgData["image"] = img
-    msgData["location"] = "Shenk"
-    messenger.send(msgData)
+
+    item = "rune_test"
+    image = None
+    location = "Shenk"
+
+    # messenger.send_item(item, img, location)
+    # messenger.send_death(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    # messenger.send_chicken(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    messenger.send_stash()
+    messenger.send_gold()
+    messenger.send_message("This is a test message")
