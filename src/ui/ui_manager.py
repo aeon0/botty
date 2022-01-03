@@ -725,4 +725,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.stash_all_items (5, item_finder)
+    ui_manager.buy_pots (3, 4)
