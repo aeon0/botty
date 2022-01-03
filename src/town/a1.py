@@ -38,9 +38,13 @@ class A1(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_SOUTH), self._char): return False
         wait(0.5, 0.7)
+        if not self._char._template_finder.search("A1_WP", self._screen.grab()).valid:
+            curr_loc = Location.A1_WP_SOUTH
+            if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char): return False
+            wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
-        return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62, telekinesis=True)
+        return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 
     def wait_for_tp(self) -> Union[Location, bool]:
         success = self._template_finder.search_and_wait(["A1_TOWN_0", "A1_TOWN_1", "A1_TOWN_3"], time_out=20).valid
