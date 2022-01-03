@@ -3,7 +3,6 @@ import os
 from beautifultable import BeautifulTable
 import logging
 import traceback
-import mouse as _mouse
 
 from game_controller import GameController
 from utils.misc import set_d2_always_on_top
