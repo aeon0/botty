@@ -29,9 +29,6 @@ class Npc:
     LARZUK = "larzuk"
     ANYA = "anya"
 
-
-
-
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()

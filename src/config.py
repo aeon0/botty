@@ -165,9 +165,13 @@ class Config:
 
         self.items = {}
         for key in self._pickit_config["items"]:
-            self.items[key] = self.parse_item_config_string(key)
-            if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            try:
+                self.items[key] = self.parse_item_config_string(key)
+                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+                    print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            except ValueError as e:
+                if self._print_warnings:
+                    print(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
         for key in self._game_config["colors"]:
