@@ -21,8 +21,7 @@ def set_d2_always_on_top():
         EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
         for w in windows_list:
             if w[1] == "Diablo II: Resurrected":
-                r = SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
-                if r:
+                if SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE):
                     print('Successfully set D2R window to be always on top')
     else:
         print('OS not supported, unable to set D2R always on top')
