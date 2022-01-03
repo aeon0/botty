@@ -162,6 +162,7 @@ class Config:
             "message_headers": self._select_val("advanced_options", "message_headers"),
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
+            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
         }
 
         self.items = {}
@@ -197,6 +198,7 @@ class Config:
             "shop_2_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_2_skills_ias_gloves"))),
             "trap_min_score": int(self._select_val("claws", "trap_min_score")),
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
+            "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
         }
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
