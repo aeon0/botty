@@ -1,10 +1,8 @@
-from death_manager import DeathManager
 from screen import Screen
 from template_finder import TemplateFinder
 from config import Config
 from death_manager import DeathManager
 from ui import UiManager
-import keyboard
 import time
 
 
