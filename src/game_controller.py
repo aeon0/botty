@@ -77,7 +77,7 @@ class GameController:
             Logger.error(
                 f"{self._config.general['name']} could not recover from a max game length violation. Shutting down everything.")
             if self._config.general["custom_message_hook"]:
-                messenger.send(msg=f"{self._config.general['name']}: got stuck and can not resume")
+                messenger.send({"type": "message", "message": "Got stuck and can not resume"})
             os._exit(1)
 
     def start(self):

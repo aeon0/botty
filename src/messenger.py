@@ -30,4 +30,9 @@ class Messenger:
 
 if __name__ == "__main__":
     messenger = Messenger()
-    messenger.send(msg=f" uniq_test")
+    msgData = {}
+    msgData["type"] = "item"
+    msgData["item"] = "uniq_test"
+    # msgData["image"] = img
+    msgData["location"] = "Shenk"
+    messenger.send(msgData)

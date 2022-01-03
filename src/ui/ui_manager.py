@@ -391,7 +391,7 @@ class UiManager():
                         msg = "All stash tabs and character are full of gold, turn of gold pickup"
                         Logger.info(msg)
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                            self._messenger.send({"type": "message", "message": msg})
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -453,7 +453,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                    self._messenger.send({"type": "message", "message": "All stash is full, quitting"})
                 os._exit(1)
             else:
                 # move to next stash
