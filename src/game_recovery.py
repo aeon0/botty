@@ -1,11 +1,11 @@
-from death_manager import DeathManager
 from screen import Screen
 from template_finder import TemplateFinder
 from config import Config
 from death_manager import DeathManager
 from ui import UiManager
-import keyboard
 import time
+
+from utils.misc import set_d2r_always_on_top
 
 
 class GameRecovery:
@@ -17,6 +17,8 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
+        if config.advanced_options['d2r_windows_always_on_top']:
+            set_d2r_always_on_top()
         time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
