@@ -8,10 +8,21 @@ from typing import List, Tuple
 import os
 from math import cos, sin, dist
 import subprocess
+from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE
+from win32gui import GetWindowText, SetWindowPos, EnumWindows
 
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
+
+def set_d2_always_on_top():
+    windows_list = []
+    EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
+    for w in windows_list:
+        if w[1] == "Diablo II: Resurrected":
+            r = SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
+            if r:
+                print('Successfully set D2R window to be always on top')
 
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:

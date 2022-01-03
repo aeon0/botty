@@ -3,10 +3,10 @@ import os
 from beautifultable import BeautifulTable
 import logging
 import traceback
-from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE
-from win32gui import GetWindowText, SetWindowPos, EnumWindows
+import mouse as _mouse
 
 from game_controller import GameController
+from utils.misc import set_d2_always_on_top
 from version import __version__
 from utils.graphic_debugger import GraphicDebuggerController
 from utils.auto_settings import adjust_settings, backup_settings, restore_settings_from_backup
@@ -42,13 +42,7 @@ def start_or_stop_graphic_debugger():
 
 
 def main():
-    windows_list = []
-    EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
-    for w in windows_list:
-        if w[1] == "Diablo II: Resurrected":
-            r = SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
-            if r:
-                print('Successfully set D2R window to be always on top')
+    set_d2_always_on_top()
 
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
