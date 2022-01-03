@@ -92,7 +92,7 @@ class GameController:
             Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
             if self._config.general["custom_message_hook"]:
                 messenger.send(msg=f"{self._config.general['name']}: got stuck and will now quit")
-            os.exit(1)
+            os._exit(1)
 
     def start(self):
         if self._config.advanced_options['d2r_windows_always_on_top']:
