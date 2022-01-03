@@ -4,6 +4,7 @@ from config import Config
 from death_manager import DeathManager
 from ui import UiManager
 import time
+import keyboard
 
 from utils.misc import set_d2r_always_on_top
 
