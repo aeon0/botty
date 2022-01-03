@@ -29,7 +29,7 @@ from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
-from town import TownManager, A2, A3, A4, A5
+from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
@@ -71,7 +71,8 @@ class Bot:
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a2, a3, a4, a5)
+        a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
