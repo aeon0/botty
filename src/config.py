@@ -168,6 +168,7 @@ class Config:
             "message_headers": self._select_val("advanced_options", "message_headers"),
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
+            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
         }
 
         self.items = {}
