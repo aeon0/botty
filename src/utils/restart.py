@@ -31,13 +31,17 @@ def restart_game(d2_path = None):
         keyboard.send("space")
         wait(0.5, 1.0)    
     success = False
+    attempts = 0
     while not success:
         screen = Screen(config.general["monitor"],wait = 5)
         success = screen.found_offsets
         if not success:
             keyboard.send("space")
-            wait(0.2, 0.4) 
-    return success
+            wait(0.2, 0.4)
+            attempts+=1
+        if attempts >= 5:
+            return False
+    return True
 
 def main():
     if len(sys.argv) > 1:
