@@ -117,7 +117,7 @@ class Diablo:
         found = False
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"] 
         start_time = time.time()
-        while not found and time.time() - start_time < 7: #reduced to 7 from 10
+        while not found and time.time() - start_time < 10: # the number 10 is crucial here, sometimes we dont arrive at pentagram if we get hit. esp. from A1L - the path seems longest.
             found = self._template_finder.search_and_wait(templates, threshold=0.7, time_out=0.1).valid #reduced threshold from 0.82
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
@@ -149,10 +149,10 @@ class Diablo:
                 else:
                     # do a little random hop & try to click the seal
                     direction = 1 if i % 2 == 0 else -1
-                    x_m, y_m = self._screen.convert_abs_to_monitor([50 * direction, 50 * direction])
+                    x_m, y_m = self._screen.convert_abs_to_monitor([50 * direction, direction]) #50 *  removed the Y component
                     self._char.move((x_m, y_m), force_move=True) # might need rework: we never want to end up BELOW the seal (any curse on our head will obscure the template check)
                 i += 1
-        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/failed_seal_{seal_layout}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/_failed_seal_{seal_layout}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
     def _seal_A1(self) -> bool:
@@ -216,6 +216,7 @@ class Diablo:
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Seal Layout: " + seal_layout)
+        return false
         ### CLEAR TRASH & APPROACH SEAL ###
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -238,6 +239,7 @@ class Diablo:
         seal_layout = "B2-U"
         Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        return false
         ### CLEAR TRASH & APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_SEAL_MOUSEOVER"], seal_layout + "-Boss")
@@ -281,7 +283,7 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_C2(self) -> bool: #could make sense to change seal pop order - if infector dies, all mobs die immediatly
+    def _seal_C2(self) -> bool: #could make sense to change seal pop order - if infector dies, all mobs die immediatly, on the other hand if infector does not die at his spawn, we have a 2nd chance getting him with sealdance() at fake seal
         seal_layout = "C2-G"
         Logger.info("Seal Layout: " + seal_layout)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -311,7 +313,7 @@ class Diablo:
         if not self._river_of_flames(): return False
         # if self._config.routes["diablo_clear_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it [...] continuing without trash")
         if not self._cs_pentagram(): return False
-
+        """
         # Seal A: Vizier (to the left)
         #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in right order
         if not self._pather.traverse_nodes([602], self._char): return False
@@ -323,7 +325,7 @@ class Diablo:
             if not self._seal_A2(): return False
         else:
             if not self._seal_A1(): return False  
-
+        """
         # Seal B: De Seis (to the top)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash()
@@ -331,11 +333,23 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         Logger.debug("Checking Layout at B (De Seis)")
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        
         if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
-            if not self._seal_B1(): return False
-        else:
-            if not self._seal_B2(): return False
+            Logger.info("B1S Layout_check 1/2: B1S templates found")
+            if not self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+                Logger.info("B1S Layout_check 2/2: B2U templates NOT found - all fine, proceeding with B1S")
+            if not self._seal_B1(): 
+                Logger.info("B1S Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
+                return False
 
+        if not self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
+            Logger.debug("B2U Layout_check 1/2: B1S templates NOT found")
+            if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+                Logger.debug("B2U Layout_check 2/2: B2U templates found - all fine, proceeding with B2U")
+                if not self._seal_B2(): 
+                    Logger.debug("B2U Layout_check: Failed to determine the right Layout at B (De Seis) - shutting down")
+                    return False
+    
         # Seal C: Infector (to the right)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash()
