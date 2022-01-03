@@ -1,32 +1,37 @@
 from dataclasses import dataclass
 from config import Config
-import threading
+import numpy as np
 
-from api import GenericApi
-from api import DiscordEmbeds
+from api.discord_basic import DiscordBasic
+from api.discord_embeds import DiscordEmbeds
 
 class Messenger:
     def __init__(self):
         self._config = Config()
-
-    def _send(self, msgData):
         if self._config.general["message_api_type"] == "generic":
-            message_api = GenericApi()
+            self._message_api = DiscordBasic()
         elif self._config.general["message_api_type"] == "discord":
-            message_api = DiscordEmbeds()
+            self._message_api = DiscordEmbeds()
         else:
-            return
+            self._message_api = None
+
+    def send_item(self, item: str, image:  np.ndarray, location: str):
+        self._message_api.send_item(item, image, location)
         
-        message_api.send(msgData)
+    def send_death(self, location: str, image_path: str = None):
+        self._message_api.send_death(location, image_path)
         
-    def send(self, msgData):
-        if self._config.general["custom_message_hook"]:
-            send_message_thread = threading.Thread(
-                target=self._send,
-                kwargs={"msgData": msgData}
-            )
-            send_message_thread.daemon = True
-            send_message_thread.start()
+    def send_chicken(self, location: str, image_path: str = None):
+        self._message_api.send_chicken(location, image_path)
+        
+    def send_stash(self):
+        self._message_api.send_stash()
+
+    def send_gold(self):
+        self._message_api.send_gold()
+
+    def send_message(self, msg: str):
+        self._message_api.send_message(msg)
 
 if __name__ == "__main__":
     messenger = Messenger()

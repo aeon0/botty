@@ -1,71 +1,78 @@
+from api.i_api import IApi
 from config import Config
 import cv2
 import datetime
 import discord
 from version import __version__
+import numpy as np
 from discord import Webhook, RequestsWebhookAdapter, Color
 
-class DiscordEmbeds:
+class DiscordEmbeds(IApi):
     def __init__(self):
         self._config = Config()
-        
-    def send(self, msgData):       
-        webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
-        file = None
-        psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
-        
-        if msgData["type"] == "item":
-            imgName = msgData['item'].replace('_', '-')
+        self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
+        self._file = None
+        self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
 
-            cv2.imwrite(f"./loot_screenshots/{msgData['item']}.png", msgData['image'])  
-            file = discord.File(f"./loot_screenshots/{msgData['item']}.png", filename=f"{imgName}.png")
-            e = discord.Embed(
-                title="Item Stashed!",
-                description=f"{msgData['item']}", 
-                color=self.get_Item_Color( msgData['item']),
-            )
-            e.set_thumbnail(url=f"{psnURL}41L6bd712.png")
-            e.set_image(url=f"attachment://{imgName}.png")
+    def send_item(self, item: str, image:  np.ndarray, location: str):
+        imgName = item.replace('_', '-')
 
-        elif msgData["type"] == "death":
-            file = discord.File(msgData['image_path'], filename="death.png")
-            e = discord.Embed(title=f"{self._config.general['name']} has died at {msgData['location']}", color=Color.dark_red())
-            e.title=(f"{self._config.general['name']} died")
-            e.description=(f"Died at {msgData['location']}")
-            e.set_thumbnail(url=f"{psnURL}33L5e3600.png")
-            e.set_image(url="attachment://death.png")
+        cv2.imwrite(f"./loot_screenshots/{item}.png", image)
+        file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
+        e = discord.Embed(
+            title="Item Stashed!",
+            description=f"{item}",
+            color=self._get_Item_Color( item),
+        )
+        e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
+        e.set_image(url=f"attachment://{imgName}.png")
+        self._send_embed(e, file)
 
-        elif msgData["type"] == "chicken": 
-            file = discord.File(msgData['image_path'], filename="chicken.png")
-            e = discord.Embed(title=f"{self._config.general['name']} has chickened at {msgData['location']}", color=Color.dark_grey())
-            e.title=(f"{self._config.general['name']} ran away")
-            e.description=(f"chickened at {msgData['location']}")  
-            e.set_thumbnail(url=f"{psnURL}39Ldf113b.png")
-            e.set_image(url="attachment://chicken.png")
+    def send_death(self, location, image_path):
+        file = discord.File(image_path, filename="death.png")
+        e = discord.Embed(title=f"{self._config.general['name']} has died at {location}", color=Color.dark_red())
+        e.title=(f"{self._config.general['name']} died")
+        e.description=(f"Died at {location}")
+        e.set_thumbnail(url=f"{self._psnURL}33L5e3600.png")
+        e.set_image(url="attachment://death.png")
+        self._send_embed(e, file)
 
-        elif msgData["type"] == "gold": 
-            e = discord.Embed(title=f"{self._config.general['name']} is rich!", color=Color.dark_grey())
-            e.title=(f"{self._config.general['name']} is Rich!")
-            e.description=(f"{self._config.general['name']} can't store any more money!\n turning off gold pickup.")  
-            e.set_thumbnail(url=f"{psnURL}6L341955.png")
+    def send_chicken(self, location, image_path):
+        file = discord.File(image_path, filename="chicken.png")
+        e = discord.Embed(title=f"{self._config.general['name']} has chickened at {location}", color=Color.dark_grey())
+        e.title=(f"{self._config.general['name']} ran away")
+        e.description=(f"chickened at {location}")
+        e.set_thumbnail(url=f"{self._psnURL}39Ldf113b.png")
+        e.set_image(url="attachment://chicken.png")
+        self._send_embed(e, file)
 
-        elif msgData["type"] == "stash": 
-            e = discord.Embed(title=f"{self._config.general['name']} has a full stash!", color=Color.dark_grey())
-            e.title=(f"{self._config.general['name']} has a full stash!")
-            e.description=(f"{self._config.general['name']} has to quit. \n They cannot store anymore items!")  
-            e.set_thumbnail(url=f"{psnURL}35L63a9df.png")
+    def send_stash(self):
+        e = discord.Embed(title=f"{self._config.general['name']} has a full stash!", color=Color.dark_grey())
+        e.title=(f"{self._config.general['name']} has a full stash!")
+        e.description=(f"{self._config.general['name']} has to quit. \n They cannot store anymore items!")
+        e.set_thumbnail(url=f"{self._psnURL}35L63a9df.png")
+        self._send_embed(e)
 
-        else: #msgData["type"] == "message":
-            e = discord.Embed(title=f"Update:", description=f"```{msgData['message']}```", color=Color.dark_teal())
-            if not self._config.general['discord_status_condensed']:
-                e.set_thumbnail(url=f"{psnURL}36L4a4994.png")
-            
+    def send_gold(self):
+        e = discord.Embed(title=f"{self._config.general['name']} is rich!", color=Color.dark_grey())
+        e.title=(f"{self._config.general['name']} is Rich!")
+        e.description=(f"{self._config.general['name']} can't store any more money!\n turning off gold pickup.")
+        e.set_thumbnail(url=f"{self._psnURL}6L341955.png")
+        self._send_embed(e)
+
+    def send_message(self, msg: str):
+        e = discord.Embed(title=f"Update:", description=f"```{msg}```", color=Color.dark_teal())
+        if not self._config.general['discord_status_condensed']:
+            e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")
+        self._send_embed(e)
+
+    def _send_embed(self, e, file = None):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
         e.timestamp=datetime.datetime.today()
-        
-        webhook.send(embed=e, file=file, username=self._config.general['name'])
 
-    def get_Item_Color(self, item):
+        self._webhook.send(embed=e, file=file, username=self._config.general['name'])
+
+    def _get_Item_Color(self, item):
         if "magic_" in item:
             return Color.blue()
         elif "set_" in item:
