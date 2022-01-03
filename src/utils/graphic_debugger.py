@@ -94,13 +94,22 @@ class GraphicDebuggerController:
 
             img = self.screen.grab()
             # Convert the BGR image to HSV image.
-            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2XYZ)
+            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
             # Filter the image and get the binary mask
             self.ui_lock.acquire()
-            mask = cv2.inRange(hsv, self.lower_range, self.upper_range)
+            #mask = cv2.inRange(hsv, self.lower_range, self.upper_range)
+            filters = [
+                [np.array([17,109,97]),np.array([23,128,123])],
+                [np.array([0,0,87]),np.array([64,24,111])],
+                [np.array([95,42,135]),np.array([109,82,190])]
+            ]
+            comb_img = np.zeros(img.shape, dtype="uint8")
+            for filter in filters:
+                mask, filtered_img = color_filter(img, filter)
+                comb_img = cv2.bitwise_or(filtered_img, comb_img)
             self.ui_lock.release()
-            filtered_img = cv2.bitwise_and(img, img, mask=mask)
+            #filtered_img = cv2.bitwise_and(img, img, mask=mask)
 
             # Show item detections
             # combined_img = np.zeros(img.shape, dtype="uint8")
@@ -129,7 +138,7 @@ class GraphicDebuggerController:
             #filtered_img
             # The processing was done in this thread, now pass it to the ui to display it on the window
             self.ui_lock.acquire()
-            self.stacked = filtered_img
+            self.stacked = comb_img
             self.ui_lock.release()
             end_time = time.time()
 
