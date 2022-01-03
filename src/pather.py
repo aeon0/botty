@@ -498,7 +498,7 @@ if __name__ == "__main__":
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
-            #print(template_scores)
+            print(template_scores)
             print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
@@ -534,11 +534,12 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
-    display_all_nodes(pather, "DIA_A1L2")
+    #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
-    #xedisplay_all_nodes(pather, "DIA_C2G")
+    #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
+    display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
 
     # # changing node pos and generating new code
     # code = ""
@@ -568,18 +569,11 @@ if __name__ == "__main__":
     #pather.traverse_nodes([600], char)
     #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
     #pather.traverse_nodes([601], char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear1", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear2", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear3", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear4", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear5", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear6", char)
-    #pather.traverse_nodes_fixed("diablo_chaos_clear7", char)
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
 
     # NEW A1L
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_a_layout", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes([610], char) # departure
     #pather.traverse_nodes([611], char) # approach
     #pather.traverse_nodes([612], char) # seal boss far
