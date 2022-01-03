@@ -74,7 +74,7 @@ class A5(IAct):
 
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char): return False
-        wait(0.2, 0.5)
+        wait(0.5, 0.7)
         found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
