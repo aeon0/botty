@@ -20,7 +20,7 @@ class A3(IAct):
 
     def get_wp_location(self) -> Location: return Location.A3_STASH_WP
     def can_buy_pots(self) -> bool: return True
-    def can_identify(self) -> bool: return True    
+    def can_identify(self) -> bool: return True
     def can_heal(self) -> bool: return True
     def can_stash(self) -> bool: return True
 
@@ -31,9 +31,10 @@ class A3(IAct):
 
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
-        self._npc_manager.open_npc_menu(Npc.ORMUS)
-        self._npc_manager.press_npc_btn(Npc.ORMUS, "trade")
-        return Location.A3_ORMUS
+        if self._npc_manager.open_npc_menu(Npc.ORMUS):
+            self._npc_manager.press_npc_btn(Npc.ORMUS, "trade")
+            return Location.A3_ORMUS
+        return False
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True):

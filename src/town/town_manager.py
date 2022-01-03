@@ -47,10 +47,8 @@ class TownManager:
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1",
-            "A2_TOWN_0", "A2_TOWN_1",
-            "A2_TOWN_10", "A1_TOWN_0", 
-            "A1_TOWN_1"
-            
+            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
+            "A1_TOWN_0", "A1_TOWN_1"
         ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
@@ -74,7 +72,7 @@ class TownManager:
         elif act_idx == 2: act = Location.A2_TOWN_START
         elif act_idx == 3: act = Location.A3_TOWN_START
         elif act_idx == 4: act = Location.A4_TOWN_START
-        elif act_idx == 5: act = Location.A5_TOWN_START        
+        elif act_idx == 5: act = Location.A5_TOWN_START
         else:
             Logger.error(f"Act {act_idx} is not supported")
             return False

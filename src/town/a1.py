@@ -25,8 +25,7 @@ class A1(IAct):
     def can_heal(self) -> bool: return True
     def can_stash(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
-    
-    
+
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_KASHYA_CAIN), self._char, force_move=True):
             return False
@@ -51,20 +50,20 @@ class A1(IAct):
         if success:
             return Location.A1_TOWN_START
         return False
-        
+
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_KASHYA_CAIN), self._char): return False
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A1_KASHYA_CAIN
-        return False        
-        
+        return False
+
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_AKARA), self._char, force_move=True): return False
         self._npc_manager.open_npc_menu(Npc.AKARA)
         self._npc_manager.press_npc_btn(Npc.AKARA, "trade")
-        return Location.A1_AKARA        
-        
+        return Location.A1_AKARA
+
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_STASH), self._char):
             return False
@@ -76,15 +75,15 @@ class A1(IAct):
             return found
         if not self._char.select_by_template(["A1_TOWN_0"], stash_is_open_func):
             return False
-        return Location.A1_STASH      
+        return Location.A1_STASH
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_AKARA), self._char, force_move=True): return False
         self._npc_manager.open_npc_menu(Npc.AKARA)
         return Location.A1_AKARA
-        
+
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_CHARSI), self._char): return False
         self._npc_manager.open_npc_menu(Npc.CHARSI)
         self._npc_manager.press_npc_btn(Npc.CHARSI, "trade_repair")
-        return Location.A1_CHARSI        
+        return Location.A1_CHARSI
