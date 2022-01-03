@@ -14,6 +14,10 @@ class GenericApi:
             msg = f"{self._config.general['name']}: You have died at {msgData['location']}"
         elif msgData["type"] == "chicken":
             msg = f"{self._config.general['name']}: You have chickened at {msgData['location']}"
+        elif msgData["type"] == "gold":
+            msg = f"{self._config.general['name']}: All stash tabs and character are full of gold, turn of gold pickup"
+        elif msgData["type"] == "stash":
+            msg = f"{self._config.general['name']}: All stash is full, quitting"
         elif msgData["type"] == "message":
             msg = msgData['message']
 

@@ -388,10 +388,9 @@ class UiManager():
                         self._config.items["misc_gold"].pickit_type = 0
                         item_finder.update_items_to_pick(self._config)
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                        Logger.info(msg)
+                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send({"type": "message", "message": msg})
+                            self._messenger.send({"type": "gold"})
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -453,7 +452,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send({"type": "message", "message": "All stash is full, quitting"})
+                    self._messenger.send({"type": "stash"})
                 os._exit(1)
             else:
                 # move to next stash
