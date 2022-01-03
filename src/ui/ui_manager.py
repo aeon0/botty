@@ -270,107 +270,112 @@ class UiManager():
             else:
                 identified = True
             Stash_global = True
-            advanced_props = self._config.advanced_pickit_config
             if ("uniq" in x.name):
                 items = self._config.advanced_pickit_config['uniques']
+                advanced_pickit = True
             elif ("magic" in x.name):
                 items = self._config.advanced_pickit_config['magics']
+                advanced_pickit = True
             elif ("rare" in x.name):
-                items = self._config.advanced_pickit_config['rares']    
-            for item in items:
-                check_properties = False
-                Stash = True
-                for key, value in item.items():
-                    if x.name in key:
-                        Stash_global = False
-                        check_properties = True
-                        Logger.debug (print (key))
-                        Logger.debug (print (value))
-                        Logger.debug (f"found {x.name} in advanced item yaml-file")
-                    if not identified and check_properties:
-                        self.identify_item (img, x_m, y_m)
-                    if check_properties and value != None:
-                        try:
-                            if (key == "ethereal") and value == 0:
-                                prop = (str (1) + "_"+ key).upper()  
-                                template_match = self._template_finder.search(prop, img, threshold=0.95)
-                                if (not template_match.valid):
-                                    template_match.valid = True
-                            else:  
-                                prop = (str (value) + "_"+ key).upper()
-                                template_match = self._template_finder.search(prop, img, threshold=0.95)
-                        except:
-                            Logger.error(f"{x.name}: can't find template file for required, ignore just in case")
-                            template_match = lambda: None; template_match.valid = True
-                        if template_match.valid:
-                            Logger.debug (f"Valid property {key}: {value}") 
-                        else:
-                            Logger.debug (f"No valid property {key}: {value}")
-                            Stash = False
-                if Stash and check_properties:
+                items = self._config.advanced_pickit_config['rares']
+                advanced_pickit = True
+            else:
+                advanced_pickit = False
+            if advanced_pickit:    
+                for item in items:
+                    check_properties = False
+                    Stash = True
+                    for key, value in item.items():
+                        if x.name in key:
+                            Stash_global = False
+                            check_properties = True
+                            Logger.debug (print (key))
+                            Logger.debug (print (value))
+                            Logger.debug (f"found {x.name} in advanced item yaml-file")
+                        if not identified and check_properties:
+                            self.identify_item (img, x_m, y_m)
+                        if check_properties and value != None:
+                            try:
+                                if (key == "ethereal") and value == 0:
+                                    prop = (str (1) + "_"+ key).upper()  
+                                    template_match = self._template_finder.search(prop, img, threshold=0.95)
+                                    if (not template_match.valid):
+                                        template_match.valid = True
+                                else:  
+                                    prop = (str (value) + "_"+ key).upper()
+                                    template_match = self._template_finder.search(prop, img, threshold=0.95)
+                            except:
+                                Logger.error(f"{x.name}: can't find template file for required, ignore just in case")
+                                template_match = lambda: None; template_match.valid = True
+                            if template_match.valid:
+                                Logger.debug (f"Valid property {key}: {value}") 
+                            else:
+                                Logger.debug (f"No valid property {key}: {value}")
+                                Stash = False
+                    if Stash and check_properties:
+                        Logger.debug(f"{x.name}: Stashing")
+                        filtered_list.append(x)
+                        break    
+                if Stash_global:
+                    Logger.debug(f"{x.name}: Stashing")
+                    filtered_list.append(x)  
+                    break
+            else:  
+                include_props = self._config.items[x.name].include
+                exclude_props = self._config.items[x.name].exclude
+                if not (include_props or exclude_props):
                     Logger.debug(f"{x.name}: Stashing")
                     filtered_list.append(x)
-                    break    
-            if Stash_global:
-                Logger.debug(f"{x.name}: Stashing")
-                filtered_list.append(x)  
-                break  
-            '''
-            include_props = self._config.items[x.name].include
-            exclude_props = self._config.items[x.name].exclude
-            if not (include_props or exclude_props):
-                Logger.debug(f"{x.name}: Stashing")
-                filtered_list.append(x)
-                continue
-            include = True
-            include_logic_type = self._config.items[x.name].include_type
-            if include_props:
-                include = False
-                found_props=[]
-                for prop in include_props:
-                    try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.95)
-                    except:
-                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                        template_match = lambda: None; template_match.valid = True
-                    if template_match.valid:
-                        if include_logic_type == "AND":
-                            found_props.append(True)
+                    continue
+                include = True
+                include_logic_type = self._config.items[x.name].include_type
+                if include_props:
+                    include = False
+                    found_props=[]
+                    for prop in include_props:
+                        try:
+                            template_match = self._template_finder.search(prop, img, threshold=0.95)
+                        except:
+                            Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                            template_match = lambda: None; template_match.valid = True
+                        if template_match.valid:
+                            if include_logic_type == "AND":
+                                found_props.append(True)
+                            else:
+                                include = True
+                                break
                         else:
-                            include = True
-                            break
-                    else:
-                        found_props.append(False)
-                if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
-                    include = True
-            if not include:
-                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
-                continue
-            exclude = False
-            exclude_logic_type = self._config.items[x.name].exclude_type
-            if exclude_props:
-                found_props=[]
-                for prop in exclude_props:
-                    try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.97)
-                    except:
-                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
-                        template_match = lambda: None; template_match.valid = False
-                    if template_match.valid:
-                        if exclude_logic_type == "AND":
-                            found_props.append(True)
+                            found_props.append(False)
+                    if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
+                        include = True
+                if not include:
+                    Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                    continue
+                exclude = False
+                exclude_logic_type = self._config.items[x.name].exclude_type
+                if exclude_props:
+                    found_props=[]
+                    for prop in exclude_props:
+                        try:
+                            template_match = self._template_finder.search(prop, img, threshold=0.97)
+                        except:
+                            Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
+                            template_match = lambda: None; template_match.valid = False
+                        if template_match.valid:
+                            if exclude_logic_type == "AND":
+                                found_props.append(True)
+                            else:
+                                exclude = True
+                                break
                         else:
-                            exclude = True
-                            break
-                    else:
-                        found_props.append(False)
-                if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
-                    exclude = True
-                    break
-            if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                filtered_list.append(x)
-            '''
+                            found_props.append(False)
+                    if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                        exclude = True
+                        break
+                if include and not exclude:
+                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                    filtered_list.append(x)
+                
 
         return len(filtered_list) > 0
 
