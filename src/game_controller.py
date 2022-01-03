@@ -80,9 +80,6 @@ class GameController:
             if self._config.general["custom_message_hook"]:
                 messenger.send(msg=f"{self._config.general['name']}: got stuck and will now restart D2R")
             if restart_game(self._config.general["d2r_path"]):
-                # Reset flags before running a new bot
-                self.death_manager.reset_death_flag()
-                self.health_manager.reset_chicken_flag()
                 self.game_stats.log_end_game(failed=max_game_length_reached)
                 if self.setup_screen():
                     self.start_health_manager_thread()
