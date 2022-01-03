@@ -330,12 +330,12 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
         Logger.info("Checking Layout at A (Vizier)")
-        self._char.kill_cs_trash()
+        #self._char.kill_cs_trash() # this attack sequence increases layout check consistency
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #We check for A2Y templates first, they are more distinct
         if not self._template_finder.search_and_wait(["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], threshold=0.8, time_out=0.5).valid:
             Logger.info("A1L Layout_check step 1/2: A2Y templates NOT found")
-            if not self._template_finder.search_and_wait(["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"], threshold=0.87, time_out=0.5).valid:
+            if not self._template_finder.search_and_wait(["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"], threshold=0.8, time_out=0.5).valid:
                 Logger.info("A1L Layout_check step 2/2: Failed to determine the right Layout at A (Vizier) - aborting run")
                 return False
             else:
@@ -343,7 +343,7 @@ class Diablo:
                 if not self._seal_A1(): return False
         else:
             Logger.debug("A2Y Layout_check step 1/2: A2Y templates found")
-            if not self._template_finder.search_and_wait(["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"], threshold=0.87, time_out=0.5).valid:
+            if not self._template_finder.search_and_wait(["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"], threshold=0.8, time_out=0.5).valid:
                 Logger.debug("A2Y Layout_check step 2/2: A1L templates NOT found - all fine, proceeding with A2Y")
                 if not self._seal_A2(): return False
             else:
@@ -358,9 +358,9 @@ class Diablo:
         Logger.debug("Checking Layout at B (De Seis)")
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #We check for B1S templates first, they are more distinct
-        if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.87, time_out=0.5).valid:
+        if self._template_finder.search_and_wait(["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], threshold=0.8, time_out=0.5).valid:
             Logger.info("B1S Layout_check step 1/2: B1S templates found")
-            if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+            if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid:
                 Logger.info("B1S Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
                 return False
             else:
@@ -368,7 +368,7 @@ class Diablo:
                 if not self._seal_B1(): return False
         else:
             Logger.debug("B2U Layout_check step 1/2: B1S templates NOT found")
-            if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.87, time_out=0.5).valid:
+            if self._template_finder.search_and_wait(["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid:
                 Logger.debug("B2U Layout_check step 2/2: B2U templates found - all fine, proceeding with B2U")
                 if not self._seal_B2(): return False
             else:
@@ -383,10 +383,22 @@ class Diablo:
         Logger.debug("Checking Layout at C (Infector)")
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #We check for C1F templates first, they are more distinct
-        if self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4"], threshold=0.85, time_out=0.5).valid:
-            if not self._seal_C2(): return False
+        if not self._template_finder.search_and_wait(["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"], threshold=0.8, time_out=0.5).valid:
+            Logger.info("C1F Layout_check step 1/2: C2G templates NOT found")
+            if not self._template_finder.search_and_wait(["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"], threshold=0.8, time_out=0.5).valid:
+                Logger.info("C1F Layout_check step 2/2: Failed to determine the right Layout at C (Infector) - aborting run")
+                return False
+            else:
+                Logger.info("C1F Layout_check step 2/2: C1F templates found - all fine, proceeding with C1F")
+                if not self._seal_C1(): return False
         else:
-            if not self._seal_C1(): return False
+            Logger.debug("C2G Layout_check step 1/2: C2G templates found")
+            if not self._template_finder.search_and_wait(["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"], threshold=0.8, time_out=0.5).valid:
+                Logger.debug("C2G Layout_check step 2/2: C1F templates NOT found - all fine, proceeding with C2G")
+                if not self._seal_C2(): return False
+            else:
+                Logger.debug("C2G Layout_check step 2/2: Failed to determine the right Layout at C (Infector) - aborting run")
+                return False
 
         # Diablo
         Logger.info("Waiting for Diablo to spawn") # we could add a check here, if we take damage: if yes, one of the sealbosses is still alive (otherwise all demons would have died when the last seal was popped)
