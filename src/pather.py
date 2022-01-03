@@ -47,12 +47,21 @@ class Location:
     A3_ORMUS = "a3_ormus"
     A3_STASH_WP = "a3_stash_wp"
     A3_ASHEARA = "a3_asheara"
+    # A2 Town
+    A2_TOWN_START = "a2_town_start"
+    A2_WP = "a2_wp"
+    A2_TP = "a2_tp"
+    A2_FARA_STASH = "a2_fara_stash"
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
     # Nihalatk
     A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
+    # Arcane
+    A2_ARC_START = "a2_arc_start"
+    A2_ARC_CHECKPOINT = "a2_arc_checkpoint"
+    A2_ARC_END = "a2_arc_end"
     # Chaos Sanctuary (a = vizier, b = deseis, c = infector)
     A4_DIABLO_WP = "a4_diablo_wp"
     A4_DIABLO_START = "a4_diablo_start"
@@ -62,7 +71,6 @@ class Location:
     A4_DIABLO_B_LAYOUTCHECK = "a4_diablo_b_layoutcheck"
     A4_DIABLO_C_LAYOUTCHECK = "a4_diablo_c_layoutcheck"
     A4_DIABLO_END = "a4_diablo_end"
-
 
 class Pather:
     """
@@ -137,6 +145,15 @@ class Pather:
             190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            # A2 town
+            400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
+            401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
+            402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
+            403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
+            404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
+            405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
+            406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
+            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -153,6 +170,13 @@ class Pather:
             301: {"TRAV_V3_7": (63, -113), "TRAV_V3_6": (55, 77), "TRAV_V3_0": (-27, -315), "TRAV_V3_5": (-450, -175), "TRAV_V3_8": (329, -188)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
+            # Arcane
+            450: {"ARC_START": (49, 62)},
+            453: {"ARC_START": (-259, 62)},
+            456: {"ARC_START": (145, 264)},
+            459: {"ARC_START": (-356, 258)},
+            461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-272, 200), "ARC_CENTER_2": (67, 41), "ARC_END_STAIRS": (76, -344), "ARC_END_STAIRS_2": (60, -160)},
+            462: {"ARC_PLATFORM_1": (0, -100), "ARC_PLATFORM_2": (50, -100), "ARC_PLATFORM_3": (70, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -242,10 +266,11 @@ class Pather:
             (Location.A5_WP, Location.A5_STASH): [],
             (Location.A5_WP, Location.A5_LARZUK): [13, 14],
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
+            (Location.A5_WP, Location.A5_QUAL_KEHK): [6, 10, 11, 12],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
             (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
-            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],          
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
@@ -273,7 +298,7 @@ class Pather:
             (Location.A4_JAMELLA, Location.A4_HALBU): [165],              
             (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
             (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
-            (Location.A4_HALBU, Location.A4_JAMELLA): [164],   
+            (Location.A4_HALBU, Location.A4_JAMELLA): [164],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
@@ -282,6 +307,12 @@ class Pather:
             (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
+            # A2 Town
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
             # Diablo Chaos Sanctuary
@@ -308,7 +339,7 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar):
+    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
             error_msg = "Teleport is requiered for static pathing"
             Logger.error(error_msg)
@@ -319,6 +350,7 @@ class Pather:
         else:
             path = key
         i = 0
+        stuck_count = 0
         while i < len(path):
             x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
@@ -334,9 +366,13 @@ class Pather:
             if score > 0.15:
                 i += 1
             else:
+                stuck_count += 1
                 Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score:.4f})")
+                if stuck_count >= 5:
+                    return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -457,7 +493,7 @@ class Pather:
                             Logger.error("Got stuck exit pather")
                         return False
 
-                # Sometimes we get stuck at rocks and stuff, after 2.5 seconds force a move into the last know direction
+                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last know direction
                 if not did_force_move and time.time() - last_move > 3.1:
                     pos_abs = (0, 150)
                     if last_direction is not None:
@@ -532,6 +568,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
+
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
@@ -540,6 +577,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
+
 
     # # changing node pos and generating new code
     # code = ""
@@ -692,5 +730,3 @@ if __name__ == "__main__":
     #pather.traverse_nodes([660], char) # approach
     #pather.traverse_nodes_fixed("dia_c2g_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
-
-

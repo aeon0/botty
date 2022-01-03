@@ -117,7 +117,7 @@ if __name__ == "__main__":
                 p1 = (x, y)
                 p2 = (x+w, y+h)
                 cv2.rectangle(test_img, p1, p2, (0, 255, 0), 2)
-                cv2.putText(test_img, roi_key, (p1[0], p1[1]+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(test_img, roi_key, (p1[0], p1[1]+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
         if show_pt:
             pass

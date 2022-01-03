@@ -42,7 +42,8 @@ class IChar:
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
         time_out: float = 8,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        telekinesis: bool = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it
@@ -163,7 +164,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(self._char_config["battle_command"])
             wait(0.1, 0.19)
-            if self._ui_manager.is_right_skill_selected(["BC"]):
+            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
 
@@ -192,7 +193,6 @@ class IChar:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
 
-
     def pre_buff(self):
         pass
 
@@ -210,6 +210,9 @@ class IChar:
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
+    
+    def kill_summoner(self) -> bool:
+        raise ValueError("Arcane is not implemented!")
 
     def kill_diablo(self) -> bool:
         raise ValueError("Diablo is not implemented!")

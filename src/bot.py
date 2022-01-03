@@ -28,8 +28,8 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-from run import Pindle, ShenkEld, Trav, Nihlatak, Diablo
-from town import TownManager, A3, A4, A5
+from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
+from town import TownManager, A2, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
@@ -43,10 +43,10 @@ class Bot:
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder(self._config)
-        self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
@@ -70,7 +70,8 @@ class Bot:
         a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a3, a4, a5)
+        a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -83,6 +84,7 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
+            "run_arcane": self._route_config["run_arcane"],
             "run_diablo": self._route_config["run_diablo"],
         }
         # Adapt order to the config
@@ -95,6 +97,7 @@ class Bot:
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
@@ -110,7 +113,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'diablo']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -120,10 +123,10 @@ class Bot:
             { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
             { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
-            { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'diablo', 'before': "on_run_diablo"},
+            { 'trigger': 'run_diablo','run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'diablo', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -261,7 +264,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(2, 5) or need_repair or self._config.char["always_repair"]:
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
@@ -364,6 +367,16 @@ class Bot:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
+    def on_run_arcane(self):
+        res = False
+        self._do_runs["run_arcane"] = False
+        self._game_stats.update_location("Arc" if self._config.general['discord_status_condensed'] else "Arcane")
+        self._curr_loc = self._arcane.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._arcane.battle(not self._pre_buffed)
+        self._tps_left -= self._arcane.used_tps
+        self._ending_run_helper(res)
+        
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False

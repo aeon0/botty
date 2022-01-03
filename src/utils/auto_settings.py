@@ -1,27 +1,20 @@
 import json
 import os
+import shutil
+
 from config import Config
 from mss import mss
 from utils.misc import close_down_d2
 
 
-def adjust_settings():
-    close_down_d2()
-    # You might not belive it, but there are cases where users press f9 and just dont read any console output and think everything is done
-    # so for now, removing this warning as it seems there has never been anybody actually backing up the original settings anyway...
-    # print("Warning: This will overwrite some of your graphics and gameplay settings. D2R must not be running during this action! Continue with Enter...")
-    # input()
-    # find monitor res
-    config = Config()
-    sct = mss()
-    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
-    if len(sct.monitors) == 1:
-        print("How do you not have a monitor connected?!")
-        os._exit(1)
-    if monitor_idx >= len(sct.monitors):
-        monitor_idx = 1
-    # Get D2r folder
-    # try to find pre-set D2r folder
+def get_d2r_folder(config: Config) -> str:
+    """
+    Get D2r folder
+    try to find pre-set D2r folder
+    :param config: the general config possibly containing 'saved_games_folder'
+    :return: the D2r folder full path
+    """
+
     d2_saved_games = config.general["saved_games_folder"]
     if not d2_saved_games:
         # assign default value for en-us Windows users
@@ -31,6 +24,42 @@ def adjust_settings():
         d2_saved_games = input()
     if not os.path.exists(d2_saved_games):
         assert(f"Could not find D2R Saved Games at {d2_saved_games}")
+    return d2_saved_games
+
+
+def backup_settings(config: Config):
+    d2_saved_games = get_d2r_folder(config)
+    if os.path.exists(d2_saved_games + "\\Settings_backup.json"):
+        r = input("Backup file already exist, are you sure you want to overwrite it? [y] to confirm")
+        if r == 'y':
+            shutil.copyfile(d2_saved_games + "\\Settings.json", d2_saved_games + "\\Settings_backup.json")
+            print("Settings backed up successfully.")
+    else:
+        shutil.copyfile(d2_saved_games + "\\Settings.json", d2_saved_games + "\\Settings_backup.json")
+        print("Settings backed up successfully.")
+
+
+def restore_settings_from_backup(config: Config):
+    d2_saved_games = get_d2r_folder(config)
+    if os.path.exists(d2_saved_games + "\\Settings_backup.json"):
+        close_down_d2()
+        shutil.copyfile(d2_saved_games + "\\Settings_backup.json", d2_saved_games + "\\Settings.json")
+        print("Settings restored successfully.")
+    else:
+        print("No backup was found, couldn't restore settings.")
+
+
+def adjust_settings(config: Config):
+    close_down_d2()
+    # find monitor res
+    sct = mss()
+    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
+    if len(sct.monitors) == 1:
+        print("How do you not have a monitor connected?!")
+        os._exit(1)
+    if monitor_idx >= len(sct.monitors):
+        monitor_idx = 1
+    d2_saved_games = get_d2r_folder(config)
     # adjust settings
     f = open(d2_saved_games + "\\Settings.json")
     curr_settings = json.load(f)
@@ -45,8 +74,28 @@ def adjust_settings():
     # write back to settings.json
     with open(d2_saved_games + "\\Settings.json", 'w') as outfile:
         json.dump(curr_settings, outfile)
-    print("Adapted settings succesfully. You can now restart D2r and botty.")
+    print("Adapted settings succesfully. You can now restart D2R.")
 
+def check_settings(config: Config) -> dict:
+    # find monitor res
+    sct = mss()
+    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
+    if len(sct.monitors) == 1:
+        print("How do you not have a monitor connected?!")
+        os._exit(1)
+    if monitor_idx >= len(sct.monitors):
+        monitor_idx = 1
+    d2_saved_games = get_d2r_folder(config)
+    # adjust settings
+    f = open(d2_saved_games + "\\Settings.json")
+    curr_settings = json.load(f)
+    f = open("assets/d2r_settings.json")
+    new_settings = json.load(f)
+    diff_settings = {}
+    for key in new_settings:
+        if key != "Window Mode" and curr_settings[key] != new_settings[key]:
+            diff_settings[key] = [curr_settings[key], new_settings[key]]
+    return diff_settings
 
 if __name__ == "__main__":
     adjust_settings()
