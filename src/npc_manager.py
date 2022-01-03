@@ -10,17 +10,25 @@ from utils.custom_mouse import mouse
 
 
 class Npc:
+    #A1
+    KASHYA = "kashya" 
+    CHARSI = "charsi"    
+    AKARA = "akara" 
+    CAIN = "cain"    
+    #A2
+    FARA = "fara"
+    #A3
+    ORMUS = "ormus"
+    #A4
+    TYRAEL = "tyrael"
+    JAMELLA = "jamella"    
+    HALBU = "halbu" 
+    #A5
     QUAL_KEHK = "qual_kehk"
     MALAH = "malah"
     LARZUK = "larzuk"
     ANYA = "anya"
-    TYRAEL = "tyrael"
-    ORMUS = "ormus"
-    FARA = "fara"
-    CAIN = "cain"
-    JAMELLA = "jamella"    
-    HALBU = "halbu" 
-    
+
 class NpcManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
@@ -139,6 +147,40 @@ class NpcManager:
                 },
                 "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
             },            
+            #A1
+            Npc.AKARA: {
+                "name_tag_white": color_filter(self._template_finder.get_template("AKARA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("AKARA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["AKARA_FRONT", "AKARA_BACK", "AKARA_SIDE", "AKARA_SIDE_2"]
+            },
+            Npc.CHARSI: {
+                "name_tag_white": color_filter(self._template_finder.get_template("CHARSI_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("CHARSI_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade_repair": {
+                        "white": color_filter(self._template_finder.get_template("TRADE_REPAIR"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_REPAIR_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["CHARSI_FRONT", "CHARSI_BACK", "CHARSI_SIDE", "CHARSI_SIDE_2", "CHARSI_SIDE_3"]
+            },    
+            Npc.KASHYA: {
+                "name_tag_white": color_filter(self._template_finder.get_template("KASHYA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("KASHYA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "resurrect": {
+                        "white": color_filter(self._template_finder.get_template("RESURRECT"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("RESURRECT_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["KASHYA_FRONT", "KASHYA_BACK", "KASHYA_SIDE", "KASHYA_SIDE_2"]
+            },                     
         }
 
     def open_npc_menu(self, npc_key: Npc) -> bool:
