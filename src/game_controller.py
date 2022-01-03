@@ -2,9 +2,9 @@ import os
 import threading
 import time
 
-import keyboard
 from cv2 import cv2
 
+from utils.auto_settings import check_settings
 from bot import Bot
 from config import Config
 from death_manager import DeathManager
@@ -14,7 +14,7 @@ from health_manager import HealthManager
 from logger import Logger
 from messenger import Messenger
 from screen import Screen
-from utils.misc import kill_thread
+from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
 
 class GameController:
@@ -81,6 +81,13 @@ class GameController:
             os._exit(1)
 
     def start(self):
+        if self._config.advanced_options['d2r_windows_always_on_top']:
+            set_d2r_always_on_top()
+        # Check if we user should update the d2r settings
+        diff = check_settings(self._config)
+        if len(diff) > 0:
+            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
+            Logger.warning(f"{diff}")
         self.screen = Screen(self._config.general["monitor"])
         # Run health monitor thread
         self.health_manager = HealthManager(self.screen)
@@ -100,6 +107,8 @@ class GameController:
         GameController.is_running = True
 
     def stop(self):
+        if self._config.advanced_options['d2r_windows_always_on_top']:
+            restore_d2r_window_visibility()
         if self.death_monitor_thread: kill_thread(self.death_monitor_thread)
         if self.health_monitor_thread: kill_thread(self.health_monitor_thread)
         if self.bot_thread: kill_thread(self.bot_thread)
