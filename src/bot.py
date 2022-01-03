@@ -214,7 +214,7 @@ class Bot:
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
-            time.sleep(0.6)
+            time.sleep(1.6)
             DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
