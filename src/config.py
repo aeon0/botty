@@ -104,13 +104,15 @@ class Config:
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
-            "id_items": bool(int(self._select_val("char", "ID_items"))),
+            "id_items": bool(int(self._select_val("char", "id_items"))),
+            "open_chests": bool(int(self._select_val("char", "open_chests"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
+            "atk_len_arc": float(self._select_val("char", "atk_len_arc")),
             "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
@@ -163,9 +165,13 @@ class Config:
 
         self.items = {}
         for key in self._pickit_config["items"]:
-            self.items[key] = self.parse_item_config_string(key)
-            if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            try:
+                self.items[key] = self.parse_item_config_string(key)
+                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+                    print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            except ValueError as e:
+                if self._print_warnings:
+                    print(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
         for key in self._game_config["colors"]:

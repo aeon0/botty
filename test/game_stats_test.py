@@ -16,10 +16,10 @@ class TestGameStats:
         ("some_potion", False),
         ("super_healing_potion", False),
     ])
-    def test_log_item_pickup(self, item_name: str, item_should_be_added: bool):
+    def test_log_item_keep(self, item_name: str, item_should_be_added: bool):
         self.game_stats.update_location("test_location")
         previous_item_count = len(self.game_stats._location_stats["test_location"]["items"])
-        self.game_stats.log_item_pickup(item_name, send_message=False)
+        self.game_stats.log_item_keep(item_name, send_message=False)
         new_item_count = len(self.game_stats._location_stats["test_location"]["items"])
         item_was_added = previous_item_count < new_item_count
         assert(item_was_added == item_should_be_added)
