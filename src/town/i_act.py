@@ -1,6 +1,7 @@
 from typing import Union
 from pather import Location
 
+
 class IAct:
     # Open waypoint menu
     def open_wp(self, curr_loc: Location) -> bool: return False
