@@ -17,7 +17,7 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
-        if config.advanced_options['d2r_windows_always_on_top']:
+        if self._config.advanced_options['d2r_windows_always_on_top']:
             set_d2r_always_on_top()
         time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
