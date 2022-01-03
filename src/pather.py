@@ -276,7 +276,7 @@ class Pather:
             (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [700],
             (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
             (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
-            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702, 703],
+            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
             (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
             #from the stash to where?
             (Location.A1_STASH, Location.A1_KASHYA_CAIN): [701, 700],
@@ -302,6 +302,7 @@ class Pather:
             (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
             (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
             (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],                                 
+            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
