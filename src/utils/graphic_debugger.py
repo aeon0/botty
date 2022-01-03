@@ -56,10 +56,10 @@ class GraphicDebuggerController:
         cv2.namedWindow(self.window_name_images)
         # Now create 6 trackbars that will control the lower and upper range of H,S and V channels.
         # The Arguments are like this: Name of trackbar, window name, range,callback function. For Hue the range is 0-179 and for S,V its 0-255.
-        cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 179, lambda x: None)
+        cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
         cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
         cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        cv2.createTrackbar("H - Upper", self.window_name_trackbars, 179, 179, lambda x: None)
+        cv2.createTrackbar("H - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
         cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
         cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
         while True:
@@ -71,13 +71,13 @@ class GraphicDebuggerController:
             u_h = cv2.getTrackbarPos("H - Upper", self.window_name_trackbars)
             u_s = cv2.getTrackbarPos("S - Upper", self.window_name_trackbars)
             u_v = cv2.getTrackbarPos("V - Upper", self.window_name_trackbars)
-            self.ui_lock.acquire()
+            #self.ui_lock.acquire()
             self.lower_range = np.array([l_h, l_s, l_v])
             self.upper_range = np.array([u_h, u_s, u_v])
             # The debugger has processed some stuff, display it in a separate window
             if self.stacked is not None:
                 cv2.imshow(self.window_name_images, self.stacked)
-            self.ui_lock.release()
+            #self.ui_lock.release()
 
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
@@ -94,7 +94,7 @@ class GraphicDebuggerController:
 
             img = self.screen.grab()
             # Convert the BGR image to HSV image.
-            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2XYZ)
 
             # Filter the image and get the binary mask
             self.ui_lock.acquire()
@@ -103,32 +103,33 @@ class GraphicDebuggerController:
             filtered_img = cv2.bitwise_and(img, img, mask=mask)
 
             # Show item detections
-            combined_img = np.zeros(img.shape, dtype="uint8")
-            for key in self.config.colors:
-                _, filterd_img = color_filter(img, self.config.colors[key])
-                combined_img = cv2.bitwise_or(filterd_img, combined_img)
-            item_list = self.item_finder.search(img)
-            for item in item_list:
-                cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
-                cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            if len(item_list) > 0:
-                print(item_list)
-            # Show Town A5 template matches
-            scores = {}
-            for template_name in search_templates:
-                template_match = self.template_finder.search(template_name, img, threshold=0.65)
-                if template_match.valid:
-                    scores[template_match.name] = template_match.score
-                    cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                    cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
-            if len(scores) > 0:
-                print(scores)
+            # combined_img = np.zeros(img.shape, dtype="uint8")
+            # for key in self.config.colors:
+            #     _, filterd_img = color_filter(img, self.config.colors[key])
+            #     combined_img = cv2.bitwise_or(filterd_img, combined_img)
+            # item_list = self.item_finder.search(img)
+            # for item in item_list:
+            #     cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
+            #     cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+            # if len(item_list) > 0:
+            #     print(item_list)
+            # # Show Town A5 template matches
+            # scores = {}
+            # for template_name in search_templates:
+            #     template_match = self.template_finder.search(template_name, img, threshold=0.65)
+            #     if template_match.valid:
+            #         scores[template_match.name] = template_match.score
+            #         cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            #         cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
+            # if len(scores) > 0:
+            #     print(scores)
 
             # stack the combined image and the filtered result
-            stacked = cv2.resize(np.hstack((combined_img, filtered_img)), None, fx=0.4, fy=0.4)
+            #stacked = cv2.resize(np.hstack((combined_img, filtered_img)), None, fx=0.4, fy=0.4)
+            #filtered_img
             # The processing was done in this thread, now pass it to the ui to display it on the window
             self.ui_lock.acquire()
-            self.stacked = stacked
+            self.stacked = filtered_img
             self.ui_lock.release()
             end_time = time.time()
 
@@ -141,10 +142,10 @@ if __name__ == "__main__":
     # H,S and V channels. The Arguments are like this: Name of trackbar,
     # window name, range,callback function. For Hue the range is 0-179 and
     # for S,V its 0-255.
-    cv2.createTrackbar("H - Lower", "window_name", 0, 179, lambda x: None)
+    cv2.createTrackbar("H - Lower", "window_name", 0, 255, lambda x: None)
     cv2.createTrackbar("S - Lower", "window_name", 0, 255, lambda x: None)
     cv2.createTrackbar("V - Lower", "window_name", 0, 255, lambda x: None)
-    cv2.createTrackbar("H - Upper", "window_name", 179, 179, lambda x: None)
+    cv2.createTrackbar("H - Upper", "window_name", 255, 255, lambda x: None)
     cv2.createTrackbar("S - Upper", "window_name", 255, 255, lambda x: None)
     cv2.createTrackbar("V - Upper", "window_name", 255, 255, lambda x: None)
     debugger = GraphicDebuggerController(Config())
