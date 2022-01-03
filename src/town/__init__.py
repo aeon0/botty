@@ -1,3 +1,4 @@
+from .a2 import A2
 from .a3 import A3
 from .a4 import A4
 from .a5 import A5
