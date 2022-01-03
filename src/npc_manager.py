@@ -11,17 +11,18 @@ from utils.custom_mouse import mouse
 
 class Npc:
     #A1
-    KASHYA = "kashya" 
-    CHARSI = "charsi"    
-    AKARA = "akara" 
-    CAIN = "cain"    
+    KASHYA = "kashya"
+    CHARSI = "charsi"
+    AKARA = "akara"
+    CAIN = "cain"
     #A2
     FARA = "fara"
+    DROGNAN = "droganan"
     #A3
     ORMUS = "ormus"
     #A4
     TYRAEL = "tyrael"
-    JAMELLA = "jamella"    
+    JAMELLA = "jamella"
     HALBU = "halbu" 
     #A5
     QUAL_KEHK = "qual_kehk"
@@ -112,8 +113,17 @@ class NpcManager:
                 },
                 "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
             },
-            # Currently just nametag added to avoid having him focused when wanting to talk to tyrael or qual
-            #added in the ability to ID items at cain.
+            Npc.DROGNAN: {
+                "name_tag_white": color_filter(self._template_finder.get_template("DROGNAN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
+                "name_tag_gold": color_filter(self._template_finder.get_template("DROGNAN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
+                "action_btns": {
+                    "trade": {
+                        "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    }
+                },
+                "template_group": ["DROGNAN_FRONT", "DROGNAN_LEFT", "DROGNAN_RIGHT_SIDE"]
+            },
             Npc.CAIN: {
                 "name_tag_white": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
@@ -146,8 +156,7 @@ class NpcManager:
                     }
                 },
                 "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
-            },            
-            #A1
+            },
             Npc.AKARA: {
                 "name_tag_white": color_filter(self._template_finder.get_template("AKARA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("AKARA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
@@ -169,7 +178,7 @@ class NpcManager:
                     }
                 },
                 "template_group": ["CHARSI_FRONT", "CHARSI_BACK", "CHARSI_SIDE", "CHARSI_SIDE_2", "CHARSI_SIDE_3"]
-            },    
+            },
             Npc.KASHYA: {
                 "name_tag_white": color_filter(self._template_finder.get_template("KASHYA_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("KASHYA_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
@@ -180,7 +189,7 @@ class NpcManager:
                     }
                 },
                 "template_group": ["KASHYA_FRONT", "KASHYA_BACK", "KASHYA_SIDE", "KASHYA_SIDE_2"]
-            },                     
+            },
         }
 
     def open_npc_menu(self, npc_key: Npc) -> bool:

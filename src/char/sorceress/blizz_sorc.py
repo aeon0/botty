@@ -137,14 +137,11 @@ class BlizzSorc(Sorceress):
         pos_m = self._screen.convert_abs_to_monitor((-285, -320))
         self.pre_move()
         self.move(pos_m, force_move=True)
+        wait(0.5)
         # Move to far left
-        #new node top left
+        self._pather.offset_node(301, (-80, -50))
         self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
-        #wait(0.3)
-        pos_m = self._screen.convert_abs_to_monitor((-10, -10))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        #hide
+        self._pather.offset_node(301, (80, 50))
         # Attack to RIGHT
         self._blizzard((100, 150), spray=80)
         self._ice_blast((230, 230), spray=20)
@@ -178,6 +175,7 @@ class BlizzSorc(Sorceress):
         self.move(pos_m, force_move=True)
         self._blizzard((-50, -150), spray=30)
         self._cast_static()
+        wait(0.5)
         # Move back inside and attack
         pos_m = self._screen.convert_abs_to_monitor((150, -350))
         self.pre_move()
