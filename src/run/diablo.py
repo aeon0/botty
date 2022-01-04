@@ -96,7 +96,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
         Logger.info("CS: Teleporting to PENTAGRAM")
         found = False
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"]
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_6"]#"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", 
         start_time = time.time()
         while not found and time.time() - start_time < 10:
             found = self._template_finder.search_and_wait(templates, threshold=0.82, time_out=0.1).valid
@@ -117,10 +117,10 @@ class Diablo:
 
     def _loop_pentagram(self, path) -> bool:
         found = False
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"] 
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_6"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", 
         start_time = time.time()
         while not found and time.time() - start_time < 13: # the number 13 is crucial here, sometimes we dont arrive at pentagram if we get hit. esp. from A1L - the path seems longest.
-            found = self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.1).valid #reduced threshold from 0.82
+            found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid #reduced threshold from 0.82
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -372,6 +372,7 @@ class Diablo:
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("B1-S Layout_check step 1/2: B1S templates found")
+            if not self._pather.traverse_nodes([634], self._char): return False #seems to be B1S, so we are calibrating at a node of B1S, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
                 Logger.debug("B1-S Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
