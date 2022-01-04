@@ -252,7 +252,7 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray,x_m=0, y_m=0) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
@@ -270,7 +270,7 @@ class UiManager():
             exclude_props = self._config.items[x.name].exclude
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
             if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
-                include_props = False    
+                include_props = False 
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
                 self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
@@ -291,32 +291,28 @@ class UiManager():
                         if include_logic_type == "AND":
                             found_props.append(True)
                         else:
-                            found_props.append(False)
-                            #bugfix right now items are going to be discarded if "or" and 1 value is valid therefor include needs to be true in here 
-                            #and we will break out of the loop
                             include = True
                             break
-                    if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
-                        include = True
-                if not include:
-                    Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
-                    continue
-                exclude = False
-                exclude_logic_type = self._config.items[x.name].exclude_type
-                if exclude_props:
-                    found_props=[]
-                    for prop in exclude_props:
-                        try:
-                            template_match = self._template_finder.search(prop, img, threshold=0.97)
-                        except:
-                            Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
-                            template_match = lambda: None; template_match.valid = False
-                        if template_match.valid:
-                            if exclude_logic_type == "AND":
-                                found_props.append(True)
-                            else:
-                                exclude = True
-                                break
+                    else:
+                        found_props.append(False)
+                if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
+                    include = True
+            if not include:
+                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                continue
+            exclude = False
+            exclude_logic_type = self._config.items[x.name].exclude_type
+            if exclude_props:
+                found_props=[]
+                for prop in exclude_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.97)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = False
+                    if template_match.valid:
+                        if exclude_logic_type == "AND":
+                            found_props.append(True)
                         else:
                             exclude = True
                             break
@@ -416,7 +412,7 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                if self._keep_item(item_finder, hovered_item, x_m, y_m):
+                if self._keep_item(item_finder, hovered_item):
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -539,32 +535,6 @@ class UiManager():
         tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
         if not tp_tome.valid:
             return False
-        #implement logic for rebuying ID-Tome
-        id_tome = self._template_finder.search_and_wait(["ID_TOME", "ID_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
-        if not id_tome.valid:
-            return False
-        x, y = self._screen.convert_screen_to_monitor(id_tome.position)
-        keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.press(button="left")
-        wait(0.25, 0.35)
-        mouse.release(button="left")
-        wait(0.5, 0.6)
-        keyboard.send('ctrl', do_press=False)
-        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if not id_tome.valid:
-            return False
-        x, y = self._screen.convert_screen_to_monitor(id_tome.position)
-        keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.click(button="right")
-        wait(0.1, 0.15)
-        keyboard.send('ctrl', do_press=False)
-        id_tome = self._template_finder.search_and_wait("ID_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
-        if not id_tome.valid:
-            return False
         return True
 
     def has_tps(self) -> bool:
@@ -584,17 +554,6 @@ class UiManager():
                 if self._config.general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return template_match.valid
-        else:
-            return False
-
-    def has_ids (self) -> bool:
-        if self._config.char["inventory_screen"]:
-            keyboard.send(self._config.char["inventory_screen"])
-            id_tome = self._template_finder.search_and_wait("ID_TOME_RED", roi=self._config.ui_roi["inventory"], time_out=3)
-            keyboard.send(self._config.char["inventory_screen"])
-            if (id_tome.valid):
-                return False
-            return True
         else:
             return False
 
@@ -650,18 +609,6 @@ class UiManager():
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-    def identify_item (self, img, x_m, y_m):
-        tome_ID = self._template_finder.search("ID_TOME", img, threshold=0.95)
-        if tome_ID.valid:
-            x, y = self._screen.convert_screen_to_monitor(tome_ID.position)
-            mouse.move(640+x, y, randomize=8, delay_factor=[1.0, 1.5])
-            mouse.click(button="right")
-            wait(0.9, 1.1)
-            mouse.move(x_m, y_m, randomize=8, delay_factor=[1.0, 1.5])
-            mouse.click(button="left")
-            wait(0.9, 1.1)
-        else:
-            Logger.warning("Cant find ID Tome")
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
@@ -676,4 +623,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots (3, 4)
+    ui_manager.buy_pots(3, 4)
