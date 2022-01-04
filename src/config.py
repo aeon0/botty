@@ -52,6 +52,8 @@ class Config:
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
+            "restore_settings_from_backup_key": self._select_val("general", "restore_settings_from_backup_key"),
+            "settings_backup_key": self._select_val("general", "settings_backup_key"),
             "graphic_debugger_key": self._select_val("general", "graphic_debugger_key"),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
@@ -61,6 +63,7 @@ class Config:
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "d2r_path": self._select_val("general", "d2r_path"),
         }
 
         # Added for dclone ip hunting
@@ -104,12 +107,15 @@ class Config:
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
+            "id_items": bool(int(self._select_val("char", "id_items"))),
+            "open_chests": bool(int(self._select_val("char", "open_chests"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
             "casting_frames": int(self._select_val("char", "casting_frames")),
+            "atk_len_arc": float(self._select_val("char", "atk_len_arc")),
             "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
@@ -132,6 +138,11 @@ class Config:
         if "light_sorc" in self._custom:
             self.light_sorc.update(dict(self._custom["light_sorc"]))
         self.light_sorc.update(sorc_base_cfg)
+        # nova sorc
+        self.nova_sorc = dict(self._config["nova_sorc"])
+        if "nova_sorc" in self._custom:
+            self.nova_sorc.update(dict(self._custom["nova_sorc"]))
+        self.nova_sorc.update(sorc_base_cfg)
 
         # Palandin config
         self.hammerdin = self._config["hammerdin"]
@@ -153,13 +164,18 @@ class Config:
             "message_headers": self._select_val("advanced_options", "message_headers"),
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
+            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
         }
 
         self.items = {}
         for key in self._pickit_config["items"]:
-            self.items[key] = self.parse_item_config_string(key)
-            if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            try:
+                self.items[key] = self.parse_item_config_string(key)
+                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
+                    print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+            except ValueError as e:
+                if self._print_warnings:
+                    print(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
         for key in self._game_config["colors"]:
@@ -184,6 +200,7 @@ class Config:
             "shop_2_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_2_skills_ias_gloves"))),
             "trap_min_score": int(self._select_val("claws", "trap_min_score")),
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
+            "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
         }
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:

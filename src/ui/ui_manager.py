@@ -16,15 +16,17 @@ from item import ItemFinder
 from template_finder import TemplateFinder
 
 from messenger import Messenger
+from game_stats import GameStats
 
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, game_stats: GameStats = None):
         self._config = Config()
         self._template_finder = template_finder
         self._messenger = Messenger()
+        self._game_stats = game_stats
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
@@ -34,7 +36,7 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        str_to_idx_map = {"WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        str_to_idx_map = {"WP_A1_ACTIVE": 1, "WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
         template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
         curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
         if curr_active_act != act:
@@ -49,10 +51,11 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen():
+        if self.wait_for_loading_screen(5):
             while 1:
                 if not self.wait_for_loading_screen(0.2):
-                    return
+                    return True
+        return False
 
     def is_right_skill_active(self) -> bool:
         """
@@ -73,7 +76,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_right"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -82,7 +85,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the left skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_left"]).valid:
                 return True
         return False
 
@@ -263,89 +266,27 @@ class UiManager():
         filtered_list = []
         for x in original_list:
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
-            #TODO
-            template_match = self._template_finder.search("UNIDENTIFIED", img, threshold=0.95)
-            if template_match.valid:
-                identified = False
-            else:
-                identified = True
-            Stash_global = True
-            if ("uniq" in x.name):
-                items = self._config.advanced_pickit_config['uniques']
-                advanced_pickit = True
-            elif ("magic" in x.name):
-                items = self._config.advanced_pickit_config['magics']
-                advanced_pickit = True
-            elif ("rare" in x.name):
-                items = self._config.advanced_pickit_config['rares']
-                advanced_pickit = True
-            else:
-                advanced_pickit = False
-            if advanced_pickit:    
-                for item in items:
-                    check_properties = False
-                    Stash = True
-                    for key, value in item.items():
-                        if x.name in key:
-                            Stash_global = False
-                            check_properties = True
-                            Logger.debug (print (key))
-                            Logger.debug (print (value))
-                            Logger.debug (f"found {x.name} in advanced item yaml-file")
-                        if not identified and check_properties:
-                            self.identify_item (img, x_m, y_m)
-                        if check_properties and value != None:
-                            try:
-                                if (key == "ethereal") and value == 0:
-                                    prop = (str (1) + "_"+ key).upper()  
-                                    template_match = self._template_finder.search(prop, img, threshold=0.95)
-                                    if (not template_match.valid):
-                                        template_match.valid = True
-                                else:  
-                                    prop = (str (value) + "_"+ key).upper()
-                                    template_match = self._template_finder.search(prop, img, threshold=0.95)
-                            except:
-                                Logger.error(f"{x.name}: can't find template file for required, ignore just in case")
-                                template_match = lambda: None; template_match.valid = True
-                            if template_match.valid:
-                                Logger.debug (f"Valid property {key}: {value}") 
-                            else:
-                                Logger.debug (f"No valid property {key}: {value}")
-                                Stash = False
-                    if Stash and check_properties:
-                        Logger.debug(f"{x.name}: Stashing")
-                        filtered_list.append(x)
-                        break 
-                '''  
-                if Stash_global:
-                    Logger.debug(f"{x.name}: Stashing")
-                    filtered_list.append(x)  
-                    break
-                '''
-            if advanced_pickit == False or Stash_global:  
-                include_props = self._config.items[x.name].include
-                exclude_props = self._config.items[x.name].exclude
-                if not (include_props or exclude_props):
-                    Logger.debug(f"{x.name}: Stashing")
-                    filtered_list.append(x)
-                    continue
-                include = True
-                include_logic_type = self._config.items[x.name].include_type
-                if include_props:
-                    include = False
-                    found_props=[]
-                    for prop in include_props:
-                        try:
-                            template_match = self._template_finder.search(prop, img, threshold=0.95)
-                        except:
-                            Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                            template_match = lambda: None; template_match.valid = True
-                        if template_match.valid:
-                            if include_logic_type == "AND":
-                                found_props.append(True)
-                            else:
-                                include = True
-                                break
+            include_props = self._config.items[x.name].include
+            exclude_props = self._config.items[x.name].exclude
+            if not (include_props or exclude_props):
+                Logger.debug(f"{x.name}: Stashing")
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                filtered_list.append(x)
+                continue
+            include = True
+            include_logic_type = self._config.items[x.name].include_type
+            if include_props:
+                include = False
+                found_props=[]
+                for prop in include_props:
+                    try:
+                        template_match = self._template_finder.search(prop, img, threshold=0.95)
+                    except:
+                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                        template_match = lambda: None; template_match.valid = True
+                    if template_match.valid:
+                        if include_logic_type == "AND":
+                            found_props.append(True)
                         else:
                             found_props.append(False)
                     if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
@@ -370,14 +311,17 @@ class UiManager():
                                 exclude = True
                                 break
                         else:
-                            found_props.append(False)
-                    if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
-                        exclude = True
-                        break
-                if include and not exclude:
-                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                    filtered_list.append(x)
-                
+                            exclude = True
+                            break
+                    else:
+                        found_props.append(False)
+                if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
+                    exclude = True
+                    break
+            if include and not exclude:
+                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                filtered_list.append(x)
 
         return len(filtered_list) > 0
 
