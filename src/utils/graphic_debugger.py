@@ -3,6 +3,7 @@ import threading
 import cv2
 import numpy as np
 
+from utils import mttkinter
 from utils.misc import color_filter, kill_thread
 from screen import Screen
 from item import ItemFinder
@@ -32,15 +33,11 @@ class GraphicDebuggerController:
         self.template_finder = None
         self.debugger_thread = None
         self.ui_thread = None
-        self.lower_range = np.array([0, 0, 0])
-        self.upper_range = np.array([179, 255, 255])
-        self.stacked = None
         self.app = None
         self.existing_layers = {}
         for key in self._config.colors:
             self.existing_layers[key] = self._config.colors[key]
         self.active_layers = {}
-        self.current_layer = None
         self.displayed_layers = {}
         self.panel = None
 
@@ -60,14 +57,22 @@ class GraphicDebuggerController:
         GraphicDebuggerController.is_running = True
 
     def stop(self):
+        # TODO: these two layers variable (and panel) needs to be reassigned because F10 will not re-init the
+        # controller, ideally these variables should be inherently part of the tkinter listboxes
+        # as list variable and/or the debugger itself, as it is getting a bit more complicated
+        # should probably be moved to a separate class and let the controller just take care of it
+        # in the main thread
+        self.active_layers = {}
+        self.displayed_layers = {}
+        self.panel = None
+        self.app.destroy()
         if self.debugger_thread: kill_thread(self.debugger_thread)
         if self.ui_thread: kill_thread(self.ui_thread)
-        self.app.destroy()
         cv2.destroyAllWindows()
         GraphicDebuggerController.is_running = False
 
     def run_debgger_ui(self):
-        self.app = tk.Tk()
+        self.app = mttkinter.Tk()
         self.app.title("Graphic Debugger - Layer Creator")
 
         ########### Variables ###########
@@ -96,10 +101,10 @@ class GraphicDebuggerController:
         sliderbar_v_u.grid(column=1, row=2)
         slidebars_frame.grid(column=0, row=0)
 
-        ########### Current Layer info ###########
-        frame = tk.Frame(slidebars_frame)
+        ########### Buttons (Top right) ###########
+        frame = tk.Frame(self.app)
         label = tk.Label(frame, textvariable=tk.StringVar(value="Current layer name:"))
-        label.grid(column=0, row=0, sticky=tk.W)
+        label.grid(column=0, row=0, sticky=tk.N+tk.W)
         self.current_layer_name_text = tk.Text(frame, height=1, width=25)
         self.current_layer_name_text.configure(state='normal')
         self.current_layer_name_text.insert(1.0, "my_layer_name")
@@ -113,31 +118,28 @@ class GraphicDebuggerController:
         # Load
         load_layer_label = tk.Label(frame, textvariable=tk.StringVar(value="Load layer: (format: h_min,s_min,v_min,h_max,s_max,v_max)"))
         load_layer_label.grid(column=0, row=4, sticky=tk.N+tk.W)
-        self.load_layer_text = tk.Text(frame, height=1, width=25)
+        load_frame = tk.Frame(frame)
+        self.load_layer_text = tk.Text(load_frame, height=1, width=25)
         self.load_layer_text.configure(state='normal')
-        self.load_layer_text.grid(column=0, row=5, sticky=tk.N+tk.W)
-        load_button = tk.Button(frame, text='Load', command=self.load_layer)
-        load_button.grid(column=0, row=6, sticky=tk.N+tk.W)
-        frame.grid(column=2, row=0, rowspan=2)
-        self.update_text_box()
-
-
-        ########### Buttons (Top right) ###########
-        buttons_frame = tk.Frame(self.app)
-        button = tk.Button(buttons_frame, text="Add current layer to active", command=self.add_current_layer_to_active)
-        button.grid(column=0, row=0)
+        self.load_layer_text.grid(column=0, row=0, sticky=tk.W)
+        load_button = tk.Button(load_frame, text='Load', command=self.load_layer)
+        load_button.grid(column=0, row=1, sticky=tk.W)
+        load_frame.grid(column=0, row=5, sticky=tk.N+tk.W)
+        button = tk.Button(frame, text="Add current layer to active", command=self.add_current_layer_to_active)
+        button.grid(column=0, row=6, sticky=tk.N+tk.W)
         display_only_current_layer_button = tk.Checkbutton(
-            buttons_frame,
+            frame,
             text="Filter with the current layer only",
             variable=self.display_only_current_layer,
             command=self.update_displayed_layers)
-        display_only_current_layer_button.grid(column=0, row=1)
+        display_only_current_layer_button.grid(column=0, row=7, sticky=tk.N+tk.W)
         enable_item_finder_button = tk.Checkbutton(
-            buttons_frame,
+            frame,
             text="Enable Item Finder (performance will be impacted)",
             variable=self.item_finder_enabled)
-        enable_item_finder_button.grid(column=0, row=2)
-        buttons_frame.grid(column=3, row=0)
+        enable_item_finder_button.grid(column=0, row=8, sticky=tk.N+tk.W)
+        self.update_text_box()
+        frame.grid(column=3, row=0)
 
         ########### Layers Display (2 listboxes + buttons) ###########
         all_layers_frame = tk.Frame(self.app)
@@ -266,11 +268,8 @@ class GraphicDebuggerController:
             self.panel.configure(image=imgtk)
             self.panel.image = imgtk
 
-
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
-        # Create a window named trackbars.
-
         while 1:
             img = self.screen.grab()
             # Convert the BGR image to HSV image.
@@ -300,6 +299,7 @@ class GraphicDebuggerController:
                 if len(scores) > 0:
                     print(scores)
 
+            combined_img = cv2.resize(combined_img, None, fx=0.5, fy=0.5)
             # The processing was done in this thread, now pass it to the ui to display it on the window
             self.add_image(combined_img)
 
