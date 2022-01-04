@@ -82,7 +82,6 @@ def main():
     keyboard.add_hotkey(config.general['resume_key'], lambda c: start_or_pause_bot(), args=[config])
     keyboard.add_hotkey(config.general["exit_key"], lambda: on_exit(config))
     keyboard.wait()
-    print('stopped waiting')
 
 
 if __name__ == "__main__":

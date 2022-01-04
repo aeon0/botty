@@ -1,14 +1,14 @@
 import threading
-import time
 
 import cv2
 import numpy as np
+
 from utils.misc import color_filter, kill_thread
 from screen import Screen
 from item import ItemFinder
 from config import Config
-from template_finder import TemplateFinder
 import tkinter as tk
+from template_finder import TemplateFinder
 from PIL import ImageTk, Image
 
 
@@ -31,7 +31,6 @@ class GraphicDebuggerController:
         self.template_finder = None
         self.debugger_thread = None
         self.ui_thread = None
-        self.ui_lock = threading.Lock()
         self.lower_range = np.array([0, 0, 0])
         self.upper_range = np.array([179, 255, 255])
         self.stacked = None
@@ -39,103 +38,204 @@ class GraphicDebuggerController:
         self.existing_layers = {}
         for key in self._config.colors:
             self.existing_layers[key] = self._config.colors[key]
+        self.active_layers = {}
+        self.current_layer = None
+        self.displayed_layers = {}
+        self.panel = None
 
     def start(self):
         self.screen = Screen(self._config.general["monitor"])
+        self.item_finder = ItemFinder(self._config)
+        self.template_finder = TemplateFinder(self.screen)
         if self._config.advanced_options['graphic_debugger_layer_creator']:
-            self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False)
+            self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
-            self.ui_thread = threading.Thread(target=self.run_debgger_ui, daemon=False)
+            # we need to run the ui in the mainloop (tkinter kinda sucks)
+            self.ui_thread = threading.Thread(target=self.run_debgger_ui, daemon=True, name="Debugger-ui")
             self.ui_thread.start()
-            self.ui_lock = threading.Lock()
         else:
-            self.item_finder = ItemFinder(self._config)
-            self.template_finder = TemplateFinder(self.screen)
-            self.debugger_thread = threading.Thread(target=self.run_old_debugger, daemon=False)
+            self.debugger_thread = threading.Thread(target=self.run_old_debugger, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
         GraphicDebuggerController.is_running = True
 
     def stop(self):
         if self.debugger_thread: kill_thread(self.debugger_thread)
         if self.ui_thread: kill_thread(self.ui_thread)
-        if self.app: self.app.destroy()
+        self.app.destroy()
         cv2.destroyAllWindows()
         GraphicDebuggerController.is_running = False
-
-    def update_text_box(self, new_value):
-        self.current_layer_value_text = f"{self.h_l},{self.s_l},{self.v_l},{self.h_u},{self.s_u},{self.v_u}"
 
     def run_debgger_ui(self):
         self.app = tk.Tk()
         self.app.title("Graphic Debugger - Layer Creator")
-        self.panel = None
-        self.layers = tk.Listbox(self.app, width=60)
 
-        # Slidebars
-        self.slidebars_frame = tk.Frame(self.app)
+        ########### Variables ###########
+        self.display_only_current_layer = tk.IntVar(value=0)
+        self.item_finder_enabled = tk.IntVar(value=1)
         self.h_l = tk.IntVar(value=0)
         self.s_l = tk.IntVar(value=0)
         self.v_l = tk.IntVar(value=0)
         self.h_u = tk.IntVar(value=179)
         self.s_u = tk.IntVar(value=255)
         self.v_u = tk.IntVar(value=255)
-        self.sliderbar_h_l = tk.Scale(self.slidebars_frame, label="H - Lower", from_=0, to=179, orient=tk.HORIZONTAL, length=255, variable=self.h_l, command=self.update_text_box)
-        self.sliderbar_s_l = tk.Scale(self.slidebars_frame, label="S - Lower", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.s_l, command=self.update_text_box)
-        self.sliderbar_v_l = tk.Scale(self.slidebars_frame, label="V - Lower", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.v_l, command=self.update_text_box)
-        self.sliderbar_h_l.grid(column=0, row=0)
-        self.sliderbar_s_l.grid(column=0, row=1)
-        self.sliderbar_v_l.grid(column=0, row=2)
-        self.sliderbar_h_u = tk.Scale(self.slidebars_frame, label="H - Upper", from_=0, to=179, orient=tk.HORIZONTAL, length=255, variable=self.h_u, command=self.update_text_box)
-        self.sliderbar_s_u = tk.Scale(self.slidebars_frame, label="S - Upper", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.s_u, command=self.update_text_box)
-        self.sliderbar_v_u = tk.Scale(self.slidebars_frame, label="V - Upper", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.v_u, command=self.update_text_box)
-        self.sliderbar_h_u.grid(column=1, row=0)
-        self.sliderbar_s_u.grid(column=1, row=1)
-        self.sliderbar_v_u.grid(column=1, row=2)
-        self.slidebars_frame.grid(column=0, row=0)
-        self.current_layer_value_text = tk.Text(self.slidebars_frame)
-        self.current_layer_value_text.grid(column=2, row=1)
 
-        # Buttons
-        self.buttons_frame = tk.Frame(self.app)
-        self.display_only_current_layer = tk.IntVar(value=1)
-        self.display_only_current_layer_button = tk.Checkbutton(self.buttons_frame, text="Display only the current layer", variable=self.display_only_current_layer)
-        self.display_only_current_layer_button.grid(column=0, row=0)
-        self.buttons_frame.grid(column=3, row=0)
+        ########### Slidebars ###########
+        slidebars_frame = tk.Frame(self.app)
+        sliderbar_h_l = tk.Scale(slidebars_frame, label="H - Lower", from_=0, to=179, orient=tk.HORIZONTAL, length=255, variable=self.h_l, command=self.update_text_box)
+        sliderbar_h_l.grid(column=0, row=0)
+        sliderbar_s_l = tk.Scale(slidebars_frame, label="S - Lower", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.s_l, command=self.update_text_box)
+        sliderbar_s_l.grid(column=0, row=1)
+        sliderbar_v_l = tk.Scale(slidebars_frame, label="V - Lower", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.v_l, command=self.update_text_box)
+        sliderbar_v_l.grid(column=0, row=2)
+        sliderbar_h_u = tk.Scale(slidebars_frame, label="H - Upper", from_=0, to=179, orient=tk.HORIZONTAL, length=255, variable=self.h_u, command=self.update_text_box)
+        sliderbar_h_u.grid(column=1, row=0)
+        sliderbar_s_u = tk.Scale(slidebars_frame, label="S - Upper", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.s_u, command=self.update_text_box)
+        sliderbar_s_u.grid(column=1, row=1)
+        sliderbar_v_u = tk.Scale(slidebars_frame, label="V - Upper", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.v_u, command=self.update_text_box)
+        sliderbar_v_u.grid(column=1, row=2)
+        slidebars_frame.grid(column=0, row=0)
 
-        # Update layers
-        c = 1
+        ########### Current Layer info ###########
+        label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Current layer name:"))
+        label.grid(column=2, row=0, sticky=tk.N+tk.W)
+        self.current_layer_name_text = tk.Text(slidebars_frame, height=1, width=25)
+        self.current_layer_name_text.configure(state='normal')
+        self.current_layer_name_text.insert(1.0, "my_layer_name")
+        self.current_layer_name_text.grid(column=2, row=1, sticky=tk.N)
+        label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Current layer value: (you can copy this)"))
+        label.grid(column=2, row=2, sticky=tk.N)
+        self.current_layer_value_text = tk.Text(slidebars_frame, height=1, width=25)
+        self.current_layer_value_text.configure(bg=self.app.cget('bg'), relief='flat')
+        self.current_layer_value_text.configure(state='disabled')
+        self.current_layer_value_text.grid(column=2, row=3, sticky=tk.N)
+        self.update_text_box()
+
+        # Load
+        load_layer_label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Load layer: (format: h_min,s_min,v_min,h_max,s_max,v_max)"))
+        load_layer_label.grid(column=3, row=0)
+        self.load_layer_text = tk.Text(slidebars_frame, height=1, width=25)
+        self.load_layer_text.configure(state='normal')
+        self.load_layer_text.grid(column=3, row=1)
+        # add_all_existing_layers_button = tk.Button(layers_button_frame, text='<<', command=self.add_all_existing_layers)
+        # add_all_existing_layers_button.grid(column=0, row=0)
+
+        ########### Buttons (Top right) ###########
+        buttons_frame = tk.Frame(self.app)
+        button = tk.Button(buttons_frame, text="Add current layer to active", command=self.add_current_layer_to_active)
+        button.grid(column=0, row=0)
+        display_only_current_layer_button = tk.Checkbutton(
+            buttons_frame,
+            text="Filter with the current layer only",
+            variable=self.display_only_current_layer,
+            command=self.update_displayed_layers)
+        display_only_current_layer_button.grid(column=0, row=1)
+        enable_item_finder_button = tk.Checkbutton(
+            buttons_frame,
+            text="Enable Item Finder (performance will be impacted)",
+            variable=self.item_finder_enabled)
+        enable_item_finder_button.grid(column=0, row=2)
+        buttons_frame.grid(column=3, row=0)
+
+        ########### Layers Display (2 listboxes + buttons) ###########
+        all_layers_frame = tk.Frame(self.app)
+        all_layers_frame.grid(column=3, row=1, sticky=tk.N)
+        # active
+        self.layers_active_listbox = tk.Listbox(all_layers_frame, width=25, height=20, selectmode=tk.EXTENDED)
+        self.layers_active_listbox.grid(column=0, row=1, sticky=tk.N)
+        active_layers_label_frame = tk.Frame(all_layers_frame)
+        layers_active_label = tk.Label(active_layers_label_frame, textvariable=tk.StringVar(value="Active Layers"))
+        layers_active_label.grid(column=0, row=0)
+        remove_layer = tk.Button(active_layers_label_frame, text='Remove Selected', command=self.remove_selected_active_layer)
+        remove_layer.grid(column=1, row=0)
+        active_layers_label_frame.grid(column=0, row=0, sticky=tk.N)
+        # existing (from config)
+        self.layers_existing_listbox = tk.Listbox(all_layers_frame, width=25, height=20, selectmode=tk.EXTENDED)
         for key in self.existing_layers:
-            self.layers.insert(c, f"{key}")
-        self.layers.grid(column=3, row=1, sticky=tk.N)
-        self.app.mainloop()
-        # cv2.namedWindow(self.window_name_trackbars)
-        # cv2.namedWindow(self.window_name_images)
-        # # Now create 6 trackbars that will control the lower and upper range of H,S and V channels.
-        # # The Arguments are like this: Name of trackbar, window name, range,callback function. For Hue the range is 0-179 and for S,V its 0-255.
-        # cv2.createTrackbar("H - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        # cv2.createTrackbar("S - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        # cv2.createTrackbar("V - Lower", self.window_name_trackbars, 0, 255, lambda x: None)
-        # cv2.createTrackbar("H - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        # cv2.createTrackbar("S - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        # cv2.createTrackbar("V - Upper", self.window_name_trackbars, 255, 255, lambda x: None)
-        # while True:
-        #     # Get the new values of the trackbar in real time as the user changes them
-        #     cv2.pollKey()  # This is needed only to keep the gui work as it handles the HighGUI events
-        #     l_h = cv2.getTrackbarPos("H - Lower", self.window_name_trackbars)
-        #     l_s = cv2.getTrackbarPos("S - Lower", self.window_name_trackbars)
-        #     l_v = cv2.getTrackbarPos("V - Lower", self.window_name_trackbars)
-        #     u_h = cv2.getTrackbarPos("H - Upper", self.window_name_trackbars)
-        #     u_s = cv2.getTrackbarPos("S - Upper", self.window_name_trackbars)
-        #     u_v = cv2.getTrackbarPos("V - Upper", self.window_name_trackbars)
-        #     #self.ui_lock.acquire()
-        #     self.lower_range = np.array([l_h, l_s, l_v])
-        #     self.upper_range = np.array([u_h, u_s, u_v])
-        #     # The debugger has processed some stuff, display it in a separate window
-        #     if self.stacked is not None:
-        #         cv2.imshow(self.window_name_images, self.stacked)
-        #     #self.ui_lock.release()
+            self.layers_existing_listbox.insert(1, f"{key}")
+        self.layers_existing_listbox.grid(column=2, row=1, sticky=tk.N)
+        layers_existing_label = tk.Label(all_layers_frame, textvariable=tk.StringVar(value="Existing Layers"))
+        layers_existing_label.grid(column=2, row=0, sticky=tk.N)
+        # buttons to add(/all) layers from active list
+        layers_button_frame = tk.Frame(all_layers_frame)
+        add_all_existing_layers_button = tk.Button(layers_button_frame, text='<<', command=self.add_all_existing_layers)
+        add_all_existing_layers_button.grid(column=0, row=0)
+        add_selected_existing_layer_button = tk.Button(layers_button_frame, text=' < ', command=self.add_selected_existing_layer)
+        add_selected_existing_layer_button.grid(column=0, row=1)
+        layers_button_frame.grid(column=1, row=1)
+        # display active layers in an easy to copy way:
+        self.active_layers_values_text = tk.Text(all_layers_frame, height=20, width=50)
+        self.active_layers_values_text.configure(bg=self.app.cget('bg'), relief='flat')
+        self.active_layers_values_text.configure(state='disabled')
+        self.active_layers_values_text.grid(column=0, columnspan=3, row=2)
 
-    def _add_image(self, img):
+        # keep previous debugger logic in place by default all existing layers
+        self.add_all_existing_layers()
+        self.app.mainloop()
+
+    def update_text_box(self, new_value=None):
+        self.current_layer_value_text.configure(state='normal')
+        self.current_layer_value_text.delete(1.0, tk.END)
+        self.current_layer_value_text.insert(1.0, f"{self.h_l.get()},{self.s_l.get()},{self.v_l.get()},{self.h_u.get()},{self.s_u.get()},{self.v_u.get()}")
+        self.current_layer_value_text.configure(state='disabled')
+
+        self.current_layer = [np.array([self.h_l.get(), self.s_l.get(), self.v_l.get()]), np.array([self.h_u.get(), self.s_u.get(), self.v_u.get()])]
+        self.update_displayed_layers()
+
+    def add_all_existing_layers(self):
+        for key, value in self.existing_layers.items():
+            self._add_layer_to_active(key, value)
+
+    def add_selected_existing_layer(self):
+        current_selection = [self.layers_existing_listbox.get(i) for i in self.layers_existing_listbox.curselection()]
+        for key, value in self.existing_layers.items():
+            if key in current_selection:
+                self._add_layer_to_active(key, value)
+
+    def remove_selected_active_layer(self):
+        current_selection = [[i, self.layers_active_listbox.get(i)] for i in self.layers_active_listbox.curselection()]
+        for e in reversed(current_selection):
+            self.active_layers.pop(e[1])
+            self.layers_active_listbox.delete(e[0])
+        self.update_displayed_layers()
+        self._update_active_layers_text_box()
+
+    def add_current_layer_to_active(self):
+        name = self.current_layer_name_text.get(1.0, tk.END).strip()
+        self._add_layer_to_active(name, self.current_layer)
+
+    def update_displayed_layers(self):
+        if self.display_only_current_layer.get():
+            self.displayed_layers = {}
+            self.displayed_layers[self.current_layer_name_text.get(1.0, tk.END)] = self.current_layer
+        else:
+            self.displayed_layers = {}
+            for key, value in self.active_layers.items():
+                self.displayed_layers[key] = value
+
+    def _add_layer_to_active(self, layer_name, layer_value):
+        if layer_name not in self.active_layers:
+            self.active_layers[layer_name] = layer_value
+            self.layers_active_listbox.insert(1, layer_name)
+            self.update_displayed_layers()
+        else:
+            print(f'Add layer failed, layer {layer_name} already active')
+        self._update_active_layers_text_box()
+
+    def _update_active_layers_text_box(self):
+        self.active_layers_values_text.configure(state='normal')
+        self.active_layers_values_text.delete(1.0, tk.END)
+        string_value = ''
+        for key, value in self.active_layers.items():
+            string_value += key
+            concatenated_value = ','.join([str(e) for e in value[0]] + [str(e) for e in value[1]])
+            #concatenated_value = np.concatenate((value[0], value[1]))
+            string_value += ','.join(concatenated_value)
+            string_value += '\n'
+        #self.active_layers_values_text.insert(1.0, string_value)
+        self.active_layers_values_text.insert(1.0, '\n'.join(f"{key}={','.join([str(e) for e in value[0]] + [str(e) for e in value[1]])}" for key, value in self.active_layers.items()))
+        self.active_layers_values_text.configure(state='disabled')
+
+    def add_image(self, img):
         b, g, r = cv2.split(img)
         im = Image.fromarray(cv2.merge((r, g, b)))
         imgtk = ImageTk.PhotoImage(image=im)
@@ -152,63 +252,37 @@ class GraphicDebuggerController:
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         # Create a window named trackbars.
 
-        start_time = time.time()
-        end_time = time.time()
         while 1:
-            # Heavy processing ahead, don't do it at every loop
-            if end_time - start_time < 0.75:
-                end_time = time.time()
-                continue
-            start_time = time.time()
-
             img = self.screen.grab()
             # Convert the BGR image to HSV image.
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-            # Filter the image and get the binary mask
-            #mask = cv2.inRange(hsv, self.lower_range, self.upper_range)
-            # filters = [
-            #     [np.array([17,109,97]),np.array([23,128,123])],
-            #     [np.array([0,0,87]),np.array([64,24,111])],
-            #     [np.array([95,42,135]),np.array([109,82,190])]
-            # ]
-            comb_img = np.zeros(img.shape, dtype="uint8")
-            for name, layer in self.existing_layers.items():
+            combined_img = np.zeros(img.shape, dtype="uint8")
+            for name, layer in self.displayed_layers.items():
                 mask, filtered_img = color_filter(img, layer)
-                comb_img = cv2.bitwise_or(filtered_img, comb_img)
-            #filtered_img = cv2.bitwise_and(img, img, mask=mask)
+                combined_img = cv2.bitwise_or(filtered_img, combined_img)
 
             # Show item detections
-            # combined_img = np.zeros(img.shape, dtype="uint8")
-            # for key in self._config.colors:
-            #     _, filterd_img = color_filter(img, self._config.colors[key])
-            #     combined_img = cv2.bitwise_or(filterd_img, combined_img)
-            # item_list = self.item_finder.search(img)
-            # for item in item_list:
-            #     cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
-            #     cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            # if len(item_list) > 0:
-            #     print(item_list)
-            # # Show Town A5 template matches
-            # scores = {}
-            # for template_name in search_templates:
-            #     template_match = self.template_finder.search(template_name, img, threshold=0.65)
-            #     if template_match.valid:
-            #         scores[template_match.name] = template_match.score
-            #         cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            #         cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
-            # if len(scores) > 0:
-            #     print(scores)
+            if self.item_finder_enabled.get():
+                item_list = self.item_finder.search(img)
+                for item in item_list:
+                    cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
+                    cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                if len(item_list) > 0:
+                    print(item_list)
+                # Show Town A5 template matches
+                scores = {}
+                for template_name in search_templates:
+                    template_match = self.template_finder.search(template_name, img, threshold=0.65)
+                    if template_match.valid:
+                        scores[template_match.name] = template_match.score
+                        cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                        cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
+                if len(scores) > 0:
+                    print(scores)
 
-            # stack the combined image and the filtered result
-            #stacked = cv2.resize(np.hstack((combined_img, filtered_img)), None, fx=0.4, fy=0.4)
-            #filtered_img
             # The processing was done in this thread, now pass it to the ui to display it on the window
-            self.ui_lock.acquire()
-            self._add_image(comb_img)
-            self.stacked = comb_img
-            self.ui_lock.release()
-            end_time = time.time()
+            self.add_image(combined_img)
 
     def run_old_debugger(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
@@ -242,19 +316,6 @@ class GraphicDebuggerController:
             cv2.waitKey(1)
 
 if __name__ == "__main__":
-    # Create a window named trackbars.
-    cv2.namedWindow("window_name")
-
-    # Now create 6 trackbars that will control the lower and upper range of
-    # H,S and V channels. The Arguments are like this: Name of trackbar,
-    # window name, range,callback function. For Hue the range is 0-179 and
-    # for S,V its 0-255.
-    cv2.createTrackbar("H - Lower", "window_name", 0, 179, lambda x: None)
-    cv2.createTrackbar("S - Lower", "window_name", 0, 255, lambda x: None)
-    cv2.createTrackbar("V - Lower", "window_name", 0, 255, lambda x: None)
-    cv2.createTrackbar("H - Upper", "window_name", 179, 179, lambda x: None)
-    cv2.createTrackbar("S - Upper", "window_name", 255, 255, lambda x: None)
-    cv2.createTrackbar("V - Upper", "window_name", 255, 255, lambda x: None)
     debugger = GraphicDebuggerController(Config())
     debugger.start()
 
