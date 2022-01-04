@@ -1,7 +1,6 @@
 name: botty
 dependencies:
   - python=3.9
-  - pywin32
   - pip
   - pip:
     - pyinstaller
@@ -20,5 +19,6 @@ dependencies:
     - pytest-pythonpath
     - graphviz
     - psutil
+    - pywin32==225
     - pillow
     - mttkinter
