@@ -31,7 +31,7 @@ def start_or_pause_bot():
 def start_or_stop_graphic_debugger():
     global game_controller
     global debugger_controller
-    if GraphicDebuggerController.is_running:
+    if GraphicDebuggerController.is_running:  
         debugger_controller.stop()
     else:
         # Kill botty if we invoke the debugger
