@@ -2,7 +2,6 @@ import time
 import random
 import ctypes
 import numpy as np
-from win32api import GetLastError
 
 from config import Config
 from logger import Logger
