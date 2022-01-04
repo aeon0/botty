@@ -37,12 +37,19 @@ class DeathManager:
     @staticmethod
     def pick_up_corpse(config: Config, screen: Screen):
         Logger.debug("Pick up corpse")
-        x, y = screen.convert_screen_to_monitor((config.ui_pos["corpse_x"], config.ui_pos["corpse_y"]))
+        x, y = screen.convert_screen_to_monitor(
+            (config.ui_pos["corpse_x"], config.ui_pos["corpse_y"])
+        )
         mouse.move(x, y)
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        template_match = self._template_finder.search(
+            "YOU_HAVE_DIED",
+            self._screen.grab(),
+            threshold=0.9,
+            roi=self._config.ui_roi["death"],
+        )
         if template_match.valid:
             Logger.warning("You have died!")
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
@@ -58,7 +65,11 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid:
+            if self._template_finder.search(
+                ["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"],
+                self._screen.grab(),
+                roi=self._config.ui_roi["main_menu_top_left"],
+            ).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")
@@ -71,10 +82,14 @@ class DeathManager:
         self._died = False
         Logger.info("Start Death monitoring")
         while self._do_monitor:
-            if self._died: continue
-            time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
+            if self._died:
+                continue
+            time.sleep(
+                self._loop_delay
+            )  # no need to do this too frequent, when we died we are not in a hurry...
             # Wait until the flag is reset by main.py
-            if self._died: continue
+            if self._died:
+                continue
             self.handle_death_screen()
         Logger.debug("Stop death monitoring")
 

@@ -67,9 +67,10 @@ class AnyaShopper:
         self.look_for_melee_claws = self._config.shop["shop_melee_claws"]
         self.melee_claw_min_score = self._config.shop["melee_min_score"]
 
-
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._template_finder = TemplateFinder(
+            self._screen, ["assets\\templates", "assets\\npc", "assets\\shop"]
+        )
         self._messenger = Messenger()
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
@@ -78,27 +79,36 @@ class AnyaShopper:
         self.start_time = time.time()
         self.ias_gloves_seen = 0
         self.gloves_bought = 0
-        
+
         # Claws config
-        self.roi_claw_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
+        self.roi_claw_stats = [
+            0,
+            0,
+            config.ui_pos["screen_width"] // 2,
+            config.ui_pos["screen_height"] - 100,
+        ]
         self.roi_vendor = config.ui_roi["vendor_stash"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.c_x, self.c_y = self._screen.convert_screen_to_monitor(
+            (config.ui_pos["center_x"], config.ui_pos["center_y"])
+        )
         self.claws_evaluated = 0
         self.claws_bought = 0
 
     def run(self):
-        Logger.info("Personal Anya Shopper at your service! Hang on, running some errands...")
+        Logger.info(
+            "Personal Anya Shopper at your service! Hang on, running some errands..."
+        )
         self.reset_shop()
         self.shop_loop()
 
     def shop_loop(self):
-    
+
         asset_folder = "assets/shop/gloves/"
-                    
+
         while True:
-        
+
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
@@ -117,11 +127,12 @@ class AnyaShopper:
                 mouse.move(*ias_glove.position)
                 time.sleep(0.1)
                 img = self._screen.grab()
-                
+
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = self._template_finder.search(
                         ref=load_template(
-                            asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
+                            asset_folder + "gg_gloves.png",
+                            1.0,  # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
                         inp_img=img,
                         threshold=0.80,
@@ -129,7 +140,9 @@ class AnyaShopper:
                     )
                     if gg_gloves.valid:
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought awesome IAS/+3 gloves!")
+                        self._messenger.send(
+                            msg=f"{self._config.general['name']}: Bought awesome IAS/+3 gloves!"
+                        )
                         Logger.info("IAS/+3 gloves bought!")
                         self.gloves_bought += 1
                         time.sleep(1)
@@ -137,16 +150,16 @@ class AnyaShopper:
                 else:
                     if self.look_for_plus_2_gloves is True:
                         g_gloves = self._template_finder.search(
-                            ref=load_template(
-                                asset_folder + "g_gloves.png", 1.0 
-                            ),
+                            ref=load_template(asset_folder + "g_gloves.png", 1.0),
                             inp_img=img,
                             threshold=0.80,
                             normalize_monitor=True,
                         )
                         if g_gloves.valid:
                             mouse.click(button="right")
-                            self._messenger.send(msg=f"{self._config.general['name']}: Bought some decent IAS/+2 gloves")
+                            self._messenger.send(
+                                msg=f"{self._config.general['name']}: Bought some decent IAS/+2 gloves"
+                            )
                             Logger.info("IAS/+2 gloves bought!")
                             self.gloves_bought += 1
                             time.sleep(1)
@@ -162,7 +175,9 @@ class AnyaShopper:
                 img = self._screen.grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
                 for ck in claw_keys:
-                    template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
+                    template_match = self._template_finder.search(
+                        ck, img, roi=self.roi_vendor
+                    )
                     if template_match.valid:
                         (y, x) = np.where(self._template_finder.last_res >= 0.6)
                         for (x, y) in zip(x, y):
@@ -184,38 +199,62 @@ class AnyaShopper:
                     img_stats = self._screen.grab()
                     trap_score = 0
                     melee_score = 0
-                    if self._template_finder.search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
+                    if self._template_finder.search(
+                        "3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94
+                    ).valid:
                         trap_score += 12
-                    elif self._template_finder.search("TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    elif self._template_finder.search(
+                        "TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         trap_score += 8
 
-                    if self._template_finder.search("2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if self._template_finder.search(
+                        "2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         trap_score += 10
                         melee_score += 10
-                    if self._template_finder.search("TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if self._template_finder.search(
+                        "TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         melee_score += 6
-                    if self._template_finder.search("TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if self._template_finder.search(
+                        "TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         trap_score += 6
-                    if self._template_finder.search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if self._template_finder.search(
+                        "TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         melee_score += 2
                         trap_score += 1
-                    if self._template_finder.search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if self._template_finder.search(
+                        "TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9
+                    ).valid:
                         trap_score += 4
-                        
+
                     self.claws_evaluated += 1
-                    
-                    if trap_score > self.trap_claw_min_score and self.look_for_trap_claws is True:
+
+                    if (
+                        trap_score > self.trap_claw_min_score
+                        and self.look_for_trap_claws is True
+                    ):
                         # pick it up
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some terrific trap Claws (score: {trap_score})")
+                        self._messenger.send(
+                            msg=f"{self._config.general['name']}: Bought some terrific trap Claws (score: {trap_score})"
+                        )
                         Logger.info(f"Trap Claws (score: {trap_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
 
-                    if melee_score > self.melee_claw_min_score and self.look_for_melee_claws is True:
+                    if (
+                        melee_score > self.melee_claw_min_score
+                        and self.look_for_melee_claws is True
+                    ):
                         # pick it up
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some mad melee Claws (score: {melee_score})")
+                        self._messenger.send(
+                            msg=f"{self._config.general['name']}: Bought some mad melee Claws (score: {melee_score})"
+                        )
                         Logger.info(f"Melee Claws (score: {melee_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
@@ -243,7 +282,9 @@ class AnyaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        template_match = self._template_finder.search_and_wait(template_type, time_out=10)
+        template_match = self._template_finder.search_and_wait(
+            template_type, time_out=10
+        )
         if template_match.valid:
             x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
             mouse.move(x_m, y_m)

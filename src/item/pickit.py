@@ -13,7 +13,13 @@ from char import IChar
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
+    def __init__(
+        self,
+        screen: Screen,
+        item_finder: ItemFinder,
+        ui_manager: UiManager,
+        belt_manager: BeltManager,
+    ):
         self._item_finder = item_finder
         self._screen = screen
         self._belt_manager = belt_manager
@@ -31,11 +37,18 @@ class PickIt:
         found_nothing = 0
         found_items = False
         keyboard.send(self._config.char["show_items"])
-        time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
-        #Creating a screenshot of the current loot
+        time.sleep(
+            1.0
+        )  # sleep needed here to give d2r time to display items on screen on keypress
+        # Creating a screenshot of the current loot
         if self._config.general["loot_screenshots"]:
             img = self._screen.grab()
-            cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            cv2.imwrite(
+                "./loot_screenshots/info_debug_drop_"
+                + time.strftime("%Y%m%d_%H%M%S")
+                + ".png",
+                img,
+            )
             Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
         time_out = False
@@ -59,7 +72,9 @@ class PickIt:
             if need_pots["health"] <= 0:
                 item_list = [x for x in item_list if "healing_potion" not in x.name]
             if need_pots["rejuv"] <= 0:
-                item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+                item_list = [
+                    x for x in item_list if "rejuvenation_potion" not in x.name
+                ]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
             if self._config.char["gold_trav_only"] and not is_at_trav:
@@ -85,8 +100,10 @@ class PickIt:
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
                 if curr_item_to_pick is not None:
-                    is_same_item = (curr_item_to_pick.name == closest_item.name and \
-                        abs(curr_item_to_pick.dist - closest_item.dist) < 20)
+                    is_same_item = (
+                        curr_item_to_pick.name == closest_item.name
+                        and abs(curr_item_to_pick.dist - closest_item.dist) < 20
+                    )
                     if same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
@@ -95,27 +112,42 @@ class PickIt:
                         did_force_move = True
                     elif time.time() - same_item_timer > 8:
                         # backlist this item type for this pickit round
-                        Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
+                        Logger.warning(
+                            f"Could not pick up: {closest_item.name}. Continue with other items"
+                        )
                         skip_items.append(closest_item.name)
                 curr_item_to_pick = closest_item
 
                 # To avoid endless teleport or telekinesis loop
-                force_pick_up = char.can_teleport() and \
-                                self._last_closest_item is not None and \
-                                self._last_closest_item.name == closest_item.name and \
-                                abs(self._last_closest_item.dist - closest_item.dist) < 20
+                force_pick_up = (
+                    char.can_teleport()
+                    and self._last_closest_item is not None
+                    and self._last_closest_item.name == closest_item.name
+                    and abs(self._last_closest_item.dist - closest_item.dist) < 20
+                )
 
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
-                if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
+                if not force_move and (
+                    closest_item.dist < self._config.ui_pos["item_dist"]
+                    or force_pick_up
+                ):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
                         self._belt_manager.picked_up_pot(closest_item.name)
                     # no need to stash potions, scrolls, or gold
-                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
+                    if (
+                        "potion" not in closest_item.name
+                        and "tp_scroll" != closest_item.name
+                        and "misc_gold" not in closest_item.name
+                    ):
                         found_items = True
 
-                    prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
+                    prev_cast_start = char.pick_up_item(
+                        (x_m, y_m),
+                        item_name=closest_item.name,
+                        prev_cast_start=prev_cast_start,
+                    )
                     if not char.can_teleport():
                         time.sleep(0.2)
 
@@ -127,7 +159,9 @@ class PickIt:
                     else:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
-                            Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
+                            Logger.info(
+                                f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)"
+                            )
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
@@ -152,7 +186,7 @@ if __name__ == "__main__":
     from pather import Pather
     import keyboard
 
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
@@ -162,6 +196,8 @@ if __name__ == "__main__":
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder(config)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(
+        config.hammerdin, config.char, screen, t_finder, ui_manager, pather
+    )
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

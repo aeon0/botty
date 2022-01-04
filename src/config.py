@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass
 from logger import Logger
 
+
 @dataclass
 class ItemProps:
     pickit_type: int = 0
@@ -12,6 +13,7 @@ class ItemProps:
     exclude: list[str] = None
     include_type: str = "OR"
     exclude_type: str = "OR"
+
 
 class Config:
     def _select_val(self, section: str, key: str = None):
@@ -31,36 +33,48 @@ class Config:
         # passing a single config instance through bites me in the ass
         self._print_warnings = print_warnings
         self._config = configparser.ConfigParser()
-        self._config.read('config/params.ini')
+        self._config.read("config/params.ini")
         self._game_config = configparser.ConfigParser()
-        self._game_config.read('config/game.ini')
+        self._game_config.read("config/game.ini")
         self._pickit_config = configparser.ConfigParser()
-        self._pickit_config.read('config/pickit.ini')
+        self._pickit_config.read("config/pickit.ini")
         self._shop_config = configparser.ConfigParser()
-        self._shop_config.read('config/shop.ini')
+        self._shop_config.read("config/shop.ini")
         self._custom = configparser.ConfigParser()
-        if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
-            self._custom.read('config/custom.ini')
+        if os.environ.get("RUN_ENV") != "test" and os.path.exists("config/custom.ini"):
+            self._custom.read("config/custom.ini")
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
-            "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
+            "max_game_length_s": float(
+                self._select_val("general", "max_game_length_s")
+            ),
             "exit_key": self._select_val("general", "exit_key"),
             "resume_key": self._select_val("general", "resume_key"),
             "auto_settings_key": self._select_val("general", "auto_settings_key"),
-            "restore_settings_from_backup_key": self._select_val("general", "restore_settings_from_backup_key"),
+            "restore_settings_from_backup_key": self._select_val(
+                "general", "restore_settings_from_backup_key"
+            ),
             "settings_backup_key": self._select_val("general", "settings_backup_key"),
             "graphic_debugger_key": self._select_val("general", "graphic_debugger_key"),
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
-            "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
-            "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
-            "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
-            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "discord_status_count": False
+            if not self._select_val("general", "discord_status_count")
+            else int(self._select_val("general", "discord_status_count")),
+            "discord_status_condensed": bool(
+                int(self._select_val("general", "discord_status_condensed"))
+            ),
+            "info_screenshots": bool(
+                int(self._select_val("general", "info_screenshots"))
+            ),
+            "loot_screenshots": bool(
+                int(self._select_val("general", "loot_screenshots"))
+            ),
             "d2r_path": self._select_val("general", "d2r_path"),
         }
 
@@ -71,7 +85,9 @@ class Config:
         }
 
         self.routes = {}
-        order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
+        order_str = self._select_val("routes", "order").replace(
+            "run_eldritch", "run_shenk"
+        )
         self.routes_order = [x.strip() for x in order_str.split(",")]
         del self._config["routes"]["order"]
         for key in self._config["routes"]:
@@ -86,8 +102,12 @@ class Config:
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
             "take_mana_potion": float(self._select_val("char", "take_mana_potion")),
-            "take_rejuv_potion_health": float(self._select_val("char", "take_rejuv_potion_health")),
-            "take_rejuv_potion_mana": float(self._select_val("char", "take_rejuv_potion_mana")),
+            "take_rejuv_potion_health": float(
+                self._select_val("char", "take_rejuv_potion_health")
+            ),
+            "take_rejuv_potion_mana": float(
+                self._select_val("char", "take_rejuv_potion_mana")
+            ),
             "heal_merc": float(self._select_val("char", "heal_merc")),
             "heal_rejuv_merc": float(self._select_val("char", "heal_rejuv_merc")),
             "chicken": float(self._select_val("char", "chicken")),
@@ -107,7 +127,9 @@ class Config:
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
-            "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
+            "pre_buff_every_run": bool(
+                int(self._select_val("char", "pre_buff_every_run"))
+            ),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
@@ -158,26 +180,46 @@ class Config:
             self.barbarian.update(self._custom["barbarian"])
 
         self.advanced_options = {
-            "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
+            "pathing_delay_factor": min(
+                max(
+                    int(self._select_val("advanced_options", "pathing_delay_factor")), 1
+                ),
+                10,
+            ),
             "message_headers": self._select_val("advanced_options", "message_headers"),
-            "message_body_template": self._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
-            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
+            "message_body_template": self._select_val(
+                "advanced_options", "message_body_template"
+            ),
+            "message_highlight": bool(
+                int(self._select_val("advanced_options", "message_highlight"))
+            ),
+            "d2r_windows_always_on_top": bool(
+                int(self._select_val("advanced_options", "d2r_windows_always_on_top"))
+            ),
         }
 
         self.items = {}
         for key in self._pickit_config["items"]:
             try:
                 self.items[key] = self.parse_item_config_string(key)
-                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                    print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+                if (
+                    self.items[key].pickit_type
+                    and not os.path.exists(f"./assets/items/{key}.png")
+                    and self._print_warnings
+                ):
+                    print(
+                        f"Warning: You activated {key} in pickit, but there is no img available in assets/items"
+                    )
             except ValueError as e:
                 if self._print_warnings:
                     print(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
         for key in self._game_config["colors"]:
-            self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
+            self.colors[key] = np.split(
+                np.array([int(x) for x in self._select_val("colors", key).split(",")]),
+                2,
+            )
 
         self.ui_pos = {}
         for key in self._game_config["ui_pos"]:
@@ -185,44 +227,63 @@ class Config:
 
         self.ui_roi = {}
         for key in self._game_config["ui_roi"]:
-            self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi", key).split(",")])
+            self.ui_roi[key] = np.array(
+                [int(x) for x in self._select_val("ui_roi", key).split(",")]
+            )
 
         self.path = {}
         for key in self._game_config["path"]:
-            self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
+            self.path[key] = np.reshape(
+                np.array([int(x) for x in self._select_val("path", key).split(",")]),
+                (-1, 2),
+            )
 
         self.shop = {
             "shop_trap_claws": bool(int(self._select_val("claws", "shop_trap_claws"))),
-            "shop_melee_claws": bool(int(self._select_val("claws", "shop_melee_claws"))),
-            "shop_3_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_3_skills_ias_gloves"))),
-            "shop_2_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_2_skills_ias_gloves"))),
+            "shop_melee_claws": bool(
+                int(self._select_val("claws", "shop_melee_claws"))
+            ),
+            "shop_3_skills_ias_gloves": bool(
+                int(self._select_val("gloves", "shop_3_skills_ias_gloves"))
+            ),
+            "shop_2_skills_ias_gloves": bool(
+                int(self._select_val("gloves", "shop_2_skills_ias_gloves"))
+            ),
             "trap_min_score": int(self._select_val("claws", "trap_min_score")),
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
-            "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
+            "shop_hammerdin_scepters": bool(
+                int(self._select_val("scepters", "shop_hammerdin_scepters"))
+            ),
         }
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
         item_props = ItemProps()
         # split string by commas NOT contained within parentheses
-        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
-        trim_strs=["AND(", "OR(", "(", ")", " "]
-        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
+        item_string_as_list = re.split(
+            r",\s*(?![^()]*\))", self._select_val("items", key).upper()
+        )
+        trim_strs = ["AND(", "OR(", "(", ")", " "]
+        clean_string = [
+            re.sub(r"|".join(map(re.escape, trim_strs)), "", x).strip()
+            for x in item_string_as_list
+        ]
         item_props.pickit_type = int(clean_string[0])
         try:
-            item_props.include = clean_string[1].split(',') if clean_string[1] else None
+            item_props.include = clean_string[1].split(",") if clean_string[1] else None
             item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
         except IndexError as error:
             pass
         except Exception as exception:
             Logger.error(f"Item parsing error: {exception}")
         try:
-            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
+            item_props.exclude = clean_string[2].split(",") if clean_string[2] else None
             item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
         except IndexError as error:
             pass
         except Exception as exception:
             Logger.error(f"Item parsing error: {exception}")
         return item_props
+
 
 if __name__ == "__main__":
     config = Config(print_warnings=True)
@@ -233,9 +294,9 @@ if __name__ == "__main__":
             print(f"Template not found: {k}")
 
     # Check if any item templates miss a config
-    for filename in os.listdir(f'assets/items'):
+    for filename in os.listdir(f"assets/items"):
         filename = filename.lower()
-        if filename.endswith('.png'):
+        if filename.endswith(".png"):
             item_name = filename[:-4]
             blacklist_item = item_name.startswith("bl__")
             if item_name not in config.items and not blacklist_item:

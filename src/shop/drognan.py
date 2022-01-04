@@ -48,7 +48,9 @@ class DrognanShopper:
         self.look_for_scepters = self._config.shop["shop_hammerdin_scepters"]
 
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._template_finder = TemplateFinder(
+            self._screen, ["assets\\templates", "assets\\npc", "assets\\shop"]
+        )
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )
@@ -56,16 +58,25 @@ class DrognanShopper:
         self.start_time = time.time()
 
         # items config
-        self.roi_shop_item_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
+        self.roi_shop_item_stats = [
+            0,
+            0,
+            config.ui_pos["screen_width"] // 2,
+            config.ui_pos["screen_height"] - 100,
+        ]
         self.roi_vendor = config.ui_roi["vendor_stash"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.c_x, self.c_y = self._screen.convert_screen_to_monitor(
+            (config.ui_pos["center_x"], config.ui_pos["center_y"])
+        )
         self.items_evaluated = 0
         self.items_bought = 0
 
     def run(self):
-        Logger.info("Personal Drognan Shopper at your service! Hang on, running some errands...")
+        Logger.info(
+            "Personal Drognan Shopper at your service! Hang on, running some errands..."
+        )
         self.reset_shop()
         self.shop_loop()
 
@@ -90,7 +101,9 @@ class DrognanShopper:
                 img = self._screen.grab().copy()
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3"]
                 for ck in item_keys:
-                    template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
+                    template_match = self._template_finder.search(
+                        ck, img, roi=self.roi_vendor
+                    )
                     if template_match.valid:
                         (y, x) = np.where(self._template_finder.last_res >= 0.6)
                         for (x, y) in zip(x, y):
@@ -112,11 +125,26 @@ class DrognanShopper:
                     img_stats = self._screen.grab()
 
                     # First check for +2 Paladin Skills. This weeds out most scepters right away.
-                    if self._template_finder.search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
+                    if self._template_finder.search(
+                        "2_TO_PALADIN_SKILLS",
+                        img_stats,
+                        roi=self.roi_shop_item_stats,
+                        threshold=0.94,
+                    ).valid:
                         # Has 2 Pally skills, check blessed hammers next
-                        if self._template_finder.search("TO_BLESSED_HAMMERS", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                        if self._template_finder.search(
+                            "TO_BLESSED_HAMMERS",
+                            img_stats,
+                            roi=self.roi_shop_item_stats,
+                            threshold=0.9,
+                        ).valid:
                             # Has 2 Pally skills AND Blessed Hammers, check Concentration next
-                            if self._template_finder.search("TO_CONCENTRATION", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                            if self._template_finder.search(
+                                "TO_CONCENTRATION",
+                                img_stats,
+                                roi=self.roi_shop_item_stats,
+                                threshold=0.9,
+                            ).valid:
                                 # Has 2 Pally skills AND Blessed Hammers AND Concentration. We're good! Buy it!
                                 mouse.click(button="right")
                                 Logger.info(f"Item bought!")
@@ -146,18 +174,26 @@ class DrognanShopper:
             wait(0.4, 0.6)
 
     # A simplified form of the move() function from pather.py
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def move(
+        self,
+        pos_monitor: Tuple[float, float],
+        force_tp: bool = False,
+        force_move: bool = False,
+    ):
         factor = self._config.advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
         pos_abs = self._screen.convert_screen_to_abs(pos_screen)
         dist = math.dist(pos_abs, (0, 0))
         min_wd = self._config.ui_pos["min_walk_dist"]
-        max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+        max_wd = random.randint(
+            int(self._config.ui_pos["max_walk_dist"] * 0.65),
+            self._config.ui_pos["max_walk_dist"],
+        )
         adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
         pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
         x, y = self._screen.convert_abs_to_monitor(pos_abs)
-        mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
+        mouse.move(x, y, randomize=5, delay_factor=[factor * 0.1, factor * 0.14])
         wait(0.012, 0.02)
         if force_move:
             keyboard.send(self._config.char["force_move"])

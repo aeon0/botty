@@ -8,7 +8,7 @@ class Messenger:
         self._config = Config()
 
     def send(self, msg):
-        if self._config.advanced_options['message_highlight']:
+        if self._config.advanced_options["message_highlight"]:
             if " magic_" in msg:
                 msg = f"```ini\\n[ {msg} \\n```"
             elif " set_" in msg:
@@ -26,15 +26,18 @@ class Messenger:
         self._send(msg=msg)
 
     def _send(self, msg):
-        url = self._config.general['custom_message_hook']
+        url = self._config.general["custom_message_hook"]
         if not url:
             return
 
         headers = {}
-        if self._config.advanced_options['message_headers']:
-            headers = json.loads(self._config.advanced_options['message_headers'])
+        if self._config.advanced_options["message_headers"]:
+            headers = json.loads(self._config.advanced_options["message_headers"])
 
-        data = json.loads(self._config.advanced_options['message_body_template'].format(msg=msg), strict=False)
+        data = json.loads(
+            self._config.advanced_options["message_body_template"].format(msg=msg),
+            strict=False,
+        )
 
         requests.post(url, headers=headers, json=data)
 

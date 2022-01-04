@@ -17,6 +17,7 @@ class GraphicDebuggerController:
     to race condition, if you plan to touch it from within a thread you might have to
     add a locking mechanism to order to access it.
     """
+
     is_running = False
 
     def __init__(self, config: Config):
@@ -36,7 +37,8 @@ class GraphicDebuggerController:
         GraphicDebuggerController.is_running = True
 
     def stop(self):
-        if self.debugger_thread: kill_thread(self.debugger_thread)
+        if self.debugger_thread:
+            kill_thread(self.debugger_thread)
         GraphicDebuggerController.is_running = False
 
     def run_debugger(self):
@@ -51,17 +53,43 @@ class GraphicDebuggerController:
             item_list = self.item_finder.search(img)
             for item in item_list:
                 cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
-                cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                cv2.putText(
+                    combined_img,
+                    item.name,
+                    item.center,
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (255, 255, 255),
+                    1,
+                    cv2.LINE_AA,
+                )
             if len(item_list) > 0:
                 print(item_list)
             # Show Town A5 template matches
             scores = {}
             for template_name in search_templates:
-                template_match = self.template_finder.search(template_name, img, threshold=0.65)
+                template_match = self.template_finder.search(
+                    template_name, img, threshold=0.65
+                )
                 if template_match.valid:
                     scores[template_match.name] = template_match.score
-                    cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                    cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
+                    cv2.putText(
+                        combined_img,
+                        str(template_name),
+                        template_match.position,
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1,
+                        (255, 255, 255),
+                        2,
+                        cv2.LINE_AA,
+                    )
+                    cv2.circle(
+                        combined_img,
+                        template_match.position,
+                        7,
+                        (255, 0, 0),
+                        thickness=5,
+                    )
             if len(scores) > 0:
                 print(scores)
             # Show img

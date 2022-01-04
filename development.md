@@ -18,6 +18,15 @@ Important info for Powershell users:
 conda init powershell
 ```
 
+## Consistent formatting
+Black formatter is used to enforce consistently formatted python code. To auto-format on commit run
+```pre-commit install```
+any commit will then trigger black formatting.
+
+
+This is totally optional, but it can be helpful to add a trigger for black formatting on save in your IDE/editor.
+
+
 ## Tests
 All automated tests can be found within the **/test/*** folder. The file and folder structure is supposed to mimic the src folder.
 ```bash

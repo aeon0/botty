@@ -8,16 +8,15 @@ import getpass
 
 parser = argparse.ArgumentParser(description="Build Botty")
 parser.add_argument(
-    "-v" , "--version",
-    type=str,
-    help="New release version e.g. 0.4.2",
-    default=""
+    "-v", "--version", type=str, help="New release version e.g. 0.4.2", default=""
 )
 parser.add_argument(
-    "-c", "--conda_path",
+    "-c",
+    "--conda_path",
     type=str,
     help="Path to local conda e.g. C:\\Users\\USER\\miniconda3",
-    default=f"C:\\Users\\{getpass.getuser()}\\miniconda3")
+    default=f"C:\\Users\\{getpass.getuser()}\\miniconda3",
+)
 args = parser.parse_args()
 
 
@@ -32,6 +31,7 @@ def clean_up():
     if os.path.exists("shopper.spec"):
         os.remove("shopper.spec")
 
+
 if __name__ == "__main__":
     new_version_code = None
     if args.version != "":
@@ -39,11 +39,11 @@ if __name__ == "__main__":
         os.system(f"git checkout -b new-release-v{args.version}")
         botty_dir = f"botty_v{args.version}"
         version_code = ""
-        with open('src/version.py', 'r') as f:
+        with open("src/version.py", "r") as f:
             version_code = f.read()
         version_code = version_code.split("=")
-        new_version_code = f"{version_code[0]}= '{args.version}'"
-        with open('src/version.py', 'w') as f:
+        new_version_code = f'{version_code[0]}= "{args.version}"'
+        with open("src/version.py", "w") as f:
             f.write(new_version_code)
     else:
         botty_dir = f"botty_v{__version__}"
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     os.system(f"cd {botty_dir} && mkdir config && cd ..")
 
-    with open(f"{botty_dir}/config/custom.ini", "w") as f: 
+    with open(f"{botty_dir}/config/custom.ini", "w") as f:
         f.write("; Add parameters you want to overwrite from param.ini here")
     shutil.copy("config/game.ini", f"{botty_dir}/config/")
     shutil.copy("config/params.ini", f"{botty_dir}/config/")
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     clean_up()
 
     if new_version_code is not None:
-        os.system(f'git add .')
+        os.system(f"git add .")
         os.system(f'git commit -m "Bump version to v{args.version}"')
