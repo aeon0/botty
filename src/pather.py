@@ -307,6 +307,9 @@ class Pather:
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
 
+    def adapt_path(self,key: tuple[Location, Location], new_node_sequence: list[int]):
+        self._paths[key] = new_node_sequence
+
     def offset_node(self, node_idx: int, offset: tuple[int, int]):
         """Will offset any node. e.g. can be used in char files to change final attacking positions
         :param node_idx: Index of node to be changed
