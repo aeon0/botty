@@ -61,6 +61,7 @@ class Config:
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "d2r_path": self._select_val("general", "d2r_path"),
         }
 
         # Added for dclone ip hunting
