@@ -45,7 +45,7 @@ class NpcManager:
                         "blue": color_filter(self._template_finder.get_template("RESURRECT_BLUE"), self._config.colors["blue"])[1],
                     }
                 },
-                "template_group": ["QUAL_FRONT", "QUAL_SIDE", "QUAL_BACK", "QUAL_45", "QUAL_45_2", "QUAL_45_3"]
+                "template_group": ["QUAL_FRONT", "QUAL_SIDE", "QUAL_SIDE_2", "QUAL_BACK", "QUAL_45", "QUAL_45_2", "QUAL_45_3"]
             },
             Npc.MALAH: {
                 "name_tag_white": color_filter(self._template_finder.get_template("MALAH_NAME_TAG_WHITE"), self._config.colors["white"])[1],
@@ -194,23 +194,26 @@ class NpcManager:
 
     def open_npc_menu(self, npc_key: Npc) -> bool:
         roi = self._config.ui_roi["cut_skill_bar"]
-        # Check if we by chance have cain selected while pathing
-        _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
-        if self._template_finder.search(self._npcs[Npc.CAIN]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid:
-            keyboard.send("esc")
+        roi_npc_search = self._config.ui_roi["search_npcs"]
         # Search for npc name tags by hovering to all template locations that are found
         start = time.time()
         while (time.time() - start) < 35:
             img = self._screen.grab()
             results = []
             for key in self._npcs[npc_key]["template_group"]:
-                res = self._template_finder.search(key, img, threshold=0.35, roi=roi, normalize_monitor=True)
+                res = self._template_finder.search(key, img, threshold=0.35, roi=roi_npc_search, normalize_monitor=True)
                 if res.valid:
-                    results.append({"pos": res.position, "score": res.score})
+                    is_unique = True
+                    for r in results:
+                        if (abs(r["pos"][0] - res.position[0]) + abs(r["pos"][1] - res.position[1])) < 22:
+                            is_unique = False
+                            break
+                    if is_unique:
+                        results.append({"pos": res.position, "score": res.score})
             results = sorted(results, key=lambda r: r["score"], reverse=True)
 
             for result in results:
-                mouse.move(*result["pos"], randomize=3, delay_factor=[0.9, 1.5])
+                mouse.move(*result["pos"], randomize=3, delay_factor=[0.3, 0.5])
                 wait(0.2, 0.3)
                 _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
                 _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])

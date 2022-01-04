@@ -41,8 +41,9 @@ class Arcane:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(2, 7)
-        return Location.A2_ARC_START
+        if self._ui_manager.use_wp(2, 7):
+            return Location.A2_ARC_START
+        return False
 
     def _find_summoner(self, traverse_to_summoner: list[tuple[float, float]]) -> bool:
         # Check if we arrived at platform
