@@ -269,7 +269,7 @@ class UiManager():
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
-            if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name):
+            if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
                 include_props = False    
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
