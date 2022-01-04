@@ -21,3 +21,4 @@ dependencies:
     - psutil
     - pywin32
     - pillow
+    - mttkinter
