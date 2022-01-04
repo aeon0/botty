@@ -232,8 +232,13 @@ class Pather:
             642: {"DIA_B2U2_10": (-96, 90), "DIA_B2U2_7": (122, -107), "DIA_B2U2_17": (-65, 216), "DIA_B2U2_5": (304, 58), "DIA_B2U2_13": (178, -293), "DIA_B2U2_3": (287, 200), "DIA_B2U2_15": (50, 366), "DIA_B2U2_2": (419, -70), "DIA_B2U2_6": (256, -342), "DIA_B2U2_20": (-406, 151), }, #safe-dist
             643: {"DIA_B2U2_3": (75, -82), "DIA_B2U2_4": (229, -21), "DIA_B2U2_5": (92, -224), "DIA_B2U2_6": (-122, 246), "DIA_B2U2_13": (-201, 296), "DIA_B2U2_10": (-308, -192), "DIA_B2U2_1": (163, 382), "DIA_B2U2_17": (-407, 105), "DIA_B2U2_15": (-292, 255) }, #boss seal far # ,  "DIA_B2U2_21": (-282, 256), 
             644: {"DIA_B2U2_15": (50, 6),  "DIA_B2U2_13": (141, 47), "DIA_B2U2_17": (-65, -144), "DIA_B2U2_6": (220, -3), "DIA_B2U2_7": (85, 233), "DIA_B2U2_16_OPEN": (-308, -18), "DIA_B2U2_16_CLOSED": (-308, -18), "DIA_B2U2_16_MOUSEOVER": (-308, -18), "DIA_B2U2_22": (-334, 149), "DIA_B2U2_19": (-344, 270), "DIA_B2U2_10": (34, -441), }, # boss seal close #"DIA_B2U2_21": (59, 6),
-            645: {"DIA_B2U2_16": (81, 34), "DIA_B2U2_20": (-18, -157), "DIA_B2U2_18": (-185, 98), "DIA_B2U2_19": (44, 322), "DIA_B2U2_17": (323, -92), "DIA_B2U2_12": (-123, 377),  "DIA_B2U2_13": (530, 99), "DIA_B2U2_15": (439, 58),}, # boss seal far  "DIA_B2U2_21": (448, 58), "DIA_B2U2_22": (55, 219),
+            645: {"DIA_B2U2_16_CLOSED": (81, 34), "DIA_B2U2_16_OPEN": (81, 34), "DIA_B2U2_16_MOUSEOVER": (81, 34),"DIA_B2U2_20": (-18, -157), "DIA_B2U2_18": (-185, 98), "DIA_B2U2_19": (44, 322), "DIA_B2U2_17": (323, -92), "DIA_B2U2_12": (-123, 377),  "DIA_B2U2_13": (530, 99), "DIA_B2U2_15": (439, 58),}, # boss seal far  "DIA_B2U2_21": (448, 58), "DIA_B2U2_22": (55, 219),
             646: {"DIA_B2U2_1": (37, 203), "DIA_B2U2_14": (31, 246), "DIA_B2U2_6": (-248, 67), "DIA_B2U2_13": (-327, 117), }, #safe-dist2
+            647: {"DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), },
+            648: {"DIA_B2U_CAL_14": (19, -193), "DIA_B2U_CAL_13": (-218, -46), "DIA_B2U_CAL_17": (266, 49), "DIA_B2U_CAL_18": (217, 222), "DIA_B2U_CAL_16": (377, 79), "DIA_B2U_CAL_15": (524, 85), "DIA_B2U_CAL_8": (-574, 95), "DIA_B2U_CAL_19": (698, -131), },
+            649: {"DIA_B2U_CAL_17": (-59, 210), "DIA_B2U_CAL_16": (52, 240), "DIA_B2U_CAL_14": (-306, -32), "DIA_B2U_CAL_15": (199, 246), "DIA_B2U_CAL_19": (373, 30), "DIA_B2U_CAL_18": (-108, 383), "DIA_B2U_CAL_13": (-543, 115), "DIA_B2U_CAL_8": (-899, 256), },
+            #6499: {"DIA_B2U_CAL2_6": (40, -185), "DIA_B2U_CAL2_7": (-191, -69), "DIA_B2U_CAL2_5": (187, -92), "DIA_B2U_CAL2_1": (43, 230), "DIA_B2U_CAL2_2": (-132, 222), "DIA_B2U_CAL2_0": (203, 234), "DIA_B2U_CAL2_9": (-272, 283), "DIA_B2U_CAL2_8": (-460, 71),},
+
 
             #SEAL C1F_new Infector
             650: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164),"DIA_C1F5_4": (475, -273), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
@@ -576,7 +581,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
-    display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
+    display_all_nodes(pather, "DIA_B2U_LAYOUTCHECK")
 
 
     # # changing node pos and generating new code
@@ -610,8 +615,8 @@ if __name__ == "__main__":
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
 
     # NEW A1L
-    pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("dia_a_layout", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes([610], char) # departure
     #pather.traverse_nodes([611], char) # approach
     #pather.traverse_nodes([612], char) # seal boss far
@@ -641,11 +646,22 @@ if __name__ == "__main__":
     #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW B2U
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_b_layout", char)
-    #pather.traverse_nodes([640], char) # approach
-    #pather.traverse_nodes([641], char) # approach2 
-    #pather.traverse_nodes([642], char) # safe dist
+    """
+    pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_b_layout_bold", char)
+    pather.traverse_nodes([640], char) # approach
+    pather.traverse_nodes([641], char) # approach2 
+    pather.traverse_nodes([642], char) # safe dist
+    pather.traverse_nodes([649], char) # safe dist
+    pather.traverse_nodes([648], char) # safe dist
+    pather.traverse_nodes([647], char) # safe dist
+    pather.traverse_nodes([645], char) # safe dist
+    pather.traverse_nodes([644], char) # safe dist
+    pather.traverse_nodes([645], char) # safe dist
+    pather.traverse_nodes([647], char) # safe dist
+    pather.traverse_nodes([648], char) # safe dist
+    pather.traverse_nodes([649], char) # safe dist
+    """
     #pather.traverse_nodes([643], char) # seal boss far
     #pather.traverse_nodes([644], char) # seal boss close
     #pather.traverse_nodes([645], char) # seal boss far2
