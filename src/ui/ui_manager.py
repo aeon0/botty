@@ -51,7 +51,7 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen(3):
+        if self.wait_for_loading_screen(5):
             while 1:
                 if not self.wait_for_loading_screen(0.2):
                     return True

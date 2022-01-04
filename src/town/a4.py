@@ -48,7 +48,7 @@ class A4(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True): return False
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A4_TYRAEL_STASH
@@ -62,7 +62,7 @@ class A4(IAct):
         return False
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char):
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():

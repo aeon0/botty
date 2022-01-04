@@ -19,4 +19,4 @@ dependencies:
     - pytest-pythonpath
     - graphviz
     - psutil
-    - pywin32
+    - pywin32==225
