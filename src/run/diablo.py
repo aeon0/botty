@@ -339,8 +339,8 @@ class Diablo:
         templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.info("A1L Layout_check step 1/2: A2Y templates NOT found")
-            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
+            if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
                 Logger.info("A1L Layout_check step 2/2: Failed to determine the right Layout at A (Vizier) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
@@ -369,18 +369,18 @@ class Diablo:
         #We check for B1S templates first, they are more distinct
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.info("B1S Layout_check step 1/2: B1S templates found")
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"]
-            if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.info("B1S Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
+            Logger.debug("B1S Layout_check step 1/2: B1S templates found")
+            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7"]
+            if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
+                Logger.debug("B1S Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.info("B1S Layout_check step 2/2: B2U templates NOT found - all fine, proceeding with B1S")
+                Logger.debug("B1S Layout_check step 2/2: B2U templates NOT found - all fine, proceeding with B1S")
                 if not self._seal_B1(): return False
         else:
             Logger.debug("B2U Layout_check step 1/2: B1S templates NOT found")
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5"]
+            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7"]
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug("B2U Layout_check step 2/2: B2U templates found - all fine, proceeding with B2U")
                 if not self._seal_B2(): return False
@@ -400,14 +400,14 @@ class Diablo:
         #We check for C1F templates first, they are more distinct
         templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"]
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.info("C1F Layout_check step 1/2: C2G templates NOT found")
+            Logger.debug("C1F Layout_check step 1/2: C2G templates NOT found")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.info("C1F Layout_check step 2/2: Failed to determine the right Layout at C (Infector) - aborting run")
+                Logger.debug("C1F Layout_check step 2/2: Failed to determine the right Layout at C (Infector) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C1F_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.info("C1F Layout_check step 2/2: C1F templates found - all fine, proceeding with C1F")
+                Logger.debug("C1F Layout_check step 2/2: C1F templates found - all fine, proceeding with C1F")
                 if not self._seal_C1(): return False
         else:
             Logger.debug("C2G Layout_check step 1/2: C2G templates found")

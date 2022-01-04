@@ -39,7 +39,7 @@ class Hammerdin(IChar):
                 mouse.release(button="left")
             wait(0.01, 0.05)
             keyboard.send(self._char_config["stand_still"], do_press=False)
-
+        
     def pre_buff(self):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
