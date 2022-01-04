@@ -268,6 +268,9 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
+            #Disable include params for uniq, rare, magical if ident is disabled in params.ini
+            if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name):
+                include_props = False    
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
                 self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
@@ -289,6 +292,10 @@ class UiManager():
                             found_props.append(True)
                         else:
                             found_props.append(False)
+                            #bugfix right now items are going to be discarded if "or" and 1 value is valid therefor include needs to be true in here 
+                            #and we will break out of the loop
+                            include = True
+                            break
                     if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                         include = True
                 if not include:
