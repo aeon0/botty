@@ -10,6 +10,7 @@ from config import Config
 import tkinter as tk
 from template_finder import TemplateFinder
 from PIL import ImageTk, Image
+import re
 
 
 class GraphicDebuggerController:
@@ -96,28 +97,30 @@ class GraphicDebuggerController:
         slidebars_frame.grid(column=0, row=0)
 
         ########### Current Layer info ###########
-        label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Current layer name:"))
-        label.grid(column=2, row=0, sticky=tk.N+tk.W)
-        self.current_layer_name_text = tk.Text(slidebars_frame, height=1, width=25)
+        frame = tk.Frame(slidebars_frame)
+        label = tk.Label(frame, textvariable=tk.StringVar(value="Current layer name:"))
+        label.grid(column=0, row=0, sticky=tk.W)
+        self.current_layer_name_text = tk.Text(frame, height=1, width=25)
         self.current_layer_name_text.configure(state='normal')
         self.current_layer_name_text.insert(1.0, "my_layer_name")
-        self.current_layer_name_text.grid(column=2, row=1, sticky=tk.N)
-        label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Current layer value: (you can copy this)"))
-        label.grid(column=2, row=2, sticky=tk.N)
-        self.current_layer_value_text = tk.Text(slidebars_frame, height=1, width=25)
+        self.current_layer_name_text.grid(column=0, row=1, sticky=tk.N+tk.W)
+        label = tk.Label(frame, textvariable=tk.StringVar(value="Current layer value: (you can copy this)"))
+        label.grid(column=0, row=2, sticky=tk.N+tk.W)
+        self.current_layer_value_text = tk.Text(frame, height=1, width=25)
         self.current_layer_value_text.configure(bg=self.app.cget('bg'), relief='flat')
         self.current_layer_value_text.configure(state='disabled')
-        self.current_layer_value_text.grid(column=2, row=3, sticky=tk.N)
+        self.current_layer_value_text.grid(column=0, row=3, sticky=tk.N+tk.W)
+        # Load
+        load_layer_label = tk.Label(frame, textvariable=tk.StringVar(value="Load layer: (format: h_min,s_min,v_min,h_max,s_max,v_max)"))
+        load_layer_label.grid(column=0, row=4, sticky=tk.N+tk.W)
+        self.load_layer_text = tk.Text(frame, height=1, width=25)
+        self.load_layer_text.configure(state='normal')
+        self.load_layer_text.grid(column=0, row=5, sticky=tk.N+tk.W)
+        load_button = tk.Button(frame, text='Load', command=self.load_layer)
+        load_button.grid(column=0, row=6, sticky=tk.N+tk.W)
+        frame.grid(column=2, row=0, rowspan=2)
         self.update_text_box()
 
-        # Load
-        load_layer_label = tk.Label(slidebars_frame, textvariable=tk.StringVar(value="Load layer: (format: h_min,s_min,v_min,h_max,s_max,v_max)"))
-        load_layer_label.grid(column=3, row=0)
-        self.load_layer_text = tk.Text(slidebars_frame, height=1, width=25)
-        self.load_layer_text.configure(state='normal')
-        self.load_layer_text.grid(column=3, row=1)
-        # add_all_existing_layers_button = tk.Button(layers_button_frame, text='<<', command=self.add_all_existing_layers)
-        # add_all_existing_layers_button.grid(column=0, row=0)
 
         ########### Buttons (Top right) ###########
         buttons_frame = tk.Frame(self.app)
@@ -211,6 +214,22 @@ class GraphicDebuggerController:
             self.displayed_layers = {}
             for key, value in self.active_layers.items():
                 self.displayed_layers[key] = value
+
+    def load_layer(self):
+        string_value = self.load_layer_text.get(1.0, tk.END).strip()
+        pattern = re.compile("^\d{0,3},\d{0,3},\d{0,3},\d{0,3},\d{0,3},\d{0,3}$")
+        match = bool(re.match(pattern, string_value))
+        if match:
+            values = string_value.split(',')
+            self.h_l.set(values[0])
+            self.s_l.set(values[1])
+            self.v_l.set(values[2])
+            self.h_u.set(values[3])
+            self.s_u.set(values[4])
+            self.v_u.set(values[5])
+        else:
+            print('String in the wrong format, it should match this regex: ^\\d{0,3},\\d{0,3},\\d{0,3},\\d{0,3},\\d{0,3},\\d{0,3}$')
+        self.update_text_box()
 
     def _add_layer_to_active(self, layer_name, layer_value):
         if layer_name not in self.active_layers:
