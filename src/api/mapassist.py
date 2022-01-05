@@ -78,6 +78,7 @@ if __name__ == "__main__":
         print("-")
         img = screen.grab().copy()
         data = api.get_data()
+        map_img = None
         if data is not None:
             for monster in data["monsters"]:
                 screen_pos = screen.convert_abs_to_screen(monster["position"])
@@ -87,9 +88,14 @@ if __name__ == "__main__":
                 cv2.rectangle(img, top_left, bottom_right, (0, 0, 255), 2)
 
             if data["map"] is not None:
-                for row in data["map"]:
-                    print(row)
+                height = data["map"]
+                width = data["map"][0]
+                map_img = np.array(data["map"])
+                map_img[map_img == -1] = 255
+                map_img = map_img.astype(np.uint8)
 
         time.sleep(0.1)
         cv2.imshow("t", img)
+        if map_img is not None:
+            cv2.imshow("map", map_img)
         cv2.waitKey(1)
