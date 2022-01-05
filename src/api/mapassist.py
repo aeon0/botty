@@ -40,26 +40,38 @@ class MapAssistApi:
         scalem = scaling_matrix(27, 13.5)
         self._transform_matrix = tm_p @ rm @ scalem
         self._transform_matrix = np.transpose(self._transform_matrix)
+        self._inv_transform_matrix = np.linalg.inv(self._transform_matrix)
 
     def world_to_abs_screen(self, world_pos):
         cp = np.array([world_pos[0], world_pos[1], 1.0])
         res = self._transform_matrix @ cp
         res = np.transpose(res)
-        res = np.array([res[0] / res[2], res[1] / res[2]])
+        res = np.array([int(res[0] / res[2]), int(res[1] / res[2])])
+        return res
+
+    def abs_screen_to_world(self, abs_screen_pos):
+        cp = np.array([abs_screen_pos[0], abs_screen_pos[1], 1.0])
+        res = self._inv_transform_matrix @ cp
+        res = np.transpose(res)
+        res = np.array([int(res[0] / res[2]), int(res[1] / res[2])])
         return res
 
     def get_data(self) -> dict:
         try:
             botty_data = {
                 "monsters": [],
-                "map": None
+                "map": None,
+                "player_pos_world": None,
+                "area_origin": None,
             }
             resp = requests.post("http://localhost:1111/get_data")
             data = resp.json()
             if data["success"] == True:
-                botty_data["map"] = data["collision_grid"]
-                player_pos = np.array([data["player_pos"]["X"], data["player_pos"]["Y"], 1.0])
-                self.update_transform_matrix(player_pos)
+                botty_data["map"] = np.array(data["collision_grid"])
+                botty_data["area_origin"] = np.array([int(data["area_origin"]["X"]), int(data["area_origin"]["Y"])])
+                botty_data["player_pos_world"] = np.array([data["player_pos"]["X"], data["player_pos"]["Y"]])
+                botty_data["player_pos_area"] = botty_data["player_pos_world"] - botty_data["area_origin"]
+                self.update_transform_matrix(botty_data["player_pos_world"])
                 for monster in data["monsters"]:
                     world_pos = np.array([monster["position"]["X"], monster["position"]["Y"]])
                     abs_pos = self.world_to_abs_screen(world_pos)
@@ -88,11 +100,22 @@ if __name__ == "__main__":
                 cv2.rectangle(img, top_left, bottom_right, (0, 0, 255), 2)
 
             if data["map"] is not None:
-                height = data["map"]
-                width = data["map"][0]
-                map_img = np.array(data["map"])
+                print(data["player_pos_area"])
+                map_img = data["map"][:,:]
                 map_img[map_img == -1] = 255
                 map_img = map_img.astype(np.uint8)
+                map_img = cv2.cvtColor(map_img, cv2.COLOR_GRAY2BGR)
+                p = (int(data["player_pos_area"][0]), int(data["player_pos_area"][1]))
+                cv2.circle(map_img, p, 3, (0, 255, 0), 2)
+                # viewport area of screen
+                top_left = api.abs_screen_to_world([-640, -360]) - data["area_origin"]
+                top_right = api.abs_screen_to_world([640, -360]) - data["area_origin"]
+                bottom_right = api.abs_screen_to_world([640, 360]) - data["area_origin"]
+                bottom_left = api.abs_screen_to_world([-640, 360]) - data["area_origin"]
+                cv2.line(map_img, top_left, top_right, (0, 0, 255), 2)
+                cv2.line(map_img, top_right, bottom_right, (0, 0, 255), 2)
+                cv2.line(map_img, bottom_right, bottom_left, (0, 0, 255), 2)
+                cv2.line(map_img, bottom_left, top_left, (0, 0, 255), 2)
 
         time.sleep(0.1)
         cv2.imshow("t", img)
