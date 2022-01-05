@@ -10,7 +10,7 @@ from item import ItemFinder, Item
 from ui import UiManager
 from ui import BeltManager
 from char import IChar
-
+from tesserocr import PyTessBaseAPI, PSM, OEM
 
 class PickIt:
     def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
