@@ -52,6 +52,7 @@ class Location:
     A2_WP = "a2_wp"
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
+    A2_LYSANDER = "a2_lysander"    
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -267,9 +268,16 @@ class Pather:
             # A2 Town
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
+            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
+            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [701],
