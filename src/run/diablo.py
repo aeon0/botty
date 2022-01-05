@@ -236,7 +236,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #"""
         ### GO HOME ###
-        if not self._char.kill_deseis([633], [634]): return False # calibrating before going home to pentagram
+        if not self._pather.traverse_nodes([633, 634], self._char): return False # seal boss far # calibrating before going home to pentagram
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_b1s_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False

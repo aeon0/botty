@@ -576,14 +576,14 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
 
 
-    #display_all_nodes(pather, "DIA_B1S")
+    display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
-    display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
+    #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
 
 
     # # changing node pos and generating new code
