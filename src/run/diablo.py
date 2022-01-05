@@ -200,9 +200,9 @@ class Diablo:
         if not self._pather.traverse_nodes([623, 624], self._char): return False
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([625], self._char): return False
-        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSOVER"], seal_layout + "-Fake"): return False
+        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626
-        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSOVER"], seal_layout + "-Boss"): return False
+        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss"): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
@@ -228,7 +228,7 @@ class Diablo:
         #self._char.kill_cs_trash() #done during sealcheck
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([634], self._char): return False # seal boss far
-        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED"], seal_layout + "-Boss")
+        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss")
         self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, if we are lucky with his spawn.
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
@@ -280,9 +280,9 @@ class Diablo:
         #self._char.kill_cs_trash() #done during layout check
         if not self._pather.traverse_nodes([653], self._char, time_out=3): return False
         self._char.kill_cs_trash()
-        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_CLOSED_1", "DIA_C1F2_23_CLOSED_2", "DIA_C1F2_23_MOUSOVER"], seal_layout + "-Fake"): return False
+        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_CLOSED_1", "DIA_C1F2_23_CLOSED_2", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "-Fake"): return False
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char) # REPLACES: if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
-        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_11_CLOSED", "DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSOVER"], seal_layout + "-Boss"): return False # "DIA_C1F2_8_MOUSEOVER", is recognized often, but slows seals down. commented out for testing
+        if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_11_CLOSED", "DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "-Boss"): return False # "DIA_C1F2_8_MOUSEOVER", is recognized often, but slows seals down. commented out for testing
         self._pather.traverse_nodes_fixed("dia_c1f_702", self._char) #if not self._pather.traverse_nodes([702], self._char): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
