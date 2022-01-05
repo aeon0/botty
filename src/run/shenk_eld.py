@@ -34,8 +34,9 @@ class ShenkEld:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(5, 1)
-        return Location.A5_ELDRITCH_START
+        if self._ui_manager.use_wp(5, 1):
+            return Location.A5_ELDRITCH_START
+        return False
 
     def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch

@@ -26,8 +26,9 @@ class A2(IAct):
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char): return False
-        self._npc_manager.open_npc_menu(Npc.FARA)
-        return Location.A2_FARA_STASH
+        if self._npc_manager.open_npc_menu(Npc.FARA):
+            return Location.A2_FARA_STASH
+        return False
     
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char):
@@ -44,9 +45,10 @@ class A2(IAct):
         
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char): return
-        self._npc_manager.open_npc_menu(Npc.FARA)
-        self._npc_manager.press_npc_btn(Npc.FARA, "trade_repair")
-        return Location.A2_FARA_STASH
+        if self._npc_manager.open_npc_menu(Npc.FARA):
+            self._npc_manager.press_npc_btn(Npc.FARA, "trade_repair")
+            return Location.A2_FARA_STASH
+        return False
 
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
