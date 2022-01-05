@@ -1,0 +1,3 @@
+[pytest11]
+env = pytest_env.plugin
+

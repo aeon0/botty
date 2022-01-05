@@ -1,0 +1,12 @@
+..\certifi\__init__.py
+..\certifi\__main__.py
+..\certifi\__pycache__\__init__.cpython-39.pyc
+..\certifi\__pycache__\__main__.cpython-39.pyc
+..\certifi\__pycache__\core.cpython-39.pyc
+..\certifi\cacert.pem
+..\certifi\core.py
+PKG-INFO
+SOURCES.txt
+dependency_links.txt
+not-zip-safe
+top_level.txt

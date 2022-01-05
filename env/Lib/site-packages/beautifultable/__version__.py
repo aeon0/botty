@@ -1,0 +1,8 @@
+__title__ = "beautifultable"
+__description__ = "Print text tables for terminals"
+__url__ = "https://github.com/pri22296/beautifultable"
+__version__ = "1.0.1"
+__author__ = "Priyam Singh"
+__author_email__ = "priyamsingh.22296@gmail.com"
+__license__ = "MIT"
+__copyright__ = "Copyright (c) 2021 Priyam Singh"
