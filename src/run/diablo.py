@@ -209,9 +209,9 @@ class Diablo:
         self._char.kill_vizier([623], [624])
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([622], self._char): return False
         #"""
         ### GO HOME ###
+        if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
@@ -261,9 +261,9 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([640], self._char): return False
         #"""
         ### GO HOME ###
+        if not self._pather.traverse_nodes([640], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_b2u_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
@@ -316,6 +316,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #"""
         ### GO HOME ###
+        if not self._pather.traverse_nodes([665], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c2g_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
