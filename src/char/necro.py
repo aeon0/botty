@@ -229,7 +229,9 @@ class Necro(IChar):
         rot_deg=-180
 
         #enable this if your merc is dying
-        if(self._config.necro["clear_pindle_pack"]):
+        pindle_pack_kill = bool(int(self._skill_hotkeys["clear_pindle_pack"]))
+
+        if(pindle_pack_kill):
             Logger.info('\033[93m'+"optional pindle pack"+'\033[0m')
             self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
             wait(self._cast_duration, self._cast_duration +.2)
