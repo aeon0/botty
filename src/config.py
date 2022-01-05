@@ -161,6 +161,7 @@ class Config:
         self.necro = self._config["necro"]
         if "necro" in self._custom:
             self.necro.update(self._custom["necro"])
+            self.necro["clear_pindle_pack"] = bool(int(self.necro["clear_pindle_pack"]))
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
