@@ -52,6 +52,7 @@ class Location:
     A2_WP = "a2_wp"
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
+    A2_LYSANDER = "a2_lysander"    
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -126,7 +127,7 @@ class Pather:
             150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160)},
             151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
             # A4 town
-            160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
+            160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)}, 
             161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
             162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
             163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
@@ -267,9 +268,16 @@ class Pather:
             # A2 Town
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
+            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
+            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [701],
