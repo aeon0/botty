@@ -28,8 +28,9 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
+
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
-from town import TownManager, A2, A3, A4, A5
+from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
@@ -71,7 +72,8 @@ class Bot:
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a2, a3, a4, a5)
+        a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -186,7 +188,7 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
@@ -216,7 +218,7 @@ class Bot:
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
-            time.sleep(0.6)
+            time.sleep(1.6)
             DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
