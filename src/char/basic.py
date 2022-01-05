@@ -18,11 +18,8 @@ class Basic(IChar):
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
-        self._pather.offset_node(149, [120, 70])
-        # In case we have a running barb, we want to switch to ???? when moving to the boss
-        # as most likely we will click on some mobs 
-        if not self._skill_hotkeys["teleport"]:
-            self._do_pre_move = False
+        if self._skill_hotkeys["teleport"]:
+            self._pather.offset_node(149, [120, 70])
 
     def _cast_attack_pattern(self, time_in_s: float):
         keyboard.send(self._char_config["stand_still"], do_release=False)
