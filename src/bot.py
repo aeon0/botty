@@ -104,7 +104,6 @@ class Bot:
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
-        self._ids_left = 10 # assume half full id book
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -271,7 +270,6 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
-            self._ids_left = 20
             wait(1.0)
 
         # Check if merc needs to be revived
@@ -298,8 +296,6 @@ class Bot:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
-        if not self._ui_manager.has_ids():
-            self._ids_left = 0
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
@@ -314,14 +310,11 @@ class Bot:
         success = self._char.tp_town()
         if success:
             self._tps_left -= 1
-            self._ids_left -= 1
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
         if not self._ui_manager.has_tps():
             self._tps_left = 0
-        if not self._ui_manager.has_ids():
-            self._ids_left = 0
         self.trigger_or_stop("end_game", failed=True)
 
     # All the runs go here
