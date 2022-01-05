@@ -75,6 +75,7 @@ class GraphicDebuggerController:
     def run_debgger_ui(self):
         self.app = mttkinter.Tk()
         self.app.title("Graphic Debugger - Layer Creator")
+        self.app.protocol("WM_DELETE_WINDOW", self.app.iconify)
 
         ########### Variables ###########
         self.display_only_current_layer = tk.IntVar(value=0)
@@ -85,6 +86,7 @@ class GraphicDebuggerController:
         self.h_u = tk.IntVar(value=179)
         self.s_u = tk.IntVar(value=255)
         self.v_u = tk.IntVar(value=255)
+        self.image_resize_ratio = tk.DoubleVar(value=0.5)
 
         ########### Slidebars ###########
         slidebars_frame = tk.Frame(self.app)
@@ -100,7 +102,16 @@ class GraphicDebuggerController:
         sliderbar_s_u.grid(column=1, row=1)
         sliderbar_v_u = tk.Scale(slidebars_frame, label="V - Upper", from_=0, to=255, orient=tk.HORIZONTAL, length=255, variable=self.v_u, command=self.update_text_box)
         sliderbar_v_u.grid(column=1, row=2)
-        slidebars_frame.grid(column=0, row=0)
+        slidebars_frame.grid(column=1, row=0, sticky=tk.W)
+
+        # size slidebar
+        frame = tk.Frame(self.app)
+        frame.grid(column=0, row=0, sticky=tk.W)
+        label = tk.Label(frame, textvariable=tk.StringVar(value="Image Size"))
+        label.grid(column=0, row=0, sticky=tk.S)
+        # 1.6 is the max value that the tool can be used in fullscreen with a 2560x1440 monitor
+        slidebar_size = tk.Scale(frame, from_=1.6, to=0.4, orient=tk.VERTICAL, length=130, resolution=0.05, variable=self.image_resize_ratio)
+        slidebar_size.grid(column=0, row=1, sticky=tk.N)
 
         ########### Buttons (Top right) ###########
         frame = tk.Frame(self.app)
@@ -300,7 +311,8 @@ class GraphicDebuggerController:
                 if len(scores) > 0:
                     print(scores)
 
-            combined_img = cv2.resize(combined_img, None, fx=0.5, fy=0.5)
+            if self.image_resize_ratio.get() != 1:
+                combined_img = cv2.resize(combined_img, None, fx=self.image_resize_ratio.get(), fy=self.image_resize_ratio.get())
             # The processing was done in this thread, now pass it to the ui to display it on the window
             self.add_image(combined_img)
 
