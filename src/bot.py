@@ -211,6 +211,7 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
+
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
@@ -365,7 +366,7 @@ class Bot:
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-    
+
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
