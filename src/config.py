@@ -156,6 +156,16 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
+            
+        # Basic config
+        self.basic = self._config["basic"]
+        if "basic" in self._custom:
+            self.basic.update(self._custom["basic"])            
+
+        # Basic Ranged config
+        self.basic = self._config["basic_ranged"]
+        if "basic_ranged" in self._custom:
+            self.basic_ranged.update(self._custom["basic_ranged"])   
 
         # Necro config
         self.necro = self._config["necro"]
@@ -168,6 +178,7 @@ class Config:
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
             "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
+            "graphic_debugger_layer_creator": bool(int(self._select_val("advanced_options", "graphic_debugger_layer_creator"))),
         }
 
         self.items = {}
