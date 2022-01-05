@@ -365,7 +365,7 @@ class Bot:
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-    
+
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
