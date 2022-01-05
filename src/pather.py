@@ -576,7 +576,7 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
 
 
-    display_all_nodes(pather, "DIA_B1S")
+    #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
