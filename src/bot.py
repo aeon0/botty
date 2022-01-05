@@ -28,8 +28,10 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
+from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
+
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
 from town import TownManager, A1, A2, A3, A4, A5
 
@@ -63,6 +65,8 @@ class Bot:
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
             self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "necro":
+            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic":
             self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
         elif self._config.char["type"] == "basic_ranged":
