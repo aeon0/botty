@@ -233,14 +233,13 @@ class NpcManager:
                         if (abs(r["pos"][0] - res.position[0]) + abs(r["pos"][1] - res.position[1])) < 22:
                             is_unique = False
                             break
-                    min_dist=10000
-                    if attempts == 0 and "poses" in self._npcs[npc_key]:
-                        # find distance between template match and nearest pose (([x2] - x1)**2 + (y2 - y1)**2)
-                        for pose in self._npcs[npc_key]["poses"]:
-                            dist = sqrt((res.position[0] - pose[0])**2 + (res.position[1] - pose[1])**2)
-                            min_dist = dist if dist < min_dist else min_dist
-
                     if is_unique:
+                        min_dist=10000
+                        if attempts == 0 and "poses" in self._npcs[npc_key]:
+                            # find distance between template match and nearest pose (([x2] - x1)**2 + (y2 - y1)**2)
+                            for pose in self._npcs[npc_key]["poses"]:
+                                dist = sqrt((res.position[0] - pose[0])**2 + (res.position[1] - pose[1])**2)
+                                min_dist = dist if dist < min_dist else min_dist
                         results.append({"pos": res.position, "score": res.score, "combo": min_dist / (res.score**2)})
             # sort by composite of template match score and distance to NPC pose
             results = sorted(results, key=lambda r: r["combo"])
@@ -302,5 +301,5 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
-    npc_manager.open_npc_menu(Npc.TYRAEL)
+    npc_manager.open_npc_menu(Npc.MALAH)
     # npc_manager.press_npc_btn(Npc.ORMUS, "trade")

@@ -211,7 +211,6 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
