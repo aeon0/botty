@@ -157,6 +157,11 @@ class Config:
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
 
+        # Necro config
+        self.necro = self._config["necro"]
+        if "necro" in self._custom:
+            self.necro.update(self._custom["necro"])
+
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
