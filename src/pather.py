@@ -204,6 +204,8 @@ class Pather:
             613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357), 
             614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308), 
             615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218), 
+            619: {"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check
+
 
             # SEAL A2Y_new Vizier
             620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_34": (71, -32),"DIA_A2Y4_31": (199, 7),  "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_35": (64, -15), "DIA_A2Y4_37": (-238, 123), "DIA_A2Y4_36_MOUSEOVER": (133, 117),"DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_19": (234, 27), 
@@ -577,11 +579,11 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
-    display_all_nodes(pather, "DIA_A2Y")
+    #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
-    #display_all_nodes(pather, "DIA_B2U_LAYOUTCHECK")
+    display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
 
 
     # # changing node pos and generating new code
@@ -617,6 +619,7 @@ if __name__ == "__main__":
     # NEW A1L
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_a_layout", char)
+    #pather.traverse_nodes([619], char) # LAYOUT CALIBRATION CHECK
     #pather.traverse_nodes([610], char) # departure
     #pather.traverse_nodes([611], char) # approach
     #pather.traverse_nodes([612], char) # seal boss far

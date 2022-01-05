@@ -181,7 +181,7 @@ class Diablo:
         #if not self._pather.traverse_nodes([610], self._char): return False # NOT calibrating here brings us home with higher consistency.
         """
         ### GO HOME ###
-        if not self._pather.traverse_nodes([610, 611], self._char): return False # calibrating here brings us home with higher consistency.
+        if not self._pather.traverse_nodes([610, 611, 612, 613], self._char): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Looping to Pentagram")
         if not self._loop_pentagram("dia_a1l_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
@@ -341,6 +341,7 @@ class Diablo:
         templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
+            if not self._pather.traverse_nodes([619], self._char): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates
             templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
             if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
                 Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
@@ -371,25 +372,25 @@ class Diablo:
         #We check for B1S templates first, they are more distinct
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("B1-S Layout_check step 1/2: B1S templates found")
+            Logger.debug("B1-S: Layout_check step 1/2 - B1S templates found")
             if not self._pather.traverse_nodes([634], self._char): return False #seems to be B1S, so we are calibrating at a node of B1S, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
-                Logger.debug("B1-S Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
+                Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("B1-S Layout_check step 2/2: B2U templates NOT found - all fine, proceeding with B1S")
+                Logger.debug("B1-S: Layout_check step 2/2 - B2U templates NOT found - all fine, proceeding with B1S")
                 if not self._seal_B1(): return False
         else:
-            Logger.debug("B2-U Layout_check step 1/2: B1S templates NOT found")
+            Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
             if not self._pather.traverse_nodes([647], self._char, time_out=5): return False #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("B2-U Layout_check step 2/2: B2U templates found - all fine, proceeding with B2U")
+                Logger.debug("B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U")
                 if not self._seal_B2(): return False
             else:
-                Logger.debug("B2-U Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
+                Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B2U_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
@@ -411,7 +412,7 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C1F_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("C1-F_ Layout_check step 2/2 - C1F templates found - all fine, proceeding with C1F")
+                Logger.debug("C1-F: Layout_check step 2/2 - C1F templates found - all fine, proceeding with C1F")
                 if not self._seal_C1(): return False
         else:
             Logger.debug("C2-G: Layout_check step 1/2 - C2G templates found")
@@ -463,7 +464,6 @@ if __name__ == "__main__":
 
 # GAMEBREAKING:
 # B1S - Layout check sometimes fails for -> failed run, can only be caught by timeout for traverse nodes
-# B2U - we need a node at B2U Layoutcheck arrival to calibrate - if on the way to layout check you get into hit recovery, you check too low, the results however are correct, but the static path to the left brings you on the plattform below the seal & you fail.
 # B2U - Loop Returning home after killing De Seis does not recognize pentagram & goes towards CS entrance -> failed run, caught by pentagram loop timeout
 # If a stash is located near a bossfight, there wont be any fight. Botty will just try to click the stash
 
