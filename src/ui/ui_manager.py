@@ -16,15 +16,17 @@ from item import ItemFinder
 from template_finder import TemplateFinder
 
 from messenger import Messenger
+from game_stats import GameStats
 
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, game_stats: GameStats = None):
         self._config = Config()
         self._template_finder = template_finder
         self._messenger = Messenger()
+        self._game_stats = game_stats
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
@@ -34,7 +36,7 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        str_to_idx_map = {"WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        str_to_idx_map = {"WP_A1_ACTIVE": 1, "WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
         template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
         curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
         if curr_active_act != act:
@@ -49,10 +51,11 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen():
+        if self.wait_for_loading_screen(5):
             while 1:
                 if not self.wait_for_loading_screen(0.2):
-                    return
+                    return True
+        return False
 
     def is_right_skill_active(self) -> bool:
         """
@@ -73,7 +76,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_right"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -82,7 +85,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the left skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_left"]).valid:
                 return True
         return False
 
@@ -267,6 +270,7 @@ class UiManager():
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
                 filtered_list.append(x)
                 continue
             include = True
@@ -316,6 +320,7 @@ class UiManager():
                     break
             if include and not exclude:
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
                 filtered_list.append(x)
 
         return len(filtered_list) > 0

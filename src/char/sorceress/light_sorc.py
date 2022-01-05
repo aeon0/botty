@@ -21,7 +21,7 @@ class LightSorc(Sorceress):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
             pos_m = self._screen.convert_abs_to_monitor((x, y))
-            mouse.move(*pos_m)
+            mouse.move(*pos_m, delay_factor=[0.3, 0.6])
             mouse.press(button="left")
             wait(delay[0], delay[1])
             mouse.release(button="left")
@@ -35,7 +35,7 @@ class LightSorc(Sorceress):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
-            mouse.move(*cast_pos_monitor)
+            mouse.move(*cast_pos_monitor, delay_factor=[0.3, 0.6])
             mouse.press(button="right")
             wait(delay[0], delay[1])
             mouse.release(button="right")
@@ -79,46 +79,43 @@ class LightSorc(Sorceress):
         atk_len_trav_2 = int(self._char_config["atk_len_trav"] / 2)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         # Go inside cast stuff in general direction
-        self._pather.offset_node(229, [250, 130])
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
-        self._pather.offset_node(229, [-250, -130])
-        atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
-        if atk_pos_abs is None:
-            Logger.debug("Could not find node [230]. Using static attack coordinates instead.")
-            atk_pos_abs = [-300, -200]
-        else:
-            atk_pos_abs = [atk_pos_abs[0], atk_pos_abs[1] + 70]
-        cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
+        # Move to far right position
+        self._pather.traverse_nodes_fixed([(1210, 90)], self)
+        self._pather.offset_node(229, [320, 80])
+        self._pather.traverse_nodes([229], self, time_out=0.8, force_tp=True)
+        self._pather.offset_node(229, [-300, -62])
+        cast_pos_abs = np.array([-250, 0])
         self._chain_lightning(cast_pos_abs, spray=80)
         self._cast_static()
         for _ in range(atk_len_trav_2):
             self._chain_lightning(cast_pos_abs, spray=80)
-        self._lightning(cast_pos_abs, spray=60)
+        cast_pos_abs[1] += 50
+        for _ in range(atk_len_trav_2):
+            self._chain_lightning(cast_pos_abs, spray=80)
         # move a bit back
-        pos_m = self._screen.convert_abs_to_monitor((160, 30))
+        pos_m = self._screen.convert_abs_to_monitor((160, 80))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
-        if atk_pos_abs is None:
-            Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
-            atk_pos_abs = [-200, -80]
+        cast_pos_abs = np.array([-220, -95])
         self._chain_lightning(cast_pos_abs, spray=60)
         self._lightning(cast_pos_abs, spray=60)
         # Move outside
         # Move a bit back and another round
+        self._pather.offset_node(226, [0, 150])
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
-        cast_pos_abs = np.array([-300, -100])
+        self._pather.offset_node(226, [0, -150])
+        cast_pos_abs = np.array([-76, -146])
         for _ in range(atk_len_trav_2):
             self._chain_lightning(cast_pos_abs, spray=60)
         self._cast_static()
         # move a bit back
         pos_m = self._screen.convert_abs_to_monitor((100, 0))
-        cast_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
-        if cast_pos_abs is not None:
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            for _ in range(atk_len_trav_2):
-                self._chain_lightning(cast_pos_abs, spray=60)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        cast_pos_abs = np.array([-36, -126])
+        for _ in range(atk_len_trav_2):
+            self._chain_lightning(cast_pos_abs, spray=60)
+            self._lightning(cast_pos_abs, spray=60)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
@@ -145,6 +142,16 @@ class LightSorc(Sorceress):
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
 
+    def kill_summoner(self) -> bool:
+        # Attack
+        cast_pos_abs = np.array([0, 0])
+        pos_m = self._screen.convert_abs_to_monitor((-20, 20))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        for _ in range(int(self._char_config["atk_len_arc"])):
+            self._chain_lightning(cast_pos_abs, spray=11)
+            self._lightning(cast_pos_abs, spray=11)
+        wait(self._cast_duration, self._cast_duration + 0.2)
+        return True
 
 if __name__ == "__main__":
     import os
