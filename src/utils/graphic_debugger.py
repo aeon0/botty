@@ -62,10 +62,11 @@ class GraphicDebuggerController:
         # as list variable and/or the debugger itself, as it is getting a bit more complicated
         # should probably be moved to a separate class and let the controller just take care of it
         # in the main thread
-        self.active_layers = {}
-        self.displayed_layers = {}
-        self.panel = None
-        self.app.destroy()
+        if self._config.advanced_options['graphic_debugger_layer_creator']:
+            self.active_layers = {}
+            self.displayed_layers = {}
+            self.panel = None
+            self.app.destroy()
         if self.debugger_thread: kill_thread(self.debugger_thread)
         if self.ui_thread: kill_thread(self.ui_thread)
         cv2.destroyAllWindows()
