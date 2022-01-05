@@ -19,8 +19,6 @@ class Basic_Ranged(IChar):
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
-        if not self._skill_hotkeys["teleport"]:
-            self._do_pre_move = False
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
         if self._skill_hotkeys["left_attack"]:
@@ -44,7 +42,6 @@ class Basic_Ranged(IChar):
             mouse.click(button="right")
             
     def pre_buff(self):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
         if self._skill_hotkeys["buff_1"]:
             keyboard.send(self._skill_hotkeys["buff_1"])
             wait(0.5, 0.15)
@@ -55,7 +52,6 @@ class Basic_Ranged(IChar):
             wait(0.5, 0.15)
             mouse.click(button="right")
             wait(0.5, 0.15)
-        keyboard.send(self._char_config["stand_still"], do_press=False)
 
 
 #bosses            
