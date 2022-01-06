@@ -2,14 +2,14 @@ from dataclasses import dataclass
 from config import Config
 import numpy as np
 
-from api.discord_basic import DiscordBasic
+from api.generic_api import GenericApi
 from api.discord_embeds import DiscordEmbeds
 
 class Messenger:
     def __init__(self):
         self._config = Config()
-        if self._config.general["message_api_type"] == "discord_basic":
-            self._message_api = DiscordBasic()
+        if self._config.general["message_api_type"] == "generic_api":
+            self._message_api = GenericApi()
         elif self._config.general["message_api_type"] == "discord":
             self._message_api = DiscordEmbeds()
         else:

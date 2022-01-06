@@ -1,4 +1,4 @@
-from api.i_api import IApi
+from .generic_api import GenericApi
 from config import Config
 import cv2
 import datetime
@@ -7,7 +7,7 @@ from version import __version__
 import numpy as np
 from discord import Webhook, RequestsWebhookAdapter, Color
 
-class DiscordEmbeds(IApi):
+class DiscordEmbeds(GenericApi):
     def __init__(self):
         self._config = Config()
         self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
@@ -21,7 +21,7 @@ class DiscordEmbeds(IApi):
         file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
         e = discord.Embed(
             title="Item Stashed!",
-            description=f"{item}",
+            description=f"{item} at {location}",
             color=self._get_Item_Color( item),
         )
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
