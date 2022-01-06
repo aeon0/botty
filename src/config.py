@@ -62,6 +62,7 @@ class Config:
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "d2r_path": self._select_val("general", "d2r_path"),
         }
 
         # Added for dclone ip hunting
@@ -156,12 +157,29 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
+            
+        # Basic config
+        self.basic = self._config["basic"]
+        if "basic" in self._custom:
+            self.basic.update(self._custom["basic"])            
+
+        # Basic Ranged config
+        self.basic = self._config["basic_ranged"]
+        if "basic_ranged" in self._custom:
+            self.basic_ranged.update(self._custom["basic_ranged"])   
+
+        # Necro config
+        self.necro = self._config["necro"]
+        if "necro" in self._custom:
+            self.necro.update(self._custom["necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
+            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
+            "graphic_debugger_layer_creator": bool(int(self._select_val("advanced_options", "graphic_debugger_layer_creator"))),
         }
 
         self.items = {}
@@ -197,6 +215,7 @@ class Config:
             "shop_2_skills_ias_gloves": bool(int(self._select_val("gloves", "shop_2_skills_ias_gloves"))),
             "trap_min_score": int(self._select_val("claws", "trap_min_score")),
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
+            "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
         }
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:

@@ -36,7 +36,7 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        str_to_idx_map = {"WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        str_to_idx_map = {"WP_A1_ACTIVE": 1, "WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
         template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
         curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
         if curr_active_act != act:
@@ -51,10 +51,11 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen():
+        if self.wait_for_loading_screen(5):
             while 1:
                 if not self.wait_for_loading_screen(0.2):
-                    return
+                    return True
+        return False
 
     def is_right_skill_active(self) -> bool:
         """

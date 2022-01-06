@@ -63,7 +63,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if self._template_finder.search("D2_LOGO_HS", self._screen.grab(), roi=self._config.ui_roi["hero_selection_logo"]).valid:
+            if self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")

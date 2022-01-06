@@ -34,8 +34,9 @@ class Trav:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(3, 7)
-        return Location.A3_TRAV_START
+        if self._ui_manager.use_wp(3, 7):
+            return Location.A3_TRAV_START
+        return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
