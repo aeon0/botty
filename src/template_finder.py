@@ -185,7 +185,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ARC_ALTAR", "ARC_ALTAR2"]
+    search_templates = ["INV_TOP_LEFT", "INV_TOP_RIGHT", "INV_BOTTOM_LEFT", "INV_BOTTOM_RIGHT"]
     while 1:
         # img = cv2.imread("")
         img = screen.grab()

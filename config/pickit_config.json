@@ -1,0 +1,77 @@
+{
+    "items": [
+        {
+            "type": "small_charm",
+            "props": [
+                {
+                    "name": "all-stats",
+                    "arg1": 5
+                },
+                {
+                    "name": "rep-quant"
+                }
+            ]
+        },
+        {
+            "display_name": "Tal Rasha's Guardianship",
+            "props": [
+                {
+                    "name": "ac",
+                    "arg1": ">900"
+                }
+            ]
+        },
+        {
+            "type": "amulet",
+            "props": [
+                {
+                    "name": "charged",
+                    "arg2": "teleport"
+                }
+            ]
+        },
+        {
+            "type": "auric_shields",
+            "quality": "normal",
+            "item_class": "Elite",
+            "props": [
+                {
+                    "name": "socketed",
+                    "arg1": 4
+                },
+                {
+                    "name": "res-all",
+                    "arg1": 45
+                }
+            ]
+        },
+        {
+            "name": "ancient_axe",
+            "props": [
+                {
+                    "name": "ethereal",
+                    "arg1": 1
+                }
+            ]
+        },
+        {
+            "type": "rune"
+        },
+        {
+            "type": "amazon_bow",
+            "item_class": "Elite",
+            "quality": "unique",
+            "props": [
+                {
+                    "name": "socketed",
+                    "arg1": 4
+                },
+                {
+                    "name": "skill",
+                    "arg1": 3,
+                    "arg2": "Bow and Crossbow Skills"
+                }
+            ]
+        }
+    ]
+}

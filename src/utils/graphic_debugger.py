@@ -40,7 +40,7 @@ class GraphicDebuggerController:
         GraphicDebuggerController.is_running = False
 
     def run_debugger(self):
-        search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
+        search_templates = ["INV_TOP_LEFT", "INV_TOP_RIGHT", "INV_BOTTOM_LEFT", "INV_BOTTOM_RIGHT"]
         while 1:
             img = self.screen.grab()
             # Show item detections

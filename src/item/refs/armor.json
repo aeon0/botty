@@ -1,0 +1,6845 @@
+{
+  "aegis": {
+    "display_name": "Aegis",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 92,
+        "min": 92,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 161,
+        "min": 145,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "medusas_gaze"
+    ]
+  },
+  "aerin_shield": {
+    "display_name": "Aerin Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 36,
+        "min": 26,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "akaran_rondache": {
+    "display_name": "Akaran Rondache",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 137,
+        "min": 113,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "akaran_targe": {
+    "display_name": "Akaran Targe",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 125,
+        "min": 101,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "alpha_helm": {
+    "display_name": "Alpha Helm",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 62,
+        "min": 52,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "ancient_armor": {
+    "display_name": "Ancient Armor",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 233,
+        "min": 218,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "milabregas_robe"
+    ],
+    "type": "armor",
+    "uniques": [
+      "silks_of_the_victor"
+    ]
+  },
+  "ancient_shield": {
+    "display_name": "Ancient Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 80,
+        "min": 80,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 93,
+        "min": 80,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "radaments_sphere"
+    ]
+  },
+  "antlers": {
+    "display_name": "Antlers",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 24,
+        "min": 18,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "archon_plate": {
+    "display_name": "Archon Plate",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 524,
+        "min": 410,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "armet": {
+    "display_name": "Armet",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 149,
+        "min": 105,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": [
+      "steel_shade",
+      "darkfear"
+    ]
+  },
+  "assault_helmet": {
+    "display_name": "Assault Helmet",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 30,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "avenger_guard": {
+    "display_name": "Avenger Guard",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 50,
+        "min": 35,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "immortal_kings_will"
+    ],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "balrog_skin": {
+    "display_name": "Balrog Skin",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 517,
+        "min": 410,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sazabis_ghost_liberator"
+    ],
+    "type": "armor",
+    "uniques": [
+      "arkaines_valor"
+    ]
+  },
+  "barbed_shield": {
+    "display_name": "Barbed Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 78,
+        "min": 58,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "lance_guard"
+    ]
+  },
+  "basinet": {
+    "display_name": "Basinet",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 84,
+        "min": 75,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sazabis_mental_sheath"
+    ],
+    "type": "helm",
+    "uniques": [
+      "darksight_helm"
+    ]
+  },
+  "battle_belt": {
+    "display_name": "Battle Belt",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 42,
+        "min": 37,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "wilhelms_pride"
+    ],
+    "type": "belt",
+    "uniques": [
+      "snowclash"
+    ]
+  },
+  "battle_boots": {
+    "display_name": "Battle Boots",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 47,
+        "min": 39,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "aldurs_advance"
+    ],
+    "type": "boots",
+    "uniques": [
+      "war_traveler"
+    ]
+  },
+  "battle_gauntlets": {
+    "display_name": "Battle Gauntlets",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 47,
+        "min": 39,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "mavinas_icy_clutch"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "lava_gout"
+    ]
+  },
+  "belt": {
+    "display_name": "Belt",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 5,
+        "min": 5,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "hsarus_iron_stay",
+      "hwanins_blessing"
+    ],
+    "type": "belt",
+    "uniques": [
+      "nightsmoke"
+    ]
+  },
+  "blade_barrier": {
+    "display_name": "Blade Barrier",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 83,
+        "min": 83,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 163,
+        "min": 147,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "spike_thorn"
+    ]
+  },
+  "blood_spirit": {
+    "display_name": "Blood Spirit",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 145,
+        "min": 101,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": [
+      "cerebus_bite"
+    ]
+  },
+  "bloodlord_skull": {
+    "display_name": "Bloodlord Skull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 148,
+        "min": 103,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": [
+      "darkforce_spawn"
+    ]
+  },
+  "bone_helm": {
+    "display_name": "Bone Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 36,
+        "min": 33,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tancreds_skull"
+    ],
+    "type": "helm",
+    "uniques": [
+      "wormskull"
+    ]
+  },
+  "bone_shield": {
+    "display_name": "Bone Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 30,
+        "min": 10,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "wall_of_the_eyeless"
+    ]
+  },
+  "bone_visage": {
+    "display_name": "Bone Visage",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 157,
+        "min": 100,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "trangouls_guise"
+    ],
+    "type": "helm",
+    "uniques": [
+      "giant_skull"
+    ]
+  },
+  "boneweave": {
+    "display_name": "Boneweave",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 505,
+        "min": 399,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "boneweave_boots": {
+    "display_name": "Boneweave Boots",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 67,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": [
+      "marrowwalk"
+    ]
+  },
+  "boots": {
+    "display_name": "Boots",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 3,
+        "min": 2,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tancreds_hobnails"
+    ],
+    "type": "boots",
+    "uniques": [
+      "hotspur"
+    ]
+  },
+  "bramble_mitts": {
+    "display_name": "Bramble Mitts",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 62,
+        "min": 54,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "laying_of_hands"
+    ],
+    "type": "gloves",
+    "uniques": []
+  },
+  "breast_plate": {
+    "display_name": "Breast Plate",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 68,
+        "min": 65,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "isenharts_case"
+    ],
+    "type": "armor",
+    "uniques": [
+      "venom_ward"
+    ]
+  },
+  "buckler": {
+    "display_name": "Buckler",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 6,
+        "min": 4,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "hsarus_iron_fist"
+    ],
+    "type": "shield",
+    "uniques": [
+      "pelta_lunata"
+    ]
+  },
+  "cantor_trophy": {
+    "display_name": "Cantor Trophy",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 64,
+        "min": 50,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "trangouls_wing"
+    ],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "cap": {
+    "display_name": "Cap",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 5,
+        "min": 3,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "infernal_cranium",
+      "sanders_paragon"
+    ],
+    "type": "helm",
+    "uniques": [
+      "biggins_bonnet"
+    ]
+  },
+  "carnage_helm": {
+    "display_name": "Carnage Helm",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 25,
+        "min": 25,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 147,
+        "min": 102,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "casque": {
+    "display_name": "Casque",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 72,
+        "min": 63,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": [
+      "stealskull"
+    ]
+  },
+  "chain_boots": {
+    "display_name": "Chain Boots",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 9,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "hsarus_iron_heel"
+    ],
+    "type": "boots",
+    "uniques": [
+      "treads_of_cthon"
+    ]
+  },
+  "chain_gloves": {
+    "display_name": "Chain Gloves",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 9,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cleglaws_pincers"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "chance_guards"
+    ]
+  },
+  "chain_mail": {
+    "display_name": "Chain Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 75,
+        "min": 72,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cathans_mesh"
+    ],
+    "type": "armor",
+    "uniques": [
+      "sparking_mail"
+    ]
+  },
+  "chaos_armor": {
+    "display_name": "Chaos Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 70,
+        "min": 70,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 342,
+        "min": 315,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "trangouls_scales"
+    ],
+    "type": "armor",
+    "uniques": [
+      "black_hades"
+    ]
+  },
+  "circlet": {
+    "display_name": "Circlet",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 35,
+        "min": 35,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 30,
+        "min": 20,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "najs_circlet"
+    ],
+    "type": "circlet",
+    "uniques": []
+  },
+  "colossus_girdle": {
+    "display_name": "Colossus Girdle",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 71,
+        "min": 61,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "belt",
+    "uniques": []
+  },
+  "conqueror_crown": {
+    "display_name": "Conqueror Crown",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 159,
+        "min": 114,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": [
+      "halaberds_reign"
+    ]
+  },
+  "corona": {
+    "display_name": "Corona",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 165,
+        "min": 111,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "griswolds_valor"
+    ],
+    "type": "helm",
+    "uniques": [
+      "crown_of_ages"
+    ]
+  },
+  "coronet": {
+    "display_name": "Coronet",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 40,
+        "min": 30,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "circlet",
+    "uniques": []
+  },
+  "crown": {
+    "display_name": "Crown",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 45,
+        "min": 25,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "irathas_coil",
+      "milabregas_diadem"
+    ],
+    "type": "helm",
+    "uniques": [
+      "undead_crown"
+    ]
+  },
+  "crown_shield": {
+    "display_name": "Crown Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 40,
+        "min": 30,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "crusader_gauntlets": {
+    "display_name": "Crusader Gauntlets",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 68,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "gloves",
+    "uniques": []
+  },
+  "cuirass": {
+    "display_name": "Cuirass",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 202,
+        "min": 188,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "haemosus_adamant"
+    ],
+    "type": "armor",
+    "uniques": [
+      "duriels_shell"
+    ]
+  },
+  "death_mask": {
+    "display_name": "Death Mask",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 86,
+        "min": 54,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tal_rashas_horadric_crest"
+    ],
+    "type": "helm",
+    "uniques": [
+      "blackhorns_face"
+    ]
+  },
+  "defender": {
+    "display_name": "Defender",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 68,
+        "min": 68,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 49,
+        "min": 41,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "visceratuant"
+    ]
+  },
+  "demon_head": {
+    "display_name": "Demon Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 20,
+        "min": 15,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "demonhead": {
+    "display_name": "Demonhead",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 154,
+        "min": 101,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": [
+      "andariels_visage"
+    ]
+  },
+  "demonhide_armor": {
+    "display_name": "Demonhide Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 28,
+        "min": 28,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 136,
+        "min": 122,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "skin_of_the_flayed_one"
+    ]
+  },
+  "demonhide_boots": {
+    "display_name": "Demonhide Boots",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 28,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "rite_of_passage"
+    ],
+    "type": "boots",
+    "uniques": [
+      "infernostride"
+    ]
+  },
+  "demonhide_gloves": {
+    "display_name": "Demonhide Gloves",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 28,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "gloves",
+    "uniques": [
+      "venom_grip"
+    ]
+  },
+  "demonhide_sash": {
+    "display_name": "Demonhide Sash",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 34,
+        "min": 29,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "belt",
+    "uniques": [
+      "string_of_ears"
+    ]
+  },
+  "destroyer_helm": {
+    "display_name": "Destroyer Helm",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 156,
+        "min": 111,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": [
+      "demonhorns_edge"
+    ]
+  },
+  "diadem": {
+    "display_name": "Diadem",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 60,
+        "min": 50,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "mavinas_true_sight"
+    ],
+    "type": "circlet",
+    "uniques": [
+      "griffons_eye"
+    ]
+  },
+  "diamond_mail": {
+    "display_name": "Diamond Mail",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 26,
+        "min": 26,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 489,
+        "min": 383,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "dragon_shield": {
+    "display_name": "Dragon Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 76,
+        "min": 76,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 67,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "tiamats_rebuke"
+    ]
+  },
+  "dream_spirit": {
+    "display_name": "Dream Spirit",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 159,
+        "min": 109,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "dusk_shroud": {
+    "display_name": "Dusk Shroud",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 467,
+        "min": 361,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "dark_adherent"
+    ],
+    "type": "armor",
+    "uniques": [
+      "ormus_robes"
+    ]
+  },
+  "earth_spirit": {
+    "display_name": "Earth Spirit",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 152,
+        "min": 107,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": [
+      "spirit_keeper"
+    ]
+  },
+  "embossed_plate": {
+    "display_name": "Embossed Plate",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 303,
+        "min": 282,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "atmas_wail"
+    ]
+  },
+  "falcon_mask": {
+    "display_name": "Falcon Mask",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 28,
+        "min": 12,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "fanged_helm": {
+    "display_name": "Fanged Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 35,
+        "min": 35,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 20,
+        "min": 15,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "fetish_trophy": {
+    "display_name": "Fetish Trophy",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 52,
+        "min": 41,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "field_plate": {
+    "display_name": "Field Plate",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 48,
+        "min": 48,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 105,
+        "min": 101,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "rockfleece"
+    ]
+  },
+  "full_helm": {
+    "display_name": "Full Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 26,
+        "min": 23,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "isenharts_horns"
+    ],
+    "type": "helm",
+    "uniques": [
+      "duskdeep"
+    ]
+  },
+  "full_plate_mail": {
+    "display_name": "Full Plate Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 70,
+        "min": 70,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 161,
+        "min": 150,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tancreds_spine"
+    ],
+    "type": "armor",
+    "uniques": [
+      "goldskin"
+    ]
+  },
+  "fury_visor": {
+    "display_name": "Fury Visor",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 35,
+        "min": 35,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 150,
+        "min": 105,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": [
+      "wolfhowl"
+    ]
+  },
+  "gargoyle_head": {
+    "display_name": "Gargoyle Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 16,
+        "min": 10,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "gauntlets": {
+    "display_name": "Gauntlets",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 15,
+        "min": 12,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_gage"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "frostburn"
+    ]
+  },
+  "ghost_armor": {
+    "display_name": "Ghost Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 117,
+        "min": 102,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "the_spirit_shroud"
+    ]
+  },
+  "giant_conch": {
+    "display_name": "Giant Conch",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 154,
+        "min": 110,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": []
+  },
+  "gilded_shield": {
+    "display_name": "Gilded Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 168,
+        "min": 144,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": [
+      "herald_of_zakarum"
+    ]
+  },
+  "gothic_plate": {
+    "display_name": "Gothic Plate",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 135,
+        "min": 128,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_shelter"
+    ],
+    "type": "armor",
+    "uniques": [
+      "rattlecage"
+    ]
+  },
+  "gothic_shield": {
+    "display_name": "Gothic Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 30,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "isenharts_parry"
+    ],
+    "type": "shield",
+    "uniques": [
+      "the_ward"
+    ]
+  },
+  "grand_crown": {
+    "display_name": "Grand Crown",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 113,
+        "min": 78,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "hwanins_splendor"
+    ],
+    "type": "helm",
+    "uniques": [
+      "crown_of_thieves"
+    ]
+  },
+  "great_hauberk": {
+    "display_name": "Great Hauberk",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 501,
+        "min": 395,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "great_helm": {
+    "display_name": "Great Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 30,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_visor"
+    ],
+    "type": "helm",
+    "uniques": [
+      "howltusk"
+    ]
+  },
+  "greaves": {
+    "display_name": "Greaves",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 15,
+        "min": 12,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_sabot"
+    ],
+    "type": "boots",
+    "uniques": [
+      "tearhaunch"
+    ]
+  },
+  "griffon_headdress": {
+    "display_name": "Griffon Headdress",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 68,
+        "min": 46,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "grim_helm": {
+    "display_name": "Grim Helm",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 125,
+        "min": 60,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "natalyas_totem"
+    ],
+    "type": "helm",
+    "uniques": [
+      "vampire_gaze"
+    ]
+  },
+  "grim_shield": {
+    "display_name": "Grim Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 70,
+        "min": 70,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 150,
+        "min": 50,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "lidless_wall"
+    ]
+  },
+  "guardian_crown": {
+    "display_name": "Guardian Crown",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 168,
+        "min": 117,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "hard_leather_armor": {
+    "display_name": "Hard Leather Armor",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 28,
+        "min": 28,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 24,
+        "min": 21,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "the_centurion"
+    ]
+  },
+  "hawk_helm": {
+    "display_name": "Hawk Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 15,
+        "min": 4,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "heater": {
+    "display_name": "Heater",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 88,
+        "min": 88,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 110,
+        "min": 95,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": []
+  },
+  "heavy_belt": {
+    "display_name": "Heavy Belt",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 6,
+        "min": 6,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "infernal_sign",
+      "irathas_cord"
+    ],
+    "type": "belt",
+    "uniques": [
+      "goldwrap"
+    ]
+  },
+  "heavy_boots": {
+    "display_name": "Heavy Boots",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 6,
+        "min": 5,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cow_kings_hooves",
+      "sanders_riprap"
+    ],
+    "type": "boots",
+    "uniques": [
+      "gorefoot"
+    ]
+  },
+  "heavy_bracers": {
+    "display_name": "Heavy Bracers",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 44,
+        "min": 37,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "trangouls_claws"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "ghoulhide"
+    ]
+  },
+  "heavy_gloves": {
+    "display_name": "Heavy Gloves",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 6,
+        "min": 5,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sanders_taboo"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "bloodfist"
+    ]
+  },
+  "hellforge_plate": {
+    "display_name": "Hellforge Plate",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 530,
+        "min": 421,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "najs_light_plate"
+    ],
+    "type": "armor",
+    "uniques": []
+  },
+  "hellspawn_skull": {
+    "display_name": "Hellspawn Skull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 141,
+        "min": 96,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "helm": {
+    "display_name": "Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 18,
+        "min": 15,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "berserkers_headgear"
+    ],
+    "type": "helm",
+    "uniques": [
+      "coif_of_glory"
+    ]
+  },
+  "heraldic_shield": {
+    "display_name": "Heraldic Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 26,
+        "min": 16,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "hierophant_trophy": {
+    "display_name": "Hierophant Trophy",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 70,
+        "min": 58,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": [
+      "homunculus"
+    ]
+  },
+  "horned_helm": {
+    "display_name": "Horned Helm",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 30,
+        "min": 25,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "hunters_guise": {
+    "display_name": "Hunter's Guise",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 81,
+        "min": 67,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "aldurs_stony_gaze"
+    ],
+    "type": "pelt",
+    "uniques": []
+  },
+  "hydraskull": {
+    "display_name": "Hydraskull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 145,
+        "min": 101,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": []
+  },
+  "hyperion": {
+    "display_name": "Hyperion",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 82,
+        "min": 82,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 135,
+        "min": 119,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": []
+  },
+  "jawbone_cap": {
+    "display_name": "Jawbone Cap",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 25,
+        "min": 25,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 15,
+        "min": 10,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "jawbone_visor": {
+    "display_name": "Jawbone Visor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 25,
+        "min": 25,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 68,
+        "min": 55,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "kite_shield": {
+    "display_name": "Kite Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 18,
+        "min": 16,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "milabregas_orb"
+    ],
+    "type": "shield",
+    "uniques": [
+      "steelclash"
+    ]
+  },
+  "kraken_shell": {
+    "display_name": "Kraken Shell",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 48,
+        "min": 48,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 523,
+        "min": 417,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "mavinas_embrace"
+    ],
+    "type": "armor",
+    "uniques": [
+      "leviathan"
+    ]
+  },
+  "kurast_shield": {
+    "display_name": "Kurast Shield",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 172,
+        "min": 154,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "lacquered_plate": {
+    "display_name": "Lacquered Plate",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 541,
+        "min": 433,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tal_rashas_guardianship"
+    ],
+    "type": "armor",
+    "uniques": []
+  },
+  "large_shield": {
+    "display_name": "Large Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 14,
+        "min": 12,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "civerbs_ward"
+    ],
+    "type": "shield",
+    "uniques": [
+      "stormguild"
+    ]
+  },
+  "leather_armor": {
+    "display_name": "Leather Armor",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 17,
+        "min": 14,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "vidalas_ambush"
+    ],
+    "type": "armor",
+    "uniques": [
+      "blinkbats_form"
+    ]
+  },
+  "leather_gloves": {
+    "display_name": "Leather Gloves",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 3,
+        "min": 2,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "deaths_hand"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "the_hand_of_broc"
+    ]
+  },
+  "light_belt": {
+    "display_name": "Light Belt",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 3,
+        "min": 3,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "arctic_binding"
+    ],
+    "type": "belt",
+    "uniques": [
+      "snakecord"
+    ]
+  },
+  "light_gauntlets": {
+    "display_name": "Light Gauntlets",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 9,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "arctic_mitts",
+      "irathas_cuff"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "magefist"
+    ]
+  },
+  "light_plate": {
+    "display_name": "Light Plate",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 107,
+        "min": 90,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "arcannas_flesh"
+    ],
+    "type": "armor",
+    "uniques": [
+      "heavenly_garb"
+    ]
+  },
+  "light_plated_boots": {
+    "display_name": "Light Plated Boots",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 9,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "vidalas_fetlock"
+    ],
+    "type": "boots",
+    "uniques": [
+      "goblin_toe"
+    ]
+  },
+  "linked_mail": {
+    "display_name": "Linked Mail",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 26,
+        "min": 26,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 172,
+        "min": 158,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "spirit_forge"
+    ]
+  },
+  "lion_helm": {
+    "display_name": "Lion Helm",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 35,
+        "min": 35,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 75,
+        "min": 63,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "loricated_mail": {
+    "display_name": "Loricated Mail",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 36,
+        "min": 36,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 496,
+        "min": 390,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "natalyas_shadow"
+    ],
+    "type": "armor",
+    "uniques": []
+  },
+  "luna": {
+    "display_name": "Luna",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 84,
+        "min": 84,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 123,
+        "min": 108,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "blackoak_shield"
+    ]
+  },
+  "mage_plate": {
+    "display_name": "Mage Plate",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 261,
+        "min": 225,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "quehegans_wisdom"
+    ]
+  },
+  "mask": {
+    "display_name": "Mask",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 27,
+        "min": 9,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cathans_visage"
+    ],
+    "type": "helm",
+    "uniques": [
+      "the_face_of_horror"
+    ]
+  },
+  "mesh_armor": {
+    "display_name": "Mesh Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 213,
+        "min": 198,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "shaftstop"
+    ]
+  },
+  "mesh_belt": {
+    "display_name": "Mesh Belt",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 40,
+        "min": 35,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "tal_rashas_finespun_cloth"
+    ],
+    "type": "belt",
+    "uniques": [
+      "glooms_trap"
+    ]
+  },
+  "mesh_boots": {
+    "display_name": "Mesh Boots",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 44,
+        "min": 37,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "natalyas_soul"
+    ],
+    "type": "boots",
+    "uniques": [
+      "silkweave"
+    ]
+  },
+  "minion_skull": {
+    "display_name": "Minion Skull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 139,
+        "min": 95,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "mirrored_boots": {
+    "display_name": "Mirrored Boots",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 68,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": []
+  },
+  "mithril_coil": {
+    "display_name": "Mithril Coil",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 65,
+        "min": 58,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "credendum"
+    ],
+    "type": "belt",
+    "uniques": [
+      "verdungos_hearty_cord"
+    ]
+  },
+  "monarch": {
+    "display_name": "Monarch",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 86,
+        "min": 86,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 148,
+        "min": 133,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "stormshield"
+    ]
+  },
+  "mummified_trophy": {
+    "display_name": "Mummified Trophy",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 48,
+        "min": 38,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "myrmidon_greaves": {
+    "display_name": "Myrmidon Greaves",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 71,
+        "min": 62,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": [
+      "shadow_dancer"
+    ]
+  },
+  "ogre_gauntlets": {
+    "display_name": "Ogre Gauntlets",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 71,
+        "min": 62,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "gloves",
+    "uniques": [
+      "steelrend"
+    ]
+  },
+  "ornate_plate": {
+    "display_name": "Ornate Plate",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 450,
+        "min": 417,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "griswolds_heart"
+    ],
+    "type": "armor",
+    "uniques": [
+      "corpsemourn"
+    ]
+  },
+  "overseer_skull": {
+    "display_name": "Overseer Skull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 142,
+        "min": 98,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "pavise": {
+    "display_name": "Pavise",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 72,
+        "min": 72,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 78,
+        "min": 68,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "gerkes_sanctuary"
+    ]
+  },
+  "plate_mail": {
+    "display_name": "Plate Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 116,
+        "min": 108,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "boneflesh"
+    ]
+  },
+  "plated_belt": {
+    "display_name": "Plated Belt",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_wrap"
+    ],
+    "type": "belt",
+    "uniques": [
+      "bladebuckle"
+    ]
+  },
+  "preserved_head": {
+    "display_name": "Preserved Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 5,
+        "min": 2,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "protector_shield": {
+    "display_name": "Protector Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 153,
+        "min": 129,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "quilted_armor": {
+    "display_name": "Quilted Armor",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "arctic_furs"
+    ],
+    "type": "armor",
+    "uniques": [
+      "greyform"
+    ]
+  },
+  "rage_mask": {
+    "display_name": "Rage Mask",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 90,
+        "min": 78,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "ring_mail": {
+    "display_name": "Ring Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 26,
+        "min": 26,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 48,
+        "min": 45,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "angelic_mantle"
+    ],
+    "type": "armor",
+    "uniques": [
+      "darkglow"
+    ]
+  },
+  "rondache": {
+    "display_name": "Rondache",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 18,
+        "min": 10,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "round_shield": {
+    "display_name": "Round Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 64,
+        "min": 64,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 55,
+        "min": 47,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "whitstans_guard"
+    ],
+    "type": "shield",
+    "uniques": [
+      "mosers_blessed_circle"
+    ]
+  },
+  "royal_shield": {
+    "display_name": "Royal Shield",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 181,
+        "min": 156,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "russet_armor": {
+    "display_name": "Russet Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 243,
+        "min": 225,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "skullders_ire"
+    ]
+  },
+  "sacred_armor": {
+    "display_name": "Sacred Armor",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 600,
+        "min": 487,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "immortal_kings_soul_cage"
+    ],
+    "type": "armor",
+    "uniques": [
+      "tyraels_might",
+      "templars_might"
+    ]
+  },
+  "sacred_feathers": {
+    "display_name": "Sacred Feathers",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 87,
+        "min": 58,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "sacred_rondache": {
+    "display_name": "Sacred Rondache",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 68,
+        "min": 68,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 164,
+        "min": 138,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": [
+      "alma_negra"
+    ]
+  },
+  "sacred_targe": {
+    "display_name": "Sacred Targe",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 45,
+        "min": 45,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 158,
+        "min": 126,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "sallet": {
+    "display_name": "Sallet",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 62,
+        "min": 52,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": [
+      "rockstopper"
+    ]
+  },
+  "sash": {
+    "display_name": "Sash",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 2,
+        "min": 2,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "deaths_guard"
+    ],
+    "type": "belt",
+    "uniques": [
+      "lenymo"
+    ]
+  },
+  "savage_helmet": {
+    "display_name": "Savage Helmet",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 50,
+        "min": 50,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 98,
+        "min": 85,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": []
+  },
+  "scale_mail": {
+    "display_name": "Scale Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 36,
+        "min": 36,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 60,
+        "min": 57,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "hawkmail"
+    ]
+  },
+  "scarab_husk": {
+    "display_name": "Scarab Husk",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 28,
+        "min": 28,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 474,
+        "min": 369,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "scarabshell_boots": {
+    "display_name": "Scarabshell Boots",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 65,
+        "min": 56,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": [
+      "sandstorm_trek"
+    ]
+  },
+  "scutum": {
+    "display_name": "Scutum",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 62,
+        "min": 62,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 61,
+        "min": 53,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "stormchaser"
+    ]
+  },
+  "serpentskin_armor": {
+    "display_name": "Serpentskin Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 126,
+        "min": 111,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "skin_of_the_vipermagi"
+    ]
+  },
+  "sexton_trophy": {
+    "display_name": "Sexton Trophy",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 55,
+        "min": 44,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "shadow_plate": {
+    "display_name": "Shadow Plate",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 70,
+        "min": 70,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 557,
+        "min": 446,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "aldurs_deception"
+    ],
+    "type": "armor",
+    "uniques": [
+      "steel_carapace"
+    ]
+  },
+  "shako": {
+    "display_name": "Shako",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 141,
+        "min": 98,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "helm",
+    "uniques": [
+      "harlequin_crest"
+    ]
+  },
+  "sharkskin_belt": {
+    "display_name": "Sharkskin Belt",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 36,
+        "min": 31,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "mavinas_tenet"
+    ],
+    "type": "belt",
+    "uniques": [
+      "razortail"
+    ]
+  },
+  "sharkskin_boots": {
+    "display_name": "Sharkskin Boots",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 39,
+        "min": 33,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": [
+      "waterwalk"
+    ]
+  },
+  "sharkskin_gloves": {
+    "display_name": "Sharkskin Gloves",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 39,
+        "min": 33,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "magnus_skin"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "gravepalm"
+    ]
+  },
+  "sharktooth_armor": {
+    "display_name": "Sharktooth Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 48,
+        "min": 48,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 258,
+        "min": 242,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "toothrow"
+    ]
+  },
+  "skull_cap": {
+    "display_name": "Skull Cap",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "arcannas_head"
+    ],
+    "type": "helm",
+    "uniques": [
+      "tarnhelm"
+    ]
+  },
+  "sky_spirit": {
+    "display_name": "Sky Spirit",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 155,
+        "min": 103,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": [
+      "ravenlore"
+    ]
+  },
+  "slayer_guard": {
+    "display_name": "Slayer Guard",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 55,
+        "min": 55,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 120,
+        "min": 93,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "primal_helm",
+    "uniques": [
+      "arreats_face"
+    ]
+  },
+  "small_shield": {
+    "display_name": "Small Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 10,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cleglaws_claw"
+    ],
+    "type": "shield",
+    "uniques": [
+      "umbral_disk"
+    ]
+  },
+  "spiderweb_sash": {
+    "display_name": "Spiderweb Sash",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 62,
+        "min": 55,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "belt",
+    "uniques": [
+      "arachnid_mesh"
+    ]
+  },
+  "spiked_shield": {
+    "display_name": "Spiked Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 25,
+        "min": 15,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "swordback_hold"
+    ]
+  },
+  "spired_helm": {
+    "display_name": "Spired Helm",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 159,
+        "min": 114,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "ondals_almighty"
+    ],
+    "type": "helm",
+    "uniques": [
+      "veil_of_steel",
+      "nightwings_veil"
+    ]
+  },
+  "spirit_mask": {
+    "display_name": "Spirit Mask",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 22,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "splint_mail": {
+    "display_name": "Splint Mail",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 30,
+        "min": 30,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 95,
+        "min": 90,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "berserkers_hauberk"
+    ],
+    "type": "armor",
+    "uniques": [
+      "iceblink"
+    ]
+  },
+  "studded_leather": {
+    "display_name": "Studded Leather",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 32,
+        "min": 32,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 35,
+        "min": 32,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cow_kings_hide"
+    ],
+    "type": "armor",
+    "uniques": [
+      "twitchthroe"
+    ]
+  },
+  "succubus_skull": {
+    "display_name": "Succubus Skull",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 146,
+        "min": 100,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": [
+      "boneflame"
+    ]
+  },
+  "sun_spirit": {
+    "display_name": "Sun Spirit",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 147,
+        "min": 98,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "targe": {
+    "display_name": "Targe",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 12,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "templar_coat": {
+    "display_name": "Templar Coat",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 274,
+        "min": 252,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "guardian_angel"
+    ]
+  },
+  "tiara": {
+    "display_name": "Tiara",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 25,
+        "min": 25,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 50,
+        "min": 40,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "circlet",
+    "uniques": [
+      "kiras_guardian"
+    ]
+  },
+  "tigulated_mail": {
+    "display_name": "Tigulated Mail",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 36,
+        "min": 36,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 190,
+        "min": 176,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "hwanins_refuge"
+    ],
+    "type": "armor",
+    "uniques": [
+      "crow_caw"
+    ]
+  },
+  "totemic_mask": {
+    "display_name": "Totemic Mask",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 98,
+        "min": 73,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": [
+      "jalals_mane"
+    ]
+  },
+  "tower_shield": {
+    "display_name": "Tower Shield",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 60,
+        "min": 60,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 25,
+        "min": 22,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "sigons_guard"
+    ],
+    "type": "shield",
+    "uniques": [
+      "bverrit_keep"
+    ]
+  },
+  "trellised_armor": {
+    "display_name": "Trellised Armor",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 32,
+        "min": 32,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 153,
+        "min": 138,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "iron_pelt"
+    ]
+  },
+  "troll_belt": {
+    "display_name": "Troll Belt",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 18,
+        "min": 18,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 66,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "trangouls_girth"
+    ],
+    "type": "belt",
+    "uniques": []
+  },
+  "troll_nest": {
+    "display_name": "Troll Nest",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 74,
+        "min": 74,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 173,
+        "min": 158,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "shield",
+    "uniques": [
+      "head_hunters_glory"
+    ]
+  },
+  "unraveller_head": {
+    "display_name": "Unraveller Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 10,
+        "min": 6,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  },
+  "vambraces": {
+    "display_name": "Vambraces",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 16,
+        "min": 16,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 67,
+        "min": 59,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "gloves",
+    "uniques": [
+      "soul_drainer"
+    ]
+  },
+  "vampirebone_gloves": {
+    "display_name": "Vampirebone Gloves",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 65,
+        "min": 56,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "gloves",
+    "uniques": [
+      "draculs_grasp"
+    ]
+  },
+  "vampirefang_belt": {
+    "display_name": "Vampirefang Belt",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 14,
+        "min": 14,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 63,
+        "min": 56,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "belt",
+    "uniques": [
+      "nosferatus_coil"
+    ]
+  },
+  "vortex_shield": {
+    "display_name": "Vortex Shield",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 90,
+        "min": 90,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 225,
+        "min": 182,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "griswolds_honor"
+    ],
+    "type": "auric_shields",
+    "uniques": []
+  },
+  "war_belt": {
+    "display_name": "War Belt",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 52,
+        "min": 41,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "immortal_kings_detail"
+    ],
+    "type": "belt",
+    "uniques": [
+      "thundergods_vigor"
+    ]
+  },
+  "war_boots": {
+    "display_name": "War Boots",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 53,
+        "min": 43,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "immortal_kings_pillar"
+    ],
+    "type": "boots",
+    "uniques": [
+      "gore_rider"
+    ]
+  },
+  "war_gauntlets": {
+    "display_name": "War Gauntlets",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 53,
+        "min": 43,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "immortal_kings_forge"
+    ],
+    "type": "gloves",
+    "uniques": [
+      "hellmouth"
+    ]
+  },
+  "war_hat": {
+    "display_name": "War Hat",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 53,
+        "min": 45,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "cow_kings_horns"
+    ],
+    "type": "helm",
+    "uniques": [
+      "peasant_crown"
+    ]
+  },
+  "ward": {
+    "display_name": "Ward",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 100,
+        "min": 100,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 170,
+        "min": 153,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "taebaeks_glory"
+    ],
+    "type": "shield",
+    "uniques": [
+      "spirit_ward"
+    ]
+  },
+  "winged_helm": {
+    "display_name": "Winged Helm",
+    "item_class": "exceptional",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 40,
+        "min": 40,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 98,
+        "min": 85,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [
+      "guillaumes_face"
+    ],
+    "type": "helm",
+    "uniques": [
+      "valkyrie_wing"
+    ]
+  },
+  "wire_fleece": {
+    "display_name": "Wire Fleece",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 32,
+        "min": 32,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 481,
+        "min": 375,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": [
+      "the_gladiators_bane"
+    ]
+  },
+  "wolf_head": {
+    "display_name": "Wolf Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 3,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 11,
+        "min": 8,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "pelt",
+    "uniques": []
+  },
+  "wyrmhide": {
+    "display_name": "Wyrmhide",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 24,
+        "min": 24,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 470,
+        "min": 364,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "armor",
+    "uniques": []
+  },
+  "wyrmhide_boots": {
+    "display_name": "Wyrmhide Boots",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 12,
+        "min": 12,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 62,
+        "min": 54,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "boots",
+    "uniques": []
+  },
+  "zakarum_shield": {
+    "display_name": "Zakarum Shield",
+    "item_class": "elite",
+    "props": [
+      {
+        "max": 4,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 65,
+        "min": 65,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 193,
+        "min": 169,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "auric_shields",
+    "uniques": [
+      "dragonscale"
+    ]
+  },
+  "zombie_head": {
+    "display_name": "Zombie Head",
+    "item_class": "normal",
+    "props": [
+      {
+        "max": 2,
+        "min": 0,
+        "par": null,
+        "prop": "sock"
+      },
+      {
+        "max": 20,
+        "min": 20,
+        "par": null,
+        "prop": "durability"
+      },
+      {
+        "max": 8,
+        "min": 4,
+        "par": null,
+        "prop": "defense"
+      },
+      {
+        "max": 1,
+        "min": 0,
+        "par": null,
+        "prop": "ethereal"
+      }
+    ],
+    "sets": [],
+    "type": "voodoo_heads",
+    "uniques": []
+  }
+}

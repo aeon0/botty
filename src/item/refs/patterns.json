@@ -1,0 +1,1151 @@
+{
+  "Adds {:d}-{:d} cold damage": [
+    "dmg-cold",
+    "itemcolddamage",
+    "dmg-elem",
+    "itemelementaldamage"
+  ],
+  "Adds {:d}-{:d} damage": [
+    "dmg-norm",
+    "damagebonus",
+    "bonusdamage",
+    "adddamage"
+  ],
+  "Adds {:d}-{:d} fire damage": [
+    "dmg-elem",
+    "itemelementaldamage",
+    "dmg-fire",
+    "itemfiredamage"
+  ],
+  "Adds {:d}-{:d} lightning damage": [
+    "dmg-elem",
+    "itemelementaldamage",
+    "dmg-ltng",
+    "itemlightningdamage",
+    "itemltngdamage"
+  ],
+  "Adds {:d}-{:d} magic damage": [
+    "dmg-mag"
+  ],
+  "Adds {:d}-{:d} poison damage over {:d} seconds": [
+    "dmg-pois",
+    "itempoisondamage"
+  ],
+  "All Resistances {:d}": [
+    "res-all",
+    "allresist"
+  ],
+  "Attacker Takes Damage of {:d}": [
+    "thorns",
+    "item_attackertakesdamage",
+    "itemattackertakesdamage"
+  ],
+  "Attacker Takes Damage of {:d} (Based on Character Level)": [
+    "thorns/lvl",
+    "item_thorns_perlevel",
+    "itemthornsperlevel"
+  ],
+  "Attacker Takes Lightning Damage of {:d}": [
+    "light-thorns",
+    "item_attackertakeslightdamage",
+    "itemattackertakeslightdamage"
+  ],
+  "Cannot Be Frozen": [
+    "nofreeze",
+    "item_cannotbefrozen",
+    "itemcannotbefrozen"
+  ],
+  "Cold Absorb {:d}%": [
+    "abs-cold%",
+    "item_absorbcold_percent",
+    "itemabsorbcoldpercent",
+    "coldabsorb"
+  ],
+  "Cold Resist {:d}": [
+    "res-cold/time",
+    "item_resist_cold_bytime",
+    "itemresistcoldbytime"
+  ],
+  "Cold Resist {:d}%": [
+    "res-cold",
+    "coldresist"
+  ],
+  "Cold Resist {:d}% (Based on Character Level)": [
+    "res-cold/lvl",
+    "item_resist_cold_perlevel",
+    "itemresistcoldperlevel"
+  ],
+  "Damage Reduced by {:d}": [
+    "red-dmg",
+    "normal_damage_reduction",
+    "normaldamagereduction"
+  ],
+  "Damage Reduced by {:d}%": [
+    "red-dmg%",
+    "damageresist",
+    "damagereduction"
+  ],
+  "Damage {:d}": [
+    "dmg",
+    "item_normaldamage",
+    "itemnormaldamage",
+    "damagebonus",
+    "bonusdamage",
+    "adddamage"
+  ],
+  "Defense: {:d}": [
+    "defense"
+  ],
+  "Durability: {:d} of {:d}": [
+    "durability"
+  ],
+  "Ethereal (Cannot be Repaired)": [
+    "ethereal"
+  ],
+  "Extra Gold from Monsters {:d}": [
+    "gold%/time",
+    "item_find_gold_bytime",
+    "itemfindgoldbytime"
+  ],
+  "Fire Absorb {:d}%": [
+    "abs-fire%",
+    "item_absorbfire_percent",
+    "itemabsorbfirepercent",
+    "fireabsorb"
+  ],
+  "Fire Resist {:d}": [
+    "res-fire/time",
+    "item_resist_fire_bytime",
+    "itemresistfirebytime"
+  ],
+  "Fire Resist {:d}%": [
+    "res-fire",
+    "fireresist"
+  ],
+  "Fire Resist {:d}% (Based on Character Level)": [
+    "res-fire/lvl",
+    "item_resist_fire_perlevel",
+    "itemresistfireperlevel"
+  ],
+  "Fires Explosive Arrows or Bolts": [
+    "explosivearrow",
+    "item_explosivearrow",
+    "itemexplosivearrow"
+  ],
+  "Fires Magic Arrows": [
+    "magicarrow",
+    "item_magicarrow",
+    "itemmagicarrow"
+  ],
+  "Freezes target {:d}": [
+    "freeze",
+    "item_freeze",
+    "itemfreeze",
+    "freezetarget"
+  ],
+  "Half Freeze Duration": [
+    "half-freeze",
+    "item_halffreezeduration",
+    "itemhalffreezeduration"
+  ],
+  "Heal Stamina Plus {:d}": [
+    "regen-stam/time",
+    "item_regenstamina_bytime",
+    "itemregenstaminabytime"
+  ],
+  "Heal Stamina Plus {:d}%": [
+    "regen-stam",
+    "staminarecoverybonus"
+  ],
+  "Heal Stamina Plus {:d}% (Based on Character Level)": [
+    "regen-stam/lvl",
+    "item_regenstamina_perlevel",
+    "itemregenstaminaperlevel"
+  ],
+  "Hit Blinds Target {:d}": [
+    "stupidity",
+    "item_stupidity",
+    "itemstupidity",
+    "hitblindstarget"
+  ],
+  "Hit Causes Monster to Flee {:d}%": [
+    "howl",
+    "item_howl",
+    "itemhowl"
+  ],
+  "Ignore Target's Defense": [
+    "ignore-ac",
+    "item_ignoretargetac",
+    "itemignoretargetac"
+  ],
+  "Increase Maximum Durability {:d}%": [
+    "dur%",
+    "item_maxdurability_percent",
+    "itemmaxdurabilitypercent",
+    "maxdurabilitypercent"
+  ],
+  "Increase Maximum Life {:d}%": [
+    "hp%",
+    "item_maxhp_percent",
+    "itemmaxhppercent"
+  ],
+  "Increase Maximum Mana {:d}%": [
+    "mana%",
+    "item_maxmana_percent",
+    "itemmaxmanapercent"
+  ],
+  "Increased Stack Size": [
+    "stack",
+    "item_extra_stack",
+    "itemextrastack"
+  ],
+  "Knockback": [
+    "knock",
+    "item_knockback",
+    "itemknockback",
+    "knockback"
+  ],
+  "Level {:d} {} ({:d}/{:d} Charges)": [
+    "charged",
+    "item_charged_skill",
+    "itemchargedskill",
+    "chargedskill"
+  ],
+  "Level {:d} {} Aura When Equipped": [
+    "aura",
+    "item_aura",
+    "itemaura"
+  ],
+  "Lightning Absorb {:d}%": [
+    "abs-ltng%",
+    "item_absorblight_percent",
+    "itemabsorblightpercent",
+    "lightningabsorb"
+  ],
+  "Lightning Resist {:d}": [
+    "res-ltng/time",
+    "item_resist_ltng_bytime",
+    "itemresistltngbytime"
+  ],
+  "Lightning Resist {:d}%": [
+    "res-ltng",
+    "lightresist"
+  ],
+  "Lightning Resist {:d}% (Based on Character Level)": [
+    "res-ltng/lvl",
+    "item_resist_ltng_perlevel",
+    "itemresistltngperlevel"
+  ],
+  "Magic Absorb {:d}%": [
+    "abs-mag%",
+    "item_absorbmagic_percent",
+    "itemabsorbmagicpercent"
+  ],
+  "Magic Damage Reduced by {:d}": [
+    "red-mag",
+    "magic_damage_reduction",
+    "magicdamagereduction"
+  ],
+  "Magic Resist {:d}%": [
+    "res-mag",
+    "magicresist"
+  ],
+  "One-Hand Damage: {:d}": [
+    "damage-1hand"
+  ],
+  "One-Hand Damage: {:d} to {:d}": [
+    "damage-1hand"
+  ],
+  "Piercing Attack": [
+    "pierce",
+    "item_pierce",
+    "itempierce"
+  ],
+  "Poison Length Reduced by {:d}%": [
+    "res-pois-len",
+    "item_poisonlengthresist",
+    "itempoisonlengthresist"
+  ],
+  "Poison Resist {:d}": [
+    "res-pois/time",
+    "item_resist_pois_bytime",
+    "itemresistpoisbytime"
+  ],
+  "Poison Resist {:d}%": [
+    "res-pois",
+    "poisonresist"
+  ],
+  "Poison Resist {:d}% (Based on Character Level)": [
+    "res-pois/lvl",
+    "item_resist_pois_perlevel",
+    "itemresistpoisperlevel"
+  ],
+  "Prevent Monster Heal": [
+    "noheal",
+    "item_preventheal",
+    "itempreventheal"
+  ],
+  "Reduces all Vendor Prices {:d}%": [
+    "cheap",
+    "item_reducedprices",
+    "itemreducedprices",
+    "reduceprices",
+    "reducedvendorprices"
+  ],
+  "Regenerate Mana {:d}%": [
+    "regen-mana",
+    "manarecoverybonus"
+  ],
+  "Repairs {} durability {}": [
+    "rep-dur",
+    "item_replenish_durability",
+    "itemreplenishdurability"
+  ],
+  "Replenish Life {:d}": [
+    "regen",
+    "hpregen"
+  ],
+  "Replenishes quantity": [
+    "rep-quant",
+    "item_replenish_quantity",
+    "itemreplenishquantity"
+  ],
+  "Requirements {:d}%": [
+    "ease",
+    "item_req_percent",
+    "itemreqpercent"
+  ],
+  "Slain Monsters Rest in Peace": [
+    "rip",
+    "item_restinpeace",
+    "itemrestinpeace"
+  ],
+  "Slows Target by {:d}%": [
+    "slow",
+    "item_slow",
+    "itemslow"
+  ],
+  "Socketed ({:d})": [
+    "sock",
+    "item_numsockets",
+    "itemnumsockets",
+    "sockets"
+  ],
+  "Throwable": [
+    "throw",
+    "item_throwable",
+    "itemthrowable"
+  ],
+  "Two-Hand Damage: {:d}": [
+    "damage-2hand"
+  ],
+  "Two-Hand Damage: {:d} to {:d}": [
+    "damage-2hand"
+  ],
+  "{:d} Absorbs Cold Damage": [
+    "abs-cold/time",
+    "item_absorb_cold_bytime",
+    "itemabsorbcoldbytime",
+    "coldabsorb"
+  ],
+  "{:d} Absorbs Cold Damage (Based on Character Level)": [
+    "abs-cold/lvl",
+    "item_absorb_cold_perlevel",
+    "itemabsorbcoldperlevel"
+  ],
+  "{:d} Absorbs Fire Damage": [
+    "abs-fire/time",
+    "item_absorb_fire_bytime",
+    "itemabsorbfirebytime",
+    "fireabsorb"
+  ],
+  "{:d} Absorbs Fire Damage (Based on Character Level)": [
+    "abs-fire/lvl",
+    "item_absorb_fire_perlevel",
+    "itemabsorbfireperlevel"
+  ],
+  "{:d} Absorbs Lightning Damage": [
+    "abs-ltng/time",
+    "item_absorb_ltng_bytime",
+    "itemabsorbltngbytime",
+    "lightningabsorb"
+  ],
+  "{:d} Absorbs Lightning Damage (Based on Character Level)": [
+    "abs-ltng/lvl",
+    "item_absorb_ltng_perlevel",
+    "itemabsorbltngperlevel"
+  ],
+  "{:d} Better Chance of Getting Magic Items": [
+    "mag%/time",
+    "item_find_magic_bytime",
+    "itemfindmagicbytime"
+  ],
+  "{:d} Bonus to Attack Rating": [
+    "att%/time",
+    "item_tohitpercent_bytime",
+    "itemtohitpercentbytime"
+  ],
+  "{:d} Chance of Crushing Blow": [
+    "crush/time",
+    "item_crushingblow_bytime",
+    "itemcrushingblowbytime",
+    "crushingblow"
+  ],
+  "{:d} Chance of Open Wounds": [
+    "wounds/time",
+    "item_openwounds_bytime",
+    "itemopenwoundsbytime",
+    "openwounds"
+  ],
+  "{:d} Cold Absorb": [
+    "abs-cold",
+    "item_absorbcold",
+    "itemabsorbcold",
+    "coldabsorb"
+  ],
+  "{:d} Damage to Demons": [
+    "dmg-dem/time",
+    "item_damage_demon_bytime",
+    "itemdamagedemonbytime"
+  ],
+  "{:d} Damage to Undead": [
+    "dmg-und/time",
+    "item_damage_undead_bytime",
+    "itemdamageundeadbytime"
+  ],
+  "{:d} Deadly Strike": [
+    "deadly/time",
+    "item_deadlystrike_bytime",
+    "itemdeadlystrikebytime",
+    "deadlystrike"
+  ],
+  "{:d} Defense": [
+    "ac",
+    "armorclass",
+    "defensebonus",
+    "bonusdefense",
+    "adddefense",
+    "ac/time",
+    "item_armor_bytime",
+    "itemarmorbytime"
+  ],
+  "{:d} Defense (Based on Character Level)": [
+    "ac/lvl",
+    "item_armor_perlevel",
+    "itemarmorperlevel"
+  ],
+  "{:d} Defense vs. Melee": [
+    "ac-hth",
+    "armorclass_vs_hth",
+    "armorclassvshth",
+    "enhanceddefense"
+  ],
+  "{:d} Defense vs. Missile": [
+    "ac-miss",
+    "armorclass_vs_missile",
+    "armorclassvsmissile"
+  ],
+  "{:d} Enhanced Defense": [
+    "ac%/time",
+    "item_armorpercent_bytime",
+    "itemarmorpercentbytime",
+    "enhanceddefense"
+  ],
+  "{:d} Enhanced Maximum Damage": [
+    "dmg%/time",
+    "item_maxdamage_percent_bytime",
+    "itemmaxdamagepercentbytime",
+    "enhanceddamage"
+  ],
+  "{:d} Fire Absorb": [
+    "abs-fire",
+    "item_absorbfire",
+    "itemabsorbfire",
+    "fireabsorb"
+  ],
+  "{:d} Kick Damage": [
+    "kick",
+    "item_kickdamage",
+    "itemkickdamage",
+    "kick/time",
+    "item_kick_damage_bytime",
+    "itemkickdamagebytime"
+  ],
+  "{:d} Kick Damage (Based on Character Level)": [
+    "kick/lvl",
+    "item_kick_damage_perlevel",
+    "itemkickdamageperlevel"
+  ],
+  "{:d} Life after each Demon Kill": [
+    "demon-heal",
+    "item_healafterdemonkill",
+    "itemhealafterdemonkill"
+  ],
+  "{:d} Life after each Kill": [
+    "heal-kill",
+    "item_healafterkill",
+    "itemhealafterkill"
+  ],
+  "{:d} Lightning Absorb": [
+    "abs-ltng",
+    "item_absorblight",
+    "itemabsorblight",
+    "lightningabsorb"
+  ],
+  "{:d} Magic Absorb": [
+    "abs-mag",
+    "item_absorbmagic",
+    "itemabsorbmagic"
+  ],
+  "{:d} Maximum Stamina": [
+    "stam",
+    "maxstamina",
+    "stam/time",
+    "item_stamina_bytime",
+    "itemstaminabytime"
+  ],
+  "{:d} Maximum Stamina (Based on Character Level)": [
+    "stam/lvl",
+    "item_stamina_perlevel",
+    "itemstaminaperlevel"
+  ],
+  "{:d} cold damage": [
+    "dmg-cold",
+    "itemcolddamage"
+  ],
+  "{:d} damage": [
+    "dmg-norm",
+    "damagebonus",
+    "bonusdamage",
+    "adddamage"
+  ],
+  "{:d} fire damage": [
+    "dmg-fire",
+    "itemfiredamage"
+  ],
+  "{:d} lightning damage": [
+    "dmg-ltng",
+    "itemlightningdamage",
+    "itemltngdamage"
+  ],
+  "{:d} magic damage": [
+    "dmg-mag"
+  ],
+  "{:d} poison damage over {:d} seconds": [
+    "dmg-pois",
+    "itempoisondamage"
+  ],
+  "{:d} to All Skills": [
+    "allskills",
+    "item_allskills",
+    "itemallskills"
+  ],
+  "{:d} to Amazon Skill Levels": [
+    "ama",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddamazonskills",
+    "amazonskills"
+  ],
+  "{:d} to Assassin Skill Levels": [
+    "ass",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddassassinskills",
+    "assassinskills"
+  ],
+  "{:d} to Attack Rating": [
+    "att",
+    "tohit",
+    "attackrating",
+    "att/time",
+    "item_tohit_bytime",
+    "itemtohitbytime"
+  ],
+  "{:d} to Attack Rating (Based on Character Level)": [
+    "att/lvl",
+    "item_tohit_perlevel",
+    "itemtohitperlevel"
+  ],
+  "{:d} to Attack Rating against Demons": [
+    "att-dem/time",
+    "item_tohit_demon_bytime",
+    "itemtohitdemonbytime",
+    "att-demon",
+    "item_demon_tohit",
+    "itemdemontohit"
+  ],
+  "{:d} to Attack Rating against Demons (Based on Character Level)": [
+    "att-dem/lvl",
+    "item_tohit_demon_perlevel",
+    "itemtohitdemonperlevel"
+  ],
+  "{:d} to Attack Rating against Undead": [
+    "att-und/time",
+    "item_tohit_undead_bytime",
+    "itemtohitundeadbytime",
+    "att-undead",
+    "item_undead_tohit",
+    "itemundeadtohit"
+  ],
+  "{:d} to Attack Rating against Undead (Based on Character Level)": [
+    "att-und/lvl",
+    "item_tohit_undead_perlevel",
+    "itemtohitundeadperlevel"
+  ],
+  "{:d} to Attack Rating versus {}": [
+    "att-mon%",
+    "attack_vs_montype",
+    "attackvsmontype",
+    "dmg-mon%",
+    "damage_vs_montype",
+    "damagevsmontype"
+  ],
+  "{:d} to Barbarian Skill Levels": [
+    "bar",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddbarbarianskills",
+    "barbarianskills"
+  ],
+  "{:d} to Dexterity": [
+    "dex",
+    "dexterity",
+    "dex/time",
+    "item_dexterity_bytime",
+    "itemdexteritybytime"
+  ],
+  "{:d} to Dexterity (Based on Character Level)": [
+    "dex/lvl",
+    "item_dexterity_perlevel",
+    "itemdexterityperlevel"
+  ],
+  "{:d} to Druid Skill Levels": [
+    "dru",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "druidskills",
+    "itemadddruidskills"
+  ],
+  "{:d} to Energy": [
+    "enr",
+    "energy",
+    "enr/time",
+    "item_energy_bytime",
+    "itemenergybytime"
+  ],
+  "{:d} to Energy (Based on Character Level)": [
+    "enr/lvl",
+    "item_energy_perlevel",
+    "itemenergyperlevel"
+  ],
+  "{:d} to Fire Skills": [
+    "fireskill",
+    "item_elemskill",
+    "itemelemskill",
+    "fireskills"
+  ],
+  "{:d} to Life": [
+    "hp",
+    "maxhp",
+    "life",
+    "hp/time",
+    "item_hp_bytime",
+    "itemhpbytime"
+  ],
+  "{:d} to Life (Based on Character Level)": [
+    "hp/lvl",
+    "item_hp_perlevel",
+    "itemhpperlevel"
+  ],
+  "{:d} to Light Radius": [
+    "light",
+    "item_lightradius",
+    "itemlightradius"
+  ],
+  "{:d} to Mana": [
+    "mana",
+    "maxmana",
+    "mana/time",
+    "item_mana_bytime",
+    "itemmanabytime"
+  ],
+  "{:d} to Mana (Based on Character Level)": [
+    "mana/lvl",
+    "item_mana_perlevel",
+    "itemmanaperlevel"
+  ],
+  "{:d} to Mana after each Kill": [
+    "mana-kill",
+    "item_manaafterkill",
+    "itemmanaafterkill"
+  ],
+  "{:d} to Maximum Cold Damage": [
+    "cold-max",
+    "coldmaxdam",
+    "dmg-cold/time",
+    "item_cold_damagemax_bytime",
+    "itemcolddamagemaxbytime",
+    "itemcolddamagemax",
+    "dmg-elem-max",
+    "itemelementaldamagemax"
+  ],
+  "{:d} to Maximum Cold Damage (Based on Character Level)": [
+    "dmg-cold/lvl",
+    "item_cold_damagemax_perlevel",
+    "itemcolddamagemaxperlevel"
+  ],
+  "{:d} to Maximum Damage": [
+    "dmg/time",
+    "item_maxdamage_bytime",
+    "itemmaxdamagebytime",
+    "damagebonus",
+    "bonusdamage",
+    "adddamage",
+    "itemmaxdamage",
+    "maxdamage"
+  ],
+  "{:d} to Maximum Damage (Based on Character Level)": [
+    "dmg/lvl",
+    "item_maxdamage_perlevel",
+    "itemmaxdamageperlevel"
+  ],
+  "{:d} to Maximum Fire Damage": [
+    "dmg-elem-max",
+    "itemelementaldamagemax",
+    "dmg-fire/time",
+    "item_fire_damagemax_bytime",
+    "itemfiredamagemaxbytime",
+    "itemfiredamagemax",
+    "fire-max",
+    "firemaxdam"
+  ],
+  "{:d} to Maximum Fire Damage (Based on Character Level)": [
+    "dmg-fire/lvl",
+    "item_fire_damagemax_perlevel",
+    "itemfiredamagemaxperlevel"
+  ],
+  "{:d} to Maximum Lightning Damage": [
+    "dmg-elem-max",
+    "itemelementaldamagemax",
+    "dmg-ltng/time",
+    "item_ltng_damagemax_bytime",
+    "itemltngdamagemaxbytime",
+    "itemlightningdamagemax",
+    "itemltngdamagemax",
+    "ltng-max",
+    "lightmaxdam"
+  ],
+  "{:d} to Maximum Lightning Damage (Based on Character Level)": [
+    "dmg-ltng/lvl",
+    "item_ltng_damagemax_perlevel",
+    "itemltngdamagemaxperlevel"
+  ],
+  "{:d} to Maximum Poison Damage": [
+    "dmg-pois/time",
+    "item_pois_damagemax_bytime",
+    "itempoisdamagemaxbytime",
+    "itempoisondamagemax",
+    "pois-max",
+    "poisonmaxdam"
+  ],
+  "{:d} to Maximum Poison Damage (Based on Character Level)": [
+    "dmg-pois/lvl",
+    "item_pois_damagemax_perlevel",
+    "itempoisdamagemaxperlevel"
+  ],
+  "{:d} to Minimum Cold Damage": [
+    "cold-min",
+    "coldmindam",
+    "dmg-elem-min",
+    "itemelementaldamagemin"
+  ],
+  "{:d} to Minimum Fire Damage": [
+    "dmg-elem-min",
+    "itemelementaldamagemin",
+    "fire-min",
+    "firemindam"
+  ],
+  "{:d} to Minimum Lightning Damage": [
+    "dmg-elem-min",
+    "itemelementaldamagemin",
+    "ltng-min",
+    "lightmindam"
+  ],
+  "{:d} to Minimum Poison Damage": [
+    "pois-min",
+    "poisonmindam"
+  ],
+  "{:d} to Monster Defense Per Hit": [
+    "dmg-ac",
+    "item_damagetargetac",
+    "itemdamagetargetac"
+  ],
+  "{:d} to Necromancer Skill Levels": [
+    "nec",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddnecromancerskills",
+    "necromancerskills"
+  ],
+  "{:d} to Paladin Skill Levels": [
+    "pal",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddpaladinskills",
+    "paladinskills"
+  ],
+  "{:d} to Sorceress Skill Levels": [
+    "sor",
+    "item_addclassskills",
+    "itemaddclassskills",
+    "itemaddsorceressskills",
+    "sorceressskills"
+  ],
+  "{:d} to Strength": [
+    "str",
+    "strength",
+    "str/time",
+    "item_strength_bytime",
+    "itemstrengthbytime"
+  ],
+  "{:d} to Strength (Based on Character Level)": [
+    "str/lvl",
+    "item_strength_perlevel",
+    "itemstrengthperlevel"
+  ],
+  "{:d} to Vitality": [
+    "vit",
+    "vitality",
+    "vit/time",
+    "item_vitality_bytime",
+    "itemvitalitybytime"
+  ],
+  "{:d} to Vitality (Based on Character Level)": [
+    "vit/lvl",
+    "item_vitality_perlevel",
+    "itemvitalityperlevel"
+  ],
+  "{:d} to all Attributes": [
+    "all-stats"
+  ],
+  "{:d} to {}": [
+    "oskill",
+    "item_nonclassskill",
+    "itemnonclassskill"
+  ],
+  "{:d} to {} ({} only)": [
+    "skill",
+    "item_singleskill",
+    "itemsingleskill",
+    "skills",
+    "skill-rand",
+    "skilltab",
+    "item_addskill_tab",
+    "itemaddskilltab"
+  ],
+  "{:d} to {} Skill Levels": [
+    "randclassskill",
+    "item_addclassskills",
+    "itemaddclassskills"
+  ],
+  "{:d}% Better Chance of Getting Magic Items": [
+    "mag%",
+    "item_magicbonus",
+    "itemmagicbonus",
+    "magicfind"
+  ],
+  "{:d}% Better Chance of Getting Magic Items (Based on Character Level)": [
+    "mag%/lvl",
+    "item_find_magic_perlevel",
+    "itemfindmagicperlevel"
+  ],
+  "{:d}% Bonus to Attack Rating": [
+    "att%",
+    "item_tohit_percent",
+    "itemtohitpercent",
+    "attackratingpercent"
+  ],
+  "{:d}% Bonus to Attack Rating (Based on Character Level)": [
+    "att%/lvl",
+    "item_tohitpercent_perlevel",
+    "itemtohitpercentperlevel"
+  ],
+  "{:d}% Chance of Crushing Blow": [
+    "crush",
+    "item_crushingblow",
+    "itemcrushingblow",
+    "crushingblow"
+  ],
+  "{:d}% Chance of Crushing Blow (Based on Character Level)": [
+    "crush/lvl",
+    "item_crushingblow_perlevel",
+    "itemcrushingblowperlevel"
+  ],
+  "{:d}% Chance of Open Wounds": [
+    "openwounds",
+    "item_openwounds",
+    "itemopenwounds"
+  ],
+  "{:d}% Chance of Open Wounds (Based on Character Level)": [
+    "wounds/lvl",
+    "item_openwounds_perlevel",
+    "itemopenwoundsperlevel"
+  ],
+  "{:d}% Chance to cast level {:d} {} on attack": [
+    "att-skill",
+    "item_skillonattack",
+    "itemskillonattack"
+  ],
+  "{:d}% Chance to cast level {:d} {} on striking": [
+    "hit-skill",
+    "item_skillonhit",
+    "itemskillonhit",
+    "chancetocastonstrike"
+  ],
+  "{:d}% Chance to cast level {:d} {} when struck": [
+    "gethit-skill",
+    "item_skillongethit",
+    "itemskillongethit",
+    "chancetocastwhenstruck"
+  ],
+  "{:d}% Chance to cast level {:d} {} when you Die": [
+    "death-skill",
+    "item_skillondeath",
+    "itemskillondeath"
+  ],
+  "{:d}% Chance to cast level {:d} {} when you Kill an Enemy": [
+    "kill-skill",
+    "item_skillonkill",
+    "itemskillonkill",
+    "chancetocastonkill"
+  ],
+  "{:d}% Chance to cast level {:d} {} when you Level-Up": [
+    "levelup-skill",
+    "item_skillonlevelup",
+    "itemskillonlevelup",
+    "chancetocastonlevelup"
+  ],
+  "{:d}% Damage Taken Goes To Mana": [
+    "dmg-to-mana",
+    "item_damagetomana",
+    "itemdamagetomana"
+  ],
+  "{:d}% Damage to Demons": [
+    "dmg-demon",
+    "item_demondamage_percent",
+    "itemdemondamagepercent"
+  ],
+  "{:d}% Damage to Demons (Based on Character Level)": [
+    "dmg-dem/lvl",
+    "item_damage_demon_perlevel",
+    "itemdamagedemonperlevel"
+  ],
+  "{:d}% Damage to Undead": [
+    "dmg-undead",
+    "item_undeaddamage_percent",
+    "itemundeaddamagepercent"
+  ],
+  "{:d}% Damage to Undead (Based on Character Level)": [
+    "dmg-und/lvl",
+    "item_damage_undead_perlevel",
+    "itemdamageundeadperlevel"
+  ],
+  "{:d}% Deadly Strike": [
+    "deadly",
+    "item_deadlystrike",
+    "itemdeadlystrike",
+    "deadlystrike"
+  ],
+  "{:d}% Deadly Strike (Based on Character Level)": [
+    "deadly/lvl",
+    "item_deadlystrike_perlevel",
+    "itemdeadlystrikeperlevel"
+  ],
+  "{:d}% Enhanced Defense": [
+    "ac%",
+    "item_armor_percent",
+    "itemarmorpercent",
+    "enhanceddefense"
+  ],
+  "{:d}% Enhanced Defense (Based on Character Level)": [
+    "ac%/lvl",
+    "item_armorpercent_perlevel",
+    "itemarmorpercentperlevel"
+  ],
+  "{:d}% Enhanced Maximum Damage (Based on Character Level)": [
+    "dmg%/lvl",
+    "item_maxdamage_percent_perlevel",
+    "itemmaxdamagepercentperlevel"
+  ],
+  "{:d}% Enhanced damage": [
+    "dmg%",
+    "enhanceddamage"
+  ],
+  "{:d}% Extra Gold from Monsters": [
+    "gold%",
+    "item_goldbonus",
+    "itemgoldbonus",
+    "extragold",
+    "goldfind"
+  ],
+  "{:d}% Extra Gold from Monsters (Based on Character Level)": [
+    "gold%/lvl",
+    "item_find_gold_perlevel",
+    "itemfindgoldperlevel"
+  ],
+  "{:d}% Faster Block Rate": [
+    "block1",
+    "item_fasterblockrate",
+    "itemfasterblockrate",
+    "fbr",
+    "fasterblockrate",
+    "block2",
+    "block3"
+  ],
+  "{:d}% Faster Cast Rate": [
+    "cast1",
+    "item_fastercastrate",
+    "itemfastercastrate",
+    "fcr",
+    "fastercastrate",
+    "cast2",
+    "cast3"
+  ],
+  "{:d}% Faster Hit Recovery": [
+    "balance1",
+    "item_fastergethitrate",
+    "itemfastergethitrate",
+    "fhr",
+    "fasterhitrecovery",
+    "balance2",
+    "balance3"
+  ],
+  "{:d}% Faster Run/Walk": [
+    "move1",
+    "item_fastermovevelocity",
+    "itemfastermovevelocity",
+    "frw",
+    "fasterrunwalk",
+    "move2",
+    "move3"
+  ],
+  "{:d}% Increased Attack Speed": [
+    "swing1",
+    "item_fasterattackrate",
+    "itemfasterattackrate",
+    "ias",
+    "increasedattackspeed",
+    "attackspeed",
+    "swing2",
+    "swing3"
+  ],
+  "{:d}% Increased Chance of Blocking": [
+    "block",
+    "toblock",
+    "chanceofblocking"
+  ],
+  "{:d}% Life stolen per hit": [
+    "lifesteal",
+    "lifedrainmindam",
+    "lifeleech"
+  ],
+  "{:d}% Mana stolen per hit": [
+    "manasteal",
+    "manadrainmindam",
+    "manaleech"
+  ],
+  "{:d}% Reanimate as: {}": [
+    "reanimate",
+    "item_reanimate",
+    "itemreanimate"
+  ],
+  "{:d}% Slower Stamina Drain": [
+    "stamdrain",
+    "item_staminadrainpct",
+    "itemstaminadrainpct"
+  ],
+  "{:d}% Target Defense": [
+    "reduce-ac",
+    "item_fractionaltargetac",
+    "itemfractionaltargetac",
+    "targetdefense"
+  ],
+  "{:d}% to Cold Skill Damage": [
+    "extra-cold",
+    "passive_cold_mastery",
+    "passivecoldmastery",
+    "coldskilldamage"
+  ],
+  "{:d}% to Enemy Cold Resistance": [
+    "pierce-cold",
+    "passive_cold_pierce",
+    "passivecoldpierce"
+  ],
+  "{:d}% to Enemy Fire Resistance": [
+    "pierce-fire",
+    "passive_fire_pierce",
+    "passivefirepierce"
+  ],
+  "{:d}% to Enemy Lightning Resistance": [
+    "pierce-ltng",
+    "passive_ltng_pierce",
+    "passiveltngpierce"
+  ],
+  "{:d}% to Enemy Poison Resistance": [
+    "pierce-pois",
+    "passive_pois_pierce",
+    "passivepoispierce"
+  ],
+  "{:d}% to Experience Gained": [
+    "addxp",
+    "item_addexperience",
+    "itemaddexperience"
+  ],
+  "{:d}% to Fire Skill Damage": [
+    "extra-fire",
+    "passive_fire_mastery",
+    "passivefiremastery",
+    "fireskilldamage"
+  ],
+  "{:d}% to Lightning Skill Damage": [
+    "extra-ltng",
+    "passive_ltng_mastery",
+    "passiveltngmastery",
+    "lightningskilldamage"
+  ],
+  "{:d}% to Maximum Cold Resist": [
+    "res-all-max",
+    "allresistmax",
+    "res-cold-max",
+    "maxcoldresist"
+  ],
+  "{:d}% to Maximum Fire Resist": [
+    "res-all-max",
+    "allresistmax",
+    "res-fire-max",
+    "maxfireresist"
+  ],
+  "{:d}% to Maximum Lightning Resist": [
+    "res-all-max",
+    "allresistmax",
+    "res-ltng-max",
+    "maxlightresist"
+  ],
+  "{:d}% to Maximum Magic Resist": [
+    "res-mag-max",
+    "maxmagicresist"
+  ],
+  "{:d}% to Maximum Poison Resist": [
+    "res-all-max",
+    "allresistmax",
+    "res-pois-max",
+    "maxpoisonresist"
+  ],
+  "{:d}% to Poison Skill Damage": [
+    "extra-pois",
+    "passive_pois_mastery",
+    "passivepoismastery",
+    "poisonskilldamage"
+  ]
+}

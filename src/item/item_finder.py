@@ -80,7 +80,6 @@ class ItemFinder:
         item_list = []
         for cluster in item_text_clusters:
             x, y, w, h = cluster.roi
-            # cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
             cropped_input  = cluster.data
             best_score = None
             item = None
