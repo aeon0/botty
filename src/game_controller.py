@@ -113,7 +113,7 @@ class GameController:
         self.start_death_manager_thread()
         self.game_recovery = GameRecovery(self.screen, self.death_manager)
         self.game_stats = GameStats()
-        self.char_selector = CharSelector()
+        self.char_selector = CharSelector(self.screen, self._config)
         self.start_game_controller_thread()
         GameController.is_running = True
 
