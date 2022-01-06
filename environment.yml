@@ -21,3 +21,4 @@ dependencies:
     - graphviz
     - psutil
     - pillow
+    - discord.py

@@ -270,7 +270,7 @@ class UiManager():
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
                 continue
             include = True
@@ -320,7 +320,7 @@ class UiManager():
                     break
             if include and not exclude:
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
@@ -389,10 +389,9 @@ class UiManager():
                         self._config.items["misc_gold"].pickit_type = 0
                         item_finder.update_items_to_pick(self._config)
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                        Logger.info(msg)
+                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                            self._messenger.send_gold()
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -454,7 +453,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                    self._messenger.send_stash()
                 os._exit(1)
             else:
                 # move to next stash
@@ -587,18 +586,23 @@ class UiManager():
 
     def buy_pots(self, healing_pots: int = 0, mana_pots: int = 0):
         """
-        Buy pots from Malah or Ormus. Vendor inventory needs to be open!
+        Buy pots from vendors. Vendor inventory needs to be open!
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
         h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if h_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(h_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
+
         m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if m_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(m_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])

@@ -1,44 +1,48 @@
+from dataclasses import dataclass
 from config import Config
-import json
-import requests
+import numpy as np
 
+from api.generic_api import GenericApi
+from api.discord_embeds import DiscordEmbeds
 
 class Messenger:
     def __init__(self):
         self._config = Config()
+        if self._config.general["message_api_type"] == "generic_api":
+            self._message_api = GenericApi()
+        elif self._config.general["message_api_type"] == "discord":
+            self._message_api = DiscordEmbeds()
+        else:
+            self._message_api = None
 
-    def send(self, msg):
-        if self._config.advanced_options['message_highlight']:
-            if " magic_" in msg:
-                msg = f"```ini\\n[ {msg} \\n```"
-            elif " set_" in msg:
-                msg = f"```diff\\n+ {msg} \\n```"
-            elif " rune_" in msg:
-                msg = f"```css\\n[ {msg} ]\\n```"
-            elif " uniq_" in msg or "rare" in msg:
-                # TODO: It is more gold than yellow, find a better yellow highlight
-                msg = f"```fix\\n- {msg} \\n```"
-            elif " gray_" in msg:
-                msg = f"```python\\n# {msg} \\n```"
-            else:
-                msg = f"```\\n{msg} \\n```"
+    def send_item(self, item: str, image:  np.ndarray, location: str):
+        self._message_api.send_item(item, image, location)
+        
+    def send_death(self, location: str, image_path: str = None):
+        self._message_api.send_death(location, image_path)
+        
+    def send_chicken(self, location: str, image_path: str = None):
+        self._message_api.send_chicken(location, image_path)
+        
+    def send_stash(self):
+        self._message_api.send_stash()
 
-        self._send(msg=msg)
+    def send_gold(self):
+        self._message_api.send_gold()
 
-    def _send(self, msg):
-        url = self._config.general['custom_message_hook']
-        if not url:
-            return
-
-        headers = {}
-        if self._config.advanced_options['message_headers']:
-            headers = json.loads(self._config.advanced_options['message_headers'])
-
-        data = json.loads(self._config.advanced_options['message_body_template'].format(msg=msg), strict=False)
-
-        requests.post(url, headers=headers, json=data)
-
+    def send_message(self, msg: str):
+        self._message_api.send_message(msg)
 
 if __name__ == "__main__":
     messenger = Messenger()
-    messenger.send(msg=f" uniq_test")
+
+    item = "rune_test"
+    image = None
+    location = "Shenk"
+
+    # messenger.send_item(item, img, location)
+    # messenger.send_death(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    # messenger.send_chicken(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    messenger.send_stash()
+    messenger.send_gold()
+    messenger.send_message("This is a test message")
