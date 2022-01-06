@@ -87,7 +87,7 @@ class GameController:
                     self.game_recovery = GameRecovery(self.screen, self.death_manager)
                     return self.run_bot(True)
             Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+            messenger.send_message("Got stuck and could not restart the game. Quitting.")
                 
             os._exit(1)
 
