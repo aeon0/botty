@@ -23,6 +23,8 @@ class Item:
     score: float = -1.0
     dist: float = -1.0
     roi: list[int] = None
+    text: str = None
+    color: str = None
 
 class ItemFinder:
     def __init__(self, config: Config):
@@ -120,6 +122,8 @@ class ItemFinder:
                                         item.roi = [max_loc[0] + x, max_loc[1] + y, template.data.shape[1], template.data.shape[0]]
                                         center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                         item.dist = math.dist(center_abs, (0, 0))
+                                        item.text = cluster.text
+                                        item.color = cluster.color
             if item is not None and self._items_to_pick[item.name].pickit_type:
                 item_list.append(item)
         elapsed = time.time() - start

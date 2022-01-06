@@ -10,7 +10,6 @@ from item import ItemFinder, Item
 from ui import UiManager
 from ui import BeltManager
 from char import IChar
-from tesserocr import PyTessBaseAPI, PSM, OEM
 
 class PickIt:
     def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
@@ -81,6 +80,8 @@ class PickIt:
                 for item in item_list[1:]:
                     if closest_item.dist > item.dist:
                         closest_item = item
+
+                #Logger.debug(f"item: {closest_item.text}, color: {closest_item.color}")
 
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False

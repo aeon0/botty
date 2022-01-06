@@ -32,7 +32,7 @@ if __name__ == "__main__":
             item_clusters = item_cropper.crop(img)
             for count, cluster in enumerate(item_clusters):
                 x, y, w, h = cluster.roi
-                key = cluster.color_key
+                key = cluster.color
                 if gen_truth:
                     cv2.namedWindow("item")
                     cv2.moveWindow("item", 100, 100)
