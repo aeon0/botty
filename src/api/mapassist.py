@@ -6,6 +6,9 @@ import time
 from requests.exceptions import ConnectionError
 import cv2
 import numpy as np
+import pyastar2d
+from copy import deepcopy
+import math
 
 
 def translation_matrix(tx, ty):
@@ -60,6 +63,7 @@ class MapAssistApi:
         try:
             botty_data = {
                 "monsters": [],
+                "poi": [],
                 "map": None,
                 "player_pos_world": None,
                 "area_origin": None,
@@ -68,6 +72,8 @@ class MapAssistApi:
             data = resp.json()
             if data["success"] == True:
                 botty_data["map"] = np.array(data["collision_grid"])
+                botty_data["map"][botty_data["map"] == 1] = 0
+                botty_data["map"] += 1
                 botty_data["area_origin"] = np.array([int(data["area_origin"]["X"]), int(data["area_origin"]["Y"])])
                 botty_data["player_pos_world"] = np.array([data["player_pos"]["X"], data["player_pos"]["Y"]])
                 botty_data["player_pos_area"] = botty_data["player_pos_world"] - botty_data["area_origin"]
@@ -77,6 +83,9 @@ class MapAssistApi:
                     abs_pos = self.world_to_abs_screen(world_pos)
                     monster["position"] = abs_pos
                     botty_data["monsters"].append(monster)
+                for p in data["points_of_interest"]:
+                    p["position"] = np.array([int(p["position"]["X"]), int(p["position"]["Y"])])
+                    botty_data["poi"].append(p)
             return botty_data
         except ConnectionError as e:
             return None
@@ -87,7 +96,6 @@ if __name__ == "__main__":
     screen = Screen(1)
     api = MapAssistApi()
     while 1:
-        print("-")
         img = screen.grab().copy()
         data = api.get_data()
         map_img = None
@@ -100,24 +108,56 @@ if __name__ == "__main__":
                 cv2.rectangle(img, top_left, bottom_right, (0, 0, 255), 2)
 
             if data["map"] is not None:
-                print(data["player_pos_area"])
-                map_img = data["map"][:,:]
-                map_img[map_img == -1] = 255
+                map_img = deepcopy(data["map"])
+                map_img[map_img == 1] = 255
                 map_img = map_img.astype(np.uint8)
                 map_img = cv2.cvtColor(map_img, cv2.COLOR_GRAY2BGR)
-                p = (int(data["player_pos_area"][0]), int(data["player_pos_area"][1]))
-                cv2.circle(map_img, p, 3, (0, 255, 0), 2)
+                player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
+                cv2.circle(map_img, player_pos_area, 3, (0, 255, 0), 2)
                 # viewport area of screen
-                top_left = api.abs_screen_to_world([-640, -360]) - data["area_origin"]
-                top_right = api.abs_screen_to_world([640, -360]) - data["area_origin"]
-                bottom_right = api.abs_screen_to_world([640, 360]) - data["area_origin"]
-                bottom_left = api.abs_screen_to_world([-640, 360]) - data["area_origin"]
-                cv2.line(map_img, top_left, top_right, (0, 0, 255), 2)
-                cv2.line(map_img, top_right, bottom_right, (0, 0, 255), 2)
-                cv2.line(map_img, bottom_right, bottom_left, (0, 0, 255), 2)
-                cv2.line(map_img, bottom_left, top_left, (0, 0, 255), 2)
-
-        time.sleep(0.1)
+                top_left = api.abs_screen_to_world([-630, -360]) - data["area_origin"]
+                top_right = api.abs_screen_to_world([630, -360]) - data["area_origin"]
+                bottom_right = api.abs_screen_to_world([630, 260]) - data["area_origin"]
+                bottom_left = api.abs_screen_to_world([-630, 260]) - data["area_origin"]
+                cv2.line(map_img, top_left, top_right, (0, 0, 255), 1)
+                cv2.line(map_img, top_right, bottom_right, (0, 0, 255), 1)
+                cv2.line(map_img, bottom_right, bottom_left, (0, 0, 255), 1)
+                cv2.line(map_img, bottom_left, top_left, (0, 0, 255), 1)
+                d1 = math.dist(player_pos_area, top_left)
+                d2 = math.dist(player_pos_area, top_right)
+                d3 = math.dist(player_pos_area, bottom_right)
+                d4 = math.dist(player_pos_area, bottom_left)
+                # Get worldstone keep area 3 entrance
+                for p in data["poi"]:
+                    if p["label"].startswith("Worldstone Keep Level 3"):
+                        map_pos = p["position"] - data["area_origin"]
+                        cv2.circle(map_img, map_pos, 3, (255, 0, 0), 2)
+                        # Calc route from player to entrance
+                        start = time.time()
+                        weighted_map = deepcopy(data["map"])
+                        weighted_map = weighted_map.astype(np.float32)
+                        weighted_map[weighted_map == 0] = np.inf
+                        weighted_map[weighted_map == 1] = 1
+                        start_pos = np.array([player_pos_area[1], player_pos_area[0]])
+                        end_pos = np.array([map_pos[1], map_pos[0] + 1])
+                        x1 = weighted_map[start_pos[0]][start_pos[1]]
+                        x2 = weighted_map[end_pos[0]][end_pos[1]]
+                        route = pyastar2d.astar_path(weighted_map, start_pos, end_pos, allow_diagonal=False)
+                        if route is not None:
+                            for r in route:
+                                map_img[int(r[0])][int(r[1])] = (244, 0, 255)
+                            for r in reversed(route):
+                                dist = math.dist([r[1], r[0]], player_pos_area)
+                                if dist < 29:
+                                    # check if it is in screen
+                                    world_r = np.array([r[1], r[0]]) + data["area_origin"]
+                                    sc = api.world_to_abs_screen(world_r)
+                                    if -630 < sc[0] < 630 and -360 < sc[1] < 260:
+                                        cv2.circle(map_img, (r[1], r[0]), 3, (255, 190, 0), 2)
+                                        cv2.circle(img, (sc[0] + 640, sc[1] + 360), 5, (255, 190, 0), 3)
+                                        break
+                        print(time.time() - start)
+        time.sleep(0.05)
         cv2.imshow("t", img)
         if map_img is not None:
             cv2.imshow("map", map_img)
