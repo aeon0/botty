@@ -270,7 +270,7 @@ class UiManager():
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
                 continue
             include = True
@@ -320,7 +320,7 @@ class UiManager():
                     break
             if include and not exclude:
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
@@ -389,10 +389,9 @@ class UiManager():
                         self._config.items["misc_gold"].pickit_type = 0
                         item_finder.update_items_to_pick(self._config)
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                        Logger.info(msg)
+                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                            self._messenger.send_gold()
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -454,7 +453,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                    self._messenger.send_stash()
                 os._exit(1)
             else:
                 # move to next stash
