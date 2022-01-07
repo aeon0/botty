@@ -205,7 +205,97 @@ class Config:
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
         item_props = ItemProps()
+        """
+        if (key == "magic_small_charm"):
+            print ("just for DEBUG")
+        if (key == "magic_monarch"):
+            print ("just for DEBUG")
+        if (key == "rare_greaves"):
+            print ("just for DEBUG")
+        if (key == "white_superior_archon_plate"):
+            print ("just for DEBUG") 
+        if (key == "magic_jewel"):
+            print ("just for DEBUG")    
+        if (key == "uniq_misc_rainbow_facet"):
+            print ("just for DEBUG")
+        if (key == "rare_ancient_armor"):
+            print ("just for DEBUG") 
+        if (key == "uniq_weapon_eschuta_temper"):
+            print ("just for DEBUG")
+        if (key == "uniq_misc_rings"):
+            print ("just for DEBUG")
+        """
         # split string by commas NOT contained within parentheses
+        brk_on = 0
+        brk_off = 0
+        section = 0
+        counter = 0
+        start_section = 0
+        start_item = 0
+        keep = 0
+        include = None
+        include_list = []
+        exclude_list = []
+        exclude = None
+        string = self._select_val("items", key).upper()
+        for char in string:
+            new_section = False
+            counter+=1
+            if char == "(":
+                brk_on +=1
+            elif char == ")":
+                brk_off += 1
+            if ((char == "," and brk_on==brk_off)):
+                new_section = True
+                if  (counter == len (string)):
+                    string_section = string [start_section:counter]
+                else:
+                    string_section = string [start_section:counter-1]
+                if section == 0:
+                    item_props.pickit_type = int (string_section)
+                elif section ==1:
+                    include = string_section
+                elif section ==2:
+                    exclude = string_section
+                section +=1
+                start_section = counter
+            #if ((char == "," and (brk_on==brk_off+1)) or ((char == ")" and brk_on==brk_off)) or counter == len (string)):
+            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
+                if new_section: 
+                    section -=1
+                if start_item ==0:
+                    start_item = start_section
+                if  (counter == len (string)):
+                    item = string [start_item:counter]
+                else:
+                    item = string [start_item:counter-1]
+                if section == 0 and counter == len (string):
+                    item_props.pickit_type = int (item)
+                    pass
+                if section ==1:
+                    include_list.append (item)
+                    start_item = counter +1
+                elif section ==2:
+                    exclude_list.append (item)
+                    start_item = counter +1
+                if new_section: 
+                    section +=1
+        if (len (include_list)>0 and (len (include_list[0]) >=6)):
+            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
+                item_props.include_type = "AND"
+            else:
+                item_props.include_type = "OR"
+        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
+            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
+                item_props.exclude_type = "AND"
+            else:
+                item_props.exclude_type = "OR"
+        for i in range (len(include_list)):
+            include_list[i]  = include_list[i].replace ("(", "").replace (")","").replace ("AND", "").replace (" ","").replace ("OR","")
+            include_list[i]  = include_list[i].split (",")
+        item_props.include = include_list
+        item_props.exclude = exclude_list
+        """
         item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
         trim_strs=["AND(", "OR(", "(", ")", " "]
         clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
@@ -224,6 +314,7 @@ class Config:
             pass
         except Exception as exception:
             Logger.error(f"Item parsing error: {exception}")
+        """
         return item_props
 
 if __name__ == "__main__":

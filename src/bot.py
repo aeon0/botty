@@ -108,7 +108,7 @@ class Bot:
         self._stopping = False
         self._pausing = False
         self._current_threads = []
-        self._no_stash_counter = 0
+        self._no_stash_counter = 5
         self._ran_no_pickup = False
 
         # Create State Machine
