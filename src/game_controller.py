@@ -40,7 +40,9 @@ class GameController:
         # Make sure the correct char is selected
         if self.char_selector.has_char_template_saved():
             Logger.info("Selecting original char")
-            self.char_selector.select_char()
+            if not self.char_selector.select_char():
+                # We don't want to accidentally start with another char that botty might empty its inventory
+                Logger.info("Unable to find original character. Stopping.")
         else:
             Logger.info("Saving top-most char as template")
             self.char_selector.save_char_template()

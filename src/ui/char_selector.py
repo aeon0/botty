@@ -15,26 +15,38 @@ class CharSelector:
     def has_char_template_saved(self):
         return self._char_template is not None
 
-    def save_char_template(self):
+    def save_char_template(self) -> bool:
         img = self._screen.grab()
-        # TODO: check which character is currently selected rather than assuming the top one is the correct one
-        self._char_template = cut_roi(img, self._config.ui_roi["char_selection_top"])
+        matched_template = self._template_finder.search(
+            "CHARACTER_SELECTION_RECTANGLE",
+            self._screen.grab(),
+            normalize_monitor=True,
+            filters=[self._config.colors['character_selection_rectangle']])
+        if matched_template.valid:
+            template_shape = self._template_finder.get_template("CHARACTER_SELECTION_RECTANGLE").shape
+            matched_template_top_left = self._screen.convert_monitor_to_screen(
+                (matched_template.position[0] - template_shape[1]/2, matched_template.position[1] - template_shape[0]/2))
+            # Remove golden border and fit into char_selection_all roi
+            self._char_template = cut_roi(img,
+                                          (self._config.ui_roi["char_selection_all"][0], int(matched_template_top_left[1]) + 23, template_shape[1] - 42, template_shape[0] - 32))
+            return True
+        return False
 
-    def select_char(self):
+    def select_char(self) -> bool:
         if self._char_template is not None:
             scrolls_attempts = 0
             template_result = TemplateMatch()
             coords = self._config.ui_roi["char_selection_all"]
-            while not template_result.valid and scrolls_attempts < 2:  # 2 scrolls should suffice to see all possible characters
+            while not template_result.valid and scrolls_attempts < 3:  # 3 scrolls should suffice to see all possible characters
                 template_result = self._template_finder.search(
                     self._char_template,
                     self._screen.grab(),
-                    threshold=0.8,
+                    threshold=0.9,
                     roi=coords, normalize_monitor=True
                 )
                 if not template_result.valid:
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    pos = self._screen.convert_screen_to_monitor((coords[0], coords[1]))
+                    pos = self._screen.convert_screen_to_monitor((coords[0]+40, coords[1]+20))
                     mouse.move(*pos)
                     wait(0.5)
                     mouse.wheel(-14)
@@ -45,6 +57,7 @@ class CharSelector:
                     mouse.move(*template_result.position)
                     wait(0.5)
                     mouse.click(button="left")
+                    return True
         return False
 
 
@@ -56,6 +69,7 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     selector = CharSelector(screen, config)
     if not selector.has_char_template_saved():
-        selector.save_char_template()
+        if selector.save_char_template():
+            print('template saved')
     keyboard.wait("f11")
     selector.select_char()

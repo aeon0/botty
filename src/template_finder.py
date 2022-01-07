@@ -7,7 +7,7 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask, color_filter
 
 
 @dataclass
@@ -56,6 +56,7 @@ class TemplateFinder:
         normalize_monitor: bool = False,
         best_match: bool = False,
         use_grayscale: bool = False,
+        filters: List = None
     ) -> TemplateMatch:
         """
         Search for a template in an image
@@ -66,8 +67,11 @@ class TemplateFinder:
         :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param use_grayscale: Use grayscale template matching for speed up
+        :param filters: color filters that you might want to have pre-applied to the image to match the template
         :return: Returns a TempalteMatch object with a valid flag
         """
+        if filters is None:
+            filters = []
         if roi is None:
             # if no roi is provided roi = full inp_img
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
@@ -111,6 +115,10 @@ class TemplateFinder:
                 if use_grayscale:
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     template = templates_gray[count]
+                cmb_img = np.zeros(img.shape, dtype="uint8")
+                for f in filters:
+                    _, filtered_img = color_filter(img, f)
+                    img = cv2.bitwise_or(filtered_img, cmb_img)
                 self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
                 np.nan_to_num(self.last_res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
                 _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
