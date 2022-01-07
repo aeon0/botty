@@ -246,9 +246,11 @@ class Diablo:
         #"""
         ### GO HOME ###
         if not self._pather.traverse_nodes([633, 634], self._char): return False # seal boss far # calibrating before going home to pentagram
-        Logger.info(seal_layout + ": Looping to PENTAGRAM")
-        if not self._loop_pentagram("dia_b1s_home_loop"): return False
-        if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
+        self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
+        Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        #Logger.info(seal_layout + ": Looping to PENTAGRAM")
+        #if not self._loop_pentagram("dia_b1s_home_loop"): return False
+        i#f not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True

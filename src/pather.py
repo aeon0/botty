@@ -642,7 +642,7 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
 
 
-    #display_all_nodes(pather, "DIA_B1S")
+    #xedisplay_all_nodes(pather, "DIA_B1S")
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
@@ -705,32 +705,30 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_a2y_approach", char)
     #pather.traverse_nodes([620], char, threshold=0.78) # approach
     #pather.traverse_nodes([621], char) # approach
-    pather.traverse_nodes([622], char) # safe dist
+    #pather.traverse_nodes([622], char) # safe dist
     #pather.traverse_nodes([623], char) # center
     #pather.traverse_nodes([624], char) # left fake far
     #pather.traverse_nodes([625], char) # left fake close
     #pather.traverse_nodes([626], char) # center
     #pather.traverse_nodes([627], char) # right boss far
-    pather.traverse_nodes_fixed("dia_a2y_home", char)
-    xepather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_a2y_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW B2U
-    """
-    pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("dia_b_layout_bold", char)
-    pather.traverse_nodes([640], char) # approach
-    pather.traverse_nodes([641], char) # approach2 
-    pather.traverse_nodes([642], char) # safe dist
-    pather.traverse_nodes([649], char) # safe dist
-    pather.traverse_nodes([648], char) # safe dist
-    pather.traverse_nodes([647], char) # safe dist
-    pather.traverse_nodes([645], char) # safe dist
-    pather.traverse_nodes([644], char) # safe dist
-    pather.traverse_nodes([645], char) # safe dist
-    pather.traverse_nodes([647], char) # safe dist
-    pather.traverse_nodes([648], char) # safe dist
-    pather.traverse_nodes([649], char) # safe dist
-    """
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_b_layout_bold", char)
+    #pather.traverse_nodes([640], char) # approach
+    #pather.traverse_nodes([641], char) # approach2 
+    #pather.traverse_nodes([642], char) # safe dist
+    #pather.traverse_nodes([649], char) # safe dist
+    #pather.traverse_nodes([648], char) # safe dist
+    #pather.traverse_nodes([647], char) # safe dist
+    #pather.traverse_nodes([645], char) # safe dist
+    #pather.traverse_nodes([644], char) # safe dist
+    #pather.traverse_nodes([645], char) # safe dist
+    #pather.traverse_nodes([647], char) # safe dist
+    #pather.traverse_nodes([648], char) # safe dist
+    #pather.traverse_nodes([649], char) # safe dist
     #pather.traverse_nodes([643], char) # seal boss far
     #pather.traverse_nodes([644], char) # seal boss close
     #pather.traverse_nodes([645], char) # seal boss far2
@@ -750,34 +748,32 @@ if __name__ == "__main__":
 
     # NEW B1S
     #pather.traverse_nodes([632], char) # corner
-    """
-    pather.traverse_nodes([602], char) # calibrate pentagram
-    pather.traverse_nodes_fixed("dia_b_layout", char)
-    pather.traverse_nodes_fixed("dia_b_layout2", char)
-    pather.traverse_nodes([634], char) # seal boss far
-    pather.traverse_nodes([635], char) # seal boss close
-    pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
-    pather.traverse_nodes([630], char) # approach
-    pather.traverse_nodes([631], char) # corner left
-    pather.traverse_nodes([632], char) # corner
-    pather.traverse_nodes([633], char) # corner right
-    pather.traverse_nodes([634], char) # seal boss far
-    pather.traverse_nodes([635], char) # seal boss close
-    pather.traverse_nodes([636], char) # river cross
-    pather.traverse_nodes([637], char) # close circle
-    pather.traverse_nodes([6301], char) # approach
-    pather.traverse_nodes([631], char) # corner left
-    pather.traverse_nodes([632], char) # corner
-    pather.traverse_nodes([633], char) # corner right
-    pather.traverse_nodes([634], char) # seal boss far
-    pather.traverse_nodes([636], char) # river cross
-    pather.traverse_nodes([637], char) # close circle
-    pather.traverse_nodes([631], char) # approach
-    pather.traverse_nodes([633], char) # approach
-    pather.traverse_nodes([636], char) # approach
-    """
-    
-    #pather.traverse_nodes_fixed("dia_b2u_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_b_layout", char)
+    #pather.traverse_nodes_fixed("dia_b_layout2", char)
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([635], char) # seal boss close
+    #pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
+    #pather.traverse_nodes([630], char) # approach
+    #pather.traverse_nodes([631], char) # corner left
+    #pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([633], char) # corner right
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([635], char) # seal boss close
+    #pather.traverse_nodes([636], char) # river cross
+    #pather.traverse_nodes([637], char) # close circle
+    #pather.traverse_nodes([6301], char) # approach
+    #pather.traverse_nodes([631], char) # corner left
+    #pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([633], char) # corner right
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([636], char) # river cross
+    #pather.traverse_nodes([637], char) # close circle
+    #pather.traverse_nodes([631], char) # approach
+    #pather.traverse_nodes([633], char) # approach
+    #pather.traverse_nodes([634], char) # approach 
+    #pather.traverse_nodes_fixed("dia_b1s_home", char)
+    #pather.traverse_nodes([602], char) # approach 
 
     # NEW C1F
     #pather.traverse_nodes([602], char) # calibrate pentagram
