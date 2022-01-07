@@ -189,7 +189,7 @@ class Bot:
                 found_unfinished_run = True
                 break
         return not found_unfinished_run
-
+ 
     def on_create_game(self):
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection

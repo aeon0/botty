@@ -249,7 +249,7 @@ class UiManager():
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             _, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
-                return True
+                return True 
         return False
 
     def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:

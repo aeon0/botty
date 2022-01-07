@@ -24,7 +24,7 @@ class GenericApi:
         self._send(msg)
 
     def send_gold(self):
-        msg = f"All stash is full, quitting"
+        msg = f"All stash is full, quitting" 
         self._send(msg)
 
     def send_status(self, msg: str):

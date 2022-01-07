@@ -99,7 +99,7 @@ class GameController:
             messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and could not restart the game. Quitting.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
                 
             os._exit(1)
-
+ 
     def start(self):
         # Check if we user should update the d2r settings
         diff = check_settings(self._config)

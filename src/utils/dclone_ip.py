@@ -38,7 +38,7 @@ def get_d2r_game_server_region_by_ip(ip):
         return "Asia Jakarta Server"
     if any(tmp in ip for tmp in asia_server):
         return "Asia Server"
-    if ip == "Unknown game server":
+    if ip == "Unknown game server": 
         return "Unknown Server"
     else:
         return "Blizzard Server"

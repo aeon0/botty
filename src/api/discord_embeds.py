@@ -12,7 +12,7 @@ class DiscordEmbeds(GenericApi):
         self._config = Config()
         self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         self._file = None
-        self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
+        self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/" 
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         imgName = item.replace('_', '-')

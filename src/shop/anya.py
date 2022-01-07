@@ -116,7 +116,7 @@ class AnyaShopper:
                 self.ias_gloves_seen += 1
                 mouse.move(*ias_glove.position)
                 time.sleep(0.1)
-                img = self._screen.grab()
+                img = self._screen.grab() 
                 
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = self._template_finder.search(
