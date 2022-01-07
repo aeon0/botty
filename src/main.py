@@ -27,7 +27,6 @@ def start_or_pause_bot():
         debugger_controller.stop()
         game_controller.start()
 
-
 def start_or_stop_graphic_debugger():
     global game_controller
     global debugger_controller
@@ -37,8 +36,6 @@ def start_or_stop_graphic_debugger():
         # Kill botty if we invoke the debugger
         game_controller.stop()
         debugger_controller.start()
-
-
 
 def main():
     if config.general["logg_lvl"] == "info":
