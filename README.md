@@ -166,6 +166,18 @@ run_shenk=0
 | war_cry        | Required Hotkey for War Cry                                                         |
 | find_item      | Optional Hotkey for Find Item                                                       |
 
+| [Necro]        | Descriptions                                                                        |
+| -------------- | ----------------------------------------------------------------------------------- |
+| teleport       | leave this blank for now, teleport/static pathing is currently not supported        |
+| skill_left     | Required Hotkey for attack (bonespear/teeth)                                        |
+| bone_armor     | Required Hotkey for Bone Armor                                                      |
+| clay_golem     | Required Hotkey for Clay Golem                                                      |
+| raise_skeleton | Required Hotkey for Raise Skeleton                                                  |
+| amp_dmg        | Required Hotkey for Amplify Damage                                                  |
+| corpse_explosion | Required Hotkey Corpse Explosion                                                  |
+| raise_revive   | Required Hotkey revive                                                              |
+| clear_pindle_packs | clears mobs before pindle                                                       |
+
 | [dclone]             | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |
 | region_ips           | Start of the region ip you want to filter for. e.g. EU Server = 37.244.11, 37.244.48 |

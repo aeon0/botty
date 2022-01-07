@@ -49,6 +49,6 @@ if __name__ == "__main__":
     if config.dclone["region_ips"] != "" and config.dclone["dclone_hotip"] != "":
         print(f"Current Game IP: {get_d2r_game_ip()}")
         print(f"Current Game Server: {get_d2r_game_server_region_by_ip(get_d2r_game_ip())}")
-        messenger.send(msg=f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
+        messenger.send_message(f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
     else:
         print(f"Please Enter the region ip and hot ip on config to use")

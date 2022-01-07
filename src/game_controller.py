@@ -56,9 +56,9 @@ class GameController:
                     if self._config.general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
                 elif self.death_manager.died():
-                    self.game_stats.log_death()
+                    self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
-                    self.game_stats.log_chicken()
+                    self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
@@ -78,7 +78,7 @@ class GameController:
             Logger.error(
                 f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
             if self._config.general["custom_message_hook"]:
-                messenger.send(msg=f"{self._config.general['name']}: got stuck and will now restart D2R")
+                messenger.send_message(f"{self._config.general['name']}: got stuck and will now restart D2R")
             if restart_game(self._config.general["d2r_path"]):
                 self.game_stats.log_end_game(failed=max_game_length_reached)
                 if self.setup_screen():
@@ -87,8 +87,8 @@ class GameController:
                     self.game_recovery = GameRecovery(self.screen, self.death_manager)
                     return self.run_bot(True)
             Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-            if self._config.general["custom_message_hook"]:
-                messenger.send(msg=f"{self._config.general['name']}: got stuck and will now quit")
+            messenger.send_message("Got stuck and could not restart the game. Quitting.")
+                
             os._exit(1)
 
     def start(self):
