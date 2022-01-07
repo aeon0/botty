@@ -169,6 +169,7 @@ class LightSorc(Sorceress):
         self._chain_lightning((150, 200), spray=40)
         self._chain_lightning((-150, 50), spray=40)
         # Move outside since the trav.py expects to start searching for items there if char can teleport
+        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
