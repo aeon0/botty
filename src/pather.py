@@ -705,14 +705,14 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_a2y_approach", char)
     #pather.traverse_nodes([620], char, threshold=0.78) # approach
     #pather.traverse_nodes([621], char) # approach
-    #pather.traverse_nodes([622], char) # safe dist
+    pather.traverse_nodes([622], char) # safe dist
     #pather.traverse_nodes([623], char) # center
     #pather.traverse_nodes([624], char) # left fake far
     #pather.traverse_nodes([625], char) # left fake close
     #pather.traverse_nodes([626], char) # center
     #pather.traverse_nodes([627], char) # right boss far
-    #pather.traverse_nodes_fixed("dia_a2y_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_a2y_home", char)
+    xepather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW B2U
     """
