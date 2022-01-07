@@ -46,7 +46,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send_item(item_name, img, self._location) 
+            self._messenger.send_item(item_name, img, self._location)
 
     def log_death(self, img: str):
         self._death_counter += 1

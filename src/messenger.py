@@ -34,7 +34,7 @@ class Messenger:
         self._message_api.send_status(msg)        
 
     def send_message(self, title: str, msg: str, img: str):
-        self._message_api.send_message(title, msg, img) 
+        self._message_api.send_message(title, msg, img)
 
 if __name__ == "__main__":
     messenger = Messenger()
