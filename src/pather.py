@@ -646,7 +646,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
-    display_all_nodes(pather, "DIA_C1F5")
+    #display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
@@ -695,8 +695,8 @@ if __name__ == "__main__":
     #pather.traverse_nodes([615], char) # seal boss close
     #pather.traverse_nodes([612], char) # seal boss far
     #pather.traverse_nodes([611], char) # approach
-    #pather.traverse_nodes([610], char) # departure
-    #pather.traverse_nodes_fixed("dia_a2y_home", char)
+    #pather.traverse_nodes([611], char) # departure
+    #pather.traverse_nodes_fixed("dia_a1l_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW A2Y
