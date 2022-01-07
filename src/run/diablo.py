@@ -203,6 +203,7 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         #"""
         ### CLEAR TRASH & APPROACH SEAL ###
+        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
         if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([623, 624], self._char): return False
