@@ -138,7 +138,7 @@ class Diablo:
             # try to select seal
             Logger.info(seal_layout + ": trying to open (try #" + str(i+1) + " of 7)")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
-            wait(1)
+            wait(i*0.5)
             # check if seal is opened
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.5, take_ss=False).valid
             if found:
@@ -152,7 +152,7 @@ class Diablo:
                 if i >= 2:
                     Logger.info(seal_layout + ": failed " + str(i+2) + " of 7 times, trying to kill trash now")
                     self._char.kill_cs_trash()
-                    wait(i) #let the hammers clear & check the template -> the more tries, the longer the wait
+                    wait(i*0.5) #let the hammers clear & check the template -> the more tries, the longer the wait
                     if not self._pather.traverse_nodes(seal_node, self._char): return False # re-calibrate at seal node
                 else:
                     # do a little random hop & try to click the seal
