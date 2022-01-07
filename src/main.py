@@ -49,7 +49,7 @@ def main():
     os.system("mkdir stats")
     if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
-    if not os.path.exists("loot_screenshots") and config.general["loot_screenshots"]:
+    if not os.path.exists("loot_screenshots") and (config.general["loot_screenshots"] or config.general["message_api_type"] == "discord"):
         os.system("mkdir loot_screenshots")
 
     print(f"============ Botty {__version__} [name: {config.general['name']}] ============")
@@ -72,7 +72,6 @@ def main():
     keyboard.add_hotkey(config.general['resume_key'], lambda c: start_or_pause_bot(), args=[config])
     keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
     keyboard.wait()
-    print('stopped waiting')
 
     """ LEFTOVER FROM DIABLO
     while 1:
