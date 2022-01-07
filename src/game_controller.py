@@ -87,7 +87,7 @@ class GameController:
             Logger.error(
                 f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
             if self._config.general["custom_message_hook"]:
-                messenger.send_message(f"{self._config.general['name']}: got stuck and will now restart D2R")
+                messenger.send_message(f"{self._config.general['name']} got stuck!", f"got stuck and will now restart D2R", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")	
             if restart_game(self._config.general["d2r_path"]):
                 self.game_stats.log_end_game(failed=max_game_length_reached)
                 if self.setup_screen():
@@ -96,7 +96,7 @@ class GameController:
                     self.game_recovery = GameRecovery(self.screen, self.death_manager)
                     return self.run_bot(True)
             Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-            messenger.send_message("Got stuck and could not restart the game. Quitting.")
+            messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and could not restart the game. Quitting.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
                 
             os._exit(1)
 
