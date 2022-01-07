@@ -47,7 +47,7 @@ class Diablo:
 
     def _river_of_flames(self) -> bool:
         #ALWAYS USING SPEED VERSION
-        """if self._config.general["name"]!="WiZ": # take WiZ speed path?
+        if self._config.char["kill_cs_trash"]==1: # take WiZ speed path and skip this part?
             if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
             Logger.debug("ROF: Calibrated at WAYPOINT")
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
@@ -72,30 +72,30 @@ class Diablo:
             Logger.info("ROF: Calibrated at CS ENTRANCE")
             return True
 
-        else: # WiZ speed path"""
-        if not self._pather.traverse_nodes([600], self._char , time_out=2): return False
-        Logger.debug("ROF: Calibrated at WAYPOINT")
-        self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
-        Logger.info("ROF: Teleporting directly to PENTAGRAM")
-        found = False
-        #self._char.kill_cs_trash() # WiZ tuning
-        Logger.info("CS: Pentagram clearing") # WiZ tuning
-        wait(0.2) # WiZ tuning
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"]
-        # Looping in smaller teleport steps to make sure we find the pentagram
-        start_time = time.time()
-        while not found and time.time() - start_time < 10:
-            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
+        else: # WiZ speed path
+            if not self._pather.traverse_nodes([600], self._char , time_out=2): return False
+            Logger.debug("ROF: Calibrated at WAYPOINT")
+            self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
+            Logger.info("ROF: Teleporting directly to PENTAGRAM")
+            found = False
+            #self._char.kill_cs_trash() # WiZ tuning
+            Logger.info("CS: Pentagram clearing") # WiZ tuning
+            wait(0.2) # WiZ tuning
+            templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"]
+            # Looping in smaller teleport steps to make sure we find the pentagram
+            start_time = time.time()
+            while not found and time.time() - start_time < 10:
+                found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
+                if not found:
+                    self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
             if not found:
-                self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
-        if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            return False
-        return True
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+            return True
 
     def _cs_pentagram(self) -> bool:
-        """
-        if self._config.general["name"]!="WiZ": # if we took the speed path we skip ahead a bit
+        
+        if self._config.char["kill_cs_trash"]==1: # if we took the speed path we skip ahead a bit
         
             self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
             Logger.info("CS: Teleporting to PENTAGRAM")
@@ -111,7 +111,7 @@ class Diablo:
                 return False
             #self._char.kill_cs_trash()
             #self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        """
+        
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         #self._char.kill_cs_trash() # WiZ tuning
