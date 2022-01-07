@@ -800,10 +800,10 @@ if __name__ == "__main__":
     #pather.traverse_nodes([654], char) # seal fake far
     #pather.traverse_nodes([651], char) # safe dist
     #pather.traverse_nodes([652], char) # seal boss far
-    pather.traverse_nodes([651], char) # seal boss close
-    #pather.traverse_nodes([650], char) # approach
-    #pather.traverse_nodes_fixed("dia_c1f_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes([651], char) # seal boss close
+    pather.traverse_nodes([655], char) # approach
+    pather.traverse_nodes_fixed("dia_c1f_home", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW C2G
     #pather.traverse_nodes([602], char) # calibrate pentagram
