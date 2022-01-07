@@ -291,7 +291,7 @@ class Diablo:
         #self._char.kill_cs_trash() #done during layout check
         if not self._pather.traverse_nodes([655, 654, 653], self._char, time_out=3): return False
         self._char.kill_cs_trash()
-        if not self._sealdance(["DIA_C1F2_23_OPEN"], ["DIA_C1F2_23_CLOSED", "DIA_C1F2_23_CLOSED_1", "DIA_C1F2_23_CLOSED_2", "DIA_C1F2_23_MOUSEOVER"], seal_layout + "-Fake", [653]): return False #or 653?
+        if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [653]): return False #or 653?"DIA_C1F2_23_CLOSED", "DIA_C1F2_23_CLOSED_1", "DIA_C1F2_23_CLOSED_2", "DIA_C1F2_23_MOUSEOVER"
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char) # REPLACES: if not self._pather.traverse_nodes([703, 702, 701], self._char): return False
         if not self._sealdance(["DIA_C1F2_8_OPEN", "DIA_C1F2_11_OPEN", "DIA_C1F2_15_OPEN"], ["DIA_C1F2_8_CLOSED", "DIA_C1F2_11_CLOSED", "DIA_C1F2_15_CLOSED", "DIA_C1F2_15_MOUSEOVER"], seal_layout + "-Boss", [651]): return False # "DIA_C1F2_8_MOUSEOVER", is recognized often, but slows seals down. commented out for testing
         self._pather.traverse_nodes_fixed("dia_c1f_702", self._char) #if not self._pather.traverse_nodes([702], self._char): return False

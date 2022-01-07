@@ -266,11 +266,11 @@ class Pather:
             #6499: {"DIA_B2U_CAL2_6": (40, -185), "DIA_B2U_CAL2_7": (-191, -69), "DIA_B2U_CAL2_5": (187, -92), "DIA_B2U_CAL2_1": (43, 230), "DIA_B2U_CAL2_2": (-132, 222), "DIA_B2U_CAL2_0": (203, 234), "DIA_B2U_CAL2_9": (-272, 283), "DIA_B2U_CAL2_8": (-460, 71),},
 
             #SEAL C1F_new Infector (BAD TEMPLATES NEEDS REAL GOOD REWORK)
-            650: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164),"DIA_C1F5_4": (475, -273), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
-            651: {"DIA_C1F5_5": (142, -167), "DIA_C1F5_0": (364, 201), "DIA_C1F5_13": (-237, 416), "DIA_C1F5_3": (-2, 495), "DIA_C1F5_18": (-479, -185), "DIA_C1F5_4": (585, -30), "DIA_C1F5_19": (521, 290), "DIA_C1F5_16": (615, 407),"DIA_C1F5_16_OPEN": (615, 407), }, #"DIA_C1F5_22": (259, 453),  "DIA_C1F5_20": (-378, -37), 
+            650: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
+            651: {"DIA_C1F5_5": (142, -167), "DIA_C1F5_0": (364, 201), "DIA_C1F5_13": (-237, 416), "DIA_C1F5_3": (-2, 495), "DIA_C1F5_18": (-479, -185), "DIA_C1F5_19": (521, 290), "DIA_C1F5_16": (615, 407),"DIA_C1F5_16_OPEN": (615, 407), }, #"DIA_C1F5_22": (259, 453),  "DIA_C1F5_20": (-378, -37), "DIA_C1F5_4": (585, -30), 
             652: {"DIA_C1F5_18": (113, -234), "DIA_C1F5_5": (734, -216), },
             653: {"DIA_C1F5_16": (-117, 3), "DIA_C1F5_16_OPEN": (-117, 3), "DIA_C1F5_23": (-130, 172), "DIA_C1F5_19": (-211, -114), "DIA_C1F5_25": (295, 62), "DIA_C1F5_15": (289, 108), "DIA_C1F5_24": (270, 225), "DIA_C1F5_22": (-473, 49), "DIA_C1F5_18": (429, -342), }, #"DIA_C1F5_4": (-147, -434), "DIA_C1F5_20": (-161, -366), 
-            654: {"DIA_C1F6_1": (75, 137), "DIA_C1F6_4": (37, -214), "DIA_C1F6_10": (225, -104), "DIA_C1F6_2": (-210, -150), "DIA_C1F6_3": (234, -123), "DIA_C1F6_0": (234, 181), "DIA_C1F6_5": (427, -134), "DIA_C1F6_9": (367, 319), },#layout check
+            654: {"DIA_C1F6_1": (75, 137), "DIA_C1F6_10": (225, -104), "DIA_C1F6_2": (-210, -150), "DIA_C1F6_3": (234, -123), "DIA_C1F6_0": (234, 181), "DIA_C1F6_5": (427, -134), "DIA_C1F6_9": (367, 319), },#layout check
             655: {"DIA_C1F6_7": (104, -161), "DIA_C1F6_5": (-49, -210), "DIA_C1F6_0": (-242, 105), "DIA_C1F6_9": (-109, 243), "DIA_C1F6_10": (-251, -180), "DIA_C1F6_3": (-242, -199), "DIA_C1F6_11": (188, 281), "DIA_C1F6_1": (-401, 61), },#seal fake far 2
 
             #SEAL C2G_new Infector
@@ -646,7 +646,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
-    #display_all_nodes(pather, "DIA_C1F5")
+    #display_all_nodes(pather, "DIA_C1F")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
@@ -787,9 +787,9 @@ if __name__ == "__main__":
     #pather.traverse_nodes([652], char) # seal boss far
     #pather.traverse_nodes([653], char) # safe dist
     #pather.traverse_nodes([654], char) # seal fake far
-    #pather.traverse_nodes([653], char) # safe dist
+    #pather.traverse_nodes([651], char) # safe dist
     #pather.traverse_nodes([652], char) # seal boss far
-    #pather.traverse_nodes([651], char) # seal boss close
+    pather.traverse_nodes([651], char) # seal boss close
     #pather.traverse_nodes([650], char) # approach
     #pather.traverse_nodes_fixed("dia_c1f_home", char)
     #pather.traverse_nodes([602], char) # calibrate pentagram
