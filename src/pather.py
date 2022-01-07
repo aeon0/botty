@@ -265,15 +265,16 @@ class Pather:
             649: {"DIA_B2U_CAL_17": (-59, 210), "DIA_B2U_CAL_16": (52, 240), "DIA_B2U_CAL_14": (-306, -32), "DIA_B2U_CAL_15": (199, 246), "DIA_B2U_CAL_19": (373, 30), "DIA_B2U_CAL_18": (-108, 383), "DIA_B2U_CAL_13": (-543, 115), "DIA_B2U_CAL_8": (-899, 256), },
             #6499: {"DIA_B2U_CAL2_6": (40, -185), "DIA_B2U_CAL2_7": (-191, -69), "DIA_B2U_CAL2_5": (187, -92), "DIA_B2U_CAL2_1": (43, 230), "DIA_B2U_CAL2_2": (-132, 222), "DIA_B2U_CAL2_0": (203, 234), "DIA_B2U_CAL2_9": (-272, 283), "DIA_B2U_CAL2_8": (-460, 71),},
 
-
-            #SEAL C1F_new Infector
+            #SEAL C1F_new Infector (BAD TEMPLATES NEEDS REAL GOOD REWORK)
             650: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164),"DIA_C1F5_4": (475, -273), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
             651: {"DIA_C1F5_5": (142, -167), "DIA_C1F5_0": (364, 201), "DIA_C1F5_13": (-237, 416), "DIA_C1F5_3": (-2, 495), "DIA_C1F5_18": (-479, -185), "DIA_C1F5_4": (585, -30), "DIA_C1F5_19": (521, 290), "DIA_C1F5_16": (615, 407),"DIA_C1F5_16_OPEN": (615, 407), }, #"DIA_C1F5_22": (259, 453),  "DIA_C1F5_20": (-378, -37), 
             652: {"DIA_C1F5_18": (113, -234), "DIA_C1F5_5": (734, -216), },
             653: {"DIA_C1F5_16": (-117, 3), "DIA_C1F5_16_OPEN": (-117, 3), "DIA_C1F5_23": (-130, 172), "DIA_C1F5_19": (-211, -114), "DIA_C1F5_25": (295, 62), "DIA_C1F5_15": (289, 108), "DIA_C1F5_24": (270, 225), "DIA_C1F5_22": (-473, 49), "DIA_C1F5_18": (429, -342), }, #"DIA_C1F5_4": (-147, -434), "DIA_C1F5_20": (-161, -366), 
+            654: {"DIA_C1F6_1": (75, 137), "DIA_C1F6_4": (37, -214), "DIA_C1F6_10": (225, -104), "DIA_C1F6_2": (-210, -150), "DIA_C1F6_3": (234, -123), "DIA_C1F6_0": (234, 181), "DIA_C1F6_5": (427, -134), "DIA_C1F6_9": (367, 319), },#layout check
+            655: {"DIA_C1F6_7": (104, -161), "DIA_C1F6_5": (-49, -210), "DIA_C1F6_0": (-242, 105), "DIA_C1F6_9": (-109, 243), "DIA_C1F6_10": (-251, -180), "DIA_C1F6_3": (-242, -199), "DIA_C1F6_11": (188, 281), "DIA_C1F6_1": (-401, 61), },#seal fake far 2
 
             #SEAL C2G_new Infector
-            660: {"DIA_C2G2_19": (178, -45), "DIA_C2G2_2": (-182, 71), "DIA_C2G2_20": (-9, 205), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_23": (401, 46), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), },# approach "DIA_C2G2_16": (41, 57),
+            660: {"DIA_C2G2_19": (178, -45), "DIA_C2G2_2": (-182, 71), "DIA_C2G2_20": (-9, 205), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_23": (401, 46), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach "DIA_C2G2_16": (41, 57),
             661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_19": (164, 410), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close "DIA_C2G2_16": (27, 512),
             662: {"DIA_C2G2_15": (-54, -160), "DIA_C2G2_12": (271, -138), "DIA_C2G2_17": (-137, 280), "DIA_C2G2_10": (-146, 316), "DIA_C2G2_9": (-251, 354), "DIA_C2G2_7_CLOSED": (433, 88), "DIA_C2G2_7_OPEN": (433, 88),"DIA_C2G2_7_MOUSEOVER": (433, 88),"DIA_C2G2_14": (315, 323), "DIA_C2G2_8": (-124, 447), }, # seal boss far #"DIA_C2G2_16": (-443, -29),  #"DIA_C2G2_23": (244, 133),
             663: {"DIA_C2G2_9": (94, 181), "DIA_C2G2_17": (207, 107), "DIA_C2G2_10": (198, 143), "DIA_C2G2_21_OPEN": (16, 297), "DIA_C2G2_21_CLOSED": (16, 297),"DIA_C2G2_21_MOUSEOVER": (16, 297),"DIA_C2G2_8": (221, 274), "DIA_C2G2_15": (290, -333), "DIA_C2G2_20": (-435, 93), "DIA_C2G2_19": (-504, 24), }, # safe dist "DIA_C2G2_16": (-99, -202), #"DIA_C2G2_23": (297, -207), 
@@ -645,7 +646,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
-    #display_all_nodes(pather, "DIA_C1F5")
+    display_all_nodes(pather, "DIA_C1F5")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
