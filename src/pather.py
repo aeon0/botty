@@ -578,11 +578,15 @@ class Pather:
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (0, 150)
+                    pos_abs = (60, 60)
                     if last_direction is not None:
                         pos_abs = last_direction
                     Logger.debug(f"Pather: taking a random guess for next position")
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    x_m = x_m//2 + x_m//4
+                    y_m = y_m//2 + y_m//4
+                    x_m += int(random.random() * 20 - 10)
+                    y_m += int(random.random() * 20 - 10)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
