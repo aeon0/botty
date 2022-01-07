@@ -127,6 +127,7 @@ class Config:
             "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
+            "kill_cs_trash": float(self._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(self._select_val("char", "always_repair"))),
         }
 
