@@ -417,7 +417,7 @@ class Pather:
 
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
-            error_msg = "Teleport is requiered for static pathing"
+            error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
         char.pre_move()
@@ -524,7 +524,7 @@ class Pather:
         :param char: Char that is traversing the nodes
         :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
-        :return: Bool if traversed succesfull or False if it got stuck
+        :return: Bool if traversed successful or False if it got stuck
         """
         if len(path) == 0:
             Logger.error("Path must be a list of integers or a tuple with start and end location!")
@@ -578,15 +578,15 @@ class Pather:
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (60, 60)
+                    pos_abs = (0, 0)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    Logger.debug(f"Pather: taking a random guess for next position")
+                    Logger.debug(f"Pather: taking a random guess towards "+str(pos_abs))
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     x_m = x_m//2 + x_m//4
                     y_m = y_m//2 + y_m//4
-                    x_m += int(random.random() * 20 - 10)
-                    y_m += int(random.random() * 20 - 10)
+                    x_m += int(random.random() * 40 - 20)
+                    y_m += int(random.random() * 40 - 20)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
@@ -604,6 +604,7 @@ class Pather:
                         last_direction = node_pos_abs
                         last_known_good_pos = node_pos_abs
                         last_move = time.time()
+
         return True
 
 

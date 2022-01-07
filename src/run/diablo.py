@@ -47,7 +47,7 @@ class Diablo:
 
     def _river_of_flames(self) -> bool:
         #ALWAYS USING SPEED VERSION
-        if self._config.char["kill_cs_trash"]==1: # take WiZ speed path and skip this part?
+        if self._config.char["kill_cs_trash"]: # take WiZ speed path and skip this part?
             if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
             Logger.debug("ROF: Calibrated at WAYPOINT")
             self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
@@ -95,7 +95,7 @@ class Diablo:
 
     def _cs_pentagram(self) -> bool:
         
-        if self._config.char["kill_cs_trash"]==1: # if we took the speed path we skip ahead a bit
+        if self._config.char["kill_cs_trash"]: # if we took the speed path we skip ahead a bit
         
             self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
             Logger.info("CS: Teleporting to PENTAGRAM")
