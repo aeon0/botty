@@ -196,6 +196,10 @@ class Config:
         for key in self._game_config["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
+        self.filters = {}
+        for key in self._game_config["filters"]:
+            self.filters[key] = np.split(np.array([int(x) for x in self._select_val("filters", key).split(",")]), 2)
+
         self.ui_pos = {}
         for key in self._game_config["ui_pos"]:
             self.ui_pos[key] = int(self._select_val("ui_pos", key))

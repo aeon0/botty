@@ -21,7 +21,7 @@ class CharSelector:
             "CHARACTER_SELECTION_RECTANGLE",
             self._screen.grab(),
             normalize_monitor=True,
-            filters=[self._config.colors['character_selection_rectangle']])
+            filters=[self._config.filters['character_selection_rectangle']])
         if matched_template.valid:
             template_shape = self._template_finder.get_template("CHARACTER_SELECTION_RECTANGLE").shape
             matched_template_top_left = self._screen.convert_monitor_to_screen(
