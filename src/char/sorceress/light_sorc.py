@@ -39,19 +39,18 @@ class LightSorc(Sorceress):
             mouse.press(button="right")
             wait(delay[0], delay[1])
             mouse.release(button="right")
-            
+
     def _frozen_orb(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
-        if not self._skill_hotkeys["frozen_orb"]:
-            raise ValueError("You did not set frozen orb hotkey!")
-        keyboard.send(self._skill_hotkeys["frozen_orb"])
-        for _ in range(3):
-            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
-            mouse.move(*cast_pos_monitor)
-            mouse.press(button="right")
-            wait(delay[0], delay[1])
-            mouse.release(button="right")
+        if self._skill_hotkeys["frozen_orb"]:
+            keyboard.send(self._skill_hotkeys["frozen_orb"])
+            for _ in range(3):
+                x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+                y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+                cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+                mouse.move(*cast_pos_monitor)
+                mouse.press(button="right")
+                wait(delay[0], delay[1])
+                mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
@@ -111,11 +110,13 @@ class LightSorc(Sorceress):
         self._pather.offset_node(300, (80, -110))
         self._pather.traverse_nodes([300], self, time_out=1.0, force_tp=True)
         self._pather.offset_node(300, (-80, 110))
-        wait(0.5) 
+        wait(0.5)
         self._frozen_orb((-150, -10), spray=10)
         self._lightning((-150, 0), spray=10)
         self._chain_lightning((-150, 15), spray=10)
-        wait(0.5)        
+        self._chain_lightning((-150, 15), spray=10)
+        self._chain_lightning((-150, 15), spray=10)
+        wait(0.5)
         pos_m = self._screen.convert_abs_to_monitor((-50, 200))
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -178,7 +179,7 @@ class LightSorc(Sorceress):
         self._chain_lightning((-150, 100), spray=20)
         self._chain_lightning((150, 200), spray=40)
         self._chain_lightning((-150, 0), spray=20)
-        wait(0.5)        
+        wait(0.5)
         pos_m = self._screen.convert_abs_to_monitor((-200, 240))
         self.pre_move()
         self.move(pos_m, force_move=True)
