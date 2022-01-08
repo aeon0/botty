@@ -170,7 +170,10 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     config = Config()
     screen = Screen(config.general["monitor"])
+    template_finder = TemplateFinder(screen)
+    belt_manager = BeltManager(screen, template_finder)
     manager = HealthManager(screen)
+    manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)
