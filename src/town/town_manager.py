@@ -165,7 +165,29 @@ class TownManager:
             return new_loc
         return False
 
-
+    def refill_keys(self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can rapair in current act
+        if self._acts[curr_act].can_trade_and_repair():
+            new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
+            if not new_loc: return False
+            if self._ui_manager.repair_and_fill_up_tp():
+                self._ui_manager.refill_keys()
+                wait(0.1, 0.2)
+                self._ui_manager.close_vendor_screen()
+                return new_loc
+        new_loc = self.go_to_act(5, curr_loc)
+        if not new_loc: return False
+        new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
+        if not new_loc: return False
+        if self._ui_manager.repair_and_fill_up_tp():
+            self._ui_manager.refill_keys()
+            wait(0.1, 0.2)
+            self._ui_manager.close_vendor_screen()
+            return new_loc
+        return False
+    
 # Test: Move to desired location in d2r and run any town action you want to test from there
 if __name__ == "__main__":
     import keyboard
