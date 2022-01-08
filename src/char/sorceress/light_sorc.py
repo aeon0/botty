@@ -114,7 +114,6 @@ class LightSorc(Sorceress):
         self._frozen_orb((-150, -10), spray=10)
         self._lightning((-150, 0), spray=10)
         self._chain_lightning((-150, 15), spray=10)
-        self._chain_lightning((-150, 15), spray=10)
         wait(0.5)
         pos_m = self._screen.convert_abs_to_monitor((-50, 200))
         self.pre_move()
