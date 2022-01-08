@@ -52,6 +52,7 @@ class Location:
     A2_WP = "a2_wp"
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
+    A2_LYSANDER = "a2_lysander"    
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -126,7 +127,7 @@ class Pather:
             150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160)},
             151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
             # A4 town
-            160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
+            160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)}, 
             161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
             162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
             163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
@@ -177,7 +178,7 @@ class Pather:
             223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_22": (-368, -222), "TRAV_23": (-579, 116)},
             224: {'TRAV_7': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202)},
             225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
-            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263)},
+            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263), "TRAV_29": (-929, 334), "TRAV_28": (-614, 338)},
             227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
@@ -267,9 +268,16 @@ class Pather:
             # A2 Town
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
+            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
+            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [701],
@@ -306,6 +314,9 @@ class Pather:
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
+
+    def adapt_path(self,key: tuple[Location, Location], new_node_sequence: list[int]):
+        self._paths[key] = new_node_sequence
 
     def offset_node(self, node_idx: int, offset: tuple[int, int]):
         """Will offset any node. e.g. can be used in char files to change final attacking positions
@@ -532,7 +543,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -548,7 +559,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "A4_TOWN")
+    display_all_nodes(pather, "TRAV_")
 
 
     # # changing node pos and generating new code
