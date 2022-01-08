@@ -10,7 +10,6 @@ from config import Config
 from logger import Logger
 from version import __version__
 
-print("HERE?")
 
 def main():
     config = Config(print_warnings=True)

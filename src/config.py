@@ -56,6 +56,7 @@ class Config:
             "logg_lvl": self._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
+            "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
@@ -156,6 +157,21 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
+            
+        # Basic config
+        self.basic = self._config["basic"]
+        if "basic" in self._custom:
+            self.basic.update(self._custom["basic"])            
+
+        # Basic Ranged config
+        self.basic = self._config["basic_ranged"]
+        if "basic_ranged" in self._custom:
+            self.basic_ranged.update(self._custom["basic_ranged"])   
+
+        # Necro config
+        self.necro = self._config["necro"]
+        if "necro" in self._custom:
+            self.necro.update(self._custom["necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
@@ -163,6 +179,7 @@ class Config:
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
             "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
+            "graphic_debugger_layer_creator": bool(int(self._select_val("advanced_options", "graphic_debugger_layer_creator"))),
         }
 
         self.items = {}

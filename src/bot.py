@@ -28,6 +28,10 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
+from char.necro import Necro
+from char.basic import Basic
+from char.basic_ranged import Basic_Ranged
+
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
 from town import TownManager, A1, A2, A3, A4, A5
 
@@ -61,6 +65,12 @@ class Bot:
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
             self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "necro":
+            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "basic":
+            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
+        elif self._config.char["type"] == "basic_ranged":
+            self._char: IChar = Basic_Ranged(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)                
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -194,7 +204,7 @@ class Bot:
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -365,7 +375,7 @@ class Bot:
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-    
+
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False

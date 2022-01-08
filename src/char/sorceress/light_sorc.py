@@ -67,7 +67,14 @@ class LightSorc(Sorceress):
         if shenk_pos_abs is None:
             shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
-        for _ in range(int(self._char_config["atk_len_shenk"])):
+        for _ in range(int(self._char_config["atk_len_shenk"] * 0.5)):
+            self._chain_lightning(cast_pos_abs, spray=90)
+        pos_m = self._screen.convert_abs_to_monitor((150, 50))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+        cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
+        for _ in range(int(self._char_config["atk_len_shenk"] * 0.5)):
             self._chain_lightning(cast_pos_abs, spray=90)
         self._lightning(cast_pos_abs, spray=60)
         # Move to items

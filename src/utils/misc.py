@@ -2,7 +2,6 @@ import time
 import random
 import ctypes
 import numpy as np
-from win32api import GetLastError
 
 from config import Config
 from logger import Logger
@@ -78,9 +77,13 @@ def hms(seconds: int):
 
 def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
     if os.path.isfile(path):
-        template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
-        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-        return template_img
+        try:
+            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
+            template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+            return template_img
+        except Exception as e:
+            print(e)
+            raise ValueError(f"Could not load template: {path}")
     return None
 
 def alpha_to_mask(img: np.ndarray):
