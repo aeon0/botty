@@ -29,6 +29,7 @@ class HealthManager:
         self._last_merc_healh = time.time()
         self._callback = None
         self._pausing = True
+        self._last_chicken_screenshot = None
 
     def stop_monitor(self):
         self._do_monitor = False
@@ -91,7 +92,8 @@ class HealthManager:
             self._callback()
             self._callback = None
         if self._config.general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+            cv2.imwrite(self._last_chicken_screenshot, img)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         wait(0.02, 0.05)
@@ -168,7 +170,10 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     config = Config()
     screen = Screen(config.general["monitor"])
+    template_finder = TemplateFinder(screen)
+    belt_manager = BeltManager(screen, template_finder)
     manager = HealthManager(screen)
+    manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)

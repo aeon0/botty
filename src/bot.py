@@ -28,8 +28,12 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
+from char.necro import Necro
+from char.basic import Basic
+from char.basic_ranged import Basic_Ranged
+
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
-from town import TownManager, A2, A3, A4, A5
+from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
 from messenger import Messenger
@@ -43,10 +47,10 @@ class Bot:
         self._config = Config()
         self._template_finder = TemplateFinder(self._screen)
         self._item_finder = ItemFinder(self._config)
-        self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, self._game_stats)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
@@ -61,6 +65,12 @@ class Bot:
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
             self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "necro":
+            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "basic":
+            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
+        elif self._config.char["type"] == "basic_ranged":
+            self._char: IChar = Basic_Ranged(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)                
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -71,7 +81,8 @@ class Bot:
         a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a2, a3, a4, a5)
+        a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -183,7 +194,7 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait("D2_LOGO_HS", roi=self._config.ui_roi["hero_selection_logo"])
+        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
@@ -193,7 +204,7 @@ class Bot:
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -213,7 +224,7 @@ class Bot:
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
-            time.sleep(0.6)
+            time.sleep(1.6)
             DeathManager.pick_up_corpse(self._config, self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
@@ -364,7 +375,7 @@ class Bot:
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-    
+
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False

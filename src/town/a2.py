@@ -20,14 +20,16 @@ class A2(IAct):
 
     def get_wp_location(self) -> Location: return Location.A2_WP
     def can_stash(self) -> bool: return True
-    def can_buy_pots(self) -> bool: return False
+    def can_buy_pots(self) -> bool: return True
+    def can_identify(self) -> bool: return True
     def can_heal(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char): return False
-        self._npc_manager.open_npc_menu(Npc.FARA)
-        return Location.A2_FARA_STASH
+        if self._npc_manager.open_npc_menu(Npc.FARA):
+            return Location.A2_FARA_STASH
+        return False
     
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char):
@@ -41,12 +43,27 @@ class A2(IAct):
         if not self._char.select_by_template(["A2_STASH_LIGHT", "A2_STASH_DARK"], stash_is_open_func, telekinesis=True):
             return False
         return Location.A2_FARA_STASH
+
+    def identify(self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char): return False
+        if self._npc_manager.open_npc_menu(Npc.CAIN):
+            self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
+            return Location.A2_FARA_STASH
+        return False        
         
+    def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A2_LYSANDER), self._char, force_move=True): return False
+        if self._npc_manager.open_npc_menu(Npc.LYSANDER):
+            self._npc_manager.press_npc_btn(Npc.LYSANDER, "trade")
+            return Location.A2_LYSANDER
+        return False       
+
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char): return
-        self._npc_manager.open_npc_menu(Npc.FARA)
-        self._npc_manager.press_npc_btn(Npc.FARA, "trade_repair")
-        return Location.A2_FARA_STASH
+        if self._npc_manager.open_npc_menu(Npc.FARA):
+            self._npc_manager.press_npc_btn(Npc.FARA, "trade_repair")
+            return Location.A2_FARA_STASH
+        return False
 
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
