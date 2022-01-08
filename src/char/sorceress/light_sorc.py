@@ -171,7 +171,10 @@ class LightSorc(Sorceress):
         self._chain_lightning((-150, 100), spray=20)
         self._chain_lightning((150, 200), spray=40)
         self._chain_lightning((-150, 0), spray=20)
-        wait(0.5)
+        wait(0.5)        
+        pos_m = self._screen.convert_abs_to_monitor((-200, 240))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
         # Move outside since the trav.py expects to start searching for items there if char can teleport
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
