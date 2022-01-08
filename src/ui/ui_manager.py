@@ -252,11 +252,12 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
         :param img: Image in which the item is searched (item details should be visible)
+        :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
@@ -319,8 +320,9 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                    self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
                 filtered_list.append(x)
 
         return len(filtered_list) > 0
@@ -416,6 +418,13 @@ class UiManager():
                     mouse.release(button="left")
                     wait(0.2, 0.25)
                     keyboard.send('ctrl', do_press=False)
+                    # To avoid logging multiple times the same item when stash tab is full
+                    # check the _keep_item again. In case stash is full we will still find the same item
+                    wait(0.3)
+                    did_stash_test_img = self._screen.grab()
+                    if self._keep_item(item_finder, did_stash_test_img, False):
+                        Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
+                        break
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
@@ -620,8 +629,9 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
+    game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
-    ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots(3, 4)
+    ui_manager = UiManager(screen, template_finder, game_stats)
+    ui_manager.stash_all_items(5, item_finder)
