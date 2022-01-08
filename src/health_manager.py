@@ -29,6 +29,7 @@ class HealthManager:
         self._last_merc_healh = time.time()
         self._callback = None
         self._pausing = True
+        self._last_chicken_screenshot = None
 
     def stop_monitor(self):
         self._do_monitor = False
@@ -48,7 +49,7 @@ class HealthManager:
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav"]
+            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav", "arc"]
             prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
             if self._pausing != prev_value:
@@ -91,7 +92,8 @@ class HealthManager:
             self._callback()
             self._callback = None
         if self._config.general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+            cv2.imwrite(self._last_chicken_screenshot, img)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         wait(0.02, 0.05)

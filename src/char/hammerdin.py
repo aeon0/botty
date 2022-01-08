@@ -21,6 +21,9 @@ class Hammerdin(IChar):
         # ass most likely we will click on some mobs and already cast hammers
         if not self._skill_hotkeys["teleport"]:
             self._do_pre_move = False
+        else:
+            # we want to change positions of shenk and eld a bit to be more center for teleport
+            self._pather.offset_node(149, (70, 10))
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
@@ -80,7 +83,8 @@ class Hammerdin(IChar):
 
     def kill_eldritch(self) -> bool:
         if self.can_teleport():
-            self._pather.traverse_nodes_fixed("eldritch_end", self)
+            # Custom eld position for teleport that brings us closer to eld
+            self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
@@ -141,6 +145,20 @@ class Hammerdin(IChar):
         self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
+        return True
+
+    def kill_summoner(self) -> bool:
+        # move mouse to below altar
+        pos_m = self._screen.convert_abs_to_monitor((0, 20))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        # Attack
+        self._cast_hammers(self._char_config["atk_len_arc"])
+        wait(0.1, 0.15)
+        self._cast_hammers(1.6, "redemption")
+        # Move a bit back and another round
+        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.6, "redemption")
         return True
 
 

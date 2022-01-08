@@ -40,8 +40,9 @@ class Nihlatak:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(5, 5) # use Halls of Pain Waypoint (5th in A5)
-        return Location.A5_NIHLATAK_START
+        if self._ui_manager.use_wp(5, 5): # use Halls of Pain Waypoint (5th in A5)
+            return Location.A5_NIHLATAK_START
+        return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # TODO: We might need a second template for each option as merc might run into the template and we dont find it then

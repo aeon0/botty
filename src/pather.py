@@ -40,18 +40,38 @@ class Location:
     A4_TOWN_START = "a4_town_start"
     A4_WP = "a4_town_wp"
     A4_TYRAEL_STASH = "a4_tyrael_stash"
-    A4_VENDOR = "a4_vendor"
+    A4_JAMELLA = "a4_jamella"
+    A4_HALBU = "a4_halbu"
     # A3 Town
     A3_TOWN_START = "a3_town_start"
     A3_ORMUS = "a3_ormus"
     A3_STASH_WP = "a3_stash_wp"
     A3_ASHEARA = "a3_asheara"
+    # A2 Town
+    A2_TOWN_START = "a2_town_start"
+    A2_WP = "a2_wp"
+    A2_TP = "a2_tp"
+    A2_FARA_STASH = "a2_fara_stash"
+    A2_LYSANDER = "a2_lysander"    
+    # A1 Town
+    A1_TOWN_START = "a1_town_start"
+    A1_STASH = "a1_stash"
+    A1_WP_NORTH = "a1_wp_north"
+    A1_WP_SOUTH = "a1_wp_south"    
+    A1_KASHYA_CAIN = "a1_kashya_cain"
+    A1_AKARA = "a1_akara"
+    A1_CHARSI = "a1_charsi"
+
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
     # Nihalatk
     A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
+    # Arcane
+    A2_ARC_START = "a2_arc_start"
+    A2_ARC_CHECKPOINT = "a2_arc_checkpoint"
+    A2_ARC_END = "a2_arc_end"
 
 
 class Pather:
@@ -107,11 +127,12 @@ class Pather:
             150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160)},
             151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
             # A4 town
-            160: {"A4_TOWN_4": (-100, -133), "A4_TOWN_3": (-117, 238), "A4_TOWN_0": (-364, 151), "A4_TOWN_6": (24, -425), "A4_TOWN_5": (-347, -277)},
+            160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)}, 
             161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
             162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
             163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
-            164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559)},
+            164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559), "A4_TOWN_9": (80, -329)},
+            165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
             # A3 town
             180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
             181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
@@ -126,6 +147,30 @@ class Pather:
             190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            # A2 town
+            400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
+            401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
+            402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
+            403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
+            404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
+            405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
+            406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
+            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
+            # A1 town
+            #kashya_cain
+            700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
+            #stash
+            701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
+            #wp check (north)
+            702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
+            703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
+            #charsi
+            704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
+            #wp check (south)
+            705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
+            706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
+            #akara
+            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },    
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -139,9 +184,16 @@ class Pather:
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
             300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39)},
-            301: {"TRAV_V3_7": (63, -113), "TRAV_V3_6": (55, 77), "TRAV_V3_0": (-27, -315), "TRAV_V3_5": (-450, -175), "TRAV_V3_8": (329, -188)},
+            301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
+            # Arcane
+            450: {"ARC_START": (49, 62)},
+            453: {"ARC_START": (-259, 62)},
+            456: {"ARC_START": (145, 264)},
+            459: {"ARC_START": (-356, 258)},
+            461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-272, 200), "ARC_CENTER_2": (67, 41), "ARC_END_STAIRS": (76, -344), "ARC_END_STAIRS_2": (60, -160)},
+            462: {"ARC_PLATFORM_1": (0, -100), "ARC_PLATFORM_2": (50, -100), "ARC_PLATFORM_3": (70, 0)},
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -172,10 +224,11 @@ class Pather:
             (Location.A5_WP, Location.A5_STASH): [],
             (Location.A5_WP, Location.A5_LARZUK): [13, 14],
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
+            (Location.A5_WP, Location.A5_QUAL_KEHK): [6, 10, 11, 12],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
             (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
-            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],          
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             # Pindle
@@ -188,10 +241,22 @@ class Pather:
             (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
             (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
-            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
-            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             (Location.A4_TOWN_START, Location.A4_WP): [162],
             (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],  
+            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],            
+            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_WP, Location.A4_JAMELLA): [162, 163, 164],
+            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],           
+            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
+            (Location.A4_TYRAEL_STASH, Location.A4_JAMELLA): [161, 160, 162, 163, 164],
+            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],            
+            (Location.A4_JAMELLA, Location.A4_WP): [164, 163, 162],
+            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],            
+            (Location.A4_JAMELLA, Location.A4_HALBU): [165],              
+            (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
+            (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
+            (Location.A4_HALBU, Location.A4_JAMELLA): [164],        
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
@@ -200,9 +265,58 @@ class Pather:
             (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
+            # A2 Town
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
+            (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
+            (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
+            (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
+            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
+            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
+            # A1 Town
+            #spawned in where do we go?
+            (Location.A1_TOWN_START, Location.A1_STASH): [701],
+            (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [700],
+            (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
+            (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
+            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
+            (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
+            #from the stash to where?
+            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [701, 700],
+            (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
+            (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
+            (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
+            (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
+            #from the Kashya/Cain to where?
+            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700, 701],
+            (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
+            (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],      
+            #from the Charsi to where?
+            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 701],
+            (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
+            (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
+            (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
+            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],  
+            #from the Akara to where?
+            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 701],
+            (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
+            (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
+            (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
+            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],                                 
+            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
+
+    def adapt_path(self,key: tuple[Location, Location], new_node_sequence: list[int]):
+        self._paths[key] = new_node_sequence
 
     def offset_node(self, node_idx: int, offset: tuple[int, int]):
         """Will offset any node. e.g. can be used in char files to change final attacking positions
@@ -225,7 +339,7 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar):
+    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
             error_msg = "Teleport is requiered for static pathing"
             Logger.error(error_msg)
@@ -236,6 +350,7 @@ class Pather:
         else:
             path = key
         i = 0
+        stuck_count = 0
         while i < len(path):
             x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
@@ -251,9 +366,13 @@ class Pather:
             if score > 0.15:
                 i += 1
             else:
+                stuck_count += 1
                 Logger.debug(f"Teleport cancel detected. Try same teleport action again. ({score:.4f})")
+                if stuck_count >= 5:
+                    return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
         """
@@ -366,7 +485,7 @@ class Pather:
                             Logger.error("Got stuck exit pather")
                         return False
 
-                # Sometimes we get stuck at rocks and stuff, after 2.5 seconds force a move into the last know direction
+                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last know direction
                 if not did_force_move and time.time() - last_move > 3.1:
                     pos_abs = (0, 150)
                     if last_direction is not None:
@@ -424,7 +543,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -440,7 +559,8 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "ELD")
+    display_all_nodes(pather, "A4_TOWN")
+
 
     # # changing node pos and generating new code
     # code = ""
@@ -454,5 +574,5 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pather.traverse_nodes_fixed("trav_safe_dist", char)
-    # pather.traverse_nodes([226, 228, 229], char)
+    # pather.traverse_nodes([452], char)
+    pather.traverse_nodes_fixed("arc_top_right", char)
