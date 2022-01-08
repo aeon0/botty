@@ -252,11 +252,12 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
         :param img: Image in which the item is searched (item details should be visible)
+        :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
@@ -269,8 +270,8 @@ class UiManager():
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
-                Logger.debug(f"{x.name}: Stashing")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing")
                 filtered_list.append(x)
                 continue
             include = True
@@ -295,7 +296,8 @@ class UiManager():
                 if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
-                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                if do_logging:
+                    Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
                 continue
             exclude = False
             exclude_logic_type = self._config.items[x.name].exclude_type
@@ -319,11 +321,11 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2, img)
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
-        return len(filtered_list) > 0
+        return filtered_list
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
@@ -408,7 +410,8 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                if self._keep_item(item_finder, hovered_item):
+                found_items = self._keep_item(item_finder, hovered_item)
+                if len(found_items) > 0:
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -416,6 +419,15 @@ class UiManager():
                     mouse.release(button="left")
                     wait(0.2, 0.25)
                     keyboard.send('ctrl', do_press=False)
+                    # To avoid logging multiple times the same item when stash tab is full
+                    # check the _keep_item again. In case stash is full we will still find the same item
+                    wait(0.3)
+                    did_stash_test_img = self._screen.grab()
+                    if len(self._keep_item(item_finder, did_stash_test_img, False)) > 0:
+                        Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
+                        break
+                    else:
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item)
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
@@ -620,8 +632,9 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
+    game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
-    ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots(3, 4)
+    ui_manager = UiManager(screen, template_finder, game_stats)
+    ui_manager.stash_all_items(5, item_finder)

@@ -275,6 +275,9 @@ class mouse:
     def get_position():
         return _mouse.get_position()
 
+    @staticmethod
+    def wheel(delta):
+        _mouse.wheel(delta)
 
 if __name__ == "__main__":
     mouse.move(100, 100)
@@ -282,7 +285,3 @@ if __name__ == "__main__":
     mouse.move(200, 200)
     time.sleep(2)
     mouse.move(1800, 800)
-    # time.sleep(2)
-    # mousey.move((700, 900))
-    # time.sleep(2)
-    # mousey.move((750, 850))
