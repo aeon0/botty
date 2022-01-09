@@ -59,7 +59,7 @@ def main():
     # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("stats"):
         os.system("mkdir stats")
-    if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
+    if not os.path.exists("info_screenshots") and (config.general["info_screenshots"] or config.general["message_api_type"] == "discord"):
         os.system("mkdir info_screenshots")
     if not os.path.exists("loot_screenshots") and (config.general["loot_screenshots"] or config.general["message_api_type"] == "discord"):
         os.system("mkdir loot_screenshots")
