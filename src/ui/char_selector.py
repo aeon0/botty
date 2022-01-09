@@ -37,14 +37,20 @@ class CharSelector:
             scrolls_attempts = 0
             template_result = TemplateMatch()
             coords = self._config.ui_roi["char_selection_all"]
-            while not template_result.valid and scrolls_attempts < 3:  # 3 scrolls should suffice to see all possible characters
+            while scrolls_attempts < 3:  # 3 scrolls should suffice to see all possible characters
                 template_result = self._template_finder.search(
                     self._char_template,
                     self._screen.grab(),
                     threshold=0.9,
                     roi=coords, normalize_monitor=True
                 )
-                if not template_result.valid:
+                if template_result.valid:
+                    # move cursor to result and select
+                    mouse.move(*template_result.position)
+                    wait(0.5)
+                    mouse.click(button="left")
+                    return True
+                else:
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
                     pos = self._screen.convert_screen_to_monitor((coords[0]+40, coords[1]+20))
                     mouse.move(*pos)
@@ -52,12 +58,6 @@ class CharSelector:
                     mouse.wheel(-14)
                     scrolls_attempts += 1
                     wait(0.5)
-                else:
-                    # move cursor to result and select
-                    mouse.move(*template_result.position)
-                    wait(0.5)
-                    mouse.click(button="left")
-                    return True
         return False
 
 
