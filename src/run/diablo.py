@@ -265,7 +265,7 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         #"""
         ### CLEAR TRASH & APPROACH SEAL ###
-        self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
+        self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char) #do we need this?
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
         #if not self._pather.traverse_nodes([643], self._char , time_out=5): return False
         #if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=5): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud | THIS OFTEN LEADS TO GETTING STUCK, REPLACED BY STATIC PATH
