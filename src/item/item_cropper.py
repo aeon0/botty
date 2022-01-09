@@ -126,7 +126,11 @@ class ItemCropper:
 
             if contains_black and contains_white and mostly_dark and expected_height and expected_width:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
-                found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.9).valid
+                try:
+                    found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.9).valid
+                except:
+                    found_footer = False
+                    print("Error on contour")
                 if found_footer:
                     with PyTessBaseAPI(oem=OEM.LSTM_ONLY, path='assets/tessdata', lang='engd2r') as api:
                         api.SetImageBytes(*img_to_bytes(cropped_item))
