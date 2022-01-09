@@ -64,7 +64,7 @@ class Diablo:
                 if not found:
                     self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
             if not found:
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             if not self._pather.traverse_nodes([601], self._char, threshold=0.8): return False
             self._char.kill_cs_trash()
@@ -89,7 +89,7 @@ class Diablo:
                 if not found:
                     self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
             if not found:
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             return True
 
@@ -107,7 +107,7 @@ class Diablo:
                 if not found: 
                     self._pather.traverse_nodes_fixed("diablo_entrance_pentagram_loop", self._char)
             if not found:
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             #self._char.kill_cs_trash()
             #self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -128,7 +128,7 @@ class Diablo:
             found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid #reduced threshold from 0.82
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         return True
 
@@ -275,14 +275,16 @@ class Diablo:
         #"""
         ### GO HOME ###
         if not self._pather.traverse_nodes([640], self._char): return False
-        Logger.info(seal_layout + ": Looping to PENTAGRAM")
-        if not self._loop_pentagram("dia_b2u_home_loop"): return False
+        self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
+        Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        #Logger.info(seal_layout + ": Looping to PENTAGRAM")
+        #if not self._loop_pentagram("dia_b2u_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_C1(self) -> bool: #700 nodes to be renamed to 650
+    def _seal_C1(self) -> bool:
         seal_layout = "C1-F"
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -479,12 +481,12 @@ if __name__ == "__main__":
 ### ISSUE LOG ###
 
 # GAMEBREAKING:
-# B1S - Layout check sometimes fails for -> failed run, can only be caught by timeout for traverse nodes
 # B2U - Loop Returning home after killing De Seis does not recognize pentagram & goes towards CS entrance -> failed run, caught by pentagram loop timeout
-# If a stash is located near a bossfight, there wont be any fight. Botty will just try to click the stash
-
-# NICE TO HAVE:
 # B2U - consider a static path from seal to 646 - otherwise you get stuck whilst searching for nodes & fanamobs just kill you
 # B2U - or consider mapping out more nodes on B2U and then traverse across the layout check position. This will lead to less chicken / stuck pather due to a horde of mobs cirling us into hit recovery loop of death.
+# If a stash is located near a bossfight, there wont be any fight. Botty will just try to click the stash
+# C1F 655 and 651 cause loops
+
+# NICE TO HAVE:
 # We should loot after a sealdance (esp. Infector Seal)
 # It might make sense to change ALL the fights to just static paths. in the heat of battle the nodes sometimes are not recognized, leading to chicken - OR to clear all trash thoroughly before attacking the sealboss.

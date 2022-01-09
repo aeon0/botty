@@ -733,7 +733,7 @@ if __name__ == "__main__":
     # NEW B2U
     #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_b_layout_bold", char)
-    #pather.traverse_nodes([640], char) # approach
+    pather.traverse_nodes([640], char) # approach
     #pather.traverse_nodes([641], char) # approach2 
     #pather.traverse_nodes([642], char) # safe dist
     #pather.traverse_nodes([649], char) # safe dist
@@ -761,6 +761,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([646], char) # safe dist 2 cross river
     #pather.traverse_nodes([641], char) # approach2
     #pather.traverse_nodes_fixed("dia_b2u_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW B1S
     #pather.traverse_nodes([632], char) # corner
@@ -806,9 +807,9 @@ if __name__ == "__main__":
     #pather.traverse_nodes([651], char) # safe dist
     #pather.traverse_nodes([652], char) # seal boss far
     #pather.traverse_nodes([651], char) # seal boss close
-    pather.traverse_nodes([655], char) # approach
-    pather.traverse_nodes_fixed("dia_c1f_home", char)
-    pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes([655], char) # approach
+    #pather.traverse_nodes_fixed("dia_c1f_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW C2G
     #pather.traverse_nodes([602], char) # calibrate pentagram
