@@ -266,8 +266,9 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
         #"""
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
-        if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=5): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud
-        #self._pather.traverse_nodes_fixed("dia_b2u_bold_deseis", self._char) # this is an aggressive attack path, but has a high failure rate. Would replace the path in the line above.
+        #if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=5): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud | THIS OFTEN LEADS TO GETTING STUCK, REPLACED BY STATIC PATH
+        if not self._char.kill_deseis([643]): return False
+        if not self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char): return False # we use this to be more consistent reaching the start for fighting De Seis.
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis([641], [640], [646]): return False

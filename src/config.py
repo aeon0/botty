@@ -72,7 +72,7 @@ class Config:
         }
 
         self.routes = {
-            "diablo_clear_cs_trash": bool(int(self._select_val("routes", "diablo_clear_cs_trash"))),
+        # "diablo_clear_cs_trash": bool(int(self._select_val("routes", "diablo_clear_cs_trash"))),
         }
         order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
         self.routes_order = [x.strip() for x in order_str.split(",")]

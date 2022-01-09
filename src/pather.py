@@ -671,7 +671,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
-    display_all_nodes(pather, "DIA_C1F7")
+    #display_all_nodes(pather, "DIA_C1F7")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
@@ -755,7 +755,8 @@ if __name__ == "__main__":
     #pather.traverse_nodes([648], char) # safe dist
     #pather.traverse_nodes([649], char) # safe dist
     #pather.traverse_nodes([643], char) # seal boss far
-    #pather.traverse_nodes([644], char) # seal boss close
+    pather.traverse_nodes([644], char) # seal boss close
+    dia_b2u_643_646
     #pather.traverse_nodes([645], char) # seal boss far2
     #pather.traverse_nodes([644], char) # seal boss close
     #pather.traverse_nodes([643], char) # seal boss far
