@@ -34,7 +34,7 @@ class Chest:
             template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
-                if time.time() - start > 1.5:
+                if time.time() - start > 2.5:
                     break
             else:
                 found_chest = True
