@@ -118,19 +118,19 @@ class Baal:
         wave1 = ["fallen", "fallenshaman"]
         self._wait_for_monsters(monster_filter=wave1)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave1): return False
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 2
         wave2 = ["unraveler", "skmage"]
         self._wait_for_monsters(monster_filter=wave2)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave2): return False
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 3
         wave3 = ["baalhighpriest"]
         self._wait_for_monsters(monster_filter=wave3)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave3): return False
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # one more pre buff
         self._char.pre_buff()
@@ -138,7 +138,7 @@ class Baal:
         wave4 = ["venomlord"]
         self._wait_for_monsters(monster_filter=wave4)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave4): return False
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 5
         wave5 = ["baalminion"]
@@ -171,9 +171,9 @@ if __name__ == "__main__":
     game_stats = GameStats()
     bot = Bot(screen, game_stats)
     self = bot._baal
-    self._go_to_area((15089, 5006), "TheWorldstoneChamber")
+    # self._go_to_area((15089, 5006), "TheWorldstoneChamber")
     # self._char.kill_baal(self._api, self._pather_v2)
-    # self._char.clear_throne(self._api, self._pather_v2, full=True)
+    self._char.clear_throne(self._api, self._pather_v2, monster_filter=["unraveler", "skmage"])
     # while 1:
     #     data = self._api.get_data()
     #     if data is not None:

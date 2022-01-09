@@ -34,6 +34,9 @@ class Hammerdin(IChar):
             if self._skill_hotkeys["blessed_hammer"]:
                 keyboard.send(self._skill_hotkeys["blessed_hammer"])
             wait(0.05, 0.1)
+            # move mouse somehwere to center
+            m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*m, randomize=25, delay_factor=[0.2, 0.4])
             start = time.time()
             while (time.time() - start) < time_in_s:
                 wait(0.06, 0.08)
@@ -41,6 +44,22 @@ class Hammerdin(IChar):
                 wait(0.1, 0.2)
                 mouse.release(button="left")
             wait(0.01, 0.05)
+            keyboard.send(self._char_config["stand_still"], do_press=False)
+
+    def _cast_holy_bolt(self, time_in_s: float, abs_screen_pos: tuple[float, float]):
+        if self._skill_hotkeys["holy_bolt"]:
+            keyboard.send(self._skill_hotkeys["concentration"])
+            keyboard.send(self._skill_hotkeys["holy_bolt"])
+            wait(0.05)
+            m = self._screen.convert_abs_to_monitor(abs_screen_pos)
+            mouse.move(*m, delay_factor=[0.2, 0.4])
+            keyboard.send(self._char_config["stand_still"], do_release=False)
+            start = time.time()
+            while (time.time() - start) < time_in_s:
+                wait(0.06, 0.08)
+                mouse.press(button="left")
+                wait(0.1, 0.2)
+                mouse.release(button="left")
             keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def pre_buff(self):
@@ -166,6 +185,7 @@ class Hammerdin(IChar):
             throne_area = [70, 0, 50, 95]
         else:
             throne_area = [70, 0, 50, 65]
+        aura_after_battle = "redemption"
         while 1:
             data = api.get_data()
             found_a_monster = False
@@ -176,15 +196,20 @@ class Hammerdin(IChar):
                     if monster_filter is not None:
                         proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
                     if is_in_roi(throne_area, area_pos) and proceed:
-                        pather.traverse(area_pos, self, randomize=12)
-                        self._cast_hammers(1.2)
+                        if m["name"].startswith("unraveler"):
+                            # convert to screen coordinates
+                            abs_screen = api.world_to_abs_screen(m["position"])
+                            self._cast_holy_bolt(1.5, abs_screen)
+                            aura_after_battle = "cleansing"
+                        else:
+                            pather.traverse(area_pos, self, randomize=12)
+                            self._cast_hammers(1.2)
                         found_a_monster = True
                         break
             if not found_a_monster:
                 break
-        aura = "redemption"
-        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
-            keyboard.send(self._skill_hotkeys[aura])
+        if aura_after_battle in self._skill_hotkeys and self._skill_hotkeys[aura_after_battle]:
+            keyboard.send(self._skill_hotkeys[aura_after_battle])
         return True
 
     def kill_baal(self, api, pather) -> bool:
