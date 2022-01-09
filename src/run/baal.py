@@ -22,7 +22,9 @@ class Baal:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        api: MapAssistApi,
+        pather_v2: PatherV2,
     ):
         self._config = Config()
         self._screen = screen
@@ -31,9 +33,8 @@ class Baal:
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
-        # memory reading
-        self._api = MapAssistApi()
-        self._pather_v2 = PatherV2(screen, self._api)
+        self._api = api
+        self._pather_v2 = pather_v2
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Baal")
