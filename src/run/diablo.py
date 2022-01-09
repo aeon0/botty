@@ -175,8 +175,6 @@ class Diablo:
         if not self._pather.traverse_nodes([612, 613], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([614], self._char): return False
-        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
         if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
@@ -184,6 +182,9 @@ class Diablo:
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier([612], [611])
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        ### Open Fake Seal last to not miss Diablo spawn - WiZ tuning
+        if not self._pather.traverse_nodes([614], self._char): return False
+        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         #if not self._pather.traverse_nodes([610], self._char): return False # NOT calibrating here brings us home with higher consistency.
         #"""
         ### GO HOME ###
@@ -208,8 +209,6 @@ class Diablo:
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([623, 624], self._char): return False
         self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([625], self._char): return False
-        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
@@ -218,6 +217,9 @@ class Diablo:
         self._char.kill_vizier([623], [624])
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        ### Open Fake Seal last to not miss Diablo spawn - WiZ tuning
+        if not self._pather.traverse_nodes([625], self._char): return False
+        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         #"""
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char): return False
@@ -240,16 +242,16 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([634], self._char): return False # seal boss far
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
-        self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, if we are lucky with his spawn.
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
+        self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, if we are lucky with his spawn.
         if not self._char.kill_deseis([632], [631], [632]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         #"""
         ### GO HOME ###
         if not self._pather.traverse_nodes([633, 634], self._char): return False # seal boss far # calibrating before going home to pentagram
-        self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         #Logger.info(seal_layout + ": Looping to PENTAGRAM")
         #if not self._loop_pentagram("dia_b1s_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
@@ -261,16 +263,17 @@ class Diablo:
         seal_layout = "B2-U"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        
+        #"""
         ### CLEAR TRASH & APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
-        #"""
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
+        #if not self._pather.traverse_nodes([643], self._char , time_out=5): return False
         #if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=5): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud | THIS OFTEN LEADS TO GETTING STUCK, REPLACED BY STATIC PATH
-        if not self._char.kill_deseis([643]): return False
         if not self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char): return False # we use this to be more consistent reaching the start for fighting De Seis.
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
+        if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=4): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud
+        #self._pather.traverse_nodes_fixed("dia_b2u_bold_deseis", self._char) # this is an aggressive attack path, but has a high failure rate. Would replace the path in the line above.
         if not self._char.kill_deseis([641], [640], [646]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
@@ -350,38 +353,6 @@ class Diablo:
         # if self._config.routes["diablo_clear_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it [...] continuing without trash")
         if not self._cs_pentagram(): return False
 
-        # Seal A: Vizier (to the left)
-        #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in right order
-        if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
-        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
-        Logger.info("A: Checking Layout for Vizier")
-        #self._char.kill_cs_trash() # this attack sequence increases layout check consistency
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        #We check for A2Y templates first, they are more distinct
-        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
-        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
-            if not self._pather.traverse_nodes([619], self._char): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates
-            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
-            if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
-                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            else:
-                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L")
-                if not self._seal_A1(): return False
-        else:
-            Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
-            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y")
-                if not self._seal_A2(): return False
-            else:
-                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-
         # Seal B: De Seis (to the top)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash()
@@ -444,6 +415,38 @@ class Diablo:
             else:
                 Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C2GS_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+
+        # Seal A: Vizier (to the left), WiZ tuning - changed order to do this last and improving success rate 
+        #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in right order
+        if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
+        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
+        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
+        Logger.info("A: Checking Layout for Vizier")
+        #self._char.kill_cs_trash() # this attack sequence increases layout check consistency
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #We check for A2Y templates first, they are more distinct
+        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
+        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
+            if not self._pather.traverse_nodes([619], self._char): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates
+            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
+            if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
+                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+            else:
+                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L")
+                if not self._seal_A1(): return False
+        else:
+            Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
+            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y")
+                if not self._seal_A2(): return False
+            else:
+                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
         # Diablo
