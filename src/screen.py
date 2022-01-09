@@ -12,7 +12,11 @@ import os
 class Screen:
     """Grabs images from screen and converts different coordinate systems to each other"""
 
+<<<<<<< HEAD
     def __init__(self, monitor: int = 0,wait: int = 20):
+=======
+    def __init__(self, monitor: int = 0, wait: int = 20):
+>>>>>>> upstream/master
         self._sct = mss()
         monitor_idx = monitor + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
         if len(self._sct.monitors) == 1:

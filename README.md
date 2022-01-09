@@ -57,6 +57,7 @@ run_shenk=0
 | max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
 | randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
+| message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
 | discord_status_count     | Number of games between discord status messges being sent. Leave empty for no status reports.
 | discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
 | info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
@@ -165,6 +166,18 @@ run_shenk=0
 | shout          | Required Hotkey for Shout                                                           |
 | war_cry        | Required Hotkey for War Cry                                                         |
 | find_item      | Optional Hotkey for Find Item                                                       |
+
+| [Necro]        | Descriptions                                                                        |
+| -------------- | ----------------------------------------------------------------------------------- |
+| teleport       | leave this blank for now, teleport/static pathing is currently not supported        |
+| skill_left     | Required Hotkey for attack (bonespear/teeth)                                        |
+| bone_armor     | Required Hotkey for Bone Armor                                                      |
+| clay_golem     | Required Hotkey for Clay Golem                                                      |
+| raise_skeleton | Required Hotkey for Raise Skeleton                                                  |
+| amp_dmg        | Required Hotkey for Amplify Damage                                                  |
+| corpse_explosion | Required Hotkey Corpse Explosion                                                  |
+| raise_revive   | Required Hotkey revive                                                              |
+| clear_pindle_packs | clears mobs before pindle                                                       |
 
 | [dclone]             | Descriptions                                                          |
 | -------------------- | --------------------------------------------------------------------- |

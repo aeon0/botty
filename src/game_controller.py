@@ -14,6 +14,10 @@ from health_manager import HealthManager
 from logger import Logger
 from messenger import Messenger
 from screen import Screen
+<<<<<<< HEAD
+=======
+from ui.char_selector import CharSelector
+>>>>>>> upstream/master
 from utils.misc import kill_thread
 from utils.restart import restart_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
@@ -33,8 +37,16 @@ class GameController:
         self.game_controller_thread = None
         self.bot_thread = None
         self.bot = None
+        self.char_selector = None
 
     def run_bot(self, pick_corpse: bool = False):
+        # Make sure the correct char is selected
+        if self.char_selector.has_char_template_saved():
+            Logger.info("Selecting original char")
+            self.char_selector.select_char()
+        else:
+            Logger.info("Saving top-most char as template")
+            self.char_selector.save_char_template()
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
@@ -56,9 +68,9 @@ class GameController:
                     if self._config.general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
                 elif self.death_manager.died():
-                    self.game_stats.log_death()
+                    self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
-                    self.game_stats.log_chicken()
+                    self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
@@ -78,7 +90,11 @@ class GameController:
             Logger.error(
                 f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
             if self._config.general["custom_message_hook"]:
+<<<<<<< HEAD
                 messenger.send(msg=f"{self._config.general['name']}: got stuck and will now restart D2R")
+=======
+                messenger.send_message(f"{self._config.general['name']}: got stuck and will now restart D2R")
+>>>>>>> upstream/master
             if restart_game(self._config.general["d2r_path"]):
                 self.game_stats.log_end_game(failed=max_game_length_reached)
                 if self.setup_screen():
@@ -87,11 +103,24 @@ class GameController:
                     self.game_recovery = GameRecovery(self.screen, self.death_manager)
                     return self.run_bot(True)
             Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
+<<<<<<< HEAD
             if self._config.general["custom_message_hook"]:
                 messenger.send(msg=f"{self._config.general['name']}: got stuck and will now quit")
             os._exit(1)
 
     def start(self):
+=======
+            messenger.send_message("Got stuck and could not restart the game. Quitting.")
+                
+            os._exit(1)
+
+    def start(self):
+        # Check if we user should update the d2r settings
+        diff = check_settings(self._config)
+        if len(diff) > 0:
+            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
+            Logger.warning(f"{diff}")
+>>>>>>> upstream/master
         if self._config.advanced_options['d2r_windows_always_on_top']:
             set_d2r_always_on_top()
         self.setup_screen()
@@ -99,6 +128,10 @@ class GameController:
         self.start_death_manager_thread()
         self.game_recovery = GameRecovery(self.screen, self.death_manager)
         self.game_stats = GameStats()
+<<<<<<< HEAD
+=======
+        self.char_selector = CharSelector(self.screen, self._config)
+>>>>>>> upstream/master
         self.start_game_controller_thread()
         GameController.is_running = True
 
@@ -112,11 +145,14 @@ class GameController:
         GameController.is_running = False
        
     def setup_screen(self):
+<<<<<<< HEAD
         # Check if we user should update the d2r settings
         diff = check_settings(self._config)
         if len(diff) > 0:
             Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
             Logger.warning(f"{diff}")
+=======
+>>>>>>> upstream/master
         self.screen = Screen(self._config.general["monitor"])
         if self.screen.found_offsets:
             return True
