@@ -291,7 +291,7 @@ class Config:
             else:
                 item_props.exclude_type = "OR"
         for i in range (len(include_list)):
-            include_list[i]  = include_list[i].replace ("(", "").replace (")","").replace ("AND", "").replace (" ","").replace ("OR","")
+            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
             include_list[i]  = include_list[i].split (",")
         item_props.include = include_list
         item_props.exclude = exclude_list
