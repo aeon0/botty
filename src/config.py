@@ -224,7 +224,12 @@ class Config:
             print ("just for DEBUG")
         if (key == "uniq_misc_rings"):
             print ("just for DEBUG")
+        if (key == "magic_circlet"):
+            print ("just for DEBUG")
+        if (key == "rare_ring"):
+            print ("just for DEBUG")
         """
+        
         # split string by commas NOT contained within parentheses
         brk_on = 0
         brk_off = 0
