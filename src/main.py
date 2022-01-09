@@ -13,10 +13,11 @@ from utils.auto_settings import adjust_settings, backup_settings, restore_settin
 from config import Config
 from logger import Logger
 
-config = Config(print_warnings=True)
-game_controller = GameController(config)
-debugger_controller = GraphicDebuggerController(config)
 
+# Will be initialized in the __main__() function
+config = None
+game_controller = None
+debugger_controller = None
 
 def start_or_pause_bot():
     global game_controller
@@ -56,7 +57,8 @@ def main():
         print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
-    os.system("mkdir stats")
+    if not os.path.exists("stats"):
+        os.system("mkdir stats")
     if not os.path.exists("info_screenshots") and config.general["info_screenshots"]:
         os.system("mkdir info_screenshots")
     if not os.path.exists("loot_screenshots") and (config.general["loot_screenshots"] or config.general["message_api_type"] == "discord"):
@@ -87,6 +89,9 @@ def main():
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end
     try:
+        config = Config(print_warnings=True)
+        game_controller = GameController(config)
+        debugger_controller = GraphicDebuggerController(config)
         main()
     except:
         traceback.print_exc()
