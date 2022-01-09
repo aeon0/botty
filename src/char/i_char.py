@@ -213,3 +213,9 @@ class IChar:
         
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
+
+    def clear_throne(self, api, pather, full, monster_filter) -> bool:
+        raise ValueError("Clear Throne not implemented")
+
+    def kill_baal(self, api, pather) -> bool:
+        raise ValueError("Kill Baal not implemented")

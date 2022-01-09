@@ -66,11 +66,14 @@ class MapAssistApi:
                 "poi": [],
                 "map": None,
                 "player_pos_world": None,
+                "player_pos_area": None,
                 "area_origin": None,
+                "current_area": None,
             }
             resp = requests.post("http://localhost:1111/get_data")
             data = resp.json()
             if data["success"] == True:
+                botty_data["current_area"] = data["current_area"]
                 botty_data["map"] = np.array(data["collision_grid"])
                 botty_data["map"][botty_data["map"] == 1] = 0
                 botty_data["map"] += 1
@@ -81,11 +84,16 @@ class MapAssistApi:
                 for monster in data["monsters"]:
                     world_pos = np.array([monster["position"]["X"], monster["position"]["Y"]])
                     abs_pos = self.world_to_abs_screen(world_pos)
-                    monster["position"] = abs_pos
+                    monster["abs_screen_position"] = np.array(abs_pos)
+                    monster["position"] = np.array([int(monster["position"]["X"]), int(monster["position"]["Y"])])
+                    monster["dist"] = math.dist(botty_data["player_pos_world"], monster["position"])
                     botty_data["monsters"].append(monster)
-                for p in data["points_of_interest"]:
-                    p["position"] = np.array([int(p["position"]["X"]), int(p["position"]["Y"])])
-                    botty_data["poi"].append(p)
+                botty_data["monsters"] = sorted(botty_data["monsters"], key=lambda r: r["dist"])
+                for poi in data["points_of_interest"]:
+                    poi["position"] = np.array([int(poi["position"]["X"]), int(poi["position"]["Y"])])
+                    abs_pos = self.world_to_abs_screen(poi["position"])
+                    poi["abs_screen_position"] = np.array(abs_pos)
+                    botty_data["poi"].append(poi)
             return botty_data
         except ConnectionError as e:
             return None
@@ -100,12 +108,20 @@ if __name__ == "__main__":
         data = api.get_data()
         map_img = None
         if data is not None:
+            # abs_pos = api.world_to_abs_screen((15089, 5006))
+            # screen_pos = screen.convert_abs_to_screen(abs_pos)
+            # cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
+
             for monster in data["monsters"]:
-                screen_pos = screen.convert_abs_to_screen(monster["position"])
+                screen_pos = screen.convert_abs_to_screen(monster["abs_screen_position"])
                 top_left = (int(screen_pos[0] - 30), int(screen_pos[1] - 100))
                 bottom_right = (int(screen_pos[0] + 30), int(screen_pos[1]))
                 cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (0, 255, 0), 2)
                 cv2.rectangle(img, top_left, bottom_right, (0, 0, 255), 2)
+
+            for poi in data["poi"]:
+                screen_pos = screen.convert_abs_to_screen(poi["abs_screen_position"])
+                cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
 
             if data["map"] is not None:
                 map_img = deepcopy(data["map"])

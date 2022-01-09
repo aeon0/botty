@@ -36,6 +36,9 @@ class Location:
     A5_SHENK_START = "a5_shenk_start"
     A5_SHENK_SAFE_DIST = "a5_shenk_safe_dist"
     A5_SHENK_END = "a5_shenk_end"
+    # Baal
+    A5_BAAL_WORLDSTONE_KEEP_LVL2 = "a5_baal_worldstone_keep_lvl2"
+    A5_BAAL_WORLDSTONE_CHAMBER = "a5_baal_worldstone_chamber"
     # A4 Town
     A4_TOWN_START = "a4_town_start"
     A4_WP = "a4_town_wp"

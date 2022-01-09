@@ -6,7 +6,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-from utils.misc import wait
+from utils.misc import wait, is_in_roi
 import time
 from pather import Pather, Location
 
@@ -159,6 +159,47 @@ class Hammerdin(IChar):
         self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
+        return True
+
+    def clear_throne(self, api, pather, full = False, monster_filter = None) -> bool:
+        if full:
+            throne_area = [70, 0, 50, 95]
+        else:
+            throne_area = [70, 0, 50, 65]
+        while 1:
+            data = api.get_data()
+            found_a_monster = False
+            if data is not None:
+                for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    proceed = True
+                    if monster_filter is not None:
+                        proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
+                    if is_in_roi(throne_area, area_pos) and proceed:
+                        pather.traverse(area_pos, self, randomize=12)
+                        self._cast_hammers(1.2)
+                        found_a_monster = True
+                        break
+            if not found_a_monster:
+                break
+        aura = "redemption"
+        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
+            keyboard.send(self._skill_hotkeys[aura])
+        return True
+
+    def kill_baal(self, api, pather) -> bool:
+        while 1:
+            data = api.get_data()
+            baal_alive = False
+            if data is not None:
+                for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    if m["name"] == "baalcrab":
+                        pather.traverse(area_pos, self)
+                        self._cast_hammers(1.2)
+                        baal_alive = True
+            if not baal_alive:
+                break
         return True
 
 
