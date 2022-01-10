@@ -2,6 +2,7 @@ from .generic_api import GenericApi
 from config import Config
 import cv2
 import datetime
+import traceback
 import discord
 from version import __version__
 import numpy as np
@@ -17,6 +18,8 @@ class DiscordEmbeds(GenericApi):
     def send_item(self, item: str, image:  np.ndarray, location: str):
         imgName = item.replace('_', '-')
 
+        _, w, _ = image.shape
+        image = image[:, (w//2):,:]
         cv2.imwrite(f"./loot_screenshots/{item}.png", image)
         file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
         if item == "magic_gg_club":
@@ -39,7 +42,7 @@ class DiscordEmbeds(GenericApi):
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
-        file = discord.File(image_path, filename="death.png")
+        file = self._add_file(image_path, "death.png")
         e = discord.Embed(title=f"{self._config.general['name']} has died at {location}", color=Color.dark_red())
         e.title=(f"{self._config.general['name']} died")
         e.description=(f"Died at {location}")
@@ -48,7 +51,7 @@ class DiscordEmbeds(GenericApi):
         self._send_embed(e, file)
 
     def send_chicken(self, location, image_path):
-        file = discord.File(image_path, filename="chicken.png")
+        file = self._add_file(image_path, "chicken.png")
         e = discord.Embed(title=f"{self._config.general['name']} has chickened at {location}", color=Color.dark_grey())
         e.title=(f"{self._config.general['name']} ran away")
         e.description=(f"chickened at {location}")
@@ -101,3 +104,10 @@ class DiscordEmbeds(GenericApi):
             return Color.darker_grey()
         else:
             return Color.blue()
+
+    def _add_file(self, image_path, image_name):
+        try: 
+            return discord.File(image_path, filename=image_name)
+        except:
+            traceback.print_exc()
+            return discord.File("./assets/error/image_not_found.png", filename=image_name)
