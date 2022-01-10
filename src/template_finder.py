@@ -94,8 +94,8 @@ class TemplateFinder:
             masks = [None]
             best_match = False
 
-        scores = [0] * len(ref)
-        ref_points = [(0, 0)] * len(ref)
+        scores = [0] * len(templates)
+        ref_points = [(0, 0)] * len(templates)
         for count, template in enumerate(templates):
             template_match = TemplateMatch()
             scale = scales[count]
@@ -132,13 +132,15 @@ class TemplateFinder:
                         template_match.valid = True
                         return template_match
 
-        if max(scores) > 0:
+        if len(scores) > 0 and max(scores) > 0:
             idx=scores.index(max(scores))
             try: template_match.name = names[idx]
             except: pass
             template_match.position = ref_points[idx]
             template_match.score = scores[idx]
             template_match.valid = True
+        else:
+            template_match = TemplateMatch()
 
         return template_match
 
