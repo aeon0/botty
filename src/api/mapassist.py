@@ -64,6 +64,8 @@ class MapAssistApi:
             botty_data = {
                 "monsters": [],
                 "poi": [],
+                "objects": [],
+                "items": [],
                 "map": None,
                 "player_pos_world": None,
                 "player_pos_area": None,
@@ -81,19 +83,34 @@ class MapAssistApi:
                 botty_data["player_pos_world"] = np.array([data["player_pos"]["X"], data["player_pos"]["Y"]])
                 botty_data["player_pos_area"] = botty_data["player_pos_world"] - botty_data["area_origin"]
                 self.update_transform_matrix(botty_data["player_pos_world"])
+                # Monsters
+                # ===========================
                 for monster in data["monsters"]:
-                    world_pos = np.array([monster["position"]["X"], monster["position"]["Y"]])
-                    abs_pos = self.world_to_abs_screen(world_pos)
-                    monster["abs_screen_position"] = np.array(abs_pos)
                     monster["position"] = np.array([int(monster["position"]["X"]), int(monster["position"]["Y"])])
+                    monster["abs_screen_position"] = np.array(self.world_to_abs_screen(monster["position"]))
                     monster["dist"] = math.dist(botty_data["player_pos_world"], monster["position"])
                     botty_data["monsters"].append(monster)
                 botty_data["monsters"] = sorted(botty_data["monsters"], key=lambda r: r["dist"])
+                # Points of Interest
+                # ===========================
                 for poi in data["points_of_interest"]:
                     poi["position"] = np.array([int(poi["position"]["X"]), int(poi["position"]["Y"])])
-                    abs_pos = self.world_to_abs_screen(poi["position"])
-                    poi["abs_screen_position"] = np.array(abs_pos)
+                    poi["abs_screen_position"] = np.array(self.world_to_abs_screen(poi["position"]))
                     botty_data["poi"].append(poi)
+                # Objects
+                # ===========================
+                for obj in data["objects"]:
+                    obj["position"] = np.array([int(obj["position"]["X"]), int(obj["position"]["Y"])])
+                    obj["abs_screen_position"] = np.array(self.world_to_abs_screen(obj["position"]))
+                    botty_data["objects"].append(obj)
+                # Items
+                # ===========================
+                for item in data["items"]:
+                    item["position"] = np.array([int(item["position"]["X"]), int(item["position"]["Y"])])
+                    item["abs_screen_position"] = np.array(self.world_to_abs_screen(item["position"]))
+                    item["dist"] = math.dist(botty_data["player_pos_world"], item["position"])
+                    botty_data["items"].append(item)
+                botty_data["items"] = sorted(botty_data["items"], key=lambda r: r["dist"])
             return botty_data
         except ConnectionError as e:
             return None
@@ -113,6 +130,7 @@ if __name__ == "__main__":
             # cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
 
             for monster in data["monsters"]:
+                print(monster["name"])
                 screen_pos = screen.convert_abs_to_screen(monster["abs_screen_position"])
                 top_left = (int(screen_pos[0] - 30), int(screen_pos[1] - 100))
                 bottom_right = (int(screen_pos[0] + 30), int(screen_pos[1]))
@@ -122,6 +140,15 @@ if __name__ == "__main__":
             for poi in data["poi"]:
                 screen_pos = screen.convert_abs_to_screen(poi["abs_screen_position"])
                 cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
+
+            for obj in data["objects"]:
+                if obj["selectable"]:
+                    screen_pos = screen.convert_abs_to_screen(obj["abs_screen_position"])
+                    cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (30, 255, 140), 2)
+
+            for item in data["items"]:
+                screen_pos = screen.convert_abs_to_screen(item["abs_screen_position"])
+                cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 125, 0), 2)
 
             if data["map"] is not None:
                 map_img = deepcopy(data["map"])
@@ -156,8 +183,6 @@ if __name__ == "__main__":
                         weighted_map[weighted_map == 1] = 1
                         start_pos = np.array([player_pos_area[1], player_pos_area[0]])
                         end_pos = np.array([map_pos[1], map_pos[0] + 1])
-                        x1 = weighted_map[start_pos[0]][start_pos[1]]
-                        x2 = weighted_map[end_pos[0]][end_pos[1]]
                         route = pyastar2d.astar_path(weighted_map, start_pos, end_pos, allow_diagonal=False)
                         if route is not None:
                             for r in route:
@@ -174,6 +199,7 @@ if __name__ == "__main__":
                                         break
                         print(time.time() - start)
         time.sleep(0.05)
+        img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("t", img)
         if map_img is not None:
             cv2.imshow("map", map_img)

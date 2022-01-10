@@ -73,17 +73,8 @@ class PatherV2:
         char._cast_duration = 0.2
         while 1:
             data = self._api.get_data()
-            map_img = None
             if data is not None and "map" in data and data["map"] is not None:
                 player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
-                # DEBUG
-                # =============
-                map_img = deepcopy(data["map"])
-                map_img[map_img == 1] = 255
-                map_img = map_img.astype(np.uint8)
-                map_img = cv2.cvtColor(map_img, cv2.COLOR_GRAY2BGR)
-                cv2.circle(map_img, player_pos_area, 3, (0, 255, 0), 2)
-                # =============
                 # Get worldstone keep area 3 entrance
                 map_pos = None
                 if type(end) is str:
@@ -121,30 +112,13 @@ class PatherV2:
                         world_r = np.array([r[1], r[0]]) + data["area_origin"]
                         sc = self._api.world_to_abs_screen(world_r)
                         if -630 < sc[0] < 630 and -360 < sc[1] < 360:
-                            # DEBUG
-                            # ===================
-                            cv2.circle(map_img, (r[1], r[0]), 3, (255, 190, 0), 2)
-                            # ===================
                             sc = self._adjust_abs_range_to_screen(sc)
                             move_to = self._screen.convert_abs_to_monitor(sc)
                             move_to = (move_to[0] + random.randint(-randomize, +randomize), move_to[1] + random.randint(-randomize, +randomize))
                             char.move(move_to)
                             break
-                # DEBUG
-                # ===================
-                # for r in route:
-                #     map_img[int(r[0])][int(r[1])] = (244, 0, 255)
-                # cv2.circle(map_img, map_pos, 3, (255, 0, 0), 2)
-                # map_img = cv2.resize(map_img, None, fx=1.4, fy=1.4)
-                # cv2.imshow("debug_img", map_img)
-                # cv2.waitKey(1)
-                # ===================
             time.sleep(0.05)
 
-    # TheWorldStoneKeepLevel2
-    # TheWorldStoneKeepLevel3
-    # ThroneOfDestruction
-    # TheWorldstoneChamber
     def wait_for_location(self, name) -> bool:
         start = time.time()
         while time.time() - start < 20:

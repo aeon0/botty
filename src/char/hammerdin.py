@@ -9,6 +9,11 @@ from screen import Screen
 from utils.misc import wait, is_in_roi
 import time
 from pather import Pather, Location
+import math
+import threading
+
+from api.mapassist import MapAssistApi
+from pather_v2 import PatherV2
 
 
 class Hammerdin(IChar):
@@ -28,22 +33,22 @@ class Hammerdin(IChar):
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
-            wait(0.05, 0.1)
+            wait(0.02, 0.04)
             keyboard.send(self._char_config["stand_still"], do_release=False)
-            wait(0.05, 0.1)
+            wait(0.02, 0.04)
             if self._skill_hotkeys["blessed_hammer"]:
                 keyboard.send(self._skill_hotkeys["blessed_hammer"])
-            wait(0.05, 0.1)
+            wait(0.02, 0.04)
             # move mouse somehwere to center
             m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*m, randomize=25, delay_factor=[0.2, 0.4])
+            mouse.move(*m, randomize=35, delay_factor=[0.1, 0.2])
             start = time.time()
             while (time.time() - start) < time_in_s:
-                wait(0.06, 0.08)
+                wait(0.02, 0.04)
                 mouse.press(button="left")
                 wait(0.1, 0.2)
                 mouse.release(button="left")
-            wait(0.01, 0.05)
+            wait(0.02, 0.04)
             keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _cast_holy_bolt(self, time_in_s: float, abs_screen_pos: tuple[float, float]):
@@ -180,13 +185,74 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
 
-    def clear_throne(self, api, pather, full = False, monster_filter = None) -> bool:
+    # Memory reading
+    # ===================================
+    def _kill_mobs(self, api: MapAssistApi, pather: PatherV2, names: list[str]) -> bool:
+        start = time.time()
+        success = False
+        while time.time() - start < 80:
+            data = api.get_data()
+            is_alive = False
+            if data is not None:
+                for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    proceed = any(m["name"].startswith(startstr) for startstr in names)
+                    if proceed:
+                        dist = math.dist(area_pos, data["player_pos_area"])
+                        pather.traverse(area_pos, self, randomize=10)
+                        if dist < 10:
+                            self._cast_hammers(1.0)
+                        is_alive = True
+                        success = True
+            if not is_alive:
+                return success
+        return False
+
+    def baal_idle(self, api: MapAssistApi, pather: PatherV2, monster_filter: list[str], start_time: float) -> bool:
+        stop_hammers = False
+        def pre_cast_hammers():
+            while not stop_hammers:
+                self._cast_hammers(1.0)
+        hammer_thread = threading.Thread(target=pre_cast_hammers)
+        hammer_thread.daemon = True
+
+        throne_area = [70, 0, 50, 85]
+        if not pather.traverse((93, 26), self):
+            return False
+        aura = "redemption"
+        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
+            keyboard.send(self._skill_hotkeys[aura])
+        Logger.info(f"Wait for Wave: {monster_filter}")
+        while 1:
+            data = api.get_data()
+            if data is not None:
+                 for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    proceed = True
+                    if monster_filter is not None:
+                        proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
+                    if is_in_roi(throne_area, area_pos) and proceed:
+                        Logger.info("Found wave, attack")
+                        stop_hammers = True
+                        if hammer_thread.is_alive():
+                            hammer_thread.join()
+                        return
+            elpased = time.time() - start_time
+            print(elpased)
+            if elpased > 6.0:
+                if not hammer_thread.is_alive():
+                    hammer_thread.start()
+            time.sleep(0.1)
+
+    def clear_throne(self, api: MapAssistApi, pather: PatherV2, full = False, monster_filter = None) -> bool:
         if full:
             throne_area = [70, 0, 50, 95]
         else:
             throne_area = [70, 0, 50, 65]
         aura_after_battle = "redemption"
-        while 1:
+        success = False
+        start = time.time()
+        while time.time() - start < 70:
             data = api.get_data()
             found_a_monster = False
             if data is not None:
@@ -196,51 +262,31 @@ class Hammerdin(IChar):
                     if monster_filter is not None:
                         proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
                     if is_in_roi(throne_area, area_pos) and proceed:
-                        if m["name"].startswith("unraveler"):
+                        if m["name"].startswith("BaalSubjectMummy"):
                             # convert to screen coordinates
                             abs_screen = api.world_to_abs_screen(m["position"])
                             self._cast_holy_bolt(1.5, abs_screen)
                             aura_after_battle = "cleansing"
                         else:
+                            dist = math.dist(area_pos, data["player_pos_area"])
                             pather.traverse(area_pos, self, randomize=12)
-                            self._cast_hammers(1.2)
+                            if dist < 10:
+                                self._cast_hammers(1.0)
                         found_a_monster = True
                         break
             if not found_a_monster:
+                success = True
                 break
         if aura_after_battle in self._skill_hotkeys and self._skill_hotkeys[aura_after_battle]:
             keyboard.send(self._skill_hotkeys[aura_after_battle])
-        return True
+        return success
 
     def kill_baal(self, api, pather) -> bool:
-        while 1:
-            data = api.get_data()
-            baal_alive = False
-            if data is not None:
-                for m in data["monsters"]:
-                    area_pos = m["position"] - data["area_origin"]
-                    if m["name"] == "baalcrab":
-                        pather.traverse(area_pos, self)
-                        self._cast_hammers(1.2)
-                        baal_alive = True
-            if not baal_alive:
-                break
-        return True
+        return self._kill_mobs(api, pather, ["BaalCrab"])
 
-    def kill_meph(self, api, pather) -> bool:
-        while 1:
-            data = api.get_data()
-            is_alive = False
-            if data is not None:
-                for m in data["monsters"]:
-                    area_pos = m["position"] - data["area_origin"]
-                    if m["name"] == "mephisto":
-                        pather.traverse(area_pos, self)
-                        self._cast_hammers(1.2)
-                        is_alive = True
-            if not is_alive:
-                break
-        return True
+    def kill_meph(self, api: MapAssistApi, pather: PatherV2) -> bool:
+        return self._kill_mobs(api, pather, ["Mephisto"])
+
 
 if __name__ == "__main__":
     import os

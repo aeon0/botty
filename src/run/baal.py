@@ -87,22 +87,6 @@ class Baal:
                     return True
         return False
 
-    def _wait_for_monsters(self, monster_filter = None):
-        Logger.info(f"Wait for Wave: {monster_filter}")
-        throne_area = [70, 0, 50, 85]
-        while 1:
-            data = self._api.get_data()
-            if data is not None:
-                 for m in data["monsters"]:
-                    area_pos = m["position"] - data["area_origin"]
-                    proceed = True
-                    if monster_filter is not None:
-                        proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
-                    if is_in_roi(throne_area, area_pos) and proceed:
-                        Logger.info("Found wave, attack")
-                        return
-            time.sleep(0.2)
-
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if not self._pather_v2.wait_for_location("TheWorldStoneKeepLevel2"): return False
         if do_pre_buff:
@@ -113,37 +97,45 @@ class Baal:
         if not self._go_to_area("Throne of Destruction", "ThroneOfDestruction"): return False
         # Attacks start: Clear room
         if not self._pather_v2.traverse((95, 55), self._char): return False
-        if not self._char.clear_throne(self._api, self._pather_v2, full=True): return False
+        for _ in range(4):
+            if not self._char.clear_throne(self._api, self._pather_v2, full=True): return False
+            if not self._pather_v2.traverse((95, 45), self._char): return False
+        start_time = time.time()
+        picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 1
-        wave1 = ["fallen", "fallenshaman"]
-        self._wait_for_monsters(monster_filter=wave1)
+        wave1 = ["WarpedFallen", "WarpedShaman"]
+        self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave1, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave1): return False
+        start_time = time.time()
         # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 2
-        wave2 = ["unraveler", "skmage"]
-        self._wait_for_monsters(monster_filter=wave2)
+        wave2 = ["BaalSubjectMummy", "BaalColdMage"]
+        self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave2, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave2): return False
-        # picked_up_items = self._pickit.pick_up_items(self._char)
+        start_time = time.time()
+        picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 3
-        wave3 = ["baalhighpriest"]
-        self._wait_for_monsters(monster_filter=wave3)
+        wave3 = ["CouncilMember"]
+        self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave3, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave3): return False
+        start_time = time.time()
         # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # one more pre buff
         self._char.pre_buff()
         # Wave 4
-        wave4 = ["venomlord"]
-        self._wait_for_monsters(monster_filter=wave4)
+        wave4 = ["VenomLord"]
+        self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave4, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave4): return False
+        start_time = time.time()
         # picked_up_items = self._pickit.pick_up_items(self._char)
         if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 5
-        wave5 = ["baalminion"]
-        self._wait_for_monsters(monster_filter=wave5)
+        wave5 = ["BaalsMinion"]
+        self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave5, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave5): return False
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Pick items

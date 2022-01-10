@@ -214,7 +214,25 @@ class IChar:
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
 
-    def clear_throne(self, api, pather, full, monster_filter) -> bool:
+    # Only possible with memory reading
+    # =========================================
+    def baal_idle(self, api, pather, monster_filter: list[str], start_time: float = None) -> bool:
+        Logger.info(f"Wait for Wave: {monster_filter}")
+        throne_area = [70, 0, 50, 85]
+        while 1:
+            data = api.get_data()
+            if data is not None:
+                 for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    proceed = True
+                    if monster_filter is not None:
+                        proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
+                    if is_in_roi(throne_area, area_pos) and proceed:
+                        Logger.info("Found wave, attack")
+                        return
+            time.sleep(0.2)
+
+    def clear_throne(self, api, pather, full: bool, monster_filter: list[str]) -> bool:
         raise ValueError("Clear Throne not implemented")
 
     def kill_baal(self, api, pather) -> bool:
