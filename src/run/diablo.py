@@ -100,6 +100,11 @@ class Diablo:
                 #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
+        self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP
+        if self._ui_manager.has_tps():
+                    mouse.click(button="right")
+        Logger.info("CS: OPEN TP")
+        self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
 

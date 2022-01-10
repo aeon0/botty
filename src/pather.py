@@ -220,7 +220,7 @@ class Pather:
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint  
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
             #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
-            602: {"DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
+            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
             
             # SEAL A1L_new Vizier
             610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52), 
@@ -672,8 +672,8 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F7")
-    display_all_nodes(pather, "DIA_C2G")
-    #display_all_nodes(pather, "DIA_NEW_PENT")
+    #display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
 
 
@@ -699,6 +699,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([602], char)
     #pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
     
+    
     ### DIABLO
 
     # CS
@@ -708,7 +709,7 @@ if __name__ == "__main__":
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
 
     # NEW A1L
-    #pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes([619], char) # LAYOUT CALIBRATION CHECK
     #pather.traverse_nodes([610], char) # departure
@@ -755,8 +756,7 @@ if __name__ == "__main__":
     #pather.traverse_nodes([648], char) # safe dist
     #pather.traverse_nodes([649], char) # safe dist
     #pather.traverse_nodes([643], char) # seal boss far
-    pather.traverse_nodes([644], char) # seal boss close
-    dia_b2u_643_646
+    #pather.traverse_nodes([644], char) # seal boss close
     #pather.traverse_nodes([645], char) # seal boss far2
     #pather.traverse_nodes([644], char) # seal boss close
     #pather.traverse_nodes([643], char) # seal boss far
