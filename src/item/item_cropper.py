@@ -1,13 +1,13 @@
 import cv2
 import numpy as np
 from config import Config
-from utils.misc import color_filter, img_to_bytes
+from utils.misc import color_filter
+from ocr import Ocr
 from dataclasses import dataclass
 import time
 from logger import Logger
 from template_finder import TemplateFinder
 from screen import Screen
-from tesserocr import PyTessBaseAPI, PSM, OEM
 
 @dataclass
 class ItemText:
@@ -15,12 +15,15 @@ class ItemText:
     text: str = None
     roi: list[int] = None
     data: np.ndarray = None
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
 
 class ItemCropper:
     def __init__(self, screen: Screen):
         self._config = Config()
         self._screen = screen
         self._template_finder = TemplateFinder(screen)
+        self._ocr = Ocr()
 
         self._gaus_filter = (19, 1)
         self._expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14, 40]]]
@@ -56,7 +59,7 @@ class ItemCropper:
         img = cv2.bitwise_and(img, mask_color_r)
         return img
 
-    def crop(self, inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText]:
+    def crop(self, inp_img: np.ndarray, padding_y: int = 5, use_ocr: bool = True) -> list[ItemText]:
         start = time.time()
         cleaned_img = self.clean_img(inp_img)
         debug_str = f" | clean: {time.time() - start}"
@@ -65,48 +68,50 @@ class ItemCropper:
         start = time.time()
         item_clusters = []
 
-        with PyTessBaseAPI(psm=PSM.RAW_LINE, oem=OEM.LSTM_ONLY, path='assets/tessdata', lang='engd2r') as api:
-            for key in self._item_colors:
-                _, filtered_img = color_filter(cleaned_img, self._config.colors[key])
-                filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-                blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
-                contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                contours = contours[0] if len(contours) == 2 else contours[1]
-                for cntr in contours:
-                    x, y, w, h = cv2.boundingRect(cntr)
-                    expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
-                    # increase height a bit to make sure we have the full item name in the cluster
-                    y = y - padding_y if y > padding_y else 0
-                    h += padding_y * 2
-                    cropped_item = filtered_img[y:y+h, x:x+w]
-                    # save most likely item drop contours
-                    avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
-                    contains_black = True if np.min(cropped_item) < 14 else False
-                    expected_width = True if (self._expected_width_range[0] < w < self._expected_width_range[1]) else False
-                    mostly_dark = True if 4 < avg < 25 else False
-                    if contains_black and mostly_dark and expected_height and expected_width:
-                        # double-check item color
-                        color_averages=[]
-                        for key2 in self._item_colors:
-                            _, extracted_img = color_filter(cropped_item, self._config.colors[key2])
-                            extr_avg = np.average(cv2.cvtColor(extracted_img, cv2.COLOR_BGR2GRAY))
-                            color_averages.append(extr_avg)
-                        max_idx = color_averages.index(max(color_averages))
-                        if key == self._item_colors[max_idx]:
-                            api.SetImageBytes(*img_to_bytes(cleaned_img[y:y+h, x:x+w]))
-                            ocr_text = api.GetUTF8Text().replace('\n', '')
-                            item_clusters.append(ItemText(
-                                color = key,
-                                roi = [x, y, w, h],
-                                data = cropped_item,
-                                text = ocr_text
-                            ))
-                            Logger.debug(f"item: {ocr_text}, color: {key}")
+        for key in self._item_colors:
+            _, filtered_img = color_filter(cleaned_img, self._config.colors[key])
+            filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
+            blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
+            contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours = contours[0] if len(contours) == 2 else contours[1]
+            for cntr in contours:
+                x, y, w, h = cv2.boundingRect(cntr)
+                expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
+                # increase height a bit to make sure we have the full item name in the cluster
+                y = y - padding_y if y > padding_y else 0
+                h += padding_y * 2
+                cropped_item = filtered_img[y:y+h, x:x+w]
+                # save most likely item drop contours
+                avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
+                contains_black = True if np.min(cropped_item) < 14 else False
+                expected_width = True if (self._expected_width_range[0] < w < self._expected_width_range[1]) else False
+                mostly_dark = True if 4 < avg < 25 else False
+                print("found contour")
+                if contains_black and mostly_dark and expected_height and expected_width:
+                    print("contour meets criteria")
+                    # double-check item color
+                    color_averages=[]
+                    for key2 in self._item_colors:
+                        _, extracted_img = color_filter(cropped_item, self._config.colors[key2])
+                        extr_avg = np.average(cv2.cvtColor(extracted_img, cv2.COLOR_BGR2GRAY))
+                        color_averages.append(extr_avg)
+                    max_idx = color_averages.index(max(color_averages))
+                    if key == self._item_colors[max_idx]:
+                        item_clusters.append(ItemText(
+                            color = key,
+                            roi = [x, y, w, h],
+                            data = cropped_item
+                        ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
+        if use_ocr:
+            cluster_images = [ key["data"] for key in item_clusters ]
+            results = self._ocr.images_to_text(cluster_images, use_language="engd2r_fast")
+            for count, key in enumerate(item_clusters):
+                setattr(item_clusters[key],"text", results[count])
         return item_clusters
 
-    def crop_item_box(self, inp_img: np.ndarray) -> list[ItemText]:
+    def crop_item_box(self, inp_img: np.ndarray, use_ocr: bool = True) -> list[ItemText]:
         expected_width_range=[200, 900]
         expected_height_range=[45, 710]
         clusters = []
@@ -114,7 +119,7 @@ class ItemCropper:
         filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
         contours = cv2.findContours(filtered_img_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
-        for count, cntr in enumerate(contours):
+        for cntr in contours:
             x, y, w, h = cv2.boundingRect(cntr)
             expected_height = 1 if (expected_height_range[0] < h < expected_height_range[1]) else 0
             cropped_item = inp_img[y:y+h, x:x+w]
@@ -132,15 +137,17 @@ class ItemCropper:
                     found_footer = False
                     print("Error on contour")
                 if found_footer:
-                    with PyTessBaseAPI(oem=OEM.LSTM_ONLY, path='assets/tessdata', lang='engd2r') as api:
-                        api.SetImageBytes(*img_to_bytes(cropped_item))
-                        ocr_text=api.GetUTF8Text()
                     clusters.append(ItemText(
                         color = "black",
                         roi = [x, y, w, h],
-                        data = cropped_item,
-                        text = ocr_text
+                        data = cropped_item
                     ))
+
+        if use_ocr:
+            cluster_images = [ key["data"] for key in clusters ]
+            results = self._ocr.images_to_text(cluster_images, multiline=True)
+            for count, cluster in enumerate(clusters):
+                setattr(cluster, "text", results[count])
         return clusters
 
 if __name__ == "__main__":

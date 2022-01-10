@@ -108,25 +108,3 @@ def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
 
 def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
-
-def img_to_bytes(image: np.ndarray, color: str = 'BGR'):
-    """ Sets an OpenCV-style image for recognition.
-    https://github.com/sirfz/tesserocr/issues/198
-
-    """
-    bytes_per_pixel = image.shape[2] if len(image.shape) == 3 else 1
-    height, width   = image.shape[:2]
-    bytes_per_line  = bytes_per_pixel * width
-
-    if bytes_per_pixel != 1 and color != 'RGB':
-        # non-RGB color image -> convert to RGB
-        image = cv2.cvtColor(image, getattr(cv2, f'COLOR_{color}2RGB'))
-    elif bytes_per_pixel == 1 and image.dtype == bool:
-        # binary image -> convert to bitstream
-        image = np.packbits(image, axis=1)
-        bytes_per_line  = image.shape[1]
-        width = bytes_per_line * 8
-        bytes_per_pixel = 0
-    # else image already RGB or grayscale
-
-    return image.tobytes(), width, height, bytes_per_pixel, bytes_per_line
