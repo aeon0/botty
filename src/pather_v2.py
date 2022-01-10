@@ -114,7 +114,7 @@ class PatherV2:
         Logger.debug(f"Traverse to {end}")
         char.pre_move()
         tmp_duration = char._cast_duration
-        char._cast_duration = 0.2
+        char._cast_duration = tmp_duration - 0.04
         last_pos = None
         repeated_pos_count = 0
         reached_destination = 2
@@ -124,10 +124,10 @@ class PatherV2:
                 player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
                 if last_pos is not None and np.array_equal(player_pos_area, last_pos):
                     repeated_pos_count += 1
-                    if repeated_pos_count == 2:
+                    if repeated_pos_count == 3:
                         Logger.debug("Increasing end point reached range")
                         reached_destination += 5
-                    elif repeated_pos_count > 4:
+                    elif repeated_pos_count > 6:
                         Logger.warning("Got stuck during pathing")
                         return False
                 last_pos = player_pos_area
