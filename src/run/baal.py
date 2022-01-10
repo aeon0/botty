@@ -106,17 +106,20 @@ class Baal:
         wave1 = ["WarpedFallen", "WarpedShaman"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave1, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave1): return False
+        self._char.clear_throne(self._api, self._pather_v2)
         start_time = time.time()
         # Wave 2
         wave2 = ["BaalSubjectMummy", "BaalColdMage"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave2, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave2): return False
+        self._char.clear_throne(self._api, self._pather_v2)
         start_time = time.time()
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Wave 3
         wave3 = ["CouncilMember"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave3, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave3): return False
+        self._char.clear_throne(self._api, self._pather_v2)
         start_time = time.time()
         # one more pre buff
         if not self._pather_v2.traverse((95, 38), self._char): return False
@@ -125,11 +128,13 @@ class Baal:
         wave4 = ["VenomLord"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave4, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave4): return False
+        self._char.clear_throne(self._api, self._pather_v2)
         start_time = time.time()
         # Wave 5
         wave5 = ["BaalsMinion"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave5, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave5): return False
+        self._char.clear_throne(self._api, self._pather_v2)
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Pick items
         if not self._pather_v2.traverse((95, 26), self._char): return False

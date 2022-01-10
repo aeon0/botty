@@ -71,10 +71,22 @@ class PatherV2:
         char.pre_move()
         tmp_duration = char._cast_duration
         char._cast_duration = 0.2
+        last_pos = None
+        repeated_pos_count = 0
+        reached_destination = 2
         while 1:
             data = self._api.get_data()
             if data is not None and "map" in data and data["map"] is not None:
                 player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
+                if last_pos is not None and np.array_equal(player_pos_area, last_pos):
+                    repeated_pos_count += 1
+                    if repeated_pos_count == 2:
+                        Logger.debug("Increasing end point reached range")
+                        reached_destination += 5
+                    elif repeated_pos_count > 4:
+                        Logger.warning("Got stuck during pathing")
+                        return False
+                last_pos = player_pos_area
                 # Get worldstone keep area 3 entrance
                 map_pos = None
                 if type(end) is str:
@@ -84,12 +96,12 @@ class PatherV2:
                 else:
                     map_pos = end
                 if map_pos is None:
-                    print(f"Couldnt find endpoint: {end}")
+                    Logger.warning(f"Couldnt find endpoint: {end}")
                     char._cast_duration = tmp_duration
                     return False
                 # Check if we are alredy close to our position
                 diff = player_pos_area - map_pos
-                if abs(diff[0]) <= 2 and abs(diff[1]) <= 2:
+                if abs(diff[0]) <= reached_destination and abs(diff[1]) <= reached_destination:
                     char._cast_duration = tmp_duration
                     return True
                 # Calc route from player to entrance
@@ -102,7 +114,7 @@ class PatherV2:
                 weighted_map[end_pos[0]][end_pos[1]] = 1
                 route = pyastar2d.astar_path(weighted_map, start_pos, end_pos, allow_diagonal=False)
                 if route is None:
-                    print("Could not calculate route")
+                    Logger.warning("Could not calculate route")
                     char._cast_duration = tmp_duration
                     return False
                 for r in reversed(route):
