@@ -21,14 +21,24 @@ class DiscordEmbeds(GenericApi):
         _, w, _ = image.shape
         image = image[:, (w//2):,:]
         cv2.imwrite(f"./loot_screenshots/{item}.png", image)
-        file = self._add_file(f"./loot_screenshots/{item}.png", f"{imgName}.png")
-        e = discord.Embed(
-            title="Item Stashed!",
-            description=f"{item} at {location}",
-            color=self._get_Item_Color( item),
-        )
+        file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
+        if item == "magic_gg_club":
+            e = discord.Embed(
+                title="Lucille located.",
+                description=f"This... This is Lucille, and she is awesome. All this, all this is just so we can pick out which one of you gets the honor. ",
+                color=self._get_Item_Color( item),
+            )
+        else:                 
+            e = discord.Embed(
+                title="Item Stashed!",
+                description=f"{item} at {location}",
+                color=self._get_Item_Color( item),
+            )
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
-        e.set_image(url=f"attachment://{imgName}.png")
+        if item == "magic_gg_club":
+            e.set_image(url=f"https://i.insider.com/5bd6fce948eb12606c6c4112?width=700&format=jpeg")
+        else:
+            e.set_image(url=f"attachment://{imgName}.png")
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
@@ -63,11 +73,17 @@ class DiscordEmbeds(GenericApi):
         e.set_thumbnail(url=f"{self._psnURL}6L341955.png")
         self._send_embed(e)
 
-    def send_message(self, msg: str):
+    def send_status(self, msg: str):
         e = discord.Embed(title=f"Update:", description=f"```{msg}```", color=Color.dark_teal())
         if not self._config.general['discord_status_condensed']:
             e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")
         self._send_embed(e)
+
+    def send_message(self, title: str, msg: str, img: str):
+        e = discord.Embed(title=f"{title}", description=f"```{msg}```", color=Color.dark_teal())
+        if not self._config.general['discord_status_condensed']:
+            e.set_thumbnail(url=f"{img}")
+        self._send_embed(e)  
 
     def _send_embed(self, e, file = None):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
