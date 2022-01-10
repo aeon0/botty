@@ -102,44 +102,37 @@ class Baal:
             if not self._pather_v2.traverse((95, 45), self._char): return False
         start_time = time.time()
         picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 1
         wave1 = ["WarpedFallen", "WarpedShaman"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave1, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave1): return False
         start_time = time.time()
-        # picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 2
         wave2 = ["BaalSubjectMummy", "BaalColdMage"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave2, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave2): return False
         start_time = time.time()
         picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 3
         wave3 = ["CouncilMember"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave3, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave3): return False
         start_time = time.time()
-        # picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather_v2.traverse((95, 45), self._char): return False
         # one more pre buff
+        if not self._pather_v2.traverse((95, 38), self._char): return False
         self._char.pre_buff()
         # Wave 4
         wave4 = ["VenomLord"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave4, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave4): return False
         start_time = time.time()
-        # picked_up_items = self._pickit.pick_up_items(self._char)
-        if not self._pather_v2.traverse((95, 45), self._char): return False
         # Wave 5
         wave5 = ["BaalsMinion"]
         self._char.baal_idle(self._api, self._pather_v2, monster_filter=wave5, start_time=start_time)
         if not self._char.clear_throne(self._api, self._pather_v2, monster_filter=wave5): return False
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Pick items
-        if not self._pather_v2.traverse((95, 39), self._char): return False
+        if not self._pather_v2.traverse((95, 26), self._char): return False
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Move to baal room
         if not self._pather_v2.traverse((91, 15), self._char): return False

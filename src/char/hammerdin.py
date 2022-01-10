@@ -238,7 +238,6 @@ class Hammerdin(IChar):
                             hammer_thread.join()
                         return
             elpased = time.time() - start_time
-            print(elpased)
             if elpased > 6.0:
                 if not hammer_thread.is_alive():
                     hammer_thread.start()

@@ -219,6 +219,8 @@ class IChar:
     def baal_idle(self, api, pather, monster_filter: list[str], start_time: float = None) -> bool:
         Logger.info(f"Wait for Wave: {monster_filter}")
         throne_area = [70, 0, 50, 85]
+        if not pather.traverse((95, 45), self):
+            return False
         while 1:
             data = api.get_data()
             if data is not None:
