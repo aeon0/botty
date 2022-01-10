@@ -8,23 +8,23 @@ class GenericApi:
         self._config = Config()
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
-        msg = f"Found {item} at {location}"
+        msg = f"{self._config.general['name']} Found {item} at {location}"
         self._send(msg)
         
     def send_death(self, location: str, image_path: str = None):
-        msg = f"You have died at {location}"
+        msg = f"{self._config.general['name']} You have died at {location}"
         self._send(msg)
         
     def send_chicken(self, location: str, image_path: str = None):
-        msg = f"You have chickened at {location}"
+        msg = f"{self._config.general['name']} You have chickened at {location}"
         self._send(msg)
         
-    def send_stash(self):
-        msg = f"All stash tabs and character are full of gold, turn of gold pickup"
+    def send_gold(self):
+        msg = f"{self._config.general['name']} All stash tabs and character are full of gold, turn of gold pickup"
         self._send(msg)
 
-    def send_gold(self):
-        msg = f"All stash is full, quitting"
+    def send_stash(self):
+        msg = f"{self._config.general['name']} All stash is full, quitting"
         self._send(msg)
 
     def send_message(self, msg: str):
