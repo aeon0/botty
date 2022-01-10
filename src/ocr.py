@@ -10,7 +10,7 @@ class Ocr:
         output = itemtext
         output = re.sub(r"1(?![\s%])(?=\w+)", "I", output)
         output = re.sub(r"(?<=\w)(?<![\s+\-])1", "I", output)
-        output = re.sub(r"I(?!\s)(?=[\d%])", "1", output)
+        output = re.sub(r"I(?!\s)(?=[\d%-])", "1", output)
         output = re.sub(r"(?<=[+\-\d])(?<!\s)I", "1", output)
         return output
 

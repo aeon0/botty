@@ -107,11 +107,11 @@ class ItemCropper:
         if use_ocr:
             cluster_images = [ key["data"] for key in item_clusters ]
             results = self._ocr.images_to_text(cluster_images, use_language="engd2r_fast")
-            for count, key in enumerate(item_clusters):
-                setattr(item_clusters[key],"text", results[count])
+            for count, cluster in enumerate(item_clusters):
+                setattr(cluster, "text", results[count])
         return item_clusters
 
-    def crop_item_box(self, inp_img: np.ndarray, use_ocr: bool = True) -> list[ItemText]:
+    def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True) -> list[ItemText]:
         expected_width_range=[200, 900]
         expected_height_range=[45, 710]
         clusters = []
@@ -131,11 +131,7 @@ class ItemCropper:
 
             if contains_black and contains_white and mostly_dark and expected_height and expected_width:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
-                try:
-                    found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.9).valid
-                except:
-                    found_footer = False
-                    print("Error on contour")
+                found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.9).valid
                 if found_footer:
                     clusters.append(ItemText(
                         color = "black",
@@ -160,7 +156,7 @@ if __name__ == "__main__":
 
     while 1:
         img = screen.grab().copy()
-        res = cropper.crop_item_box(img)
+        res = cropper.crop_item_descr(img)
         for cluster in res:
             x, y, w, h = cluster.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
