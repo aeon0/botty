@@ -227,6 +227,20 @@ class Hammerdin(IChar):
                 break
         return True
 
+    def kill_meph(self, api, pather) -> bool:
+        while 1:
+            data = api.get_data()
+            is_alive = False
+            if data is not None:
+                for m in data["monsters"]:
+                    area_pos = m["position"] - data["area_origin"]
+                    if m["name"] == "mephisto":
+                        pather.traverse(area_pos, self)
+                        self._cast_hammers(1.2)
+                        is_alive = True
+            if not is_alive:
+                break
+        return True
 
 if __name__ == "__main__":
     import os

@@ -68,6 +68,9 @@ class Location:
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
+    # Meph
+    A3_MEPH_START = "a3_meph_start"
+    A3_MEPH_END = "a3_meph_end"
     # Nihalatk
     A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"

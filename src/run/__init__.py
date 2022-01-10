@@ -4,3 +4,4 @@ from .trav import Trav
 from .nihlatak import Nihlatak
 from .arcane import Arcane
 from .baal import Baal
+from .meph import Meph
