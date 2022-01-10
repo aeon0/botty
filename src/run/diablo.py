@@ -406,9 +406,42 @@ class Diablo:
         if self._config.char["kill_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it ... continue without trash")
         if not self._cs_pentagram(): return False
 
-        # Seal B: De Seis (to the top)
-        #if do_pre_buff: self._char.pre_buff()
+        # Seal A: Vizier (to the left), WiZ tuning - changed order to do this last and improving success rate 
+        #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in order A-B-C
         #self._char.kill_cs_trash()
+        if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
+        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
+        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
+        Logger.info("A: Checking Layout for Vizier")
+        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #We check for A2Y templates first, they are more distinct
+        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
+        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
+            if not self._pather.traverse_nodes([619], self._char): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates
+            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
+            if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
+                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+            else:
+                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L")
+                if not self._seal_A1(): return False
+        else:
+            Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
+            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y")
+                if not self._seal_A2(): return False
+            else:
+                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+        
+        # Seal B: De Seis (to the top)
+        if do_pre_buff: self._char.pre_buff()
+        self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([602] , self._char , time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         self._char.kill_cs_trash() # this attack sequence increases layout check consistency
@@ -468,39 +501,6 @@ class Diablo:
             else:
                 Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C2GS_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-
-        # Seal A: Vizier (to the left), WiZ tuning - changed order to do this last and improving success rate 
-        if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in order A-B-C
-        self._char.kill_cs_trash()
-        if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
-        self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
-        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
-        Logger.info("A: Checking Layout for Vizier")
-        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        #We check for A2Y templates first, they are more distinct
-        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"]
-        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
-            if not self._pather.traverse_nodes([619], self._char): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates
-            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
-            if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
-                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            else:
-                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L")
-                if not self._seal_A1(): return False
-        else:
-            Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
-            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y")
-                if not self._seal_A2(): return False
-            else:
-                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
         # Diablo
