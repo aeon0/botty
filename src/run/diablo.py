@@ -110,7 +110,7 @@ class Diablo:
 
     def _loop_pentagram(self, path) -> bool:
         found = False
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_6", "DIA_NEW_PENT_TP"],  #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5 -> if these templates are found, you cannot calibrate at [602]
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_6", "DIA_NEW_PENT_TP"]  #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5 -> if these templates are found, you cannot calibrate at [602]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
             found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid
