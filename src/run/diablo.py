@@ -172,23 +172,23 @@ class Diablo:
         #self._char.kill_cs_trash() #done during sealcheck
         #self._picked_up_items |= self._pickit.pick_up_items(self._char) # not needed, we loot after vizier
         if not self._pather.traverse_nodes([611], self._char): return False # sometimes this node is not found after layout check, esp. if too many mobs are around. So we end up telelooping to CS entrance
-        if not self._pather.traverse_nodes([612, 613], self._char): return False
+        if not self._pather.traverse_nodes([612, 615], self._char): return False
         self._char.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([613, 615], self._char): return False
+        #if not self._pather.traverse_nodes([613, 615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
-        if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
+        #if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier([612], [611])
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         ### Open Fake Seal last to not miss Diablo spawn - WiZ tuning
-        if not self._pather.traverse_nodes([614], self._char): return False
+        if not self._pather.traverse_nodes([612, 613, 614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         #if not self._pather.traverse_nodes([610], self._char): return False # NOT calibrating here brings us home with higher consistency.
         #"""
         ### GO HOME ###
-        if not self._pather.traverse_nodes([610, 611], self._char): return False # calibrating here brings us home with higher consistency.
+        if not self._pather.traverse_nodes([613, 612, 611], self._char): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a1l_home", self._char): return False
         #Logger.info(seal_layout + ": Looping to Pentagram")
@@ -218,11 +218,11 @@ class Diablo:
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         ### Open Fake Seal last to not miss Diablo spawn - WiZ tuning
-        if not self._pather.traverse_nodes([625], self._char): return False
+        if not self._pather.traverse_nodes([624, 625], self._char): return False
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         #"""
         ### GO HOME ###
-        if not self._pather.traverse_nodes([622], self._char): return False
+        if not self._pather.traverse_nodes([624, 623, 622], self._char): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a2y_home", self._char): return False
         #Logger.info(seal_layout + ": Looping to PENTAGRAM")
