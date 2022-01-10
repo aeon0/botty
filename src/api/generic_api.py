@@ -31,6 +31,8 @@ class GenericApi:
         self._send(msg)
 
     def _send(self, msg: str):
+        msg = f"{self._config.general['name']}: {msg}"
+        
         if self._config.advanced_options['message_highlight']:
             if " magic_" in msg:
                 msg = f"```ini\\n[ {msg} \\n```"
