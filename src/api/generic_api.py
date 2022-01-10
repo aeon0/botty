@@ -19,11 +19,11 @@ class GenericApi:
         msg = f"You have chickened at {location}"
         self._send(msg)
         
-    def send_stash(self):
+    def send_gold(self):
         msg = f"All stash tabs and character are full of gold, turn of gold pickup"
         self._send(msg)
 
-    def send_gold(self):
+    def send_stash(self):
         msg = f"All stash is full, quitting"
         self._send(msg)
 
