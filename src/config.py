@@ -157,6 +157,7 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
+        self.barbarian["cry_frequency"] = float(self.barbarian["cry_frequency"])
 
         # Basic config
         self.basic = self._config["basic"]

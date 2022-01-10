@@ -166,6 +166,7 @@ run_shenk=0
 | shout          | Required Hotkey for Shout                                                           |
 | war_cry        | Required Hotkey for War Cry                                                         |
 | find_item      | Optional Hotkey for Find Item                                                       |
+| cry_frequency  | Time in seconds between each cast of war_cry. Set to 0.0 if max fcr should be used  |
 
 | [Necro]        | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
