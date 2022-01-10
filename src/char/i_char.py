@@ -242,3 +242,6 @@ class IChar:
 
     def kill_meph(self, api, pather) -> bool:
         raise ValueError("Kill meph is not implemented")
+
+    def kill_andy(self, api, pather) -> bool:
+        raise ValueError("Kill andy is not implemented")

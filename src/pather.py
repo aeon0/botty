@@ -36,9 +36,6 @@ class Location:
     A5_SHENK_START = "a5_shenk_start"
     A5_SHENK_SAFE_DIST = "a5_shenk_safe_dist"
     A5_SHENK_END = "a5_shenk_end"
-    # Baal
-    A5_BAAL_WORLDSTONE_KEEP_LVL2 = "a5_baal_worldstone_keep_lvl2"
-    A5_BAAL_WORLDSTONE_CHAMBER = "a5_baal_worldstone_chamber"
     # A4 Town
     A4_TOWN_START = "a4_town_start"
     A4_WP = "a4_town_wp"
@@ -68,9 +65,6 @@ class Location:
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
-    # Meph
-    A3_MEPH_START = "a3_meph_start"
-    A3_MEPH_END = "a3_meph_end"
     # Nihalatk
     A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
     A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
@@ -78,7 +72,15 @@ class Location:
     A2_ARC_START = "a2_arc_start"
     A2_ARC_CHECKPOINT = "a2_arc_checkpoint"
     A2_ARC_END = "a2_arc_end"
-
+    # Andy
+    A1_ANDY_START = "a1_andy_start"
+    A1_ANDY_END = "a1_andy_end"
+    # Meph
+    A3_MEPH_START = "a3_meph_start"
+    A3_MEPH_END = "a3_meph_end"
+    # Baal
+    A5_BAAL_WORLDSTONE_KEEP_LVL2 = "a5_baal_worldstone_keep_lvl2"
+    A5_BAAL_WORLDSTONE_CHAMBER = "a5_baal_worldstone_chamber"
 
 class Pather:
     """

@@ -12,6 +12,7 @@ from char import IChar
 from screen import Screen
 from config import Config
 from utils.misc import is_in_roi
+from utils.custom_mouse import mouse
 from logger import Logger
 
 
@@ -61,6 +62,49 @@ class PatherV2:
             f = max(fw, fh)
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
+
+    def go_to_area(self, poi: Union[tuple[int, int], str], end_loc: str, entrance_in_wall: bool = True) -> bool:
+        start = time.time()
+        while time.time() - start < 20:
+            data = self._api.get_data()
+            if data is not None:
+                pos_monitor = None
+                if type(poi) == str:
+                    for p in data["poi"]:
+                        if p["label"].startswith(poi):
+                            # find the gradient for the grid position and move one back
+                            if entrance_in_wall:
+                                ap = p["position"] - data["area_origin"]
+                                if data["map"][ap[1] - 1][ap[0]] == 1:
+                                    ap = [p["position"][0], p["position"][1] + 2]
+                                elif data["map"][ap[1] + 1][ap[0]] == 1:
+                                    ap = [p["position"][0], p["position"][1] - 2]
+                                elif data["map"][ap[1]][ap[0] - 1] == 1:
+                                    ap = [p["position"][0] + 2, p["position"][1]]
+                                elif data["map"][ap[1]][ap[0] + 1] == 1:
+                                    ap = [p["position"][0] - 2, p["position"][1]]
+                                else:
+                                    ap = p["position"]
+                            else:
+                                ap = p["position"]
+                            pos_monitor = self._api.world_to_abs_screen(ap)
+                            if -640 < pos_monitor[0] < 640 and -360 < pos_monitor[1] < 360:
+                                pos_monitor = self._screen.convert_abs_to_monitor(pos_monitor)
+                            else:
+                                pos_monitor = None
+                else:
+                    pos_monitor = self._api.world_to_abs_screen(poi)
+                    if -640 < pos_monitor[0] < 640 and -360 < pos_monitor[1] < 360:
+                        pos_monitor = self._screen.convert_abs_to_monitor(pos_monitor)
+                    else:
+                        pos_monitor = None
+                if pos_monitor is not None:
+                    mouse.move(*pos_monitor)
+                    time.sleep(0.1)
+                    mouse.click("left")
+                if data["current_area"] == end_loc:
+                    return True
+        return False
 
     # end can be any of:
     # Worldstone Keep Level 3

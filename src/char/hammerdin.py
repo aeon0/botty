@@ -286,6 +286,9 @@ class Hammerdin(IChar):
     def kill_meph(self, api: MapAssistApi, pather: PatherV2) -> bool:
         return self._kill_mobs(api, pather, ["Mephisto"])
 
+    def kill_andy(self, api: MapAssistApi, pather: PatherV2) -> bool:
+        return self._kill_mobs(api, pather, ["Andariel"])
+
 
 if __name__ == "__main__":
     import os

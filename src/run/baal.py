@@ -47,54 +47,14 @@ class Baal:
             return Location.A5_BAAL_WORLDSTONE_KEEP_LVL2
         return False
 
-    def _go_to_area(self, poi: Union[tuple[int, int], str], end_loc: str):
-        start = time.time()
-        while time.time() - start < 20:
-            data = self._api.get_data()
-            if data is not None:
-                pos_monitor = None
-                if type(poi) == str:
-                    for p in data["poi"]:
-                        if p["label"].startswith(poi):
-                            # find the gradient for the grid position and move one back
-                            ap = p["position"] - data["area_origin"]
-                            if data["map"][ap[1] - 1][ap[0]] == 1:
-                                ap = [p["position"][0], p["position"][1] + 2]
-                            elif data["map"][ap[1] + 1][ap[0]] == 1:
-                                ap = [p["position"][0], p["position"][1] - 2]
-                            elif data["map"][ap[1]][ap[0] - 1] == 1:
-                                ap = [p["position"][0] + 2, p["position"][1]]
-                            elif data["map"][ap[1]][ap[0] + 1] == 1:
-                                ap = [p["position"][0] - 2, p["position"][1]]
-                            else:
-                                ap = p["position"]
-                            pos_monitor = self._api.world_to_abs_screen(ap)
-                            if -640 < pos_monitor[0] < 640 and -360 < pos_monitor[1] < 360:
-                                pos_monitor = self._screen.convert_abs_to_monitor(pos_monitor)
-                            else:
-                                pos_monitor = None
-                else:
-                    pos_monitor = self._api.world_to_abs_screen(poi)
-                    if -640 < pos_monitor[0] < 640 and -360 < pos_monitor[1] < 360:
-                        pos_monitor = self._screen.convert_abs_to_monitor(pos_monitor)
-                    else:
-                        pos_monitor = None
-                if pos_monitor is not None:
-                    mouse.move(*pos_monitor)
-                    time.sleep(0.1)
-                    mouse.click("left")
-                if data["current_area"] == end_loc:
-                    return True
-        return False
-
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if not self._pather_v2.wait_for_location("TheWorldStoneKeepLevel2"): return False
         if do_pre_buff:
             self._char.pre_buff()
         if not self._pather_v2.traverse("Worldstone Keep Level 3", self._char): return False
-        if not self._go_to_area("Worldstone Keep Level 3", "TheWorldStoneKeepLevel3"): return False
+        if not self._pather_v2.go_to_area("Worldstone Keep Level 3", "TheWorldStoneKeepLevel3"): return False
         if not self._pather_v2.traverse("Throne of Destruction", self._char): return False
-        if not self._go_to_area("Throne of Destruction", "ThroneOfDestruction"): return False
+        if not self._pather_v2.go_to_area("Throne of Destruction", "ThroneOfDestruction"): return False
         # Attacks start: Clear room
         if not self._pather_v2.traverse((95, 55), self._char): return False
         for _ in range(4):
@@ -141,7 +101,7 @@ class Baal:
         picked_up_items = self._pickit.pick_up_items(self._char)
         # Move to baal room
         if not self._pather_v2.traverse((91, 15), self._char): return False
-        if not self._go_to_area((15089, 5006), "TheWorldstoneChamber"): return False
+        if not self._pather_v2.go_to_area((15089, 5006), "TheWorldstoneChamber"): return False
         self._char.pre_move()
         if not self._pather_v2.traverse((136, 176), self._char): return False
         self._char.kill_baal(self._api, self._pather_v2)

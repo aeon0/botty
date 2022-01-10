@@ -32,7 +32,7 @@ from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
-from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Baal, Meph
+from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Baal, Meph, Andy
 from town import TownManager, A1, A2, A3, A4, A5
 
 from pather_v2 import PatherV2
@@ -98,12 +98,13 @@ class Bot:
             os._exit(1)
         self._do_runs = {
             "run_trav": self._route_config["run_trav"],
-            "run_meph": self._route_config["run_meph"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
             "run_arcane": self._route_config["run_arcane"],
-            "run_baal": self._route_config["run_baal"]
+            "run_baal": self._route_config["run_baal"],
+            "run_meph": self._route_config["run_meph"],
+            "run_andy": self._route_config["run_andy"],
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
@@ -118,6 +119,7 @@ class Bot:
         self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._baal = Baal(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
         self._meph = Meph(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
+        self._andy = Andy(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -132,7 +134,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'baal', 'meph']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'baal', 'meph', 'andy']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -145,9 +147,10 @@ class Bot:
             { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
             { 'trigger': 'run_baal', 'source': 'town', 'dest': 'baal', 'before': "on_run_baal"},
             { 'trigger': 'run_meph', 'source': 'town', 'dest': 'meph', 'before': "on_run_meph"},
+            { 'trigger': 'run_andy', 'source': 'town', 'dest': 'andy', 'before': "on_run_andy"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph', 'andy'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph', 'andy', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -414,4 +417,13 @@ class Bot:
         self._curr_loc = self._meph.approach(self._curr_loc)
         if self._curr_loc:
             res = self._meph.battle(not self._pre_buffed)
+        self._ending_run_helper(res)
+
+    def on_run_andy(self):
+        res = False
+        self._do_runs["run_andy"] = False
+        self._game_stats.update_location("Andy")
+        self._curr_loc = self._andy.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._andy.battle(not self._pre_buffed)
         self._ending_run_helper(res)
