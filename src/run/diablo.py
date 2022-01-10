@@ -79,8 +79,8 @@ class Diablo:
             Logger.info("ROF: Teleporting directly to PENTAGRAM")
             found = False
             #self._char.kill_cs_trash() # WiZ tuning
-            Logger.info("CS: Pentagram clearing") # WiZ tuning
-            wait(0.2) # WiZ tuning
+            #Logger.info("CS: Pentagram clearing") # WiZ tuning
+            #wait(0.2) # WiZ tuning
             templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"]
             # Looping in smaller teleport steps to make sure we find the pentagram
             start_time = time.time()
@@ -265,8 +265,11 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         #"""
         ### CLEAR TRASH & APPROACH SEAL ###
-        self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
+        self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char) #do we need this?
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
+        #if not self._pather.traverse_nodes([643], self._char , time_out=5): return False
+        #if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=5): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud | THIS OFTEN LEADS TO GETTING STUCK, REPLACED BY STATIC PATH
+        if not self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char): return False # we use this to be more consistent reaching the start for fighting De Seis.
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._pather.traverse_nodes([643, 642, 646], self._char, time_out=4): return False #we try to fight at an angle, because breaking line of sight, sometimes makes De Seis walk into the hammercloud
@@ -352,7 +355,7 @@ class Diablo:
 
         # Seal B: De Seis (to the top)
         if do_pre_buff: self._char.pre_buff()
-        self._char.kill_cs_trash()
+        #self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([602] , self._char , time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char) # we go to layout check
         self._char.kill_cs_trash() # this attack sequence increases layout check consistency
@@ -415,7 +418,8 @@ class Diablo:
                 return False
 
         # Seal A: Vizier (to the left), WiZ tuning - changed order to do this last and improving success rate 
-        #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in right order
+        if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in right order
+        self._char.kill_cs_trash() #not needed if seals executed in right order
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char) # we go to layout check
         self._char.kill_cs_trash() # this attack sequence increases layout check consistency
