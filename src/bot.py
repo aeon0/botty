@@ -4,12 +4,13 @@ import keyboard
 import time
 import os
 import random
+import threading
 import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
 
-from utils.misc import wait
+from utils.misc import kill_thread, wait
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -171,6 +172,11 @@ class Bot:
 
     def stop(self):
         self._stopping = True
+        # We need to kill all sub threads
+        for thread in threading.enumerate():
+            if thread.name.startswith("botty_subthread"):
+                Logger.debug(f"Killing bot subthread: {thread.name}")
+                kill_thread(thread)
 
     def toggle_pause(self):
         self._pausing = not self._pausing
