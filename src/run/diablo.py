@@ -146,6 +146,7 @@ class Diablo:
                 if i >= 2:
                     Logger.debug(seal_layout + ": failed " + str(i+2) + " of 7 times, trying to kill trash now") # ISSUE: if it failed 7/7 times, she does not try to open the seal: this way all the effort of the 7th try are useless. she should click at the end of the whole story. 
                     self._char.kill_cs_trash()
+                    self._picked_up_items |= self._pickit.pick_up_items(self._char)
                     wait(i*0.5) #let the hammers clear & check the template -> the more tries, the longer the wait
                     if not self._pather.traverse_nodes(seal_node, self._char): return False # re-calibrate at seal node
                 else:
@@ -212,12 +213,12 @@ class Diablo:
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier([623], [624])
+        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
+        Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
 
         ### GO HOME ###
-        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
-        Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
@@ -471,6 +472,6 @@ if __name__ == "__main__":
 
 # stash or shrine located near a node or bossfight will make botty just try to click the stash
 # Better Layout Check consistency at A (opportunity for up to 10% more succesful runs)
-# Better Looping Home consistency at A & C (opportunity for up to 7% more succesful runs) - rework static paths to end up at the lower 3rd of the pentagram (with TP still in sight)
-# We could consider loot after a sealdance, but we must hope not to get off-track
+# Better Looping Home consistency at A & C (if a tombstone stash is on its way, the path gets displaced which might lead to missing the pentagram)
+# We could consider loot & recalibrate after a sealdance, but we must hope not to get off-track
 # It could make sense to change ALL the fights to just static paths. in the heat of battle the nodes sometimes are not recognized, leading to chicken - OR to clear all trash thoroughly before attacking the sealboss.
