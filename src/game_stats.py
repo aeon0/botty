@@ -40,6 +40,7 @@ class GameStats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
     def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray):
+        Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)

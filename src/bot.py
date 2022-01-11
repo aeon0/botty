@@ -70,9 +70,9 @@ class Bot:
         elif self._config.char["type"] == "necro":
             self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic":
-            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)            
+            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)                
+            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
