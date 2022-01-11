@@ -11,6 +11,8 @@ import time
 from pather import Pather, Location
 import math
 import threading
+import numpy as np
+import random
 
 from api.mapassist import MapAssistApi
 from pather_v2 import PatherV2
@@ -227,7 +229,6 @@ class Hammerdin(IChar):
         aura = "redemption"
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
-        Logger.info(f"Wait for Wave: {monster_filter}")
         while 1:
             data = self._api.get_data()
             if data is not None:
@@ -256,6 +257,8 @@ class Hammerdin(IChar):
         aura_after_battle = "redemption"
         success = False
         start = time.time()
+        prev_position = None
+        prev_pos_counter = time.time()
         while time.time() - start < 70:
             data = self._api.get_data()
             found_a_monster = False
@@ -267,9 +270,7 @@ class Hammerdin(IChar):
                         proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
                     if is_in_roi(throne_area, area_pos) and proceed:
                         if m["name"].startswith("BaalSubjectMummy"):
-                            # convert to screen coordinates
-                            abs_screen = self._api.world_to_abs_screen(m["position"])
-                            self._cast_holy_bolt(1.5, abs_screen)
+                            self._cast_holy_bolt(1.2, m["abs_screen_position"])
                             aura_after_battle = "cleansing"
                         else:
                             dist = math.dist(area_pos, data["player_pos_area"])
@@ -278,6 +279,14 @@ class Hammerdin(IChar):
                                 self._cast_hammers(1.0)
                         found_a_monster = True
                         break
+                if prev_position is None or not np.array_equal(prev_position, data["player_pos_area"]):
+                    prev_pos_counter = time.time()
+                if time.time() - prev_pos_counter > 3.8:
+                    Logger.debug("Reposition for next attack")
+                    m_pos = self._screen.convert_abs_to_monitor((random.randint(-100, 100), random.randint(-100, 100)))
+                    self.pre_move()
+                    self.move(m_pos)
+                prev_position = data["player_pos_area"]
             if not found_a_monster:
                 success = True
                 break

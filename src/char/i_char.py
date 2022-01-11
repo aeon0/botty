@@ -29,7 +29,7 @@ class IChar:
 
     def select_skill(self, skill: str):
         if skill in self._skill_hotkeys and self._skill_hotkeys[skill]:
-            keyboard.send(skill)
+            keyboard.send(self._skill_hotkeys[skill])
 
     def can_teleport(self) -> bool:
         return bool(self._skill_hotkeys["teleport"])
