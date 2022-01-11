@@ -671,11 +671,12 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_B2U")
     #display_all_nodes(pather, "DIA_A1L2")
     #display_all_nodes(pather, "DIA_A2Y")
-    display_all_nodes(pather, "DIA_C1F7")
+    #display_all_nodes(pather, "DIA_C1F7")
     #display_all_nodes(pather, "DIA_C2G")
     #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
     #display_all_nodes(pather, "TRAV_")
+    #display_all_nodes(pather, "NIL2")
 
 
 

@@ -350,7 +350,7 @@ class Diablo:
         if not self._cs_pentagram(): return False
 
         # Seal A: Vizier (to the left)
-        #if do_pre_buff: self._char.pre_buff() # not needed if seals exectued in order A-B-C
+        if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         #self._char.kill_cs_trash() # not needed if seals exectued in order A-B-C
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
@@ -417,7 +417,7 @@ class Diablo:
         self._char.kill_cs_trash()
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
-        self._char.kill_cs_trash() # this attack sequence increases layout check consistency
+        #self._char.kill_cs_trash() # this attack sequence increases layout check consistency
         Logger.debug("C: Checking Layout for Infector")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"] #We check for C1F templates first, they are more distinct
