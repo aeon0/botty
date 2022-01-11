@@ -34,6 +34,7 @@ class Diablo:
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
+        self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Diablo /!\ BETA Version /!\ please do not run without supervision.")
@@ -101,9 +102,14 @@ class Diablo:
                 return False
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP
-        if self._ui_manager.has_tps():
-                    mouse.click(button="right")
         Logger.info("CS: OPEN TP")
+        if not self._ui_manager.has_tps():
+            Logger.warning("CS: Open TP failed, cancel run")
+            self.used_tps += 20
+            return False
+        mouse.click(button="right")
+        self.used_tps += 1
+        Logger.debug("CS: FYI, in total, I used: " + self.used_tps + " TPs.")
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
@@ -406,6 +412,7 @@ class Diablo:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
+        self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
         if not self._river_of_flames(): return False
         if self._config.char["kill_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it ... continue without trash")
