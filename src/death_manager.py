@@ -10,10 +10,10 @@ import time
 
 
 class DeathManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
