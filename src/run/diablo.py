@@ -109,7 +109,7 @@ class Diablo:
             return False
         mouse.click(button="right")
         self.used_tps += 1
-        Logger.debug("CS: FYI, total TPs used: " + self.used_tps)
+        Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
