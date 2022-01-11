@@ -673,7 +673,7 @@ if __name__ == "__main__":
     #display_all_nodes(pather, "DIA_A2Y")
     #display_all_nodes(pather, "DIA_C1F7")
     #display_all_nodes(pather, "DIA_C2G")
-    display_all_nodes(pather, "DIA_NEW_PENT")
+    #display_all_nodes(pather, "DIA_NEW_PENT")
     #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
     #display_all_nodes(pather, "TRAV_")
 
@@ -711,7 +711,7 @@ if __name__ == "__main__":
     #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
 
     # NEW A1L
-    pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes([602], char) # calibrate pentagram
     #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes([619], char) # LAYOUT CALIBRATION CHECK
     #pather.traverse_nodes([610], char) # departure
@@ -733,14 +733,14 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_a2y_approach", char)
     #pather.traverse_nodes([620], char, threshold=0.78) # approach
     #pather.traverse_nodes([621], char) # approach
-    #pather.traverse_nodes([622], char) # safe dist
+    pather.traverse_nodes([622], char) # safe dist
     #pather.traverse_nodes([623], char) # center
     #pather.traverse_nodes([624], char) # left fake far
     #pather.traverse_nodes([625], char) # left fake close
     #pather.traverse_nodes([626], char) # center
     #pather.traverse_nodes([627], char) # right boss far
-    #pather.traverse_nodes_fixed("dia_a2y_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
+    pather.traverse_nodes_fixed("dia_a2y_home", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
 
     # NEW B2U
     #pather.traverse_nodes([602], char) # calibrate pentagram

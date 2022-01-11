@@ -197,7 +197,9 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
 
         ### CLEAR TRASH & APPROACH SEAL ###
+        wait(0.2)
         if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
+        wait(0.2)
         if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash() #could be skipped to be faster, but helps clearing tempaltes at the calibration node 622 for returning home
         if not self._pather.traverse_nodes([623, 624], self._char): return False
@@ -301,8 +303,8 @@ class Diablo:
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([704], self._char, time_out=3): return False
-        self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c1f_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
@@ -330,6 +332,8 @@ class Diablo:
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([665], self._char): return False
+        Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c2g_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
