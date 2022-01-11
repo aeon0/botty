@@ -173,15 +173,15 @@ class Diablo:
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
-        if not self._pather.traverse_nodes([612, 611, 610], self._char): return False
+        if not self._pather.traverse_nodes([612], self._char): return False
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
-        self._char.kill_vizier([612], [611])
+        self._char.kill_vizier([611], [610])
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
 
         ### GO HOME ###
-        if not self._pather.traverse_nodes([610, 611], self._char): return False # calibrating here brings us home with higher consistency.
+        if not self._pather.traverse_nodes([611], self._char): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a1l_home", self._char): return False
         Logger.info(seal_layout + ": Looping to Pentagram")
@@ -197,9 +197,8 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
 
         ### CLEAR TRASH & APPROACH SEAL ###
-        wait(0.2)
         if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
-        wait(0.2)
+        Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([622], self._char): return False
         self._char.kill_cs_trash() #could be skipped to be faster, but helps clearing tempaltes at the calibration node 622 for returning home
         if not self._pather.traverse_nodes([623, 624], self._char): return False
@@ -217,6 +216,8 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
 
         ### GO HOME ###
+        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
+        Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
