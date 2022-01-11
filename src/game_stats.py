@@ -155,8 +155,10 @@ class GameStats:
         return msg
 
     def _send_status_update(self):
-        msg = f"{self._config.general['name']}: Status Report\n{self._create_msg()}\nVersion: {__version__}"
-        self._messenger.send_message(msg)
+        msg = f"{self._create_msg()}"
+        title=f"{self._config.general['name']} - Status Report:"
+        img="https://i.psnprofiles.com/games/3bffee/trophies/36L4a4994.png"
+        self._messenger.send_status(title, msg, img)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()

@@ -30,8 +30,11 @@ class Messenger:
     def send_gold(self):
         self._message_api.send_gold()
 
-    def send_message(self, msg: str):
-        self._message_api.send_message(msg)
+    def send_status(self, title: str, msg: str, img: str):
+        self._message_api.send_status(title, msg, img)
+
+    def send_message(self, title: str, msg: str, img: str):
+        self._message_api.send_message(title, msg, img)
 
 if __name__ == "__main__":
     messenger = Messenger()
@@ -41,8 +44,8 @@ if __name__ == "__main__":
     location = "Shenk"
 
     # messenger.send_item(item, img, location)
-    # messenger.send_death(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
-    # messenger.send_chicken(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    messenger.send_death(location, "./info_screenshots/info_gold_stash_full_20220110_170225.png")
+    messenger.send_chicken(location, "./info_screenshots/info_gold_stash_full_20220110_170225.png")
     messenger.send_stash()
     messenger.send_gold()
-    messenger.send_message("This is a test message")
+    messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: FUCK", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")	
