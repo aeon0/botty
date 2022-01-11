@@ -1,5 +1,5 @@
 # Mostly copied from: https://github.com/patrikoss/pyclick
-from os import stat
+import os
 import mouse as _mouse
 from mouse import _winmouse
 import pytweening
@@ -7,6 +7,7 @@ import numpy as np
 import random
 import math
 import time
+import traceback
 from config import Config
 from typing import Union, Tuple
 
@@ -184,7 +185,13 @@ class HumanCurve():
 
 class mouse:
     # TODO: Not nice, this will execute every single time someone imports custom_mouse...
-    _config = Config()
+    try:
+        _config = Config()
+    except Exception as e:
+        traceback.print_exc()
+        print("Press Enter to exit ...")
+        input()
+        os._exit(-1)
 
     @staticmethod
     def sleep(duration, get_now=time.perf_counter):
@@ -275,6 +282,9 @@ class mouse:
     def get_position():
         return _mouse.get_position()
 
+    @staticmethod
+    def wheel(delta):
+        _mouse.wheel(delta)
 
 if __name__ == "__main__":
     mouse.move(100, 100)
@@ -282,7 +292,3 @@ if __name__ == "__main__":
     mouse.move(200, 200)
     time.sleep(2)
     mouse.move(1800, 800)
-    # time.sleep(2)
-    # mousey.move((700, 900))
-    # time.sleep(2)
-    # mousey.move((750, 850))

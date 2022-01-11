@@ -14,6 +14,7 @@ from health_manager import HealthManager
 from logger import Logger
 from messenger import Messenger
 from screen import Screen
+from ui.char_selector import CharSelector
 from utils.misc import kill_thread
 from utils.restart import restart_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
@@ -33,8 +34,16 @@ class GameController:
         self.game_controller_thread = None
         self.bot_thread = None
         self.bot = None
+        self.char_selector = None
 
     def run_bot(self, pick_corpse: bool = False):
+        # Make sure the correct char is selected
+        if self.char_selector.has_char_template_saved():
+            Logger.info("Selecting original char")
+            self.char_selector.select_char()
+        else:
+            Logger.info("Saving top-most char as template")
+            self.char_selector.save_char_template()
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
@@ -92,6 +101,11 @@ class GameController:
             os._exit(1)
 
     def start(self):
+        # Check if we user should update the d2r settings
+        diff = check_settings(self._config)
+        if len(diff) > 0:
+            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
+            Logger.warning(f"{diff}")
         if self._config.advanced_options['d2r_windows_always_on_top']:
             set_d2r_always_on_top()
         self.setup_screen()
@@ -99,6 +113,7 @@ class GameController:
         self.start_death_manager_thread()
         self.game_recovery = GameRecovery(self.screen, self.death_manager)
         self.game_stats = GameStats()
+        self.char_selector = CharSelector(self.screen, self._config)
         self.start_game_controller_thread()
         GameController.is_running = True
 
@@ -112,11 +127,6 @@ class GameController:
         GameController.is_running = False
        
     def setup_screen(self):
-        # Check if we user should update the d2r settings
-        diff = check_settings(self._config)
-        if len(diff) > 0:
-            Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
-            Logger.warning(f"{diff}")
         self.screen = Screen(self._config.general["monitor"])
         if self.screen.found_offsets:
             return True

@@ -165,16 +165,18 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
-            
+        self.barbarian = dict(self.barbarian)
+        self.barbarian["cry_frequency"] = float(self.barbarian["cry_frequency"])
+
         # Basic config
         self.basic = self._config["basic"]
         if "basic" in self._custom:
-            self.basic.update(self._custom["basic"])            
+            self.basic.update(self._custom["basic"])
 
         # Basic Ranged config
-        self.basic = self._config["basic_ranged"]
+        self.basic_ranged = self._config["basic_ranged"]
         if "basic_ranged" in self._custom:
-            self.basic_ranged.update(self._custom["basic_ranged"])   
+            self.basic_ranged.update(self._custom["basic_ranged"])
 
         # Necro config
         self.necro = self._config["necro"]
