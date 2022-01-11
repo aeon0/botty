@@ -102,8 +102,8 @@ class Baal:
         # Move to baal room
         if not self._pather_v2.traverse((91, 15), self._char): return False
         if not self._pather_v2.go_to_area((15089, 5006), "TheWorldstoneChamber"): return False
-        self._char.pre_move()
-        if not self._pather_v2.traverse((136, 176), self._char): return False
+        self._char.select_skill("teleport")
+        if not self._pather_v2.traverse((136, 176), self._char, do_pre_move=False): return False
         self._char.kill_baal()
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A5_BAAL_WORLDSTONE_CHAMBER, picked_up_items)

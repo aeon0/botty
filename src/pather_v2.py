@@ -114,7 +114,7 @@ class PatherV2:
                 return r
         return None
 
-    def traverse(self, end: Union[str, tuple[int, int]], char: IChar, randomize: int = 0):
+    def traverse(self, end: Union[str, tuple[int, int]], char: IChar, randomize: int = 0, do_pre_move: bool = True):
         """
         Traverse to another location
         :param end: Either world coordinates as tuple [x, y] or a string e.g. 'Worldstone Keep Level 3'
@@ -123,7 +123,8 @@ class PatherV2:
         :return: bool if successfull
         """
         Logger.debug(f"Traverse to {end}")
-        char.pre_move()
+        if do_pre_move:
+            char.pre_move()
         # reduce casting frame duration since we can check for teleport skill used in memory
         tmp_duration = char._cast_duration
         char._cast_duration = max(0.18, char._cast_duration - 0.3)

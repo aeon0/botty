@@ -205,7 +205,7 @@ class Hammerdin(IChar):
                     if proceed:
                         dist = math.dist(area_pos, data["player_pos_area"])
                         self._pather_v2.traverse(area_pos, self, randomize=10)
-                        if dist < 10:
+                        if dist < 8:
                             self._cast_hammers(1.0)
                         is_alive = True
                         success = True
@@ -274,7 +274,7 @@ class Hammerdin(IChar):
                         else:
                             dist = math.dist(area_pos, data["player_pos_area"])
                             self._pather_v2.traverse(area_pos, self, randomize=12)
-                            if dist < 10:
+                            if dist < 8:
                                 self._cast_hammers(1.0)
                         found_a_monster = True
                         break

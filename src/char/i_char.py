@@ -27,6 +27,10 @@ class IChar:
         # Add a bit to be on the save side
         self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01
 
+    def select_skill(self, skill: str):
+        if skill in self._skill_hotkeys and self._skill_hotkeys[skill]:
+            keyboard.send(skill)
+
     def can_teleport(self) -> bool:
         return bool(self._skill_hotkeys["teleport"])
 
