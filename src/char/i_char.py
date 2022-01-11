@@ -218,7 +218,7 @@ class IChar:
 
     # Only possible with memory reading
     # =========================================
-    def baal_idle(self, monster_filter: list[str], start_time: float = None) -> bool:
+    def baal_idle(self, monster_filter: list[str], start_time: float = None) -> tuple[bool, list[str]]:
         raise ValueError("Ball idle not implemented")
 
     def clear_throne(self, full: bool, monster_filter: list[str]) -> bool:

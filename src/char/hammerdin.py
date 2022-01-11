@@ -215,7 +215,8 @@ class Hammerdin(IChar):
                 return success
         return False
 
-    def baal_idle(self, monster_filter: list[str], start_time: float) -> bool:
+    def baal_idle(self, monster_filter: list[str], start_time: float) -> tuple[bool, list[str]]:
+        found_monsters = []
         stop_hammers = False
         def pre_cast_hammers():
             while not stop_hammers:
@@ -225,7 +226,7 @@ class Hammerdin(IChar):
 
         throne_area = [70, 0, 50, 85]
         if not self._pather_v2.traverse((93, 26), self):
-            return False
+            return False, found_monsters
         aura = "redemption"
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
@@ -238,11 +239,12 @@ class Hammerdin(IChar):
                     if monster_filter is not None:
                         proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
                     if is_in_roi(throne_area, area_pos) and proceed:
+                        found_monsters.append(m["name"])
                         Logger.info("Found wave, attack")
                         stop_hammers = True
                         if hammer_thread.is_alive():
                             hammer_thread.join()
-                        return
+                        return True, found_monsters
             elpased = time.time() - start_time
             if elpased > 6.0:
                 if not hammer_thread.is_alive():

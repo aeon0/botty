@@ -73,7 +73,7 @@ class Baal:
         for wave_nr in range(5):
             wave_nr += 1
             Logger.info(f"Baal Wave: {wave_nr}")
-            self._char.baal_idle(monster_filter=wave_monsters, start_time=start_time)
+            _, found_monsters = self._char.baal_idle(monster_filter=wave_monsters, start_time=start_time)
             if not self._char.clear_throne(monster_filter=wave_monsters): return False
             self._char.clear_throne()
             start_time = time.time()
@@ -82,6 +82,8 @@ class Baal:
             elif wave_nr == 3:
                 if not self._pather_v2.traverse((95, 42), self._char): return False
                 self._char.pre_buff()
+            if "BaalsMinon" in found_monsters:
+                break
 
         # Pick items
         if not self._pather_v2.traverse((95, 26), self._char): return False
