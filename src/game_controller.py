@@ -86,9 +86,9 @@ class GameController:
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
             if self._config.general['restart_d2r_when_stuck']:
-                Logger.error("Could not recover from a max game length violation. Restarting the Game.")
+                Logger.error(f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
                 if self._config.general["custom_message_hook"]:
-                    messenger.send_message("Got stuck and will now restart D2R")
+                    messenger.send_message(f"{self._config.general['name']} got stuck!", f"got stuck and will now restart D2R", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
                 if restart_game(self._config.general["d2r_path"]):
                     self.game_stats.log_end_game(failed=max_game_length_reached)
                     if self.setup_screen():
@@ -96,12 +96,13 @@ class GameController:
                         self.start_death_manager_thread()
                         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
                         return self.run_bot(True)
-                Logger.error("Could not restart the game. Quitting.")
-                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+                Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
+                messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and could not restart the game. Quitting.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
             else:
-                Logger.error("Could not recover from a max game length violation. Quitting botty.")
+                Logger.error(f"{self._config.general['name']} could not recover from a max game length violation. Quitting.")
                 if self._config.general["custom_message_hook"]:
                     messenger.send_message("Got stuck and will now quit botty")
+                    messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and and will now quit.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
             os._exit(1)
 
     def start(self):
@@ -128,7 +129,7 @@ class GameController:
         if self.bot_thread: kill_thread(self.bot_thread)
         if self.game_controller_thread: kill_thread(self.game_controller_thread)
         self.is_running = False
-       
+
     def setup_screen(self):
         self.screen = Screen()
         if self.screen.found_offsets:

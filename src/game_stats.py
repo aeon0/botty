@@ -29,7 +29,7 @@ class GameStats:
         self._location_stats = {}
         self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
-        
+
     def update_location(self, loc: str):
         if self._location != loc:
             self._location = str(loc)
@@ -54,7 +54,7 @@ class GameStats:
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
-            
+
         self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
@@ -132,7 +132,7 @@ class GameStats:
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
         for location in self._location_stats:
-            if location == "totals": 
+            if location == "totals":
                 continue
             stats = self._location_stats[location]
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
@@ -155,14 +155,16 @@ class GameStats:
         return msg
 
     def _send_status_update(self):
-        msg = f"Status Report\n{self._create_msg()}\nVersion: {__version__}"
-        self._messenger.send_message(msg)
+        msg = f"{self._create_msg()}"
+        title=f"{self._config.general['name']} - Status Report:"
+        img="https://i.psnprofiles.com/games/3bffee/trophies/36L4a4994.png"
+        self._messenger.send_status(title, msg, img)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()
         msg += "\nItems:"
         for location in self._location_stats:
-            if location == "totals": 
+            if location == "totals":
                 continue
             stats = self._location_stats[location]
             msg += f"\n  {location}:"
