@@ -2,7 +2,6 @@ import configparser
 import numpy as np
 import os
 import re
-import yaml
 from dataclasses import dataclass
 from logger import Logger
 
@@ -40,7 +39,6 @@ class Config:
         self._shop_config = configparser.ConfigParser()
         self._shop_config.read('config/shop.ini')
         self._custom = configparser.ConfigParser()
-        self.advanced_pickit_config = yaml.safe_load(open('config/advanced_pickit.yaml'))
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
             self._custom.read('config/custom.ini')
 
@@ -205,43 +203,14 @@ class Config:
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
         item_props = ItemProps()
-        """
-        if (key == "magic_small_charm"):
-            print ("just for DEBUG")
-        if (key == "magic_monarch"):
-            print ("just for DEBUG")
-        if (key == "rare_greaves"):
-            print ("just for DEBUG")
-        if (key == "white_superior_archon_plate"):
-            print ("just for DEBUG") 
-        if (key == "magic_jewel"):
-            print ("just for DEBUG")    
-        if (key == "uniq_misc_rainbow_facet"):
-            print ("just for DEBUG")
-        if (key == "rare_ancient_armor"):
-            print ("just for DEBUG") 
-        if (key == "uniq_weapon_eschuta_temper"):
-            print ("just for DEBUG")
-        if (key == "uniq_misc_rings"):
-            print ("just for DEBUG")
-        if (key == "magic_circlet"):
-            print ("just for DEBUG")
-        if (key == "rare_ring"):
-            print ("just for DEBUG")
-        """
-        
-        # split string by commas NOT contained within parentheses
         brk_on = 0
         brk_off = 0
         section = 0
         counter = 0
         start_section = 0
         start_item = 0
-        keep = 0
-        include = None
         include_list = []
         exclude_list = []
-        exclude = None
         string = self._select_val("items", key).upper()
         for char in string:
             new_section = False
@@ -258,13 +227,8 @@ class Config:
                     string_section = string [start_section:counter-1]
                 if section == 0:
                     item_props.pickit_type = int (string_section)
-                elif section ==1:
-                    include = string_section
-                elif section ==2:
-                    exclude = string_section
                 section +=1
                 start_section = counter
-            #if ((char == "," and (brk_on==brk_off+1)) or ((char == ")" and brk_on==brk_off)) or counter == len (string)):
             if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
                 if new_section: 
                     section -=1
@@ -300,26 +264,6 @@ class Config:
             include_list[i]  = include_list[i].split (",")
         item_props.include = include_list
         item_props.exclude = exclude_list
-        """
-        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
-        trim_strs=["AND(", "OR(", "(", ")", " "]
-        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
-        item_props.pickit_type = int(clean_string[0])
-        try:
-            item_props.include = clean_string[1].split(',') if clean_string[1] else None
-            item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
-        try:
-            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
-            item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
-        """
         return item_props
 
 if __name__ == "__main__":
