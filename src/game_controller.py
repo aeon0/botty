@@ -101,11 +101,11 @@ class GameController:
                         return self.run_bot(True)
                 Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
                 messenger.send_message("Got stuck and could not restart the game. Quitting.")
-
-            Logger.error(
-                f"{self._config.general['name']} could not recover from a max game length violation. Quitting botty.")
-            if self._config.general["custom_message_hook"]:
-                messenger.send_message(f"{self._config.general['name']}: got stuck and will now quit botty")
+            else:
+                Logger.error(
+                    f"{self._config.general['name']} could not recover from a max game length violation. Quitting botty.")
+                if self._config.general["custom_message_hook"]:
+                    messenger.send_message(f"{self._config.general['name']}: got stuck and will now quit botty")
             os._exit(1)
 
     def start(self):
