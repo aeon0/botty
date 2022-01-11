@@ -204,7 +204,7 @@ class Bot:
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: {cur_game_ip}", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")	
+                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
