@@ -83,7 +83,7 @@ class Baal:
             elif wave_nr == 3:
                 if not self._pather_v2.traverse((95, 42), self._char): return False
                 self._char.pre_buff()
-            if "BaalsMinon" in found_monsters:
+            if "BaalsMinion" in found_monsters:
                 Logger.debug("Finished last baal wave, go to throne")
                 break
 
