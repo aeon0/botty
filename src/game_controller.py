@@ -3,6 +3,7 @@ import threading
 import time
 
 import cv2
+from template_finder import TemplateFinder
 
 from utils.auto_settings import check_settings
 from bot import Bot
@@ -25,6 +26,7 @@ class GameController:
     def __init__(self, config: Config):
         self._config = config
         self.screen = None
+        self.template_finder = None
         self.health_monitor_thread = None
         self.health_manager = None
         self.death_manager = None
@@ -45,7 +47,7 @@ class GameController:
             Logger.info("Saving top-most char as template")
             self.char_selector.save_char_template()
         # Start bot thread
-        self.bot = Bot(self.screen, self.game_stats, pick_corpse)
+        self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -114,11 +116,12 @@ class GameController:
         if self._config.advanced_options['d2r_windows_always_on_top']:
             set_d2r_always_on_top()
         self.setup_screen()
+        self.template_finder = TemplateFinder(self.screen)
         self.start_health_manager_thread()
         self.start_death_manager_thread()
-        self.game_recovery = GameRecovery(self.screen, self.death_manager)
+        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
         self.game_stats = GameStats()
-        self.char_selector = CharSelector(self.screen, self._config)
+        self.char_selector = CharSelector(self.screen, self._config, self.template_finder)
         self.start_game_controller_thread()
         GameController.is_running = True
 
@@ -139,14 +142,14 @@ class GameController:
 
     def start_health_manager_thread(self):
         # Run health monitor thread
-        self.health_manager = HealthManager(self.screen)
+        self.health_manager = HealthManager(self.screen, self.template_finder)
         self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
     def start_death_manager_thread(self):
         # Run death monitor thread
-        self.death_manager = DeathManager(self.screen)
+        self.death_manager = DeathManager(self.screen, self.template_finder)
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()
