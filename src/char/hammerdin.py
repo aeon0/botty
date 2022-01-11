@@ -230,7 +230,8 @@ class Hammerdin(IChar):
         aura = "redemption"
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
-        while 1:
+        start = time.time()
+        while time.time() - start < 50:
             data = self._api.get_data()
             if data is not None:
                  for m in data["monsters"]:
@@ -250,6 +251,7 @@ class Hammerdin(IChar):
                 if not hammer_thread.is_alive():
                     hammer_thread.start()
             time.sleep(0.1)
+        return False, found_monsters
 
     def clear_throne(self, full = False, monster_filter = None) -> bool:
         if full:

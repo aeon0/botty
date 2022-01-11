@@ -73,28 +73,30 @@ class Baal:
         for wave_nr in range(5):
             wave_nr += 1
             Logger.info(f"Baal Wave: {wave_nr}")
-            _, found_monsters = self._char.baal_idle(monster_filter=wave_monsters, start_time=start_time)
+            success, found_monsters = self._char.baal_idle(monster_filter=wave_monsters, start_time=start_time)
+            if not success: return False
             if not self._char.clear_throne(monster_filter=wave_monsters): return False
             self._char.clear_throne()
             start_time = time.time()
             if wave_nr == 2 or wave_nr == 5:
-                picked_up_items = self._pickit.pick_up_items(self._char)
+                picked_up_items |= self._pickit.pick_up_items(self._char)
             elif wave_nr == 3:
                 if not self._pather_v2.traverse((95, 42), self._char): return False
                 self._char.pre_buff()
             if "BaalsMinon" in found_monsters:
+                Logger.debug("Finished last baal wave, go to throne")
                 break
 
         # Pick items
         if not self._pather_v2.traverse((95, 26), self._char): return False
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items |= self._pickit.pick_up_items(self._char)
         # Move to baal room
         if not self._pather_v2.traverse((91, 15), self._char): return False
         if not self._pather_v2.go_to_area((15089, 5006), "TheWorldstoneChamber"): return False
         self._char.select_skill("teleport")
         if not self._pather_v2.traverse((136, 176), self._char, do_pre_move=False): return False
         self._char.kill_baal()
-        picked_up_items = self._pickit.pick_up_items(self._char)
+        picked_up_items |= self._pickit.pick_up_items(self._char)
         return (Location.A5_BAAL_WORLDSTONE_CHAMBER, picked_up_items)
 
 
