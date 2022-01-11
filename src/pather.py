@@ -590,12 +590,16 @@ class Pather:
                     pos_abs = (0, 0)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    Logger.debug(f"Pather: taking a random guess towards "+str(pos_abs))
-                    x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    Logger.debug(f"Pather: taking a random guess towards "+str(pos_abs)) # WiZCOke Tuning: TAKE CARE, THIS FUNCTION SOMETIMES ENDS UP CLICKING OUTSIDE THE D2R WINDOW, THEREBY FUCKING UP THE RUN.
+                    """x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     x_m = x_m//2 + x_m//4
                     y_m = y_m//2 + y_m//4
                     x_m += int(random.random() * 40 - 20)
                     y_m += int(random.random() * 40 - 20)
+                    char.move((x_m, y_m), force_move=True)
+                    did_force_move = True
+                    last_move = time.time()"""
+                    x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
