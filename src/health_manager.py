@@ -15,10 +15,10 @@ from config import Config
 
 
 class HealthManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._ui_manager = UiManager(screen, self._template_finder)
         self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
