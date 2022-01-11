@@ -39,13 +39,14 @@ class GameController:
         self.char_selector = None
 
     def run_bot(self, pick_corpse: bool = False):
-        # Make sure the correct char is selected
-        if self.char_selector.has_char_template_saved():
-            Logger.info("Selecting original char")
-            self.char_selector.select_char()
-        else:
-            Logger.info("Saving top-most char as template")
-            self.char_selector.save_char_template()
+        if self._config.general['restart_d2r_when_stuck']:
+            # Make sure the correct char is selected
+            if self.char_selector.has_char_template_saved():
+                Logger.info("Selecting original char")
+                self.char_selector.select_char()
+            else:
+                Logger.info("Saving top-most char as template")
+                self.char_selector.save_char_template()
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
