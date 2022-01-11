@@ -71,16 +71,22 @@ class MapAssistApi:
                 "player_pos_area": None,
                 "area_origin": None,
                 "current_area": None,
+                "used_skill": None,
+                "right_skill": None,
+                "left_skill": None,
             }
             resp = requests.post("http://localhost:1111/get_data")
             data = resp.json()
             if data["success"] == True:
+                botty_data["used_skill"] = data["used_skill"]
+                botty_data["left_skill"] = data["left_skill"]
+                botty_data["right_skill"] = data["right_skill"]
                 botty_data["current_area"] = data["current_area"]
-                botty_data["map"] = np.array(data["collision_grid"])
+                botty_data["map"] = np.array(data["collision_grid"], dtype=np.uint8)
                 botty_data["map"][botty_data["map"] == 1] = 0
                 botty_data["map"] += 1
                 botty_data["area_origin"] = np.array([int(data["area_origin"]["X"]), int(data["area_origin"]["Y"])])
-                botty_data["player_pos_world"] = np.array([data["player_pos"]["X"], data["player_pos"]["Y"]])
+                botty_data["player_pos_world"] = np.array([int(data["player_pos"]["X"]), int(data["player_pos"]["Y"])])
                 botty_data["player_pos_area"] = botty_data["player_pos_world"] - botty_data["area_origin"]
                 self.update_transform_matrix(botty_data["player_pos_world"])
                 # Monsters
@@ -125,12 +131,12 @@ if __name__ == "__main__":
         data = api.get_data()
         map_img = None
         if data is not None:
+            print(data["left_skill"], data["right_skill"], data["used_skill"])
             # abs_pos = api.world_to_abs_screen((15089, 5006))
             # screen_pos = screen.convert_abs_to_screen(abs_pos)
             # cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
 
             for monster in data["monsters"]:
-                print(monster["name"])
                 screen_pos = screen.convert_abs_to_screen(monster["abs_screen_position"])
                 top_left = (int(screen_pos[0] - 30), int(screen_pos[1] - 100))
                 bottom_right = (int(screen_pos[0] + 30), int(screen_pos[1]))
@@ -197,7 +203,7 @@ if __name__ == "__main__":
                                         cv2.circle(map_img, (r[1], r[0]), 3, (255, 190, 0), 2)
                                         cv2.circle(img, (sc[0] + 640, sc[1] + 360), 5, (255, 190, 0), 3)
                                         break
-                        print(time.time() - start)
+                        # print(time.time() - start)
         time.sleep(0.05)
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("t", img)

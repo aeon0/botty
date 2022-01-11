@@ -58,7 +58,7 @@ class Meph:
         if not self._pather_v2.traverse("Durance of Hate Level 3", self._char): return False
         if not self._pather_v2.go_to_area("Durance of Hate Level 3", "DuranceOfHateLevel3"): return False
         if not self._pather_v2.traverse((69, 54), self._char): return False
-        self._char.kill_meph(self._api, self._pather_v2)
+        self._char.kill_meph()
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A3_MEPH_END, picked_up_items)
 

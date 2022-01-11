@@ -80,13 +80,12 @@ class IChar:
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False, next_pos: tuple[float, float] = None):
         factor = self._config.advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
-            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
-            wait(0.012, 0.02)
+            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.13])
             mouse.click(button="right")
-            wait(self._cast_duration, self._cast_duration + 0.02)
+            wait(self._cast_duration)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
@@ -98,7 +97,6 @@ class IChar:
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
-            wait(0.012, 0.02)
             if force_move:
                 keyboard.send(self._config.char["force_move"])
             else:
@@ -216,32 +214,17 @@ class IChar:
 
     # Only possible with memory reading
     # =========================================
-    def baal_idle(self, api, pather, monster_filter: list[str], start_time: float = None) -> bool:
-        Logger.info(f"Wait for Wave: {monster_filter}")
-        throne_area = [70, 0, 50, 85]
-        if not pather.traverse((95, 45), self):
-            return False
-        while 1:
-            data = api.get_data()
-            if data is not None:
-                 for m in data["monsters"]:
-                    area_pos = m["position"] - data["area_origin"]
-                    proceed = True
-                    if monster_filter is not None:
-                        proceed = any(m["name"].startswith(startstr) for startstr in monster_filter)
-                    if is_in_roi(throne_area, area_pos) and proceed:
-                        Logger.info("Found wave, attack")
-                        return
-            time.sleep(0.2)
+    def baal_idle(self, monster_filter: list[str], start_time: float = None) -> bool:
+        raise ValueError("Ball idle not implemented")
 
-    def clear_throne(self, api, pather, full: bool, monster_filter: list[str]) -> bool:
+    def clear_throne(self, full: bool, monster_filter: list[str]) -> bool:
         raise ValueError("Clear Throne not implemented")
 
-    def kill_baal(self, api, pather) -> bool:
+    def kill_baal(self) -> bool:
         raise ValueError("Kill Baal not implemented")
 
-    def kill_meph(self, api, pather) -> bool:
+    def kill_meph(self) -> bool:
         raise ValueError("Kill meph is not implemented")
 
-    def kill_andy(self, api, pather) -> bool:
+    def kill_andy(self) -> bool:
         raise ValueError("Kill andy is not implemented")

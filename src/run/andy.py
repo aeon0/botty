@@ -58,7 +58,7 @@ class Andy:
         if not self._pather_v2.traverse("Catacombs Level 4", self._char): return False
         if not self._pather_v2.go_to_area("Catacombs Level 4", "CatacombsLevel4", entrance_in_wall=False): return False
         if not self._pather_v2.traverse((64, 84), self._char): return False
-        self._char.kill_andy(self._api, self._pather_v2)
+        self._char.kill_andy()
         picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A1_ANDY_END, picked_up_items)
 

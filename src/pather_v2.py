@@ -106,22 +106,39 @@ class PatherV2:
                     return True
         return False
 
-    # end can be any of:
-    # Worldstone Keep Level 3
-    # Throne of Destruction
-    # Worldstone Chamber
+    @staticmethod
+    def _find_next_node(route, p):
+        for r in route:
+            dist = math.dist([r[1], r[0]], p)
+            if dist < 28:
+                return r
+        return None
+
     def traverse(self, end: Union[str, tuple[int, int]], char: IChar, randomize: int = 0):
+        """
+        Traverse to another location
+        :param end: Either world coordinates as tuple [x, y] or a string e.g. 'Worldstone Keep Level 3'
+        :param char: IChar
+        :param randomize: how much randomization a move should have in pixel
+        :return: bool if successfull
+        """
         Logger.debug(f"Traverse to {end}")
         char.pre_move()
+        # reduce casting frame duration since we can check for teleport skill used in memory
         tmp_duration = char._cast_duration
-        char._cast_duration = tmp_duration - 0.04
+        char._cast_duration = max(0.18, char._cast_duration - 0.3)
         last_pos = None
         repeated_pos_count = 0
         reached_destination = 2
         while 1:
             data = self._api.get_data()
             if data is not None and "map" in data and data["map"] is not None:
-                player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
+                player_pos_area = data["player_pos_area"]
+                if data["used_skill"] == "SKILL_TELEPORT":
+                    time.sleep(0.02)
+                    continue
+
+                # Some fail save checking for when we get stuck
                 if last_pos is not None and np.array_equal(player_pos_area, last_pos):
                     repeated_pos_count += 1
                     if repeated_pos_count == 3:
@@ -129,9 +146,13 @@ class PatherV2:
                         reached_destination += 5
                     elif repeated_pos_count > 6:
                         Logger.warning("Got stuck during pathing")
+                        char._cast_duration = tmp_duration
                         return False
+                else:
+                    repeated_pos_count = 0
                 last_pos = player_pos_area
-                # Get worldstone keep area 3 entrance
+
+                # Get endpoint
                 map_pos = None
                 if type(end) is str:
                     for p in data["poi"]:
@@ -143,11 +164,13 @@ class PatherV2:
                     Logger.warning(f"Couldnt find endpoint: {end}")
                     char._cast_duration = tmp_duration
                     return False
+
                 # Check if we are alredy close to our position
                 diff = player_pos_area - map_pos
                 if abs(diff[0]) <= reached_destination and abs(diff[1]) <= reached_destination:
                     char._cast_duration = tmp_duration
                     return True
+
                 # Calc route from player to entrance
                 weighted_map = deepcopy(data["map"])
                 weighted_map = weighted_map.astype(np.float32)
@@ -161,19 +184,18 @@ class PatherV2:
                     Logger.warning("Could not calculate route")
                     char._cast_duration = tmp_duration
                     return False
-                for r in reversed(route):
-                    dist = math.dist([r[1], r[0]], player_pos_area)
-                    if dist < 29:
-                        # check if it is in screen
-                        world_r = np.array([r[1], r[0]]) + data["area_origin"]
-                        sc = self._api.world_to_abs_screen(world_r)
-                        if -630 < sc[0] < 630 and -360 < sc[1] < 360:
-                            sc = self._adjust_abs_range_to_screen(sc)
-                            move_to = self._screen.convert_abs_to_monitor(sc)
-                            move_to = (move_to[0] + random.randint(-randomize, +randomize), move_to[1] + random.randint(-randomize, +randomize))
-                            char.move(move_to)
-                            break
-            time.sleep(0.05)
+                route = np.flip(route, axis=0)
+                r = self._find_next_node(route, player_pos_area)
+
+                # move to that position
+                if r is not None:
+                    world_r = np.array([r[1], r[0]]) + data["area_origin"]
+                    sc = self._api.world_to_abs_screen(world_r)
+                    sc = self._adjust_abs_range_to_screen(sc)
+                    move_to = self._screen.convert_abs_to_monitor(sc)
+                    move_to = (move_to[0] + random.randint(-randomize, +randomize), move_to[1] + random.randint(-randomize, +randomize))
+                    char.move(move_to, force_move=True)
+            time.sleep(0.02)
 
     def wait_for_location(self, name) -> bool:
         start = time.time()

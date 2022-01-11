@@ -17,10 +17,12 @@ from pather_v2 import PatherV2
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pather_v2: PatherV2, api: MapAssistApi):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
+        self._api = api
+        self._pather_v2 = pather_v2
         self._do_pre_move = True
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
@@ -33,21 +35,24 @@ class Hammerdin(IChar):
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
-            wait(0.02, 0.04)
+            time.sleep(0.01)
             keyboard.send(self._char_config["stand_still"], do_release=False)
-            wait(0.02, 0.04)
+            time.sleep(0.01)
             if self._skill_hotkeys["blessed_hammer"]:
                 keyboard.send(self._skill_hotkeys["blessed_hammer"])
-            wait(0.02, 0.04)
-            # move mouse somehwere to center
-            m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*m, randomize=35, delay_factor=[0.1, 0.2])
+                time.sleep(0.01)
             start = time.time()
+            moved_center = False
             while (time.time() - start) < time_in_s:
-                wait(0.02, 0.04)
                 mouse.press(button="left")
-                wait(0.1, 0.2)
+                if not moved_center:
+                    m = self._screen.convert_abs_to_monitor((0, 0))
+                    mouse.move(*m, randomize=35, delay_factor=[0.1, 0.2])
+                    moved_center = True
+                else:
+                    wait(0.1, 0.2)
                 mouse.release(button="left")
+                wait(0.01, 0.02)
             wait(0.02, 0.04)
             keyboard.send(self._char_config["stand_still"], do_press=False)
 
@@ -187,11 +192,11 @@ class Hammerdin(IChar):
 
     # Memory reading
     # ===================================
-    def _kill_mobs(self, api: MapAssistApi, pather: PatherV2, names: list[str]) -> bool:
+    def _kill_mobs(self, names: list[str]) -> bool:
         start = time.time()
         success = False
         while time.time() - start < 80:
-            data = api.get_data()
+            data = self._api.get_data()
             is_alive = False
             if data is not None:
                 for m in data["monsters"]:
@@ -199,7 +204,7 @@ class Hammerdin(IChar):
                     proceed = any(m["name"].startswith(startstr) for startstr in names)
                     if proceed:
                         dist = math.dist(area_pos, data["player_pos_area"])
-                        pather.traverse(area_pos, self, randomize=10)
+                        self._pather_v2.traverse(area_pos, self, randomize=10)
                         if dist < 10:
                             self._cast_hammers(1.0)
                         is_alive = True
@@ -208,7 +213,7 @@ class Hammerdin(IChar):
                 return success
         return False
 
-    def baal_idle(self, api: MapAssistApi, pather: PatherV2, monster_filter: list[str], start_time: float) -> bool:
+    def baal_idle(self, monster_filter: list[str], start_time: float) -> bool:
         stop_hammers = False
         def pre_cast_hammers():
             while not stop_hammers:
@@ -217,14 +222,14 @@ class Hammerdin(IChar):
         hammer_thread.daemon = True
 
         throne_area = [70, 0, 50, 85]
-        if not pather.traverse((93, 26), self):
+        if not self._pather_v2.traverse((93, 26), self):
             return False
         aura = "redemption"
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
         Logger.info(f"Wait for Wave: {monster_filter}")
         while 1:
-            data = api.get_data()
+            data = self._api.get_data()
             if data is not None:
                  for m in data["monsters"]:
                     area_pos = m["position"] - data["area_origin"]
@@ -243,7 +248,7 @@ class Hammerdin(IChar):
                     hammer_thread.start()
             time.sleep(0.1)
 
-    def clear_throne(self, api: MapAssistApi, pather: PatherV2, full = False, monster_filter = None) -> bool:
+    def clear_throne(self, full = False, monster_filter = None) -> bool:
         if full:
             throne_area = [70, 0, 50, 95]
         else:
@@ -252,7 +257,7 @@ class Hammerdin(IChar):
         success = False
         start = time.time()
         while time.time() - start < 70:
-            data = api.get_data()
+            data = self._api.get_data()
             found_a_monster = False
             if data is not None:
                 for m in data["monsters"]:
@@ -263,12 +268,12 @@ class Hammerdin(IChar):
                     if is_in_roi(throne_area, area_pos) and proceed:
                         if m["name"].startswith("BaalSubjectMummy"):
                             # convert to screen coordinates
-                            abs_screen = api.world_to_abs_screen(m["position"])
+                            abs_screen = self._api.world_to_abs_screen(m["position"])
                             self._cast_holy_bolt(1.5, abs_screen)
                             aura_after_battle = "cleansing"
                         else:
                             dist = math.dist(area_pos, data["player_pos_area"])
-                            pather.traverse(area_pos, self, randomize=12)
+                            self._pather_v2.traverse(area_pos, self, randomize=12)
                             if dist < 10:
                                 self._cast_hammers(1.0)
                         found_a_monster = True
@@ -280,14 +285,14 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys[aura_after_battle])
         return success
 
-    def kill_baal(self, api, pather) -> bool:
-        return self._kill_mobs(api, pather, ["BaalCrab"])
+    def kill_baal(self) -> bool:
+        return self._kill_mobs(["BaalCrab"])
 
-    def kill_meph(self, api: MapAssistApi, pather: PatherV2) -> bool:
-        return self._kill_mobs(api, pather, ["Mephisto"])
+    def kill_meph(self) -> bool:
+        return self._kill_mobs(["Mephisto"])
 
-    def kill_andy(self, api: MapAssistApi, pather: PatherV2) -> bool:
-        return self._kill_mobs(api, pather, ["Andariel"])
+    def kill_andy(self) -> bool:
+        return self._kill_mobs(["Andariel"])
 
 
 if __name__ == "__main__":
@@ -302,4 +307,8 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    api = MapAssistApi()
+    pather_v2 = PatherV2(screen, api)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather, pather_v2, api)
+    pather_v2.traverse((94, 28), char)
+    char._cast_hammers(2.0)

@@ -66,7 +66,7 @@ class Bot:
         elif self._config.char["type"] == "nova_sorc":
             self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._pather_v2, self._api)
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
