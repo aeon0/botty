@@ -268,10 +268,9 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
-            if ("magic_small_charm" in x.name):
-                print ("just for DEBUG")
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
-            if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
+            #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
+            if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
                 include_props = False 
             if not (include_props or exclude_props):
                 Logger.debug(f"{x.name}: Stashing")
