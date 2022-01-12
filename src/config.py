@@ -122,6 +122,11 @@ class Config:
             "always_repair": bool(int(self._select_val("char", "always_repair"))),
         }
 
+        self.gamble = {
+            "gamble": bool(self._select_val("gamble", "gamble")),
+            "gamble_items": self._select_val("gamble", "gamble_items").replace(" ","").split(","),
+        }
+
         # Sorc base config
         sorc_base_cfg = dict(self._config["sorceress"])
         if "sorceress" in self._custom:

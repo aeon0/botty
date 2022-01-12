@@ -22,6 +22,7 @@ class A4(IAct):
     def can_resurrect(self) -> bool: return True
     def can_buy_pots(self) -> bool: return True
     def can_identify(self) -> bool: return True
+    def can_gamble(self) -> bool: return True
     def can_heal(self) -> bool: return True
     def can_stash(self) -> bool: return True
     def can_trade_and_repair(self) -> bool: return True
@@ -52,6 +53,13 @@ class A4(IAct):
         if self._npc_manager.open_npc_menu(Npc.CAIN):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A4_TYRAEL_STASH
+        return False
+    
+    def gamble (self, curr_loc: Location) -> Union[Location, bool]:
+        if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
+        if self._npc_manager.open_npc_menu(Npc.JAMELLA):
+            self._npc_manager.press_npc_btn(Npc.JAMELLA, "gamble")
+            return Location.A4_JAMELLA
         return False
 
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:

@@ -142,6 +142,10 @@ class NpcManager:
                     "trade": {
                         "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
                         "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    },
+                    "gamble": {
+                        "white": color_filter(self._template_finder.get_template("GAMBLE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("GAMBLE_BLUE"), self._config.colors["blue"])[1],
                     }
                 },
                 "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3"]

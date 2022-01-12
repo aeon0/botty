@@ -281,6 +281,14 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
+        # Check if gambling is needed
+        gambling = self._ui_manager.gambling_needed()
+        if gambling:
+            for x in range (4):
+                self._curr_loc = self._town_manager.gamble(self._curr_loc)
+                self._ui_manager.gamble(self._item_finder)
+                self._curr_loc = self._town_manager.stash (self._curr_loc)
+                
         # Start a new run
         started_run = False
         for key in self._do_runs:

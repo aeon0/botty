@@ -124,7 +124,17 @@ class TownManager:
             return self._acts[curr_act].identify(curr_loc)
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
-        return self._acts[Location.A5_TOWN_START].identify(new_loc)        
+        return self._acts[Location.A5_TOWN_START].identify(new_loc)
+
+    def gamble (self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can Identify in current act
+        if self._acts[curr_act].can_gamble():
+            return self._acts[curr_act].gamble(curr_loc)
+        new_loc = self.go_to_act(4, curr_loc)    
+        if not new_loc: return False
+        return self._acts[Location.A4_TOWN_START].gamble(new_loc)    
         
     def stash(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
