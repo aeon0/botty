@@ -26,4 +26,3 @@ stats/
 .coverage
 htmlcov/
 coverage.xml
-test.py

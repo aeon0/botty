@@ -23,7 +23,7 @@ class A3(IAct):
     def can_buy_pots(self) -> bool: return True
     def can_identify(self) -> bool: return True
     def can_heal(self) -> bool: return True
-    def can_identify(self) -> bool: return True    
+    def can_identify(self) -> bool: return True
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:

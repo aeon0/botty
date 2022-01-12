@@ -28,13 +28,11 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
 from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
-
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt

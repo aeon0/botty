@@ -108,12 +108,9 @@ class TemplateFinder:
             masks = [None]
             best_match = False
 
-        scores = [0] * len(ref)
-        ref_points = [(0, 0)] * len(ref)
-        recs = [[0, 0, 0, 0]] * len(ref)
-
-        #scores = [0] * len(templates)
-        #ref_points = [(0, 0)] * len(templates)
+        scores = [0] * len(templates)
+        ref_points = [(0, 0)] * len(templates)
+        recs = [[0, 0, 0, 0]] * len(templates)
 
         for count, template in enumerate(templates):
             template_match = TemplateMatch()

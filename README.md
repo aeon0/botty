@@ -159,7 +159,7 @@ run_shenk=0
 | vigor          | Optional Hotkey for Vigor                                                           |
 | cleansing      | Optional Hotkey for Cleansing                                                       |
 
-| [trapsin]    | Descriptions                                                                        |
+| [trapsin]    | Descriptions                                                                          |
 | -------------- | ----------------------------------------------------------------------------------- |
 | teleport       | Optional Hotkey for teleport. If left empty trapsin will run instead of teleport.   |
 | skill_left     | Optional Hotkey for Left Skill                                                      |

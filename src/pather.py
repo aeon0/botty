@@ -216,13 +216,13 @@ class Pather:
             515: {"NIL2D_2": (66, -12), "NIL2D_0": (-141, 245), "NIL2D_1": (329, -167), "NIL2D_4": (219, 392), "NIL2D_3": (-773, 91)},
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
-           
+
             # Diablo Chaos Sanctuary
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint  
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
             #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
             602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
-            
+
             # SEAL A1L_new Vizier
             610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52), 
             611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist 2"DIA_A1L2_11": (176, -346), 
@@ -231,7 +231,6 @@ class Pather:
             614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308), 
             615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218), 
             619: {"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check
-
 
             # SEAL A2Y_new Vizier
             620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_34": (71, -32),"DIA_A2Y4_31": (199, 7),  "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_35": (64, -15), "DIA_A2Y4_37": (-238, 123), "DIA_A2Y4_36_MOUSEOVER": (133, 117),"DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_19": (234, 27), 
@@ -291,7 +290,6 @@ class Pather:
             704: {"DIA_C1F7_704_SUPPORT1": (715, -130),"DIA_C1F7_704_SUPPORT2": (515, -65), "DIA_C1F7_704_SUPPORT3": (318, -155),"DIA_C1F7_704_SUPPORT4": (185, -108), "DIA_C1F7_43": (106, -155), "DIA_C1F7_28": (59, 215), "DIA_C1F7_47": (169, -150), "DIA_C1F7_42": (267, -82), "DIA_C1F7_33": (-233, 191), "DIA_C1F7_29": (-26, 310), "DIA_C1F7_50": (-325, 52), "DIA_C1F7_35": (-330, 46), },#seal fake far
             705: {"DIA_C1F7_33": (-106, 28), "DIA_C1F7_34": (-19, 170), "DIA_C1F7_29": (101, 147), "DIA_C1F7_28": (186, 52), "DIA_C1F7_50": (-197, -110), "DIA_C1F7_35": (-202, -116), "DIA_C1F7_36": (-332, -39), "DIA_C1F7_51": (-331, -191), },#seal fake close
             706: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), },#layoutcheck
-
         }
         self._paths = {
             # A5 Town
@@ -400,7 +398,6 @@ class Pather:
             (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
-            # Diablo Chaos Sanctuary
         }
 
     def adapt_path(self,key: tuple[Location, Location], new_node_sequence: list[int]):
@@ -581,8 +578,8 @@ class Pather:
                                 Logger.error("One final try before totally stuck")
                                 x_m, y_m = self._screen.convert_abs_to_monitor(last_known_good_pos)
                                 char.move((x_m, y_m))
-                                last_known_good_pos = None  
-                            else:    
+                                last_known_good_pos = None
+                            else:
                                 if self._config.general["info_screenshots"]:
                                     cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                                 Logger.error("Got stuck exit pather")
@@ -590,18 +587,11 @@ class Pather:
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (0, 0)
+                    pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    Logger.debug(f"Pather: taking a random guess towards "+str(pos_abs)) # WiZCOke Tuning: TAKE CARE, THIS FUNCTION SOMETIMES ENDS UP CLICKING OUTSIDE THE D2R WINDOW, THEREBY FUCKING UP THE RUN.
-                    """x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
-                    x_m = x_m//2 + x_m//4
-                    y_m = y_m//2 + y_m//4
-                    x_m += int(random.random() * 40 - 20)
-                    y_m += int(random.random() * 40 - 20)
-                    char.move((x_m, y_m), force_move=True)
-                    did_force_move = True
-                    last_move = time.time()"""
+                    pos_abs = self._adjust_abs_range_to_screen(pos_abs)
+                    Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
@@ -673,16 +663,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_B1S")
-    #display_all_nodes(pather, "DIA_B2U")
-    #display_all_nodes(pather, "DIA_A1L2")
-    #display_all_nodes(pather, "DIA_A2Y")
-    #display_all_nodes(pather, "DIA_C1F7")
-    #display_all_nodes(pather, "DIA_C2G")
-    #display_all_nodes(pather, "DIA_NEW_PENT")
-    #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
-    #display_all_nodes(pather, "TRAV_")
-    #display_all_nodes(pather, "NIL2")
+    display_all_nodes(pather, "DIA_B1S")
 
     # # changing node pos and generating new code
     # code = ""
@@ -698,150 +679,3 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
 
     #pather.traverse_nodes([632], char)
-    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
-    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
-    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
-    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
-    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
-    #pather.traverse_nodes([602], char)
-    #pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
-    
-    
-    ### DIABLO
-
-    # CS
-    #pather.traverse_nodes([600], char)
-    #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
-    #pather.traverse_nodes([601], char)
-    #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
-
-    # NEW A1L
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_a_layout", char)
-    #pather.traverse_nodes([619], char) # LAYOUT CALIBRATION CHECK
-    #pather.traverse_nodes([610], char) # departure
-    #pather.traverse_nodes([611], char) # approach
-    #pather.traverse_nodes([612], char) # seal boss far
-    #pather.traverse_nodes([613], char) # safe dist & seal fake far
-    #pather.traverse_nodes([614], char) # safe fake close
-    #pather.traverse_nodes([613], char) # safe dist & seal fake far
-    #pather.traverse_nodes([615], char) # seal boss close
-    #pather.traverse_nodes([612], char) # seal boss far
-    #pather.traverse_nodes([611], char) # approach
-    #pather.traverse_nodes([611], char) # departure
-    #pather.traverse_nodes_fixed("dia_a1l_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-
-    # NEW A2Y
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_a_layout", char)
-    #pather.traverse_nodes_fixed("dia_a2y_approach", char)
-    #pather.traverse_nodes([620], char, threshold=0.78) # approach
-    #pather.traverse_nodes([621], char) # approach
-    #pather.traverse_nodes([622], char) # safe dist
-    #pather.traverse_nodes([623], char) # center
-    #pather.traverse_nodes([624], char) # left fake far
-    #pather.traverse_nodes([625], char) # left fake close
-    #pather.traverse_nodes([626], char) # center
-    #pather.traverse_nodes([627], char) # right boss far
-    #pather.traverse_nodes_fixed("dia_a2y_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-
-    # NEW B2U
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_b_layout_bold", char)
-    #pather.traverse_nodes([640], char) # approach
-    #pather.traverse_nodes([641], char) # approach2 
-    #pather.traverse_nodes([642], char) # safe dist
-    #pather.traverse_nodes([649], char) # safe dist
-    #pather.traverse_nodes([648], char) # safe dist
-    #pather.traverse_nodes([647], char) # safe dist
-    #pather.traverse_nodes([645], char) # safe dist
-    #pather.traverse_nodes([644], char) # safe dist
-    #pather.traverse_nodes([645], char) # safe dist
-    #pather.traverse_nodes([647], char) # safe dist
-    #pather.traverse_nodes([648], char) # safe dist
-    #pather.traverse_nodes([649], char) # safe dist
-    #pather.traverse_nodes([643], char) # seal boss far
-    #pather.traverse_nodes([644], char) # seal boss close
-    #pather.traverse_nodes([645], char) # seal boss far2
-    #pather.traverse_nodes([644], char) # seal boss close
-    #pather.traverse_nodes([643], char) # seal boss far
-    #pather.traverse_nodes([642], char) # safe dist
-    #pather.traverse_nodes([646], char) # safe dist 2 cross river
-    #pather.traverse_nodes([642], char) # safe dist
-    #pather.traverse_nodes([641], char) # approach2
-    #pather.traverse_nodes([640], char) # approach
-    #pather.traverse_nodes([646], char) # safe dist 2 cross river
-    #pather.traverse_nodes([642], char) # safe dist
-    #pather.traverse_nodes([640], char) # approach
-    #pather.traverse_nodes([646], char) # safe dist 2 cross river
-    #pather.traverse_nodes([641], char) # approach2
-    #pather.traverse_nodes_fixed("dia_b2u_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-
-    # NEW B1S
-    #pather.traverse_nodes([632], char) # corner
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_b_layout", char)
-    #pather.traverse_nodes_fixed("dia_b_layout2", char)
-    #pather.traverse_nodes([634], char) # seal boss far
-    #pather.traverse_nodes([635], char) # seal boss close
-    #pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
-    #pather.traverse_nodes([630], char) # approach
-    #pather.traverse_nodes([631], char) # corner left
-    #pather.traverse_nodes([632], char) # corner
-    #pather.traverse_nodes([633], char) # corner right
-    #pather.traverse_nodes([634], char) # seal boss far
-    #pather.traverse_nodes([635], char) # seal boss close
-    #pather.traverse_nodes([636], char) # river cross
-    #pather.traverse_nodes([637], char) # close circle
-    #pather.traverse_nodes([6301], char) # approach
-    #pather.traverse_nodes([631], char) # corner left
-    #pather.traverse_nodes([632], char) # corner
-    #pather.traverse_nodes([633], char) # corner right
-    #pather.traverse_nodes([634], char) # seal boss far
-    #pather.traverse_nodes([636], char) # river cross
-    #pather.traverse_nodes([637], char) # close circle
-    #pather.traverse_nodes([631], char) # approach
-    #pather.traverse_nodes([633], char) # approach
-    #pather.traverse_nodes([634], char) # approach 
-    #pather.traverse_nodes_fixed("dia_b1s_home", char)
-    #pather.traverse_nodes([602], char) # approach 
-
-    # NEW C1F
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_c_layout", char)
-    #pather.traverse_nodes_fixed("dia_c_layout2", char)
-    #pather.traverse_nodes([650], char) # approach
-    #pather.traverse_nodes([651], char) # seal boss close
-    #pather.traverse_nodes_fixed("dia_c1f_651_654", char)
-    #pather.traverse_nodes_fixed("dia_c1f_654_651", char)
-    #pather.traverse_nodes_fixed("dia_c1f_651_652", char)
-    #pather.traverse_nodes([652], char) # seal boss far
-    #pather.traverse_nodes([653], char) # safe dist
-    #pather.traverse_nodes([654], char) # seal fake far
-    #pather.traverse_nodes([651], char) # safe dist
-    #pather.traverse_nodes([652], char) # seal boss far
-    #pather.traverse_nodes([651], char) # seal boss close
-    pather.traverse_nodes([704], char) # approach
-    pather.traverse_nodes_fixed("dia_c1f_home", char)
-    pather.traverse_nodes([602], char) # calibrate pentagram
-
-    # NEW C2G
-    #pather.traverse_nodes([602], char) # calibrate pentagram
-    #pather.traverse_nodes_fixed("dia_c_layout", char)
-    #pather.traverse_nodes_fixed("dia_c_layout2", char)
-    #pather.traverse_nodes([660], char) # approach
-    #pather.traverse_nodes([661], char) # seal boss close
-    #pather.traverse_nodes([662], char) # seal boss far
-    #pather.traverse_nodes([663], char) # safe dist
-    #pather.traverse_nodes([664], char) # seal fake far
-    #pather.traverse_nodes([665], char) # seal fake close
-    #pather.traverse_nodes([664], char) # seal fake far
-    #pather.traverse_nodes([663], char) # safe dist
-    #pather.traverse_nodes([662], char) # seal boss far
-    #pather.traverse_nodes([661], char) # seal boss close
-    #pather.traverse_nodes([660], char) # approach
-    #pather.traverse_nodes_fixed("dia_c2g_home", char)
-    #pather.traverse_nodes([602], char) # calibrate pentagram

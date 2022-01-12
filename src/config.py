@@ -72,9 +72,7 @@ class Config:
             "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
         }
 
-        self.routes = {
-        # "diablo_clear_cs_trash": bool(int(self._select_val("routes", "diablo_clear_cs_trash"))),
-        }
+        self.routes = {}
         order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
         self.routes_order = [x.strip() for x in order_str.split(",")]
         del self._config["routes"]["order"]
