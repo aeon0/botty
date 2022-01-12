@@ -22,16 +22,17 @@ class Arcane:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        config: Config,
     ):
-        self._config = Config()
+        self._config = config
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
-        self._chest = Chest(screen, self._char, self._template_finder, 'arcane')
+        self._chest = Chest(screen, self._char, self._template_finder, config, 'arcane')
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
@@ -124,6 +125,6 @@ if __name__ == "__main__":
     from bot import Bot
     config = Config()
     screen = Screen(config.general["monitor"])
-    game_stats = GameStats()
+    game_stats = GameStats(config)
     bot = Bot(screen, game_stats, False)
     bot._arcane._find_summoner([(500, 40)])

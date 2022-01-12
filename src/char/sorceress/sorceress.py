@@ -10,11 +10,12 @@ from utils.misc import wait
 import time
 from typing import Tuple
 from pather import Pather
+from config import Config
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, config: Config):
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, config)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):

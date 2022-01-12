@@ -25,7 +25,7 @@ class UiManager():
     def __init__(self, screen: Screen, template_finder: TemplateFinder, game_stats: GameStats = None):
         self._config = Config()
         self._template_finder = template_finder
-        self._messenger = Messenger()
+        self._messenger = Messenger(self._config)
         self._game_stats = game_stats
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
@@ -632,7 +632,7 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
-    game_stats = GameStats()
+    game_stats = GameStats(config)
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)

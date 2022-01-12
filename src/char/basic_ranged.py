@@ -11,12 +11,13 @@ import time
 import random
 import numpy as np
 from pather import Pather, Location
+from config import Config
 
 
 class Basic_Ranged(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, config: Config):
         Logger.info("Setting up Basic Ranged Character")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, config)
         self._pather = pather
         self._do_pre_move = True
 
@@ -206,7 +207,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
     ui_manager = UiManager(screen, t_finder)
-    char = LightSorc(config.light_sorc, config.char, screen, t_finder, ui_manager, pather)
+    char = LightSorc(config.light_sorc, config.char, screen, t_finder, ui_manager, pather, config)
     char.kill_council()

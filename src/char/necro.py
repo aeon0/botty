@@ -13,11 +13,12 @@ from pather import Location, Pather
 import numpy as np
 import time
 from utils.misc import cut_roi, is_in_roi
+from config import Config
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, config: Config):
         Logger.info('\033[94m'+"Setting up Necro"+'\033[0m')
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, config)
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])
@@ -526,6 +527,6 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
     ui_manager = UiManager(screen, t_finder)
-    char = Necro(config.necro, config.char, screen, t_finder, ui_manager, pather)
+    char = Necro(config.necro, config.char, screen, t_finder, ui_manager, pather, config)

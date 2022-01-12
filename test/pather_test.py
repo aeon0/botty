@@ -3,6 +3,7 @@ from mocks.screen_mock import ScreenMock
 from logger import Logger
 from pather import Pather
 from template_finder import TemplateFinder
+from config import Config
 
 
 class TestPather:
@@ -10,9 +11,10 @@ class TestPather:
         Logger.init()
         Logger.remove_file_logger()
 
+        config = Config()
         screen = ScreenMock()
         template_finder = TemplateFinder(screen)
-        self.pather = Pather(screen, template_finder)
+        self.pather = Pather(screen, template_finder, config)
 
     @pytest.mark.parametrize("test_input, expected", [
         ((90, 90), True),

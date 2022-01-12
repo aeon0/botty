@@ -10,13 +10,14 @@ from utils.misc import wait, rotate_vec, unit_vector
 import random
 from typing import Tuple
 from pather import Location, Pather
+from config import Config
 import numpy as np
 
 
 class Trapsin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, config: Config):
         Logger.info("Setting up Trapsin")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, config)
         self._pather = pather
 
     def pre_buff(self):
@@ -147,6 +148,6 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
     ui_manager = UiManager(screen, t_finder)
-    char = Trapsin(config.trapsin, config.char, screen, t_finder, ui_manager, pather)
+    char = Trapsin(config.trapsin, config.char, screen, t_finder, ui_manager, pather, config)

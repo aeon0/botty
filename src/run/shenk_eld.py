@@ -18,9 +18,10 @@ class ShenkEld:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        config: Config,
     ):
-        self._config = Config()
+        self._config = config
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager

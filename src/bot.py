@@ -40,49 +40,49 @@ from messenger import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
-    def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
+    def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, config: Config, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
-        self._messenger = Messenger()
-        self._config = Config()
+        self._messenger = Messenger(config)
+        self._config = config
         self._template_finder = template_finder
         self._item_finder = ItemFinder(self._config)
         self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
-        self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
+        self._pather = Pather(self._screen, self._template_finder, self._config)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager, config)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "trapsin":
-            self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "necro":
-            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "basic":
-            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         elif self._config.char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._config)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
 
         # Create Town Manager
-        npc_manager = NpcManager(screen, self._template_finder)
-        a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
+        npc_manager = NpcManager(screen, self._template_finder, config)
+        a5 = A5(self._config, self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a4 = A4(self._config, self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a3 = A3(self._config, self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a2 = A2(self._config, self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a1 = A1(self._config, self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._config, self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -103,11 +103,11 @@ class Bot:
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._config)
+        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._config)
+        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._config)
+        self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._config)
+        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._config)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -194,13 +194,13 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
+        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
-            cur_game_ip = get_d2r_game_ip()
+            cur_game_ip = get_d2r_game_ip(self._config.dclone["region_ips"])
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:

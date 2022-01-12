@@ -11,8 +11,8 @@ from utils.misc import wait
 
 
 class Chest:
-    def __init__(self, screen: Screen, char: IChar, template_finder: TemplateFinder, template: str = None):
-        self._config = Config()
+    def __init__(self, screen: Screen, char: IChar, template_finder: TemplateFinder, config: Config, template: str = None):
+        self._config = config
         self._screen = screen
         self._char = char
         self._template_finder = template_finder
@@ -73,8 +73,8 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    pather = Pather(screen, template_finder)
+    pather = Pather(screen, template_finder, config)
     ui_manager = UiManager(screen, template_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
-    chest = Chest(screen, char, template_finder, 'arcane')
+    char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather, config)
+    chest = Chest(screen, char, template_finder, config, 'arcane')
     chest.open_up_chests(threshold=0.8)

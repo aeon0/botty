@@ -4,8 +4,8 @@ import json
 import requests
 
 class GenericApi:
-    def __init__(self):
-        self._config = Config()
+    def __init__(self, config: Config):
+        self._config = config
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         msg = f"Found {item} at {location}"

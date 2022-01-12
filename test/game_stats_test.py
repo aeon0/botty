@@ -1,13 +1,14 @@
 import pytest
 from logger import Logger
 from game_stats import GameStats
+from config import Config
 
 
 class TestGameStats:
     def setup_method(self):
         Logger.init()
         Logger.remove_file_logger()
-        self.game_stats = GameStats()
+        self.game_stats = GameStats(Config())
 
     @pytest.mark.parametrize("item_name, item_should_be_added", [
         ("some_magic_item", True),

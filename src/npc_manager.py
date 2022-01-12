@@ -32,9 +32,10 @@ class Npc:
     LARZUK = "larzuk"
     ANYA = "anya"
 
+
 class NpcManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, config: Config):
+        self._config = config
         self._screen = screen
         self._template_finder = template_finder
         self._npcs = {
@@ -312,6 +313,6 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    npc_manager = NpcManager(screen, template_finder)
+    npc_manager = NpcManager(screen, template_finder, config)
     npc_manager.open_npc_menu(Npc.MALAH)
     # npc_manager.press_npc_btn(Npc.ORMUS, "trade")

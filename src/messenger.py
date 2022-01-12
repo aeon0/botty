@@ -1,29 +1,28 @@
-from dataclasses import dataclass
 from config import Config
 import numpy as np
 
 from api.generic_api import GenericApi
 from api.discord_embeds import DiscordEmbeds
 
+
 class Messenger:
-    def __init__(self):
-        self._config = Config()
-        if self._config.general["message_api_type"] == "generic_api":
-            self._message_api = GenericApi()
-        elif self._config.general["message_api_type"] == "discord":
-            self._message_api = DiscordEmbeds()
+    def __init__(self, config: Config):
+        if config.general["message_api_type"] == "generic_api":
+            self._message_api = GenericApi(config)
+        elif config.general["message_api_type"] == "discord":
+            self._message_api = DiscordEmbeds(config)
         else:
             self._message_api = None
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         self._message_api.send_item(item, image, location)
-        
+
     def send_death(self, location: str, image_path: str = None):
         self._message_api.send_death(location, image_path)
-        
+
     def send_chicken(self, location: str, image_path: str = None):
         self._message_api.send_chicken(location, image_path)
-        
+
     def send_stash(self):
         self._message_api.send_stash()
 
@@ -33,8 +32,9 @@ class Messenger:
     def send_message(self, msg: str):
         self._message_api.send_message(msg)
 
+
 if __name__ == "__main__":
-    messenger = Messenger()
+    messenger = Messenger(Config())
 
     item = "rune_test"
     image = None

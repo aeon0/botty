@@ -16,13 +16,13 @@ from ui import UiManager
 
 
 class IChar:
-    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, config: Config):
         self._skill_hotkeys = skill_hotkeys
         self._char_config = char_config
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._screen = screen
-        self._config = Config()
+        self._config = config
         self._last_tp = time.time()
         # Add a bit to be on the save side
         self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01

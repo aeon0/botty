@@ -9,12 +9,13 @@ from screen import Screen
 from utils.misc import wait, cut_roi
 import time
 from pather import Pather, Location
+from config import Config
 
 
 class Barbarian(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, config: Config):
         Logger.info("Setting up Barbarian")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, config)
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
@@ -164,7 +165,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
     ui_manager = UiManager(screen, t_finder)
-    char = Barbarian(config.barbarian, config.char, screen, t_finder, ui_manager, pather)
+    char = Barbarian(config.barbarian, config.char, screen, t_finder, ui_manager, pather, config)
     char.kill_council()

@@ -48,7 +48,7 @@ class GameController:
                 Logger.info("Saving top-most char as template")
                 self.char_selector.save_char_template()
         # Start bot thread
-        self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
+        self.bot = Bot(self.screen, self.game_stats, self.template_finder, self._config, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -57,7 +57,7 @@ class GameController:
         self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         self.health_manager.set_belt_manager(self.bot.get_belt_manager())
         do_restart = False
-        messenger = Messenger()
+        messenger = Messenger(self._config)
         while 1:
             self.health_manager.update_location(self.bot.get_curr_location())
             max_game_length_reached = self.game_stats.get_current_game_length() > self._config.general["max_game_length_s"]
@@ -96,7 +96,7 @@ class GameController:
                     if self.setup_screen():
                         self.start_health_manager_thread()
                         self.start_death_manager_thread()
-                        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
+                        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder, self._config)
                         return self.run_bot(True)
                 Logger.error("Could not restart the game. Quitting.")
                 messenger.send_message("Got stuck and could not restart the game. Quitting.")
@@ -118,8 +118,8 @@ class GameController:
         self.template_finder = TemplateFinder(self.screen)
         self.start_health_manager_thread()
         self.start_death_manager_thread()
-        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
-        self.game_stats = GameStats()
+        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder, self._config)
+        self.game_stats = GameStats(self._config)
         self.char_selector = CharSelector(self.screen, self._config, self.template_finder)
         self.start_game_controller_thread()
         GameController.is_running = True
@@ -141,14 +141,14 @@ class GameController:
 
     def start_health_manager_thread(self):
         # Run health monitor thread
-        self.health_manager = HealthManager(self.screen, self.template_finder)
+        self.health_manager = HealthManager(self.screen, self.template_finder, self._config)
         self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
     def start_death_manager_thread(self):
         # Run death monitor thread
-        self.death_manager = DeathManager(self.screen, self.template_finder)
+        self.death_manager = DeathManager(self.screen, self.template_finder, self._config)
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()

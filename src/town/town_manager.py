@@ -10,8 +10,8 @@ from utils.misc import wait
 
 
 class TownManager:
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._config = Config()
+    def __init__(self, config: Config, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
+        self._config = config
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._item_finder = item_finder
@@ -181,15 +181,15 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    npc_manager = NpcManager(screen, template_finder)
-    pather = Pather(screen, template_finder)
+    npc_manager = NpcManager(screen, template_finder, config)
+    pather = Pather(screen, template_finder, config)
     ui_manager = UiManager(screen, template_finder)
     item_finder = ItemFinder(config)
-    char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
-    a5 = A5(screen, template_finder, pather, char, npc_manager)
-    a4 = A4(screen, template_finder, pather, char, npc_manager)
-    a3 = A3(screen, template_finder, pather, char, npc_manager)
-    a2 = A2(screen, template_finder, pather, char, npc_manager)
-    a1 = A1(screen, template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, item_finder, a1, a2, a3, a4, a5)
+    char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather, config)
+    a5 = A5(config, screen, template_finder, pather, char, npc_manager)
+    a4 = A4(config, screen, template_finder, pather, char, npc_manager)
+    a3 = A3(config, screen, template_finder, pather, char, npc_manager)
+    a2 = A2(config, screen, template_finder, pather, char, npc_manager)
+    a1 = A1(config, screen, template_finder, pather, char, npc_manager)
+    town_manager = TownManager(config, template_finder, ui_manager, item_finder, a1, a2, a3, a4, a5)
     print(town_manager.open_wp(Location.A1_TOWN_START))

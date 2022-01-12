@@ -9,8 +9,8 @@ import numpy as np
 from discord import Webhook, RequestsWebhookAdapter, Color
 
 class DiscordEmbeds(GenericApi):
-    def __init__(self):
-        self._config = Config()
+    def __init__(self, config: Config):
+        super().__init__(config)
         self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"

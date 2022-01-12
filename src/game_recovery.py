@@ -11,8 +11,8 @@ from utils.custom_mouse import mouse
 
 
 class GameRecovery:
-    def __init__(self, screen: Screen, death_manager: DeathManager, template_finder: TemplateFinder):
-        self._config = Config()
+    def __init__(self, screen: Screen, death_manager: DeathManager, template_finder: TemplateFinder, config: Config):
+        self._config = config
         self._screen = screen
         self._death_manager = death_manager
         self._template_finder = template_finder
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
-    death_manager = DeathManager(screen)
-    game_recovery = GameRecovery(screen, death_manager)
+    t_finder = TemplateFinder(screen)
+    death_manager = DeathManager(screen, t_finder, config)
+    game_recovery = GameRecovery(screen, death_manager, t_finder, config)
     game_recovery.go_to_hero_selection()

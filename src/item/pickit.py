@@ -13,12 +13,12 @@ from char import IChar
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager, config: Config):
         self._item_finder = item_finder
         self._screen = screen
         self._belt_manager = belt_manager
         self._ui_manager = ui_manager
-        self._config = Config()
+        self._config = config
         self._last_closest_item: Item = None
 
     def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
@@ -160,8 +160,8 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
     item_finder = ItemFinder(config)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather, config)
+    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, config)
     print(pickit.pick_up_items(char))

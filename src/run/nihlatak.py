@@ -22,9 +22,10 @@ class Nihlatak:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        config: Config,
     ):
-        self._config = Config()
+        self._config = config
         self._screen = screen
         self._template_finder = template_finder
         self._pather = pather

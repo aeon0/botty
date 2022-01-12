@@ -4,6 +4,7 @@ from game_stats import GameStats
 from bot import Bot
 from template_finder import TemplateFinder
 from mocks.screen_mock import ScreenMock
+from config import Config
 
 
 class TestSmoke:
@@ -16,6 +17,7 @@ class TestSmoke:
 
     def test_smoke(self):
         screen = ScreenMock()
-        game_stats = GameStats()
+        config = Config()
+        game_stats = GameStats(config)
         template_finder = TemplateFinder(screen)
         bot = Bot(screen, game_stats, template_finder)

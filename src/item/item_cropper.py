@@ -13,9 +13,10 @@ class ItemText:
     roi: list[int] = None
     data: np.ndarray = None
 
+
 class ItemCropper:
-    def __init__(self):
-        self._config = Config()
+    def __init__(self, config: Config):
+        self._config = config
 
         self._gaus_filter = (19, 1)
         self._expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14, 40]]]
@@ -102,7 +103,7 @@ if __name__ == "__main__":
     from screen import Screen
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper()
+    cropper = ItemCropper(Config())
     screen = Screen(cropper._config.general["monitor"])
 
     while 1:

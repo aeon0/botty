@@ -81,8 +81,8 @@ class Pather:
     nodes you can specify in which order this nodes should be traversed in self._paths.
     """
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, config: Config):
+        self._config = config
         self._screen = screen
         self._template_finder = template_finder
         self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
@@ -560,7 +560,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather(screen, t_finder, config)
 
     display_all_nodes(pather, "A1_TOWN")
 
@@ -576,6 +576,6 @@ if __name__ == "__main__":
     # print(code)
 
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather, config)
     # pather.traverse_nodes([452], char)
     pather.traverse_nodes_fixed("arc_top_right", char)

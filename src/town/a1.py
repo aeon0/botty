@@ -10,8 +10,8 @@ from utils.misc import wait
 
 
 class A1(IAct):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
-        self._config = Config()
+    def __init__(self, config: Config, screen: Screen, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
+        self._config = config
         self._screen = screen
         self._pather = pather
         self._char = char

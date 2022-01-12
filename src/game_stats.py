@@ -12,9 +12,9 @@ from version import __version__
 
 
 class GameStats:
-    def __init__(self):
-        self._config = Config()
-        self._messenger = Messenger()
+    def __init__(self, config: Config):
+        self._config = config
+        self._messenger = Messenger(config)
         self._start_time = time.time()
         self._timer = None
         self._timepaused = None
@@ -174,6 +174,7 @@ class GameStats:
 
 
 if __name__ == "__main__":
-    game_stats = GameStats()
+    config = Config()
+    game_stats = GameStats(config)
     game_stats.log_item_keep("rune_12", True)
     game_stats._save_stats_to_file()

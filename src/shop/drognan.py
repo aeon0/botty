@@ -50,7 +50,7 @@ class DrognanShopper:
         self._screen = Screen(config.general["monitor"])
         self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._npc_manager = NpcManager(
-            screen=self._screen, template_finder=self._template_finder
+            screen=self._screen, template_finder=self._template_finder, config=config
         )
         self.run_count = 0
         self.start_time = time.time()

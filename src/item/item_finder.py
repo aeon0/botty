@@ -26,7 +26,7 @@ class Item:
 
 class ItemFinder:
     def __init__(self, config: Config):
-        self._item_cropper = ItemCropper()
+        self._item_cropper = ItemCropper(config)
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {

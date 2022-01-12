@@ -10,8 +10,8 @@ import time
 
 
 class DeathManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, config: Config):
+        self._config = config
         self._screen = screen
         self._template_finder = template_finder
         self._died = False
@@ -89,5 +89,6 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
-    manager = DeathManager(screen)
+    t_finder = TemplateFinder(screen)
+    manager = DeathManager(screen, t_finder, config)
     manager.pick_up_corpse(config, screen)
