@@ -38,7 +38,7 @@ class Pindle:
             return False
         wait(0.5, 0.6)
         found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-        if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func):
+        if not self._char.select_by_template(["A5_RED_PORTAL", "A5_RED_PORTAL_TEXT"], found_loading_screen_func, telekinesis=False):
             return False
         return Location.A5_PINDLE_START
 
@@ -56,5 +56,5 @@ class Pindle:
                 return False
         self._char.kill_pindle()
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char, "Pindle")
+        picked_up_items = self._pickit.pick_up_items(self._char)
         return (Location.A5_PINDLE_END, picked_up_items)

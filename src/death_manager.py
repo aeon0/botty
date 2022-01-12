@@ -10,14 +10,15 @@ import time
 
 
 class DeathManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
         self._callback = None
+        self._last_death_screenshot = None
 
     def get_loop_delay(self):
         return self._loop_delay
@@ -42,9 +43,13 @@ class DeathManager:
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        img = self._screen.grab()
+        template_match = self._template_finder.search("YOU_HAVE_DIED", img, threshold=0.9, roi=self._config.ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
+            if self._config.general["info_screenshots"]:
+                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+                cv2.imwrite(self._last_death_screenshot, img)
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if self._callback is not None:
                 self._callback()
@@ -58,7 +63,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if self._template_finder.search("D2_LOGO_HS", self._screen.grab(), roi=self._config.ui_roi["hero_selection_logo"]).valid:
+            if self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")
