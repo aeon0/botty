@@ -39,13 +39,14 @@ class GameController:
         self.char_selector = None
 
     def run_bot(self, pick_corpse: bool = False):
-        # Make sure the correct char is selected
-        if self.char_selector.has_char_template_saved():
-            Logger.info("Selecting original char")
-            self.char_selector.select_char()
-        else:
-            Logger.info("Saving top-most char as template")
-            self.char_selector.save_char_template()
+        if self._config.general['restart_d2r_when_stuck']:
+            # Make sure the correct char is selected
+            if self.char_selector.has_char_template_saved():
+                Logger.info("Selecting original char")
+                self.char_selector.select_char()
+            else:
+                Logger.info("Saving top-most char as template")
+                self.char_selector.save_char_template()
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
@@ -86,20 +87,23 @@ class GameController:
         else:
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
-            Logger.error(
-                f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
-            if self._config.general["custom_message_hook"]:
-                messenger.send_message(f"{self._config.general['name']}: got stuck and will now restart D2R")
-            if restart_game(self._config.general["d2r_path"]):
-                self.game_stats.log_end_game(failed=max_game_length_reached)
-                if self.setup_screen():
-                    self.start_health_manager_thread()
-                    self.start_death_manager_thread()
-                    self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
-                    return self.run_bot(True)
-            Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-            messenger.send_message("Got stuck and could not restart the game. Quitting.")
-                
+            if self._config.general['restart_d2r_when_stuck']:
+                Logger.error("Could not recover from a max game length violation. Restarting the Game.")
+                if self._config.general["custom_message_hook"]:
+                    messenger.send_message("Got stuck and will now restart D2R")
+                if restart_game(self._config.general["d2r_path"]):
+                    self.game_stats.log_end_game(failed=max_game_length_reached)
+                    if self.setup_screen():
+                        self.start_health_manager_thread()
+                        self.start_death_manager_thread()
+                        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
+                        return self.run_bot(True)
+                Logger.error("Could not restart the game. Quitting.")
+                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+            else:
+                Logger.error("Could not recover from a max game length violation. Quitting botty.")
+                if self._config.general["custom_message_hook"]:
+                    messenger.send_message("Got stuck and will now quit botty")
             os._exit(1)
 
     def start(self):
