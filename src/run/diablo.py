@@ -117,6 +117,7 @@ class Diablo:
 
     def _loop_pentagram(self, path) -> bool:
         found = False
+
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_TP"]  #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5 -> if these templates are found, you cannot calibrate at [602] #"DIA_NEW_PENT_6", 
         start_time = time.time()
         while not found and time.time() - start_time < 10:
@@ -140,6 +141,7 @@ class Diablo:
                 Logger.info(seal_layout + ": is open")
                 break
             else:
+
                 Logger.debug(seal_layout + ": not open")
                 pos_m = self._screen.convert_abs_to_monitor((0, 0)) #remove mouse from seal
                 mouse.move(*pos_m, randomize=[90, 160])
@@ -228,7 +230,6 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-
     def _seal_B1(self):
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -269,6 +270,7 @@ class Diablo:
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
+
         if not self._char.kill_deseis([641], [640], [646]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([640], self._char): return False
@@ -474,5 +476,6 @@ if __name__ == "__main__":
 # stash or shrine located near a node or bossfight will make botty just try to click the stash
 # Better Layout Check consistency at A (opportunity for up to 10% more succesful runs)
 # Better Looping Home consistency at A & C (if a tombstone stash is on its way, the path gets displaced which might lead to missing the pentagram)
-# We could consider loot & recalibrate after a sealdance, but we must hope not to get off-track
+# We could consider a function get_nearest_node() or a path home from where we started to loot to not get off-track after looting trash.
 # It could make sense to change ALL the fights to just static paths. in the heat of battle the nodes sometimes are not recognized, leading to chicken - OR to clear all trash thoroughly before attacking the sealboss.
+
