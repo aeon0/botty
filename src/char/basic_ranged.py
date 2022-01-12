@@ -54,7 +54,7 @@ class Basic_Ranged(IChar):
             wait(0.5, 0.15)
 
 
-#bosses            
+#bosses
 
     def kill_pindle(self) -> bool:
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
@@ -170,23 +170,16 @@ class Basic_Ranged(IChar):
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        delay = [0.2, 0.3]
         atk_len = int(self._char_config["atk_len_nihlatak"])
-        for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-            if nihlatak_pos_abs is None:
-                return False
-            cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
-            self._left_attack(cast_pos_abs, delay, 90)
-            # Do some tele "dancing" after each sequence
-            if i < atk_len - 1:
-                rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
-                tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
-                pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
-                self.pre_move()
-                self.move(pos_m)
+        nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+        if nihlatak_pos_abs is None:
+            return False
+        cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+        for _ in range(atk_len):
+            if self._ui_manager.is_right_skill_active():
+                self._right_attack(cast_pos_abs, spray=11)
             else:
-                self._right_attack(cast_pos_abs, spray=60)
+                self._left_attack(cast_pos_abs, spray=11)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)

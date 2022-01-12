@@ -92,9 +92,9 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            min_wd = self._config.ui_pos["min_walk_dist"]
+            min_wd = max(10, self._config.ui_pos["min_walk_dist"])
             max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
@@ -210,6 +210,21 @@ class IChar:
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
-        
+
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
+
+    def kill_diablo(self) -> bool:
+        raise ValueError("Diablo is not implemented!")
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        raise ValueError("Diablo De Seis is not implemented!")
+
+    def kill_infector(self) -> bool:
+        raise ValueError("Diablo Infector is not implemented!")
+
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool:
+        raise ValueError("Diablo Vizier is not implemented!")
+
+    def kill_cs_trash(self) -> bool:
+        raise ValueError("Diablo CS Trash is not implemented!")

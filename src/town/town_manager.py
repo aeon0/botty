@@ -48,7 +48,7 @@ class TownManager:
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1",
             "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
-            "A1_TOWN_0", "A1_TOWN_1"
+            "A1_TOWN_1", "A1_TOWN_3"
         ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
