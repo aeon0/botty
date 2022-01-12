@@ -52,16 +52,16 @@ class Location:
     A2_WP = "a2_wp"
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
-    A2_LYSANDER = "a2_lysander"    
+    A2_LYSANDER = "a2_lysander"
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
     A1_WP_NORTH = "a1_wp_north"
-    A1_WP_SOUTH = "a1_wp_south"    
+    A1_WP_SOUTH = "a1_wp_south"
     A1_KASHYA_CAIN = "a1_kashya_cain"
     A1_AKARA = "a1_akara"
     A1_CHARSI = "a1_charsi"
-
+    A1_TOWN_TP = "a1_town_tp"
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
@@ -97,10 +97,10 @@ class Pather:
         self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
-            0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137)}, 
-            1: {'A5_TOWN_0': (-311, 191), 'A5_TOWN_1': (-429, -194), 'A5_TOWN_0.5': (478, 233)}, 
+            0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)}, 
+            1: {'A5_TOWN_0': (-311, 191), 'A5_TOWN_1': (-429, -194), 'A5_TOWN_0.5': (478, 233), 'A5_TOWN_11': (-651, -231)}, 
             2: {'A5_TOWN_0': (-368, -39), 'A5_TOWN_0.5': (423, 7)}, 
-            3: {'A5_TOWN_1': (-276, 94), 'A5_TOWN_2': (485, -60)}, 
+            3: {'A5_TOWN_1': (-276, 94), 'A5_TOWN_2': (485, -60), 'A5_TOWN_11': (-500, 56)}, 
             4: {'A5_TOWN_1': (-467, 267), 'A5_TOWN_2': (293, 113), 'A5_TOWN_3': (-267, -139), 'A5_TOWN_4': (162, -163)}, 
             5: {'A5_TOWN_2': (303+60, 219+40), 'A5_TOWN_3': (-257+60, -33+40), 'A5_TOWN_4': (172+60, -57+40)}, 
             6: {'A5_TOWN_3': (-583+80, 175+60), 'A5_TOWN_4': (-155+80, 151+60), 'A5_TOWN_5': (-13+80, -240+60), 'A5_TOWN_6': (307+80, 61+60)}, 
@@ -178,7 +178,8 @@ class Pather:
             705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
             706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
             #akara
-            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },    
+            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
+            708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -251,20 +252,20 @@ class Pather:
             # A4 Town
             (Location.A4_TOWN_START, Location.A4_WP): [162],
             (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
-            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],  
-            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],            
+            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],
+            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],
             (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
             (Location.A4_WP, Location.A4_JAMELLA): [162, 163, 164],
-            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],           
+            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],
             (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
             (Location.A4_TYRAEL_STASH, Location.A4_JAMELLA): [161, 160, 162, 163, 164],
-            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],            
+            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],
             (Location.A4_JAMELLA, Location.A4_WP): [164, 163, 162],
-            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],            
-            (Location.A4_JAMELLA, Location.A4_HALBU): [165],              
+            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
+            (Location.A4_JAMELLA, Location.A4_HALBU): [165],
             (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
             (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
-            (Location.A4_HALBU, Location.A4_JAMELLA): [164],        
+            (Location.A4_HALBU, Location.A4_JAMELLA): [164],
             # A3 Town
             (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
             (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
@@ -288,37 +289,39 @@ class Pather:
             (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
             # A1 Town
             #spawned in where do we go?
-            (Location.A1_TOWN_START, Location.A1_STASH): [701],
-            (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [700],
+            (Location.A1_TOWN_START, Location.A1_STASH): [],
+            (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [],
             (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
             (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
             (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
             (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
             #from the stash to where?
-            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [701, 700],
+            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [700],
             (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
             (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
             (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
             (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
             #from the Kashya/Cain to where?
-            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700, 701],
+            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700],
             (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
             (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
             (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
-            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],      
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],
             #from the Charsi to where?
-            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 701],
+            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 700],
             (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
             (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
             (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
-            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],  
+            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],
             #from the Akara to where?
-            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 701],
+            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 700],
             (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
             (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
             (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
-            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],                                 
+            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],
             (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
+            #from town portal
+            (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
@@ -567,7 +570,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "TRAV_")
+    display_all_nodes(pather, "A1_TOWN")
 
 
     # # changing node pos and generating new code
