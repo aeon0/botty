@@ -123,8 +123,7 @@ class Basic(IChar):
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Move close to nilathak
-        if not self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False):
-            return False
+        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
