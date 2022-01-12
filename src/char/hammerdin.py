@@ -42,7 +42,7 @@ class Hammerdin(IChar):
                 mouse.release(button="left")
             wait(0.01, 0.05)
             keyboard.send(self._char_config["stand_still"], do_press=False)
-
+        
     def pre_buff(self):
         if self._char_config["cta_available"]:
             self._pre_buff_cta()
@@ -147,6 +147,118 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
 
+    #Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo
+    def kill_cs_trash(self) -> bool:
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
+        wait(0.1, 0.15)
+        self._cast_hammers(2, "redemption")
+        #self._cast_hammers(1.2, "cleansing") # would make sense to add cleansing to CS, due to the tons of curses (that also interfere with the seal logic)
+        return True
+        
+    def kill_cs_trash_pentagram(self) -> bool:
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.2)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.1)
+        wait(0.1, 0.15)
+        self._cast_hammers(2, "redemption")
+        #self._cast_hammers(1.2, "cleansing") # would make sense to add cleansing to CS, due to the tons of curses (that also interfere with the seal logic)
+        return True    
+    
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool: #seal_layout,
+        #if seal_layout == "A1-L":
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes1, self)
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.4)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes2, self)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"])
+        wait(0.1, 0.15)
+        self._cast_hammers(2, "redemption") 
+        return True
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        """ WIZ VERSION - NOT STABLE FOR CTHU
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._move_and_attack((30, 30), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._move_and_attack((-60, -0), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes1, self)
+        self._move_and_attack((0, -60), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._move_and_attack((60, 0), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes2, self)
+        self._move_and_attack((-30, -30), self._char_config["atk_len_diablo_deseis"] * 0.5)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes3, self)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])
+        wait(0.1, 0.15)
+        self._cast_hammers(2, "redemption") 
+        return True
+        """
+        #CTHU VERSION
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes1, self)
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes2, self)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
+        self._cast_hammers(1, "redemption")
+        self._pather.traverse_nodes(nodes3, self)
+        self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])
+        wait(0.1, 0.15)
+        self._cast_hammers(2, "redemption") 
+        return True
+
+    def kill_infector(self) -> bool:
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption") 
+        return True
+
+    def kill_diablo(self) -> bool:
+        # Move close to diablo
+        #self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(self._char_config["atk_len_diablo"] * 0.5)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((60, 30), self._char_config["atk_len_diablo"])
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption")
+        return True
+
     def kill_summoner(self) -> bool:
         # move mouse to below altar
         pos_m = self._screen.convert_abs_to_monitor((0, 20))
@@ -160,7 +272,6 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
-
 
 if __name__ == "__main__":
     import os

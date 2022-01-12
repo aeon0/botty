@@ -71,7 +71,9 @@ class Config:
             "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
         }
 
-        self.routes = {}
+        self.routes = {
+        # "diablo_clear_cs_trash": bool(int(self._select_val("routes", "diablo_clear_cs_trash"))),
+        }
         order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
         self.routes_order = [x.strip() for x in order_str.split(",")]
         del self._config["routes"]["order"]
@@ -120,6 +122,12 @@ class Config:
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
+            "atk_len_diablo_vizier": float(self._select_val("char", "atk_len_diablo_vizier")),
+            "atk_len_diablo_deseis": float(self._select_val("char", "atk_len_diablo_deseis")),
+            "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
+            "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
+            "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
+            "kill_cs_trash": float(self._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(self._select_val("char", "always_repair"))),
         }
 

@@ -1,0 +1,17 @@
+==> 2022-01-05 13:13:30 <==
+# cmd: C:\Users\cthuz\miniconda3\Scripts\conda-env-script.py update --prefix ./env --file environment.yml --prune
+# conda version: 4.10.3
++defaults/noarch::tzdata-2021e-hda174b7_0
++defaults/noarch::wheel-0.37.0-pyhd3eb1b0_1
++defaults/win-64::ca-certificates-2021.10.26-haa95532_2
++defaults/win-64::certifi-2021.10.8-py39haa95532_0
++defaults/win-64::openssl-1.1.1l-h2bbff1b_0
++defaults/win-64::pip-21.2.4-py39haa95532_0
++defaults/win-64::python-3.9.7-h6244533_1
++defaults/win-64::pywin32-302-py39h827c3e9_1
++defaults/win-64::setuptools-58.0.4-py39haa95532_0
++defaults/win-64::sqlite-3.37.0-h2bbff1b_0
++defaults/win-64::vc-14.2-h21ff451_1
++defaults/win-64::vs2015_runtime-14.27.29016-h5e58377_2
++defaults/win-64::wincertstore-0.2-py39haa95532_2
+# update specs: ['pip', 'pywin32', 'python=3.9']

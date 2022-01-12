@@ -72,7 +72,15 @@ class Location:
     A2_ARC_START = "a2_arc_start"
     A2_ARC_CHECKPOINT = "a2_arc_checkpoint"
     A2_ARC_END = "a2_arc_end"
-
+    # Chaos Sanctuary (a = vizier, b = deseis, c = infector)
+    A4_DIABLO_WP = "a4_diablo_wp"
+    A4_DIABLO_START = "a4_diablo_start"
+    A4_DIABLO_ENTRANCE = "a4_diablo_entrance"
+    A4_DIABLO_PENTAGRAM = "a4_diablo_pentagram"
+    A4_DIABLO_A_LAYOUTCHECK = "a4_diablo_a_layoutcheck"
+    A4_DIABLO_B_LAYOUTCHECK = "a4_diablo_b_layoutcheck"
+    A4_DIABLO_C_LAYOUTCHECK = "a4_diablo_c_layoutcheck"
+    A4_DIABLO_END = "a4_diablo_end"
 
 class Pather:
     """
@@ -208,6 +216,82 @@ class Pather:
             515: {"NIL2D_2": (66, -12), "NIL2D_0": (-141, 245), "NIL2D_1": (329, -167), "NIL2D_4": (219, 392), "NIL2D_3": (-773, 91)},
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
+           
+            # Diablo Chaos Sanctuary
+            600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint  
+            601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
+            #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
+            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
+            
+            # SEAL A1L_new Vizier
+            610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52), 
+            611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist 2"DIA_A1L2_11": (176, -346), 
+            612: {"DIA_A1L2_9": (-126, 171), "DIA_A1L2_6": (-122, 181), "DIA_A1L2_18": (-140, 174), "DIA_A1L2_3": (-268, 160), "DIA_A1L2_7": (-319, 103), "DIA_A1L2_4": (-181, -299), "DIA_A1L2_5_OPEN": (335, 110), "DIA_A1L2_5_CLOSED": (335, 110), "DIA_A1L2_5_MOUSEOVER": (335, 110), "DIA_A1L2_0": (91, -393), "DIA_A1L2_1": (-431, 14), }, # seal boss far "DIA_A1L2_11": (-324, -211), 
+            613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357), 
+            614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308), 
+            615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218), 
+            619: {"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check
+
+
+            # SEAL A2Y_new Vizier
+            620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_34": (71, -32),"DIA_A2Y4_31": (199, 7),  "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_35": (64, -15), "DIA_A2Y4_37": (-238, 123), "DIA_A2Y4_36_MOUSEOVER": (133, 117),"DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_19": (234, 27), 
+            621: {"DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach "DIA_A2Y4_33": (129, -214), "DIA_A2Y4_37": (-15, -3), "DIA_A2Y4_2": (-194, -121), 
+            622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_36_OPEN": (320, 466), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist "DIA_A2Y4_37": (59, -268), 
+            623: {"DIA_A2Y4_43": (486, -350), "DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_20": (-500, 146), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), "DIA_A2Y4_0": (121+1, -369-24),}, #center
+            624: {"DIA_A2Y4_29_CLOSED": (440, 135), "DIA_A2Y4_29_OPEN": (440, 135), "DIA_A2Y4_29_MOUSEOVER": (440, 135),"DIA_A2Y4_43": (43, -218), "DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_20": (-934, 274), "DIA_A2Y4_15": (-780, 186), "DIA_A2Y4_13": (-1000, 140), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_16": (-319, -238),"DIA_A2Y4_0": (-319+1, -238-24),}, #left far fake #"DIA_A2Y4_31": (149, 260), "DIA_A2Y4_35": (-56, 279), 
+            625: {"DIA_A2Y4_29_CLOSED": (150, -28), "DIA_A2Y4_29_OPEN": (150, -28), "DIA_A2Y4_29_MOUSEOVER": (150, -28), "DIA_A2Y4_43": (-245, -380), "DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), "DIA_A2Y4_16": (-604, -400),"DIA_A2Y4_0": (-604+1, -400-24),}, #left close fake "DIA_A2Y4_28": (-271, -123), "DIA_A2Y4_35": (-346, 117)}, #"DIA_A2Y4_31": (-141, 98), 
+            626: {"DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# "DIA_A2Y4_39": (-610, -38), "DIA_A2Y4_19": (-14, -20),  "DIA_A2Y4_40": (-575, -38), #"DIA_A2Y4_22": (288, -228), "DIA_A2Y4_38": (-607, -44),  }, #right close boss #"DIA_A2Y4_28": (272, -111),  #"DIA_A2Y4_31": (364, -194),
+            627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
+
+            # SEAL B1S_new De Seis
+            630: {"DIA_B1S3_1": (201, -191), "DIA_B1S3_6": (369, 38), "DIA_B1S3_0": (494, -45), "DIA_B1S3_3": (489, -172), "DIA_B1S3_4": (723, -39),}, #cross river "DIA_B1S3_2": (297, -297), 
+            #630: {"DIA_B1S2_3": (-66, -165), "DIA_B1S2_8": (272, 25), "DIA_B1S2_14": (315, 108), "DIA_B1S2_16": (-67, 320), }, # approach "DIA_B1S2_28": (6, -76), "DIA_B1S2_24": (3, 9), "DIA_B1S2_27": (9, -142),  "DIA_B1S2_29": (-214, -6), "DIA_B1S2_30": (246, 25), #"DIA_B1S2_0": (286, -179), 
+            631: {"DIA_B1S2_2": (-232, -78), "DIA_B1S2_3": (169, -361), "DIA_B1S2_5": (-225, -86), "DIA_B1S2_12": (-29, 199), "DIA_B1S2_13": (-358, 52), "DIA_B1S2_15": (-42, 210), "DIA_B1S2_16": (168, 124), "DIA_B1S2_18": (-197, 117), }, #corner left "DIA_B1S2_24": (238, -187), "DIA_B1S2_29": (21, -202),
+            632: {"DIA_B1S2_2": (87, -224), "DIA_B1S2_8": (-330, -95), "DIA_B1S2_11": (-120, -306), "DIA_B1S2_12": (290, 53), "DIA_B1S2_13": (-38, -93), "DIA_B1S2_15": (277, 64), "DIA_B1S2_17": (-200, 25), "DIA_B1S2_18": (122, -29), "DIA_B1S2_19": (-174, 287), "DIA_B1S2_21": (-307, -67), }, #corner
+            633: {"DIA_B1S2_2": (99, 278), "DIA_B1S2_6": (37, -391), "DIA_B1S2_8": (-285, -280), "DIA_B1S2_13": (352, -100), "DIA_B1S2_19": (216, 279), "DIA_B1S2_20": (-208, 69), "DIA_B1S2_21": (83, -75), "DIA_B1S2_25": (62, -114), "DIA_B1S2_26": (-96, -228), }, #corner right "DIA_B1S2_28": (-236, 55), 
+            634: {"DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),}, #seal close #"DIA_B1S2_28": (-20, 289), "DIA_B1S2_9": (384, -164), "DIA_B1S2_27": (376, 114), 
+            635: {"DIA_B1S2_7": (315, -167), "DIA_B1S2_8": (169, 21), "DIA_B1S2_24_OPEN": (-108, 9), "DIA_B1S2_24_CLOSED": (-108, 9),"DIA_B1S2_24_MOUSEOVER": (-108, 9),"DIA_B1S2_26": (357, 73), "DIA_B1S2_27": (-94, -146),"DIA_B1S2_29": (-325, -6),  "DIA_B1S2_30": (143, 21),}, # seal far "DIA_B1S2_0": (183, -183),  "DIA_B1S2_14": (213, 104), 
+            636: {"DIA_B1S2_4": (383, -111), "DIA_B1S2_5": (187, 256), "DIA_B1S2_6": (-252, 100), "DIA_B1S2_7": (-427, 23), "DIA_B1S2_11": (-20, 177),  "DIA_B1S2_25": (-228, 377), },#"DIA_B1S2_26": (-386, 262), }, #cross river #"DIA_B1S2_28": (-100, 68), "DIA_B1S2_2": (193, 261), "DIA_B1S2_9": (-169, 57),}, 
+            637: {"DIA_B1S2_2": (-210, 122), "DIA_B1S2_4": (-20, -251), "DIA_B1S2_5": (-216, 116), "DIA_B1S2_6": (-663, -35), "DIA_B1S2_7": (-838, -112), "DIA_B1S2_11": (-430, 42), "DIA_B1S2_26": (-796, 127), }, #close circle "DIA_B1S2_28": (-552, -99),
+
+            # SEAL B2U_new De Seis
+            640: {"DIA_B2U2_14": (-183, -53), "DIA_B2U2_0": (-20, 196), "DIA_B2U2_1": (-177, -96), "DIA_B2U2_2": (-299, 40), "DIA_B2U2_5": (-414, 168), "DIA_B2U2_8": (-431, 166), "DIA_B2U2_4": (-278, 371), "DIA_B2U2_6": (-462, -232), "DIA_B2U2_3": (-431, 310), "DIA_B2U2_13": (-540, -182), }, #approach
+            641: {"DIA_B2U2_2": (-11, -111), "DIA_B2U2_5": (-126, 17), "DIA_B2U2_8": (-142, 15), "DIA_B2U2_3": (-143, 159), "DIA_B2U2_4": (11, 220), "DIA_B2U2_14": (105, -204), "DIA_B2U2_1": (111, -247), "DIA_B2U2_0": (268, 45), "DIA_B2U2_7": (-308, -148), "DIA_B2U2_13": (-252, -334), },#  approach
+            642: {"DIA_B2U2_10": (-96, 90), "DIA_B2U2_7": (122, -107), "DIA_B2U2_17": (-65, 216), "DIA_B2U2_5": (304, 58), "DIA_B2U2_13": (178, -293), "DIA_B2U2_3": (287, 200), "DIA_B2U2_15": (50, 366), "DIA_B2U2_2": (419, -70), "DIA_B2U2_6": (256, -342), "DIA_B2U2_20": (-406, 151), }, #safe-dist
+            643: {"DIA_B2U2_3": (75, -82), "DIA_B2U2_4": (229, -21), "DIA_B2U2_5": (92, -224), "DIA_B2U2_6": (-122, 246), "DIA_B2U2_13": (-201, 296), "DIA_B2U2_10": (-308, -192), "DIA_B2U2_1": (163, 382), "DIA_B2U2_17": (-407, 105), "DIA_B2U2_15": (-292, 255) }, #boss seal far # ,  "DIA_B2U2_21": (-282, 256), 
+            644: {"DIA_B2U2_15": (50, 6),  "DIA_B2U2_13": (141, 47), "DIA_B2U2_17": (-65, -144), "DIA_B2U2_6": (220, -3), "DIA_B2U2_7": (85, 233), "DIA_B2U2_16_OPEN": (-308, -18), "DIA_B2U2_16_CLOSED": (-308, -18), "DIA_B2U2_16_MOUSEOVER": (-308, -18), "DIA_B2U2_22": (-334, 149), "DIA_B2U2_19": (-344, 270), "DIA_B2U2_10": (34, -441), }, # boss seal close #"DIA_B2U2_21": (59, 6),
+            645: {"DIA_B2U2_16_CLOSED": (81, 34), "DIA_B2U2_16_OPEN": (81, 34), "DIA_B2U2_16_MOUSEOVER": (81, 34),"DIA_B2U2_20": (-18, -157), "DIA_B2U2_18": (-185, 98), "DIA_B2U2_19": (44, 322), "DIA_B2U2_17": (323, -92), "DIA_B2U2_12": (-123, 377),  "DIA_B2U2_13": (530, 99), "DIA_B2U2_15": (439, 58),}, # boss seal far  "DIA_B2U2_21": (448, 58), "DIA_B2U2_22": (55, 219),
+            646: {"DIA_B2U2_1": (37, 203), "DIA_B2U2_14": (31, 246), "DIA_B2U2_6": (-248, 67), "DIA_B2U2_13": (-327, 117), }, #safe-dist2
+            647: {"DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), },
+            648: {"DIA_B2U_CAL_14": (19, -193), "DIA_B2U_CAL_13": (-218, -46), "DIA_B2U_CAL_17": (266, 49), "DIA_B2U_CAL_18": (217, 222), "DIA_B2U_CAL_16": (377, 79), "DIA_B2U_CAL_15": (524, 85), "DIA_B2U_CAL_8": (-574, 95), "DIA_B2U_CAL_19": (698, -131), },
+            649: {"DIA_B2U_CAL_17": (-59, 210), "DIA_B2U_CAL_16": (52, 240), "DIA_B2U_CAL_14": (-306, -32), "DIA_B2U_CAL_15": (199, 246), "DIA_B2U_CAL_19": (373, 30), "DIA_B2U_CAL_18": (-108, 383), "DIA_B2U_CAL_13": (-543, 115), "DIA_B2U_CAL_8": (-899, 256), },
+            #6499: {"DIA_B2U_CAL2_6": (40, -185), "DIA_B2U_CAL2_7": (-191, -69), "DIA_B2U_CAL2_5": (187, -92), "DIA_B2U_CAL2_1": (43, 230), "DIA_B2U_CAL2_2": (-132, 222), "DIA_B2U_CAL2_0": (203, 234), "DIA_B2U_CAL2_9": (-272, 283), "DIA_B2U_CAL2_8": (-460, 71),},
+
+            #SEAL C1F Infector (BAD TEMPLATES NEEDS REAL GOOD REWORK)
+            650: {"DIA_C1F5_0": (254, -42), "DIA_C1F5_3": (-112, 252), "DIA_C1F5_13": (-347, 173), "DIA_C1F5_5": (32, -410), "DIA_C1F5_19": (411, 47), "DIA_C1F5_16": (505, 164), "DIA_C1F5_16_OPEN": (505, 164), "DIA_C1F5_2": (551, 86),  }, #"DIA_C1F5_22": (149, 210), "DIA_C1F5_20": (-488, -280),
+            651: {"DIA_C1F5_5": (142, -167), "DIA_C1F5_0": (364, 201), "DIA_C1F5_13": (-237, 416), "DIA_C1F5_3": (-2, 495), "DIA_C1F5_18": (-479, -185), "DIA_C1F5_19": (521, 290), "DIA_C1F5_16": (615, 407),"DIA_C1F5_16_OPEN": (615, 407), }, #"DIA_C1F5_22": (259, 453),  "DIA_C1F5_20": (-378, -37), "DIA_C1F5_4": (585, -30), 
+            652: {"DIA_C1F5_18": (113, -234), "DIA_C1F5_5": (734, -216), },
+            653: {"DIA_C1F5_16": (-117, 3), "DIA_C1F5_16_OPEN": (-117, 3), "DIA_C1F5_23": (-130, 172), "DIA_C1F5_19": (-211, -114), "DIA_C1F5_25": (295, 62), "DIA_C1F5_15": (289, 108), "DIA_C1F5_24": (270, 225), "DIA_C1F5_22": (-473, 49), "DIA_C1F5_18": (429, -342), }, #"DIA_C1F5_4": (-147, -434), "DIA_C1F5_20": (-161, -366), 
+            654: {"DIA_C1F5_41": (75, 137), "DIA_C1F5_410": (225, -104), "DIA_C1F5_42": (-210, -150), "DIA_C1F5_43": (234, -123), "DIA_C1F5_40": (234, 181), "DIA_C1F5_45": (427, -134), "DIA_C1F5_49": (367, 319), },#layout check
+            655: {"DIA_C1F5_47": (104, -161), "DIA_C1F5_45": (-49, -210), "DIA_C1F5_40": (-242, 105), "DIA_C1F5_49": (-109, 243), "DIA_C1F5_410": (-251, -180), "DIA_C1F5_43": (-242, -199), "DIA_C1F5_411": (188, 281), "DIA_C1F5_41": (-401, 61), },#seal fake far 2
+
+            #SEAL C2G_new Infector
+            660: {"DIA_C2G2_19": (178, -45), "DIA_C2G2_2": (-182, 71), "DIA_C2G2_20": (-9, 205), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_23": (401, 46), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach "DIA_C2G2_16": (41, 57),
+            661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_19": (164, 410), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close "DIA_C2G2_16": (27, 512),
+            662: {"DIA_C2G2_15": (-54, -160), "DIA_C2G2_12": (271, -138), "DIA_C2G2_17": (-137, 280), "DIA_C2G2_10": (-146, 316), "DIA_C2G2_9": (-251, 354), "DIA_C2G2_7_CLOSED": (433, 88), "DIA_C2G2_7_OPEN": (433, 88),"DIA_C2G2_7_MOUSEOVER": (433, 88),"DIA_C2G2_14": (315, 323), "DIA_C2G2_8": (-124, 447), }, # seal boss far #"DIA_C2G2_16": (-443, -29),  #"DIA_C2G2_23": (244, 133),
+            663: {"DIA_C2G2_9": (94, 181), "DIA_C2G2_17": (207, 107), "DIA_C2G2_10": (198, 143), "DIA_C2G2_21_OPEN": (16, 297), "DIA_C2G2_21_CLOSED": (16, 297),"DIA_C2G2_21_MOUSEOVER": (16, 297),"DIA_C2G2_8": (221, 274), "DIA_C2G2_15": (290, -333), "DIA_C2G2_20": (-435, 93), "DIA_C2G2_19": (-504, 24), }, # safe dist "DIA_C2G2_16": (-99, -202), #"DIA_C2G2_23": (297, -207), 
+            664: {"DIA_C2G2_20": (-214, -66), "DIA_C2G2_21_OPEN": (237, 137), "DIA_C2G2_21_CLOSED": (237, 137),"DIA_C2G2_21_MOUSEOVER": (237, 137),"DIA_C2G2_19": (-284, -135), "DIA_C2G2_9": (315, 22), "DIA_C2G2_10": (419, -16), "DIA_C2G2_17": (428, -52), "DIA_C2G2_8": (442, 115), "DIA_C2G2_5": (868, 63), }, # seal fake far "DIA_C2G2_16": (122, -361), #"DIA_C2G2_23": (126, -240),
+            665: {"DIA_C2G2_8": (43, -27), "DIA_C2G2_9": (-85, -121), "DIA_C2G2_10": (19, -158), "DIA_C2G2_21_OPEN": (-163, -6), "DIA_C2G2_21_CLOSED": (-163, -6),"DIA_C2G2_21_MOUSEOVER": (-163, -6),"DIA_C2G2_17": (28, -194),  "DIA_C2G2_5": (468, -80), "DIA_C2G2_14": (480, -153), "DIA_C2G2_22": (503, 208), "DIA_C2G2_20": (-614, -208), }, # seal boss close #"DIA_C2G2_23": (-260, 258),
+
+            #SEAL C1F_NEW Infector
+            700: {"DIA_C1F7_5": (-37, 150), "DIA_C1F7_2": (91, -130), "DIA_C1F7_4": (-184, 91), "DIA_C1F7_7": (168, -183), "DIA_C1F7_8": (-332, 109), "DIA_C1F7_20": (-43, -347), "DIA_C1F7_26": (-45, -351), "DIA_C1F7_17": (-42, -353), }, #approach
+            701: {"DIA_C1F7_20": (-22, -106), "DIA_C1F7_26": (-24, -111), "DIA_C1F7_17": (-21, -113), "DIA_C1F7_2": (112, 110), "DIA_C1F7_7": (189, 57), "DIA_C1F7_16": (188, -207), "DIA_C1F7_14": (-21, -301), "DIA_C1F7_15": (-169, -256), },#seal boss far
+            702: {"DIA_C1F7_21": (-41, -121), "DIA_C1F7_15": (-14, -130), "DIA_C1F7_26": (130, 14), "DIA_C1F7_27": (-91, -98), "DIA_C1F7_20": (133, 19), "DIA_C1F7_17": (134, 13), "DIA_C1F7_14": (134, -175), "DIA_C1F7_13": (-251, 4), },# seal boss close
+            703: {"DIA_C1F7_41": (5, -124), "DIA_C1F7_37": (100, -86), "DIA_C1F7_13": (112, -70), "DIA_C1F7_23": (-53, -134), "DIA_C1F7_32": (-81, -157), "DIA_C1F7_38": (-100, 204), "DIA_C1F7_31": (-29, 229), "DIA_C1F7_42": (-155, -179), },#center & safe_dist
+            704: {"DIA_C1F7_704_SUPPORT1": (715, -130),"DIA_C1F7_704_SUPPORT2": (515, -65), "DIA_C1F7_704_SUPPORT3": (318, -155),"DIA_C1F7_704_SUPPORT4": (185, -108), "DIA_C1F7_43": (106, -155), "DIA_C1F7_28": (59, 215), "DIA_C1F7_47": (169, -150), "DIA_C1F7_42": (267, -82), "DIA_C1F7_33": (-233, 191), "DIA_C1F7_29": (-26, 310), "DIA_C1F7_50": (-325, 52), "DIA_C1F7_35": (-330, 46), },#seal fake far
+            705: {"DIA_C1F7_33": (-106, 28), "DIA_C1F7_34": (-19, 170), "DIA_C1F7_29": (101, 147), "DIA_C1F7_28": (186, 52), "DIA_C1F7_50": (-197, -110), "DIA_C1F7_35": (-202, -116), "DIA_C1F7_36": (-332, -39), "DIA_C1F7_51": (-331, -191), },#seal fake close
+            706: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), },#layoutcheck
+
         }
         self._paths = {
             # A5 Town
@@ -316,6 +400,7 @@ class Pather:
             (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
+            # Diablo Chaos Sanctuary
         }
 
     def adapt_path(self,key: tuple[Location, Location], new_node_sequence: list[int]):
@@ -344,7 +429,7 @@ class Pather:
 
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
-            error_msg = "Teleport is requiered for static pathing"
+            error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
         char.pre_move()
@@ -416,9 +501,16 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
-    def find_abs_node_pos(self, node_idx: int, img: np.ndarray) -> Tuple[float, float]:
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = self._template_finder.search([*node], img, best_match=False, roi=self._config.ui_roi["cut_skill_bar"], use_grayscale=True)
+        template_match = self._template_finder.search(
+            [*node],
+            img,
+            best_match=False,
+            threshold=threshold,
+            roi=self._config.ui_roi["cut_skill_bar"],
+            use_grayscale=True
+        )
         if template_match.valid:
             # Get reference position of template in abs coordinates
             ref_pos_abs = self._screen.convert_screen_to_abs(template_match.position)
@@ -436,14 +528,15 @@ class Pather:
         time_out: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
-        force_move: bool = False
+        force_move: bool = False,
+        threshold: float = 0.68
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
         :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
-        :return: Bool if traversed succesfull or False if it got stuck
+        :return: Bool if traversed successful or False if it got stuck
         """
         if len(path) == 0:
             Logger.error("Path must be a list of integers or a tuple with start and end location!")
@@ -464,6 +557,7 @@ class Pather:
         if do_pre_move:
             char.pre_move()
         last_direction = None
+        last_known_good_pos = None
         for i, node_idx in enumerate(path):
             continue_to_next_node = False
             last_move = time.time()
@@ -483,24 +577,38 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if time_out > 3.1:
-                            if self._config.general["info_screenshots"]:
-                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                            Logger.error("Got stuck exit pather")
-                        return False
+                            if last_known_good_pos is not None:
+                                Logger.error("One final try before totally stuck")
+                                x_m, y_m = self._screen.convert_abs_to_monitor(last_known_good_pos)
+                                char.move((x_m, y_m))
+                                last_known_good_pos = None  
+                            else:    
+                                if self._config.general["info_screenshots"]:
+                                    cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                                Logger.error("Got stuck exit pather")
+                            return False
 
-                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last know direction
+                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (0, 150)
+                    pos_abs = (0, 0)
                     if last_direction is not None:
                         pos_abs = last_direction
-                    Logger.debug(f"Pather: taking a random guess for next position")
+                    Logger.debug(f"Pather: taking a random guess towards "+str(pos_abs)) # WiZCOke Tuning: TAKE CARE, THIS FUNCTION SOMETIMES ENDS UP CLICKING OUTSIDE THE D2R WINDOW, THEREBY FUCKING UP THE RUN.
+                    """x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    x_m = x_m//2 + x_m//4
+                    y_m = y_m//2 + y_m//4
+                    x_m += int(random.random() * 40 - 20)
+                    y_m += int(random.random() * 40 - 20)
+                    char.move((x_m, y_m), force_move=True)
+                    did_force_move = True
+                    last_move = time.time()"""
                     x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
 
                 # Find any template and calc node position from it
-                node_pos_abs = self.find_abs_node_pos(node_idx, img)
+                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < self._config.ui_pos["reached_node_dist"]:
@@ -510,7 +618,9 @@ class Pather:
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
+                        last_known_good_pos = node_pos_abs
                         last_move = time.time()
+
         return True
 
 
@@ -525,11 +635,12 @@ if __name__ == "__main__":
             template_scores = {}
             for template_type in pather._template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True)
+                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
             print(template_scores)
+            print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
                     if template_type in template_map:
@@ -562,8 +673,16 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "A1_TOWN")
-
+    #display_all_nodes(pather, "DIA_B1S")
+    #display_all_nodes(pather, "DIA_B2U")
+    #display_all_nodes(pather, "DIA_A1L2")
+    #display_all_nodes(pather, "DIA_A2Y")
+    #display_all_nodes(pather, "DIA_C1F7")
+    #display_all_nodes(pather, "DIA_C2G")
+    #display_all_nodes(pather, "DIA_NEW_PENT")
+    #display_all_nodes(pather, "DIA_A1L_LAYOUTCHECK")
+    #display_all_nodes(pather, "TRAV_")
+    #display_all_nodes(pather, "NIL2")
 
     # # changing node pos and generating new code
     # code = ""
@@ -577,5 +696,152 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    # pather.traverse_nodes([452], char)
-    pather.traverse_nodes_fixed("arc_top_right", char)
+
+    #pather.traverse_nodes([632], char)
+    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    #pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    #pather.traverse_nodes([602], char)
+    #pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    
+    
+    ### DIABLO
+
+    # CS
+    #pather.traverse_nodes([600], char)
+    #pather.traverse_nodes_fixed("diablo_wp_entrance", char)
+    #pather.traverse_nodes([601], char)
+    #####pather.traverse_nodes_fixed("diablo_entrance_pentagram", char)
+
+    # NEW A1L
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_a_layout", char)
+    #pather.traverse_nodes([619], char) # LAYOUT CALIBRATION CHECK
+    #pather.traverse_nodes([610], char) # departure
+    #pather.traverse_nodes([611], char) # approach
+    #pather.traverse_nodes([612], char) # seal boss far
+    #pather.traverse_nodes([613], char) # safe dist & seal fake far
+    #pather.traverse_nodes([614], char) # safe fake close
+    #pather.traverse_nodes([613], char) # safe dist & seal fake far
+    #pather.traverse_nodes([615], char) # seal boss close
+    #pather.traverse_nodes([612], char) # seal boss far
+    #pather.traverse_nodes([611], char) # approach
+    #pather.traverse_nodes([611], char) # departure
+    #pather.traverse_nodes_fixed("dia_a1l_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+
+    # NEW A2Y
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_a_layout", char)
+    #pather.traverse_nodes_fixed("dia_a2y_approach", char)
+    #pather.traverse_nodes([620], char, threshold=0.78) # approach
+    #pather.traverse_nodes([621], char) # approach
+    #pather.traverse_nodes([622], char) # safe dist
+    #pather.traverse_nodes([623], char) # center
+    #pather.traverse_nodes([624], char) # left fake far
+    #pather.traverse_nodes([625], char) # left fake close
+    #pather.traverse_nodes([626], char) # center
+    #pather.traverse_nodes([627], char) # right boss far
+    #pather.traverse_nodes_fixed("dia_a2y_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+
+    # NEW B2U
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_b_layout_bold", char)
+    #pather.traverse_nodes([640], char) # approach
+    #pather.traverse_nodes([641], char) # approach2 
+    #pather.traverse_nodes([642], char) # safe dist
+    #pather.traverse_nodes([649], char) # safe dist
+    #pather.traverse_nodes([648], char) # safe dist
+    #pather.traverse_nodes([647], char) # safe dist
+    #pather.traverse_nodes([645], char) # safe dist
+    #pather.traverse_nodes([644], char) # safe dist
+    #pather.traverse_nodes([645], char) # safe dist
+    #pather.traverse_nodes([647], char) # safe dist
+    #pather.traverse_nodes([648], char) # safe dist
+    #pather.traverse_nodes([649], char) # safe dist
+    #pather.traverse_nodes([643], char) # seal boss far
+    #pather.traverse_nodes([644], char) # seal boss close
+    #pather.traverse_nodes([645], char) # seal boss far2
+    #pather.traverse_nodes([644], char) # seal boss close
+    #pather.traverse_nodes([643], char) # seal boss far
+    #pather.traverse_nodes([642], char) # safe dist
+    #pather.traverse_nodes([646], char) # safe dist 2 cross river
+    #pather.traverse_nodes([642], char) # safe dist
+    #pather.traverse_nodes([641], char) # approach2
+    #pather.traverse_nodes([640], char) # approach
+    #pather.traverse_nodes([646], char) # safe dist 2 cross river
+    #pather.traverse_nodes([642], char) # safe dist
+    #pather.traverse_nodes([640], char) # approach
+    #pather.traverse_nodes([646], char) # safe dist 2 cross river
+    #pather.traverse_nodes([641], char) # approach2
+    #pather.traverse_nodes_fixed("dia_b2u_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+
+    # NEW B1S
+    #pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_b_layout", char)
+    #pather.traverse_nodes_fixed("dia_b_layout2", char)
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([635], char) # seal boss close
+    #pather.traverse_nodes_fixed("dia_b1s_seal_deseis", char)
+    #pather.traverse_nodes([630], char) # approach
+    #pather.traverse_nodes([631], char) # corner left
+    #pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([633], char) # corner right
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([635], char) # seal boss close
+    #pather.traverse_nodes([636], char) # river cross
+    #pather.traverse_nodes([637], char) # close circle
+    #pather.traverse_nodes([6301], char) # approach
+    #pather.traverse_nodes([631], char) # corner left
+    #pather.traverse_nodes([632], char) # corner
+    #pather.traverse_nodes([633], char) # corner right
+    #pather.traverse_nodes([634], char) # seal boss far
+    #pather.traverse_nodes([636], char) # river cross
+    #pather.traverse_nodes([637], char) # close circle
+    #pather.traverse_nodes([631], char) # approach
+    #pather.traverse_nodes([633], char) # approach
+    #pather.traverse_nodes([634], char) # approach 
+    #pather.traverse_nodes_fixed("dia_b1s_home", char)
+    #pather.traverse_nodes([602], char) # approach 
+
+    # NEW C1F
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_c_layout", char)
+    #pather.traverse_nodes_fixed("dia_c_layout2", char)
+    #pather.traverse_nodes([650], char) # approach
+    #pather.traverse_nodes([651], char) # seal boss close
+    #pather.traverse_nodes_fixed("dia_c1f_651_654", char)
+    #pather.traverse_nodes_fixed("dia_c1f_654_651", char)
+    #pather.traverse_nodes_fixed("dia_c1f_651_652", char)
+    #pather.traverse_nodes([652], char) # seal boss far
+    #pather.traverse_nodes([653], char) # safe dist
+    #pather.traverse_nodes([654], char) # seal fake far
+    #pather.traverse_nodes([651], char) # safe dist
+    #pather.traverse_nodes([652], char) # seal boss far
+    #pather.traverse_nodes([651], char) # seal boss close
+    pather.traverse_nodes([704], char) # approach
+    pather.traverse_nodes_fixed("dia_c1f_home", char)
+    pather.traverse_nodes([602], char) # calibrate pentagram
+
+    # NEW C2G
+    #pather.traverse_nodes([602], char) # calibrate pentagram
+    #pather.traverse_nodes_fixed("dia_c_layout", char)
+    #pather.traverse_nodes_fixed("dia_c_layout2", char)
+    #pather.traverse_nodes([660], char) # approach
+    #pather.traverse_nodes([661], char) # seal boss close
+    #pather.traverse_nodes([662], char) # seal boss far
+    #pather.traverse_nodes([663], char) # safe dist
+    #pather.traverse_nodes([664], char) # seal fake far
+    #pather.traverse_nodes([665], char) # seal fake close
+    #pather.traverse_nodes([664], char) # seal fake far
+    #pather.traverse_nodes([663], char) # safe dist
+    #pather.traverse_nodes([662], char) # seal boss far
+    #pather.traverse_nodes([661], char) # seal boss close
+    #pather.traverse_nodes([660], char) # approach
+    #pather.traverse_nodes_fixed("dia_c2g_home", char)
+    #pather.traverse_nodes([602], char) # calibrate pentagram
