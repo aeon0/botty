@@ -29,13 +29,13 @@ class Basic(IChar):
         keyboard.send(self._skill_hotkeys["right_attack"])
         wait(0.05, 0.1)
         start = time.time()
-        while (time.time() - start) < time_in_s:           
+        while (time.time() - start) < time_in_s:
             if self._ui_manager.is_right_skill_active():
                 wait(0.05, 0.1)
                 mouse.click(button="right")
             else:
                 wait(0.05, 0.1)
-                mouse.click(button="left")    
+                mouse.click(button="left")
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
@@ -55,13 +55,11 @@ class Basic(IChar):
         # select teleport if available
         super().pre_move()
 
-            
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = self._screen.convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_attack_pattern(atk_len)
-        
 
 
 #this is where we kill bosses
@@ -125,7 +123,8 @@ class Basic(IChar):
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Move close to nilathak
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        if not self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False):
+            return False
         # move mouse to center (leftover from hammerdin)
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
