@@ -287,7 +287,8 @@ class Bot:
             for x in range (4):
                 self._curr_loc = self._town_manager.gamble(self._curr_loc)
                 self._ui_manager.gamble(self._item_finder)
-                self._curr_loc = self._town_manager.stash (self._curr_loc)
+                self._curr_loc = self._town_manager.stash (self._curr_loc, gamble=gambling)
+            self.ui_manager.set__gold_full (False)
                 
         # Start a new run
         started_run = False

@@ -29,7 +29,8 @@ class UiManager():
         self._game_stats = game_stats
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
-        self._gold_full = True
+        self._gold_full = False
+        self._gambling_round = 1
 
     def use_wp(self, act: int, idx: int):
         """
@@ -430,7 +431,7 @@ class UiManager():
                             wait(0.5, 0.6)
                             return self.stash_all_items(num_loot_columns, item_finder)
         else:
-            self.transfer_shared_to_private_gold ()
+            self.transfer_shared_to_private_gold (self._gambling_round)
         # stash stuff
         self._move_to_stash_tab(self._curr_stash["items"])
         center_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -506,22 +507,26 @@ class UiManager():
             if stash_gold_btn.valid:
                 x,y = self._screen.convert_screen_to_monitor(stash_gold_btn.position)
                 mouse.move(x, y, randomize=4)
-                wait (0.1, 0.15)
+                wait (0.4, 0.5)
                 mouse.press(button="left")
+                wait (0.1, 0.15)
+                mouse.release(button="left")
                 wait (0.1, 0.15)
                 keyboard.send ("Enter")
                 wait (0.1, 0.15)
                 self._move_to_stash_tab (0)
-                inventory_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["inventory"], threshold=0.83)
+                inventory_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"], threshold=0.83)
                 if inventory_gold_btn.valid:
                     x,y = self._screen.convert_screen_to_monitor(inventory_gold_btn.position)
                     mouse.move(x, y, randomize=4)
-                    wait (0.1, 0.15)
+                    wait (0.4, 0.5)
                     mouse.press(button="left")
                     wait (0.1, 0.15)
+                    mouse.release(button="left")
+                    wait (0.1, 0.15)
                     keyboard.send ("Enter")
-                    wait (0.1, 0.15)     
-
+                    wait (0.1, 0.15) 
+        self._gambling_round += 1   
 
     def should_stash(self, num_loot_columns: int):
         """
@@ -622,9 +627,14 @@ class UiManager():
 
     def gambling_needed(self) -> bool:
         return self._gold_full
+    
+    def set__gold_full (self, bool: bool):
+        self._gold_full = bool
+        self._gambling_round = 1
 
-    def gamble(self, item_finder: ItemFinder) -> bool:
+    def gamble(self, item_finder: ItemFinder):
         gold = True
+        gamble_on = True
         if self._config.char["num_loot_columns"]%2==0:
             ignore_columns = self._config.char["num_loot_columns"]-1
         else:
@@ -636,11 +646,12 @@ class UiManager():
                 time_out=4)
         if template_match.valid:
             #Gambling window is open. Starting to spent some coins
-            while (not self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and gold):
+            while (gamble_on and gold):
+                if (self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and self._inventory_has_items (self._screen.grab(),2)):   
+                    Gamble_on = False
                 for item in self._config.gamble["gamble_items"]:  
-                    #TODO
-                    template_match = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
-                    while not template_match.valid:
+                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
+                    while not template_match_item.valid:
                         #Refresh gambling screen
                         template_match = self._template_finder.search ("REFRESH", self._screen.grab())
                         if (template_match.valid):
@@ -649,8 +660,9 @@ class UiManager():
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
+                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
                     #item found in gambling menu
-                    x, y = self._screen.convert_screen_to_monitor(template_match.position)
+                    x, y = self._screen.convert_screen_to_monitor(template_match_item.position)
                     mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="right")
@@ -671,7 +683,7 @@ class UiManager():
                                 wait(0.1, 0.15)
                                 keyboard.send('ctrl', do_press=False)
                     #check if gold is av
-                    template_match = self._template_finder.search ("no_gold".upper(), self._screen.grab())
+                    template_match = self._template_finder.search ("no_gold".upper(), self._screen.grab(), threshold= 0.5)
                     if template_match.valid:
                         gold = False
             self.close_vendor_screen ()
