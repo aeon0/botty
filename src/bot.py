@@ -254,9 +254,13 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
-        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
+        # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
+        force_stash = False
         self._no_stash_counter += 1
-        force_stash = (self._no_stash_counter > 4 or self._pick_corpse) and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
+            self._no_stash_counter = 0
+            force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if self._config.char["id_items"]:
                 Logger.info("Identifying items")
