@@ -63,6 +63,8 @@ run_shenk=0
 | info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
 | loot_screenshots         | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
 | saved_games_folder       | Optional folder path of Diablo 2 : Ressurrected saved games that will be used to overwrite when running the "auto settings" |
+| d2r_path                 | Optional path to find the d2r.exe, if not set will be default to "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe" when attempting to restart |
+| restart_d2r_when_stuck   | Set to `1` and botty will attempt to restart d2r in the case that botty is unable to recover its state (e.g: game crash) |
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
