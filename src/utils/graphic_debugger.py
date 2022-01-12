@@ -43,8 +43,8 @@ class GraphicDebuggerController:
 
     def start(self):
         self.screen = Screen(self._config.general["monitor"])
-        self.item_finder = ItemFinder(self._config)
         self.template_finder = TemplateFinder(self.screen)
+        self.item_finder = ItemFinder(self._config, self.screen, self.template_finder)
         if self._config.advanced_options['graphic_debugger_layer_creator']:
             self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()

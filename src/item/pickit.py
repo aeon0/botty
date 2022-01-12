@@ -81,8 +81,6 @@ class PickIt:
                     if closest_item.dist > item.dist:
                         closest_item = item
 
-                #Logger.debug(f"item: {closest_item.text}, color: {closest_item.color}")
-
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
                 if curr_item_to_pick is not None:
@@ -129,6 +127,7 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
+                            Logger.debug(f"Ocr: {closest_item.text}")
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
@@ -162,7 +161,7 @@ if __name__ == "__main__":
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder(config, screen, t_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

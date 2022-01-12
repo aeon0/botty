@@ -6,9 +6,11 @@ import os
 import cv2
 import numpy as np
 from config import Config
+from template_finder import TemplateFinder
 from utils.misc import color_filter
 from item.item_cropper import ItemCropper
 import time
+from screen import Screen
 
 
 if __name__ == "__main__":
@@ -20,7 +22,7 @@ if __name__ == "__main__":
     gen_truth = 1
 
 
-    item_cropper = ItemCropper()
+    item_cropper = ItemCropper(Screen, TemplateFinder)
 
     for filename in os.listdir(args.file_path):
         if filename.endswith(".png"):

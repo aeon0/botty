@@ -8,7 +8,8 @@ import math
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
-
+from screen import Screen
+from template_finder import TemplateFinder
 
 @dataclass
 class Template:
@@ -27,8 +28,10 @@ class Item:
     color: str = None
 
 class ItemFinder:
-    def __init__(self, config: Config):
-        self._item_cropper = ItemCropper()
+    def __init__(self, config: Config, screen: Screen, template_finder: TemplateFinder):
+        self._screen = screen
+        self._template_finder = template_finder
+        self._item_cropper = ItemCropper(self._screen, self._template_finder)
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
@@ -134,9 +137,11 @@ class ItemFinder:
 if __name__ == "__main__":
     from screen import Screen
     from config import Config
+    from template_finder import TemplateFinder
     config = Config()
     screen = Screen(config.general["monitor"])
-    item_finder = ItemFinder(config)
+    template_finder = TemplateFinder(screen)
+    item_finder = ItemFinder(config, screen, template_finder)
     while 1:
         # img = cv2.imread("")
         img = screen.grab().copy()
@@ -145,7 +150,7 @@ if __name__ == "__main__":
             # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
             cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
-            # cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, item.text, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         # img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
         cv2.waitKey(1)

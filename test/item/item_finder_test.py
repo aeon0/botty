@@ -3,8 +3,9 @@ import numpy as np
 import cv2
 from logger import Logger
 from item.item_finder import ItemFinder, Item
+from template_finder import TemplateFinder
 from config import Config, ItemProps
-
+from screen import Screen
 
 class TestItemFinder:
     def setup_method(self):
@@ -18,7 +19,7 @@ class TestItemFinder:
         config.items["misc_super_healing_potion"] = ItemProps(pickit_type=1)
         config.items["magic_small_charm"] = ItemProps(pickit_type=1)
         config.items["rare_stag_bow"] = ItemProps(pickit_type=1)
-        self.item_finder = ItemFinder(config)
+        self.item_finder = ItemFinder(config, Screen(config.general["monitor"]), TemplateFinder)
 
     @pytest.mark.parametrize("img_path, expected", [
         ("test/assets/item_finder.png", 6),

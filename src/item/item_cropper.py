@@ -15,14 +15,15 @@ class ItemText:
     text: str = None
     roi: list[int] = None
     data: np.ndarray = None
+    clean_img: np.ndarray = None
     def __getitem__(self, key):
         return super().__getattribute__(key)
 
 class ItemCropper:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._ocr = Ocr()
 
         self._gaus_filter = (19, 1)
@@ -86,9 +87,7 @@ class ItemCropper:
                 contains_black = True if np.min(cropped_item) < 14 else False
                 expected_width = True if (self._expected_width_range[0] < w < self._expected_width_range[1]) else False
                 mostly_dark = True if 4 < avg < 25 else False
-                print("found contour")
                 if contains_black and mostly_dark and expected_height and expected_width:
-                    print("contour meets criteria")
                     # double-check item color
                     color_averages=[]
                     for key2 in self._item_colors:
@@ -100,12 +99,13 @@ class ItemCropper:
                         item_clusters.append(ItemText(
                             color = key,
                             roi = [x, y, w, h],
-                            data = cropped_item
+                            data = cropped_item,
+                            clean_img = cleaned_img[y:y+h, x:x+w]
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
         if use_ocr:
-            cluster_images = [ key["data"] for key in item_clusters ]
+            cluster_images = [ key["clean_img"] for key in item_clusters ]
             results = self._ocr.images_to_text(cluster_images, use_language="engd2r_fast")
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "text", results[count])
@@ -128,10 +128,9 @@ class ItemCropper:
             contains_white = True if np.max(cropped_item) > 250 else False
             expected_width = True if (expected_width_range[0] < w < expected_width_range[1]) else False
             mostly_dark = True if 0 < avg < 20 else False
-
             if contains_black and contains_white and mostly_dark and expected_height and expected_width:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
-                found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.9).valid
+                found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.7).valid
                 if found_footer:
                     clusters.append(ItemText(
                         color = "black",
@@ -149,10 +148,14 @@ class ItemCropper:
 if __name__ == "__main__":
     import keyboard
     import os
+    from config import Config
+    from template_finder import TemplateFinder
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper(Screen)
-    screen = Screen(cropper._config.general["monitor"])
+    config = Config()
+    screen = Screen(config.general["monitor"])
+    template_finder = TemplateFinder(screen)
+    cropper = ItemCropper(screen, template_finder)
 
     while 1:
         img = screen.grab().copy()

@@ -35,7 +35,7 @@ class TownManager:
         elif loc.upper().startswith("A2_"):
             location = Location.A2_TOWN_START
         elif loc.upper().startswith("A1_"):
-            location = Location.A1_TOWN_START            
+            location = Location.A1_TOWN_START
         return location
 
     def wait_for_town_spawn(self, time_out: float = None) -> Location:
@@ -115,7 +115,7 @@ class TownManager:
         new_loc = self.go_to_act(4, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].resurrect(new_loc)
-              
+
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
@@ -124,8 +124,8 @@ class TownManager:
             return self._acts[curr_act].identify(curr_loc)
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
-        return self._acts[Location.A5_TOWN_START].identify(new_loc)        
-        
+        return self._acts[Location.A5_TOWN_START].identify(new_loc)
+
     def stash(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder(config, screen, template_finder)
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)

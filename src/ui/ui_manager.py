@@ -14,9 +14,11 @@ from config import Config
 from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
+from item import ItemCropper
 
 from messenger import Messenger
 from game_stats import GameStats
+from ocr import Ocr
 
 
 class UiManager():
@@ -28,6 +30,8 @@ class UiManager():
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._screen = screen
+        self._item_cropper = ItemCropper(self._screen, self._template_finder)
+        self._ocr = Ocr()
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
     def use_wp(self, act: int, idx: int):
@@ -252,7 +256,7 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, in_img: np.ndarray, do_logging: bool = True) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
@@ -261,8 +265,8 @@ class UiManager():
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
-        _, w, _ = img.shape
-        img = img[:, (w//2):,:]
+        _, w, _ = in_img.shape
+        img = in_img[:, (w//2):,:]
         original_list = item_finder.search(img)
         filtered_list = []
         for x in original_list:
@@ -272,6 +276,9 @@ class UiManager():
             if not (include_props or exclude_props):
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing")
+                    results = self._item_cropper.crop_item_descr(in_img)
+                    for result in results:
+                        Logger.debug(f"OCR: {result.text}")
                 filtered_list.append(x)
                 continue
             include = True
@@ -323,6 +330,9 @@ class UiManager():
             if include and not exclude:
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                    results = self._item_cropper.crop_item_descr(in_img)
+                    for result in results:
+                        Logger.debug(f"OCR: {result.text}")
                 filtered_list.append(x)
 
         return filtered_list
@@ -635,6 +645,6 @@ if __name__ == "__main__":
     game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder(config, screen, template_finder)
     ui_manager = UiManager(screen, template_finder, game_stats)
     ui_manager.stash_all_items(5, item_finder)
