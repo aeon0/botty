@@ -45,6 +45,10 @@ jobs:
           C:\Miniconda\condabin\conda.bat activate botty
           python -c "import sys; print(sys.version)"
           coverage run --source=./src -m pytest -v -s
+      - name: Coverage Report Generation
+        shell: powershell
+        run: |
+          C:\Miniconda\condabin\conda.bat activate botty
           coverage xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
