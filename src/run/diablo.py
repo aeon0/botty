@@ -102,11 +102,12 @@ class Diablo:
                 return False
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP
+        #AEON, I need your help here: she does not buy new tomes when TPs are depleted
         Logger.info("CS: OPEN TP")
         if not self._ui_manager.has_tps():
-            Logger.warning("CS: Open TP failed, cancel run")
+            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs!")
             self.used_tps += 20
-            return False
+            #return False
         mouse.click(button="right")
         self.used_tps += 1
         Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))
