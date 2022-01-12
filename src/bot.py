@@ -402,4 +402,5 @@ class Bot:
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             res = self._diablo.battle(not self._pre_buffed)
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)
