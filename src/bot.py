@@ -42,12 +42,12 @@ from messenger import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
-    def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
+    def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._config = Config()
-        self._template_finder = TemplateFinder(self._screen)
+        self._template_finder = template_finder
         self._item_finder = ItemFinder(self._config)
         self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)

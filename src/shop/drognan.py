@@ -48,7 +48,7 @@ class DrognanShopper:
         self.look_for_scepters = self._config.shop["shop_hammerdin_scepters"]
 
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
         )

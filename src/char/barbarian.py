@@ -44,7 +44,8 @@ class Barbarian(IChar):
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
-        mouse.move(960, 487)
+        pos_m = self._screen.convert_abs_to_monitor((0, -20))
+        mouse.move(*pos_m)
         wait(0.5, 0.15)
         mouse.press(button="right")
         wait(hork_time)
