@@ -15,12 +15,12 @@ from config import Config
 
 
 class HealthManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._ui_manager = UiManager(screen, self._template_finder)
-        self._belt_manager = BeltManager(screen, self._template_finder)
+        self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()
@@ -29,9 +29,13 @@ class HealthManager:
         self._last_merc_healh = time.time()
         self._callback = None
         self._pausing = True
+        self._last_chicken_screenshot = None
 
     def stop_monitor(self):
         self._do_monitor = False
+
+    def set_belt_manager(self, belt_manager: BeltManager):
+        self._belt_manager = belt_manager
 
     def set_callback(self, callback):
         self._callback = callback
@@ -45,7 +49,7 @@ class HealthManager:
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav"]
+            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav", "arc"]
             prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
             if self._pausing != prev_value:
@@ -88,7 +92,8 @@ class HealthManager:
             self._callback()
             self._callback = None
         if self._config.general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+            cv2.imwrite(self._last_chicken_screenshot, img)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
         wait(0.02, 0.05)
@@ -165,7 +170,10 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     config = Config()
     screen = Screen(config.general["monitor"])
-    manager = HealthManager(screen)
+    template_finder = TemplateFinder(screen)
+    belt_manager = BeltManager(screen, template_finder)
+    manager = HealthManager(screen, template_finder)
+    manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)

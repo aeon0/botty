@@ -1,16 +1,9 @@
-import cv2
-
 from version import __version__
-from screen import Screen
 from logger import Logger
 from game_stats import GameStats
 from bot import Bot
-
-
-class ScreenMock(Screen):
-    def grab(self):
-        img = cv2.imread("test/hero_select.png")
-        return img
+from template_finder import TemplateFinder
+from mocks.screen_mock import ScreenMock
 
 
 class TestSmoke:
@@ -24,4 +17,5 @@ class TestSmoke:
     def test_smoke(self):
         screen = ScreenMock()
         game_stats = GameStats()
-        bot = Bot(screen, game_stats)
+        template_finder = TemplateFinder(screen)
+        bot = Bot(screen, game_stats, template_finder)

@@ -34,11 +34,13 @@ class ShenkEld:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(5, 1)
-        return Location.A5_ELDRITCH_START
+        if self._ui_manager.use_wp(5, 1):
+            return Location.A5_ELDRITCH_START
+        return False
 
-    def battle(self, do_shenk: bool, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch
+        game_stats.update_location("Eld" if self._config.general['discord_status_condensed'] else "Eldritch")
         if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
@@ -51,11 +53,12 @@ class ShenkEld:
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
         wait(0.2, 0.3)
-        picked_up_items = self._pickit.pick_up_items(self._char, "Eldritch")
+        picked_up_items = self._pickit.pick_up_items(self._char)
 
         # Shenk
         if do_shenk:
             Logger.info("Run Shenk")
+            game_stats.update_location("Shk" if self._config.general['discord_status_condensed'] else "Shenk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
             if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
@@ -63,6 +66,6 @@ class ShenkEld:
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END
             wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
-            picked_up_items |= self._pickit.pick_up_items(self._char, "Shenk")
+            picked_up_items |= self._pickit.pick_up_items(self._char)
 
         return (loc, picked_up_items)

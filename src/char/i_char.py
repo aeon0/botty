@@ -42,7 +42,8 @@ class IChar:
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
         time_out: float = 8,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        telekinesis: bool = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it
@@ -63,7 +64,7 @@ class IChar:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
-                wait(0.4, 0.55)
+                wait(0.2, 0.3)
                 mouse.click(button="left")
                 # check the successfunction for 2 sec, if not found, try again
                 check_success_start = time.time()
@@ -91,9 +92,9 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            min_wd = self._config.ui_pos["min_walk_dist"]
+            min_wd = max(10, self._config.ui_pos["min_walk_dist"])
             max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
@@ -118,7 +119,17 @@ class IChar:
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
-        while (time.time() - start)  < 8:
+        retry_count = 0
+        while (time.time() - start) < 8:
+            if time.time() - start > 3.7 and retry_count == 0:
+                retry_count += 1
+                Logger.debug("Move to another position and try to open tp again")
+                pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+                self.pre_move()
+                self.move(pos_m)
+                if self._ui_manager.has_tps():
+                    mouse.click(button="right")
+                wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = self._screen.grab()
             template_match = self._template_finder.search(
                 ["BLUE_PORTAL","BLUE_PORTAL_2"],
@@ -143,34 +154,44 @@ class IChar:
         return False
 
     def _pre_buff_cta(self):
-        # save current skill img
-        wait(0.1)
+        # Save current skill img
         skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
-        keyboard.send(self._char_config["battle_command"])
-        wait(0.08, 0.19)
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.13, self._cast_duration + 0.16)
-        keyboard.send(self._char_config["battle_orders"])
-        wait(0.08, 0.19)
-        mouse.click(button="right")
-        wait(self._cast_duration + 0.13, self._cast_duration + 0.16)
-        keyboard.send(self._char_config["weapon_switch"])
-        wait(0.3, 0.35)
-        # Make sure that we are back at the previous skill
-        skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
-        _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-        if max_val < 0.96:
-            Logger.warning("Failed to switch weapon, try again")
-            wait(1.2)
+        # Try to switch weapons and select bo until we find the skill on the right skill slot
+        start = time.time()
+        switch_sucess = False
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
+            keyboard.send(self._char_config["battle_command"])
+            wait(0.1, 0.19)
+            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
+                switch_sucess = True
+                break
+
+        if not switch_sucess:
+            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
+            self._char_config["cta_available"] = 0
+        else:
+            # We switched succesfully, let's pre buff
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+            keyboard.send(self._char_config["battle_orders"])
+            wait(0.1, 0.19)
+            mouse.click(button="right")
+            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
+
+        # Make sure the switch back to the original weapon is good
+        start = time.time()
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
             skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val < 0.96:
-                keyboard.send(self._char_config["weapon_switch"])
-                wait(0.4)
+            if max_val > 0.9:
+                break
             else:
-                Logger.warning("Turns out weapon switch just took a long time. You ever considered getting a new internet provider or to upgrade your pc?")
+                Logger.warning("Failed to switch weapon, try again")
+                wait(0.5)
 
     def pre_buff(self):
         pass
@@ -179,7 +200,7 @@ class IChar:
         raise ValueError("Pindle is not implemented!")
 
     def kill_shenk(self) -> bool:
-        raise ValueError("Shenk is not impleneted!")
+        raise ValueError("Shenk is not implemented!")
 
     def kill_eldritch(self) -> bool:
         raise ValueError("Eldritch is not implemented!")
@@ -189,3 +210,6 @@ class IChar:
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
+        
+    def kill_summoner(self) -> bool:
+        raise ValueError("Arcane is not implemented!")

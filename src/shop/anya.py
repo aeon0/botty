@@ -69,7 +69,7 @@ class AnyaShopper:
 
 
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
@@ -129,7 +129,8 @@ class AnyaShopper:
                     )
                     if gg_gloves.valid:
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought awesome IAS/+3 gloves!")
+                        self._messenger.send_message("Bought awesome IAS/+3 gloves!")
+                        
                         Logger.info("IAS/+3 gloves bought!")
                         self.gloves_bought += 1
                         time.sleep(1)
@@ -146,7 +147,7 @@ class AnyaShopper:
                         )
                         if g_gloves.valid:
                             mouse.click(button="right")
-                            self._messenger.send(msg=f"{self._config.general['name']}: Bought some decent IAS/+2 gloves")
+                            self._messenger.send_message("Bought some decent IAS/+2 gloves")
                             Logger.info("IAS/+2 gloves bought!")
                             self.gloves_bought += 1
                             time.sleep(1)
@@ -207,7 +208,8 @@ class AnyaShopper:
                     if trap_score > self.trap_claw_min_score and self.look_for_trap_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some terrific trap Claws (score: {trap_score})")
+                        self._messenger.send_message(f"Bought some terrific trap Claws (score: {trap_score})")
+                        
                         Logger.info(f"Trap Claws (score: {trap_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
@@ -215,7 +217,7 @@ class AnyaShopper:
                     if melee_score > self.melee_claw_min_score and self.look_for_melee_claws is True:
                         # pick it up
                         mouse.click(button="right")
-                        self._messenger.send(msg=f"{self._config.general['name']}: Bought some mad melee Claws (score: {melee_score})")
+                        self._messenger.send_message(f"Bought some mad melee Claws (score: {melee_score})")
                         Logger.info(f"Melee Claws (score: {melee_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)

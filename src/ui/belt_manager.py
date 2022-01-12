@@ -24,11 +24,16 @@ class BeltManager:
             "misc_rejuvenation_potion": "rejuv",
             "misc_full_rejuvenation_potion": "rejuv",
             "misc_super_healing_potion": "health",
-            "misc_super_mana_potion": "mana"
+            "misc_greater_healing_potion": "health",
+            "misc_super_mana_potion": "mana",
+            "misc_greater_mana_potion": "mana"
         }
 
     def get_pot_needs(self):
         return self._pot_needs
+
+    def should_buy_pots(self):
+        return self._pot_needs["health"] > 2 or self._pot_needs["mana"] > 3
 
     def _potion_type(self, img: np.ndarray) -> str:
         """
@@ -160,7 +165,7 @@ class BeltManager:
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = UiManager.get_slot_pos_and_img(self._config, img, column, row)
-            found = self._template_finder.search(["SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
+            found = self._template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
             if found:
                 pot_positions.append(center_pos)
         keyboard.press("shift")

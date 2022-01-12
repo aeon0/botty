@@ -1,6 +1,7 @@
 name: botty
 dependencies:
   - python=3.9
+  - pywin32
   - pip
   - pip:
     - pyinstaller
@@ -13,8 +14,11 @@ dependencies:
     - beautifultable
     - pytweening
     - requests
+    - coverage
     - pytest
     - pytest-env
     - pytest-pythonpath
     - graphviz
     - psutil
+    - pillow
+    - discord.py
