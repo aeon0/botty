@@ -1,8 +1,0 @@
-# .pth file for the PyWin32 extensions
-win32
-win32\lib
-Pythonwin
-# This breaks any software involving a feedback loop involving PATH and Python
-# One example of such software is the Anaconda Distribition's conda package
-# manager, so we do not do it. We fixed this in a slightly better way anyway.
-# import pywin32_bootstrap
