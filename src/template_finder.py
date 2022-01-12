@@ -2,7 +2,7 @@ import cv2
 import threading
 from copy import deepcopy
 from screen import Screen
-from typing import Tuple, Union, List
+from typing import Union
 from dataclasses import dataclass
 import numpy as np
 from logger import Logger
@@ -18,7 +18,8 @@ template_finder_lock = threading.Lock()
 class TemplateMatch:
     name: str = None
     score: float = -1.0
-    position: Tuple[float, float] = None
+    position: tuple[float, float] = None
+    rec: list[float] = None
     valid: bool = False
 
 class TemplateFinder:
@@ -62,10 +63,10 @@ class TemplateFinder:
 
     def search(
         self,
-        ref: Union[str, np.ndarray, List[str]],
+        ref: Union[str, np.ndarray, list[str]],
         inp_img: np.ndarray,
         threshold: float = 0.68,
-        roi: List[float] = None,
+        roi: list[float] = None,
         normalize_monitor: bool = False,
         best_match: bool = False,
         use_grayscale: bool = False,
@@ -109,6 +110,8 @@ class TemplateFinder:
 
         scores = [0] * len(templates)
         ref_points = [(0, 0)] * len(templates)
+        recs = [[0, 0, 0, 0]] * len(templates)
+
         for count, template in enumerate(templates):
             template_match = TemplateMatch()
             scale = scales[count]
@@ -133,18 +136,21 @@ class TemplateFinder:
                 if max_val > threshold:
                     ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                     ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
+                    rec = [int(max_pos[0] // scale), int(max_pos[1] // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
 
                     if normalize_monitor:
                         ref_point =  self._screen.convert_screen_to_monitor(ref_point)
 
                     if best_match:
-                        scores[count]=max_val
-                        ref_points[count]=ref_point
+                        scores[count] = max_val
+                        ref_points[count] = ref_point
+                        recs[count] = rec
                     else:
                         try: template_match.name = names[count]
                         except: pass
                         template_match.position = ref_point
                         template_match.score = max_val
+                        template_match.rec = rec
                         template_match.valid = True
                         return template_match
 
@@ -154,6 +160,7 @@ class TemplateFinder:
             except: pass
             template_match.position = ref_points[idx]
             template_match.score = scores[idx]
+            template_match.rec = recs[idx]
             template_match.valid = True
         else:
             template_match = TemplateMatch()
@@ -162,8 +169,8 @@ class TemplateFinder:
 
     def search_and_wait(
         self,
-        ref: Union[str, List[str]],
-        roi: List[float] = None,
+        ref: Union[str, list[str]],
+        roi: list[float] = None,
         time_out: float = None,
         threshold: float = 0.68,
         best_match: bool = False,
@@ -203,7 +210,8 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["ARC_ALTAR", "ARC_ALTAR2"]
+    search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+
     while 1:
         # img = cv2.imread("")
         img = screen.grab()
@@ -216,7 +224,8 @@ if __name__ == "__main__":
                 cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
                 x, y = template_match.position
                 print(f"Name: {template_match.name} Pos: {template_match.position}, Dist: {625-x, 360-y}, Score: {template_match.score}")
+
         # print(time.time() - start)
-        display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
+        # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
         cv2.imshow('test', display_img)
         key = cv2.waitKey(1)

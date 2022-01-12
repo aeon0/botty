@@ -74,6 +74,7 @@ run_shenk=0
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -104,6 +105,12 @@ run_shenk=0
 | atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
 | atk_len_shenk      | Attack length for hdin or number of attack sequences for sorc when fighting shenk |
 | atk_len_nihlatak   | Attack length for hdin or number of attack sequences for sorc when fighting nihlatak |
+| atk_len_cs_trashmobs   | Attack length for hdin or number of attack sequences when fighting Trash Mobs in Chaos Sanctuary (Diablo) |
+| atk_len_diablo_vizier   | Attack length for hdin or number of attack sequences when fighting Sealboss A "Vizier of Chaos" in Chaos Sanctuary (Diablo) |
+| atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
+| atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
+| atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
+| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram and Seals A, B, C are cleared (NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
@@ -147,11 +154,12 @@ run_shenk=0
 | teleport       | Optional Hotkey for teleport. If left empty hammerdin will run instead of teleport. |
 | concentration  | Required Hotkey for Concentration                                                   |
 | holy_shield    | Required Hotkey for Holy Shield                                                     |
-| blessed_hammer | Required Hotkey for Blessed Hammer. (Must be set as left skill!)                    |
-| redemption     | Optional Hotkey for redemption                                                      |
-| vigor          | Optional Hotkey for vigor                                                           |
+| blessed_hammer | Required Hotkey for Blessed Hammer. (must be bound to left skill!)                  |
+| redemption     | Optional Hotkey for Redemption                                                      |
+| vigor          | Optional Hotkey for Vigor                                                           |
+| cleansing      | Optional Hotkey for Cleansing                                                       |
 
-| [trapsin]    | Descriptions                                                                        |
+| [trapsin]    | Descriptions                                                                          |
 | -------------- | ----------------------------------------------------------------------------------- |
 | teleport       | Optional Hotkey for teleport. If left empty trapsin will run instead of teleport.   |
 | skill_left     | Optional Hotkey for Left Skill                                                      |
