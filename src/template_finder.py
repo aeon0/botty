@@ -1,4 +1,6 @@
 import cv2
+import threading
+from copy import deepcopy
 from screen import Screen
 from typing import Tuple, Union, List
 from dataclasses import dataclass
@@ -8,6 +10,8 @@ import time
 import os
 from config import Config
 from utils.misc import load_template, list_files_in_folder, alpha_to_mask
+
+template_finder_lock = threading.Lock()
 
 
 @dataclass
@@ -21,11 +25,20 @@ class TemplateFinder:
     """
     Loads images from assets/templates and assets/npc and provides search functions
     to find these assets within another image
+    IMPORTANT: This method must be thread safe!
     """
-    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests"]):
+    def __init__(
+        self,
+        screen: Screen,
+        template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests"],
+        save_last_res: bool = False
+    ):
         self._screen = screen
         self._config = Config()
-        self.last_res = None
+        self._save_last_res = save_last_res
+        if self._save_last_res:
+            # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
+            self.last_res = None
         # load templates with their filename as key in the dict
         pathes = []
         for path in template_pathes:
@@ -111,9 +124,12 @@ class TemplateFinder:
                 if use_grayscale:
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     template = templates_gray[count]
-                self.last_res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
-                np.nan_to_num(self.last_res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
-                _, max_val, _, max_pos = cv2.minMaxLoc(self.last_res)
+                res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
+                np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+                _, max_val, _, max_pos = cv2.minMaxLoc(res)
+                if self._save_last_res:
+                    with template_finder_lock:
+                        self.last_res = deepcopy(res)
                 if max_val > threshold:
                     ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
                     ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
