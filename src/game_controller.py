@@ -3,6 +3,7 @@ import threading
 import time
 
 import cv2
+from template_finder import TemplateFinder
 
 from utils.auto_settings import check_settings
 from bot import Bot
@@ -25,6 +26,7 @@ class GameController:
     def __init__(self, config: Config):
         self._config = config
         self.screen = None
+        self.template_finder = None
         self.health_monitor_thread = None
         self.health_manager = None
         self.death_manager = None
@@ -37,15 +39,16 @@ class GameController:
         self.char_selector = None
 
     def run_bot(self, pick_corpse: bool = False):
-        # Make sure the correct char is selected
-        if self.char_selector.has_char_template_saved():
-            Logger.info("Selecting original char")
-            self.char_selector.select_char()
-        else:
-            Logger.info("Saving top-most char as template")
-            self.char_selector.save_char_template()
+        if self._config.general['restart_d2r_when_stuck']:
+            # Make sure the correct char is selected
+            if self.char_selector.has_char_template_saved():
+                Logger.info("Selecting original char")
+                self.char_selector.select_char()
+            else:
+                Logger.info("Saving top-most char as template")
+                self.char_selector.save_char_template()
         # Start bot thread
-        self.bot = Bot(self.screen, self.game_stats, pick_corpse)
+        self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -84,20 +87,23 @@ class GameController:
         else:
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.screen.grab())
-            Logger.error(
-                f"{self._config.general['name']} could not recover from a max game length violation. Restarting the Game.")
-            if self._config.general["custom_message_hook"]:
-                messenger.send_message(f"{self._config.general['name']}: got stuck and will now restart D2R")
-            if restart_game(self._config.general["d2r_path"]):
-                self.game_stats.log_end_game(failed=max_game_length_reached)
-                if self.setup_screen():
-                    self.start_health_manager_thread()
-                    self.start_death_manager_thread()
-                    self.game_recovery = GameRecovery(self.screen, self.death_manager)
-                    return self.run_bot(True)
-            Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-            messenger.send_message("Got stuck and could not restart the game. Quitting.")
-                
+            if self._config.general['restart_d2r_when_stuck']:
+                Logger.error("Could not recover from a max game length violation. Restarting the Game.")
+                if self._config.general["custom_message_hook"]:
+                    messenger.send_message("Got stuck and will now restart D2R")
+                if restart_game(self._config.general["d2r_path"]):
+                    self.game_stats.log_end_game(failed=max_game_length_reached)
+                    if self.setup_screen():
+                        self.start_health_manager_thread()
+                        self.start_death_manager_thread()
+                        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
+                        return self.run_bot(True)
+                Logger.error("Could not restart the game. Quitting.")
+                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+            else:
+                Logger.error("Could not recover from a max game length violation. Quitting botty.")
+                if self._config.general["custom_message_hook"]:
+                    messenger.send_message("Got stuck and will now quit botty")
             os._exit(1)
 
     def start(self):
@@ -109,11 +115,12 @@ class GameController:
         if self._config.advanced_options['d2r_windows_always_on_top']:
             set_d2r_always_on_top()
         self.setup_screen()
+        self.template_finder = TemplateFinder(self.screen)
         self.start_health_manager_thread()
         self.start_death_manager_thread()
-        self.game_recovery = GameRecovery(self.screen, self.death_manager)
+        self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
         self.game_stats = GameStats()
-        self.char_selector = CharSelector(self.screen, self._config)
+        self.char_selector = CharSelector(self.screen, self._config, self.template_finder)
         self.start_game_controller_thread()
         GameController.is_running = True
 
@@ -134,14 +141,14 @@ class GameController:
 
     def start_health_manager_thread(self):
         # Run health monitor thread
-        self.health_manager = HealthManager(self.screen)
+        self.health_manager = HealthManager(self.screen, self.template_finder)
         self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
     def start_death_manager_thread(self):
         # Run death monitor thread
-        self.death_manager = DeathManager(self.screen)
+        self.death_manager = DeathManager(self.screen, self.template_finder)
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()

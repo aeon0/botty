@@ -63,6 +63,7 @@ class Config:
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "d2r_path": self._select_val("general", "d2r_path"),
+            "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck")))
         }
 
         # Added for dclone ip hunting
@@ -120,6 +121,12 @@ class Config:
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
             "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
+            "atk_len_diablo_vizier": float(self._select_val("char", "atk_len_diablo_vizier")),
+            "atk_len_diablo_deseis": float(self._select_val("char", "atk_len_diablo_deseis")),
+            "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
+            "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
+            "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
+            "kill_cs_trash": float(self._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(self._select_val("char", "always_repair"))),
         }
 
@@ -157,6 +164,8 @@ class Config:
         self.barbarian = self._config["barbarian"]
         if "barbarian" in self._custom:
             self.barbarian.update(self._custom["barbarian"])
+        self.barbarian = dict(self.barbarian)
+        self.barbarian["cry_frequency"] = float(self.barbarian["cry_frequency"])
 
         # Basic config
         self.basic = self._config["basic"]
