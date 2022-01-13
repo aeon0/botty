@@ -25,6 +25,7 @@ class Item:
     roi: list[int] = None
     text: str = None
     color: str = None
+    ocr_text: str = ""
 
 class ItemFinder:
     def __init__(self, config: Config):

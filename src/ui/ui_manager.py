@@ -275,6 +275,8 @@ class UiManager():
             result = self._item_cropper.crop_item_descr(in_img)
             for i, line in enumerate(list(filter(None, result.text.splitlines()))):
                 Logger.debug(f"Ocr Line{i}: {line}")
+                if line is not None:
+                    x.ocr_text += f"{line}\n"
             if self._config.general["loot_screenshots"]:
                 cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
 
@@ -438,7 +440,7 @@ class UiManager():
                         Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
                         break
                     else:
-                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item)
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item,found_items[0].ocr_text)
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)

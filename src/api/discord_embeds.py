@@ -15,7 +15,7 @@ class DiscordEmbeds(GenericApi):
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
 
-    def send_item(self, item: str, image:  np.ndarray, location: str):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
@@ -29,6 +29,8 @@ class DiscordEmbeds(GenericApi):
         )
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
+        e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
+
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
