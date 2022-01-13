@@ -264,7 +264,7 @@ class Hammerdin(IChar):
         start = time.time()
         prev_position = None
         prev_pos_counter = time.time()
-        while time.time() - start < 70:
+        while time.time() - start < 100:
             data = self._api.get_data()
             found_a_monster = False
             if data is not None:
