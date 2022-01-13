@@ -8,7 +8,6 @@ import math
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
-from screen import Screen
 from template_finder import TemplateFinder
 
 @dataclass
@@ -28,10 +27,8 @@ class Item:
     color: str = None
 
 class ItemFinder:
-    def __init__(self, config: Config, screen: Screen, template_finder: TemplateFinder):
-        self._screen = screen
-        self._template_finder = template_finder
-        self._item_cropper = ItemCropper(self._screen, self._template_finder)
+    def __init__(self, config: Config):
+        self._item_cropper = ItemCropper(TemplateFinder)
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
@@ -141,7 +138,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config, screen, template_finder)
+    item_finder = ItemFinder(config)
     while 1:
         # img = cv2.imread("")
         img = screen.grab().copy()

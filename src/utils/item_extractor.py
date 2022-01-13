@@ -22,7 +22,7 @@ if __name__ == "__main__":
     gen_truth = 1
 
 
-    item_cropper = ItemCropper(Screen, TemplateFinder)
+    item_cropper = ItemCropper(TemplateFinder)
 
     for filename in os.listdir(args.file_path):
         if filename.endswith(".png"):

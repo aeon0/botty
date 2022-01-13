@@ -32,10 +32,6 @@ class PickIt:
         keyboard.send(self._config.char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
-        if self._config.general["loot_screenshots"]:
-            img = self._screen.grab()
-            cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
         time_out = False
         picked_up_items = []
@@ -43,6 +39,7 @@ class PickIt:
         curr_item_to_pick: Item = None
         same_item_timer = None
         did_force_move = False
+        done_ocr=False
         while not time_out:
             if (time.time() - start) > 28:
                 time_out = True
@@ -75,6 +72,16 @@ class PickIt:
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
+
+                if done_ocr == False:
+                    for item in item_list:
+                        Logger.debug(f"Ocr drop: {item.text}")
+                    if self._config.general["loot_screenshots"]:
+                        img = self._screen.grab()
+                        cv2.imwrite("./loot_screenshots/info_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                        Logger.debug("Took a screenshot of current loot")
+                    done_ocr = True
+
                 found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
@@ -127,7 +134,6 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                            Logger.debug(f"Ocr: {closest_item.text}")
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
@@ -161,7 +167,7 @@ if __name__ == "__main__":
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
-    item_finder = ItemFinder(config, screen, t_finder)
+    item_finder = ItemFinder(config)
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

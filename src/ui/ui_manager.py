@@ -30,7 +30,7 @@ class UiManager():
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._screen = screen
-        self._item_cropper = ItemCropper(self._screen, self._template_finder)
+        self._item_cropper = ItemCropper(self._template_finder)
         self._ocr = Ocr()
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
@@ -271,14 +271,18 @@ class UiManager():
         filtered_list = []
         for x in original_list:
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
+
+            result = self._item_cropper.crop_item_descr(in_img)
+            for i, line in enumerate(list(filter(None, result.text.splitlines()))):
+                Logger.debug(f"Ocr Line{i}: {line}")
+            if self._config.general["loot_screenshots"]:
+                cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
+
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
             if not (include_props or exclude_props):
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing")
-                    results = self._item_cropper.crop_item_descr(in_img)
-                    for result in results:
-                        Logger.debug(f"OCR: {result.text}")
                 filtered_list.append(x)
                 continue
             include = True
@@ -330,9 +334,6 @@ class UiManager():
             if include and not exclude:
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                    results = self._item_cropper.crop_item_descr(in_img)
-                    for result in results:
-                        Logger.debug(f"OCR: {result.text}")
                 filtered_list.append(x)
 
         return filtered_list
@@ -645,6 +646,6 @@ if __name__ == "__main__":
     game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config, screen, template_finder)
+    item_finder = ItemFinder(config, template_finder)
     ui_manager = UiManager(screen, template_finder, game_stats)
     ui_manager.stash_all_items(5, item_finder)
