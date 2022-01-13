@@ -33,7 +33,7 @@ from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
-from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Baal, Meph, Andy
+from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo, Baal, Meph, Andy
 from town import TownManager, A1, A2, A3, A4, A5
 
 from pather_v2 import PatherV2
@@ -103,6 +103,7 @@ class Bot:
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
             "run_arcane": self._route_config["run_arcane"],
+            "run_diablo": self._route_config["run_diablo"],
             "run_baal": self._route_config["run_baal"],
             "run_meph": self._route_config["run_meph"],
             "run_andy": self._route_config["run_andy"],
@@ -118,9 +119,12 @@ class Bot:
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        # mem-reading
         self._baal = Baal(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
         self._meph = Meph(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
         self._andy = Andy(self._screen, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._api, self._pather_v2)
+        
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -135,7 +139,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'baal', 'meph', 'andy']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo', 'baal', 'meph', 'andy']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -149,9 +153,10 @@ class Bot:
             { 'trigger': 'run_baal', 'source': 'town', 'dest': 'baal', 'before': "on_run_baal"},
             { 'trigger': 'run_meph', 'source': 'town', 'dest': 'meph', 'before': "on_run_meph"},
             { 'trigger': 'run_andy', 'source': 'town', 'dest': 'andy', 'before': "on_run_andy"},
+             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_diablo"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph', 'andy'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'baal', 'meph', 'andy', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -438,4 +443,13 @@ class Bot:
         self._curr_loc = self._andy.approach(self._curr_loc)
         if self._curr_loc:
             res = self._andy.battle(not self._pre_buffed)
+        
+    def on_run_diablo(self):
+        res = False
+        self._do_runs["run_diablo"] = False
+        self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
+        self._curr_loc = self._diablo.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._diablo.battle(not self._pre_buffed)
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)

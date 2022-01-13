@@ -212,9 +212,24 @@ class IChar:
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
-        
+
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
+
+    def kill_diablo(self) -> bool:
+        raise ValueError("Diablo is not implemented!")
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        raise ValueError("Diablo De Seis is not implemented!")
+
+    def kill_infector(self) -> bool:
+        raise ValueError("Diablo Infector is not implemented!")
+
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool:
+        raise ValueError("Diablo Vizier is not implemented!")
+
+    def kill_cs_trash(self) -> bool:
+        raise ValueError("Diablo CS Trash is not implemented!")
 
     # Only possible with memory reading
     # =========================================
