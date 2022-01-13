@@ -418,6 +418,16 @@ class Bot:
         self._tps_left -= self._arcane.used_tps
         self._ending_run_helper(res)
 
+    def on_run_diablo(self):
+        res = False
+        self._do_runs["run_diablo"] = False
+        self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
+        self._curr_loc = self._diablo.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._diablo.battle(not self._pre_buffed)
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
+        self._ending_run_helper(res)
+
     def on_run_baal(self):
         res = False
         self._do_runs["run_baal"] = False
@@ -443,13 +453,4 @@ class Bot:
         self._curr_loc = self._andy.approach(self._curr_loc)
         if self._curr_loc:
             res = self._andy.battle(not self._pre_buffed)
-        
-    def on_run_diablo(self):
-        res = False
-        self._do_runs["run_diablo"] = False
-        self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
-        self._curr_loc = self._diablo.approach(self._curr_loc)
-        if self._curr_loc:
-            res = self._diablo.battle(not self._pre_buffed)
-        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)
