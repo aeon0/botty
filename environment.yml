@@ -4,6 +4,7 @@ dependencies:
   - pywin32
   - pip
   - pip:
+    - nuitka
     - pyinstaller
     - opencv-python
     - transitions

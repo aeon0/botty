@@ -53,7 +53,7 @@ class NovaSorc(Sorceress):
 
     def kill_council(self) -> bool:
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        atk_len = self._char_config["atk_len_trav"] * 0.5
+        atk_len = self._char_config["atk_len_trav"] * 0.23
         # change node to be further to the right
         offset_229 = np.array([200, 100])
         self._pather.offset_node(229, offset_229)
@@ -63,13 +63,15 @@ class NovaSorc(Sorceress):
             self._nova(atk_len)
             self._move_and_attack((-40, -20), atk_len)
             self._move_and_attack((40, 20), atk_len)
-            self._move_and_attack((-40, -20), atk_len)
+            self._move_and_attack((40, 20), atk_len)
         def clear_outside():
             self._pather.traverse_nodes([226], self, time_out=0.8, force_tp=True)
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((45, -20), atk_len)
             self._move_and_attack((-45, 20), atk_len)
+        clear_inside()
+        clear_outside()
         clear_inside()
         clear_outside()
         # change back node as it is used in trav.py
