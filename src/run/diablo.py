@@ -294,12 +294,12 @@ class Diablo:
         
         ### CLEAR TRASH & APPROACH SEAL ###
         #self._char.kill_cs_trash() #done during layout check
-        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) # REPLACES: if not self._pather.traverse_nodes([706, 704, 705], self._char, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
+        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) # REPLACES: if not self._pather.traverse_nodes([656, 654, 655], self._char, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
         #self._char.kill_cs_trash()
-        if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [705]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
+        if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
-        if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [702]): return False
-        self._pather.traverse_nodes_fixed("dia_c1f_702", self._char)
+        if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
+        self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
@@ -307,7 +307,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         ### GO HOME ###
-        if not self._pather.traverse_nodes([704], self._char, time_out=3): return False # this node often is not found
+        if not self._pather.traverse_nodes([654], self._char, time_out=3): return False # this node often is not found
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
