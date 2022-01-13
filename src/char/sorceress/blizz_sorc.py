@@ -21,8 +21,8 @@ class BlizzSorc(Sorceress):
         self._pather.offset_node(515, (-120, -100))
         self._pather.offset_node(517, (-18, -58))
         #Nihlathak Bottom Left
-        self._pather.offset_node(500, (-150, 300))
-        self._pather.offset_node(501, (0, -35))
+        self._pather.offset_node(500, (-150, 200))
+        self._pather.offset_node(501, (10, -33))
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
