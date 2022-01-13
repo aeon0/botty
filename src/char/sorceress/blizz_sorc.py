@@ -219,7 +219,7 @@ class BlizzSorc(Sorceress):
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)  
                 nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
-                if Nihl_immune:
+                if nihl_immune:
                     Logger.info("Cold Immune! - Exiting")
                     return False
         wait(0.8)      
