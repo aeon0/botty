@@ -43,6 +43,7 @@ class Config:
             self._custom.read('config/custom.ini')
 
         self.general = {
+            "key": self._select_val("general", "key"),
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
             "monitor": int(self._select_val("general", "monitor")),
