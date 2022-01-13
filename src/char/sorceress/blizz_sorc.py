@@ -209,7 +209,7 @@ class BlizzSorc(Sorceress):
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        # Find nilhlatak position    
+        # Find nilhlatak position
         atk_sequences = max(1, int(self._char_config["atk_len_nihlatak"]) - 1)
         for i in range(atk_sequences):
             nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
@@ -218,7 +218,7 @@ class BlizzSorc(Sorceress):
                 wait(0.8)  
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)  
-                Nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
+                nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
                 if Nihl_immune:
                     Logger.info("Cold Immune! - Exiting")
                     return False
