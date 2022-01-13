@@ -423,6 +423,7 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
+                result = self._item_cropper.crop_item_descr(hovered_item)
                 found_items = self._keep_item(item_finder, hovered_item)
                 if len(found_items) > 0:
                     keyboard.send('ctrl', do_release=False)
@@ -440,7 +441,7 @@ class UiManager():
                         Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
                         break
                     else:
-                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item,found_items[0].ocr_text)
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, result.data,found_items[0].ocr_text)
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)

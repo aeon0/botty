@@ -18,8 +18,8 @@ class DiscordEmbeds(GenericApi):
     def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str):
         imgName = item.replace('_', '-')
 
-        _, w, _ = image.shape
-        image = image[:, (w//2):,:]
+        # _, w, _ = image.shape
+        # image = image[:, (w//2):,:]
         cv2.imwrite(f"./loot_screenshots/{item}.png", image)
         file = self._add_file(f"./loot_screenshots/{item}.png", f"{imgName}.png")
         e = discord.Embed(
