@@ -646,7 +646,9 @@ class UiManager():
             #Gambling window is open. Starting to spent some coins
             while (gamble_on and gold):
                 if (self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and self._inventory_has_items (self._screen.grab(),2)):   
-                    Gamble_on = False
+                    gamble_on = False
+                    self.close_vendor_screen ()
+                    break
                 for item in self._config.gamble["gamble_items"]:  
                     template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
                     while not template_match_item.valid:
@@ -665,6 +667,12 @@ class UiManager():
                     wait(0.1, 0.15)
                     mouse.click(button="right")
                     wait(0.1, 0.15)
+                    template_match = self._template_finder.search ("no_gold".upper(), self._screen.grab(), threshold= 0.90)
+                    #check if gold is av
+                    if template_match.valid:
+                        gold = False
+                        self.close_vendor_screen ()
+                        break
                     for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
                         img = self._screen.grab()
                         slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
@@ -680,11 +688,6 @@ class UiManager():
                                 mouse.click (button="left")
                                 wait(0.1, 0.15)
                                 keyboard.send('ctrl', do_press=False)
-                    #check if gold is av
-                    template_match = self._template_finder.search ("no_gold".upper(), self._screen.grab(), threshold= 0.5)
-                    if template_match.valid:
-                        gold = False
-            self.close_vendor_screen ()
             #Stashing needed        
         else:
             Logger.warning("gambling failed")
@@ -747,4 +750,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder(config)
     ui_manager = UiManager(screen, template_finder)
-    ui_manager.transfer_shared_to_private_gold (1)
+    ui_manager.gamble (item_finder)
