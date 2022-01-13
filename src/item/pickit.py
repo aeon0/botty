@@ -93,7 +93,7 @@ class PickIt:
                     elif time.time() - same_item_timer > 1 and not did_force_move:
                         force_move = True
                         did_force_move = True
-                    elif time.time() - same_item_timer > 2:
+                    elif time.time() - same_item_timer > 3:
                         # backlist this item type for this pickit round
                         Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
                         skip_items.append(closest_item.name)
