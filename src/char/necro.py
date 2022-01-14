@@ -13,11 +13,16 @@ from pather import Location, Pather
 import numpy as np
 import time
 from utils.misc import cut_roi, is_in_roi
+import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
+
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
         Logger.info('\033[94m'+"Setting up Necro"+'\033[0m')
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        self._pickit = pickit #for Diablo
+        self._picked_up_items = False #for Diablo
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])

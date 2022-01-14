@@ -1,5 +1,4 @@
 import keyboard
-import cv2
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
@@ -7,10 +6,11 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-from item.pickit import PickIt #for Diablo
 from utils.misc import wait
 import time
 from pather import Pather, Location
+import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
 
 
 class Hammerdin(IChar):

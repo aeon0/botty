@@ -37,7 +37,7 @@ class Diablo:
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
-        Logger.info("Run Diablo /!\ BETA Version /!\ please do not run without supervision.")
+        Logger.info("Run Diablo")
         if not self._char.can_teleport():
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):
