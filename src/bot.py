@@ -54,11 +54,11 @@ class Bot:
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif self._config.char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif self._config.char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif self._config.char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif self._config.char["type"] == "trapsin":

@@ -11,12 +11,16 @@ import time
 import random
 import numpy as np
 from pather import Pather, Location
+import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
 
 
 class Basic_Ranged(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
         Logger.info("Setting up Basic Ranged Character")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        self._pickit = pickit #for Diablo
+        self._picked_up_items = False #for Diablo
         self._pather = pather
         self._do_pre_move = True
 

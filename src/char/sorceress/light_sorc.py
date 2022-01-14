@@ -7,7 +7,6 @@ import random
 from pather import Location
 import numpy as np
 
-
 class LightSorc(Sorceress):
     def __init__(self, *args, **kwargs):
         Logger.info("Setting up Light Sorc")
