@@ -576,7 +576,7 @@ class Pather:
                                 if self._config.general["info_screenshots"]:
                                     cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                                 Logger.error("Got stuck exit pather")
-                            return False
+                        return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
