@@ -7,11 +7,22 @@ import random
 from pather import Location
 import numpy as np
 
-
 class BlizzSorc(Sorceress):
     def __init__(self, *args, **kwargs):
         Logger.info("Setting up Blizz Sorc")
         super().__init__(*args, **kwargs)
+        #Nihlathak Bottom Right
+        self._pather.offset_node(505, (50, 200))
+        self._pather.offset_node(506, (40, -10))
+        #Nihlathak Top Right
+        self._pather.offset_node(510, (700, -55))
+        self._pather.offset_node(511, (30, -25))
+        #Nihlathak Top Left
+        self._pather.offset_node(515, (-120, -100))
+        self._pather.offset_node(517, (-18, -58))
+        #Nihlathak Bottom Left
+        self._pather.offset_node(500, (-150, 200))
+        self._pather.offset_node(501, (10, -33))
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -199,23 +210,24 @@ class BlizzSorc(Sorceress):
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_sequences = max(2, int(self._char_config["atk_len_nihlatak"]) - 1)
+        atk_sequences = max(1, int(self._char_config["atk_len_nihlatak"]) - 1)
         for i in range(atk_sequences):
             nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
             if nihlatak_pos_abs is not None:
-                cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
-                self._blizzard(cast_pos_abs, spray=90)
-                self._cast_static()
-                # Do some tele "dancing" after each sequence
-                if i < atk_sequences - 1:
-                    rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
-                    tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
-                    pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
-                    self.pre_move()
-                    self.move(pos_m)
+                cast_pos_abs = np.array([nihlatak_pos_abs[0] * 1.0, nihlatak_pos_abs[1] * 1.0])
+                wait(0.8)  
+                self._blizzard(cast_pos_abs, spray=0)
+                wait(0.3)  
+                nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
+                if nihl_immune:
+                    Logger.info("Cold Immune! - Exiting")
+                    return False
+        wait(0.8)      
+        self._cast_static()
+        self._blizzard(cast_pos_abs, spray=15)                                     
         # Move to items
+        wait(1.3)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
-        self._blizzard((0, 0), spray=10)
         return True
 
     def kill_summoner(self) -> bool:
