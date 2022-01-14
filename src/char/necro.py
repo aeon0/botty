@@ -159,7 +159,17 @@ class Necro(IChar):
     def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
             keyboard.send(self._skill_hotkeys["amp_dmg"])
+        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+        mouse.move(*cast_pos_monitor)
+        mouse.press(button="right")
+        wait(0.25, 0.35)
+        mouse.release(button="right")
 
+    def _lower_resist(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+        if self._skill_hotkeys["lower_resist"]:
+            keyboard.send(self._skill_hotkeys["lower_resist"])
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
@@ -183,6 +193,16 @@ class Necro(IChar):
                 mouse.release(button="right")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
+    def _poison_nova(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+        if self._skill_hotkeys["psn_nova"]:
+            keyboard.send(self._skill_hotkeys["psn_nova"])
+        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+        mouse.move(*cast_pos_monitor)
+        mouse.press(button="right")
+        wait(0.25, 0.35)
+        mouse.release(button="right")
 
     def _lerp(self,a: float,b: float, f:float):
         return a + f * (b - a)
@@ -513,8 +533,213 @@ class Necro(IChar):
 
 
         return True
+"""
+# Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo
+    def kill_cs_trash(self) -> bool:
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
+        
+    def kill_cs_trash_pentagram(self) -> bool:
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
+    
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool:
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        self._pather.traverse_nodes(nodes1, self)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        self._pather.traverse_nodes(nodes2, self)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        self._pather.traverse_nodes(nodes1, self)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        self._pather.traverse_nodes(nodes2, self)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        self._pather.traverse_nodes(nodes3, self)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
 
 
+    def kill_infector(self) -> bool:
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
+
+    def kill_diablo(self) -> bool:
+        # Move close to diablo
+        #self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        cast_pos_abs = [0,0]
+        corpse_exp_pos = cast_pos_abs
+        self._bone_armor()
+        self._lower_resist(cast_pos_abs, 11)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        self._poison_nova(cast_pos_abs, 11)
+        wait(0.5)
+        #self._amp_dmg(cast_pos_abs, 11)
+        #self._corpse_explosion(corpse_exp_pos, 80, cast_count=4)
+        self._raise_skeleton([0,-40],80,cast_count=8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)      
+        return True
+"""
 if __name__ == "__main__":
     import os
     import keyboard
