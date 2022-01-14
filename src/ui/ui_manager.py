@@ -10,7 +10,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, color_filter
 
 from logger import Logger
-from config import Config
+from config import Config, ItemProps
 from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
@@ -387,9 +387,7 @@ class UiManager():
                         cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
                         # turn off gold pickup
-                        self._config.char["stash_gold"] = False
-                        self._config.items["misc_gold"].pickit_type = 0
-                        item_finder.update_items_to_pick(self._config)
+                        self._config.turn_off_goldpickup()
                         # inform user about it
                         Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
@@ -635,6 +633,6 @@ if __name__ == "__main__":
     game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder, game_stats)
     ui_manager.stash_all_items(5, item_finder)

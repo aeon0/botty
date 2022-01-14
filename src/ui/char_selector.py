@@ -6,8 +6,8 @@ from template_finder import TemplateFinder
 
 
 class CharSelector:
-    def __init__(self, screen: Screen, config: Config, template_finder: TemplateFinder):
-        self._config = config
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+        self._config = Config()
         self._char_template = None
         self._screen = screen
         self._template_finder = template_finder
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     tf = TemplateFinder(screen)
-    selector = CharSelector(screen, config, tf)
+    selector = CharSelector(screen, tf)
     if not selector.has_char_template_saved():
         selector.save_char_template()
     selector.select_char()
