@@ -68,7 +68,17 @@ class Trapsin(IChar):
         atk(4)
         keyboard.send(self._skill_hotkeys["death_sentry"])
         atk(1)
-        
+    
+    def kill_summoner(self) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_arc"] / 2))
+        cast_pos_abs = [0, 0]
+        for _ in range(atk_len):
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        wait(0.5, 1)
+        return True
+    
     def kill_pindle(self) -> bool:
         atk_len = max(1, int(self._char_config["atk_len_pindle"] / 2))
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
@@ -111,6 +121,87 @@ class Trapsin(IChar):
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        return True
+
+    def kill_cs_trash(self) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_cs_trashmobs"] / 2))
+        cast_pos_abs = [0, 0]
+        for _ in range(atk_len):
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        return True
+
+    def kill_cs_trash_pentagram(self) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_cs_trashmobs"] / 2))
+        cast_pos_abs = [0, 0]
+        for _ in range(atk_len):
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        return True
+
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool: #seal_layout,
+        atk_len = max(1, int(self._char_config["atk_len_diablo_vizier"]))
+        cast_pos_abs = [0, 0]
+        self._right_attack(cast_pos_abs, 30)
+        self._debuff(cast_pos_abs, 30)
+        self._left_attack(cast_pos_abs, 30)
+        self._pather.traverse_nodes(nodes1, self)
+        if 2 < atk_len:
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        self._pather.traverse_nodes(nodes2, self)
+        if 1 < atk_len:
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        wait(0.5, 1)
+        return True
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_diablo_deseis"]))
+        cast_pos_abs = [0, 0]
+        self._right_attack(cast_pos_abs, 30)
+        self._debuff(cast_pos_abs, 30)
+        self._left_attack(cast_pos_abs, 30)
+        self._pather.traverse_nodes(nodes1, self)
+        if 1 < atk_len:
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        self._pather.traverse_nodes(nodes2, self)
+        if 2 < atk_len:
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        self._pather.traverse_nodes(nodes2, self)
+        if 3 < atk_len:
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        wait(0.5, 1)
+        return True
+
+    def kill_infector(self) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_diablo_infector"] / 2))
+        cast_pos_abs = [0, 0]
+        for _ in range(atk_len):
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        wait(0.5, 1)
+        return True
+
+    def kill_diablo(self) -> bool:
+        atk_len = max(1, int(self._char_config["atk_len_diablo"] / 2))
+        cast_pos_abs = [0, 0]
+        for _ in range(atk_len):
+            self._right_attack(cast_pos_abs, 30)
+            self._debuff(cast_pos_abs, 30)
+            self._left_attack(cast_pos_abs, 30)
+        wait(0.5, 1)
         return True
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
