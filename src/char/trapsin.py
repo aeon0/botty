@@ -11,6 +11,7 @@ import random
 from typing import Tuple
 from pather import Location, Pather
 import numpy as np
+import time # for Diablo
 import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
 
@@ -181,7 +182,7 @@ class Trapsin(IChar):
             found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid
             if not found: self._pather.traverse_nodes_fixed(path, self)
         if not found:
-            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         return True
 

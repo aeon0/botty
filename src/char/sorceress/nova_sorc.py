@@ -7,6 +7,7 @@ from logger import Logger
 from utils.misc import wait
 from pather import Location
 import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
 
 class NovaSorc(Sorceress):
     def __init__(self, *args, **kwargs):

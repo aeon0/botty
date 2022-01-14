@@ -274,7 +274,6 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([612], self): return False
             ### KILL BOSS ###
             Logger.info(seal_layout + ": Kill Boss A (Vizier)")
-            Logger.info(seal_layout + ": Kill Boss A (Vizier)")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.4)
@@ -513,9 +512,6 @@ class Hammerdin(IChar):
             return False
 
     def kill_diablo(self) -> bool:
-        # Move close to diablo
-        #self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
-        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_hammers(self._char_config["atk_len_diablo"] * 0.5)

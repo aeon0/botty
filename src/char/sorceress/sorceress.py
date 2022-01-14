@@ -16,7 +16,7 @@ from item.pickit import PickIt #for Diablo
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager, pickit)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
         self._pather = pather
