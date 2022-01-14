@@ -15,7 +15,6 @@ from logger import Logger
 
 
 # Will be initialized in the __main__() function
-config = None
 game_controller = None
 debugger_controller = None
 
@@ -49,6 +48,7 @@ def on_exit(config: Config):
 
 
 def main():
+    config = Config()
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif config.general["logg_lvl"] == "debug":
@@ -89,9 +89,8 @@ def main():
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end
     try:
-        config = Config(print_warnings=True)
-        game_controller = GameController(config)
-        debugger_controller = GraphicDebuggerController(config)
+        game_controller = GameController()
+        debugger_controller = GraphicDebuggerController()
         main()
     except:
         traceback.print_exc()

@@ -36,8 +36,9 @@ class DeathManager:
         return self._died
 
     @staticmethod
-    def pick_up_corpse(config: Config, screen: Screen):
+    def pick_up_corpse(screen: Screen):
         Logger.debug("Pick up corpse")
+        config = Config()
         x, y = screen.convert_screen_to_monitor((config.ui_pos["corpse_x"], config.ui_pos["corpse_y"]))
         mouse.move(x, y)
         mouse.click(button="left")
@@ -90,4 +91,4 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     manager = DeathManager(screen)
-    manager.pick_up_corpse(config, screen)
+    manager.pick_up_corpse(screen)

@@ -12,7 +12,7 @@ from version import __version__
 
 
 def main():
-    config = Config(print_warnings=True)
+    config = Config()
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif config.general["logg_lvl"] == "debug":
