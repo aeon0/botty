@@ -168,6 +168,8 @@ run_shenk=0
 | shadow_warrior | Optional Hotkey for Shadow Warrior                                                  |
 | lightning_sentry | Required Hotkey for Lightning Sentry                                              |
 | death_sentry   | Required Hotkey for Death Sentry                                                    |
+| cloak_of_shadows| Optional Hotkey for Cloak of Shadows                                                |
+|  mind_blast    | Optional Hotkey for Mind Blast                                                      |
 
 | [barbarian]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
@@ -200,7 +202,7 @@ run_shenk=0
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
 | message_headers      | Headers that are sent with each messages                              |
 | message_body_template | Message body of the post message sent                                |
-| message_highligh     | 0: Send messages as is, 1: Uses message highlighting for discord      |
+| message_highlight     | 0: Send messages as is, 1: Uses message highlighting for discord      |
 
 ## Support this project
 
