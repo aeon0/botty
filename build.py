@@ -4,9 +4,9 @@ from pathlib import Path
 from src.version import __version__
 import argparse
 import getpass
-import uuid
 import random
-
+from cryptography.fernet import Fernet
+import string
 
 
 parser = argparse.ArgumentParser(description="Build Botty")
@@ -26,9 +26,9 @@ parser.add_argument(
     action='store_true',
     help="Will generate a random name for the botty exe")
 parser.add_argument(
-    "-n", "--use_nuitka",
+    "-k", "--use_key",
     action='store_true',
-    help="Will use nuitka to build instead of pyinstaller")
+    help="Will build with encryption key")
 args = parser.parse_args()
 
 
@@ -43,17 +43,6 @@ def clean_up():
         os.remove("health_manager.spec")
     if os.path.exists("shopper.spec"):
         os.remove("shopper.spec")
-    # nuitka
-    if os.path.exists("main.dist"):
-        shutil.rmtree("main.dist")
-    if os.path.exists("main.build"):
-        shutil.rmtree("main.build")
-    if os.path.exists("main.onefile"):
-        shutil.rmtree("main.onefile")
-    if os.path.exists("main.onefile-build"):
-        shutil.rmtree("main.onefile-build")
-    if os.path.exists("main.exe"):
-        os.remove("main.exe")
 
 if __name__ == "__main__":
     new_version_code = None
@@ -82,15 +71,13 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(botty_dir)
 
-    if args.use_nuitka:
-        print("USE N")
-        installer_cmd = f"python -m nuitka --mingw64 --python-flag=-OO --remove-output --follow-imports --standalone --onefile --assume-yes-for-downloads --plugin-enable=numpy src/main.py"
+    for exe in ["main.py", "shopper.py"]:
+        key_cmd = " "
+        if args.use_key:
+            key = Fernet.generate_key().decode("utf-8")
+            key_cmd = " --key " + key
+        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
-        os.system(f"mkdir {botty_dir}")
-    else:
-        for exe in ["main.py", "shopper.py"]:
-            installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
-            os.system(installer_cmd)
 
     os.system(f"cd {botty_dir} && mkdir config && cd ..")
 
@@ -102,13 +89,11 @@ if __name__ == "__main__":
     shutil.copy("config/shop.ini", f"{botty_dir}/config/")
     shutil.copy("README.md", f"{botty_dir}/")
     shutil.copytree("assets", f"{botty_dir}/assets")
-    if os.path.exists("main.exe"):
-        shutil.copy("main.exe", f"{botty_dir}/")
     clean_up()
 
     if args.random_name:
         print("Generate random names")
-        new_name = uuid.uuid4().hex[:random.randint(6, 32)]
+        new_name = ''.join(random.choices(string.ascii_letters, k=random.randint(6, 14)))
         os.rename(f'{botty_dir}/main.exe', f'{botty_dir}/{new_name}.exe')
 
     if new_version_code is not None:
