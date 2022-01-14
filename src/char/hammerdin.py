@@ -7,7 +7,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
-#from item.pickit import PickIt #for Diablo
+from item.pickit import PickIt #for Diablo
 from utils.misc import wait
 import time
 from pather import Pather, Location
@@ -22,14 +22,14 @@ class Hammerdin(IChar):
         template_finder: TemplateFinder, 
         ui_manager: UiManager, 
         pather: Pather, 
-        #pickit: PickIt #for Diablo
+        pickit: PickIt #for Diablo
         ):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
-        #self._pickit = pickit #for Diablo
-        #self._picked_up_items = False #for Diablo
+        self._pickit = pickit #for Diablo
+        self._picked_up_items = False #for Diablo
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
         if not self._skill_hotkeys["teleport"]:
@@ -160,9 +160,9 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
     
-    #--------------------------------------------------------------------------------
-    # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo
-    #--------------------------------------------------------------------------------
+    #-------------------------------------------------------------------------------#
+    # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
+    #-------------------------------------------------------------------------------#
 
     # GET TO PENTAGRAM
     def _loop_pentagram(self, path) -> bool:
