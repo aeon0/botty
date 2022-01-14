@@ -7,7 +7,7 @@ class GenericApi:
     def __init__(self):
         self._config = Config()
 
-    def send_item(self, item: str, image:  np.ndarray, location: str):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str):
         msg = f"Found {item} at {location}"
         self._send(msg)
         
