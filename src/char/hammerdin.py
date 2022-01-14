@@ -160,6 +160,21 @@ class Hammerdin(IChar):
         self._cast_hammers(1.2, "redemption")
         return True
     
+    
+    def kill_summoner(self) -> bool:
+        # move mouse to below altar
+        pos_m = self._screen.convert_abs_to_monitor((0, 20))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        # Attack
+        self._cast_hammers(self._char_config["atk_len_arc"])
+        wait(0.1, 0.15)
+        self._cast_hammers(1.6, "redemption")
+        # Move a bit back and another round
+        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.6, "redemption")
+        return True
+    
     #-------------------------------------------------------------------------------#
     # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
     #-------------------------------------------------------------------------------#
@@ -510,20 +525,6 @@ class Hammerdin(IChar):
         self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
-        return True
-
-    def kill_summoner(self) -> bool:
-        # move mouse to below altar
-        pos_m = self._screen.convert_abs_to_monitor((0, 20))
-        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        # Attack
-        self._cast_hammers(self._char_config["atk_len_arc"])
-        wait(0.1, 0.15)
-        self._cast_hammers(1.6, "redemption")
-        # Move a bit back and another round
-        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
-        wait(0.1, 0.15)
-        self._cast_hammers(1.6, "redemption")
         return True
 
 if __name__ == "__main__":
