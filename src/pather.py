@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 
 from utils.misc import is_in_roi
+from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
 from screen import Screen
@@ -417,6 +418,18 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
+    def _shrine_detection(self, img) -> bool:
+        Logger.debug("Doing shrine detection")
+        res = self._template_finder.search(
+            ["SHRINE", "SKULL_PILE", "HIDDEN_STASH"],
+            img,
+            threshold=0.8,
+            best_match=False,
+            use_grayscale=True,
+            roi=self._config.ui_roi["reduce_to_center"]
+        )
+        return res.valid
+
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
         if not char.can_teleport():
             error_msg = "Teleport is required for static pathing"
@@ -576,7 +589,9 @@ class Pather:
                                 if self._config.general["info_screenshots"]:
                                     cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                                 Logger.error("Got stuck exit pather")
-                        return False
+                                return False
+                        else:
+                            return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
