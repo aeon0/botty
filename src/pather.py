@@ -290,7 +290,28 @@ class Pather:
             704: {"DIA_C1F7_704_SUPPORT1": (715, -130),"DIA_C1F7_704_SUPPORT2": (515, -65), "DIA_C1F7_704_SUPPORT3": (318, -155),"DIA_C1F7_704_SUPPORT4": (185, -108), "DIA_C1F7_43": (106, -155), "DIA_C1F7_28": (59, 215), "DIA_C1F7_47": (169, -150), "DIA_C1F7_42": (267, -82), "DIA_C1F7_33": (-233, 191), "DIA_C1F7_29": (-26, 310), "DIA_C1F7_50": (-325, 52), "DIA_C1F7_35": (-330, 46), },#seal fake far
             705: {"DIA_C1F7_33": (-106, 28), "DIA_C1F7_34": (-19, 170), "DIA_C1F7_29": (101, 147), "DIA_C1F7_28": (186, 52), "DIA_C1F7_50": (-197, -110), "DIA_C1F7_35": (-202, -116), "DIA_C1F7_36": (-332, -39), "DIA_C1F7_51": (-331, -191), },#seal fake close
             706: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), },#layoutcheck
-        }
+            
+            #DIABLO ENTRANCE STYLE 1
+            670: {"DIABLO_ENTRANCE_3": (-77, -182), "DIABLO_ENTRANCE_11": (73, -216), "DIABLO_ENTRANCE_2": (233, -174), "DIABLO_ENTRANCE_10": (233, 386), "DIABLO_ENTRANCE_9": (236, 418), "DIABLO_ENTRANCE_4": (-363, 372), "DIABLO_ENTRANCE_5": (-612, -76), "DIABLO_ENTRANCE_12": (-569, 611), "DIABLO_ENTRANCE_6": (869, 86), },
+            671: {"DIABLO_ENTRANCE_10": (-143, 245), "DIABLO_ENTRANCE_9": (-140, 276), "DIABLO_ENTRANCE_2": (-144, -318), "DIABLO_ENTRANCE_11": (-304, -360), "DIABLO_ENTRANCE_7": (216, 437), "DIABLO_ENTRANCE_6": (492, -56), "DIABLO_ENTRANCE_3": (-454, -327), "DIABLO_ENTRANCE_1": (621, 60), "DIABLO_ENTRANCE_8": (728, 159), },
+            672: {"DIABLO_ENTRANCE_7": (-78, 259), "DIABLO_ENTRANCE_6": (198, -234), "DIABLO_ENTRANCE_1": (327, -118), "DIABLO_ENTRANCE_8": (434, -19), "DIABLO_ENTRANCE_10": (-437, 66), "DIABLO_ENTRANCE_9": (-434, 98), "DIABLO_ENTRANCE_2": (-438, -496), "DIABLO_ENTRANCE_11": (-598, -538), },
+            673: {"DIABLO_ENTRANCE_12": (-129, -152), "DIABLO_ENTRANCE_15": (-273, -108), "DIABLO_ENTRANCE_13": (211, 241), "DIABLO_ENTRANCE_17": (-19, 386), "DIABLO_ENTRANCE_16": (-522, -174), "DIABLO_ENTRANCE_18": (-730, 239), },
+            674: {"DIABLO_ENTRANCE_18": (13, 235), "DIABLO_ENTRANCE_19": (-150, 201), "DIABLO_ENTRANCE_16": (221, -178), "DIABLO_ENTRANCE_15": (470, -112), "DIABLO_ENTRANCE_23": (-718, 214), "DIABLO_ENTRANCE_26": (-551, 564), "DIABLO_ENTRANCE_17": (724, 382), },
+            675: {"DIABLO_ENTRANCE_23": (-279, 181), "DIABLO_ENTRANCE_19": (289, 167), "DIABLO_ENTRANCE_18": (452, 202), "DIABLO_ENTRANCE_26": (-112, 531), "DIABLO_ENTRANCE_22": (-197, 523), "DIABLO_ENTRANCE_24": (-117, 587), "DIABLO_ENTRANCE_21": (-564, 399), "DIABLO_ENTRANCE_16": (660, -211), },
+            676: {"DIABLO_ENTRANCE_21": (142, -273), "DIABLO_ENTRANCE_25": (-268, -357), "DIABLO_ENTRANCE_22": (509, -149), "DIABLO_ENTRANCE_24": (589, -85), "DIABLO_ENTRANCE_26": (594, -141), "DIABLO_ENTRANCE_23": (481, -499), },
+                        
+            #DIABLO ENTRANCE STYLE 2
+            677: {"DIABLO_ENTRANCE2_2": (31, -146), "DIABLO_ENTRANCE2_46": (480, -2), "DIABLO_ENTRANCE2_3": (-500, 4), },
+            678: {"DIABLO_ENTRANCE2_5": (58, -224), "DIABLO_ENTRANCE2_4": (-150, -227), "DIABLO_ENTRANCE2_17": (-277, 151), "DIABLO_ENTRANCE2_9": (-178, 300), "DIABLO_ENTRANCE2_10": (-178, 335), "DIABLO_ENTRANCE2_15": (-261, 317), "DIABLO_ENTRANCE2_12": (-329, -296), "DIABLO_ENTRANCE2_7": (452, 48), },
+            679: {"DIABLO_ENTRANCE2_7": (252, -152), "DIABLO_ENTRANCE2_9": (-378, 100), "DIABLO_ENTRANCE2_8": (389, -48), "DIABLO_ENTRANCE2_10": (-378, 135), "DIABLO_ENTRANCE2_11": (501, 20), },
+            680: {"DIABLO_ENTRANCE2_12": (101, -199), "DIABLO_ENTRANCE2_41": (-290, 13), "DIABLO_ENTRANCE2_17": (151, 256), "DIABLO_ENTRANCE2_4": (280, -130), "DIABLO_ENTRANCE2_35": (-291, 114), "DIABLO_ENTRANCE2_29": (-293, 113), "DIABLO_ENTRANCE2_27": (-342, 229), "DIABLO_ENTRANCE2_36": (-341, 244), },
+            681: {"DIABLO_ENTRANCE2_18": (358, -56), "DIABLO_ENTRANCE2_19": (-291, 267), "DIABLO_ENTRANCE2_20": (-287, 278), "DIABLO_ENTRANCE2_15": (-492, -142), "DIABLO_ENTRANCE2_17": (-508, -307), "DIABLO_ENTRANCE2_43": (-517, 419), },
+            682: {"DIABLO_ENTRANCE2_41": (-42, -13), "DIABLO_ENTRANCE2_35": (-43, 88), "DIABLO_ENTRANCE2_29": (-45, 87), "DIABLO_ENTRANCE2_15": (394, 40), "DIABLO_ENTRANCE2_17": (378, -126), "DIABLO_ENTRANCE2_32": (-472, 315), "DIABLO_ENTRANCE2_21": (-471, 355), "DIABLO_ENTRANCE2_23": (-471, 356), },
+            683: {"DIABLO_ENTRANCE2_43": (356, 259), "DIABLO_ENTRANCE2_23": (-483, 14), "DIABLO_ENTRANCE2_21": (-484, 13), "DIABLO_ENTRANCE2_24": (-484, 24), "DIABLO_ENTRANCE2_32": (-485, -27), "DIABLO_ENTRANCE2_25": (-489, 45), "DIABLO_ENTRANCE2_27": (-645, 493), "DIABLO_ENTRANCE2_36": (-644, 508), },
+            684: {"DIABLO_ENTRANCE2_25": (-203, -242), "DIABLO_ENTRANCE2_23": (-197, -273), "DIABLO_ENTRANCE2_27": (-359, 206), "DIABLO_ENTRANCE2_36": (-358, 221), "DIABLO_ENTRANCE2_31": (-536, 429), "DIABLO_ENTRANCE2_39": (-876, 120), },
+            685: {"DIABLO_ENTRANCE2_42": (15, -383), "DIABLO_ENTRANCE2_39": (205, -363), "DIABLO_ENTRANCE2_31": (545, -54), "DIABLO_ENTRANCE2_41": (-474, -502), "DIABLO_ENTRANCE2_35": (-473, -507), "DIABLO_ENTRANCE2_28": (-474, -508), "DIABLO_ENTRANCE2_29": (-475, -508), },
+            686: {"DIABLO_ENTRANCE2_35": (-127, -314), "DIABLO_ENTRANCE2_28": (-128, -315), "DIABLO_ENTRANCE2_42": (361, -191), "DIABLO_ENTRANCE2_39": (551, -171),},
+           }
         self._paths = {
             # A5 Town
             (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
@@ -647,7 +668,7 @@ if __name__ == "__main__":
                         x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -663,7 +684,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_B1S")
+    display_all_nodes(pather, "DIABLO_ENTRANCE")
 
     # # changing node pos and generating new code
     # code = ""
