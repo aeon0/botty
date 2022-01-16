@@ -86,6 +86,84 @@ class Diablo:
                 return False
             return True
 
+    def _entrance_1(self) -> bool:
+        entrance1_layout = "CS Entrance Style 1 "
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("Entrance Layout: " + entrance1_layout)
+        Logger.info(entrance1_layout + "cleaning")
+        self._char.kill_cs_trash() # Lands on location and starts attacking
+
+        if not self._pather.traverse_nodes([673], self._char): return False # Re-adjust itself and continues to attack
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) 
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) # Moves char to postion close to node 674 continues to attack
+        self._pather.traverse_nodes([674], self._char)
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) 
+        Logger.info(entrance1_layout + "cleaning")
+        self._pather.traverse_nodes([675], self._char) # Re-adjust itself
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) #static path to get to be able to spot 676
+        self._pather.traverse_nodes([676], self._char)
+        Logger.info(entrance1_layout + "cleaning")
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #game exits for some reason after this.
+
+    def _entrance_2(self) -> bool:
+        entrance2_layout = "CS Entrance Style 2 "
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("Entrance Layout: " + entrance2_layout)
+        self._char.kill_cs_trash()
+
+        if not self._pather.traverse_nodes([682], self._char): return False
+        self._char.kill_cs_trash()
+        Logger.info(entrance2_layout + " Cleaning area")
+        if not self._pather.traverse_nodes([682], self._char): return False
+        self._pather.traverse_nodes_fixed("diablo_entrance2_1", self._char)
+        if not self._pather.traverse_nodes([683], self._char): return False
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([683,684], self._char)
+        self._pather.traverse_nodes_fixed("diablo_entrance2_2", self._char)
+        self._pather.traverse_nodes([685,686,687], self._char)
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)            
+        
+
+    def _entrance_hall(self) -> bool:
+        if not self._pather.traverse_nodes([677], self._char): return False 
+        self._char.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # Gets to door and checks starts attacks and picks up items
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
+        self._char.kill_cs_trash() # since theres probably a mob there just lands and attacks
+        if not self._pather.traverse_nodes([670,671], self._char): return False
+        self._char.kill_cs_trash() 
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
+        if not self._pather.traverse_nodes([671], self._char): return False # re centers it self
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self._char) # Moves to second open area
+        #checks to see which template layout to follow
+        templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18"] #Entrance 1 Refrences
+        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
+            templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_Entrance 2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return True
+            else:
+                Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - all fine, proceeding with Entrance 2")
+                if not self._entrance_2(): return False
+        else:
+            Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
+            templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - all fine, proceeding with Entrance 1")
+                if not self._entrance_1(): return False
+            else:
+                Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_Entrance 1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return True
+
     def _cs_pentagram(self) -> bool:
         if self._config.char["kill_cs_trash"]: # APROACH TO PENTAGRAM DIRECTLY & SKIP CS TRASH (kill_cs_trash=0)
             self._pather.traverse_nodes_fixed("diablo_entrance_pentagram", self._char)
@@ -351,6 +429,7 @@ class Diablo:
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
         if not self._river_of_flames(): return False
+        if not self._entrance_hall(): return False
         if self._config.char["kill_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it ... continue without trash")
         if not self._cs_pentagram(): return False
 
