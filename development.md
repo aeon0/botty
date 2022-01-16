@@ -18,6 +18,18 @@ Important info for Powershell users:
 conda init powershell
 ```
 
+## Alternative without conda
+You can create a regular python environment through
+```bash
+python -m pip install venv
+python -m venv venv
+```
+Then activate it (source in Linux, Activate.ps1 in Windows), and install the requirements on it:
+```bash
+python -m pip install -r requirements.txt
+```
+Now you are ready to launch the python scripts from the root folder.
+
 ## Tests
 All automated tests can be found within the **/test/*** folder. The file and folder structure is supposed to mimic the src folder.
 ```bash
