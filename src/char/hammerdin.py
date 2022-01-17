@@ -217,7 +217,7 @@ class Hammerdin(IChar):
         self._picked_up_items |= self._pickit.pick_up_items(self)
         self._loop_pentagram("diablo_entrance_pentagram_loop")
         if not self._pather.traverse_nodes([602], self , time_out=5): return False
-        Logger.info("CS: Looping to PENTAGRAM after clearing CS Trash")
+        Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True
 
     def entrance_2(self) -> bool:
@@ -235,13 +235,13 @@ class Hammerdin(IChar):
         self._picked_up_items |= self._pickit.pick_up_items(self)
         self._pather.traverse_nodes([683,684], self)
         self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
-        self._pather.traverse_nodes([685,686,687], self)
+        self._pather.traverse_nodes([685,686], self) #,687 (although this node does not exist)
         self.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self)
         Logger.info("CS: Looping to PENTAGRAM")
         if not self._loop_pentagram("diablo_entrance_pentagram_loop"): return False
         if not self._pather.traverse_nodes([602], self , time_out=5): return False
-        Logger.info("CS: Looping to PENTAGRAM after clearing CS Trash")
+        Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True     
     
     # GET TO PENTAGRAM
