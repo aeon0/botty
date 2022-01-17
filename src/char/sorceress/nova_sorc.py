@@ -107,6 +107,71 @@ class NovaSorc(Sorceress):
     # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
     #-------------------------------------------------------------------------------#
 
+    #CLEAR CS TRASH
+
+    def clear_entrance_hall(self) -> bool:
+        Logger.info("CS: Starting to clear Trash")
+        if not self._pather.traverse_nodes([677], self): return False 
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self) # Gets to door and checks starts attacks and picks up items
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # Moves to first open area
+        self.kill_cs_trash() # since theres probably a mob there just lands and attacks
+        if not self._pather.traverse_nodes([670,671], self): return False
+        self.kill_cs_trash() 
+        self._picked_up_items |= self._pickit.pick_up_items(self) # moves back and forth to draw more enemies finishes em off picks up items.
+        if not self._pather.traverse_nodes([671], self): return False # re centers it self
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # Moves to second open area
+        return True
+
+    def entrance_1(self) -> bool:
+        entrance1_layout = "CS Entrance Style 1 "
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("Entrance Layout: " + entrance1_layout)
+        Logger.info(entrance1_layout + "cleaning")
+        self.kill_cs_trash() # Lands on location and starts attacking
+        if not self._pather.traverse_nodes([673], self): return False # Re-adjust itself and continues to attack
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self) 
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
+        self._pather.traverse_nodes([674], self)
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self) 
+        Logger.info(entrance1_layout + "cleaning")
+        self._pather.traverse_nodes([675], self) # Re-adjust itself
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
+        self._pather.traverse_nodes([676], self)
+        Logger.info(entrance1_layout + "cleaning")
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self)
+        self._loop_pentagram("diablo_entrance_pentagram_loop")
+        if not self._pather.traverse_nodes([602], self , time_out=5): return False
+        Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
+        return True
+
+    def entrance_2(self) -> bool:
+        entrance2_layout = "CS Entrance Style 2 "
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("Entrance Layout: " + entrance2_layout)
+        self.kill_cs_trash()
+        if not self._pather.traverse_nodes([682], self): return False
+        self.kill_cs_trash()
+        Logger.info(entrance2_layout + " Cleaning area")
+        if not self._pather.traverse_nodes([682], self): return False
+        self._pather.traverse_nodes_fixed("diablo_entrance2_1", self)
+        if not self._pather.traverse_nodes([683], self): return False
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self)
+        self._pather.traverse_nodes([683,684], self)
+        self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
+        self._pather.traverse_nodes([685,686], self) #,687 (although this node does not exist)
+        self.kill_cs_trash()
+        self._picked_up_items |= self._pickit.pick_up_items(self)
+        Logger.info("CS: Looping to PENTAGRAM")
+        if not self._loop_pentagram("diablo_entrance_pentagram_loop"): return False
+        if not self._pather.traverse_nodes([602], self , time_out=5): return False
+        Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
+        return True     
+
     # GET TO PENTAGRAM
     def _loop_pentagram(self, path) -> bool:
         found = False
