@@ -158,6 +158,7 @@ class Diablo:
         if do_pre_buff: self._char.pre_buff()
         if not self._river_of_flames(): return False
         if not self._cs_pentagram(): return False
+        return False
 
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()

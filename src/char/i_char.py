@@ -13,7 +13,6 @@ from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
 from ui import UiManager
-#from item.pickit import PickIt #for Diablo
 
 
 class IChar:

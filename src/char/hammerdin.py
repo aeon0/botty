@@ -25,7 +25,7 @@ class Hammerdin(IChar):
         pickit: PickIt #for Diablo
         ):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         self._pickit = pickit #for Diablo
@@ -215,7 +215,9 @@ class Hammerdin(IChar):
         Logger.info(entrance1_layout + "cleaning")
         self.kill_cs_trash()
         self._picked_up_items |= self._pickit.pick_up_items(self)
-        self._loop_pentagram()
+        self._loop_pentagram("diablo_entrance_pentagram_loop")
+        if not self._pather.traverse_nodes([602], self , time_out=5): return False
+        Logger.info("CS: Looping to PENTAGRAM after clearing CS Trash")
         return True
 
     def entrance_2(self) -> bool:
@@ -239,7 +241,7 @@ class Hammerdin(IChar):
         Logger.info("CS: Looping to PENTAGRAM")
         if not self._loop_pentagram("diablo_entrance_pentagram_loop"): return False
         if not self._pather.traverse_nodes([602], self , time_out=5): return False
-        Logger.info("CS: Looping to PENTAGRAM")
+        Logger.info("CS: Looping to PENTAGRAM after clearing CS Trash")
         return True     
     
     # GET TO PENTAGRAM
