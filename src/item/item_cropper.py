@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from config import Config
 from utils.misc import color_filter
-from ocr import Ocr
+from ocr import Ocr, OcrResult
 from dataclasses import dataclass
 import time
 from logger import Logger
@@ -11,7 +11,7 @@ from template_finder import TemplateFinder
 @dataclass
 class ItemText:
     color: str = None
-    text: str = None
+    ocr_result: OcrResult = None
     roi: list[int] = None
     data: np.ndarray = None
     clean_img: np.ndarray = None
@@ -108,7 +108,7 @@ class ItemCropper:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
             results = self._ocr.images_to_text(cluster_images, use_language="engd2r_inv_th_fast")
             for count, cluster in enumerate(item_clusters):
-                setattr(cluster, "text", results[count])
+                setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
     def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True) -> ItemText:
@@ -129,14 +129,14 @@ class ItemCropper:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
                 found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
                 if found_footer:
-                    text = None
+                    ocr_result = None
                     if use_ocr:
-                        text = self._ocr.images_to_text(cropped_item, multiline=True)[0]
+                        ocr_result = self._ocr.images_to_text(cropped_item, multiline=True)[0]
                     return ItemText(
                         color = "black",
                         roi = [x, y, w, h],
                         data = cropped_item,
-                        text = text
+                        ocr_result = ocr_result
                     )
         return ItemText()
 

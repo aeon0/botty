@@ -18,7 +18,7 @@ from item import ItemCropper
 
 from messenger import Messenger
 from game_stats import GameStats
-from ocr import Ocr
+from ocr import Ocr, OcrResult
 
 
 class UiManager():
@@ -273,16 +273,14 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
 
             result = self._item_cropper.crop_item_descr(in_img)
-            #for i, line in enumerate(list(filter(None, result.text.splitlines()))):
-            #    Logger.debug(f"Ocr Line{i}: {line}")
-            #if self._config.general["loot_screenshots"]:
-            #    cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
-            #for i, line in enumerate(list(filter(None, result.text.splitlines()))):
-            #    Logger.debug(f"Ocr Line{i}: {line}")
-            #    if line is not None:
-            #        x.ocr_text += f"{line}\n"
-            #if self._config.general["loot_screenshots"]:
-            #    cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
+            setattr(x, "ocr_result", result["ocr_result"])
+            Logger.debug(f"OCR ITEM DESCR: Mean conf: {result.ocr_result['mean_confidence']}")
+            for i, line in enumerate(list(filter(None, result.ocr_result["text"].splitlines()))):
+                Logger.debug(f"Ocr Line{i}: {line}")
+            if self._config.general["loot_screenshots"]:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_o.png", result.ocr_result['original_img'])
+                cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_n.png", result.ocr_result['processed_img'])
 
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
@@ -445,7 +443,7 @@ class UiManager():
                         Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
                         break
                     else:
-                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, result.data,found_items[0].ocr_text)
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, result.data,found_items[0].ocr_result["text"])
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)

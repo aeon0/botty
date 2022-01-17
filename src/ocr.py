@@ -2,10 +2,18 @@ from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2
 import re
-import time
 from typing import List, Union
-from utils.misc import color_filter
-from logger import Logger
+from dataclasses import dataclass
+
+@dataclass
+class OcrResult:
+    text: str = None
+    word_confidences: list = None
+    mean_confidence: float = None
+    original_img: np.ndarray = None
+    processed_img: np.ndarray = None
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
 
 class Ocr:
     def prep_input_img(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
@@ -39,11 +47,6 @@ class Ocr:
         return image
 
     def fix_ocr_output(self, ocr_output: str) -> str:
-        # output = re.sub(r"1(?![\s%])(?=\w+)", "I", output)
-        # output = re.sub(r"(?<=\w)(?<![\s+\-])1", "I", output)
-        # output = re.sub(r"I(?!\s)(?=[\d%-])", "1", output)
-        # output = re.sub(r"(?<=[+\-\d])(?<!\s)I", "1", output)
-
         # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
         while True:
             x = re.search("[\d+-]I", ocr_output)
@@ -57,7 +60,6 @@ class Ocr:
                 ocr_output = ocr_output[:x.start()] + '1' + ocr_output[x.start() + 1:]
             else:
                 break
-
         # case: a 1 within a string; e.g., "W1RT'S LEG"
         while True:
             x = re.search("[A-Z]1", ocr_output)
@@ -71,20 +73,17 @@ class Ocr:
                 ocr_output = ocr_output[:x.start()] + 'I' + ocr_output[x.start() + 1:]
             else:
                 break
-
         # case: a solitary I; e.g., " I TO 5 DEFENSE"
         while True:
             if " I " in ocr_output:
                 ocr_output.replace(" I ", " 1 ")
                 continue
             break
-
         # case: consecutive I's; e.g., "DEFENSE: II"
         repeat=False
         while "II" in ocr_output:
             ocr_output.replace("II", "11")
             repeat=True
-
         if repeat:
             self.fix_ocr_output(ocr_output)
 
@@ -113,34 +112,33 @@ class Ocr:
         return image.tobytes(), width, height, bytes_per_pixel, bytes_per_line
 
     def images_to_text(self, images: Union[np.ndarray, List[np.ndarray]], use_language: str = "engd2r_inv_th", multiline: bool = False) -> list[str]:
-        #https://www.pyimagesearch.com/2021/11/15/tesseract-page-segmentation-modes-psms-explained-how-to-improve-your-ocr-accuracy/
         if type(images) == np.ndarray:
             images = [images]
+        # segmentation_mode = PSM.RAW_LINE
+        # AUTO is slower workaround due to poor text recognition when
+        # drops are bordered by other drops horizontally but slightly staggered
+        # see: https://www.pyimagesearch.com/2021/11/15/tesseract-page-segmentation-modes-psms-explained-how-to-improve-your-ocr-accuracy/
+        segmentation_mode = PSM.AUTO
         if multiline:
             segmentation_mode = PSM.SINGLE_BLOCK
-        else:
-            # segmentation_mode = PSM.RAW_LINE
-            segmentation_mode = PSM.AUTO
         results = []
         with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata/{use_language}", lang=use_language ) as api:
-            #api.SetVariable('user_words_file', f"assets/tessdata/{use_language}/{use_language}.wordlist")
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
-            for cnt, o_img in enumerate(images):
+            for image in images:
                 if multiline:
-                    image = self.prep_input_img(o_img)
+                    processed_img = self.prep_input_img(image)
                 else:
-                    image = self.prep_input_img(o_img, clean = True)
-                api.SetImageBytes(*self.img_to_bytes(image))
+                    processed_img = self.prep_input_img(image, clean = True)
+                api.SetImageBytes(*self.img_to_bytes(processed_img))
                 text = api.GetUTF8Text()
                 if not multiline:
                     text = text.replace('\n', '')
-                text = self.fix_ocr_output(text)
-                confidences = api.AllWordConfidences()
-                timestamp = str(round(time.time_ns() // 1_000_000 ))
-                filename = "./loot_screenshots/ocr_" + timestamp + "_" + str(cnt) + "_o.png"
-                cv2.imwrite(filename, o_img)
-                filename = "./loot_screenshots/ocr_" + timestamp + "_" + str(cnt) + "_n.png"
-                cv2.imwrite(filename, image)
-                Logger.debug(f"{filename}, {text}, {confidences}")
-                results.append(text)
+                # TODO: delete words with very low confidence
+                results.append(OcrResult(
+                    text = self.fix_ocr_output(text),
+                    word_confidences = api.AllWordConfidences(),
+                    mean_confidence = api.MeanTextConf(),
+                    original_img = image,
+                    processed_img = processed_img
+                ))
         return results
