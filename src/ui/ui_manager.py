@@ -413,7 +413,7 @@ class UiManager():
                         # move to next stash
                         wait(0.5, 0.6)
                         return self.stash_all_items(num_loot_columns, item_finder)
-        # check if stash tab is completely full (no empty slots whatsoever)
+        # check if stash tab is completely full (no empty slots)
         self._move_to_stash_tab(self._curr_stash["items"])
         while self._curr_stash["items"] <= 3:
             found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", self._screen.grab(), roi = self._config.ui_roi["vendor_stash"], threshold = 0.95).valid
