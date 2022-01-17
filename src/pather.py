@@ -155,31 +155,6 @@ class Pather:
             190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
             191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
             192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
-            # A2 town
-            400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
-            401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
-            402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
-            403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
-            404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
-            405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
-            406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
-            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
-            # A1 town
-            #kashya_cain
-            700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
-            #stash
-            701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
-            #wp check (north)
-            702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
-            703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
-            #charsi
-            704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
-            #wp check (south)
-            705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
-            706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
-            #akara
-            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
-            708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -196,6 +171,15 @@ class Pather:
             301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
+            # A2 town
+            400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
+            401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
+            402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
+            403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
+            404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
+            405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
+            406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
+            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -304,7 +288,22 @@ class Pather:
             685: {"DIABLO_ENTRANCE2_42": (15, -383), "DIABLO_ENTRANCE2_39": (205, -363), "DIABLO_ENTRANCE2_31": (545, -54), "DIABLO_ENTRANCE2_41": (-474, -502), "DIABLO_ENTRANCE2_35": (-473, -507), "DIABLO_ENTRANCE2_28": (-474, -508), "DIABLO_ENTRANCE2_29": (-475, -508), },
             686: {"DIABLO_ENTRANCE2_35": (-127, -314), "DIABLO_ENTRANCE2_28": (-128, -315), "DIABLO_ENTRANCE2_42": (361, -191), "DIABLO_ENTRANCE2_39": (551, -171),},
 
-
+            # A1 town
+            #kashya_cain
+            700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
+            #stash
+            701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
+            #wp check (north)
+            702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
+            703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
+            #charsi
+            704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
+            #wp check (south)
+            705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
+            706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
+            #akara
+            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
+            708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
         }
         self._paths = {
             # A5 Town
@@ -569,7 +568,6 @@ class Pather:
         if do_pre_move:
             char.pre_move()
         last_direction = None
-        last_known_good_pos = None
         for i, node_idx in enumerate(path):
             continue_to_next_node = False
             last_move = time.time()
@@ -589,16 +587,10 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if time_out > 3.1:
-                            if last_known_good_pos is not None:
-                                Logger.error("One final try before totally stuck")
-                                x_m, y_m = self._screen.convert_abs_to_monitor(last_known_good_pos)
-                                char.move((x_m, y_m))
-                                last_known_good_pos = None
-                            else:
-                                if self._config.general["info_screenshots"]:
-                                    cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                                Logger.error("Got stuck exit pather")
-                            return False
+                            if self._config.general["info_screenshots"]:
+                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            Logger.error("Got stuck exit pather")
+                        return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
@@ -623,7 +615,6 @@ class Pather:
                         x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
-                        last_known_good_pos = node_pos_abs
                         last_move = time.time()
 
         return True

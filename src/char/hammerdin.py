@@ -25,7 +25,7 @@ class Hammerdin(IChar):
         pickit: PickIt #for Diablo
         ):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         self._pickit = pickit #for Diablo

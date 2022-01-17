@@ -26,8 +26,8 @@ class GraphicDebuggerController:
     window_name_trackbars = "Graphic Debugger - Trackbars"
     window_name_images = "Graphic Debugger - Images"
 
-    def __init__(self, config: Config):
-        self._config = config
+    def __init__(self):
+        self._config = Config()
         self.screen = None
         self.item_finder = None
         self.template_finder = None
@@ -43,7 +43,7 @@ class GraphicDebuggerController:
 
     def start(self):
         self.screen = Screen(self._config.general["monitor"])
-        self.item_finder = ItemFinder(self._config)
+        self.item_finder = ItemFinder()
         self.template_finder = TemplateFinder(self.screen)
         if self._config.advanced_options['graphic_debugger_layer_creator']:
             self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")

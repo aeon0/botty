@@ -8,9 +8,9 @@ playground.py
 *.spec
 dist/
 build/
-run.build/
-run.dist/
-run.onefile-build/
+main.build/
+main.dist/
+main.onefile-build/
 generated/
 botty_v*/
 custom.ini
