@@ -40,6 +40,12 @@ class PickIt:
         same_item_timer = None
         did_force_move = False
         done_ocr=False
+
+        # if self._config.general["loot_screenshots"]:
+        #     img = self._screen.grab()
+        #     cv2.imwrite("./loot_screenshots/info_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        #     Logger.debug("Took a screenshot of current loot")
+
         while not time_out:
             if (time.time() - start) > 28:
                 time_out = True
@@ -72,15 +78,8 @@ class PickIt:
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
-
-                if done_ocr == False:
-                    for item in item_list:
-                        Logger.debug(f"Ocr drop: {item.text}")
-                    if self._config.general["loot_screenshots"]:
-                        img = self._screen.grab()
-                        cv2.imwrite("./loot_screenshots/info_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                        Logger.debug("Took a screenshot of current loot")
-                    done_ocr = True
+                # for item in item_list:
+                #     Logger.debug(f"Ocr drop: {item.text}")
 
                 found_nothing = 0
                 closest_item = item_list[0]

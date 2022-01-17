@@ -273,10 +273,10 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
 
             result = self._item_cropper.crop_item_descr(in_img)
-            for i, line in enumerate(list(filter(None, result.text.splitlines()))):
-                Logger.debug(f"Ocr Line{i}: {line}")
-            if self._config.general["loot_screenshots"]:
-                cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
+            #for i, line in enumerate(list(filter(None, result.text.splitlines()))):
+            #    Logger.debug(f"Ocr Line{i}: {line}")
+            #if self._config.general["loot_screenshots"]:
+            #    cv2.imwrite("./loot_screenshots/info_item_descr_" + time.strftime("%Y%m%d_%H%M%S") + ".png", result.data)
 
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude

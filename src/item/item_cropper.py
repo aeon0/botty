@@ -28,7 +28,7 @@ class ItemCropper:
         self._expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [int(round(num, 0)) for num in [x / 1.5 for x in [60, 1280]]]
         self._box_expected_width_range=[200, 900]
-        self._box_expected_height_range=[45, 710]
+        self._box_expected_height_range=[24, 710]
 
         self._hud_mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self._hud_mask = cv2.threshold(self._hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
@@ -44,7 +44,7 @@ class ItemCropper:
         img[highlight_mask > 0] = (0, 0, 0)
         # Cleanup image with erosion image as marker with morphological reconstruction
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        thresh = cv2.threshold(gray, 15, 255, cv2.THRESH_BINARY)[1]
+        thresh = cv2.threshold(gray, 14, 255, cv2.THRESH_BINARY)[1]
         kernel = np.ones((3, 3), np.uint8)
         marker = thresh.copy()
         marker[1:-1, 1:-1] = 0
@@ -106,13 +106,13 @@ class ItemCropper:
         # print(debug_str)
         if use_ocr:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
-            results = self._ocr.images_to_text(cluster_images, use_language="engd2r_fast")
+            results = self._ocr.images_to_text(cluster_images, use_language="engd2r_inv_th_fast")
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "text", results[count])
         return item_clusters
 
     def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True) -> ItemText:
-        _, filtered_img = color_filter(inp_img, self._config.colors["black"])
+        _, filtered_img = color_filter(inp_img, self._config.colors["black_descr"])
         filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
         contours = cv2.findContours(filtered_img_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
@@ -127,7 +127,7 @@ class ItemCropper:
             mostly_dark = True if 0 < avg < 20 else False
             if contains_black and contains_white and mostly_dark and expected_height and expected_width:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
-                found_footer = self._template_finder.search(["INVENTORY_CNTR_CLICK", "INVENTORY_HOLD_SHIFT"], footer, threshold=0.7).valid
+                found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
                 if found_footer:
                     text = None
                     if use_ocr:
@@ -138,7 +138,7 @@ class ItemCropper:
                         data = cropped_item,
                         text = text
                     )
-        return False
+        return ItemText()
 
 if __name__ == "__main__":
     import keyboard
