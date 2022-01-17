@@ -45,6 +45,31 @@ class Diablo:
         wait(0.4)
         self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
+    
+    def entrance_hall(self) -> bool:
+        self._char.clear_entrance_hall()
+        #checks to see which template layout to follow
+        templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18"] #Entrance 1 Refrences
+        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
+            templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return True
+            else:
+                Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - all fine, proceeding with Entrance 2")
+                if not self._char.entrance_2(): return False
+        else:
+            Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
+            templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+                Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - all fine, proceeding with Entrance 1")
+                if not self._char.entrance_1(): return False
+            else:
+                Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return True 
 
     def _river_of_flames(self) -> bool:
         if self._config.char["kill_cs_trash"]: # APPROACH FOR CLEARING CHAOS SANCTUARY (kill_cs_trash=1)
@@ -67,6 +92,18 @@ class Diablo:
             self._char.kill_cs_trash()
             self._picked_up_items |= self._pickit.pick_up_items(self._char)
             Logger.info("ROF: Calibrated at CS ENTRANCE")
+            if not self.entrance_hall(): return False #ENTER HERE HOW TO CLEAR CS
+            Logger.info("CS: Cleared Trash, looping to PENTAGRAM")
+            found = False
+            templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"
+            start_time = time.time()
+            while not found and time.time() - start_time < 10:
+                found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
+                if not found:
+                    self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
+            if not found:
+                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pent_loop_after_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
             return True
 
         else: # APROACH TO PENTAGRAM DIRECTLY & SKIP CS TRASH (kill_cs_trash=0)
@@ -120,7 +157,6 @@ class Diablo:
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
         if not self._river_of_flames(): return False
-        if self._config.char["kill_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it ... continue without trash")
         if not self._cs_pentagram(): return False
 
         # Seal A: Vizier (to the left)
@@ -144,7 +180,6 @@ class Diablo:
                 Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L")
                 #if not self._seal_A1(): return False
                 if not self._char.kill_vizier("A1-L"): return False
-
         else:
             Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
             templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
