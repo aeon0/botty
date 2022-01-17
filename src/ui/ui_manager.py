@@ -413,8 +413,19 @@ class UiManager():
                         # move to next stash
                         wait(0.5, 0.6)
                         return self.stash_all_items(num_loot_columns, item_finder)
-        # stash stuff
+        # check if stash tab is completely full (no empty slots whatsoever)
         self._move_to_stash_tab(self._curr_stash["items"])
+        while self._curr_stash["items"] <= 3:
+            found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", self._screen.grab(), roi = self._config.ui_roi["vendor_stash"], threshold = 0.95).valid
+            if found_empty_slot:
+                break
+            else:
+                Logger.info("Stash tab completely full, advance to next")
+                self._curr_stash["items"] += 1
+                self._move_to_stash_tab(self._curr_stash["items"])
+        if self._curr_stash["items"] > 3:
+            self.stash_full()
+        # stash stuff
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = self._screen.grab()
@@ -479,10 +490,7 @@ class UiManager():
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             self._curr_stash["items"] += 1
             if self._curr_stash["items"] > 3:
-                Logger.error("All stash is full, quitting")
-                if self._config.general["custom_message_hook"]:
-                    self._messenger.send_stash()
-                os._exit(1)
+                self.stash_full()
             else:
                 # move to next stash
                 wait(0.5, 0.6)
@@ -491,6 +499,12 @@ class UiManager():
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
         keyboard.send("esc")
+
+    def stash_full(self):
+        Logger.error("All stash is full, quitting")
+        if self._config.general["custom_message_hook"]:
+            self._messenger.send_stash()
+        os._exit(1)
 
     def should_stash(self, num_loot_columns: int):
         """

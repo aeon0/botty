@@ -118,14 +118,19 @@ class ItemCropper:
         contours = contours[0] if len(contours) == 2 else contours[1]
         for cntr in contours:
             x, y, w, h = cv2.boundingRect(cntr)
-            expected_height = 1 if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else 0
             cropped_item = inp_img[y:y+h, x:x+w]
             avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
             contains_black = True if np.min(cropped_item) < 14 else False
             contains_white = True if np.max(cropped_item) > 250 else False
+            contains_orange = False
+            if not contains_white:
+                #check for orange (like key of destruction, etc.)
+                orange_mask, _ = color_filter(cropped_item, self._config.colors["orange"])
+                contains_orange = np.min(orange_mask) > 0
+            expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
             expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
             mostly_dark = True if 0 < avg < 20 else False
-            if contains_black and contains_white and mostly_dark and expected_height and expected_width:
+            if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width:
                 footer = inp_img[(y+h):(y+h)+28, x:x+w]
                 found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
                 if found_footer:
@@ -151,14 +156,16 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    cropper = ItemCropper(screen, template_finder)
+    cropper = ItemCropper(template_finder)
 
     while 1:
         img = screen.grab().copy()
         res = cropper.crop_item_descr(img)
-        for cluster in res:
-            x, y, w, h = cluster.roi
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-            Logger.debug(f"{cluster.text}")
+        #Logger.debug(res)
+        if res["color"]:
+            for cluster in res:
+                x, y, w, h = cluster.roi
+                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+                Logger.debug(f"{cluster.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)

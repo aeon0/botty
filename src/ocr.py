@@ -16,6 +16,10 @@ class OcrResult:
         return super().__getattribute__(key)
 
 class Ocr:
+    def __init__(self):
+        self.I_regex = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9])")
+        self.One_regex = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
+
     def prep_input_img(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
         if clean:
             # Cleanup image with erosion image as marker with morphological reconstruction
@@ -47,32 +51,11 @@ class Ocr:
         return image
 
     def fix_ocr_output(self, ocr_output: str) -> str:
-        # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
-        while True:
-            x = re.search("[\d+-]I", ocr_output)
-            if x:
-                ocr_output = ocr_output[:x.start()+1] + '1' + ocr_output[x.start() + 2:]
-            else:
-                break
-        while True:
-            x = re.search("I[\d%-]", ocr_output)
-            if x:
-                ocr_output = ocr_output[:x.start()] + '1' + ocr_output[x.start() + 1:]
-            else:
-                break
         # case: a 1 within a string; e.g., "W1RT'S LEG"
-        while True:
-            x = re.search("[A-Z]1", ocr_output)
-            if x:
-                ocr_output = ocr_output[:x.start()+1] + 'I' + ocr_output[x.start() + 2:]
-            else:
-                break
-        while True:
-            x = re.search("1[A-Z]", ocr_output)
-            if x:
-                ocr_output = ocr_output[:x.start()] + 'I' + ocr_output[x.start() + 1:]
-            else:
-                break
+        # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
+        ocr_output = self.I_regex.sub('1', ocr_output)
+        ocr_output = self.One_regex.sub('I', ocr_output)
+
         # case: a solitary I; e.g., " I TO 5 DEFENSE"
         while True:
             if " I " in ocr_output:
@@ -86,6 +69,14 @@ class Ocr:
             repeat=True
         if repeat:
             self.fix_ocr_output(ocr_output)
+
+        # # manual edits...:
+        # ocr_output.replace("SHIFLD", "SHIELD")
+        # ocr_output.replace("SPFAR", "SPEAR")
+        # ocr_output.replace("GLOVFS", "GLOVES")
+        # ocr_output.replace("TELEFORT", "TELEPORT")
+        # ocr_output.replace("TROPHV", "TROPHY")
+        # ocr_output.replace("CLAVMORE", "CLAYMORE")
 
         return ocr_output
 
