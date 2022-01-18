@@ -1,4 +1,3 @@
-from ast import Or
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
@@ -11,10 +10,11 @@ from utils.misc import wait
 import time
 from pather import Pather, Location
 
+
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         # In case we have a running pala, we want to switch to concentration when moving to the boss
@@ -146,8 +146,7 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         return True
-    
-    
+        
     def kill_summoner(self) -> bool:
         # move mouse to below altar
         pos_m = self._screen.convert_abs_to_monitor((0, 20))
@@ -162,15 +161,17 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
     
-    
      #-------------------------------------------------------------------------------#   
      # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
      #-------------------------------------------------------------------------------#
     
     def kill_cs_trash(self, location:str) -> bool:
-        if location == Or(
+        if location != "":
+            # Or("sealdance", "rof_01", "rof_02", "entrance_hall_01", "entrance_hall_02", "entrance_hall_03", "entrance1_01", "entrance1_02", "entrance1_03", "entrance1_04", "entrance2_01", "entrance2_02", "entrance2_03", "entrance2_04", "pent_before_a", "pent_before_b", "pent_before_c", "layoutcheck_a", "layoutcheck_b","layoutcheck_c", "A1-L_01", "A1-L_02", "A1-L_03", "A2-Y_01", "A2-Y_02", "A2-Y_03", "B1-S_01", "B1-S_02", "B1-S_03", "B2-U_01", "B2-U_02", "B2-U_03", "C1-F_01", "C1-F_02", "C1-F_03", "C2-G_01", "C2-G_02", "C2-G_03"):
+            """
+                Or(        
                 "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
-                "rof_01", #at node 601, CS Entrance
+                "rof_01", "rof_02", #at node 601, CS Entrance
                 "entrance_hall_01", "entrance_hall_02", "entrance_hall_03", # clear trash after node 601, first hall in CS
                 "entrance1_01", "entrance1_02", "entrance1_03", "entrance1_04", # clear trash second hall in CS, layout 1
                 "entrance2_01", "entrance2_02", "entrance2_03", "entrance2_04", # clear trash second hall in CS, layout 2
@@ -183,6 +184,7 @@ class Hammerdin(IChar):
                 "C1-F_01", "C1-F_02", "C1-F_03", # clear trash at seal layout C1-F
                 "C2-G_01", "C2-G_02", "C2-G_03" # clear trash at seal layout C1-G
                 ):
+            """                
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)

@@ -94,7 +94,7 @@ class Diablo:
         return True
 
     #CLEAR CS TRASH
-    def entrance_1(self) -> bool:
+    def _entrance_1(self) -> bool:
         entrance1_layout = "CS Entrance Style 1 "
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Entrance Layout: " + entrance1_layout)
@@ -119,7 +119,7 @@ class Diablo:
         Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True
 
-    def entrance_2(self) -> bool:
+    def _entrance_2(self) -> bool:
         entrance2_layout = "CS Entrance Style 2 "
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Entrance Layout: " + entrance2_layout)
@@ -143,7 +143,7 @@ class Diablo:
         Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True     
 
-    def entrance_hall(self) -> bool:
+    def _entrance_hall(self) -> bool:
         Logger.info("CS: Starting to clear Trash")
         if not self._pather.traverse_nodes([677], self): return False 
         self._char.kill_cs_trash("entrance_hall_01")
@@ -155,7 +155,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self) # moves back and forth to draw more enemies finishes em off picks up items.
         if not self._pather.traverse_nodes([671], self): return False # re centers it self
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # Moves to second open area
-        #checks to see which template layout to follow
+        
         templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18"] #Entrance 1 Refrences
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
@@ -166,69 +166,71 @@ class Diablo:
                 return True
             else:
                 Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - all fine, proceeding with Entrance 2")
-                if not self._char.entrance_2(): return False
+                if not self._char._entrance_2(): return False
         else:
             Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - all fine, proceeding with Entrance 1")
-                if not self._char.entrance_1(): return False
+                if not self._char._entrance_1(): return False
             else:
                 Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True 
 
     def _river_of_flames(self) -> bool:
-        if self._config.char["kill_cs_trash"]: # APPROACH FOR CLEARING CHAOS SANCTUARY (kill_cs_trash=1)
-            if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
-            Logger.debug("ROF: Calibrated at WAYPOINT")
-            self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-            Logger.info("ROF: Teleporting to CS ENTRANCE")
-            found = False
-            # adding a trash clear her can help. also maybe we should try to arrive OUTSIDE of CS Entrance
-            templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
-            start_time = time.time()
-            while not found and time.time() - start_time < 10:
-                found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
-                if not found:
-                    self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
+        if not self._pather.traverse_nodes([600], self._char , time_out=2): return False
+        Logger.debug("ROF: Calibrated at WAYPOINT")
+        self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
+        Logger.info("ROF: Teleporting directly to PENTAGRAM")
+        found = False
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"
+        start_time = time.time()
+        while not found and time.time() - start_time < 10:
+            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
             if not found:
-                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            if not self._pather.traverse_nodes([601], self._char, threshold=0.8): return False
-            self._char.kill_cs_trash("rof_01") #inside
-            self._picked_up_items |= self._pickit.pick_up_items(self._char)
-            Logger.info("ROF: Calibrated at CS ENTRANCE")
-            if not self.entrance_hall(): return False #ENTER HERE HOW TO CLEAR CS
-            Logger.info("CS: Cleared Trash, looping to PENTAGRAM")
-            found = False
-            templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"
-            start_time = time.time()
-            while not found and time.time() - start_time < 10:
-                found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
-                if not found:
-                    self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
+                self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
+        if not found:
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            return False
+        return True
+        
+    def _river_of_flames_trash(self) -> bool:
+        if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
+        Logger.debug("ROF: Calibrated at WAYPOINT")
+        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
+        self._char.kill_cs_trash("rof_01") #outside
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.info("ROF: Teleporting to CS ENTRANCE")
+        found = False
+        # adding a trash clear her can help. also maybe we should try to arrive OUTSIDE of CS Entrance
+        templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
+        start_time = time.time()
+        while not found and time.time() - start_time < 10:
+            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
             if not found:
-                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pent_loop_after_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            return True
+                self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
+        if not found:
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            return False
+        if not self._pather.traverse_nodes([601], self._char, threshold=0.8): return False
+        self._char.kill_cs_trash("rof_02") #inside
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.info("ROF: Calibrated at CS ENTRANCE")
+        if not self._entrance_hall(): return False
+        Logger.info("CS: Cleared Trash, looping to PENTAGRAM")
+        found = False
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"
+        start_time = time.time()
+        while not found and time.time() - start_time < 10:
+            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
+            if not found:
+                self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
+        if not found:
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pent_loop_after_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            return False
+        return True
 
-        else: # APROACH TO PENTAGRAM DIRECTLY & SKIP CS TRASH (kill_cs_trash=0)
-            if not self._pather.traverse_nodes([600], self._char , time_out=2): return False
-            Logger.debug("ROF: Calibrated at WAYPOINT")
-            self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
-            Logger.info("ROF: Teleporting directly to PENTAGRAM")
-            found = False
-            templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] #"DIA_NEW_PENT_3", "DIA_NEW_PENT_5", "DIA_NEW_PENT_6"
-            start_time = time.time()
-            while not found and time.time() - start_time < 10:
-                found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
-                if not found:
-                    self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
-            if not found:
-                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_wiz_speed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            return True
 
     def _cs_pentagram(self) -> bool:
         if self._config.char["kill_cs_trash"]: # APROACH TO PENTAGRAM DIRECTLY & SKIP CS TRASH (kill_cs_trash=0)
@@ -246,7 +248,6 @@ class Diablo:
                 return False
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP
-        #AEON, I need your help here: she does not buy new tomes when TPs are depleted
         Logger.info("CS: OPEN TP")
         if not self._ui_manager.has_tps():
             Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs!")
@@ -258,6 +259,7 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
+
 
     def _seal_A1(self) -> bool:
         seal_layout = "A1-L"
@@ -448,8 +450,11 @@ class Diablo:
         self._picked_up_items = False
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
-        if not self._river_of_flames(): return False
-        if self._config.char["kill_cs_trash"]: Logger.info("Clearing CS trash is not yet implemented, AZMR is working on it ... continue without trash")
+        if self._config.char["kill_cs_trash"]: 
+            Logger.info("Clearing CS trash")
+            if not self._river_of_flames_trash(): return False
+        else:
+            if not self._river_of_flames(): return False
         if not self._cs_pentagram(): return False
 
         # Seal A: Vizier (to the left)

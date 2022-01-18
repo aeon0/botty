@@ -16,7 +16,7 @@ from ui import UiManager
 
 
 class IChar:
-    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
         self._char_config = Config().char
         self._template_finder = template_finder
@@ -217,17 +217,14 @@ class IChar:
     def kill_diablo(self) -> bool:
         raise ValueError("Diablo is not implemented!")
 
-    def kill_deseis(self) -> bool:
+    def kill_deseis(self, seal_layout:str) -> bool:
         raise ValueError("Diablo De Seis is not implemented!")
 
-    def kill_infector(self) -> bool:
+    def kill_infector(self, seal_layout:str) -> bool:
         raise ValueError("Diablo Infector is not implemented!")
 
-    def kill_vizier(self) -> bool:
+    def kill_vizier(self, seal_layout:str) -> bool:
         raise ValueError("Diablo Vizier is not implemented!")
 
-    def kill_cs_trash(self) -> bool:
+    def kill_cs_trash(self, location:str) -> bool:
         raise ValueError("Diablo CS Trash is not implemented!")
-
-    def kill_cs_trash_pentagram(self) -> bool:
-        raise ValueError("Diablo CS Trash Pentagram is not implemented!")
