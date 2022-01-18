@@ -161,7 +161,6 @@ if __name__ == "__main__":
     while 1:
         img = screen.grab().copy()
         res = cropper.crop_item_descr(img)
-        #Logger.debug(res)
         if res["color"]:
             for cluster in res:
                 x, y, w, h = cluster.roi

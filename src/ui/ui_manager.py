@@ -276,7 +276,7 @@ class UiManager():
             setattr(x, "ocr_result", result["ocr_result"])
             Logger.debug(f"OCR ITEM DESCR: Mean conf: {result.ocr_result['mean_confidence']}")
             for i, line in enumerate(list(filter(None, result.ocr_result["text"].splitlines()))):
-                Logger.debug(f"Ocr Line{i}: {line}")
+                Logger.debug(f"OCR LINE{i}: {line}")
             if self._config.general["loot_screenshots"]:
                 timestamp = time.strftime("%Y%m%d_%H%M%S")
                 cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_o.png", result.ocr_result['original_img'])
