@@ -67,10 +67,10 @@ class Diablo:
                 wait(0.3)
                 if i >= 2:
                     Logger.debug(seal_layout + ": failed " + str(i+2) + " of 7 times, trying to kill trash now") # ISSUE: if it failed 7/7 times, she does not try to open the seal: this way all the effort of the 7th try are useless. she should click at the end of the whole story. 
-                    self._char.kill_cs_trash("sealdance")
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
+                    self._char.kill_cs_trash()
+                    self._picked_up_items |= self._pickit.pick_up_items(self._char)
                     wait(i*0.5) #let the hammers clear & check the template -> the more tries, the longer the wait
-                    if not self._pather.traverse_nodes(seal_node, self): return False # re-calibrate at seal node
+                    if not self._pather.traverse_nodes(seal_node, self._char): return False # re-calibrate at seal node
                 else:
                     # do a little random hop & try to click the seal
                     direction = 1 if i % 2 == 0 else -1
@@ -87,7 +87,7 @@ class Diablo:
         start_time = time.time()
         while not found and time.time() - start_time < 10:
             found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid
-            if not found: self._pather.traverse_nodes_fixed(path, self)
+            if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
             #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
@@ -145,7 +145,7 @@ class Diablo:
 
     def _entrance_hall(self) -> bool:
         Logger.info("CS: Starting to clear Trash")
-        if not self._pather.traverse_nodes([677], self): return False 
+        if not self._pather.traverse_nodes([677], self._char): return False 
         self._char.kill_cs_trash("entrance_hall_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # Gets to door and checks starts attacks and picks up items
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
@@ -166,17 +166,18 @@ class Diablo:
                 return True
             else:
                 Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - all fine, proceeding with Entrance 2")
-                if not self._char._entrance_2(): return False
+                if not self._entrance_2(): return False
         else:
             Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - all fine, proceeding with Entrance 1")
-                if not self._char._entrance_1(): return False
+                if not self._entrance_1(): return False
             else:
                 Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True 
+
 
     def _river_of_flames(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
@@ -195,6 +196,7 @@ class Diablo:
             return False
         return True
         
+
     def _river_of_flames_trash(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
         Logger.debug("ROF: Calibrated at WAYPOINT")
@@ -330,6 +332,7 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
+
     def _seal_B1(self):
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -386,6 +389,7 @@ class Diablo:
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
+
 
     def _seal_C1(self) -> bool: #704 is a weak node, not found often
         seal_layout = "C1-F"
@@ -445,6 +449,7 @@ class Diablo:
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
+
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
@@ -557,6 +562,7 @@ class Diablo:
         wait(0.2, 0.3)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._picked_up_items = self._pickit.pick_up_items(self._char)
+        wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
 
 if __name__ == "__main__":
