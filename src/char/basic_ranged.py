@@ -11,9 +11,6 @@ import time
 import random
 import numpy as np
 from pather import Pather, Location
-import cv2 #for Diablo
-from item.pickit import PickIt #for Diablo
-
 
 class Basic_Ranged(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):

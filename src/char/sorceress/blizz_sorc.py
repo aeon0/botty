@@ -6,8 +6,6 @@ from utils.misc import wait, rotate_vec, unit_vector
 import random
 from pather import Location
 import numpy as np
-import cv2 #for Diablo
-from item.pickit import PickIt #for Diablo
 
 class BlizzSorc(Sorceress):
     def __init__(self, *args, **kwargs):
