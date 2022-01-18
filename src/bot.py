@@ -46,7 +46,7 @@ class Bot:
         self._messenger = Messenger()
         self._config = Config()
         self._template_finder = template_finder
-        self._item_finder = ItemFinder(self._config)
+        self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
@@ -54,23 +54,23 @@ class Bot:
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = LightSorc(self._config.light_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
-            self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Trapsin(self._config.trapsin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Barbarian(self._config.barbarian, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "necro":
-            self._char: IChar = Necro(self._config.necro, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Necro(self._config.necro, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic":
-            self._char: IChar = Basic(self._config.basic, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic(self._config.basic, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -228,7 +228,7 @@ class Bot:
         if self._pick_corpse:
             self._pick_corpse = False
             time.sleep(1.6)
-            DeathManager.pick_up_corpse(self._config, self._screen)
+            DeathManager.pick_up_corpse(self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
@@ -238,7 +238,7 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
-        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2 or buy_pots:
+        if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()

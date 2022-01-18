@@ -97,10 +97,10 @@ class PickIt:
                     if same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
-                    elif time.time() - same_item_timer > 4 and not did_force_move:
+                    elif time.time() - same_item_timer > 1 and not did_force_move:
                         force_move = True
                         did_force_move = True
-                    elif time.time() - same_item_timer > 8:
+                    elif time.time() - same_item_timer > 3:
                         # backlist this item type for this pickit round
                         Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
                         skip_items.append(closest_item.name)
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

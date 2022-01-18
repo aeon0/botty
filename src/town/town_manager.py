@@ -184,7 +184,7 @@ if __name__ == "__main__":
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)

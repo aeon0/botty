@@ -23,5 +23,6 @@ dependencies:
     - pytest-pythonpath
     - graphviz
     - psutil
+    - cryptography
     - pillow
     - discord.py

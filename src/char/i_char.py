@@ -16,9 +16,9 @@ from ui import UiManager
 
 
 class IChar:
-    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
-        self._char_config = char_config
+        self._char_config = Config().char
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._screen = screen

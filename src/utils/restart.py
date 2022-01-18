@@ -1,7 +1,7 @@
 import subprocess
 import os, sys
 import keyboard
-from utils.misc import wait
+from utils.misc import wait, set_d2r_always_on_top
 from screen import Screen
 from config import Config
 
@@ -32,6 +32,8 @@ def restart_game(d2_path = None):
         wait(0.5, 1.0)
     success = False
     attempts = 0
+    if config.advanced_options['d2r_windows_always_on_top']:
+        set_d2r_always_on_top()
     while not success:
         screen = Screen(config.general["monitor"], wait=5)
         success = screen.found_offsets
