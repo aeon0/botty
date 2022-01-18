@@ -162,9 +162,8 @@ if __name__ == "__main__":
         img = screen.grab().copy()
         res = cropper.crop_item_descr(img)
         if res["color"]:
-            for cluster in res:
-                x, y, w, h = cluster.roi
-                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-                Logger.debug(f"{cluster.ocr_result['text']}")
+            x, y, w, h = res.roi
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+            Logger.debug(f"{res.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)

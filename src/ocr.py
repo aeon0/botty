@@ -59,13 +59,13 @@ class Ocr:
         # case: a solitary I; e.g., " I TO 5 DEFENSE"
         while True:
             if " I " in ocr_output:
-                ocr_output.replace(" I ", " 1 ")
+                ocr_output = ocr_output.replace(" I ", " 1 ")
                 continue
             break
         # case: consecutive I's; e.g., "DEFENSE: II"
         repeat=False
         while "II" in ocr_output:
-            ocr_output.replace("II", "11")
+            ocr_output = ocr_output.replace("II", "11")
             repeat=True
         if repeat:
             self.fix_ocr_output(ocr_output)
@@ -77,6 +77,7 @@ class Ocr:
         # ocr_output.replace("TELEFORT", "TELEPORT")
         # ocr_output.replace("TROPHV", "TROPHY")
         # ocr_output.replace("CLAVMORE", "CLAYMORE")
+        # ocr_output.replace("MAKIMUM", "MAXIMUM")
 
         return ocr_output
 
