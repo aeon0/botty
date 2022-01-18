@@ -10,27 +10,13 @@ from screen import Screen
 from utils.misc import wait
 import time
 from pather import Pather, Location
-import cv2 #for Diablo
-from item.pickit import PickIt #for Diablo
-
 
 class Hammerdin(IChar):
-    def __init__(
-        self, 
-        skill_hotkeys, 
-        char_config, 
-        screen: Screen, 
-        template_finder: TemplateFinder, 
-        ui_manager: UiManager, 
-        pather: Pather, 
-        pickit: PickIt #for Diablo
-        ):
+    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
-        self._pickit = pickit #for Diablo
-        self._picked_up_items = False #for Diablo
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
         if not self._skill_hotkeys["teleport"]:
