@@ -250,9 +250,16 @@ class Diablo:
         if not self._pather.traverse_nodes([612, 613], self._char): return False
         self._char.kill_cs_trash(seal_layout + "_02")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._char.kill_cs_trash(seal_layout + "_03")
+        if not self._pather.traverse_nodes([614], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
         if not self._pather.traverse_nodes([612], self._char): return False
         ### KILL BOSS ###
@@ -283,9 +290,16 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_01") #could be skipped to be faster, but helps clearing templates at the calibration node 622 for returning home
         if not self._pather.traverse_nodes([623, 624], self._char): return False
         self._char.kill_cs_trash(seal_layout + "_02")
+        #self._char.kill_cs_trash(seal_layout + "_03")
+        if not self._pather.traverse_nodes([625], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([625], self._char): return False
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([626], self._char): return False
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
         ### KILL BOSS ###
@@ -310,6 +324,12 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
         ### CLEAR TRASH & APPROACH SEAL ###
+        #self._char.kill_cs_trash(seal_layout + "_01")
+        #self._char.kill_cs_trash(seal_layout + "_02")
+        #self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([634], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([634], self._char): return False
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
@@ -334,7 +354,13 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
         ### CLEAR TRASH & APPROACH SEAL ###
+        #self._char.kill_cs_trash(seal_layout + "_01")
+        #self._char.kill_cs_trash(seal_layout + "_02")
+        #self._char.kill_cs_trash(seal_layout + "_03")
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([644], self._char): return False
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
@@ -360,10 +386,18 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### CLEAR TRASH & APPROACH SEAL ###
-        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) # REPLACES: if not self._pather.traverse_nodes([656, 654, 655], self._char, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
         #self._char.kill_cs_trash(seal_layout + "_01")
+        #self._char.kill_cs_trash(seal_layout + "_02")
+        #self._char.kill_cs_trash(seal_layout + "_03")
+        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) # REPLACES: if not self._pather.traverse_nodes([656, 654, 655], self._char, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([655], self._char): return False
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([652], self._char): return False
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
         self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
         ### KILL BOSS ###
@@ -386,7 +420,13 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### CLEAR TRASH & APPROACH SEAL ###
+        #self._char.kill_cs_trash(seal_layout + "_01")
+        #self._char.kill_cs_trash(seal_layout + "_02")
+        #self._char.kill_cs_trash(seal_layout + "_03")
         if not self._pather.traverse_nodes([663, 662], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
         self._pather.traverse_nodes_fixed("dia_c2g_663", self._char)
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
@@ -394,6 +434,9 @@ class Diablo:
         self._char.kill_infector(seal_layout)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
+        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([665], self._char): return False
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         ### GO HOME ###

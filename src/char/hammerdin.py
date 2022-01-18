@@ -167,7 +167,7 @@ class Hammerdin(IChar):
     
     def kill_cs_trash(self, location:str) -> bool:
         if location != "":
-            # Or("sealdance", "rof_01", "rof_02", "entrance_hall_01", "entrance_hall_02", "entrance_hall_03", "entrance1_01", "entrance1_02", "entrance1_03", "entrance1_04", "entrance2_01", "entrance2_02", "entrance2_03", "entrance2_04", "pent_before_a", "pent_before_b", "pent_before_c", "layoutcheck_a", "layoutcheck_b","layoutcheck_c", "A1-L_01", "A1-L_02", "A1-L_03", "A2-Y_01", "A2-Y_02", "A2-Y_03", "B1-S_01", "B1-S_02", "B1-S_03", "B2-U_01", "B2-U_02", "B2-U_03", "C1-F_01", "C1-F_02", "C1-F_03", "C2-G_01", "C2-G_02", "C2-G_03"):
+            # Or("sealdance", "rof_01", "rof_02", "entrance_hall_01", "entrance_hall_02", "entrance_hall_03", "entrance1_01", "entrance1_02", "entrance1_03", "entrance1_04", "entrance2_01", "entrance2_02", "entrance2_03", "entrance2_04", "pent_before_a", "pent_before_b", "pent_before_c", "layoutcheck_a", "layoutcheck_b","layoutcheck_c", "A1-L_01", "A1-L_02", "A1-L_03", "A2-Y_01", "A2-Y_02", "A2-Y_03", "A1-L_fake", "A1-L_boss", "B1-S_01", "B1-S_02", "B1-S_03", "B2-U_01", "B2-U_02", "B2-U_03", "B1-S_boss", "B2-U_boss", "C1-F_fake", "C1-F_boss", "C1-F_01", "C1-F_02", "C1-F_03", "C2-G_01", "C2-G_02", "C2-G_03", "C2-G_fake", "C2-G_boss"):
             """
                 Or(        
                 "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
@@ -177,12 +177,12 @@ class Hammerdin(IChar):
                 "entrance2_01", "entrance2_02", "entrance2_03", "entrance2_04", # clear trash second hall in CS, layout 2
                 "pent_before_a", "pent_before_b", "pent_before_c",# clear trash at pentagram node 602, before CTA buff & depature to layout check
                 "layoutcheck_a", "layoutcheck_b","layoutcheck_c", # clear trash before layout check 
-                "A1-L_01", "A1-L_02", "A1-L_03", # clear trash at seal layout A1-L
-                "A2-Y_01", "A2-Y_02", "A2-Y_03", # clear trash at seal layout A2-Y
-                "B1-S_01", "B1-S_02", "B1-S_03", # clear trash at seal layout B1-S
-                "B2-U_01", "B2-U_02", "B2-U_03", # clear trash at seal layout B2-U
-                "C1-F_01", "C1-F_02", "C1-F_03", # clear trash at seal layout C1-F
-                "C2-G_01", "C2-G_02", "C2-G_03" # clear trash at seal layout C1-G
+                "A1-L_01", "A1-L_02", "A1-L_03", "A1-L_fake", "A1-L_boss", # clear trash at seal layout A1-L
+                "A2-Y_01", "A2-Y_02", "A2-Y_03", "A2-Y_fake", "A2-Y_boss", # clear trash at seal layout A2-Y
+                "B1-S_01", "B1-S_02", "B1-S_03", "B1-S_boss", # clear trash at seal layout B1-S
+                "B2-U_01", "B2-U_02", "B2-U_03", "B2-U_boss", # clear trash at seal layout B2-U
+                "C1-F_01", "C1-F_02", "C1-F_03", "C1-F_fake", "C1-F_boss", # clear trash at seal layout C1-F
+                "C2-G_01", "C2-G_02", "C2-G_03", "C2-G_fake", "C2-G_boss", # clear trash at seal layout C1-G
                 ):
             """                
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
