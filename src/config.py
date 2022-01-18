@@ -112,7 +112,8 @@ class Config:
             "info_screenshots": bool(int(Config._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(Config._select_val("general", "loot_screenshots"))),
             "d2r_path": Config._select_val("general", "d2r_path"),
-            "restart_d2r_when_stuck": bool(int(Config._select_val("general", "restart_d2r_when_stuck")))
+            "restart_d2r_when_stuck": bool(int(Config._select_val("general", "restart_d2r_when_stuck"))),
+            "find_window_via_win32_api": bool(int(Config._select_val("general", "find_window_via_win32_api")))
         }
 
         # Added for dclone ip hunting
