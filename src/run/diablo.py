@@ -95,51 +95,51 @@ class Diablo:
 
     #CLEAR CS TRASH
     def _entrance_1(self) -> bool:
-        entrance1_layout = "CS Entrance Style 1 "
+        entrance1_layout = "CS Entrance Style 1"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Entrance Layout: " + entrance1_layout)
         Logger.info(entrance1_layout + "cleaning")
         self._char.kill_cs_trash("entrance1_01") # Lands on location and starts attacking
-        if not self._pather.traverse_nodes([673], self): return False # Re-adjust itself and continues to attack
+        if not self._pather.traverse_nodes([673], self._char): return False # Re-adjust itself and continues to attack
         self._char.kill_cs_trash("entrance1_02")
-        self._picked_up_items |= self._pickit.pick_up_items(self) 
-        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
-        self._pather.traverse_nodes([674], self)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) # Moves char to postion close to node 674 continues to attack
+        self._pather.traverse_nodes([674], self._char)
         self._char.kill_cs_trash("entrance1_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self) 
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info(entrance1_layout + "cleaning")
-        self._pather.traverse_nodes([675], self) # Re-adjust itself
-        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
-        self._pather.traverse_nodes([676], self)
+        self._pather.traverse_nodes([675], self._char) # Re-adjust itself
+        self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) #static path to get to be able to spot 676
+        self._pather.traverse_nodes([676], self._char)
         Logger.info(entrance1_layout + "cleaning")
         self._char.kill_cs_trash("entrance1_04")
-        self._picked_up_items |= self._pickit.pick_up_items(self)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         self._loop_pentagram("diablo_entrance_pentagram_loop")
-        if not self._pather.traverse_nodes([602], self , time_out=5): return False
+        if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True
 
     def _entrance_2(self) -> bool:
-        entrance2_layout = "CS Entrance Style 2 "
+        entrance2_layout = "CS Entrance Style 2"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info("Entrance Layout: " + entrance2_layout)
         self._char.kill_cs_trash("entrance2_01")
-        if not self._pather.traverse_nodes([682], self): return False
+        if not self._pather.traverse_nodes([682], self._char): return False
         self._char.kill_cs_trash("entrance2_02")
         Logger.info(entrance2_layout + " Cleaning area")
-        if not self._pather.traverse_nodes([682], self): return False
-        self._pather.traverse_nodes_fixed("diablo_entrance2_1", self)
-        if not self._pather.traverse_nodes([683], self): return False
+        if not self._pather.traverse_nodes([682], self._char): return False
+        self._pather.traverse_nodes_fixed("diablo_entrance2_1", self._char)
+        if not self._pather.traverse_nodes([683], self._char): return False
         self._char.kill_cs_trash("entrance2_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self)
-        self._pather.traverse_nodes([683,684], self)
-        self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
-        self._pather.traverse_nodes([685,686], self) #,687 (although this node does not exist)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._pather.traverse_nodes([683,684], self._char)
+        self._pather.traverse_nodes_fixed("diablo_entrance2_2", self._char)
+        self._pather.traverse_nodes([685,686], self._char) #,687 (although this node does not exist)
         self._char.kill_cs_trash("entrance2_04")
-        self._picked_up_items |= self._pickit.pick_up_items(self)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info("CS: Looping to PENTAGRAM")
         if not self._loop_pentagram("diablo_entrance_pentagram_loop"): return False
-        if not self._pather.traverse_nodes([602], self , time_out=5): return False
+        if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info("CS: Looping to PENTAGRAM (after clearing CS Trash)")
         return True     
 
@@ -147,14 +147,14 @@ class Diablo:
         Logger.info("CS: Starting to clear Trash")
         if not self._pather.traverse_nodes([677], self): return False 
         self._char.kill_cs_trash("entrance_hall_01")
-        self._picked_up_items |= self._pickit.pick_up_items(self) # Gets to door and checks starts attacks and picks up items
-        self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # Moves to first open area
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # Gets to door and checks starts attacks and picks up items
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
         self._char.kill_cs_trash("entrance_hall_02") # since theres probably a mob there just lands and attacks
-        if not self._pather.traverse_nodes([670,671], self): return False
+        if not self._pather.traverse_nodes([670,671], self._char): return False
         self._char.kill_cs_trash("entrance_hall_03") 
-        self._picked_up_items |= self._pickit.pick_up_items(self) # moves back and forth to draw more enemies finishes em off picks up items.
-        if not self._pather.traverse_nodes([671], self): return False # re centers it self
-        self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # Moves to second open area
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
+        if not self._pather.traverse_nodes([671], self._char): return False # re centers it self
+        self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self._char) # Moves to second open area
         
         templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18"] #Entrance 1 Refrences
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
@@ -179,7 +179,7 @@ class Diablo:
                 return True 
 
     def _river_of_flames(self) -> bool:
-        if not self._pather.traverse_nodes([600], self._char , time_out=2): return False
+        if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
         Logger.debug("ROF: Calibrated at WAYPOINT")
         self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
         Logger.info("ROF: Teleporting directly to PENTAGRAM")
