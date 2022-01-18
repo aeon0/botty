@@ -160,7 +160,19 @@ class UiManager():
         """
         Logger.debug("Wait for Play button")
         while 1:
+
             img = self._screen.grab()
+
+            offline_tab = self._template_finder.search(["OFFLINE_TAB","OFFLINE_TAB_DARK"], img, roi=self._config.ui_roi["offline_tab"], threshold=0.8, best_match = True)
+            if offline_tab.valid and offline_tab.name == "OFFLINE_TAB":
+                Logger.debug("Switching to online tab")
+                offline_width = self._config.ui_pos["offline_width"]
+                tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
+                x, y = self._screen.convert_screen_to_monitor(tab)
+                mouse.move(x, y, randomize=8)
+                time.sleep(0.5)
+                mouse.click(button="left")
+
             found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
             found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True)
             found_btn = found_btn_off if found_btn_off.valid else found_btn_on
