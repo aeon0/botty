@@ -277,163 +277,163 @@ class BlizzSorc(Sorceress):
     #-------------------------------------------------------------------------------#
     
     def kill_cs_trash(self, location:str) -> bool:
-         
+
         ### Seals
         if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         ### ROF
         elif location == "rof_01": #static_path WP-> CS Entrance, outside CS Entrance 
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "rof_02": #node 601, CS Entrance
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         ### CS Entrance
         elif location == "entrance_hall_01": #node 677, CS Entrance
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance_hall_02": #static_path "diablo_entrance_hall_1", CS Entrance
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance_hall_03": #node 670,671, CS Entrance
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
 
         ### Entrance Layout1
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance1_02": #node 673, CS Hall1/3 layout1
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance1_03": #node 674, CS Hall2/3 layout1
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
         
         elif location == "entrance1_04": #node 676, CS Hall3/3 layout1
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         ### Entrance Layout2
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance2_02": #node 682, CS Hall1/3 layout2
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "entrance2_03": #node 683, CS Hall2/3 layout2
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
         
         elif location == "entrance2_04": #node 686, CS Hall3/3 layout2
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder  
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder  
 
         ### Pentagram
         #elif location == "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order, it is therefore added below in the function to skip 
-        #    self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+        #    self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check 
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder  
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder  
         
         ### Layout Checks
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         ### A1-L
         elif location == "A2-Y_01": #node 611 seal layout A1-L: approach
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "A2-Y_02": #node 612 seal layout A1-L: safe_dist
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "A2-Y_03": #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         elif location == "A2-Y_boss": #node 614 layout A1-L: fake seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         elif location == "A2-Y_boss": #node 615 layout A1-L: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         ### A2-Y
         elif location == "A2-Y_01": #node 622 seal layout A2-Y: safe_dist
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "A2-Y_02": #node 623 seal layout A2-Y: center
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "A2-Y_03": #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         elif location == "A2-Y_boss": # node 625 seal layout A2-Y: fake seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         elif location == "A2-Y_boss": # static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         ### B1-S
         elif location == "B1-S_01": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "B1-S_02": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "B1-S_03": # no movement, but you need to end your char attack sequence at layout check node [656]
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         elif location == "B1-S_boss": # node 634 layout B1-S: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         ### B2-U
         elif location == "B2-U_01": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "B2-U_02": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "B2-U_03": # no movement, but you need to end your char attack sequence at layout check node [656]
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         elif location == "B2-U_boss": # node 644 layout B2-U: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
 
         ### C1-F
         elif location == "C1-F_01": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C1-F_02": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C1-F_03": # no movement, but you need to end your char attack sequence at layout check node [656]
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C1-F_fake": # static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder            
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder            
 
         elif location == "C1-F_boss": # static_path "dia_c1f_654_651" C1-F: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder       
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder       
         
         ### C2-G
         elif location == "C2-G_01": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C2-G_02": # no movement
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C2-G_03": # no movement, but you need to end your char attack sequence at layout check node [664]
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
 
         elif location == "C2-G_fake": # fake seal layout C2-G
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder            
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder            
 
         elif location == "C2-G_boss": # boss seal layout C2-G
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
 
         # add here ALL the locations where no trash should be killed
         elif location in ["pent_before_a",]:  
@@ -441,7 +441,7 @@ class BlizzSorc(Sorceress):
         
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Doing a Frost Nova instead!")
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10])
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"])
         return True
     
     def kill_vizier(self, seal_layout:str) -> bool:
@@ -491,12 +491,12 @@ class BlizzSorc(Sorceress):
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
             #previous node in diablo.py is [634], this is our current location
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
             #we should end at node [632], as the next move in diablo.py is towards [633]
 
         elif seal_layout == "B2-U":
             #we start at node [646], coming from a quite aggressive stativ path traversing from seal to [646] "dia_b2u_644_646"
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
             #the next move in diablo.py is loot at the current position, then move to [640] and loot there, too. We thus need to ensure this attack sequence ends at a point where you can see node [640]
         
         else:
