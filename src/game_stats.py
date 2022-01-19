@@ -155,8 +155,11 @@ class GameStats:
         return msg
 
     def _send_status_update(self):
-        msg = f"{self._create_msg()}"
-        title=f"{self._config.general['name']} - Status Report:"
+        msg = f"{self._create_msg()}"        
+        if self._config.general["message_api_type"] == "generic_api":
+            title=f"Status Report\n"
+        else:
+            title=f"{self._config.general['name']} - Status Report:"
         img="https://i.psnprofiles.com/games/3bffee/trophies/36L4a4994.png"
         self._messenger.send_status(title, msg, img)
 
