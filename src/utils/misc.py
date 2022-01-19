@@ -11,12 +11,25 @@ import os
 from math import cos, sin, dist
 import subprocess
 from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_TOP, HWND_BOTTOM, SWP_NOZORDER, SWP_NOOWNERZORDER, HWND_DESKTOP, SWP_NOSENDCHANGING, SWP_SHOWWINDOW, HWND_NOTOPMOST
-from win32gui import GetWindowText, SetWindowPos, EnumWindows
-
+from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
+from win32process import GetWindowThreadProcessId
+import psutil
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
 
+
+def find_d2r_window():
+    if os.name == 'nt':
+        window_list = []
+        EnumWindows(lambda w, l: l.append((w, *GetWindowThreadProcessId(w))), window_list)
+        for (hwnd, _, process_id) in window_list:
+            if psutil.Process(process_id).name() == "D2R.exe":
+                left, top, right, bottom = GetClientRect(hwnd)
+                (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
+                return (left, top, right, bottom)
+    return None
+        
 def set_d2r_always_on_top():
     if os.name == 'nt':
         windows_list = []
