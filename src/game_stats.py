@@ -149,7 +149,7 @@ class GameStats:
         if self._config.general['discord_status_condensed']:
             table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
         else:
-            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]
+            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc\nDeath", "Failed\nRuns"]
 
         msg += f"\n{str(table)}\n"
         return msg
