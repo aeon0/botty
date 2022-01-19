@@ -171,60 +171,60 @@ class Hammerdin(IChar):
         """ 
         if location in [
             "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            #ROF
+            ### ROF
             "rof_01", #static_path WP-> CS Entrance, outside CS Entrance
             "rof_02", #node 601, CS Entrance
-            #CS entrance
+            ### CS entrance
             "entrance_hall_01", #node 677, CS Entrance
             "entrance_hall_02", #static_path "diablo_entrance_hall_1", CS Entrance
             "entrance_hall_03", #node 670,671, CS Entrance
-            #layout 1
+            ### layout 1
             "entrance1_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             "entrance1_02", #node 673, CS Hall1/3 layout1
             "entrance1_03", #node 674, CS Hall2/3 layout1
             "entrance1_04", #node 676, CS Hall3/3 layout1
-            #layout 2
+            ### layout 2
             "entrance2_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             "entrance2_02", #node 682, CS Hall1/3 layout2
             "entrance2_03", #node 683, CS Hall2/3 layout2
             "entrance2_04", #node 686, CS Hall3/3 layout2
-            #Pentagram
+            ### Pentagram
             "pent_before_a", #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
             "pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
             "pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
-            #Layout Checks
+            ### Layout Checks
             "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
             "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
             "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
-            #A1-L
+            ### A1-L
             "A1-L_01",  #node 611 seal layout A1-L: approach
             "A1-L_02",  #node 612 seal layout A1-L: safe_dist
             "A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
             "A1-L_fake", #node 614 layout A1-L: fake seal
             "A1-L_boss", #node 615 layout A1-L: boss seal
-            #A2-Y
+            ### A2-Y
             "A2-Y_01", #node 622 seal layout A2-Y: safe_dist
             "A2-Y_02", #node 623 seal layout A2-Y: center
             "A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
             "A2-Y_fake", #node 625 seal layout A2-Y: fake seal
             "A2-Y_boss", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
-            #B1-S
+            ### B1-S
             "B1-S_01", # no movement
             "B1-S_02", # no movement
             "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
             "B1-S_boss", #node 634 layout B1-S: boss seal
-            #B2-U
+            ### B2-U
             "B2-U_01", # no movement
             "B2-U_02", # no movement
             "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
             "B2-U_boss", #node 644 layout B2-U: boss seal
-            #C1-F
+            ### C1-F
             "C1-F_01", # no movement
             "C1-F_02", # no movement
             "C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
             "C1-F_fake", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
             "C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
-            #C2-G
+            ### C2-G
             "C2-G_01", # no movement
             "C2-G_02", # no movement
             "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
@@ -281,7 +281,7 @@ class Hammerdin(IChar):
             #"B2-U_01", # no movement
             #"B2-U_02", # no movement
             #"B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            "B2-U_boss", #node 644 layout B2-U: boss seal
+            #"B2-U_boss", #node 644 layout B2-U: boss seal
             ### C1-F
             #"C1-F_01", # no movement
             #"C1-F_02", # no movement
@@ -354,7 +354,7 @@ class Hammerdin(IChar):
             "B2-U_01", # no movement
             "B2-U_02", # no movement
             "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            #"B2-U_boss", #node 644 layout B2-U: boss seal
+            "B2-U_boss", #node 644 layout B2-U: boss seal
             ### C1-F
             "C1-F_01", # no movement
             "C1-F_02", # no movement
@@ -384,51 +384,47 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
         return True
     
-    def kill_vizier(self, seal_layout:str) -> bool: #nodes1: list[int], nodes2: list[int]
+    def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
-            nodes1 = [611]
-            nodes2 = [610]
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 1/3")
+            Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 2/3")
-            self._pather.traverse_nodes(nodes1, self)
+            Logger.debug(seal_layout + "Attacking Vizier at position 2/3")
+            self._pather.traverse_nodes([611], self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 3/3")
-            self._pather.traverse_nodes(nodes2, self)
+            Logger.debug(seal_layout + "Attacking Vizier at position 3/3")
+            self._pather.traverse_nodes([610], self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
 
-        if seal_layout == "A2-Y":
-            nodes1 = [623]
-            nodes2 = [624]
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 1/3")
+        elif seal_layout == "A2-Y":
+            Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 2/3")
-            self._pather.traverse_nodes(nodes1, self)
+            Logger.debug(seal_layout + "Attacking Vizier at position 2/3")
+            self._pather.traverse_nodes([623], self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking Vizier at " + seal_layout + " position 3/3")
-            self._pather.traverse_nodes(nodes2, self)
+            Logger.debug(seal_layout + "Attacking Vizier at position 3/3")
+            self._pather.traverse_nodes([624], self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
         
         else:
-            Logger.debug("Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True
 
@@ -437,22 +433,22 @@ class Hammerdin(IChar):
             nodes1 = [632]
             nodes2 = [631]
             nodes3 = [632]
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 1/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 2/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 3/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 4/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -463,22 +459,22 @@ class Hammerdin(IChar):
             nodes1 = [641]
             nodes2 = [640]
             nodes3 = [646]
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 1/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 2/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 3/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking De Seis at " + seal_layout + " position 4/4")
+            Logger.debug(seal_layout + "Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -486,7 +482,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
         
         else:
-            Logger.debug("Invalid location for kill_deseis("+ seal_layout +"), aborting run.")
+            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True 
 
@@ -495,7 +491,7 @@ class Hammerdin(IChar):
         if seal_layout == "C1-F":
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug("Attacking Infector at " + seal_layout + " position 1/1")
+            Logger.debug(seal_layout + "Attacking Infector at position 1/1")
             self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
             self._cast_hammers(0.8, "redemption")
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
@@ -507,7 +503,7 @@ class Hammerdin(IChar):
         elif seal_layout == "C2-G":
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug("Attacking Infector at " + seal_layout + " position 1/1")
+            Logger.debug(seal_layout + "Attacking Infector at position 1/1")
             self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
             self._cast_hammers(0.8, "redemption")
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
@@ -517,7 +513,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1.2, "redemption")
         
         else:
-            Logger.debug("Invalid location for kill_infector("+ seal_layout +"), aborting run.")
+            Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
             return False 
         return True
 
