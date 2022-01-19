@@ -432,7 +432,7 @@ class Diablo:
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
         if not self._char.kill_deseis(seal_layout): return False
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 632
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) 
         if not self._pather.traverse_nodes([640], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         

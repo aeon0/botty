@@ -6,6 +6,7 @@ from utils.misc import wait, rotate_vec, unit_vector
 import random
 from pather import Location
 import numpy as np
+import time
 
 class BlizzSorc(Sorceress):
     def __init__(self, *args, **kwargs):
@@ -52,6 +53,32 @@ class BlizzSorc(Sorceress):
             wait(0.09, 0.12)
             mouse.release(button="right")
 
+    def _glacial_spike(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        if self._skill_hotkeys["glacial_spike"]:
+            keyboard.send(self._skill_hotkeys["glacial_spike"])
+        for _ in range(5):
+            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            mouse.move(*cast_pos_monitor)
+            mouse.press(button="left")
+            wait(delay[0], delay[1])
+            mouse.release(button="left")
+        keyboard.send(self._char_config["stand_still"], do_press=False)
+
+    def _frost_nova(self, time_in_s: float):
+        if not self._skill_hotkeys["frost_nova"]:
+            raise ValueError("You did not set frost_nova hotkey!")
+        keyboard.send(self._skill_hotkeys["frost_nova"])
+        wait(0.05, 0.1)
+        start = time.time()
+        while (time.time() - start) < time_in_s:
+            wait(0.03, 0.04)
+            mouse.press(button="right")
+            wait(0.12, 0.2)
+            mouse.release(button="right")
+    
     def kill_pindle(self) -> bool:
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
@@ -244,7 +271,323 @@ class BlizzSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
     
+
+    #-------------------------------------------------------------------------------#   
+    # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
+    #-------------------------------------------------------------------------------#
     
+    def kill_cs_trash(self, location:str) -> bool:
+         
+        ### Seals
+        if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        ### ROF
+        elif location == "rof_01": #static_path WP-> CS Entrance, outside CS Entrance 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "rof_02": #node 601, CS Entrance
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        ### CS Entrance
+        elif location == "entrance_hall_01": #node 677, CS Entrance
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance_hall_02": #static_path "diablo_entrance_hall_1", CS Entrance
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance_hall_03": #node 670,671, CS Entrance
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+
+        ### Entrance Layout1
+        elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance1_02": #node 673, CS Hall1/3 layout1
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance1_03": #node 674, CS Hall2/3 layout1
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+        
+        elif location == "entrance1_04": #node 676, CS Hall3/3 layout1
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        ### Entrance Layout2
+        elif location == "entrance2_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance2_02": #node 682, CS Hall1/3 layout2
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "entrance2_03": #node 683, CS Hall2/3 layout2
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+        
+        elif location == "entrance2_04": #node 686, CS Hall3/3 layout2
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder  
+
+        ### Pentagram
+        #elif location == "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order, it is therefore added below in the function to skip 
+        #    self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check 
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder  
+        
+        ### Layout Checks
+        elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+
+        ### A1-L
+        elif location == "A2-Y_01": #node 611 seal layout A1-L: approach
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "A2-Y_02": #node 612 seal layout A1-L: safe_dist
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "A2-Y_03": #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+
+        elif location == "A2-Y_boss": #node 614 layout A1-L: fake seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        elif location == "A2-Y_boss": #node 615 layout A1-L: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        ### A2-Y
+        elif location == "A2-Y_01": #node 622 seal layout A2-Y: safe_dist
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "A2-Y_02": #node 623 seal layout A2-Y: center
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "A2-Y_03": #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+
+        elif location == "A2-Y_boss": # node 625 seal layout A2-Y: fake seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        elif location == "A2-Y_boss": # static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        ### B1-S
+        elif location == "B1-S_01": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "B1-S_02": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "B1-S_03": # no movement, but you need to end your char attack sequence at layout check node [656]
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+
+        elif location == "B1-S_boss": # node 634 layout B1-S: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        ### B2-U
+        elif location == "B2-U_01": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "B2-U_02": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "B2-U_03": # no movement, but you need to end your char attack sequence at layout check node [656]
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder               
+
+        elif location == "B2-U_boss": # node 644 layout B2-U: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder 
+
+        ### C1-F
+        elif location == "C1-F_01": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C1-F_02": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C1-F_03": # no movement, but you need to end your char attack sequence at layout check node [656]
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C1-F_fake": # static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder            
+
+        elif location == "C1-F_boss": # static_path "dia_c1f_654_651" C1-F: boss seal
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder       
+        
+        ### C2-G
+        elif location == "C2-G_01": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C2-G_02": # no movement
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C2-G_03": # no movement, but you need to end your char attack sequence at layout check node [664]
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder   
+
+        elif location == "C2-G_fake": # fake seal layout C2-G
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder            
+
+        elif location == "C2-G_boss": # boss seal layout C2-G
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+
+        # add here ALL the locations where no trash should be killed
+        elif location in ["pent_before_a",]:  
+            Logger.debug("No attack choreography available in blizz_sorc.py for this node " + location + " - skipping to shorten run.")
+        
+        else:
+            Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Doing a Frost Nova instead!")
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10])
+        return True
+    
+    def kill_vizier(self, seal_layout:str) -> bool:
+        if seal_layout == "A1-L":
+            #previous node in diablo.py is [612], this is our current location
+            atk_len = self._char_config["atk_len_diablo_vizier"] * 0.3
+            wait(0.5)
+            self._blizzard((20, 100), spray=10)
+            self._ice_blast((70, 90), spray=10)
+            self._ice_blast((100, 90), spray=10)
+            wait(0.3)
+            self._blizzard((130, 200), spray=10)
+            wait(0.9)
+            pos_m = self._screen.convert_abs_to_monitor((100, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            if not self._pather.traverse_nodes([611, 610], self): return False
+            wait(0.9)
+            self._blizzard((-250, -80), spray=10)
+            self._ice_blast((100, 50), spray=30)
+            self._ice_blast((-200, -120), spray=30)
+            wait(0.3)
+            self._blizzard((-50, 0), spray=10)
+            wait(0.3)
+            #Next node in diablo.py is [611], this is where we should be able to go next from the current position at the end of this attack sequence        
+
+        elif seal_layout == "A2-Y":
+            #previous node in diablo.py is [622], this is our current location
+            wait(0.8)
+            self._blizzard((20, 150), spray=10)
+            self._ice_blast((150, 100), spray=30)
+            self._ice_blast((120, -100), spray=30)
+            wait(0.4)
+            self._blizzard((-400, -50), spray=10)
+            self._ice_blast((150, 10), spray=30)
+            self._ice_blast((300, 50), spray=30)
+            wait(0.4)
+            self._blizzard((150, 100), spray=10)
+            wait(0.5)
+            #this attack sequence has to end at node [624], as the next move in diablo.py is a static path hop! from [624] to [622]
+        
+        else:
+            Logger.debug(seal_layout + ": Invalid location for kill_deseis(" + seal_layout + "), should not happen.")
+            return False
+        return True
+
+    def kill_deseis(self, seal_layout:str) -> bool:
+        if seal_layout == "B1-S":
+            #previous node in diablo.py is [634], this is our current location
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            #we should end at node [632], as the next move in diablo.py is towards [633]
+
+        elif seal_layout == "B2-U":
+            #we start at node [646], coming from a quite aggressive stativ path traversing from seal to [646] "dia_b2u_644_646"
+            self._frost_nova(self._char_config["atk_len_cs_trashmobs" / 10]) #placeholder
+            #the next move in diablo.py is loot at the current position, then move to [640] and loot there, too. We thus need to ensure this attack sequence ends at a point where you can see node [640]
+        
+        else:
+            Logger.debug(seal_layout + ": Invalid location for kill_deseis(" + seal_layout + "), should not happen.")
+            return False
+        return True 
+
+
+    def kill_infector(self, seal_layout:str) -> bool:
+        if seal_layout == "C1-F":
+            #we tranistioned from the boss seal using a static path "dia_c1f_652" to the center between seals and should be close to node [654]
+            wait(0.5)
+            pos_m = self._screen.convert_abs_to_monitor((100, 0))
+            self.pre_move()
+            self.move(pos_m, force_move=True)  
+            self._blizzard((200, 20), spray=10)
+            self._cast_static() 
+            self._ice_blast((150, 20), spray=30)
+            wait(0.3)
+            self._blizzard((100, 20), spray=10)
+            wait(0.8)
+            pos_m = self._screen.convert_abs_to_monitor((150, -50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(0.8)  
+            self._blizzard((100, 150), spray=10)
+            self._cast_static() 
+            self._ice_blast((100, 120), spray=30)
+            wait(0.3)
+            self._blizzard((100, 100), spray=10)
+            self._cast_static()
+            wait(2.0)
+            #next move in diablo.py is to loot and traverse to node [654], so our attack sequence should end where you can see node [654]
+
+        elif seal_layout == "C2-G":
+            #we start at node [663], after having done a static path "dia_c2g_663" bringing us from the boss seal to the center between seals. Infector here can be moat-tricked, if we tele back to [662] where the Boss seal is at and cast towards the Fake seal [665]
+            pos_m = self._screen.convert_abs_to_monitor((-150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._blizzard((200, -100), spray=10)
+            self._cast_static() 
+            self._ice_blast((200, -100), spray=30)
+            pos_m = self._screen.convert_abs_to_monitor((-150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._blizzard((250, -150), spray=10)
+            self._cast_static()
+            self._ice_blast((200, -150), spray=30)
+            self._blizzard((200, -120), spray=10)
+            wait(0.8)
+            pos_m = self._screen.convert_abs_to_monitor((320, -120))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            if not self._pather.traverse_nodes([663], self): return False
+            wait(0.8)
+            self._blizzard((100, -70), spray=10)
+            self._cast_static()
+            self._ice_blast((90, -150), spray=30)
+            self._blizzard((100, -100), spray=10)
+            if not self._pather.traverse_nodes([663], self): return False
+            #we end at node [663], the next step in diablo.py is to travers from [664,665] to the fake seal & open it.
+        
+        else:
+            Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
+            return False 
+        return True
+
+
+    def kill_diablo(self) -> bool:
+        #we start this piece of code at node 602 (Pentagram)
+        atk_len = self._char_config["atk_len_diablo"]
+        #for _ in range(int(self._char_config["atk_len_diablo"])):
+        diablo_pos_abs =  0, -72
+        cast_pos_abs = [diablo_pos_abs[0] * 0.9, diablo_pos_abs[1] * 0.9]
+        wait(2.5)
+        self._blizzard(cast_pos_abs, spray=45)
+        self._cast_static(0.6)
+        self._ice_blast(cast_pos_abs, spray=90)
+        wait(0.3)
+        self._blizzard(cast_pos_abs, spray=50)
+        wait(0.8)
+        pos_m = self._screen.convert_abs_to_monitor((0, -200))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(0.8)
+        self._blizzard((0, 150), spray=10) 
+        self._ice_blast((0, 150), spray=30)
+        self._blizzard((-50, 120), spray=10)
+        #we end this piece of code at node 602 (Pentagram)
+        return True
+
 if __name__ == "__main__":
     import os
     import keyboard
