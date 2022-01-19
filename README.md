@@ -74,7 +74,7 @@ run_shenk=0
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
-| run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_diablo   | Run Diablo in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -110,7 +110,7 @@ run_shenk=0
 | atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
-| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram and Seals A, B, C are cleared (NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
+| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared (clearing trash between Pentagram & Seals is NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
