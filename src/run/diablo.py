@@ -65,6 +65,7 @@ class Diablo:
                 wait(0.3)
                 if i >= 2:
                     Logger.debug(seal_layout + ": failed " + str(i+2) + " of 7 times, trying to kill trash now") # ISSUE: if it failed 7/7 times, she does not try to open the seal: this way all the effort of the 7th try are useless. she should click at the end of the whole story. 
+                    Logger.debug("Sealdance: Kill trash at location: sealdance")
                     self._char.kill_cs_trash("sealdance")
                     self._picked_up_items |= self._pickit.pick_up_items(self._char)
                     wait(i*0.5) #let the hammers clear & check the template -> the more tries, the longer the wait
@@ -94,11 +95,14 @@ class Diablo:
     def _entrance_hall(self) -> bool:
         Logger.info("CS: Starting to clear Trash")
         if not self._pather.traverse_nodes([677], self._char): return False 
+        Logger.debug("Sealdance: Kill trash at location: entrance_hall_01")
         self._char.kill_cs_trash("entrance_hall_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # Gets to door and checks starts attacks and picks up items
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
+        Logger.debug("Sealdance: Kill trash at location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02") # since theres probably a mob there just lands and attacks
         if not self._pather.traverse_nodes([670,671], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: entrance_hall_03")
         self._char.kill_cs_trash("entrance_hall_03") 
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
         if not self._pather.traverse_nodes([671], self._char): return False # re centers it self
@@ -109,7 +113,7 @@ class Diablo:
             Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout, trying to loop to pentagram to save the run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
             else:
@@ -118,20 +122,24 @@ class Diablo:
                 entrance2_layout = "CS Entrance Style 2"
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 Logger.info("Entrance Layout: " + entrance2_layout)
+                Logger.debug("Sealdance: Kill trash at location: entrance2_01")
                 self._char.kill_cs_trash("entrance2_01")
                 if not self._pather.traverse_nodes([682], self._char): return False
+                Logger.debug("Sealdance: Kill trash at location: entrance2_02")
                 self._char.kill_cs_trash("entrance2_02")
                 Logger.info(entrance2_layout + " - cleaning hall 1/3")
                 if not self._pather.traverse_nodes([682], self._char): return False
                 self._pather.traverse_nodes_fixed("diablo_entrance2_1", self._char)
                 if not self._pather.traverse_nodes([683], self._char): return False
                 Logger.info(entrance2_layout + " - cleaning hall 2/3")
+                Logger.debug("Sealdance: Kill trash at location: entrance2_03")
                 self._char.kill_cs_trash("entrance2_03")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 self._pather.traverse_nodes([683,684], self._char)
                 self._pather.traverse_nodes_fixed("diablo_entrance2_2", self._char)
                 self._pather.traverse_nodes([685,686], self._char)
                 Logger.info(entrance2_layout + " - cleaning hall 3/3")
+                Logger.debug("Sealdance: Kill trash at location: entrance2_04")
                 self._char.kill_cs_trash("entrance2_04")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM 
@@ -146,12 +154,15 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 Logger.info("Entrance Layout: " + entrance1_layout)
                 Logger.info(entrance1_layout + " - cleaning hall 1/3")
+                Logger.debug("Sealdance: Kill trash at location: entrance1_01")
                 self._char.kill_cs_trash("entrance1_01") # Lands on location and starts attacking
                 if not self._pather.traverse_nodes([673], self._char): return False # Re-adjust itself and continues to attack
+                Logger.debug("Sealdance: Kill trash at location: entrance1_02")
                 self._char.kill_cs_trash("entrance1_02")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) # Moves char to postion close to node 674 continues to attack
                 self._pather.traverse_nodes([674], self._char)
+                Logger.debug("Sealdance: Kill trash at location: entrance1_03")
                 self._char.kill_cs_trash("entrance1_03")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 Logger.info(entrance1_layout + " - cleaning hall 2/3")
@@ -159,12 +170,13 @@ class Diablo:
                 self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) #static path to get to be able to spot 676
                 self._pather.traverse_nodes([676], self._char)
                 Logger.info(entrance1_layout + " - cleaning hall 3/3")
+                Logger.debug("Sealdance: Kill trash at location: entrance1_04")
                 self._char.kill_cs_trash("entrance1_04")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM
                 return True
             else:
-                Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout aborting run")
+                Logger.debug("Entrance 1 Layout_check step 2/2: Failed to determine Layout, trying to loop to pentagram to save the run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
         
@@ -191,6 +203,7 @@ class Diablo:
         if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
         Logger.debug("ROF: Calibrated at WAYPOINT")
         self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
+        Logger.debug("Sealdance: Kill trash at location: rof_01")
         self._char.kill_cs_trash("rof_01") #outside
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info("ROF: Teleporting to CS ENTRANCE")
@@ -205,6 +218,7 @@ class Diablo:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         if not self._pather.traverse_nodes([601], self._char, threshold=0.8): return False
+        Logger.debug("Sealdance: Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02") #inside
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.info("ROF: Calibrated at CS ENTRANCE")
@@ -243,31 +257,44 @@ class Diablo:
         seal_layout = "A1-L"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        ### CLEAR TRASH & APPROACH SEAL ###
+        
+        ### CLEAR TRASH ###
         if not self._pather.traverse_nodes([611], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
         self._char.kill_cs_trash(seal_layout + "_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([612, 613], self._char): return False
+        if not self._pather.traverse_nodes([612], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
         self._char.kill_cs_trash(seal_layout + "_02")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        #self._char.kill_cs_trash(seal_layout + "_03")
+        if not self._pather.traverse_nodes([613], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # you need to end your attack sequence at node [613] center
+        
+        ### APPROACH SEAL ###
         if not self._pather.traverse_nodes([614], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_fake")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
         if not self._pather.traverse_nodes([612], self._char): return False
+        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 610
         if not self._pather.traverse_nodes([612], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([611], self._char): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -283,25 +310,38 @@ class Diablo:
         seal_layout = "A2-Y"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        ### CLEAR TRASH & APPROACH SEAL ###
+        
+        ### CLEAR TRASH ###
         if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
         Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([622], self._char): return False
-        self._char.kill_cs_trash(seal_layout + "_01") #could be skipped to be faster, but helps clearing templates at the calibration node 622 for returning home
-        if not self._pather.traverse_nodes([623, 624], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
+        self._char.kill_cs_trash(seal_layout + "_01")
+        if not self._pather.traverse_nodes([623], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
         self._char.kill_cs_trash(seal_layout + "_02")
-        #self._char.kill_cs_trash(seal_layout + "_03")
+        if not self._pather.traverse_nodes([624], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([624], self._char): return False #recalibrate after loot
+        # you need to end your attack sequence at node [624] fake seal far
+        
+        ### APPROACH SEAL ###
         if not self._pather.traverse_nodes([625], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_fake")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([625], self._char): return False
+        if not self._pather.traverse_nodes([625], self._char): return False #recalibrate after loot
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([626], self._char): return False
+        if not self._pather.traverse_nodes([626], self._char): return False #recalibrate after loot
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
         if not self._pather.traverse_nodes([627, 622], self._char): return False
+        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
@@ -309,6 +349,8 @@ class Diablo:
         Logger.info(seal_layout + ": Hop!")
         if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([623], self._char): return False #recalibrate after loot
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -319,25 +361,37 @@ class Diablo:
         return True
 
 
-    def _seal_B1(self):
+    def _seal_B1(self): #define order for killing trash
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        ### CLEAR TRASH & APPROACH SEAL ###
-        #self._char.kill_cs_trash(seal_layout + "_01")
-        #self._char.kill_cs_trash(seal_layout + "_02")
-        #self._char.kill_cs_trash(seal_layout + "_03")
+        
+        ### CLEAR TRASH ### 
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
+        self._char.kill_cs_trash(seal_layout + "_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
+        self._char.kill_cs_trash(seal_layout + "_02")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # you need to end your attack sequence at layout check node [634]
+        
+        ### APPROACH SEAL ###
         if not self._pather.traverse_nodes([634], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([634], self._char): return False
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
+        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
         if not self._char.kill_deseis(seal_layout): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([633, 634], self._char): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -353,22 +407,35 @@ class Diablo:
         seal_layout = "B2-U"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        ### CLEAR TRASH & APPROACH SEAL ###
-        #self._char.kill_cs_trash(seal_layout + "_01")
-        #self._char.kill_cs_trash(seal_layout + "_02")
-        #self._char.kill_cs_trash(seal_layout + "_03")
+        
+        ### CLEAR TRASH ###
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
+        self._char.kill_cs_trash(seal_layout + "_01")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
+        self._char.kill_cs_trash(seal_layout + "_02")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # you need to end your attack sequence at layout check node [649]
+
+        ### APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
+        if not self._pather.traverse_nodes([644], self._char): return False # recalibrate after loot
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([644], self._char): return False
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
+        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
         if not self._char.kill_deseis(seal_layout): return False
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 632
         if not self._pather.traverse_nodes([640], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([640], self._char): return False
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
@@ -385,25 +452,39 @@ class Diablo:
         seal_layout = "C1-F"
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        ### CLEAR TRASH & APPROACH SEAL ###
-        #self._char.kill_cs_trash(seal_layout + "_01")
-        #self._char.kill_cs_trash(seal_layout + "_02")
-        #self._char.kill_cs_trash(seal_layout + "_03")
-        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) # REPLACES: if not self._pather.traverse_nodes([656, 654, 655], self._char, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        
+        ### CLEAR TRASH ###
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
+        self._char.kill_cs_trash(seal_layout + "_01")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
+        self._char.kill_cs_trash(seal_layout + "_02")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # you need to end your char attack sequence at layout check node [656]
+        
+        ### APPROACH SEAL ###        
+        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) 
+        Logger.debug("Sealdance: Kill trash at location: "+ seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([655], self._char): return False
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([652], self._char): return False
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
         self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
+        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([654], self._char, time_out=3): return False # this node often is not found
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -419,26 +500,40 @@ class Diablo:
         seal_layout = "C2-G"
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        ### CLEAR TRASH & APPROACH SEAL ###
-        #self._char.kill_cs_trash(seal_layout + "_01")
-        #self._char.kill_cs_trash(seal_layout + "_02")
-        #self._char.kill_cs_trash(seal_layout + "_03")
+        
+        ### CLEAR TRASH ###
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_01")
+        self._char.kill_cs_trash(seal_layout + "_01") #not needed for most AOE chars, done during layoutcheck, but could be usefull for other classes as entry to clear the full seal
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_02")
+        self._char.kill_cs_trash(seal_layout + "_02")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_03")
+        self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        # you need to end your char attack sequence at layout check node [664]
+        
+        ### APPROACH SEAL ###
         if not self._pather.traverse_nodes([663, 662], self._char): return False
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_boss")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
         self._pather.traverse_nodes_fixed("dia_c2g_663", self._char)
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
+        
         ### KILL BOSS ###
         self._char.kill_infector(seal_layout)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([664, 665], self._char): return False
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        Logger.debug("Sealdance: Kill trash at location: " + seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([665], self._char): return False
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
         ### GO HOME ###
         if not self._pather.traverse_nodes([665], self._char): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -464,7 +559,7 @@ class Diablo:
 
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
-        #self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C
+        if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed
@@ -587,3 +682,4 @@ if __name__ == "__main__":
 # Better Looping Home consistency at A & C (if a tombstone stash is on its way, the path gets displaced which might lead to missing the pentagram)
 # We could consider a function get_nearest_node() or a path home from where we started to loot to not get off-track after looting trash.
 
+# add a new param: clear_seals = 1
