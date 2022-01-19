@@ -276,7 +276,7 @@ class Hammerdin(IChar):
             #"B1-S_01", # no movement
             #"B1-S_02", # no movement
             #"B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            "B1-S_boss", #node 634 layout B1-S: boss seal
+            #"B1-S_boss", #node 634 layout B1-S: boss seal
             ### B2-U
             #"B2-U_01", # no movement
             #"B2-U_02", # no movement
@@ -292,7 +292,7 @@ class Hammerdin(IChar):
             #"C2-G_01", # no movement
             #"C2-G_02", # no movement
             #"C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            "C2-G_fake", #fake seal layout C2-G
+            #"C2-G_fake", #fake seal layout C2-G
             "C2-G_boss", #boss seal layout C2-G
             ]:        
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -349,7 +349,7 @@ class Hammerdin(IChar):
             "B1-S_01", # no movement
             "B1-S_02", # no movement
             "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            #"B1-S_boss", #node 634 layout B1-S: boss seal
+            "B1-S_boss", #node 634 layout B1-S: boss seal
             ### B2-U
             "B2-U_01", # no movement
             "B2-U_02", # no movement
@@ -365,10 +365,10 @@ class Hammerdin(IChar):
             "C2-G_01", # no movement
             "C2-G_02", # no movement
             "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            #"C2-G_fake", #fake seal layout C2-G
+            "C2-G_fake", #fake seal layout C2-G
             #"C2-G_boss", #boss seal layout C2-G
             ]:  
-            Logger.debug("No attack coreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
@@ -405,6 +405,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
+
         if seal_layout == "A2-Y":
             nodes1 = [623]
             nodes2 = [624]
@@ -425,6 +426,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
+        
         else:
             Logger.debug("Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
@@ -435,18 +437,18 @@ class Hammerdin(IChar):
             nodes1 = [632]
             nodes2 = [631]
             nodes3 = [632]
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 1/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 2/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 3/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
@@ -461,27 +463,28 @@ class Hammerdin(IChar):
             nodes1 = [641]
             nodes2 = [640]
             nodes3 = [646]
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 1/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 2/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 3/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug("Attacking DeSeis at " + seal_layout + " position 4/4")
+            Logger.debug("Attacking De Seis at " + seal_layout + " position 4/4")
             self._pather.traverse_nodes(nodes3, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
+        
         else:
             Logger.debug("Invalid location for kill_deseis("+ seal_layout +"), aborting run.")
             return False
@@ -512,6 +515,7 @@ class Hammerdin(IChar):
             self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
+        
         else:
             Logger.debug("Invalid location for kill_infector("+ seal_layout +"), aborting run.")
             return False 
