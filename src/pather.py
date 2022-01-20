@@ -571,7 +571,7 @@ class Pather:
                 img = self._screen.grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    success = self._template_finder.search("WAYPOINT_MENU", img).valid
+                    success = self._template_finder.search("WAYPOINT_MENU", img, threshold=threshold).valid
                     if success:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -600,7 +600,7 @@ class Pather:
                     last_move = time.time()
 
                 # Find any template and calc node position from it
-                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold)
+                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < self._config.ui_pos["reached_node_dist"]:

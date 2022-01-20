@@ -19,7 +19,7 @@ class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         os.system('color')
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])
@@ -736,7 +736,7 @@ class Necro(IChar):
     def kill_council(self) -> bool:
         ''' kill the council '''
 
-        result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+        result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5,threshold=.55)
 
         struggle_pos = None
 
