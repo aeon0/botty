@@ -1,3 +1,4 @@
+from pickle import FALSE
 import cv2
 import time
 from char.i_char import IChar
@@ -259,41 +260,36 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         
         ### CLEAR TRASH ###
-        if not self._pather.traverse_nodes([611], self._char): return False
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([612], self._char): return False
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([613], self._char): return False
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        # you need to end your attack sequence at node [613] center
         
         ### APPROACH SEAL ###
-        if not self._pather.traverse_nodes([614], self._char): return False
-        Logger.debug("Kill trash at location: " + seal_layout + "_fake")
         Logger.debug(seal_layout + "_fake: Kill trash")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
-        if not self._pather.traverse_nodes([613, 615], self._char): return False
-        Logger.debug("Kill trash at location: " + seal_layout + "_boss")
+        
         Logger.debug(seal_layout + "_boss: Kill trash")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
-        if not self._pather.traverse_nodes([612], self._char): return False
-        
+               
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 610
         if not self._pather.traverse_nodes([612], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([612], self._char): return False # recalibrate after loot
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([611], self._char): return False # calibrating here brings us home with higher consistency.
@@ -312,47 +308,42 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         
         ### CLEAR TRASH ###
-        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
-        Logger.info(seal_layout + ": Hop!")
-        if not self._pather.traverse_nodes([622], self._char): return False
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
-        if not self._pather.traverse_nodes([623], self._char): return False
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        if not self._pather.traverse_nodes([624], self._char): return False
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([624], self._char): return False #recalibrate after loot
-        # you need to end your attack sequence at node [624] fake seal far
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)       
         
         ### APPROACH SEAL ###
-        if not self._pather.traverse_nodes([625], self._char): return False
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([625], self._char): return False #recalibrate after loot
+        
+        if not self._pather.traverse_nodes([625], self._char): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
+        
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([626], self._char): return False #recalibrate after loot
+        
+        if not self._pather.traverse_nodes([626], self._char): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
-        if not self._pather.traverse_nodes([627, 622], self._char): return False
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
-        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
-        Logger.info(seal_layout + ": Hop!")
-        if not self._pather.traverse_nodes([623], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([623], self._char): return False #recalibrate after loot
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char): return False
+        Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        if not self._pather.traverse_nodes_fixed("dia_a2y_home", self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
@@ -379,16 +370,14 @@ class Diablo:
         # you need to end your attack sequence at layout check node [634]
         
         ### APPROACH SEAL ###
-        if not self._pather.traverse_nodes([634], self._char): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([634], self._char): return False
+        if not self._pather.traverse_nodes([634], self._char): return False #recalibrate after loot & at seal
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
-        self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self._char) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
         if not self._char.kill_deseis(seal_layout): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
@@ -421,23 +410,21 @@ class Diablo:
         # you need to end your attack sequence at layout check node [649]
 
         ### APPROACH SEAL ###
-        self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
-        if not self._pather.traverse_nodes([644], self._char): return False # recalibrate after loot
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([644], self._char): return False #recalibrate after loot & at seal
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
-        self._pather.traverse_nodes_fixed("dia_b2u_644_646", self._char) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
         if not self._char.kill_deseis(seal_layout): return False
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) 
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 632
         if not self._pather.traverse_nodes([640], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         ### GO HOME ###
-        if not self._pather.traverse_nodes([640], self._char): return False
+        if not self._pather.traverse_nodes([640], self._char): return False # recalibrate after loot
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -466,13 +453,12 @@ class Diablo:
         # you need to end your char attack sequence at layout check node [656]
         
         ### APPROACH SEAL ###        
-        self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self._char) 
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([655], self._char): return False
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
-        self._pather.traverse_nodes_fixed("dia_c1f_654_651", self._char)
+        
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -514,23 +500,21 @@ class Diablo:
         # you need to end your char attack sequence at layout check node [664]
         
         ### APPROACH SEAL ###
-        if not self._pather.traverse_nodes([663, 662], self._char): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
-        self._pather.traverse_nodes_fixed("dia_c2g_663", self._char)
-        Logger.info(seal_layout + ": Kill Boss C (Infector)")
-        
+                       
         ### KILL BOSS ###
+        Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([664, 665], self._char): return False
+    
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([665], self._char): return False
+        if not self._pather.traverse_nodes([665], self._char): return False  #recalibrate after loot & at seal
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
@@ -556,7 +540,7 @@ class Diablo:
         else:
             if not self._river_of_flames(): return False
         if not self._cs_pentagram(): return False
-
+        
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
@@ -619,7 +603,7 @@ class Diablo:
                 Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B2U_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
-
+        
         # Seal C: Infector (to the right)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash("pent_before_c")
@@ -649,7 +633,7 @@ class Diablo:
                 Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C2GS_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
-
+        
         # Diablo
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
