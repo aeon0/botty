@@ -288,13 +288,13 @@ class Hammerdin(IChar):
             #"C1-F_02", # no movement
             #"C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
             "C1-F_fake", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            "C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
+            #"C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
             ### C2-G
             #"C2-G_01", # no movement
             #"C2-G_02", # no movement
             #"C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
             #"C2-G_fake", #fake seal layout C2-G
-            "C2-G_boss", #boss seal layout C2-G
+            #"C2-G_boss", #boss seal layout C2-G
             ]:        
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -350,12 +350,12 @@ class Hammerdin(IChar):
             "B1-S_01", # no movement
             "B1-S_02", # no movement
             "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            "B1-S_boss", #node 634 layout B1-S: boss seal
+            #"B1-S_boss", #node 634 layout B1-S: boss seal
             ### B2-U
             "B2-U_01", # no movement
             "B2-U_02", # no movement
             "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            "B2-U_boss", #node 644 layout B2-U: boss seal
+            #"B2-U_boss", #node 644 layout B2-U: boss seal
             ### C1-F
             "C1-F_01", # no movement
             "C1-F_02", # no movement
@@ -366,7 +366,7 @@ class Hammerdin(IChar):
             "C2-G_01", # no movement
             "C2-G_02", # no movement
             "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            "C2-G_fake", #fake seal layout C2-G
+            #"C2-G_fake", #fake seal layout C2-G
             #"C2-G_boss", #boss seal layout C2-G
             ]:  
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
@@ -445,6 +445,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
 
         elif location == "A2-Y_fake":  #node 625 seal layout A2-Y: fake seal
+            if not self._pather.traverse_nodes([624], self): return False #recalibrate after loot
             if not self._pather.traverse_nodes([625], self): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -456,6 +457,35 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
+
+        elif location == "B1-S_boss": 
+            if not self._pather.traverse_nodes([634], self): return False
+
+        elif location == "B2-U_boss": 
+            self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
+            if not self._pather.traverse_nodes([644], self): return False
+        
+        elif location == "C1-F_fake":
+            self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
+            wait(0.1, 0.15)
+            self._cast_hammers(2, "redemption")
+            self._cast_hammers(1, "cleansing")
+            
+        elif location == "C1-F_boss":
+            self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
+
+        elif location == "C2-G_boss":
+            if not self._pather.traverse_nodes([663, 662], self): return False
+
+        elif location == "C2-G_fake":
+            if not self._pather.traverse_nodes([664, 665], self): return False
 
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
@@ -493,6 +523,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
 
         elif seal_layout == "A2-Y":
+            if not self._pather.traverse_nodes([627, 622], self): return False
             Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -510,6 +541,9 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
+            if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
+            Logger.info(seal_layout + ": Hop!")
+            if not self._pather.traverse_nodes([623], self): return False
         
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
@@ -518,6 +552,7 @@ class Hammerdin(IChar):
 
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
+            self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
             nodes1 = [632]
             nodes2 = [631]
             nodes3 = [632]
@@ -544,6 +579,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing") 
 
         elif seal_layout == "B2-U":
+            self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
             nodes1 = [641]
             nodes2 = [640]
             nodes3 = [646]
@@ -589,6 +625,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1.2, "redemption")
 
         elif seal_layout == "C2-G":
+            self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + "Attacking Infector at position 1/1")
