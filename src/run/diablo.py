@@ -1,3 +1,4 @@
+from pickle import FALSE
 import cv2
 import time
 from char.i_char import IChar
@@ -259,15 +260,12 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         
         ### CLEAR TRASH ###
-        if not self._pather.traverse_nodes([611], self._char): return False
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([612], self._char): return False
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([613], self._char): return False
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -312,12 +310,8 @@ class Diablo:
         Logger.info(seal_layout +": Starting to clear Seal")
         
         ### CLEAR TRASH ###
-        if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self._char): return False
-        Logger.info(seal_layout + ": Hop!")
-        if not self._pather.traverse_nodes([622], self._char): return False
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
-        if not self._pather.traverse_nodes([623], self._char): return False
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
         if not self._pather.traverse_nodes([624], self._char): return False
@@ -328,7 +322,6 @@ class Diablo:
         # you need to end your attack sequence at node [624] fake seal far
         
         ### APPROACH SEAL ###
-        if not self._pather.traverse_nodes([625], self._char): return False
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -353,6 +346,8 @@ class Diablo:
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char): return False
+        Logger.info(seal_layout + ": Static Pathing to Pentagram")
+        if not self._pather.traverse_nodes_fixed("dia_a2y_home", self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
@@ -587,7 +582,7 @@ class Diablo:
                 Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
-        
+        return False
         # Seal B: De Seis (to the top)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash("pent_before_b")
