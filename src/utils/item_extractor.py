@@ -29,7 +29,7 @@ if __name__ == "__main__":
             inp_img = cv2.imread(f"{args.file_path}\\{filename}")
             filename = filename[:-4]
             img = inp_img[:,:,:]
-            img_clean = item_cropper.clean_img(img)
+            img_clean = item_cropper.clean_img(img)[0]
             item_clusters = item_cropper.crop(img)
             for count, cluster in enumerate(item_clusters):
                 x, y, w, h = cluster.roi

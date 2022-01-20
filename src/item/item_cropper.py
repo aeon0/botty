@@ -35,7 +35,7 @@ class ItemCropper:
 
         self._item_colors = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
 
-    def clean_img(self, inp_img: np.ndarray) -> np.ndarray:
+    def clean_img(self, inp_img: np.ndarray, black_thresh: int = 14) -> np.ndarray:
         img = inp_img[:, :, :]
         if img.shape[0] == self._hud_mask.shape[0] and img.shape[1] == self._hud_mask.shape[1]:
             img = cv2.bitwise_and(img, img, mask=self._hud_mask)
@@ -44,7 +44,7 @@ class ItemCropper:
         img[highlight_mask > 0] = (0, 0, 0)
         # Cleanup image with erosion image as marker with morphological reconstruction
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        thresh = cv2.threshold(gray, 14, 255, cv2.THRESH_BINARY)[1]
+        thresh = cv2.threshold(gray, black_thresh, 255, cv2.THRESH_BINARY)[1]
         kernel = np.ones((3, 3), np.uint8)
         marker = thresh.copy()
         marker[1:-1, 1:-1] = 0
@@ -58,11 +58,11 @@ class ItemCropper:
         mask_r = cv2.bitwise_not(marker)
         mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
         img = cv2.bitwise_and(img, mask_color_r)
-        return img
+        return img, mask_r
 
     def crop(self, inp_img: np.ndarray, padding_y: int = 5, use_ocr: bool = True) -> list[ItemText]:
         start = time.time()
-        cleaned_img = self.clean_img(inp_img)
+        cleaned_img = self.clean_img(inp_img)[0]
         debug_str = f" | clean: {time.time() - start}"
 
         # Cluster item names
@@ -111,15 +111,16 @@ class ItemCropper:
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True) -> ItemText:
-        _, filtered_img = color_filter(inp_img, self._config.colors["black_descr"])
-        filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-        contours = cv2.findContours(filtered_img_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True, all_results: bool = False) -> ItemText:
+        results=[]
+        black_mask, _ = color_filter(inp_img, self._config.colors["black"])
+        contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
         for cntr in contours:
             x, y, w, h = cv2.boundingRect(cntr)
             cropped_item = inp_img[y:y+h, x:x+w]
             avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
+            mostly_dark = True if 0 < avg < 20 else False
             contains_black = True if np.min(cropped_item) < 14 else False
             contains_white = True if np.max(cropped_item) > 250 else False
             contains_orange = False
@@ -129,21 +130,26 @@ class ItemCropper:
                 contains_orange = np.min(orange_mask) > 0
             expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
             expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
-            mostly_dark = True if 0 < avg < 20 else False
             if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width:
-                footer = inp_img[(y+h):(y+h)+28, x:x+w]
-                found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
+                y_max = (y + h + 28) if (y + h + 28) <= 719 else 719
+                try:
+                    footer = inp_img[(y+h):y_max, x:x+w]
+                    found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
+                except:
+                    found_footer = False
                 if found_footer:
                     ocr_result = None
                     if use_ocr:
                         ocr_result = self._ocr.images_to_text(cropped_item, multiline=True)[0]
-                    return ItemText(
-                        color = "black",
-                        roi = [x, y, w, h],
-                        data = cropped_item,
-                        ocr_result = ocr_result
-                    )
-        return ItemText()
+                        results.append(ItemText(
+                            color = "black",
+                            roi = [x, y, w, h],
+                            data = cropped_item,
+                            ocr_result = ocr_result
+                        ))
+                    if not all_results:
+                        break
+        return results
 
 if __name__ == "__main__":
     import keyboard
@@ -160,10 +166,11 @@ if __name__ == "__main__":
 
     while 1:
         img = screen.grab().copy()
-        res = cropper.crop_item_descr(img)
-        if res["color"]:
-            x, y, w, h = res.roi
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-            Logger.debug(f"{res.ocr_result['text']}")
+        results = cropper.crop_item_descr(img, all_results=True)
+        for res in results:
+            if res["color"]:
+                x, y, w, h = res.roi
+                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+                Logger.debug(f"{res.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)

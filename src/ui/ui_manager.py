@@ -272,7 +272,7 @@ class UiManager():
         for x in original_list:
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
 
-            result = self._item_cropper.crop_item_descr(in_img)
+            result = self._item_cropper.crop_item_descr(in_img)[0]
             setattr(x, "ocr_result", result["ocr_result"])
             Logger.debug(f"OCR ITEM DESCR: Mean conf: {result.ocr_result['mean_confidence']}")
             for i, line in enumerate(list(filter(None, result.ocr_result["text"].splitlines()))):
@@ -434,7 +434,7 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                result = self._item_cropper.crop_item_descr(hovered_item)
+                result = self._item_cropper.crop_item_descr(hovered_item)[0]
                 found_items = self._keep_item(item_finder, hovered_item)
                 if len(found_items) > 0:
                     keyboard.send('ctrl', do_release=False)
