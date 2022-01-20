@@ -265,8 +265,8 @@ class Hammerdin(IChar):
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
             #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            "A1-L_fake", #node 614 layout A1-L: fake seal
-            "A1-L_boss", #node 615 layout A1-L: boss seal
+            #"A1-L_fake", #node 614 layout A1-L: fake seal
+            #"A1-L_boss", #node 615 layout A1-L: boss seal
             ### A2-Y
             #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
             #"A2-Y_02", #node 623 seal layout A2-Y: center
@@ -338,13 +338,13 @@ class Hammerdin(IChar):
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
             #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            #"A1-L_fake", #node 614 layout A1-L: fake seal
+            "A1-L_fake", #node 614 layout A1-L: fake seal
             #"A1-L_boss", #node 615 layout A1-L: boss seal
             ### A2-Y
             #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
             #"A2-Y_02", #node 623 seal layout A2-Y: center
-            #"A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            "A2-Y_fake", #node 625 seal layout A2-Y: fake seal
+            "A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
+            #"A2-Y_fake", #node 625 seal layout A2-Y: fake seal
             "A2-Y_boss", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
             ### B1-S
             "B1-S_01", # no movement
@@ -410,6 +410,12 @@ class Hammerdin(IChar):
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
 
+        #elif location == "A1-L_fake":  #node 613 seal layout A1-L: fake_seal
+        #    if not self._pather.traverse_nodes([614], self._char): return False
+
+        elif location == "A1-L_boss":  #node 614 seal layout A1-L: boss_seal
+            if not self._pather.traverse_nodes([613, 615], self): return False
+
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info("A2-Y: Hop!")
@@ -438,7 +444,7 @@ class Hammerdin(IChar):
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
 
-        elif location == "A2-Y_03":  #node 625 seal layout A2-Y: fake seal
+        elif location == "A2-Y_fake":  #node 625 seal layout A2-Y: fake seal
             if not self._pather.traverse_nodes([625], self): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -467,6 +473,7 @@ class Hammerdin(IChar):
     
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
+            if not self._pather.traverse_nodes([612], self): return False
             Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
