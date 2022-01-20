@@ -716,7 +716,7 @@ class Necro(IChar):
                 normalize_monitor=True
             )
             if template_match.valid:
-                pos = template_match.position
+                pos = template_match.   position
                 pos = (pos[0], pos[1] )
                 Logger.debug("DURANCE EXIT >> "+str(pos))
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
@@ -738,9 +738,7 @@ class Necro(IChar):
 
         result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5,threshold=.55)
 
-        struggle_pos = None
-
-        #this is gross but the skeletons I think cause pathing issues
+    #this is gross but the skeletons I think cause pathing issues
         while result is False:
             #struggle to find a way, prob a skeleton confusing the way
             pos_m = self._screen.convert_abs_to_monitor((20, 20))
@@ -782,11 +780,11 @@ class Necro(IChar):
 
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
 
-        enter = False
-        while enter is False:
-            enter = self.to_durance()
-        wait(.25)
-        exit = self.to_trav()
+        #enter = False
+        #while enter is False:
+        #    enter = self.to_durance()
+        #wait(.25)
+        #exit = self.to_trav()
 
 
         self._bone_armor()
@@ -879,6 +877,7 @@ class Necro(IChar):
 
 
         return True
+
 
 
 if __name__ == "__main__":
