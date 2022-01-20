@@ -483,6 +483,16 @@ class Hammerdin(IChar):
 
         elif location == "C2-G_boss":
             if not self._pather.traverse_nodes([663, 662], self): return False
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
+            wait(0.1, 0.15)
+            self._cast_hammers(2, "redemption")
+            self._cast_hammers(1, "cleansing")
 
         elif location == "C2-G_fake":
             if not self._pather.traverse_nodes([664, 665], self): return False
@@ -504,18 +514,18 @@ class Hammerdin(IChar):
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
             if not self._pather.traverse_nodes([612], self): return False
-            Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking Vizier at position 2/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
             self._pather.traverse_nodes([611], self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking Vizier at position 3/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             self._pather.traverse_nodes([610], self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -524,18 +534,18 @@ class Hammerdin(IChar):
 
         elif seal_layout == "A2-Y":
             if not self._pather.traverse_nodes([627, 622], self): return False
-            Logger.debug(seal_layout + "Attacking Vizier at position 1/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking Vizier at position 2/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
             self._pather.traverse_nodes([623], self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking Vizier at position 3/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             self._pather.traverse_nodes([624], self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -556,22 +566,22 @@ class Hammerdin(IChar):
             nodes1 = [632]
             nodes2 = [631]
             nodes3 = [632]
-            Logger.debug(seal_layout + "Attacking De Seis at position 1/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 2/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 3/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 4/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -583,22 +593,22 @@ class Hammerdin(IChar):
             nodes1 = [641]
             nodes2 = [640]
             nodes3 = [646]
-            Logger.debug(seal_layout + "Attacking De Seis at position 1/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 2/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self)
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 3/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + "Attacking De Seis at position 4/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.15)
@@ -615,7 +625,7 @@ class Hammerdin(IChar):
         if seal_layout == "C1-F":
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + "Attacking Infector at position 1/1")
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
             self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
             self._cast_hammers(0.8, "redemption")
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
@@ -628,7 +638,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + "Attacking Infector at position 1/1")
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
             self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
             self._cast_hammers(0.8, "redemption")
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
