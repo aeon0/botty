@@ -202,6 +202,10 @@ class Config:
         }
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
+        string = self._select_val("items", key).upper()
+        return self.string_to_item_prop (string)
+
+    def string_to_item_prop (self, string: str) -> ItemProps:
         item_props = ItemProps()
         brk_on = 0
         brk_off = 0
@@ -211,7 +215,6 @@ class Config:
         start_item = 0
         include_list = []
         exclude_list = []
-        string = self._select_val("items", key).upper()
         for char in string:
             new_section = False
             counter+=1
@@ -262,6 +265,9 @@ class Config:
         for i in range (len(include_list)):
             include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
             include_list[i]  = include_list[i].split (",")
+        for l in range (len (exclude_list)):
+            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
+            exclude_list[l] = exclude_list[l].split (",")
         item_props.include = include_list
         item_props.exclude = exclude_list
         return item_props
