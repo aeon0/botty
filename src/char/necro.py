@@ -16,7 +16,7 @@ from utils.misc import cut_roi, is_in_roi
 import os
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         os.system('color')
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
         super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
