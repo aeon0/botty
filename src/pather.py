@@ -671,7 +671,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_B1S")
+    #display_all_nodes(pather, "DIA_NEW_PENT")
 
     # # changing node pos and generating new code
     # code = ""
@@ -684,6 +684,8 @@ if __name__ == "__main__":
     # print(code)
 
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather) #config.char,
 
-    #pather.traverse_nodes([632], char)
+    #pather.traverse_nodes([622], char)
+    #pather.traverse_nodes_fixed("dia_a2y_home", char)
+    #pather.traverse_nodes_fixed("dia_a2y_home_loop", char)

@@ -273,14 +273,14 @@ class Diablo:
         
         ### APPROACH SEAL ###
         if not self._pather.traverse_nodes([614], self._char): return False
-        Logger.debug("Kill trash at location: " + seal_layout + "_fake")
         Logger.debug(seal_layout + "_fake: Kill trash")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         if not self._pather.traverse_nodes([613, 615], self._char): return False
-        Logger.debug("Kill trash at location: " + seal_layout + "_boss")
         Logger.debug(seal_layout + "_boss: Kill trash")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
@@ -292,6 +292,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # at 610
         if not self._pather.traverse_nodes([612], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([612], self._char): return False # recalibrate after loot
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([611], self._char): return False # calibrating here brings us home with higher consistency.
@@ -314,7 +315,6 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_01")
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        if not self._pather.traverse_nodes([624], self._char): return False
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -417,10 +417,11 @@ class Diablo:
 
         ### APPROACH SEAL ###
         self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self._char)
-        if not self._pather.traverse_nodes([644], self._char): return False # recalibrate after loot
+        if not self._pather.traverse_nodes([644], self._char): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([644], self._char): return False # recalibrate after loot
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
         
         ### KILL BOSS ###
@@ -432,7 +433,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         ### GO HOME ###
-        if not self._pather.traverse_nodes([640], self._char): return False
+        if not self._pather.traverse_nodes([640], self._char): return False # recalibrate after loot
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
