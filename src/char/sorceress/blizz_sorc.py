@@ -24,6 +24,14 @@ class BlizzSorc(Sorceress):
         #Nihlathak Bottom Left
         self._pather.offset_node(500, (-150, 200))
         self._pather.offset_node(501, (10, -33))
+        #Diablo
+        self._pather.offset_node(611, (100, 0))
+        self._pather.offset_node(626, (220, 0))
+        self._pather.offset_node(643, (65, 28))
+        self._pather.offset_node(612, (270, 0))
+        self._pather.offset_node(635, (150, -80))
+        #self._pather.offset_node(634, (400, 150))
+        #self._pather.offset_node(649, (150, -150))
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -346,20 +354,38 @@ class BlizzSorc(Sorceress):
             self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
 
         ### A1-L
-        elif location == "A2-Y_01": #node 611 seal layout A1-L: approach
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
+        elif location == "A1-L_01": #node 611 seal layout A1-L: approach
+            if not self._pather.traverse_nodes([612], self): return False
+            self._blizzard((-180, -290), spray=10)
+            self._ice_blast((0, 100), spray=30)
+            self._cast_static() 
+            self._blizzard((-100, -50), spray=10)
+            wait(0.9)
+            #pickit at 612 in diablo.py
 
-        elif location == "A2-Y_02": #node 612 seal layout A1-L: safe_dist
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
+        elif location == "A1-L_02": #node 612 seal layout A1-L: safe_dist
+            if not self._pather.traverse_nodes([613], self): return False
+            wait(0.9)
+            self._blizzard((190, -90), spray=10)
+            self._ice_blast((-150, 90), spray=30)
+            self._cast_static() 
+            wait(0.8)
+            self._blizzard((-150, 70), spray=10)
+            #pickit at 613 in diablo.py
 
-        elif location == "A2-Y_03": #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
+        # not used, added in last elif for skipping location
+        #elif location == "A1-L_03": #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
+            # self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
+            # pickit in diablo.py               
 
-        elif location == "A2-Y_boss": #node 614 layout A1-L: fake seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
-
-        elif location == "A2-Y_boss": #node 615 layout A1-L: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
+        # not used, added in last elif for skipping location
+        #elif location == "A1-L_fake": #node 614 layout A1-L: fake seal
+            #self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
+            # pickit in diablo.py
+        
+        elif location == "A1-L_boss": #node 615 layout A1-L: boss seal
+            if not self._pather.traverse_nodes([613], self): return False #just used for moving from 614 fake seal to 613 center, because next step in diablo.py is 615 boss seal
+            # pickit in diablo.py
 
         ### A2-Y
         elif location == "A2-Y_01": #node 622 seal layout A2-Y: safe_dist
@@ -436,12 +462,24 @@ class BlizzSorc(Sorceress):
             self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder
 
         # add here ALL the locations where no trash should be killed
-        elif location in ["pent_before_a",]:  
-            Logger.debug("No attack choreography available in blizz_sorc.py for this node " + location + " - skipping to shorten run.")
+        elif location in ["pent_before_a", "A1-L_03", "A1-L_fake"]:  
+            Logger.debug("No attack choreography available in blizz_sorc.py for this location " + location + " - skipping to shorten run.")
         
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Doing a Frost Nova instead!")
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"])
+            self._frost_nova(0.5) #self._char_config["atk_len_cs_trashmobs"]
+            self._blizzard((-450, -100), spray=10)
+            self._glacial_spike((0, 100), spray=30) # slow mobs
+            self._glacial_spike((-40, -100), spray=30) # slob mobs
+            self._ice_blast((0, 100), spray=30)
+            self._ice_blast((-40, -100), spray=30)
+            self._frost_nova(0.5) #self._char_config["atk_len_cs_trashmobs"]
+            wait(0.3)
+            self._blizzard((-50, -50), spray=10)
+            pos_m = self._screen.convert_abs_to_monitor((-10, -10))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            
         return True
     
     def kill_vizier(self, seal_layout:str) -> bool:
@@ -466,12 +504,13 @@ class BlizzSorc(Sorceress):
             wait(0.3)
             self._blizzard((-50, 0), spray=10)
             wait(0.3)
+            # we have to check if all loot positions where mobs died are captured with this sequence. diablo.py loots after killing vizier at 612 and 611.
             #Next node in diablo.py is [611], this is where we should be able to go next from the current position at the end of this attack sequence        
 
         elif seal_layout == "A2-Y":
             #previous node in diablo.py is [622], this is our current location
-            wait(0.8)
-            self._blizzard((20, 150), spray=10)
+            self._frost_nova(0.8) #self._char_config["atk_len_cs_trashmobs"] #replace waits with frostnova
+            self._blizzard((200, 150), spray=10)
             self._ice_blast((150, 100), spray=30)
             self._ice_blast((120, -100), spray=30)
             wait(0.4)
