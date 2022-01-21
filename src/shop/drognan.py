@@ -46,6 +46,11 @@ class DrognanShopper:
         # Set look_for variables to False if you dont like your personal shopper to look for these
         # Obviously something need to be set to True, or your shopper will be very confused
         self.look_for_scepters = self._config.shop["shop_hammerdin_scepters"]
+        self.speed_factor = 1.0 + self._config.shop["speed_factor"]
+        if (self.speed_factor <= 0):
+            Logger.error("Can not use a speed factor less than negative 1!! Please update shop.ini. Exiting.")
+            os._exit(0)
+        self.apply_pather_adjustment = self._config.shop["apply_pather_adjustment"]
 
         self._screen = Screen(config.general["monitor"])
         self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
@@ -83,12 +88,14 @@ class DrognanShopper:
                 mouse.move(self.sb_x, self.sb_y, randomize=3, delay_factor=[0.6, 0.8])
                 wait(0.05, 0.1)
                 mouse.press(button="left")
+                wait(0.05, 0.1)
+                mouse.release(button="left")
                 wait(0.3, 0.4)
 
                 # Search for items
                 item_pos = []
                 img = self._screen.grab().copy()
-                item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3"]
+                item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
                 for ck in item_keys:
                     template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
                     if template_match.valid:
@@ -125,6 +132,8 @@ class DrognanShopper:
 
                     self.items_evaluated += 1
 
+            keyboard.send("space")
+
             # Done with this shopping round
             self.reset_shop()
             self.run_count += 1
@@ -133,33 +142,34 @@ class DrognanShopper:
         # We want to walk out the town exit to the top right and come back down to drognan
         # This can probably be tweaked but seems to work well enough for now.
 
-        # Leave town
-        for _ in range(6):
-            pos_m = self._screen.convert_abs_to_monitor((600, -300))
-            self.move(pos_m)
-            wait(0.4, 0.6)
+        # Exit town
+        pos_m = self._screen.convert_abs_to_monitor((200, -100))
+        mouse.move(pos_m[0], pos_m[1])
+        self.hold_move(pos_m, time_held=(3.0 / self.speed_factor))
 
-        # Re-enter town
-        for _ in range(3):
-            pos_m = self._screen.convert_abs_to_monitor((-600, 300))
-            self.move(pos_m)
-            wait(0.4, 0.6)
+        # Return to town
+        pos_m = self._screen.convert_abs_to_monitor((-200, 100))
+        mouse.move(pos_m[0], pos_m[1])
+        self.hold_move(pos_m, time_held=(2.0 / self.speed_factor))
 
-    # A simplified form of the move() function from pather.py
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    # A variation of the move() function from pather.py
+    def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
         factor = self._config.advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
         pos_abs = self._screen.convert_screen_to_abs(pos_screen)
-        dist = math.dist(pos_abs, (0, 0))
-        min_wd = self._config.ui_pos["min_walk_dist"]
-        max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
-        adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
-        pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
+
+        # This logic (from pather.py) sometimes negatively affects the shopper, so default is to skip this.
+        if self.apply_pather_adjustment:
+            dist = math.dist(pos_abs, (0, 0))
+            min_wd = self._config.ui_pos["min_walk_dist"]
+            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
+            pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
+
         x, y = self._screen.convert_abs_to_monitor(pos_abs)
         mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
         wait(0.012, 0.02)
-        if force_move:
-            keyboard.send(self._config.char["force_move"])
-        else:
-            mouse.click(button="left")
+        mouse.press(button="left")
+        wait(time_held - 0.05, time_held + 0.05)
+        mouse.release(button="left")

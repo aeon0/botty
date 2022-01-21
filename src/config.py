@@ -274,6 +274,8 @@ class Config:
             "trap_min_score": int(Config._select_val("claws", "trap_min_score")),
             "melee_min_score": int(Config._select_val("claws", "melee_min_score")),
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
+            "speed_factor": float(Config._select_val("scepters", "speed_factor")),
+            "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
 
 
