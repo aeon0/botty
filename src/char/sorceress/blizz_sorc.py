@@ -841,7 +841,7 @@ class BlizzSorc(Sorceress):
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
             #previous node in diablo.py is [652], this is our current location
-            self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
+            self._pather.traverse_nodes_fixed("dia_c1f_652", self)
             wait(0.5)
             pos_m = self._screen.convert_abs_to_monitor((150, 0))
             self.pre_move()
