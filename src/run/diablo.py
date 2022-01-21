@@ -464,7 +464,6 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([652], self._char): return False
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
-        self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
         
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
@@ -544,6 +543,7 @@ class Diablo:
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
+        if self._config.char["kill_cs_trash"]: self._picked_up_items |= self._pickit.pick_up_items(self._char) # added, let's hope it does not displace us too far from [602], if we cannot calibrate at 602 after looting here, the run is dead. I would prefer leaving this pickit out and looting once when diablo is down.
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed
@@ -575,6 +575,7 @@ class Diablo:
         # Seal B: De Seis (to the top)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash("pent_before_b")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # added, let's hope it does not displace us too far from [602], if we cannot calibrate at 602 after looting here, the run is dead. I would prefer leaving this pickit out and looting once when diablo is down.
         if not self._pather.traverse_nodes([602] , self._char , time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char)
         self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
@@ -607,6 +608,7 @@ class Diablo:
         # Seal C: Infector (to the right)
         if do_pre_buff: self._char.pre_buff()
         self._char.kill_cs_trash("pent_before_c")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) # added, let's hope it does not displace us too far from [602], if we cannot calibrate at 602 after looting here, the run is dead. I would prefer leaving this pickit out and looting once when diablo is down.
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
