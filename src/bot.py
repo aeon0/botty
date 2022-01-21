@@ -28,7 +28,11 @@ from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
-from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane
+from char.necro import Necro
+from char.basic import Basic
+from char.basic_ranged import Basic_Ranged
+
+from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
@@ -36,13 +40,13 @@ from messenger import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
-    def __init__(self, screen: Screen, game_stats: GameStats, pick_corpse: bool = False):
+    def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._config = Config()
-        self._template_finder = TemplateFinder(self._screen)
-        self._item_finder = ItemFinder(self._config)
+        self._template_finder = template_finder
+        self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
@@ -50,17 +54,23 @@ class Bot:
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(self._config.light_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = LightSorc(self._config.light_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(self._config.nova_sorc, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
-            self._char: IChar = Trapsin(self._config.trapsin, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Trapsin(self._config.trapsin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(self._config.barbarian, self._config.char, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Barbarian(self._config.barbarian, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "necro":
+            self._char: IChar = Necro(self._config.necro, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "basic":
+            self._char: IChar = Basic(self._config.basic, self._screen, self._template_finder, self._ui_manager, self._pather)
+        elif self._config.char["type"] == "basic_ranged":
+            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
             Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
@@ -86,6 +96,7 @@ class Bot:
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlatak": self._route_config["run_nihlatak"],
             "run_arcane": self._route_config["run_arcane"],
+            "run_diablo": self._route_config["run_diablo"],
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
@@ -98,6 +109,7 @@ class Bot:
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlatak = Nihlatak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -112,7 +124,7 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane']
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
@@ -123,9 +135,10 @@ class Bot:
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
             { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
             { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
+            { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_diablo"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -194,7 +207,7 @@ class Bot:
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send(msg=f"Dclone IP Found on IP: {cur_game_ip}")
+                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -215,7 +228,7 @@ class Bot:
         if self._pick_corpse:
             self._pick_corpse = False
             time.sleep(1.6)
-            DeathManager.pick_up_corpse(self._config, self._screen)
+            DeathManager.pick_up_corpse(self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
@@ -225,7 +238,7 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
-        if HealthManager.get_health(self._config, img) < 0.6 or HealthManager.get_mana(self._config, img) < 0.2 or buy_pots:
+        if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()
@@ -244,9 +257,13 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
-        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
+        # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
+        force_stash = False
         self._no_stash_counter += 1
-        force_stash = self._no_stash_counter > 4 and self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
+            self._no_stash_counter = 0
+            force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if self._config.char["id_items"]:
                 Logger.info("Identifying items")
@@ -327,6 +344,8 @@ class Bot:
             self._curr_loc, self._picked_up_items = res
         # in case its the last run or the run was failed, end game, otherwise move to next run
         if self.is_last_run() or failed_run:
+            if failed_run:
+                self._no_stash_counter = 10 # this will force a check if we should stash on next game
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
             self.trigger_or_stop("end_run")
@@ -365,7 +384,7 @@ class Bot:
         if self._curr_loc:
             res = self._nihlatak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-    
+
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
@@ -374,4 +393,14 @@ class Bot:
         if self._curr_loc:
             res = self._arcane.battle(not self._pre_buffed)
         self._tps_left -= self._arcane.used_tps
+        self._ending_run_helper(res)
+        
+    def on_run_diablo(self):
+        res = False
+        self._do_runs["run_diablo"] = False
+        self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
+        self._curr_loc = self._diablo.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._diablo.battle(not self._pre_buffed)
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)

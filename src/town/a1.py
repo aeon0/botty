@@ -46,9 +46,10 @@ class A1(IAct):
         return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = self._template_finder.search_and_wait(["A1_TOWN_0", "A1_TOWN_1", "A1_TOWN_3"], time_out=20).valid
+        success = self._template_finder.search_and_wait(["A1_TOWN_7", "A1_TOWN_9"], time_out=20).valid
+        if not self._pather.traverse_nodes([Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN], self._char, force_move=True): return False
         if success:
-            return Location.A1_TOWN_START
+            return Location.A1_KASHYA_CAIN
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:

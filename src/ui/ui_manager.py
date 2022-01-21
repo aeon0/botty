@@ -10,7 +10,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, color_filter
 
 from logger import Logger
-from config import Config
+from config import Config, ItemProps
 from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
@@ -252,11 +252,12 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
         :param img: Image in which the item is searched (item details should be visible)
+        :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
@@ -273,8 +274,8 @@ class UiManager():
             if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
                 include_props = False 
             if not (include_props or exclude_props):
-                Logger.debug(f"{x.name}: Stashing")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing")
                 filtered_list.append(x)
                 continue
             include = True
@@ -320,7 +321,8 @@ class UiManager():
                 if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
-                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                if do_logging:
+                    Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
                 continue
             exclude = False
             exclude_logic_type = self._config.items[x.name].exclude_type
@@ -344,11 +346,11 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-                self._game_stats.log_item_keep(x.name, self._config.items[x.name].pickit_type == 2)
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
-        return len(filtered_list) > 0
+        return filtered_list
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
@@ -410,14 +412,11 @@ class UiManager():
                         cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
                         # turn off gold pickup
-                        self._config.char["stash_gold"] = False
-                        self._config.items["misc_gold"].pickit_type = 0
-                        item_finder.update_items_to_pick(self._config)
+                        self._config.turn_off_goldpickup()
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                        Logger.info(msg)
+                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                            self._messenger.send_gold()
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -434,7 +433,8 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                if self._keep_item(item_finder, hovered_item):
+                found_items = self._keep_item(item_finder, hovered_item)
+                if len(found_items) > 0:
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -442,6 +442,15 @@ class UiManager():
                     mouse.release(button="left")
                     wait(0.2, 0.25)
                     keyboard.send('ctrl', do_press=False)
+                    # To avoid logging multiple times the same item when stash tab is full
+                    # check the _keep_item again. In case stash is full we will still find the same item
+                    wait(0.3)
+                    did_stash_test_img = self._screen.grab()
+                    if len(self._keep_item(item_finder, did_stash_test_img, False)) > 0:
+                        Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
+                        break
+                    else:
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item)
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
@@ -479,7 +488,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                    self._messenger.send_stash()
                 os._exit(1)
             else:
                 # move to next stash
@@ -612,18 +621,23 @@ class UiManager():
 
     def buy_pots(self, healing_pots: int = 0, mana_pots: int = 0):
         """
-        Buy pots from Malah or Ormus. Vendor inventory needs to be open!
+        Buy pots from vendors. Vendor inventory needs to be open!
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
         h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if h_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(h_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
+
         m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if m_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(m_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
@@ -641,8 +655,9 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
+    game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config)
-    ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots(3, 4)
+    item_finder = ItemFinder()
+    ui_manager = UiManager(screen, template_finder, game_stats)
+    ui_manager.stash_all_items(5, item_finder)

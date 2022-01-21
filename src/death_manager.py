@@ -10,14 +10,15 @@ import time
 
 
 class DeathManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
         self._callback = None
+        self._last_death_screenshot = None
 
     def get_loop_delay(self):
         return self._loop_delay
@@ -35,16 +36,21 @@ class DeathManager:
         return self._died
 
     @staticmethod
-    def pick_up_corpse(config: Config, screen: Screen):
+    def pick_up_corpse(screen: Screen):
         Logger.debug("Pick up corpse")
+        config = Config()
         x, y = screen.convert_screen_to_monitor((config.ui_pos["corpse_x"], config.ui_pos["corpse_y"]))
         mouse.move(x, y)
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        template_match = self._template_finder.search("YOU_HAVE_DIED", self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["death"])
+        img = self._screen.grab()
+        template_match = self._template_finder.search("YOU_HAVE_DIED", img, threshold=0.9, roi=self._config.ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
+            if self._config.general["info_screenshots"]:
+                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+                cv2.imwrite(self._last_death_screenshot, img)
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if self._callback is not None:
                 self._callback()
@@ -85,4 +91,4 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     manager = DeathManager(screen)
-    manager.pick_up_corpse(config, screen)
+    manager.pick_up_corpse(screen)
