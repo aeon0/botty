@@ -623,6 +623,7 @@ class Hammerdin(IChar):
 
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
+            self._pather.traverse_nodes_fixed("dia_c1f_652", self._char)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
