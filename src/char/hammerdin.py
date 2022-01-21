@@ -114,7 +114,7 @@ class Hammerdin(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, do_pre_move=False)
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
