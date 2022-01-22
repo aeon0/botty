@@ -47,11 +47,12 @@ class Config:
             return Config._game_config[section][key]
 
     @staticmethod
-    def parse_item_config_string(self, key: str = None) -> ItemProps:
-        string = self._select_val("items", key).upper()
-        return self.string_to_item_prop (string)
+    def parse_item_config_string(key: str = None) -> ItemProps:
+        string = Config._select_val("items", key).upper()
+        return Config.string_to_item_prop (string)
 
-    def string_to_item_prop (self, string: str) -> ItemProps:
+    @staticmethod
+    def string_to_item_prop (string: str) -> ItemProps:
         item_props = ItemProps()
         brk_on = 0
         brk_off = 0
@@ -323,77 +324,6 @@ class Config:
             "melee_min_score": int(Config._select_val("claws", "melee_min_score")),
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
         }
-
-    def parse_item_config_string(self, key: str = None) -> ItemProps:
-        string = self._select_val("items", key).upper()
-        return self.string_to_item_prop (string)
-
-    def string_to_item_prop (self, string: str) -> ItemProps:
-        item_props = ItemProps()
-        brk_on = 0
-        brk_off = 0
-        section = 0
-        counter = 0
-        start_section = 0
-        start_item = 0
-        include_list = []
-        exclude_list = []
-        for char in string:
-            new_section = False
-            counter+=1
-            if char == "(":
-                brk_on +=1
-            elif char == ")":
-                brk_off += 1
-            if ((char == "," and brk_on==brk_off)):
-                new_section = True
-                if  (counter == len (string)):
-                    string_section = string [start_section:counter]
-                else:
-                    string_section = string [start_section:counter-1]
-                if section == 0:
-                    item_props.pickit_type = int (string_section)
-                section +=1
-                start_section = counter
-            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
-                if new_section: 
-                    section -=1
-                if start_item ==0:
-                    start_item = start_section
-                if  (counter == len (string)):
-                    item = string [start_item:counter]
-                else:
-                    item = string [start_item:counter-1]
-                if section == 0 and counter == len (string):
-                    item_props.pickit_type = int (item)
-                    pass
-                if section ==1:
-                    include_list.append (item)
-                    start_item = counter +1
-                elif section ==2:
-                    exclude_list.append (item)
-                    start_item = counter +1
-                if new_section: 
-                    section +=1
-        if (len (include_list)>0 and (len (include_list[0]) >=6)):
-            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
-                item_props.include_type = "AND"
-            else:
-                item_props.include_type = "OR"
-        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
-            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
-                item_props.exclude_type = "AND"
-            else:
-                item_props.exclude_type = "OR"
-        for i in range (len(include_list)):
-            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            include_list[i]  = include_list[i].split (",")
-        for l in range (len (exclude_list)):
-            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            exclude_list[l] = exclude_list[l].split (",")
-        item_props.include = include_list
-        item_props.exclude = exclude_list
-        return item_props
 
 if __name__ == "__main__":
     from copy import deepcopy
