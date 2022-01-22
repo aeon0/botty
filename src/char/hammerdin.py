@@ -114,14 +114,14 @@ class Hammerdin(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, do_pre_move=self._do_pre_move)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
         if self.can_teleport():
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True, do_pre_move=self._do_pre_move)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
