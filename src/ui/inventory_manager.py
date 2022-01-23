@@ -107,77 +107,86 @@ class InventoryManager:
             self.toggle_inventory("open")
 
         # iterate over items
-        boxes = []
-        center_m = self._screen.convert_abs_to_monitor((0, 0))
+        slots = []
         for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
             img = self._screen.grab()
             slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
-                x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
-                # get the item description box
-                delay = [1, 1.3] if (column == 0 and row == 0) else [0.2, 0.3]
-                mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
-                wait(0.3, 0.5)
-                hovered_item = self._screen.grab()
+                slots.append([slot_pos, row, column])
+
+        boxes = []
+        for count, slot in enumerate(slots):
+            x_m, y_m = self._screen.convert_screen_to_monitor(slot[0])
+            # get the item description box
+            delay = [0.2, 0.3] if count else [1, 1.3]
+            mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
+            wait(0.3, 0.5)
+            hovered_item = self._screen.grab()
+            try:
                 item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
-                if item_box.color:
-                    # check to see if the item box has previously been detected
-                    box_previously_found = False
-                    if len(boxes) > 0:
-                        box_previously_found = self._template_finder.search([box.img for box in boxes], hovered_item, threshold = 0.9).valid
-                    if not box_previously_found:
-                        # determine whether the item can be sold
-                        sell = False
-                        if self._config.char["sell_items"] and not (item_box.ocr_result.text.lower() in ["key of ", "essense of", "wirt's", "jade figurine"]):
-                            sell = True
-                        # attempt to identify item
-                        need_id = False
-                        if self._config.char["id_items"]:
-                            is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data, threshold = 0.9).valid
-                            if is_unidentified:
-                                need_id = True
-                            mouse.move(*center_m, randomize=20)
-                            tome_state, tome_pos = self._id_tome_state(self._screen.grab())
-                            if is_unidentified and tome_state is not None and tome_state == "ok":
-                                self._id_item_with_tome([x_m, y_m], tome_pos)
-                                need_id = False
-                                # recapture box after ID
-                                mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
-                                wait(0.3, 0.5)
-                                hovered_item = self._screen.grab()
-                                item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
-                        Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-                        for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-                            Logger.debug(f"OCR LINE{i}: {line}")
-                        if self._config.general["loot_screenshots"]:
-                            timestamp = time.strftime("%Y%m%d_%H%M%S")
-                            cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_o.png", item_box.ocr_result.original_img)
-                            cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_n.png", item_box.ocr_result.processed_img)
+            except:
+                Logger.error(f"item_cropper failed for slot_pos: {slot[0]}")
+                if self._config.general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                continue
+            if item_box.color:
+                # check to see if the item box has previously been detected
+                box_previously_found = False
+                if len(boxes) > 0:
+                    box_previously_found = self._template_finder.search([box.img for box in boxes], hovered_item, threshold = 0.95).valid
+                if not box_previously_found:
+                    # determine whether the item can be sold
+                    sell = False
+                    if self._config.char["sell_items"] and not (item_box.ocr_result.text.lower() in ["key of ", "essense of", "wirt's", "jade figurine"]):
+                        sell = True
+                    # attempt to identify item
+                    need_id = False
+                    if self._config.char["id_items"]:
+                        is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data, threshold = 0.9).valid
+                        if is_unidentified:
+                            need_id = True
+                        #mouse.move(*center_m, randomize=20)
+                        tome_state, tome_pos = self._id_tome_state(self._screen.grab())
+                        if is_unidentified and tome_state is not None and tome_state == "ok":
+                            self._id_item_with_tome([x_m, y_m], tome_pos)
+                            need_id = False
+                            # recapture box after ID
+                            mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
+                            wait(0.3, 0.5)
+                            hovered_item = self._screen.grab()
+                            item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
+                    Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+                    for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+                        Logger.debug(f"OCR LINE{i}: {line}")
+                    if self._config.general["loot_screenshots"]:
+                        timestamp = time.strftime("%Y%m%d_%H%M%S")
+                        cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_o.png", item_box.ocr_result.original_img)
+                        cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_n.png", item_box.ocr_result.processed_img)
 
-                        # decide whether to keep item
-                        result = self._keep_item(item_finder, item_box)
-                        keep = False if result is None else True
-                        if keep: sell = False
+                    # decide whether to keep item
+                    result = self._keep_item(item_finder, item_box)
+                    keep = False if result is None else True
+                    if keep: sell = False
 
-                        box = BoxInfo(
-                            img = item_box.data,
-                            pos = [x_m, y_m],
-                            column = column,
-                            row = row,
-                            need_id = need_id,
-                            sell = sell,
-                            keep = keep
-                        )
-                        if keep:
-                            self._game_stats.log_item_keep(result.name, self._config.items[result.name].pickit_type == 2, item_box.data, result.ocr_result.text)
-                        if keep or sell or need_id:
-                            # save item info
-                            boxes.append(box)
-                        else:
-                            # if item isn't going to be sold or kept, drop it
-                            Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
-                            self._transfer_items([box], action = "drop", close = False)
-                        wait(0.3, 0.5)
+                    box = BoxInfo(
+                        img = item_box.data,
+                        pos = [x_m, y_m],
+                        column = slot[2],
+                        row = slot[1],
+                        need_id = need_id,
+                        sell = sell,
+                        keep = keep
+                    )
+                    if keep:
+                        self._game_stats.log_item_keep(result.name, self._config.items[result.name].pickit_type == 2, item_box.data, result.ocr_result.text)
+                    if keep or sell or need_id:
+                        # save item info
+                        boxes.append(box)
+                    else:
+                        # if item isn't going to be sold or kept, drop it
+                        Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
+                        self._transfer_items([box], action = "drop", close = False)
+                    wait(0.3, 0.5)
         self.toggle_inventory("close")
         return boxes
 
