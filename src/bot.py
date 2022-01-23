@@ -20,6 +20,7 @@ from item import ItemFinder
 from item.pickit import PickIt
 from ui import UiManager
 from ui import BeltManager
+from ui import InventoryManager
 from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
@@ -47,7 +48,8 @@ class Bot:
         self._config = Config()
         self._template_finder = template_finder
         self._item_finder = ItemFinder()
-        self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
+        self._ui_manager = UiManager(self._screen, self._template_finder)
+        self._inventory_manager = InventoryManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
         self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
@@ -82,7 +84,7 @@ class Bot:
         a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
         a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._inventory_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
@@ -235,14 +237,45 @@ class Bot:
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
 
+        # Check inventory
+        items = None
+        if self._picked_up_items or self._no_stash_counter % 4 == 0:
+            if self._inventory_manager._inventory_has_items():
+                items = self._inventory_manager._inspect_items(item_finder=self._item_finder)
+            else:
+                self._inventory_manager.toggle_inventory("close")
+        self._no_stash_counter += 1
+        if items:
+            # if there are still items that need identifying, identify them
+            if any([item.need_id for item in items]):
+                Logger.info("ID items at cain")
+                self._curr_loc = self._town_manager.identify(self._curr_loc)
+                keyboard.send("esc")
+                wait(0.4, 0.6)
+                if not self._curr_loc:
+                    return self.trigger_or_stop("end_game", failed=True)
+                # recheck inventory
+                items = self._inventory_manager._inspect_items(item_finder=self._item_finder)
+        sell_items = any([item.sell for item in items]) if items else None
+
+        # Check if merc needs to be revived
+        merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
+        if not merc_alive and self._config.char["use_merc"]:
+            Logger.info("Resurrect merc")
+            self._game_stats.log_merc_death()
+            self._curr_loc = self._town_manager.resurrect(self._curr_loc)
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
+
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
         if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
-            if buy_pots:
+            if buy_pots or sell_items:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()
-                self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
+                if result_items: items = result_items
                 wait(0.5, 0.8)
                 self._belt_manager.update_pot_needs()
                 # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
@@ -257,46 +290,27 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
-        # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
-        force_stash = False
-        self._no_stash_counter += 1
-        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
-            self._no_stash_counter = 0
-            force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
-        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
-        if self._picked_up_items or force_stash:
-            if self._config.char["id_items"]:
-                Logger.info("Identifying items")
-                self._curr_loc = self._town_manager.identify(self._curr_loc)
-                if not self._curr_loc:
-                    return self.trigger_or_stop("end_game", failed=True)
-            Logger.info("Stashing items")
-            self._curr_loc = self._town_manager.stash(self._curr_loc)
-            if not self._curr_loc:
-                return self.trigger_or_stop("end_game", failed=True)
-            self._no_stash_counter = 0
-            self._picked_up_items = False
-            wait(1.0)
-
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"] or sell_items:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
-            else: Logger.info("Repairing and buying TPs at next Vendor")
-            self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
+            elif sell_items: Logger.info("Selling items")
+            else: Logger.info("Repairing and exchanging tomes at next Vendor")
+            self._curr_loc, result_items = self._town_manager.repair_and_fill_tomes(self._curr_loc, items)
+            if result_items: items = result_items
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
             wait(1.0)
 
-        # Check if merc needs to be revived
-        merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
-        if not merc_alive and self._config.char["use_merc"]:
-            Logger.info("Resurrect merc")
-            self._game_stats.log_merc_death()
-            self._curr_loc = self._town_manager.resurrect(self._curr_loc)
+        # Stash stuff
+        if items and any([item.keep for item in items]):
+            Logger.info("Stashing items")
+            self._curr_loc = self._town_manager.stash(self._curr_loc, items)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
+            self._picked_up_items = False
+            wait(1.0)
 
         # Start a new run
         started_run = False
@@ -345,7 +359,7 @@ class Bot:
         # in case its the last run or the run was failed, end game, otherwise move to next run
         if self.is_last_run() or failed_run:
             if failed_run:
-                self._no_stash_counter = 10 # this will force a check if we should stash on next game
+                self._no_stash_counter = 0 # this will force a check if we should stash on next game
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
             self.trigger_or_stop("end_run")

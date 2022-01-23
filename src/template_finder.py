@@ -96,11 +96,17 @@ class TemplateFinder:
             names = [ref]
             best_match = False
         elif type(ref) == list:
-            templates = [self._templates[i][0] for i in ref]
-            templates_gray = [self._templates[i][1] for i in ref]
-            scales = [self._templates[i][2] for i in ref]
-            masks = [self._templates[i][3] for i in ref]
-            names = ref
+            if type(ref[0]) == str:
+                templates = [self._templates[i][0] for i in ref]
+                templates_gray = [self._templates[i][1] for i in ref]
+                scales = [self._templates[i][2] for i in ref]
+                masks = [self._templates[i][3] for i in ref]
+                names = ref
+            else:
+                templates = ref
+                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
+                scales =  [1.0] * len(ref)
+                masks = [None] * len(ref)
         else:
             templates = [ref]
             templates_gray = [cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY)]

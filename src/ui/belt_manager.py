@@ -11,8 +11,7 @@ from logger import Logger
 from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
-from ui import UiManager
-
+from ui import InventoryManager
 
 class BeltManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
@@ -164,7 +163,7 @@ class BeltManager:
         img = self._screen.grab()
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
-            center_pos, slot_img = UiManager.get_slot_pos_and_img(self._config, img, column, row)
+            center_pos, slot_img = InventoryManager.get_slot_pos_and_img(self._config, img, column, row)
             found = self._template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
             if found:
                 pot_positions.append(center_pos)
@@ -186,7 +185,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, template_finder)
+    inventory_manager = InventoryManager(screen, template_finder)
     belt_manager = BeltManager(screen, template_finder)
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)

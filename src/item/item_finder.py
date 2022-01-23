@@ -123,8 +123,6 @@ class ItemFinder:
                                         item.color = cluster.color
             if item is not None and self._items_to_pick[item.name].pickit_type:
                 item_list.append(item)
-        elapsed = time.time() - start
-        # print(f"Item Search: {elapsed}")
         return item_list
 
 

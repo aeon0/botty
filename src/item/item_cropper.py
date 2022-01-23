@@ -130,23 +130,20 @@ class ItemCropper:
                 contains_orange = np.min(orange_mask) > 0
             expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
             expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
-            if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width:
-                y_max = (y + h + 28) if (y + h + 28) <= 719 else 719
-                try:
-                    footer = inp_img[(y+h):y_max, x:x+w]
-                    found_footer = self._template_finder.search(["INVENTORY_CNTR_DROP", "INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_MOVE"], footer, threshold=0.7).valid
-                except:
-                    found_footer = False
+            box2 = self._config.ui_roi["inventory"]
+            overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+28+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
+            if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
+                found_footer = self._template_finder.search(["INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_CLICK"], inp_img, threshold=0.8).valid
                 if found_footer:
                     ocr_result = None
                     if use_ocr:
                         ocr_result = self._ocr.images_to_text(cropped_item, multiline=True)[0]
-                        results.append(ItemText(
-                            color = "black",
-                            roi = [x, y, w, h],
-                            data = cropped_item,
-                            ocr_result = ocr_result
-                        ))
+                    results.append(ItemText(
+                        color = "black",
+                        roi = [x, y, w, h],
+                        data = cropped_item,
+                        ocr_result = ocr_result
+                    ))
                     if not all_results:
                         break
         return results
@@ -166,11 +163,11 @@ if __name__ == "__main__":
 
     while 1:
         img = screen.grab().copy()
-        results = cropper.crop_item_descr(img, all_results=True)
+        results = cropper.crop_item_descr(img, all_results=True, use_ocr=False)
         for res in results:
             if res["color"]:
                 x, y, w, h = res.roi
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-                Logger.debug(f"{res.ocr_result['text']}")
+                #Logger.debug(f"{res.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)
