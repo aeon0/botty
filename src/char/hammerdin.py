@@ -71,6 +71,12 @@ class Hammerdin(IChar):
         wait(0.1, 0.15)
         if self.can_teleport():
             self._pather.traverse_nodes_fixed("pindle_end", self)
+            # move back recast hammer
+            self._cast_hammers(self._char_config["atk_len_pindle"])
+            wait(0.1, 0.15)
+            self._move_and_attack((-350, 150), self._char_config["atk_len_pindle"]/2)
+            wait(0.1, 0.15)
+            self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
@@ -113,19 +119,30 @@ class Hammerdin(IChar):
             wait(0.05, 0.15)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
-        # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
-        self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
         if self.can_teleport():
+            # Go inside and hammer a bit
+            self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+            self._cast_hammers(atk_len)
+            self._move_and_attack((40, 20), atk_len)
             # Back to center stairs and more hammers
             self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
+            self._move_and_attack((-125, -373), atk_len)
         else:
+            # Go to center stairs a bit
+            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True, force_move=True)
+            self._cast_hammers(atk_len)
+            # move a bit to the top and more hammer
+            self._move_and_attack((-20, -20), atk_len)
+            self._move_and_attack((20, 10), atk_len)
+            # Go inside and hammer a bit
+            self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, force_move=True)
+            self._cast_hammers(atk_len)
             # Stay inside and cast hammers again moving forward
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
