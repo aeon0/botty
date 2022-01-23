@@ -96,16 +96,16 @@ class TownManager:
 
     def buy_pots(self, curr_loc: Location, healing_pots: int = 0, mana_pots: int = 0, items: list = None) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
+        if curr_act is None: return False, items
         # check if we can buy pots in current act
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
-            if not new_loc: return False
+            if not new_loc: return False, items
             self._inventory_manager.buy_pots(healing_pots, mana_pots)
             if items:
                 items = self._inventory_manager._transfer_items(items, action = "sell", close = False)
             self._inventory_manager.toggle_inventory(action = "close")
-            return new_loc
+            return new_loc, items
         Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
         return curr_loc, items
 
@@ -137,16 +137,15 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._inventory_manager.stash_all_items(self._item_finder, items)
-            items
-            return new_loc
+            items = self._inventory_manager.stash_all_items(self._item_finder, items)
+            return new_loc, items
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        self._inventory_manager.stash_all_items(self._item_finder, items)
-        return new_loc
+        items = self._inventory_manager.stash_all_items(self._item_finder, items)
+        return new_loc, items
 
     def repair_and_fill_tomes(self, curr_loc: Location, items: list = None) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)

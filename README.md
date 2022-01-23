@@ -72,7 +72,7 @@ run_shenk=0
 | run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
-| run_nihlatak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_nihlathak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 

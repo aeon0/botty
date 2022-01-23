@@ -96,7 +96,7 @@ class Bot:
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
-            "run_nihlatak": self._route_config["run_nihlatak"],
+            "run_nihlathak": self._route_config["run_nihlathak"],
             "run_arcane": self._route_config["run_arcane"],
             "run_diablo": self._route_config["run_diablo"],
         }
@@ -135,7 +135,7 @@ class Bot:
             { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
             { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
             { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
-            { 'trigger': 'run_nihlatak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlatak"},
+            { 'trigger': 'run_nihlathak', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_nihlathak"},
             { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlatak', 'before': "on_run_diablo"},
             # End run / game
@@ -256,6 +256,16 @@ class Bot:
                     return self.trigger_or_stop("end_game", failed=True)
                 # recheck inventory
                 items = self._inventory_manager._inspect_items(item_finder=self._item_finder)
+
+        # Stash stuff
+        if items and any([item.keep for item in items]):
+            Logger.info("Stashing items")
+            self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items)
+            if result_items: items = result_items
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
+            self._picked_up_items = False
+            wait(1.0)
         sell_items = any([item.sell for item in items]) if items else None
 
         # Check if merc needs to be revived
@@ -275,7 +285,9 @@ class Bot:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()
                 self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
-                if result_items: items = result_items
+                if result_items:
+                    items = result_items
+                    sell_items = any([item.sell for item in items]) if items else None
                 wait(0.5, 0.8)
                 self._belt_manager.update_pot_needs()
                 # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
@@ -301,15 +313,6 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
-            wait(1.0)
-
-        # Stash stuff
-        if items and any([item.keep for item in items]):
-            Logger.info("Stashing items")
-            self._curr_loc = self._town_manager.stash(self._curr_loc, items)
-            if not self._curr_loc:
-                return self.trigger_or_stop("end_game", failed=True)
-            self._picked_up_items = False
             wait(1.0)
 
         # Start a new run
@@ -390,9 +393,9 @@ class Bot:
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
-    def on_run_nihlatak(self):
+    def on_run_nihlathak(self):
         res = False
-        self._do_runs["run_nihlatak"] = False
+        self._do_runs["run_nihlathak"] = False
         self._game_stats.update_location("Nihl" if self._config.general['discord_status_condensed'] else "Nihlatak")
         self._curr_loc = self._nihlatak.approach(self._curr_loc)
         if self._curr_loc:

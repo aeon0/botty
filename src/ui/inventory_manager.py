@@ -154,7 +154,7 @@ class InventoryManager:
                         # decide whether to keep item
                         result = self._keep_item(item_finder, item_box)
                         keep = False if result is None else True
-                        sell = False if keep else True
+                        if keep: sell = False
 
                         box = BoxInfo(
                             img = item_box.data,
@@ -172,6 +172,7 @@ class InventoryManager:
                             boxes.append(box)
                         else:
                             # if item isn't going to be sold or kept, drop it
+                            Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
                             self._transfer_items([box], action = "drop", close = False)
                         wait(0.3, 0.5)
         self.toggle_inventory("close")
@@ -366,7 +367,7 @@ class InventoryManager:
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
-            return
+            return None
         Logger.debug("Found inventory gold btn")
         # stash gold
         if self._config.char["stash_gold"]:
@@ -437,6 +438,7 @@ class InventoryManager:
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
         self.toggle_inventory("close")
+        return items
 
     def stash_full(self):
         Logger.error("All stash is full, quitting")
