@@ -39,7 +39,10 @@ class InventoryManager:
         self._messenger = Messenger()
         self._ocr = Ocr()
         self._item_cropper = ItemCropper(self._template_finder)
-        self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
+        self._curr_stash = {
+                    "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
+                    "gold": 0
+                }
 
     @staticmethod
     def _slot_has_item(slot_img: np.ndarray) -> bool:
@@ -416,9 +419,8 @@ class InventoryManager:
                 Logger.info(f"Stash tab completely full, advance to next")
                 if self._config.general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-
-                self._curr_stash["items"] += 1
-                if self._curr_stash["items"] > 3:
+                self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
+                if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
                     self.stash_full()
                 self._move_to_stash_tab(self._curr_stash["items"])
         # stash stuff
@@ -429,8 +431,8 @@ class InventoryManager:
                 Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
                 if self._config.general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                self._curr_stash["items"] += 1
-                if self._curr_stash["items"] > 3:
+                self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
+                if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
                     self.stash_full()
                 self._move_to_stash_tab(self._curr_stash["items"])
             else:

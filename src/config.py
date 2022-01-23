@@ -160,6 +160,7 @@ class Config:
             "id_items": bool(int(Config._select_val("char", "id_items"))),
             "sell_items": bool(int(Config._select_val("char", "sell_items"))),
             "open_chests": bool(int(Config._select_val("char", "open_chests"))),
+            "fill_shared_stash_first": bool(int(Config._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(Config._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(Config._select_val("char", "cta_available"))),
             "weapon_switch": Config._select_val("char", "weapon_switch"),
@@ -275,6 +276,8 @@ class Config:
             "trap_min_score": int(Config._select_val("claws", "trap_min_score")),
             "melee_min_score": int(Config._select_val("claws", "melee_min_score")),
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
+            "speed_factor": float(Config._select_val("scepters", "speed_factor")),
+            "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
 
 
