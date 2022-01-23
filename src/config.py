@@ -240,6 +240,7 @@ class Config:
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(Config._select_val("char", "always_repair"))),
+            "have_teleport_charges": bool(int(Config._select_val("char", "have_teleport_charges"))),
         }
 
         # Sorc base config

@@ -19,7 +19,7 @@ class Hammerdin(IChar):
         self._do_pre_move = True
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
-        if not self._skill_hotkeys["teleport"]:
+        if not self.can_teleport():    
             self._do_pre_move = False
         else:
             # we want to change positions of shenk and eld a bit to be more center for teleport
@@ -56,7 +56,7 @@ class Hammerdin(IChar):
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not self._ui_manager.is_right_skill_selected(["VIGOR"])
-        can_teleport = self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
+        can_teleport = self.can_teleport() and self._ui_manager.is_right_skill_active()
         if  should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
@@ -114,14 +114,14 @@ class Hammerdin(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, use_tp_charge=True)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.can_teleport():
+        if self.can_teleport() or self.can_teleport_with_charges():
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True, use_tp_charge=True)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)

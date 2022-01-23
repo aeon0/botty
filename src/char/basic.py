@@ -18,7 +18,7 @@ class Basic(IChar):
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
-        if self._skill_hotkeys["teleport"]:
+        if self.can_teleport():
             self._pather.offset_node(149, [120, 70])
 
     def _cast_attack_pattern(self, time_in_s: float):
