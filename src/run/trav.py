@@ -59,7 +59,8 @@ class Trav:
             picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
         else:
             # Walk back through the door and inside to pick up anything we couldn't from downstairs
-            self._pather.traverse_nodes([228, 229], self._char, time_out=3)
+            if not self._pather.traverse_nodes([226, 228], self._char, time_out=3, force_move=True):
+                not self._pather.traverse_nodes([230, 229, 228], self._char, time_out=3, force_move=True)
             picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
             wait(0.2, 0.3)
         # Make sure we go back to the center to not hide the tp
