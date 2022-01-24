@@ -119,13 +119,14 @@ class InventoryManager:
         Iterate over all picked items in inventory--ID items and decide which to stash
         :param img: Image in which the item is searched (item details should be visible)
         """
+        center_m = self._screen.convert_abs_to_monitor((0, 0))
         img = self._screen.grab()
         # check if inventory open
         inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
         if not inventory_open:
             self.toggle_inventory("open")
+            img = self._screen.grab()
         slots = []
-        img = self._screen.grab()
         # check which slots have items
         for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
             slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
@@ -135,6 +136,7 @@ class InventoryManager:
         # iterate over slots with items
         item_rois = []
         for count, slot in enumerate(slots):
+            img = self._screen.grab()
             x_m, y_m = self._screen.convert_screen_to_monitor(slot[0])
             # ignore this slot if it lies within in a previous item's ROI
             skip = False
@@ -174,8 +176,8 @@ class InventoryManager:
                     is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data, threshold = 0.9).valid
                     if is_unidentified:
                         need_id = True
-                    #mouse.move(*center_m, randomize=20)
-                    tome_state, tome_pos = self._id_tome_state(self._screen.grab())
+                        mouse.move(*center_m, randomize=20)
+                        tome_state, tome_pos = self._id_tome_state(self._screen.grab())
                     if is_unidentified and tome_state is not None and tome_state == "ok":
                         self._id_item_with_tome([x_m, y_m], tome_pos)
                         need_id = False
