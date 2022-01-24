@@ -7,7 +7,7 @@ import cv2
 import os
 import time
 
-from utils.misc import wait
+from utils.misc import wait, trim, color_filter, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 
 from game_stats import GameStats
@@ -40,9 +40,9 @@ class InventoryManager:
         self._ocr = Ocr()
         self._item_cropper = ItemCropper(self._template_finder)
         self._curr_stash = {
-                    "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
-                    "gold": 0
-                }
+            "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
+            "gold": 0
+        }
 
     @staticmethod
     def _slot_has_item(slot_img: np.ndarray) -> bool:
@@ -95,6 +95,25 @@ class InventoryManager:
                 return True
         return False
 
+    def _find_color_diff_roi(self, img_pre, img_post):
+        try:
+            diff = cv2.absdiff(img_pre, img_post)
+            gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            diff_thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)[1]
+
+            blue_mask, _ = color_filter(img_pre, self._config.colors["blue_slot"])
+            red_mask, _ = color_filter(img_pre, self._config.colors["red_slot"])
+            green_mask, _ = color_filter(img_post, self._config.colors["green_slot"])
+
+            blue_red_mask = np.bitwise_or(blue_mask, red_mask)
+            final = np.bitwise_and.reduce([blue_red_mask, green_mask, diff_thresh])
+            #cv2.imwrite("./info_screenshots/diff_roi_final_" + time.strftime("%Y%m%d_%H%M%S") + ".png", final)
+            _, roi = trim(final)
+            return roi
+        except:
+            Logger.error("_find_color_diff_roi failed")
+            return None
+
     def _inspect_items(self, item_finder: ItemFinder) -> bool:
         """
         Iterate over all picked items in inventory--ID items and decide which to stash
@@ -105,23 +124,30 @@ class InventoryManager:
         inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
         if not inventory_open:
             self.toggle_inventory("open")
-
-        # iterate over items
         slots = []
+        img = self._screen.grab()
+        # check which slots have items
         for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
-            img = self._screen.grab()
             slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
                 slots.append([slot_pos, row, column])
-
         boxes = []
+        # iterate over slots with items
+        item_rois = []
         for count, slot in enumerate(slots):
             x_m, y_m = self._screen.convert_screen_to_monitor(slot[0])
-            # get the item description box
+            # ignore this slot if it lies within in a previous item's ROI
+            skip = False
+            for item_roi in item_rois:
+                if is_in_roi(item_roi, slot[0]):
+                    skip = True
+                    break
+            if skip: continue
             delay = [0.2, 0.3] if count else [1, 1.3]
             mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
             wait(0.3, 0.5)
             hovered_item = self._screen.grab()
+            # get the item description box
             try:
                 item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
             except:
@@ -130,6 +156,14 @@ class InventoryManager:
                     cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                 continue
             if item_box.color:
+                # determine the item's ROI in inventory
+                pre = mask_by_roi(img, self._config.ui_roi["inventory"])
+                post = mask_by_roi(hovered_item, self._config.ui_roi["inventory"])
+                extend_roi = item_box.roi[:]
+                extend_roi[3] = extend_roi[3] + 30
+                item_roi = self._find_color_diff_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
+                if item_roi:
+                    item_rois.append(item_roi)
                 # check to see if the item box has previously been detected
                 box_previously_found = False
                 if len(boxes) > 0:
@@ -435,7 +469,7 @@ class InventoryManager:
         # stash stuff
         while True:
             items = self._transfer_items(items, action = "stash", close = False)
-            if items:
+            if items and any([item.keep for item in items]):
                 # could not stash all items, stash tab is likely full
                 Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
                 if self._config.general["info_screenshots"]:
@@ -616,7 +650,8 @@ if __name__ == "__main__":
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
+    game_stats = GameStats()
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
-    inventory_manager = InventoryManager(screen, template_finder)
-    #inventory_manager.stash_all_items(item_finder)
+    inventory_manager = InventoryManager(screen, template_finder, game_stats)
+    inventory_manager._inspect_items(item_finder)
