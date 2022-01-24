@@ -50,13 +50,23 @@ class Trav:
             if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
                 return False
         self._char.kill_council()
-        picked_up_items = self._pickit.pick_up_items(self._char, is_at_trav=True)
-        wait(0.2, 0.3)
+        
         # If we can teleport we want to move back inside and also check loot there
+        picked_up_items = False
         if self._char.can_teleport():
+            picked_up_items = self._pickit.pick_up_items(self._char, is_at_trav=True)
+            wait(0.2, 0.3)
             if not self._pather.traverse_nodes([229], self._char, time_out=2.5):
                 self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
             picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
+        else: # Else we need to make sure we loot both inside and outside the council room
+            self._pather.traverse_nodes([228, 226], self._char, time_out=2, force_move=True)
+            picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
+            wait(0.2, 0.3)
+            self._pather.traverse_nodes([226, 228, 229], self._char, time_out=2, force_move=True)
+            picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
+            wait(0.2, 0.3)
+
         # Make sure we go back to the center to not hide the tp
         self._pather.traverse_nodes([230], self._char, time_out=2.5)
         return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)

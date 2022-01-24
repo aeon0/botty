@@ -45,7 +45,7 @@ class PickIt:
         same_item_timer = None
         did_force_move = False
         while not time_out:
-            if (time.time() - start) > 28:
+            if (time.time() - start) > 22:
                 time_out = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
@@ -79,7 +79,10 @@ class PickIt:
                 found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
-                    if closest_item.dist > item.dist:
+                    # if we're looting Trav as a non-teleporter, we need to spend less time stuck on
+                    # stuff like gold because we're gonna be looting multiple times from a few different positions
+                    if closest_item.dist > item.dist and not \
+                        (is_at_trav and not char.can_teleport() and item.name in skip_items):
                         closest_item = item
 
                 # check if we trying to pickup the same item for a longer period of time
