@@ -285,6 +285,20 @@ class Pather:
             #akara
             707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
             708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
+
+            #extrra necro walking waypoints
+            900: {"NECRO_TRAV_1": (-102, 46), },
+            901: {"NECRO_TRAV_4": (-37, -69), "NECRO_TRAV_0": (354, 28), "NECRO_TRAV_6": (-339, 117), "NECRO_TRAV_5": (426, 140), "NECRO_TRAV_3": (433, -269), "NECRO_TRAV_2": (775, -176), },
+            902: {"NECRO_TRAV_6": (271, 358), "NECRO_TRAV_4": (573, 172), },
+            903: {"NECRO_TRAV_12": (-20, -155), "NECRO_TRAV_9": (-250, 37), "NECRO_TRAV_7": (146, 235), "NECRO_TRAV_8": (-155, 361), "NECRO_TRAV_16": (-725, -197), },
+            904: {"NECRO_TRAV_16": (-185, 82), "NECRO_TRAV_9": (290, 316), "NECRO_TRAV_12": (520, 124), },
+            905: {"NECRO_TRAV_14": (-284, -28), "NECRO_TRAV_11": (-166, 314), "NECRO_TRAV_15": (-558, 115), "NECRO_TRAV_17": (-421, 387), "NECRO_TRAV_13": (597, -64), "NECRO_TRAV_18": (-747, 292), "NECRO_TRAV_19": (-777, 328), },
+            906: {"NECRO_TRAV_14": (27, -177), "NECRO_TRAV_13": (908, -213), },
+            907: {"NECRO_TRAV_19": (-28, -66), "NECRO_TRAV_18": (2, -102), "NECRO_TRAV_17": (328, -7), "NECRO_TRAV_15": (191, -279), "NECRO_TRAV_11": (583, -80), "NECRO_TRAV_21": (-486, 380), "NECRO_TRAV_22": (-685, 244), },
+            908: {"NECRO_TRAV_19": (264, 51), "NECRO_TRAV_18": (244, -211), "NECRO_TRAV_21": (-244, 271), "NECRO_TRAV_22": (-443, 135), "NECRO_TRAV_17": (570, -116), },
+            909: {"NECRO_TRAV_21": (-38, 101), "NECRO_TRAV_22": (-237, -35), "NECRO_TRAV_18": (450, -381), "NECRO_TRAV_17": (776, -286), },
+            910: {"NECRO_TRAV_22": (287, 133), "NECRO_TRAV_21": (486, 269), },
+            911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
         }
         self._paths = {
             # A5 Town
@@ -557,7 +571,7 @@ class Pather:
                 img = self._screen.grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    success = self._template_finder.search("WAYPOINT_MENU", img).valid
+                    success = self._template_finder.search("WAYPOINT_MENU", img, threshold=threshold).valid
                     if success:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -586,7 +600,7 @@ class Pather:
                     last_move = time.time()
 
                 # Find any template and calc node position from it
-                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold)
+                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < self._config.ui_pos["reached_node_dist"]:
