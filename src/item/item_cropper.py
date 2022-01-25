@@ -60,7 +60,7 @@ class ItemCropper:
         img = cv2.bitwise_and(img, mask_color_r)
         return img, mask_r
 
-    def crop(self, inp_img: np.ndarray, padding_y: int = 5, use_ocr: bool = True) -> list[ItemText]:
+    def crop(self, inp_img: np.ndarray, padding_y: int = 5, ocr: bool = True, ocr_language: str = "engd2r_inv_th_fast") -> list[ItemText]:
         start = time.time()
         cleaned_img = self.clean_img(inp_img)[0]
         debug_str = f" | clean: {time.time() - start}"
@@ -104,14 +104,14 @@ class ItemCropper:
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
-        if use_ocr:
+        if ocr:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
-            results = self._ocr.images_to_text(cluster_images, use_language="engd2r_inv_th_fast")
+            results = self._ocr.images_to_text(cluster_images, ocr_language=ocr_language)
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, use_ocr: bool = True, all_results: bool = False) -> ItemText:
+    def crop_item_descr(self, inp_img: np.ndarray, ocr: bool = True, ocr_language: str = "engd2r_inv_th", all_results: bool = False) -> ItemText:
         results=[]
         black_mask, _ = color_filter(inp_img, self._config.colors["black"])
         contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -136,8 +136,8 @@ class ItemCropper:
                 found_footer = self._template_finder.search(["INVENTORY_HOLD_SHIFT", "INVENTORY_CNTR_CLICK"], inp_img, threshold=0.8).valid
                 if found_footer:
                     ocr_result = None
-                    if use_ocr:
-                        ocr_result = self._ocr.images_to_text(cropped_item, multiline=True)[0]
+                    if ocr:
+                        ocr_result = self._ocr.images_to_text(cropped_item, multiline=True, ocr_language=ocr_language)[0]
                     results.append(ItemText(
                         color = "black",
                         roi = [x, y, w, h],
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     while 1:
         img = screen.grab().copy()
-        results = cropper.crop_item_descr(img, all_results=True, use_ocr=False)
+        results = cropper.crop_item_descr(img, all_results=True, ocr=False)
         for res in results:
             if res["color"]:
                 x, y, w, h = res.roi

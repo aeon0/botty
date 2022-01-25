@@ -246,6 +246,10 @@ class UiManager():
         wait(0.1, 0.25)
         return True
 
+    def center_mouse(self):
+        center_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*center_m, randomize=20)
+
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":

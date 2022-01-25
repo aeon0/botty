@@ -2,6 +2,7 @@ from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2
 import re
+
 from typing import List, Union
 from dataclasses import dataclass
 
@@ -103,7 +104,7 @@ class Ocr:
 
         return image.tobytes(), width, height, bytes_per_pixel, bytes_per_line
 
-    def images_to_text(self, images: Union[np.ndarray, List[np.ndarray]], use_language: str = "engd2r_inv_th", multiline: bool = False) -> list[str]:
+    def images_to_text(self, images: Union[np.ndarray, List[np.ndarray]], ocr_language: str = "engd2r_inv_th", multiline: bool = False) -> list[str]:
         if type(images) == np.ndarray:
             images = [images]
         # segmentation_mode = PSM.RAW_LINE
@@ -114,7 +115,7 @@ class Ocr:
         if multiline:
             segmentation_mode = PSM.SINGLE_BLOCK
         results = []
-        with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata/{use_language}", lang=use_language ) as api:
+        with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata/{ocr_language}", lang=ocr_language ) as api:
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
             for image in images:
                 if multiline:

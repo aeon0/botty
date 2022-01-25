@@ -26,3 +26,4 @@ dependencies:
     - cryptography
     - pillow
     - discord.py
+    - parse

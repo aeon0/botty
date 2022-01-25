@@ -6,8 +6,9 @@ import itertools
 import cv2
 import os
 import time
+import parse
 
-from utils.misc import wait, trim, color_filter, is_in_roi, mask_by_roi
+from utils.misc import wait, trim_black, color_filter, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 
 from game_stats import GameStats
@@ -18,7 +19,6 @@ from screen import Screen
 from item import ItemFinder
 from item import ItemCropper
 from template_finder import TemplateFinder
-from ocr import Ocr
 
 @dataclass
 class BoxInfo:
@@ -37,7 +37,6 @@ class InventoryManager:
         self._template_finder = template_finder
         self._game_stats = game_stats
         self._messenger = Messenger()
-        self._ocr = Ocr()
         self._item_cropper = ItemCropper(self._template_finder)
         self._curr_stash = {
             "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
@@ -108,7 +107,7 @@ class InventoryManager:
             blue_red_mask = np.bitwise_or(blue_mask, red_mask)
             final = np.bitwise_and.reduce([blue_red_mask, green_mask, diff_thresh])
             #cv2.imwrite("./info_screenshots/diff_roi_final_" + time.strftime("%Y%m%d_%H%M%S") + ".png", final)
-            _, roi = trim(final)
+            _, roi = trim_black(final)
             return roi
         except:
             Logger.error("_find_color_diff_roi failed")
@@ -177,7 +176,7 @@ class InventoryManager:
                     if is_unidentified:
                         need_id = True
                         mouse.move(*center_m, randomize=20)
-                        tome_state, tome_pos = self._id_tome_state(self._screen.grab())
+                        tome_state, tome_pos = self._tome_state(self._screen.grab(), tome_type="id")
                     if is_unidentified and tome_state is not None and tome_state == "ok":
                         self._id_item_with_tome([x_m, y_m], tome_pos)
                         need_id = False
@@ -296,7 +295,7 @@ class InventoryManager:
         return items
 
     def _id_item_with_tome(self, item_location: list, id_tome_location: list):
-        mouse.move(id_tome_location[0], id_tome_location[1], id_tome_location[1], randomize=4, delay_factor=[0.4, 0.8])
+        mouse.move(id_tome_location[0], id_tome_location[1], randomize=4, delay_factor=[0.4, 0.8])
         wait(0.2, 0.4)
         mouse.click(button="right")
         wait(0.2, 0.4)
@@ -524,14 +523,14 @@ class InventoryManager:
                 keyboard.send(self._config.char["inventory_screen"])
         wait(0.4, 0.6)
 
-    def _id_tome_state(self, in_img: np.ndarray):
-        id_tome_state = self._template_finder.search(["ID_TOME", "ID_TOME_RED"], in_img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
-        if id_tome_state.valid:
-            if id_tome_state.name == "ID_TOME":
+    def _tome_state(self, in_img: np.ndarray, tome_type: str = "tp"):
+        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], in_img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
+        if tome_found.valid:
+            if tome_found.name == f"{tome_type.upper()}_TOME":
                 state = "ok"
             else:
                 state = "empty"
-            position = self._screen.convert_screen_to_monitor(id_tome_state.position)
+            position = self._screen.convert_screen_to_monitor(tome_found.position)
         else:
             state = position = None
         return state, position
@@ -641,6 +640,36 @@ class InventoryManager:
             for _ in range(mana_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
+
+    def get_consumible_quantity(self, item_type: str = "tp"):
+        self.toggle_inventory("open")
+        img = self._screen.grab()
+        if item_type.lower() in ["tp", "id"]:
+            state, pos = self._tome_state(img, item_type)
+            if not state:
+                return None
+            if state == "empty":
+                return 0
+            # else the tome exists and is not empty, continue
+        elif item_type.lower() in ["key", "keys"]:
+            result = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
+            if not result.valid:
+                return None
+            pos = self._screen.convert_screen_to_monitor(result.position)
+        else:
+            Logger.error(f"get_quantity failed, item_type:{item_type} not supported")
+            return None
+        mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
+        wait(0.2, 0.4)
+        hovered_item = self._screen.grab()
+        # get the item description box
+        try:
+            item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")[0]
+            result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
+            return result
+        except:
+            Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
+            return None
 
 if __name__ == "__main__":
     import keyboard

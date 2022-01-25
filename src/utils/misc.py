@@ -86,7 +86,7 @@ def is_in_roi(roi: List[float], pos: Tuple[float, float]):
     is_in_y_range = y < pos[1] < y + h
     return is_in_x_range and is_in_y_range
 
-def trim(image):
+def trim_black(image):
     y_nonzero, x_nonzero = np.nonzero(image)
     roi = np.min(x_nonzero), np.min(y_nonzero), np.max(x_nonzero) - np.min(x_nonzero), np.max(y_nonzero) - np.min(y_nonzero)
     img = image[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
