@@ -280,7 +280,11 @@ class InventoryManager:
                     if self._slot_has_item(slot_img):
                         attempts += 1
                     else:
-                        items.remove(item)
+                        # items.remove(item) # causes ValueError sometimes
+                        for cnt, o_item in enumerate(items):
+                            if o_item.pos == item.pos:
+                                items.pop(cnt)
+                                break
                         break
                     if attempts > 1:
                         return items
