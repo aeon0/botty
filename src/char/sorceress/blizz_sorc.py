@@ -339,26 +339,18 @@ class BlizzSorc(Sorceress):
         #-----------------------------
         
         elif location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            self._frost_nova(0.5) #self._char_config["atk_len_cs_trashmobs"]
-            self._blizzard((-450, -100), spray=10)
-            self._glacial_spike((0, 100), spray=30) # slow mobs
-            self._glacial_spike((-40, -100), spray=30) # slob mobs
-            self._ice_blast((0, 100), spray=30)
-            self._ice_blast((-40, -100), spray=30)
-            self._frost_nova(0.3) #wait(0.3) #instead of waiting, we can do novas
-            self._blizzard((-50, -50), spray=10)
-            pos_m = self._screen.convert_abs_to_monitor((-10, -10))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
+            #self._char_config["atk_len_cs_trashmobs"]
+            self._blizzard((50, -50), spray=10)
+            self._cast_static()
             #pickit at current char position in diablo.py 
                     
         ### Pentagram
         #all locations have the same attack sequence, therefore they elif check is "in []" instead of "==". Pent_before_a is only used if cs_clear_trash is 1
         elif location in ["pent_before_a, pent_before_b","pent_before_b"]: #node 602, pentagram, before CTA buff & depature to layout check 
             self._blizzard((-450, -100), spray=10)
+            self._frost_nova(0.3) #we cast a nova instead of wait(0.3)
             self._ice_blast((0, 100), spray=30)
             self._ice_blast((-40, -100), spray=30)
-            self._frost_nova(0.3) #we cast a nova instead of wait(0.3)
             self._blizzard((-50, -50), spray=10)
             pos_m = self._screen.convert_abs_to_monitor((-10, -10))
             self.pre_move()
@@ -367,29 +359,32 @@ class BlizzSorc(Sorceress):
         
         ### Layout Checks
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
-            self._blizzard((-50, -120), spray=10)
+            self._frost_nova(0.3) #wait (0.5)
+            self._blizzard((-50, -130), spray=10)
             self._ice_blast((150, 50), spray=30)
-            self._frost_nova(0.5) #wait (0.5)
+            self._cast_static()
+            wait(0.3)
             self._blizzard((100, -20), spray=10)
-            self._frost_nova(0.9) # wait(0.9)
+            #self._frost_nova(0.9) # wait(0.9)
             #no pickit in diablo.py (loot dropping here can be picked up later at position 610 for A1-L and 624 for A2-Y (only if we overshot the teleport for LC)
 
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
-            self._blizzard((-150, -50), spray=10)
+            self._pather.offset_node(647, (50, 50))
+            self._blizzard((-150, -90), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
             self._ice_blast((-150, -50), spray=30)
             self._cast_static()
-            self._frost_nova(0.3) #wait (0.3)
-            self._blizzard((-100, -50), spray=10)
-            self._frost_nova(0.9) # wait(0.9) 
+            self._blizzard((-100, -70), spray=10)
+            #self._frost_nova(0.9) # wait(0.9) 
             #no pickit in diablo.py (loot dropping here can be picked up later at position 647 for B2-U and 634 for B1-S (has to be during clearing the seal: _01 _02 _03 _boss))
 
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
             self._blizzard((-50, -50), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
             self._ice_blast((50, 50), spray=30)
             self._cast_static()
-            self._frost_nova(0.3) #wait (0.3)
             self._blizzard((50, 50), spray=10)
-            self._frost_nova(0.9) # wait(0.9)        
+            #self._frost_nova(0.9) # wait(0.9)        
             #no pickit in diablo.py (loot dropping here can be picked up later at position 664 for C2-G and 656 for C1-F (has to be during clearing the seal: _01 _02 _03 _fake _boss))
 
         ### -----------------
@@ -401,19 +396,28 @@ class BlizzSorc(Sorceress):
             if not self._pather.traverse_nodes([612], self): return False
             self._blizzard((-180, -290), spray=10)
             self._ice_blast((0, 100), spray=30)
+            self._frost_nova(0.5) #wait (0.3)
             self._cast_static() 
-            self._blizzard((-100, -50), spray=10)
+            self._blizzard((-85, -70), spray=10)
             wait(0.9)
-            #pickit at current char position (called in diablo.py), next location is A1-L_02"
-
-        elif location == "A1-L_02":
             if not self._pather.traverse_nodes([613], self): return False
             wait(0.9)
-            self._blizzard((190, -90), spray=10)
-            self._ice_blast((-150, 90), spray=30)
+            self._blizzard((150, -150), spray=10)
+            self._frost_nova(0.5) #wait (0.3)
+            self._ice_blast((150, -170), spray=30)
             self._cast_static() 
+            self._blizzard((-100, 100), spray=10)
             wait(0.8)
-            self._blizzard((-150, 70), spray=10)
+            #pickit at current char position (called in diablo.py), next location is A1-L_02"
+
+        #elif location == "A1-L_02":
+            #if not self._pather.traverse_nodes([613], self): return False
+            #wait(0.9)
+            #self._blizzard((190, -90), spray=10)
+            #self._ice_blast((-150, 90), spray=30)
+            #self._cast_static() 
+            #self._blizzard((-150, 70), spray=10)
+            #wait(0.8)
             #pickit at current char position (called in diablo.py), next location is A1-L_03"
 
         # not used, added in last elif of this function to skip this location
@@ -435,62 +439,81 @@ class BlizzSorc(Sorceress):
         ### LAYOUT : A2Y
         ### -----------------
         elif location == "A2-Y_01":
-            if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.info("A2-Y Hop!")
+            #if not self._pather.traverse_nodes([623], self): return False
             if not self._pather.traverse_nodes([624], self): return False
+            #wait(0.8)
+            #self._blizzard((150, -40), spray=10)
+            #self._cast_static()
+            #self._frost_nova(0.5) #wait (0.3)
+            #self._ice_blast((-150, -90), spray=30)
+            #wait(0.3)
+            #self._blizzard((-150, -100), spray=10)
+            #wait(0.8)
+            if not self._pather.traverse_nodes([625], self): return False
             wait(0.8)
-            self._blizzard((150, -40), spray=10)
+            self._blizzard((150, 50), spray=10)
+            self._frost_nova(0.5) #wait (0.3)
             self._cast_static()
-            self._ice_blast((-150, -90), spray=30)
+            self._ice_blast((300, 100), spray=30)
             wait(0.3)
-            self._blizzard((-150, -100), spray=10)
-            wait(0.8)
-            #pickit at current char position (called in diablo.py), next location is A2-Y_02"
-
-        elif location == "A2-Y_02":
-            self._pather.offset_node(623, (-100, 50))
+            self._blizzard((300, 170), spray=10)
+            wait(0.8) 
+            if not self._pather.traverse_nodes([624], self): return False
+            self._pather.offset_node(623, (-250, 50))
             if not self._pather.traverse_nodes([623], self): return False
-            self._pather.offset_node(623, (100, -50))
+            self._pather.offset_node(623, (250, -50))
             wait(0.8)
-            self._blizzard((150, -70), spray=10)
+            self._blizzard((180, -130), spray=10)
             self._cast_static()
             self._ice_blast((150, 40), spray=30)
             wait(0.3)
-            self._blizzard((100, 100), spray=10)
+            self._blizzard((200, 100), spray=10)
             wait(0.8) 
+            #pickit at current char position (called in diablo.py), next location is A2-Y_02"
+
+        #elif location == "A2-Y_02":
+            #self._pather.offset_node(623, (-100, 50))
+            #if not self._pather.traverse_nodes([623], self): return False
+            #self._pather.offset_node(623, (100, -50))
+            #wait(0.8)
+            #self._blizzard((150, -70), spray=10)
+            #self._cast_static()
+            #self._ice_blast((150, 40), spray=30)
+            #wait(0.3)
+            #self._blizzard((100, 100), spray=10)
+            #wait(0.8) 
             #pickit at current char position (called in diablo.py), next location is A2-Y_03"
 
-        elif location == "A2-Y_03":
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
-            self._pather.offset_node(627, (200, 90))
-            if not self._pather.traverse_nodes([627], self): return False
-            self._pather.offset_node(627, (-200, -90))
-            wait(0.8)
-            self._blizzard((-150, -110), spray=10)
-            self._ice_blast((0, 50), spray=30)
-            self._cast_static()
-            wait(0.3)
-            self._blizzard((-150, 100), spray=10)
-            wait(0.8)
+        #elif location == "A2-Y_03":
+            #self._pather.offset_node(627, (200, 90))
+            #if not self._pather.traverse_nodes([627], self): return False
+            #self._pather.offset_node(627, (-200, -90))
+            #self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder               
+            #wait(0.5)
+            #self._blizzard((-150, -110), spray=10)
+            #self._ice_blast((0, 50), spray=30)
+            #self._cast_static()
+            #wait(0.3)
+            #self._blizzard((-150, 100), spray=10)
+            #wait(0.8)
             #pickit at current char position (called in diablo.py), next location is A2-Y_fake"
 
         elif location == "A2-Y_fake": 
-            if not self._pather.traverse_nodes([623, 624], self): return False
+            if not self._pather.traverse_nodes([624], self): return False
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 625, followed by sealdance_fake, then back to blizz_sorc.py for "A2-Y_boss"
 
         elif location == "A2-Y_boss": 
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
-            self._blizzard((70, -50), spray=10)
-            wait(0.8)
-            self._ice_blast((150, 10), spray=30)
-            self._blizzard((50, 170), spray=10)
-            wait(0.8)
+            self._blizzard((70, 240), spray=10)
+            self._ice_blast((-30, 150), spray=30)
+            #self._blizzard((-100, 300), spray=10)
+            #wait(0.8)
             #next location in diablo.py is node 626, followed by sealdance_boss, then back to blizz_sorc.py for "Kill_Vizier(A2-Y)"
 
         ### B1-S
         elif location == "B1-S_01": 
             if not self._pather.traverse_nodes([635], self): return False
-            self._blizzard((-200, -70), spray=10)
+            self._blizzard((-300, -70), spray=10)
             self._ice_blast((-150, -60), spray=30)
             self._ice_blast((-150, -100), spray=30)
             self._blizzard((-450, -120), spray=10)
@@ -499,20 +522,23 @@ class BlizzSorc(Sorceress):
         elif location == "B1-S_02": 
             self._pather.offset_node(633, (150, -30))
             if not self._pather.traverse_nodes([633], self): return False
-            self._pather.offset_node(631, (-150, 30))
+            self._pather.offset_node(633, (-150, 30))
             wait(0.8)
-            self._blizzard((-200, 100), spray=10)
-            self._ice_blast((150, 130), spray=60)
+            self._blizzard((-200, 30), spray=10)
+            self._ice_blast((-150, 30), spray=60)
             self._cast_static() 
             wait(0.3)
-            self._blizzard((-400, 150), spray=10)
-            wait(0.9)
+            self._blizzard((-450, 70), spray=10)
+            wait(0.8)
+            self._pather.offset_node(632, (70, -30))
             self._pather.traverse_nodes([632], self, time_out=2.5, force_tp=False)
-            wait(0.9)
-            self._blizzard((-150, 100), spray=10)
-            self._ice_blast((150, -150), spray=30)
-            self._ice_blast((150, 100), spray=30)
-            wait(0.3)
+            self._pather.offset_node(632, (-70, 30))
+            wait(0.8)
+            self._blizzard((-150, 35), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
+            self._ice_blast((-150, 30), spray=30)
+            self._cast_static()
+            self._blizzard((-350, 150), spray=10)
             #pickit at current char position (called in diablo.py), next location is B1-S_03"
 
         elif location == "B1-S_03":
@@ -526,86 +552,111 @@ class BlizzSorc(Sorceress):
             self._blizzard((-150, -75), spray=10)
             self._ice_blast((150, 70), spray=30)
             self._ice_blast((-150, -75), spray=30)
-            self._blizzard((220, 150), spray=10)
+            self._blizzard((190, 130), spray=10)
             wait(0.5)
             if not self._pather.traverse_nodes([636], self): return False
-            if not self._pather.traverse_nodes([634], self): return False
             #pickit at current char position (called in diablo.py), next location is B1-S_boss"
 
-        elif location == "B1-S_boss": # node 634 layout B1-S: boss seal
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
+        #elif location == "B1-S_boss": # node 634 layout B1-S: boss seal
+            #self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder 
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 634, followed by sealdance_boss, then back to blizz_sorc.py for kill_deseis(B1-S)
 
         ### B2-U
         elif location == "B2-U_01":
-            pos_m = self._screen.convert_abs_to_monitor((-300, 0))
-            self.pre_move()
-            self.move(pos_m, force_move=True) 
-            self._blizzard((100, -70), spray=10)
-            self._ice_blast((100, 100), spray=30)
-            self._ice_blast((-50, -100), spray=30)
-            self._blizzard((100, 100), spray=10)
-            pos_m = self._screen.convert_abs_to_monitor((-350, -200))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            pos_m = self._screen.convert_abs_to_monitor((-100, -100))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
+            #pos_m = self._screen.convert_abs_to_monitor((-300, 0))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True) 
+            self._blizzard((-200, -50), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
+            self._cast_static()
+            self._ice_blast((-150, 0), spray=30)
+            self._blizzard((-150, 20), spray=10)
             #pickit at current char position (called in diablo.py), next location is "B2-U_02"
 
-        elif location == "B2-U_02": 
+        elif location == "B2-U_02":
+            if not self._pather.traverse_nodes([647], self): return False
+            self._pather.offset_node(647, (-50, -50))
+            pos_m = self._screen.convert_abs_to_monitor((-550, -170))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            pos_m = self._screen.convert_abs_to_monitor((-400, -170))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
             if not self._pather.traverse_nodes([644], self): return False
             self._blizzard((250, 0), spray=10)
             self._ice_blast((150, 20), spray=30)
             wait(0.3)
             self._pather.offset_node(643, (70, 100))
-            if not self._pather.traverse_nodes([643], self): return False
-            self._pather.offset_node(643, (-70, -100))
-            wait(0.8)
-            self._blizzard((-150, 100), spray=10)
-            self._cast_static()
-            self._ice_blast((-200, 100), spray=30)
-            wait(0.3)
             #pickit at current char position (called in diablo.py), next location is "B2-U_03"
 
         elif location == "B2-U_03":
-            if not self._pather.traverse_nodes([640], self): return False
+            if not self._pather.traverse_nodes([643], self): return False
+            self._pather.offset_node(643, (-70, -100))
+            self._frost_nova(0.8) #wait (0.3)
+            self._blizzard((-120, 70), spray=10)
+            self._cast_static()
+            self._ice_blast((-250, 100), spray=30)
+            wait(0.3)
+            if not self._pather.traverse_nodes([641], self): return False
             self._blizzard((-70, 70), spray=10)
             self._ice_blast((150, -150), spray=30)
             self._cast_static()
-            self._blizzard((50, -50), spray=10)
+            self._blizzard((-150, 200), spray=10)
             wait(0.8)
-            pos_m = self._screen.convert_abs_to_monitor((100, -150))
+
+        elif location == "B2-U_04": 
+            if not self._pather.traverse_nodes([640], self): return False   
+            pos_m = self._screen.convert_abs_to_monitor((150, 200))
             self.pre_move()
             self.move(pos_m, force_move=True)
-            wait(0.8)
-            self._blizzard((-250, 250), spray=10)
-            wait(0.8)
+            #wait(0.8)
+            #self._blizzard((-250, 250), spray=10)
+            #wait(0.8)
             if not self._pather.traverse_nodes([646], self): return False
-            wait(0.8)
+            wait(0.3)
             self._blizzard((-100, -50), spray=10)
+            self._frost_nova(0.5) #wait (0.3)
             self._ice_blast((-150, -10), spray=30)
             self._cast_static()
             self._blizzard((50, 100), spray=10)
             wait(0.3)
             #pickit at current char position (called in diablo.py), next location is "B2-U_boss"
 
-        elif location == "B2-U_boss":
+        #elif location == "B2-U_boss":
+            #if not self._pather.traverse_nodes([645], self): return False
+            #wait(0.3)
+            #self._blizzard((-100, -50), spray=10)
+            #self._frost_nova(0.5) #wait (0.3)
+            #self._ice_blast((-150, -10), spra
+
+        #elif location == "B2-U_boss":
             if not self._pather.traverse_nodes([646], self): return False
             if not self._pather.traverse_nodes([645], self): return False
+            pos_m = self._screen.convert_abs_to_monitor((400, -230))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            #if not self._pather.traverse_nodes([648], self): return False
+            if not self._pather.traverse_nodes([647], self): return False
             wait(0.3)
-            pos_m = self._screen.convert_abs_to_monitor((400, -300))
+            pos_m = self._screen.convert_abs_to_monitor((-550, -150))
             self.pre_move()
             self.move(pos_m, force_move=True)
-            pos_m = self._screen.convert_abs_to_monitor((100, -150))
+            pos_m = self._screen.convert_abs_to_monitor((-400, -150))
             self.pre_move()
             self.move(pos_m, force_move=True)
-            pos_m = self._screen.convert_abs_to_monitor((-50, -300))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            pos_m = self._screen.convert_abs_to_monitor((-500, -150))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
+            if not self._pather.traverse_nodes([644], self): return False
+            self._blizzard((100, -50), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
+            #self._ice_blast((150, -10), spray=30)
+            #pos_m = self._screen.convert_abs_to_monitor((100, -150))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #pos_m = self._screen.convert_abs_to_monitor((-50, -300))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #pos_m = self._screen.convert_abs_to_monitor((-500, -150))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 644, followed by sealdance_boss, then back to blizz_sorc.py for kill_deseis("B2-U")
 
         ### C1-F
@@ -613,27 +664,27 @@ class BlizzSorc(Sorceress):
             self._blizzard((-250, -100), spray=10)
             self._ice_blast((-200, -50), spray=30)
             self._ice_blast((-200, 0), spray=30)
-            wait(0.3)
+            self._frost_nova(0.5) #wait (0.3)
             self._blizzard((-350, -250), spray=10)
-            wait(0.9)
-            wait(0.9)
-            self._blizzard((150, 0), spray=10)
             wait(0.9)
             #pickit at current char position (called in diablo.py), next location is "C1-F_02"
 
         elif location == "C1-F_02": 
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) # REPLACES: if not self._pather.traverse_nodes([656, 654, 655], self, time_out=3): return False #ISSUE: getting stuck on 704 often, reaching maxgamelength
+            wait(0.5)
+            self._blizzard((150, 0), spray=10)
+            self._frost_nova(0.9) #wait (0.3)
             #pickit at current char position (called in diablo.py), next location is "C1-F_03"
 
         # not used, leaving it in for now to see during the run where the frostnova occurs
-        elif location == "C1-F_03":
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
+        #elif location == "C1-F_03":
+            #self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder   
             #pickit at current char position (called in diablo.py), next location is
 
         # not used, leaving it in for now to see during the run where the frostnova occurs
-        elif location == "C1-F_fake":
-            self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder              
-            #pickit at current char position (called in diablo.py), next location in diablo.py is node 655, followed by sealdance_fake, then back to blizz_sorc.py for "C1-F_boss"
+        #elif location == "C1-F_fake":
+            #self._frost_nova(self._char_config["atk_len_cs_trashmobs"]) #placeholder              
+            ##pickit at current char position (called in diablo.py), next location in diablo.py is node 655, followed by sealdance_fake, then back to blizz_sorc.py for "C1-F_boss"
 
         elif location == "C1-F_boss":
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self) #hop over from fake seal to boss seal 
@@ -650,7 +701,7 @@ class BlizzSorc(Sorceress):
             self._blizzard((-250, -70), spray=10)
             self._cast_static() 
             self._ice_blast((-100, 40), spray=20)
-            wait(0.3)
+            self._frost_nova(0.3) #wait (0.3)
             self._blizzard((-150, 150), spray=10)
             wait(0.9)
             #pickit at current char position (called in diablo.py), next location is "C2-G_02"
@@ -665,12 +716,12 @@ class BlizzSorc(Sorceress):
             self._pather.offset_node(662, (0, -150))
             wait(0.9)
             self._blizzard((-260, -100), spray=10)
+            self._frost_nova(0.3) #wait (0.3)
             self._cast_static() 
             self._ice_blast((250, -130), spray=30)
             wait(0.3)
             self._blizzard((150, -100), spray=10)
             wait(1.8)
-            if not self._pather.traverse_nodes([662], self): return False 
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 662, then back to blizz_sorc.py for "C2-G_boss"
 
         elif location == "C2-G_boss":
@@ -678,7 +729,9 @@ class BlizzSorc(Sorceress):
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 662, followed by sealdance_boss, then back to blizz_sorc.py for kill_infector("C2-G")
 
         elif location == "C2-G_fake":
-            if not self._pather.traverse_nodes([665], self): return False # just movement
+            if not self._pather.traverse_nodes([665], self): return False
+            wait(1.8)
+            # just movement
             #pickit at current char position (called in diablo.py), next location in diablo.py is node 665, followed by sealdance_fake, then back to blizz_sorc.py for kill_diablo()
 
         # add here ALL the locations where no trash should be killed
@@ -702,36 +755,49 @@ class BlizzSorc(Sorceress):
             self._blizzard((20, 100), spray=10)
             self._ice_blast((70, 90), spray=10)
             self._ice_blast((100, 90), spray=10)
-            wait(0.3)
-            self._blizzard((130, 200), spray=10)
-            wait(0.9)
-            pos_m = self._screen.convert_abs_to_monitor((100, 50))
+            self._frost_nova(0.5)
+            self._blizzard((100, 190), spray=10)
+            wait(0.5)
+            pos_m = self._screen.convert_abs_to_monitor((100, 250))
             self.pre_move()
             self.move(pos_m, force_move=True)
+            #self._blizzard((-200, 150), spray=10)
+            #self._ice_blast((150, 100), spray=30)
+            #wait(0.5)
             if not self._pather.traverse_nodes([611, 610], self): return False
-            wait(0.9)
-            self._blizzard((-250, -80), spray=10)
+            wait(0.5)
+            self._blizzard((-300, -80), spray=10)
+            self._frost_nova(0.5)
             self._ice_blast((100, 50), spray=30)
-            self._ice_blast((-200, -120), spray=30)
-            wait(0.3)
+            self._ice_blast((-200, -70), spray=30)
             self._blizzard((-50, 0), spray=10)
             wait(0.3)
             #diablo.py loots after killing vizier at current char position and 612. Then hops to 611 for calibration to loop to pentagram
 
         elif seal_layout == "A2-Y":
             #previous node in diablo.py is [626], this is our current location
-            if not self._pather.traverse_nodes([627, 623], self): return False # this might be a weak traverse: 627 is not very strong
-            self._frost_nova(0.8) # instead of wait(0.8) #self._char_config["atk_len_cs_trashmobs"] #replace waits with frostnova
-            self._blizzard((200, 150), spray=10)
+            if not self._pather.traverse_nodes([627], self): return False
+            wait(0.8)
+            self._blizzard((-100, 50), spray=10)
+            self._ice_blast((0, 100), spray=30)
+            self._ice_blast((-120, 150), spray=30)
+            if not self._pather.traverse_nodes([623], self): return False # this might be a weak traverse: 627 is not very strong
+            self._frost_nova(0.5) # instead of wait(0.8) #self._char_config["atk_len_cs_trashmobs"] #replace waits with frostnova
+            self._blizzard((50, -50), spray=10)
             self._ice_blast((150, 100), spray=30)
-            self._ice_blast((120, -100), spray=30)
-            self._frost_nova(0.4) # instead of wait(0.4)
-            self._blizzard((-400, -50), spray=10)
+            self._ice_blast((-120, 50), spray=30)
+            self._frost_nova(0.3) # instead of wait(0.4)
+            self._blizzard((-450, -50), spray=10)
             self._ice_blast((150, 10), spray=30)
             self._ice_blast((300, 50), spray=30)
-            self._frost_nova(0.4) # instead of wait(0.4)
-            self._blizzard((150, 100), spray=10)
+            self._frost_nova(0.3) # instead of wait(0.4)
+            self._blizzard((200, 150), spray=10)
             self._frost_nova(0.5) # instead of wait(0.4)
+            self._ice_blast((300, 50), spray=30)
+            if not self._pather.traverse_nodes([624], self): return False
+            self._blizzard((100, 70), spray=10)
+            self._ice_blast((100, 50), spray=30)
+            self._frost_nova(0.8) # instead of wait(0.4)
             #diablo.py loots after killing vizier current char position (ideally 623) and then hops to 622 for calibration to loop to pentagram
         
         else:
@@ -742,45 +808,74 @@ class BlizzSorc(Sorceress):
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
             #previous node in diablo.py is [634], this is our current location
-            if not self._pather.traverse_nodes([633], self): return False
-            self._blizzard((-300, 0), spray=10)
-            self._ice_blast((-100, 0), spray=30)
-            self._cast_static()
+            if not self._pather.traverse_nodes([634], self): return False
+            #self._blizzard((-200, 10), spray=10)
+            #self._frost_nova(0.5)
+            #self._ice_blast((-100, 10), spray=30)
+            #self._cast_static()
+            #wait(0.8)
+            #pos_m = self._screen.convert_abs_to_monitor((-200, -70))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #self._blizzard((-100, 50), spray=10)
+            #wait(0.8)
+            #if not self._pather.traverse_nodes([633], self): return False
+            #wait(0.8)
+            #self._blizzard((-250, 200), spray=10)
+            #self._frost_nova(0.3)
+            #self._ice_blast((-200, 10), spray=30)
+            #self._cast_static()
+            #self._blizzard((-150, 10), spray=10)
+            #self._pather.traverse_nodes([632], self, time_out=2.5, force_tp=False)
+            #wait(0.3)
+            #self._blizzard((-300, 150), spray=10)
+            #wait(0.8)
+            #if not self._pather.traverse_nodes([633], self): return False
+            #wait(0.8)
+            #self._blizzard((-250, -10), spray=10)
+            #self._frost_nova(0.3)
+            #self._ice_blast((-200, -10), spray=30)
+            #self._cast_static()
+            #pos_m = self._screen.convert_abs_to_monitor((-100, 150))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            self._pather.traverse_nodes([636], self, time_out=2.5, force_tp=False)
             wait(0.3)
-            pos_m = self._screen.convert_abs_to_monitor((-100, -50))
+            self._blizzard((-320, -180), spray=10)
+            self._cast_static() 
+            self._ice_blast((-320, -180), spray=30)
+            wait(0.3)
+            pos_m = self._screen.convert_abs_to_monitor((-200, -100))
             self.pre_move()
-            self.move(pos_m, force_move=True) 
-            self._blizzard((-200, 100), spray=10)
-            self._ice_blast((-200, 100), spray=30)
-            self._cast_static()
-            self._pather.traverse_nodes([632], self, time_out=2.5, force_tp=False)
-            wait(0.3)
-            self._blizzard((-200, 150), spray=10)
-            self._ice_blast((-100, 100), spray=30)
-            self._cast_static()
-            self._blizzard((-100, 100), spray=10)
+            self.move(pos_m, force_move=True)
+            pos_m = self._screen.convert_abs_to_monitor((100, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._blizzard((-250, -200), spray=10)
+            self._cast_static() 
+            self._ice_blast((-250, -200), spray=30)
+            wait(0.3) 
             self._pather.traverse_nodes([631], self, time_out=2.5, force_tp=False)
-            wait(0.9)
+            wait(0.1)
             self._blizzard((100, -100), spray=10)
             self._cast_static() 
             self._ice_blast((100, 70), spray=30)
             wait(0.3)
             self._blizzard((100, 50), spray=10)
-            #if not self._pather.traverse_nodes([630], self): return False
             wait(4.0)
-            pos_m = self._screen.convert_abs_to_monitor((-100, 100))
+            pos_m = self._screen.convert_abs_to_monitor((100, -100))
             self.pre_move()
             self.move(pos_m, force_move=True)  
             #self._cast_static()
-            #self._blizzard((-50, 50), spray=10)   
+            self._blizzard((-50, 50), spray=10)   
             self._cast_static()
             wait(4.0)
-            pos_m = self._screen.convert_abs_to_monitor((200, -200))
+            pos_m = self._screen.convert_abs_to_monitor((-100, 150))
             self.pre_move()
             self.move(pos_m, force_move=True)  
             self._cast_static()
             wait(3.0)
-            if not self._pather.traverse_nodes([632], self): return False
+            if not self._pather.traverse_nodes([631], self): return False
             #diablo.py loots after killing De Seis at current char position (ideally 632) and then hops to 633, 634 for calibration to loop to pentagram 
 
         elif seal_layout == "B2-U":
@@ -788,44 +883,54 @@ class BlizzSorc(Sorceress):
             if not self._pather.traverse_nodes([643], self): return False
             wait(0.3) 
             self._blizzard((-120, 150), spray=10)
+            self._cast_static()
             self._ice_blast((-70, 150), spray=30)
-            wait(0.5) 
+            wait(0.3) 
             pos_m = self._screen.convert_abs_to_monitor((80, 70))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(0.5)
             self._blizzard((-250, 70), spray=10)
+            self._cast_static()
             self._ice_blast((-250, 70), spray=30)
-            wait(0.5) 
+            wait(0.3) 
             pos_m = self._screen.convert_abs_to_monitor((-150, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(0.5) 
             self._blizzard((-280, 70), spray=10)
             self._ice_blast((-280, 70), spray=30)
-            wait(0.9)   
+            self._cast_static()
+            wait(0.3)   
             if not self._pather.traverse_nodes([641], self): return False
             wait(0.3) 
             self._blizzard((-150, 100), spray=10)
-            wait(0.5) 
+            wait(0.8)
             pos_m = self._screen.convert_abs_to_monitor((100, -150))
             self.pre_move()
             self.move(pos_m, force_move=True)
-            wait(0.5)
-            self._blizzard((-280, 200), spray=10)
-            self._ice_blast((-280, 200), spray=30)
-            wait(0.8)      
+            wait(0.8)
+            self._blizzard((70, 100), spray=10)
+            self._cast_static()
+            wait(3.5)       
             if not self._pather.traverse_nodes([640], self): return False
             self._blizzard((-100, 50), spray=10)
             self._cast_static()
             self._cast_static()
             wait(3.0)
-            pos_m = self._screen.convert_abs_to_monitor((100, -100))
+            pos_m = self._screen.convert_abs_to_monitor((100, -150))
             self.pre_move()
             self.move(pos_m, force_move=True)
+            self._blizzard((70, 100), spray=10)
             self._cast_static()
             wait(2.5)      
-            pos_m = self._screen.convert_abs_to_monitor((50, -50))
+            pos_m = self._screen.convert_abs_to_monitor((50, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._blizzard((70, 100), spray=10)
+            self._cast_static()
+            wait(3.5)
+            pos_m = self._screen.convert_abs_to_monitor((-100, 100))
             self.pre_move()
             self.move(pos_m, force_move=True)
             self._cast_static()
@@ -841,30 +946,35 @@ class BlizzSorc(Sorceress):
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
             #previous node in diablo.py is [652], this is our current location
-            self._pather.traverse_nodes_fixed("dia_c1f_652", self)
-            wait(0.5)
-            pos_m = self._screen.convert_abs_to_monitor((150, 0))
-            self.pre_move()
-            self.move(pos_m, force_move=True)  
-            self._blizzard((200, 20), spray=10)
+            #pos_m = self._screen.convert_abs_to_monitor((150, 0))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True) 
+            self._ice_blast((150, -20), spray=30) 
+            self._blizzard((200, -20), spray=10)
             self._cast_static() 
-            self._ice_blast((150, 20), spray=30)
+            self._frost_nova(0.3) #wait (0.3)
             wait(0.3)
-            self._blizzard((100, 20), spray=10)
-            wait(0.8)
-            pos_m = self._screen.convert_abs_to_monitor((200, -50))
+            pos_m = self._screen.convert_abs_to_monitor((250, -20))
             self.pre_move()
-            self.move(pos_m, force_move=True)
-            wait(0.8)  
-            self._blizzard((100, 20), spray=10)
+            self.move(pos_m, force_move=True)           
+            self._frost_nova(0.5) #wait (0.3)
+            self._blizzard((150, -10), spray=10)
             self._cast_static() 
-            self._ice_blast((100, 20), spray=30)
+            self._ice_blast((150, 0), spray=30)
             wait(0.3)
-            self._blizzard((120, 20), spray=10)
+            self._blizzard((70, -20), spray=10)
             self._cast_static()
-            wait(2.0)
+            self._frost_nova(0.9) #wait (0.3)
             if not self._pather.traverse_nodes([653], self): return False
-            self._blizzard((100, 100), spray=10)
+            self._blizzard((170, 70), spray=10)
+            self._ice_blast((200, 100), spray=30)
+            self._cast_static()
+            wait(0.3)
+            self._blizzard((100, 50), spray=10)
+            self._ice_blast((100, 100), spray=30)
+            self._cast_static()
+            wait(0.3)
+            self._blizzard((50, 50), spray=10)
             #diablo.py loots after killing Infector at current char position and then hops to 654 for calibration to loop to pentagram 
 
         elif seal_layout == "C2-G":
@@ -893,6 +1003,10 @@ class BlizzSorc(Sorceress):
             self._cast_static()
             self._ice_blast((90, -150), spray=30)
             self._blizzard((100, -100), spray=10)
+            pos_m = self._screen.convert_abs_to_monitor((320, -120))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            self._blizzard((50, -70), spray=10)
             if not self._pather.traverse_nodes([663], self): return False
             #diablo.py loots after killing Infector at current char position. next location is C2-G_fake.
         
@@ -914,13 +1028,15 @@ class BlizzSorc(Sorceress):
         self._ice_blast(cast_pos_abs, spray=90)
         wait(0.3)
         self._blizzard(cast_pos_abs, spray=50)
-        wait(0.8)
+        self._cast_static(0.8)
         pos_m = self._screen.convert_abs_to_monitor((0, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(0.8)
         self._blizzard((0, 150), spray=10) 
         self._ice_blast((0, 150), spray=30)
+        self._ice_blast((0, 150), spray=30)
+        wait(0.3)
         self._blizzard((-50, 120), spray=10)
         #pickit at current char position (called in diablo.py)
         return True
