@@ -8,8 +8,9 @@ from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
-from town.town_manager import TownManager
+from town.town_manager import TownManager, A4
 from ui import UiManager
+from ui import BeltManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
@@ -24,7 +25,8 @@ class Diablo:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        belt_manager: BeltManager
     ):
         self._config = Config()
         self._screen = screen
@@ -34,8 +36,10 @@ class Diablo:
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
+        self._belt_manager = belt_manager
         self._picked_up_items = False
         self.used_tps = 0
+        self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Diablo")
@@ -184,7 +188,7 @@ class Diablo:
 
     def _river_of_flames(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char, time_out=2): return False
-        Logger.debug("ROF: Calibrated at WAYPOINT")
+        Logger.debug("ROF: Calibrated at WAYPOINT")        
         self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
         Logger.info("ROF: Teleporting directly to PENTAGRAM")
         found = False
@@ -236,23 +240,94 @@ class Diablo:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_pent_loop_after_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
         return True
-
+            
+    # WiZ addition for town visits to heal/clear debuffs/restock pots 
+    def _cs_town_visit(self) -> bool:
+        # Do we want to go back to town and restock potions etc? 
+        if self._config.char["cs_town_visits"]:
+            buy_pots = self._belt_manager.should_buy_pots()
+            if not buy_pots:
+                Logger.info("Got enough pots, no need to go to town right now.")
+            else:
+                Logger.info("Going back to town to visit our friend Jamella (heal/clear debuffs/restock potions)")
+                success = self._char.tp_town()
+                if success:
+                    self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
+                    # Check if we should stash while we are in town
+                    force_stash = False
+                    force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+                    if force_stash:
+                        if self._config.char["id_items"]:
+                            Logger.info("Identifying items")
+                            self._curr_loc = self._town_manager.identify(self._curr_loc)
+                            if not self._curr_loc:
+                                return self.trigger_or_stop("end_game", failed=True)
+                        Logger.info("Stashing items")
+                        self._curr_loc = self._town_manager.stash(self._curr_loc)
+                        if not self._curr_loc:
+                            return self.trigger_or_stop("end_game", failed=True)
+                        self._no_stash_counter = 0
+                        self._picked_up_items = False
+                        wait(1.0)
+                    # Shop some pots
+                    if self._curr_loc:
+                        pot_needs = self._belt_manager.get_pot_needs()
+                        self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                    Logger.debug("Done in town, now going back to portal...")
+                    # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
+                    if not self._pather.traverse_nodes([164, 163], self._char, time_out=2): return False
+                    wait(0.22, 0.28)
+                    roi = self._config.ui_roi["reduce_to_center"]
+                    img = self._screen.grab()
+                    template_match = self._template_finder.search(
+                        ["BLUE_PORTAL","BLUE_PORTAL_2"],
+                        img,
+                        threshold=0.66,
+                        roi=roi,
+                        normalize_monitor=True
+                    )
+                    if template_match.valid:
+                        pos = template_match.position
+                        pos = (pos[0], pos[1] + 30)
+                        Logger.debug("Going through portal...")
+                        # Note: Template is top of portal, thus move the y-position a bit to the bottom
+                        mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                        wait(0.08, 0.15)
+                        mouse.click(button="left")
+                        if self._ui_manager.wait_for_loading_screen(2.0):
+                            Logger.debug("Waiting for loading screen...")
+                            
+                        # Recalibrate at Pentagram and set up new TP to improve loop back to penta success  
+                        self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
+                        self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP    
+                        if not self._ui_manager.has_tps():
+                            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
+                            self.used_tps += 20
+                        mouse.click(button="right")
+                        self.used_tps += 1
+                        Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))   
+                
+        return True
 
     def _cs_pentagram(self) -> bool:
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP
         Logger.info("CS: OPEN TP")
         if not self._ui_manager.has_tps():
-            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs!")
+            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
             self.used_tps += 20
             #return False
         mouse.click(button="right")
         self.used_tps += 1
         Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))
+        
+        # Do we need to visit town?
+        self._cs_town_visit()       
+    
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
-
+                                                                
 
     def _seal_A1(self) -> bool:
         seal_layout = "A1-L"
@@ -262,10 +337,10 @@ class Diablo:
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -273,13 +348,13 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([614], self._char): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([615], self._char): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
                
@@ -290,7 +365,7 @@ class Diablo:
         if not self._pather.traverse_nodes([612], self._char): return False
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([612], self._char): return False # recalibrate after loot
-        
+               
         ### GO HOME ###
         if not self._pather.traverse_nodes([611], self._char): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -300,6 +375,10 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        
+        # Do we need to visit town?
+        self._cs_town_visit()  
+        
         return True
     
     def _seal_A2(self) -> bool:
@@ -310,18 +389,18 @@ class Diablo:
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)       
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)       
         
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         if not self._pather.traverse_nodes([625], self._char): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
@@ -329,7 +408,7 @@ class Diablo:
         
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         if not self._pather.traverse_nodes([626], self._char): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
@@ -342,6 +421,8 @@ class Diablo:
         
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char): return False
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        if not self._pather.traverse_nodes([622], self._char): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a2y_home", self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -349,6 +430,10 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        
+        # Do we need to visit town?
+        self._cs_town_visit()  
+        
         return True
 
 
@@ -382,7 +467,7 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         
         ### GO HOME ###
-        if not self._pather.traverse_nodes([633, 634], self._char): return False
+        if not self._pather.traverse_nodes([632, 631], self._char): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -390,6 +475,10 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        
+        # Do we need to visit town?
+        self._cs_town_visit()  
+        
         return True
 
     def _seal_B2(self):
@@ -406,6 +495,9 @@ class Diablo:
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        Logger.debug(seal_layout + "_04: Kill trash")
+        self._char.kill_cs_trash(seal_layout + "_04")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         # you need to end your attack sequence at layout check node [649]
 
@@ -432,6 +524,10 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char , time_out=5): return False
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        
+        # Do we need to visit town?
+        self._cs_town_visit()  
+        
         return True
 
 
@@ -443,25 +539,25 @@ class Diablo:
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         # you need to end your char attack sequence at layout check node [656]
         
         ### APPROACH SEAL ###        
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([655], self._char): return False
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([652], self._char): return False
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
         
@@ -489,19 +585,19 @@ class Diablo:
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01") #not needed for most AOE chars, done during layoutcheck, but could be usefull for other classes as entry to clear the full seal
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_02: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_02")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         # you need to end your char attack sequence at layout check node [664]
         
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
         if not self._pather.traverse_nodes([662], self._char): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
                        
