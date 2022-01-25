@@ -451,21 +451,21 @@ class InventoryManager:
                         # move to next stash
                         wait(0.5, 0.6)
                         return self.stash_all_items(item_finder, items)
-        # check if stash tab is completely full (no empty slots)
         self._move_to_stash_tab(self._curr_stash["items"])
-        while self._curr_stash["items"] <= 3:
-            img = self._screen.grab()
-            found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"], threshold = 0.9)
-            if found_empty_slot.valid:
-                break
-            else:
-                Logger.info(f"Stash tab completely full, advance to next")
-                if self._config.general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-                self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
-                if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
-                    self.stash_full()
-                self._move_to_stash_tab(self._curr_stash["items"])
+        # check if stash tab is completely full (no empty slots)
+        # while self._curr_stash["items"] <= 3:
+        #     img = self._screen.grab()
+        #     found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"], threshold = 0.85)
+        #     if found_empty_slot.valid:
+        #         break
+        #     else:
+        #         Logger.info(f"Stash tab completely full, advance to next")
+        #         if self._config.general["info_screenshots"]:
+        #                 cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        #         self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
+        #         if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
+        #             self.stash_full()
+        #         self._move_to_stash_tab(self._curr_stash["items"])
         # stash stuff
         while True:
             items = self._transfer_items(items, action = "stash", close = False)
@@ -641,9 +641,10 @@ class InventoryManager:
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-    def get_consumible_quantity(self, item_type: str = "tp"):
+    def get_consumible_quantity(self, img: np.ndarray = None, item_type: str = "tp"):
         self.toggle_inventory("open")
-        img = self._screen.grab()
+        if img is None:
+            img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
             state, pos = self._tome_state(img, item_type)
             if not state:
