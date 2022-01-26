@@ -565,14 +565,14 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.warning('\033[93m'+"A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L"+'\033[0m')
+                Logger.debug('\033[93m'+"A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L"+'\033[0m')
                 if not self._seal_A1(): return False
         else:
             Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
         
             templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.warning('\033[94m'+"A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y"+'\033[0m')
+                Logger.debug('\033[94m'+"A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y"+'\033[0m')
                 if not self._seal_A2(): return False
             else:
                 Logger.debug('\033[91m'+"A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run"+'\033[0m')
@@ -597,14 +597,14 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("B1-S: Layout_check step 2/2 - B2U templates NOT found - all fine, proceeding with B1S")
+                Logger.debug('\033[93m'+"B1-S: Layout_check step 2/2 - B2U templates NOT found - all fine, proceeding with B1S"+'\033[0m')
                 if not self._seal_B1(): return False
         else:
             Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
             if not self._pather.traverse_nodes([647], self._char, time_out=3): return False #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U")
+                Logger.debug('\033[94m'+"B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U"+'\033[0m')
                 if not self._seal_B2(): return False
             else:
                 Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - aborting run")
@@ -628,13 +628,13 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C1F_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("C1-F: Layout_check step 2/2 - C1F templates found - all fine, proceeding with C1F")
+                Logger.debug('\033[93m'+"C1-F: Layout_check step 2/2 - C1F templates found - all fine, proceeding with C1F"+'\033[0m')
                 if not self._seal_C1(): return False
         else:
             Logger.debug("C2-G: Layout_check step 1/2 - C2G templates found")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("C2-G: Layout_check step 2/2 - C1F templates NOT found - all fine, proceeding with C2G")
+                Logger.debug('\033[94m'+"C2-G: Layout_check step 2/2 - C1F templates NOT found - all fine, proceeding with C2G"+'\033[0m')
                 if not self._seal_C2(): return False
             else:
                 Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
