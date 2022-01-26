@@ -28,7 +28,10 @@ class UiManager():
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._screen = screen
-        self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
+        self._curr_stash = {
+            "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
+            "gold": 0
+        } #0: personal, 1: shared1, 2: shared2, 3: shared3
 
     def use_wp(self, act: int, idx: int):
         """
@@ -459,8 +462,10 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            self._curr_stash["items"] += 1
-            if self._curr_stash["items"] > 3:
+            
+            # if filling shared stash first, we decrement from 3, otherwise increment
+            self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
+            if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
                     self._messenger.send_stash()
