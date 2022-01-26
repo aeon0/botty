@@ -118,6 +118,10 @@ class Bot:
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
+        self._ids_left = 10
+        self._keys_left = 6
+        self._use_id_tome = True
+        self._use_keys = True
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -243,9 +247,15 @@ class Bot:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             if self._no_stash_counter % 4 == 0:
-                Logger.debug(f"tp: {self._inventory_manager.get_consumible_quantity(img, 'tp')}")
-                Logger.debug(f"id: {self._inventory_manager.get_consumible_quantity(img, 'id')}")
-                Logger.debug(f"keys: {self._inventory_manager.get_consumible_quantity(img, 'key')}")
+                self._tps_left = self._inventory_manager.get_consumible_quantity(img, 'tp')
+                if self._use_id_tome:
+                    self._ids_left = self._inventory_manager.get_consumible_quantity(img, 'id')
+                    if self._ids_left == -1:
+                        self._use_id_tome = False
+                if self._use_keys:
+                    self._keys_left = self._inventory_manager.get_consumible_quantity(img, 'key')
+                    if self._keys_left == -1:
+                        self._use_keys = False
             if self._inventory_manager._inventory_has_items(img):
                 items = self._inventory_manager._inspect_items(item_finder=self._item_finder, img = img)
             else:
@@ -277,20 +287,20 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
-        if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
-            if buy_pots or sell_items:
-                Logger.info("Buy pots at next possible Vendor")
-                pot_needs = self._belt_manager.get_pot_needs()
-                self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
-                if result_items:
-                    items = result_items
-                wait(0.5, 0.8)
-                self._belt_manager.update_pot_needs()
-            else:
-                Logger.info("Healing at next possible Vendor")
-                self._curr_loc = self._town_manager.heal(self._curr_loc)
-            if not self._curr_loc:
-                return self.trigger_or_stop("end_game", failed=True)
+        if buy_pots or (self._use_keys and self._keys_left < random.randint(3, 5)):
+            Logger.info("Buy pots, keys at next possible Vendor")
+            pot_needs = self._belt_manager.get_pot_needs()
+            self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
+            if result_items:
+                items = result_items
+                sell_items = any([item.sell for item in items]) if items else None
+            wait(0.5, 0.8)
+            self._belt_manager.update_pot_needs()
+        elif HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2:
+            Logger.info("Healing at next possible Vendor")
+            self._curr_loc = self._town_manager.heal(self._curr_loc)
+        if not self._curr_loc:
+            return self.trigger_or_stop("end_game", failed=True)
 
         # Stash stuff
         if keep_items:
@@ -305,7 +315,8 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"] or sell_items:
+        games_per_repair = 20 # TODO: potentially config param
+        if self._tps_left < random.randint(3, 5) or (self._use_id_tome and self._ids_left < random.randint(3, 5)) or need_repair or sell_items or self._config.char["always_repair"] or (self._game_stats._game_counter % games_per_repair == 0):
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             elif sell_items: Logger.info("Selling items")
             else: Logger.info("Repairing and exchanging tomes at next Vendor")
@@ -315,6 +326,7 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20
+            self._ids_left = 20 if self._ids_left is not None else None
             wait(1.0)
 
         # Start a new run

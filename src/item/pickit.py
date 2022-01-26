@@ -48,6 +48,13 @@ class PickIt:
                 break
             img = self._screen.grab()
             item_list = self._item_finder.search(img)
+            if self._config.general["loot_screenshots"]:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                for cnt, item in enumerate(item_list):
+                    if any([x < 90 for x in item.ocr_result['word_confidences']]):
+                        Logger.debug(f"Low confidence word(s) in drop: {item.ocr_result['original_text']} -> {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}, save screenshot")
+                        cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
+                        cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
 
             # Check if we need to pick up certain pots more pots
             need_pots = self._belt_manager.get_pot_needs()
@@ -74,13 +81,8 @@ class PickIt:
                     time.sleep(0.2)
             else:
                 if done_ocr == False:
-                    timestamp = time.strftime("%Y%m%d_%H%M%S")
-                    # timestamp = str(round(time.time_ns() // 1_000_000 ))
                     for item in item_list:
                         Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
-                        if self._config.general["loot_screenshots"]:
-                            cv2.imwrite("./loot_screenshots/ocr_drop_" + timestamp + "_o.png", item.ocr_result['original_img'])
-                            cv2.imwrite("./loot_screenshots/ocr_drop_" + timestamp + "_n.png", item.ocr_result['processed_img'])
                     done_ocr = True
 
                 found_nothing = 0

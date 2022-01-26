@@ -194,8 +194,10 @@ class InventoryManager:
                     Logger.debug(f"OCR LINE{i}: {line}")
                 if self._config.general["loot_screenshots"]:
                     timestamp = time.strftime("%Y%m%d_%H%M%S")
-                    cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_o.png", item_box.ocr_result.original_img)
-                    cv2.imwrite("./loot_screenshots/ocr_box_" + timestamp + "_n.png", item_box.ocr_result.processed_img)
+                    if any([x < 90 for x in item_box.ocr_result['word_confidences']]):
+                        Logger.debug(f"Low confidence word(s) in item description box, save screenshot")
+                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
+                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
                 # decide whether to keep item
                 result = self._keep_item(item_finder, item_box)
@@ -524,8 +526,8 @@ class InventoryManager:
                 keyboard.send(self._config.char["inventory_screen"])
         wait(0.4, 0.6)
 
-    def _tome_state(self, in_img: np.ndarray, tome_type: str = "tp"):
-        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], in_img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
+    def _tome_state(self, img: np.ndarray, tome_type: str = "tp"):
+        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
         if tome_found.valid:
             if tome_found.name == f"{tome_type.upper()}_TOME":
                 state = "ok"
@@ -642,24 +644,24 @@ class InventoryManager:
                 wait(0.9, 1.1)
 
     def get_consumible_quantity(self, img: np.ndarray = None, item_type: str = "tp"):
-        self.toggle_inventory("open")
         if img is None:
+            self.toggle_inventory("open")
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
             state, pos = self._tome_state(img, item_type)
             if not state:
-                return None
+                return -1
             if state == "empty":
                 return 0
             # else the tome exists and is not empty, continue
         elif item_type.lower() in ["key", "keys"]:
             result = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
             if not result.valid:
-                return None
+                return -1
             pos = self._screen.convert_screen_to_monitor(result.position)
         else:
             Logger.error(f"get_quantity failed, item_type:{item_type} not supported")
-            return None
+            return -1
         mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
         wait(0.2, 0.4)
         hovered_item = self._screen.grab()
@@ -670,7 +672,7 @@ class InventoryManager:
             return result
         except:
             Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
-            return None
+            return -1
 
 if __name__ == "__main__":
     import keyboard

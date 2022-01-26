@@ -3,12 +3,14 @@ import numpy as np
 import cv2
 import re
 
+from logger import Logger
 from typing import List, Union
 from dataclasses import dataclass
 
 @dataclass
 class OcrResult:
     text: str = None
+    original_text: str = None
     word_confidences: list = None
     mean_confidence: float = None
     original_img: np.ndarray = None
@@ -54,22 +56,39 @@ class Ocr:
     def fix_ocr_output(self, ocr_output: str) -> str:
         # case: a 1 within a string; e.g., "W1RT'S LEG"
         # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
-        ocr_output = self.I_regex.sub('1', ocr_output)
-        ocr_output = self.One_regex.sub('I', ocr_output)
+        try:
+            text = self.I_regex.sub('1', ocr_output)
+        except:
+            Logger.error(f"Error I -> 1 on {ocr_output}")
+            text = ocr_output
+        try:
+            text = self.One_regex.sub('I', text)
+        except:
+            Logger.error(f"Error 1 -> I on {ocr_output}")
 
         # case: a solitary I; e.g., " I TO 5 DEFENSE"
+        cnt=0
         while True:
-            if " I " in ocr_output:
-                ocr_output = ocr_output.replace(" I ", " 1 ")
+            cnt += 1
+            if cnt >30:
+                Logger.error(f"Error ' I ' -> ' 1 ' on {ocr_output}")
+                break
+            if " I " in text:
+                text = text.replace(" I ", " 1 ")
                 continue
             break
         # case: consecutive I's; e.g., "DEFENSE: II"
         repeat=False
-        while "II" in ocr_output:
-            ocr_output = ocr_output.replace("II", "11")
+        cnt=0
+        while "II" in text:
+            cnt += 1
+            if cnt >30:
+                Logger.error(f"Error 4 on {ocr_output}")
+                break
+            text = text.replace("II", "11")
             repeat=True
         if repeat:
-            self.fix_ocr_output(ocr_output)
+            self.fix_ocr_output(text)
 
         # # manual edits...:
         # ocr_output.replace("SHIFLD", "SHIELD")
@@ -80,7 +99,7 @@ class Ocr:
         # ocr_output.replace("CLAVMORE", "CLAYMORE")
         # ocr_output.replace("MAKIMUM", "MAXIMUM")
 
-        return ocr_output
+        return text
 
     def img_to_bytes(self, image: np.ndarray, colorspace: str = 'BGR'):
         """ Sets an OpenCV-style image for recognition.
@@ -128,6 +147,7 @@ class Ocr:
                     text = text.replace('\n', '')
                 # TODO: delete words with very low confidence
                 results.append(OcrResult(
+                    original_text = text,
                     text = self.fix_ocr_output(text),
                     word_confidences = api.AllWordConfidences(),
                     mean_confidence = api.MeanTextConf(),

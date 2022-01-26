@@ -214,7 +214,7 @@ class UiManager():
                 roi=self._config.ui_roi["skill_right"],
                 best_match=True,
                 threshold=0.79,
-                time_out=4)
+                time_out=2)
             if not template_match.valid:
                 Logger.warning("You are out of tps")
                 if self._config.general["info_screenshots"]:
