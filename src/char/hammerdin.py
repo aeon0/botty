@@ -305,10 +305,11 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             self._picked_up_items |= self._pickit.pick_up_items(self)
+                        
         
         elif location in [ #SKIP
             #"sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
@@ -341,7 +342,7 @@ class Hammerdin(IChar):
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
             #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            "A1-L_fake", #node 614 layout A1-L: fake seal
+            #"A1-L_fake", #node 614 layout A1-L: fake seal
             #"A1-L_boss", #node 615 layout A1-L: boss seal
             ### A2-Y
             #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
@@ -381,9 +382,9 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
             if not self._pather.traverse_nodes([612], self, time_out=3): return False
@@ -394,7 +395,9 @@ class Hammerdin(IChar):
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._cast_hammers(0.5, "cleansing")
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_03":  #node 613 seal layout A1-L: fake_seal
             if not self._pather.traverse_nodes([613], self, time_out=3): return False
@@ -406,12 +409,19 @@ class Hammerdin(IChar):
             self._cast_hammers(0.5, "redemption")
             self._cast_hammers(0.5, "cleansing")
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
 
-        #elif location == "A1-L_fake":  #node 613 seal layout A1-L: fake_seal
-        #    if not self._pather.traverse_nodes([614], self._char): return False
+        elif location == "A1-L_fake":  #node 613 seal layout A1-L: fake_seal
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([614], self): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_boss":  #node 614 seal layout A1-L: boss_seal
             if not self._pather.traverse_nodes([613, 615], self, time_out=3): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
+
 
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
@@ -422,40 +432,62 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            #self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
-            if not self._pather.traverse_nodes([623], self, time_out=3): return False
+            if not self._pather.traverse_nodes([623,624], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            #self._picked_up_items |= self._pickit.pick_up_items(self)
 
+        #elif location == "A2-Y_03": #skipped
+    
         elif location == "A2-Y_fake":  #node 625 seal layout A2-Y: fake seal
-            if not self._pather.traverse_nodes([624], self, time_out=3): return False #recalibrate after loot
             if not self._pather.traverse_nodes([625], self, time_out=3): return False
+            """
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            """
+
+        #elif location == "B1-S_01": #skipped
+        #elif location == "B1-S_02": #skipped
+        #elif location == "B1-S_03": #skipped
 
         elif location == "B1-S_boss": 
             if not self._pather.traverse_nodes([634], self, time_out=3): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
+
+
+        #elif location == "B2-U_01": #skipped
+        #elif location == "B2-U_02": #skipped
+        #elif location == "B2-U_03": #skipped
 
         elif location == "B2-U_boss": 
             self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
             if not self._pather.traverse_nodes([644], self, time_out=3): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
         
+
+        #elif location == "C1-F_01": #skipped
+        #elif location == "C1-F_02": #skipped
+        #elif location == "C1-F_03": #skipped
+
         elif location == "C1-F_fake":
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -463,12 +495,18 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             
         elif location == "C1-F_boss":
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
+
+
+        #elif location == "C2-G_01": #skipped
+        #elif location == "C2-G_02": #skipped
+        #elif location == "C2-G_03": #skipped
 
         elif location == "C2-G_boss":
             if not self._pather.traverse_nodes([663, 662], self, time_out=3): return False
@@ -477,12 +515,15 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "C2-G_fake":
             if not self._pather.traverse_nodes([664, 665], self, time_out=3): return False
+
+
 
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
@@ -491,8 +532,9 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.5, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
@@ -516,12 +558,14 @@ class Hammerdin(IChar):
             #wait(0.1, 0.15)
             #self._cast_hammers(2, "redemption")
             #self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.3)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self._char, time_out=3): return False
+            if not self._pather.traverse_nodes([612], self, time_out=3): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self._char, time_out=3): return False # recalibrate after loot
+            if not self._pather.traverse_nodes([612], self, time_out=3): return False # recalibrate after loot
             
 
         elif seal_layout == "A2-Y":
@@ -539,7 +583,8 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             self._pather.traverse_nodes([624], self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"])
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
@@ -550,6 +595,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
             if not self._pather.traverse_nodes([622], self, time_out=3): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([622], self, time_out=3): return False #recalibrate after loot
         
@@ -588,7 +634,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([633, 634], self._char, time_out=3): return False 
+            if not self._pather.traverse_nodes([633, 634], self, time_out=3): return False 
 
         elif seal_layout == "B2-U":
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
@@ -619,7 +665,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([640], self._char, time_out=3): return False
+            if not self._pather.traverse_nodes([640], self, time_out=3): return False
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         else:

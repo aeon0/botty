@@ -59,7 +59,6 @@ class Diablo:
                 Logger.info(seal_layout +": "'\033[92m'+"is open"+'\033[0m')
                 break
             else:
-
                 Logger.debug(seal_layout +": "'\033[91m'+"not open"+'\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((0, 0)) #remove mouse from seal
                 mouse.move(*pos_m, randomize=[90, 160])
@@ -257,7 +256,6 @@ class Diablo:
         seal_layout = "A1-L"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -265,22 +263,18 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([614], self._char, time_out=3): return False
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
-        
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([615], self._char, time_out=3): return False
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
-               
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
-        
         ### GO HOME ###
         if not self._pather.traverse_nodes([611], self._char, time_out=3): return False # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -296,7 +290,6 @@ class Diablo:
         seal_layout = "A2-Y"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -304,25 +297,19 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        
         if not self._pather.traverse_nodes([625], self._char, time_out=3): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
-        
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        
         if not self._pather.traverse_nodes([626], self._char, time_out=3): return False #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
-        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
-        
         ### GO HOME ###
         if not self._pather.traverse_nodes([622], self._char, time_out=3): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -339,8 +326,6 @@ class Diablo:
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        
-        """
         ### CLEAR TRASH ### 
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -348,18 +333,14 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        # you need to end your attack sequence at layout check node [634]
-        """
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([634], self._char, time_out=3): return False #recalibrate after loot & at seal
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
-        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
-        
         ### GO HOME ###
         if not self._pather.traverse_nodes([633, 634], self._char, time_out=3): return False 
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -375,7 +356,6 @@ class Diablo:
         seal_layout = "B2-U"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
-        """
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -383,18 +363,14 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        # you need to end your attack sequence at layout check node [649]
-        """
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([644], self._char, time_out=3): return False #recalibrate after loot & at seal
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
-        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
-        
         ### GO HOME ###
         if not self._pather.traverse_nodes([640], self._char, time_out=3): return False # recalibrate after loot
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
@@ -411,7 +387,6 @@ class Diablo:
         seal_layout = "C1-F"
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        """
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -419,23 +394,18 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        # you need to end your char attack sequence at layout check node [656]
-        """
         ### APPROACH SEAL ###        
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([655], self._char, time_out=3): return False
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
-        
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([652], self._char, time_out=3): return False
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
-        
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
-        
         ### GO HOME ###
         if not self._pather.traverse_nodes([654], self._char, time_out=3): return False # this node often is not found
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -451,7 +421,6 @@ class Diablo:
         seal_layout = "C2-G"
         Logger.info(seal_layout +": Starting to clear Seal")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        """
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01") #not needed for most AOE chars, done during layoutcheck, but could be usefull for other classes as entry to clear the full seal
@@ -459,26 +428,18 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_02")
         Logger.debug(seal_layout + "_03: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_03")
-        # you need to end your char attack sequence at layout check node [664]
-        """
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        
         if not self._pather.traverse_nodes([662], self._char, time_out=3): return False
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
-                       
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
-            
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        
         if not self._pather.traverse_nodes([665], self._char, time_out=3): return False  #recalibrate after loot & at seal
-        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False
-        
-        
+        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False       
         ### GO HOME ###
         if not self._pather.traverse_nodes([665], self._char, time_out=3): return False
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
