@@ -79,15 +79,23 @@ class InventoryManager:
         center_pos = (int(slot[0] + (slot_width // 2)), int(slot[1] + (slot_height // 2)))
         return center_pos, slot_img
 
-    def _inventory_has_items(self) -> bool:
+    def center_mouse(self, delay_factor: List = None):
+        center_m = self._screen.convert_abs_to_monitor((0, 0))
+        if delay_factor:
+            mouse.move(*center_m, randomize=20, delay_factor = delay_factor)
+        else:
+            mouse.move(*center_m, randomize=20)
+
+    def _inventory_has_items(self, img: np.ndarray = None) -> bool:
         """
         Check if Inventory has any items
         :param img: Img from screen.grab() with inventory open
         :param num_loot_columns: Number of columns to check from left
         :return: Bool if inventory still has items or not
         """
-        self.toggle_inventory("open")
-        img = self._screen.grab()
+        if img is None:
+            self.toggle_inventory("open")
+            img = self._screen.grab()
         for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
             _, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
@@ -113,16 +121,12 @@ class InventoryManager:
             Logger.error("_find_color_diff_roi failed")
             return None
 
-    def _inspect_items(self, item_finder: ItemFinder) -> bool:
+    def _inspect_items(self, item_finder: ItemFinder, img: np.ndarray = None) -> bool:
         """
         Iterate over all picked items in inventory--ID items and decide which to stash
         :param img: Image in which the item is searched (item details should be visible)
         """
-        center_m = self._screen.convert_abs_to_monitor((0, 0))
-        img = self._screen.grab()
-        # check if inventory open
-        inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
-        if not inventory_open:
+        if img is None:
             self.toggle_inventory("open")
             img = self._screen.grab()
         slots = []
@@ -175,7 +179,7 @@ class InventoryManager:
                     is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data, threshold = 0.9).valid
                     if is_unidentified:
                         need_id = True
-                        mouse.move(*center_m, randomize=20)
+                        self.center_mouse()
                         tome_state, tome_pos = self._tome_state(self._screen.grab(), tome_type="id")
                     if is_unidentified and tome_state is not None and tome_state == "ok":
                         self._id_item_with_tome([x_m, y_m], tome_pos)
@@ -207,7 +211,7 @@ class InventoryManager:
                     sell = sell,
                     keep = keep
                 )
-                if keep:
+                if keep and not need_id:
                     self._game_stats.log_item_keep(result.name, self._config.items[result.name].pickit_type == 2, item_box.data, result.ocr_result.text)
                 if keep or sell or need_id:
                     # save item info
@@ -223,7 +227,6 @@ class InventoryManager:
     def _transfer_items(self, items: list, action: str = "drop", close: bool = True) -> list:
         img = self._screen.grab()
         left_panel_open = stash_open = False
-        center_m = self._screen.convert_abs_to_monitor((0, 0))
         if action == "drop":
             inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
             if not inventory_open:
@@ -268,7 +271,7 @@ class InventoryManager:
                     mouse.release(button="left")
                     wait(0.2, 0.4)
                     if action == "drop" and left_panel_open:
-                        mouse.move(*center_m, randomize=20)
+                        self.center_mouse()
                         wait(0.2, 0.3)
                         mouse.press(button="left")
                         wait(0.2, 0.3)
@@ -406,9 +409,7 @@ class InventoryManager:
         Stashing all items in inventory. Stash UI must be open when calling the function.
         """
         Logger.debug("Searching for inventory gold btn...")
-        # Move cursor to center
-        x, y = self._screen.convert_abs_to_monitor((0, 0))
-        mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
+        self.center_mouse()
         # Wait till gold btn is found
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
         if not gold_btn.valid:
@@ -451,21 +452,21 @@ class InventoryManager:
                         # move to next stash
                         wait(0.5, 0.6)
                         return self.stash_all_items(item_finder, items)
-        self._move_to_stash_tab(self._curr_stash["items"])
         # check if stash tab is completely full (no empty slots)
-        # while self._curr_stash["items"] <= 3:
-        #     img = self._screen.grab()
-        #     found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"], threshold = 0.85)
-        #     if found_empty_slot.valid:
-        #         break
-        #     else:
-        #         Logger.info(f"Stash tab completely full, advance to next")
-        #         if self._config.general["info_screenshots"]:
-        #                 cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        #         self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
-        #         if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
-        #             self.stash_full()
-        #         self._move_to_stash_tab(self._curr_stash["items"])
+        self._move_to_stash_tab(self._curr_stash["items"])
+        while self._curr_stash["items"] <= 3:
+            img = self._screen.grab()
+            found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"], threshold = 0.80)
+            if found_empty_slot.valid:
+                break
+            else:
+                Logger.info(f"Stash tab completely full, advance to next")
+                if self._config.general["info_screenshots"]:
+                        cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
+                if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
+                    self.stash_full()
+                self._move_to_stash_tab(self._curr_stash["items"])
         # stash stuff
         while True:
             items = self._transfer_items(items, action = "stash", close = False)
@@ -566,8 +567,7 @@ class InventoryManager:
             if time.time() - start > 5:
                 Logger.error("Couldn't sell tomes")
                 return False
-        center_m = self._screen.convert_abs_to_monitor((0, 0))
-        mouse.move(*center_m, randomize=20)
+        self.center_mouse()
         # buy back
         for sold_tome in sold_tomes:
             tome = self._template_finder.search_and_wait(sold_tome, roi=self._config.ui_roi["vendor_stash"], time_out=2)

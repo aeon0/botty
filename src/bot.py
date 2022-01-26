@@ -240,14 +240,14 @@ class Bot:
         # Check inventory
         items = None
         if self._picked_up_items or self._no_stash_counter % 4 == 0:
+            self._inventory_manager.toggle_inventory("open")
+            img=self._screen.grab()
             if self._no_stash_counter % 4 == 0:
-                img=self._screen.grab()
                 Logger.debug(f"tp: {self._inventory_manager.get_consumible_quantity(img, 'tp')}")
                 Logger.debug(f"id: {self._inventory_manager.get_consumible_quantity(img, 'id')}")
                 Logger.debug(f"keys: {self._inventory_manager.get_consumible_quantity(img, 'key')}")
-                self._ui_manager.center_mouse()
-            if self._inventory_manager._inventory_has_items():
-                items = self._inventory_manager._inspect_items(item_finder=self._item_finder)
+            if self._inventory_manager._inventory_has_items(img):
+                items = self._inventory_manager._inspect_items(item_finder=self._item_finder, img = img)
             else:
                 self._inventory_manager.toggle_inventory("close")
         self._no_stash_counter += 1

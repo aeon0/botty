@@ -651,7 +651,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_B1S")
+    display_all_nodes(pather, "A5")
 
     # # changing node pos and generating new code
     # code = ""
