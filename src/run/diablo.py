@@ -559,7 +559,7 @@ class Diablo:
             Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
             #if not self._pather.traverse_nodes([619], self._char, time_out=3): return False #seems to be A1L, so we are calibrating at a node of A1L, just to be safe to see the right templates. If the previous check failed, we will get pather stuck or maxgamelenght violation.
         
-            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT",]
+            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]
             if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
                 Logger.debug('\033[91m'+"A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run"+'\033[0m') #this also happens approx (7%) of the times tested amongst 100s of runs
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -570,7 +570,7 @@ class Diablo:
         else:
             Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
         
-            templates = ["DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK0"]
+            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug('\033[94m'+"A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y"+'\033[0m')
                 if not self._seal_A2(): return False
@@ -591,7 +591,7 @@ class Diablo:
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("B1-S: Layout_check step 1/2 - B1S templates found")
             if not self._pather.traverse_nodes([634], self._char, time_out=3): return False
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
+            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
                 Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -602,7 +602,7 @@ class Diablo:
         else:
             Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
             if not self._pather.traverse_nodes([647], self._char, time_out=3): return False #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8"]
+            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug('\033[94m'+"B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U"+'\033[0m')
                 if not self._seal_B2(): return False
