@@ -8,14 +8,14 @@ from logger import Logger
 from screen import Screen
 from item import ItemFinder, Item
 from ui import UiManager
-from ui import BeltManager
+from ui import ConsumibleManager
 from char import IChar
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, consumible_manager: ConsumibleManager):
         self._item_finder = item_finder
         self._screen = screen
-        self._belt_manager = belt_manager
+        self._consumible_manager = consumible_manager
         self._ui_manager = ui_manager
         self._config = Config()
         self._last_closest_item: Item = None
@@ -57,7 +57,7 @@ class PickIt:
                         cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
 
             # Check if we need to pick up certain pots more pots
-            need_pots = self._belt_manager.get_pot_needs()
+            need_pots = self._consumible_manager.get_pot_needs()
             if need_pots["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if need_pots["health"] <= 0:
@@ -119,7 +119,7 @@ class PickIt:
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
-                        self._belt_manager.picked_up_pot(closest_item.name)
+                        self._consumible_manager.adjust_consumible_need(closest_item.name, -1)
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
@@ -167,10 +167,10 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
-    belt_manager = BeltManager(screen, t_finder)
-    belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
+    consumible_manager = ConsumibleManager(screen, t_finder)
+    consumible_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    pickit = PickIt(screen, item_finder, ui_manager, consumible_manager)
     print(pickit.pick_up_items(char))

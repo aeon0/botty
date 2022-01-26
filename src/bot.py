@@ -19,7 +19,7 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from ui import UiManager
-from ui import BeltManager
+from ui import ConsumibleManager
 from ui import InventoryManager
 from pather import Pather, Location
 from npc_manager import NpcManager
@@ -50,9 +50,9 @@ class Bot:
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._inventory_manager = InventoryManager(self._screen, self._template_finder, self._game_stats)
-        self._belt_manager = BeltManager(self._screen, self._template_finder)
+        self._consumible_manager = ConsumibleManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._consumible_manager)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
@@ -154,8 +154,8 @@ class Bot:
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
-    def get_belt_manager(self) -> BeltManager:
-        return self._belt_manager
+    def get_consumible_manager(self) -> ConsumibleManager:
+        return self._consumible_manager
 
     def get_curr_location(self):
         return self._curr_loc
@@ -236,10 +236,12 @@ class Bot:
             time.sleep(1.6)
             DeathManager.pick_up_corpse(self._screen)
             wait(1.2, 1.5)
-            self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
+            self._inventory_manager.fill_up_belt_from_inventory()
             wait(0.5)
         # Look at belt to figure out how many pots need to be picked up
-        self._belt_manager.update_pot_needs()
+        img = self._screen.grab()
+        for x in ["health", "mana", "rejuv"]:
+            self._consumible_manager.update_consumible_need(img, item_type = x)
 
         # Check inventory
         items = None
@@ -247,13 +249,13 @@ class Bot:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             if self._no_stash_counter % 4 == 0:
-                self._tps_left = self._inventory_manager.get_consumible_quantity(img, 'tp')
+                self._tps_left = self._inventory_manager.update_consumible_need(img, item_type = 'tp')
                 if self._use_id_tome:
-                    self._ids_left = self._inventory_manager.get_consumible_quantity(img, 'id')
+                    self._ids_left = self._inventory_manager.update_consumible_need(img, item_type = 'id')
                     if self._ids_left == -1:
                         self._use_id_tome = False
                 if self._use_keys:
-                    self._keys_left = self._inventory_manager.get_consumible_quantity(img, 'key')
+                    self._keys_left = self._inventory_manager.update_consumible_need(img, item_type = 'key')
                     if self._keys_left == -1:
                         self._use_keys = False
             if self._inventory_manager._inventory_has_items(img):
@@ -286,16 +288,16 @@ class Bot:
 
         # Check if should need some healing
         img = self._screen.grab()
-        buy_pots = self._belt_manager.should_buy_pots()
+        buy_pots = self._consumible_manager.should_buy_pots()
         if buy_pots or (self._use_keys and self._keys_left < random.randint(3, 5)):
-            Logger.info("Buy pots, keys at next possible Vendor")
-            pot_needs = self._belt_manager.get_pot_needs()
+            Logger.info("Buy pots/keys at next possible Vendor")
+            pot_needs = self._consumible_manager.get_pot_needs()
             self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
             if result_items:
                 items = result_items
                 sell_items = any([item.sell for item in items]) if items else None
             wait(0.5, 0.8)
-            self._belt_manager.update_pot_needs()
+            self._consumible_manager.update_pot_needs()
         elif HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2:
             Logger.info("Healing at next possible Vendor")
             self._curr_loc = self._town_manager.heal(self._curr_loc)

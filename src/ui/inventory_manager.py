@@ -90,7 +90,6 @@ class InventoryManager:
         """
         Check if Inventory has any items
         :param img: Img from screen.grab() with inventory open
-        :param num_loot_columns: Number of columns to check from left
         :return: Bool if inventory still has items or not
         """
         if img is None:
@@ -617,62 +616,62 @@ class InventoryManager:
         wait(0.5, 0.6)
         return True
 
-    def buy_pots(self, healing_pots: int = 0, mana_pots: int = 0):
+    def buy_item(self, template_name: str, quantity: int = 0, img: np.ndarray = None, shift_click: bool = False) -> bool:
         """
-        Buy pots from vendors. Vendor inventory needs to be open!
-        :param healing_pots: Number of healing pots to buy
-        :param mana_pots: Number of mana pots to buy
+        Buy desired item from vendors. Vendor inventory needs to be open!
+        :param template_name: Name of template for desired item to buy; e.g., SUPER_MANA_POTION
+        :param quantity: How many of the item to buy
+        :param img: Precaptured image of opened vendor inventory
+        :param shift_click: whether to hold shift and right click to buy full stack
+        returns bool for success/failure
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if h_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(h_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-            for _ in range(healing_pots):
-                mouse.click(button="right")
-                wait(0.9, 1.1)
-
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
-        if m_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(m_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
-            for _ in range(mana_pots):
-                mouse.click(button="right")
-                wait(0.9, 1.1)
-
-    def get_consumible_quantity(self, img: np.ndarray = None, item_type: str = "tp"):
         if img is None:
-            self.toggle_inventory("open")
             img = self._screen.grab()
-        if item_type.lower() in ["tp", "id"]:
-            state, pos = self._tome_state(img, item_type)
-            if not state:
-                return -1
-            if state == "empty":
-                return 0
-            # else the tome exists and is not empty, continue
-        elif item_type.lower() in ["key", "keys"]:
-            result = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
-            if not result.valid:
-                return -1
-            pos = self._screen.convert_screen_to_monitor(result.position)
-        else:
-            Logger.error(f"get_quantity failed, item_type:{item_type} not supported")
-            return -1
-        mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
-        wait(0.2, 0.4)
-        hovered_item = self._screen.grab()
-        # get the item description box
-        try:
-            item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")[0]
-            result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
-            return result
-        except:
-            Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
-            return -1
+        desired_item = self._template_finder.search(template_name, img=img, roi=self._config.ui_roi["vendor_stash"])
+        if desired_item.valid:
+            x, y = self._screen.convert_screen_to_monitor(desired_item.position)
+            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            if shift_click:
+                keyboard.send('shift', do_release=False)
+                wait(0.5, 0.8)
+                mouse.click(button="right")
+                wait(0.4, 0.6)
+                keyboard.send('shift', do_release=True)
+                return True
+            if quantity:
+                for _ in range(quantity):
+                    mouse.click(button="right")
+                    wait(0.9, 1.1)
+                return True
+            else:
+                Logger.error("buy_item: Quantity not specified")
+                return False
+        Logger.error(f"buy_item: Desired item {template_name} not found")
+        return False
+
+    def fill_up_belt_from_inventory(self):
+        """
+        Fill up your belt with pots from the inventory e.g. after death. It will open and close invetory by itself!
+        """
+        self.toggle_inventory("open")
+        img = self._screen.grab()
+        pot_positions = []
+        for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
+            center_pos, slot_img = InventoryManager.get_slot_pos_and_img(self._config, img, column, row)
+            found = self._template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
+            if found:
+                pot_positions.append(center_pos)
+        keyboard.send('shift', do_release=False)
+        for pos in pot_positions:
+            x, y = self._screen.convert_screen_to_monitor(pos)
+            mouse.move(x, y, randomize=9, delay_factor=[1.0, 1.5])
+            wait(0.2, 0.3)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
+        keyboard.send('ctrl', do_release=True)
+        wait(0.2, 0.25)
+        self.toggle_inventory("close")
+
 
 if __name__ == "__main__":
     import keyboard

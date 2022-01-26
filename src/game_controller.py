@@ -55,7 +55,7 @@ class GameController:
         # Register that thread to the death and health manager so they can stop the bot thread if needed
         self.death_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
-        self.health_manager.set_belt_manager(self.bot.get_belt_manager())
+        self.health_manager.set_consumible_manager(self.bot.get_consumible_manager())
         do_restart = False
         messenger = Messenger()
         while 1:

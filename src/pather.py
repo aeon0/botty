@@ -301,6 +301,7 @@ class Pather:
             (Location.A5_MALAH, Location.A5_STASH): [1, 0, 3, 4, 5],
             (Location.A5_MALAH, Location.A5_LARZUK): [1, 0, 3, 4, 5, 13, 14],
             (Location.A5_MALAH, Location.A5_WP): [1, 0, 3, 4],
+            (Location.A5_MALAH, Location.A5_NIHLATHAK_PORTAL): [16, 15, 12, 11, 10, 6, 8, 9],
             (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
             (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
