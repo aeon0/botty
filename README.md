@@ -126,6 +126,7 @@ run_shenk=0
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
+| fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |

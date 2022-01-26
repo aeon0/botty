@@ -155,7 +155,7 @@ class GameStats:
         return msg
 
     def _send_status_update(self):
-        msg = f"{self._config.general['name']}: Status Report\n{self._create_msg()}\nVersion: {__version__}"
+        msg = f"Status Report\n{self._create_msg()}\nVersion: {__version__}"
         self._messenger.send_message(msg)
 
     def _save_stats_to_file(self):
