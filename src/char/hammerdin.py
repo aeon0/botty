@@ -10,14 +10,18 @@ from screen import Screen
 from utils.misc import wait
 import time
 from pather import Pather, Location
+import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
+        self._pickit = pickit #for Diablo
+        self._picked_up_items = False #for Diablo
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
         if not self._skill_hotkeys["teleport"]:
@@ -298,15 +302,13 @@ class Hammerdin(IChar):
             ]:        
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location in [ #SKIP
             #"sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
@@ -376,40 +378,34 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([611], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
             if not self._pather.traverse_nodes([612], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A1-L_03":  #node 613 seal layout A1-L: fake_seal
             if not self._pather.traverse_nodes([613], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         #elif location == "A1-L_fake":  #node 613 seal layout A1-L: fake_seal
         #    if not self._pather.traverse_nodes([614], self._char): return False
@@ -423,41 +419,35 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([622], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
             if not self._pather.traverse_nodes([623], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A2-Y_fake":  #node 625 seal layout A2-Y: fake seal
             if not self._pather.traverse_nodes([624], self, time_out=3): return False #recalibrate after loot
             if not self._pather.traverse_nodes([625], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "B1-S_boss": 
             if not self._pather.traverse_nodes([634], self, time_out=3): return False
@@ -470,14 +460,12 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             
         elif location == "C1-F_boss":
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
@@ -486,14 +474,12 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([663, 662], self, time_out=3): return False
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "C2-G_fake":
             if not self._pather.traverse_nodes([664, 665], self, time_out=3): return False
@@ -502,51 +488,54 @@ class Hammerdin(IChar):
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_hammers(self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.5, "cleansing")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
             if not self._pather.traverse_nodes([612], self, time_out=3): return False
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3 - i think we can skip this location, let me know if its useful")
-            self._pather.traverse_nodes([610], self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            #Logger.debug(seal_layout + ": Attacking Vizier at position 3/3 - i think we can skip this location, let me know if its useful")
+            #self._pather.traverse_nodes([610], self, time_out=3)
+            #self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+            #wait(0.1, 0.15)
+            #self._cast_hammers(2, "redemption")
+            #self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([612], self._char, time_out=3): return False
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([612], self._char, time_out=3): return False # recalibrate after loot
+            
 
         elif seal_layout == "A2-Y":
             if not self._pather.traverse_nodes([627, 622], self, time_out=3): return False
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.3)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.3)
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             self._pather.traverse_nodes([624], self, time_out=3)
@@ -556,9 +545,13 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([624], self, time_out=3): return False #recalibrate after loot
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
-            if not self._pather.traverse_nodes([623], self, time_out=3): return False
+            if not self._pather.traverse_nodes([622], self, time_out=3): return False
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([622], self, time_out=3): return False #recalibrate after loot
         
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
@@ -593,13 +586,15 @@ class Hammerdin(IChar):
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.3) 
+            wait(0.2, 0.3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([633, 634], self._char, time_out=3): return False 
 
         elif seal_layout == "B2-U":
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
-            nodes1 = [641]
-            nodes2 = [640]
-            nodes3 = [646]
+            nodes1 = [640]
+            nodes2 = [646]
+            nodes3 = [641]
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -623,6 +618,9 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([640], self._char, time_out=3): return False
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
@@ -643,6 +641,7 @@ class Hammerdin(IChar):
             self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
@@ -656,6 +655,7 @@ class Hammerdin(IChar):
             self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
@@ -674,6 +674,7 @@ class Hammerdin(IChar):
         self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
+        self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
 
 
