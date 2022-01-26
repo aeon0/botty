@@ -262,16 +262,7 @@ class Bot:
                     return self.trigger_or_stop("end_game", failed=True)
                 # recheck inventory
                 items = self._inventory_manager._inspect_items(item_finder=self._item_finder)
-
-        # Stash stuff
-        if items and any([item.keep for item in items]):
-            Logger.info("Stashing items")
-            self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items)
-            if result_items: items = result_items
-            if not self._curr_loc:
-                return self.trigger_or_stop("end_game", failed=True)
-            self._picked_up_items = False
-            wait(1.0)
+        keep_items = any([item.keep for item in items]) if items else None
         sell_items = any([item.sell for item in items]) if items else None
 
         # Check if merc needs to be revived
@@ -293,20 +284,24 @@ class Bot:
                 self._curr_loc, result_items = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"], items)
                 if result_items:
                     items = result_items
-                    sell_items = any([item.sell for item in items]) if items else None
                 wait(0.5, 0.8)
                 self._belt_manager.update_pot_needs()
-                # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
-                if self._curr_loc == Location.A5_MALAH:
-                    if self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True):
-                        self._curr_loc = Location.A5_TOWN_START
-                    else:
-                        self._curr_loc = False
             else:
                 Logger.info("Healing at next possible Vendor")
                 self._curr_loc = self._town_manager.heal(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
+
+        # Stash stuff
+        if keep_items:
+            Logger.info("Stashing items")
+            self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items)
+            if result_items:
+                items = result_items
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
+            self._picked_up_items = False
+            wait(1.0)
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
@@ -315,7 +310,8 @@ class Bot:
             elif sell_items: Logger.info("Selling items")
             else: Logger.info("Repairing and exchanging tomes at next Vendor")
             self._curr_loc, result_items = self._town_manager.repair_and_fill_tomes(self._curr_loc, items)
-            if result_items: items = result_items
+            if result_items:
+                items = result_items
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._tps_left = 20

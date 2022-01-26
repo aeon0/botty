@@ -216,7 +216,7 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+    search_templates = ["A5_TOWN_0","A5_TOWN_0.5","A5_TOWN_1","A5_TOWN_2","A5_TOWN_3","A5_TOWN_4","A5_TOWN_5","A5_TOWN_6","A5_TOWN_7","A5_TOWN_8","A5_TOWN_9","A5_TOWN_10","A5_TOWN_11","A5_TOWN_12"]
 
     while 1:
         # img = cv2.imread("")

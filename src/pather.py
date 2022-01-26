@@ -111,6 +111,8 @@ class Pather:
             12: {'A5_TOWN_8': (-139, -196), 'A5_TOWN_9': (-165, 87)},
             13: {'A5_TOWN_3': (120, 120), 'A5_TOWN_10': (-533, 221), 'A5_TOWN_4': (548, 97)},
             14: {'A5_TOWN_3': (447, 173), 'A5_TOWN_10': (-200, 280)},
+            15: {'A5_TOWN_9': (310, -38), 'A5_TOWN_2': (-327, -118), 'A5_TOWN_12': (-267, 204)},
+            16: {'A5_TOWN_0.5': (65, 155), 'A5_TOWN_12': (-25, -107)},
             # Pindle
             100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
             101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
@@ -295,21 +297,30 @@ class Pather:
             (Location.A5_TOWN_START, Location.A5_MALAH): [1, 2],
             (Location.A5_TOWN_START, Location.A5_LARZUK): [3, 4, 5, 13, 14],
             (Location.A5_MALAH, Location.A5_TOWN_START): [1, 0],
+            (Location.A5_MALAH, Location.A5_QUAL_KEHK): [16, 15, 12],
+            (Location.A5_MALAH, Location.A5_STASH): [1, 0, 3, 4, 5],
+            (Location.A5_MALAH, Location.A5_LARZUK): [1, 0, 3, 4, 5, 13, 14],
+            (Location.A5_MALAH, Location.A5_WP): [1, 0, 3, 4],
             (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
             (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
+            (Location.A5_STASH, Location.A5_MALAH): [4, 3, 0, 1, 2],
             (Location.A5_WP, Location.A5_STASH): [],
             (Location.A5_WP, Location.A5_LARZUK): [13, 14],
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_WP, Location.A5_QUAL_KEHK): [6, 10, 11, 12],
+            (Location.A5_WP, Location.A5_MALAH): [4, 3, 0, 1, 2],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
             (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
+            (Location.A5_QUAL_KEHK, Location.A5_LARZUK): [12, 11, 10, 6, 5, 13, 14],
+            (Location.A5_QUAL_KEHK, Location.A5_MALAH): [15, 16, 2],
             (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
             (Location.A5_LARZUK, Location.A5_STASH): [14, 13, 5],
+            (Location.A5_LARZUK, Location.A5_MALAH): [14, 13, 5, 4, 3, 1, 2],
             # Pindle
             (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
             (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
@@ -637,6 +648,7 @@ if __name__ == "__main__":
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
+            #cv2.imwrite("./info_screenshots/a5_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.waitKey(1)
 
     import keyboard
