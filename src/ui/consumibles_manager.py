@@ -193,20 +193,23 @@ class ConsumiblesManager:
 
     def update_tome_key_needs(self, img: np.ndarray = None, item_type: str = "tp") -> bool:
         if img is None:
-            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"]).valid
             if not inventory_open:
                 keyboard.send(self._config.char["inventory_screen"])
                 wait(0.4, 0.6)
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
-            tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
+            tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], best_match = True)
             if tome_found.valid:
                 if tome_found.name == f"{item_type.upper()}_TOME_RED":
                     self._consumible_needs[item_type] = 0
                     return True
                 else:
+                # else the tome exists and is not empty, continue
                     pos = self._screen.convert_screen_to_monitor(tome_found.position)
-            # else the tome exists and is not empty, continue
+            else:
+                Logger.debug(f"update_tome_key_needs: could not find {item_type}")
+                return False
         elif item_type.lower() in ["key"]:
             res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
             if not res.valid:
