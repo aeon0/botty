@@ -295,7 +295,7 @@ class Bot:
             self._curr_loc, result_items = self._town_manager.buy_consumibles(self._curr_loc, items = items, needs = self._consumibles_manager.get_needs())
             if self._curr_loc:
                 items = result_items
-                sell_items = any([item.sell for item in items]) if items else Nonef
+                sell_items = any([item.sell for item in items]) if items else None
                 for x in ["health", "mana", "key", "tp", "id"]:
                     self._consumibles_manager.reset_need(x)
                 Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
