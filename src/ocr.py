@@ -97,15 +97,15 @@ class Ocr:
         if repeat:
             self.fix_ocr_output(text)
 
-        # # manual edits...:
-        # ocr_output.replace("SHIFLD", "SHIELD")
-        # ocr_output.replace("SPFAR", "SPEAR")
-        # ocr_output.replace("GLOVFS", "GLOVES")
-        # ocr_output.replace("TELEFORT", "TELEPORT")
-        # ocr_output.replace("TROPHV", "TROPHY")
-        # ocr_output.replace("CLAVMORE", "CLAYMORE")
-        # ocr_output.replace("MAKIMUM", "MAXIMUM")
-        # ocr_output.replace("QUAHTITY", "QUANTITY")
+        # manual edits...:
+        ocr_output.replace("SHIFLD", "SHIELD")
+        ocr_output.replace("SPFAR", "SPEAR")
+        ocr_output.replace("GLOVFS", "GLOVES")
+        ocr_output.replace("TELEFORT", "TELEPORT")
+        ocr_output.replace("TROPHV", "TROPHY")
+        ocr_output.replace("CLAVMORE", "CLAYMORE")
+        ocr_output.replace("MAKIMUM", "MAXIMUM")
+        ocr_output.replace("QUAHTITY", "QUANTITY")
 
         return text
 

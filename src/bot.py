@@ -400,6 +400,7 @@ class Bot:
                 self._prev_run_failed = True # this will force a check if we should stash on next game
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
+            self._prev_run_failed = False
             self.trigger_or_stop("end_run")
 
     def on_run_pindle(self):
