@@ -41,8 +41,8 @@ class ConsumiblesManager:
     def get_needs(self):
         return self._consumible_needs
 
-    def reset_needs(self):
-        self._consumible_needs = {"rejuv": 0, "health": 0, "mana": 0, "tp": 0, "id": 0, "key": 0}
+    def reset_need(self, item_type):
+        self._consumible_needs["item_type"] = 0
 
     def conv_need_to_remaining(self, item_name: str = None):
         if item_name is None:
@@ -147,6 +147,7 @@ class ConsumiblesManager:
         Check how many pots are needed
         """
         needs = {"rejuv": 0, "health": 0, "mana": 0}
+        pot_rows = self._pot_rows.copy()
         # In case we are in danger that the mouse hovers the belt rows, move it to the center
         screen_mouse_pos = self._screen.convert_monitor_to_screen(mouse.get_position())
         if screen_mouse_pos[1] > self._config.ui_pos["screen_height"] * 0.72:
@@ -159,9 +160,9 @@ class ConsumiblesManager:
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
-                self._pot_rows[potion_type] -= 1
-                if self._pot_rows[potion_type] < 0:
-                    self._pot_rows[potion_type] += 1
+                pot_rows[potion_type] -= 1
+                if pot_rows[potion_type] < 0:
+                    pot_rows[potion_type] += 1
                     key = f"potion{column+1}"
                     for _ in range(5):
                         keyboard.send(self._config.char[key])
@@ -176,9 +177,9 @@ class ConsumiblesManager:
                     if potion_type != "empty":
                         current_column = potion_type
                     else:
-                        for key in self._pot_rows:
-                            if self._pot_rows[key] > 0:
-                                self._pot_rows[key] -= 1
+                        for key in pot_rows:
+                            if pot_rows[key] > 0:
+                                pot_rows[key] -= 1
                                 needs[key] += self._config.char["belt_rows"]
                                 break
                         break
@@ -192,7 +193,10 @@ class ConsumiblesManager:
 
     def update_tome_key_needs(self, img: np.ndarray = None, item_type: str = "tp"):
         if img is None:
-            self._inventory_manager.toggle_inventory("open")
+            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            if not inventory_open:
+                keyboard.send(self._config.char["inventory_screen"])
+                wait(0.4, 0.6)
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
             tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
@@ -207,7 +211,7 @@ class ConsumiblesManager:
             res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
             pos = self._screen.convert_screen_to_monitor(res.position)
         else:
-            Logger.error(f"get_quantity failed, item_type: {item_type} not supported")
+            Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
             return
         mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
         wait(0.2, 0.2)
@@ -221,9 +225,9 @@ class ConsumiblesManager:
             if item_type.lower() == "key":
                 self._consumible_needs[item_type] = 12 - result
         except:
-            Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
-            if self._config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}, box is below:")
+            Logger.error(item_box)
+            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 
 if __name__ == "__main__":
     keyboard.wait("f11")

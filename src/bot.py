@@ -244,8 +244,9 @@ class Bot:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             # Update TP, ID, key needs
-            if self._game_stats._game_counter == 1:
+            if self._use_id_tome:
                 id_state = self._inventory_manager._tome_state(img, 'id')[0]
+            if self._game_stats._game_counter == 1:
                 self._use_id_tome = True if id_state else False
                 self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9).valid
             if self._no_stash_counter % 4 == 0:
@@ -290,13 +291,13 @@ class Bot:
         if need_refill:
             Logger.info("Buy pots/keys/scrolls at next possible Vendor")
             self._curr_loc, result_items = self._town_manager.buy_consumibles(self._curr_loc, items = items, needs = self._consumibles_manager.get_needs())
-            if result_items:
+            if self._curr_loc:
                 items = result_items
                 sell_items = any([item.sell for item in items]) if items else None
-                self._consumibles_manager.reset_needs()
+                for x in ["health", "mana", "key", "tp", "id"]:
+                    self._consumibles_manager.reset_need(x)
                 Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
             wait(0.5, 0.8)
-            self._consumibles_manager.update_pot_needs()
         elif HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2:
             Logger.info("Healing at next possible Vendor")
             self._curr_loc = self._town_manager.heal(self._curr_loc)
@@ -307,7 +308,7 @@ class Bot:
         if keep_items:
             Logger.info("Stashing items")
             self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items)
-            if result_items:
+            if self._curr_loc:
                 items = result_items
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)

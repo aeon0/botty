@@ -76,7 +76,14 @@ class Ocr:
             if " I " in text:
                 text = text.replace(" I ", " 1 ")
                 continue
+            elif ' I\n'  in text:
+                text = text.replace(' I\n', ' 1\n')
+                continue
+            elif '\nI '  in text:
+                text = text.replace('\nI ', '\n1 ')
+                continue
             break
+
         # case: consecutive I's; e.g., "DEFENSE: II"
         repeat=False
         cnt=0
