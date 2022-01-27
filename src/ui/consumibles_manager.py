@@ -191,7 +191,7 @@ class ConsumiblesManager:
         self._consumible_needs["mana"] = needs["mana"]
         self._consumible_needs["rejuv"] = needs["rejuv"]
 
-    def update_tome_key_needs(self, img: np.ndarray = None, item_type: str = "tp"):
+    def update_tome_key_needs(self, img: np.ndarray = None, item_type: str = "tp") -> bool:
         if img is None:
             inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
             if not inventory_open:
@@ -203,16 +203,18 @@ class ConsumiblesManager:
             if tome_found.valid:
                 if tome_found.name == f"{item_type.upper()}_TOME_RED":
                     self._consumible_needs[item_type] = 0
-                    return
+                    return True
                 else:
                     pos = self._screen.convert_screen_to_monitor(tome_found.position)
             # else the tome exists and is not empty, continue
         elif item_type.lower() in ["key"]:
             res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
+            if not res.valid:
+                return False
             pos = self._screen.convert_screen_to_monitor(res.position)
         else:
             Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
-            return
+            return False
         mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
         wait(0.2, 0.2)
         hovered_item = self._screen.grab()
@@ -228,7 +230,7 @@ class ConsumiblesManager:
             Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}, box is below:")
             Logger.error(item_box)
             cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-
+        return True
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()

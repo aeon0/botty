@@ -192,8 +192,12 @@ class InventoryManager:
                     Logger.debug(f"OCR LINE{i}: {line}")
                 if self._config.general["loot_screenshots"]:
                     timestamp = time.strftime("%Y%m%d_%H%M%S")
-                    if any([x < 90 for x in item_box.ocr_result['word_confidences']]):
-                        Logger.debug(f"Low confidence word(s) in item description box, save screenshot")
+                    found_low_confidence = False
+                    for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                        if x <= 88:
+                            Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                            found_low_confidence = True
+                    if found_low_confidence:
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
@@ -326,7 +330,8 @@ class InventoryManager:
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/failed_found_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             return None
-        if ("potion".casefold() in found_item.name.casefold()) or (self._config.items[found_item.name].pickit_type == 0):
+        ignore_partial_strings = ["potion", "misc_scroll"]
+        if any(x in found_item.name for x in ["potion", "misc_scroll"]) or found_item.name == "misc_key" or (self._config.items[found_item.name].pickit_type == 0):
             return None
         setattr(found_item, "ocr_result", item_box["ocr_result"])
         include_props = self._config.items[found_item.name].include

@@ -51,10 +51,11 @@ class PickIt:
             if self._config.general["loot_screenshots"]:
                 timestamp = time.strftime("%Y%m%d_%H%M%S")
                 for cnt, item in enumerate(item_list):
-                    if any([x < 90 for x in item.ocr_result['word_confidences']]):
-                        Logger.debug(f"Low confidence word(s) in drop: {item.ocr_result['original_text']} -> {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}, save screenshot")
-                        cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
-                        cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
+                    for cnt2, x in enumerate(item.ocr_result['word_confidences']):
+                        if x <= 88:
+                            Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
+                    cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
+                    cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
 
             # Check if we need to pick up any consumibles
             needs = self._consumibles_manager.get_needs()
@@ -69,8 +70,7 @@ class PickIt:
             if needs["id"] <= 0:
                 item_list = [x for x in item_list if "scroll_id" not in x.name]
             if needs["key"] <= 0:
-                item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
-
+                item_list = [x for x in item_list if "misc_key" != x.name]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
             if self._config.char["gold_trav_only"] and not is_at_trav:
@@ -87,11 +87,6 @@ class PickIt:
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
-                if done_ocr == False:
-                    for item in item_list:
-                        Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
-                    done_ocr = True
-
                 found_nothing = 0
                 closest_item = item_list[0]
                 for item in item_list[1:]:
@@ -130,6 +125,10 @@ class PickIt:
                     # no need to stash potions, scrolls, or gold
                     if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
+                        if done_ocr == False:
+                            for item in item_list:
+                                Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
+                            done_ocr = True
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
                     if not char.can_teleport():

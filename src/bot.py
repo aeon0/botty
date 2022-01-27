@@ -123,8 +123,8 @@ class Bot:
         self._stopping = False
         self._pausing = False
         self._current_threads = []
-        self._no_stash_counter = 0
         self._ran_no_pickup = False
+        self._prev_run_failed = False
 
         # Create State Machine
         self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo']
@@ -235,12 +235,13 @@ class Bot:
             wait(1.2, 1.5)
             self._inventory_manager.fill_up_belt_from_inventory()
             wait(0.5)
+
         # Update potion counts
         self._consumibles_manager.update_pot_needs()
 
         # Inspect inventory
         items = None
-        if self._picked_up_items or self._no_stash_counter % 4 == 0:
+        if self._picked_up_items or self._game_stats._run_counter % 4 == 0 or self._prev_run_failed:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             # Update TP, ID, key needs
@@ -249,7 +250,7 @@ class Bot:
             if self._game_stats._game_counter == 1:
                 self._use_id_tome = True if id_state else False
                 self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9).valid
-            if self._no_stash_counter % 4 == 0:
+            if self._game_stats._run_counter % 4 == 0 or self._prev_run_failed:
                 self._consumibles_manager.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
                     if id_state == "empty":
@@ -257,13 +258,14 @@ class Bot:
                     else:
                         self._consumibles_manager.update_tome_key_needs(img, item_type = 'id')
                 if self._use_keys:
-                    self._consumibles_manager.update_tome_key_needs(img, item_type = 'key')
+                    if not self._consumibles_manager.update_tome_key_needs(img, item_type = 'key'):
+                        # keys have run out and refilling will be unreliable
+                        self._use_keys = False
             # Check inventory items
             if self._inventory_manager._inventory_has_items(img):
                 items = self._inventory_manager._inspect_items(item_finder=self._item_finder, img = img)
             else:
                 self._inventory_manager.toggle_inventory("close")
-        self._no_stash_counter += 1
         Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
         if items:
             # if there are still items that need identifying, go to cain to identify them
@@ -293,7 +295,7 @@ class Bot:
             self._curr_loc, result_items = self._town_manager.buy_consumibles(self._curr_loc, items = items, needs = self._consumibles_manager.get_needs())
             if self._curr_loc:
                 items = result_items
-                sell_items = any([item.sell for item in items]) if items else None
+                sell_items = any([item.sell for item in items]) if items else Nonef
                 for x in ["health", "mana", "key", "tp", "id"]:
                     self._consumibles_manager.reset_need(x)
                 Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
@@ -317,8 +319,8 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        games_per_repair = 20 # TODO: potentially config param
-        if need_repair or sell_items or self._config.char["always_repair"] or (self._game_stats._game_counter % games_per_repair == 0):
+        repair_by_freq = True if self._config.char["runs_per_repair"] and (self._game_stats._run_counter % self._config.char["runs_per_repair"] == 0) else False
+        if need_repair or sell_items or repair_by_freq:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             elif sell_items: Logger.info("Selling items")
             else: Logger.info("Repairing and exchanging tomes at next Vendor")
@@ -370,6 +372,7 @@ class Bot:
         self.trigger_or_stop("create_game")
 
     def on_end_run(self):
+        self._game_stats._run_counter += 1
         if not self._config.char["pre_buff_every_run"]:
             self._pre_buffed = True
         success = self._char.tp_town()
@@ -390,10 +393,11 @@ class Bot:
         if res:
             failed_run = False
             self._curr_loc, self._picked_up_items = res
+            self._prev_run_failed = False
         # in case its the last run or the run was failed, end game, otherwise move to next run
         if self.is_last_run() or failed_run:
             if failed_run:
-                self._no_stash_counter = 0 # this will force a check if we should stash on next game
+                self._prev_run_failed = True # this will force a check if we should stash on next game
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
             self.trigger_or_stop("end_run")

@@ -20,6 +20,7 @@ class GameStats:
         self._timepaused = None
         self._paused = False
         self._game_counter = 0
+        self._run_counter = 0
         self._chicken_counter = 0
         self._death_counter = 0
         self._merc_death_counter = 0

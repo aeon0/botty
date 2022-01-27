@@ -105,6 +105,7 @@ class Ocr:
         # ocr_output.replace("TROPHV", "TROPHY")
         # ocr_output.replace("CLAVMORE", "CLAYMORE")
         # ocr_output.replace("MAKIMUM", "MAXIMUM")
+        # ocr_output.replace("QUAHTITY", "QUANTITY")
 
         return text
 
