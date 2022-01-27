@@ -32,7 +32,7 @@ class Basic_Ranged(IChar):
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if not self._skill_hotkeys["right_attack"]:
-            raise ValueError("You did not set right attack hotkey!")          
+            raise ValueError("You did not set right attack hotkey!")
         keyboard.send(self._skill_hotkeys["right_attack"])
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
@@ -40,7 +40,7 @@ class Basic_Ranged(IChar):
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.click(button="right")
-            
+
     def pre_buff(self):
         if self._skill_hotkeys["buff_1"]:
             keyboard.send(self._skill_hotkeys["buff_1"])
@@ -60,8 +60,8 @@ class Basic_Ranged(IChar):
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(self._char_config["stand_still"], do_release=False)  
-        while (time.time() - start) < self._char_config["atk_len_pindle"]:      
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        while (time.time() - start) < self._char_config["atk_len_pindle"]:
             if self._ui_manager.is_right_skill_active():
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
@@ -79,8 +79,8 @@ class Basic_Ranged(IChar):
         eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(self._char_config["stand_still"], do_release=False)  
-        while (time.time() - start) < self._char_config["atk_len_eldritch"]:      
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        while (time.time() - start) < self._char_config["atk_len_eldritch"]:
             if self._ui_manager.is_right_skill_active():
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
@@ -99,8 +99,8 @@ class Basic_Ranged(IChar):
             shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(self._char_config["stand_still"], do_release=False) 
-        while (time.time() - start) < self._char_config["atk_len_shenk"]:     
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        while (time.time() - start) < self._char_config["atk_len_shenk"]:
             if self._ui_manager.is_right_skill_active():
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
@@ -168,13 +168,13 @@ class Basic_Ranged(IChar):
                     self._left_attack(cast_pos_abs, spray=11)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_len = int(self._char_config["atk_len_nihlatak"])
-        nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-        if nihlatak_pos_abs is None:
+        atk_len = int(self._char_config["atk_len_nihlathak"])
+        nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+        if nihlathak_pos_abs is None:
             return False
-        cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+        cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
         for _ in range(atk_len):
             if self._ui_manager.is_right_skill_active():
                 self._right_attack(cast_pos_abs, spray=11)

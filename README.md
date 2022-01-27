@@ -72,7 +72,7 @@ run_shenk=0
 | run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
 | run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
-| run_nihlathak | Run Nihlatak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_nihlathak | Run Nihlathak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
@@ -104,7 +104,7 @@ run_shenk=0
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
 | atk_len_eldritch   | Attack length for hdin or number of attack sequences for sorc when fighting eldritch |
 | atk_len_shenk      | Attack length for hdin or number of attack sequences for sorc when fighting shenk |
-| atk_len_nihlatak   | Attack length for hdin or number of attack sequences for sorc when fighting nihlatak |
+| atk_len_nihlathak   | Attack length for hdin or number of attack sequences for sorc when fighting nihlathak |
 | atk_len_cs_trashmobs   | Attack length for hdin or number of attack sequences when fighting Trash Mobs in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_vizier   | Attack length for hdin or number of attack sequences when fighting Sealboss A "Vizier of Chaos" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
