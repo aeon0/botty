@@ -232,21 +232,21 @@ class InventoryManager:
         img = self._screen.grab()
         left_panel_open = stash_open = False
         if action == "drop":
-            inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            inventory_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["right_panel_header"]).valid
             if not inventory_open:
                 self.toggle_inventory()
             else:
-                left_panel_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["left_panel_header"], threshold = 0.9).valid
+                left_panel_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["left_panel_header"]).valid
             filtered = [ item for item in items if item.keep == False and item.sell == False ]
         elif action == "sell":
-            left_panel_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["left_panel_header"], threshold = 0.9).valid
+            left_panel_open = self._template_finder.search("CLOSE_PANEL", img, roi = self._config.ui_roi["left_panel_header"]).valid
             if left_panel_open:
                 filtered = [ item for item in items if item.keep == False and item.sell == True ]
             else:
                 Logger.error(f"_handle_items: Can't perform, vendor is not open")
                 filtered = []
         elif action == "stash":
-            stash_open = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"], threshold = 0.9).valid
+            stash_open = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
             if stash_open:
                 left_panel_open = True
                 filtered = [ item for item in items if item.keep == True ]
