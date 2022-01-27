@@ -23,7 +23,7 @@ class PickIt:
 
     def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
         """
-        Pick up just items with specified char
+        Pick up all items with specified char
         :param char: The character used to pick up the item
         :param is_at_trav: Dirty hack to reduce gold pickup only to trav area, should be removed once we can determine the amount of gold reliably
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
