@@ -1,8 +1,7 @@
 import numpy as np
 from typing import List
 import keyboard
-import itertools
-import cv2
+import parse
 
 from utils.misc import cut_roi, wait, color_filter
 from utils.custom_mouse import mouse
@@ -11,13 +10,15 @@ from logger import Logger
 from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
+from item import ItemCropper
 
-class ConsumibleManager:
+class ConsumiblesManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
         self._template_finder = template_finder
         self._consumible_needs = {"rejuv": 0, "health": 0, "mana": 0, "tp": 0, "id": 0, "key": 0}
+        self._item_cropper = ItemCropper(self._template_finder)
         self._item_consumible_map = {
             "misc_rejuvenation_potion": "rejuv",
             "misc_full_rejuvenation_potion": "rejuv",
@@ -25,19 +26,42 @@ class ConsumibleManager:
             "misc_greater_healing_potion": "health",
             "misc_super_mana_potion": "mana",
             "misc_greater_mana_potion": "mana",
-            "misc_scroll_of_town_portal": "tp",
-            "misc_scroll_of_identify": "id",
+            "misc_scroll_tp": "tp",
+            "misc_scroll_id": "id",
             "misc_key": "key"
         }
+        self._pot_rows = {
+            "rejuv": self._config.char["belt_rejuv_columns"],
+            "health": self._config.char["belt_hp_columns"],
+            "mana": self._config.char["belt_mp_columns"],
+        }
 
-    def get_consumible_needs(self):
+    def get_needs(self):
         return self._consumible_needs
 
-    def should_buy(self, item_name: str = None, minimum: int = 2):
+    def reset_needs(self):
+        self._consumible_needs = {"rejuv": 0, "health": 0, "mana": 0, "tp": 0, "id": 0, "key": 0}
+
+    def conv_need_to_remaining(self, item_name: str = None):
+        if item_name is None:
+            Logger.error("conv_need_to_remaining: param item_name is required")
+            return False
+        if item_name in ["health", "mana", "rejuv"]:
+            return self._pot_rows[item_name] * self._config.char["belt_rows"] - self._consumible_needs[item_name]
+        elif item_name in ['tp', 'id']:
+            return 20 - self._consumible_needs[item_name]
+
+    def should_buy(self, item_name: str = None, min_remaining: int = None, min_needed: int = None):
         if item_name is None:
             Logger.error("should_buy: param item_name is required")
             return False
-        return self._consumible_needs[item_name] >= minimum
+        if min_needed:
+            return self._consumible_needs[item_name] >= min_needed
+        elif min_remaining:
+            return self.conv_need_to_remaining(item_name) <= min_remaining
+        else:
+            Logger.error("should_buy: need to specify min_remaining or min_needed")
+            return False
 
     def _potion_type(self, img: np.ndarray) -> str:
         """
@@ -56,10 +80,8 @@ class ConsumibleManager:
         mask, _ = color_filter(img, self._config.colors["rejuv_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # health
-        mask1, _ = color_filter(img, self._config.colors["health_potion_0"])
-        mask2, _ = color_filter(img, self._config.colors["health_potion_1"])
-        mask_health = cv2.bitwise_or(mask1, mask2)
-        score_list.append((float(np.sum(mask_health)) / mask_health.size) * (1/255.0))
+        mask, _ = color_filter(img, self._config.colors["health_potion"])
+        score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # mana
         mask, _ = color_filter(img, self._config.colors["mana_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
@@ -93,49 +115,32 @@ class ConsumibleManager:
                 else:
                     Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                     keyboard.send(self._config.char[key])
-                self.adjust_consumible_need(potion_type, 1)
+                self.increment_consumible_need(potion_type, 1)
                 return True
         return False
 
-    def adjust_consumible_need(self, consumible_type: str = None, quantity: int = 1)
+    def increment_consumible_need(self, consumible_type: str = None, quantity: int = 1):
         """
         Adjust the _consumible_needs of a specific consumible
-        :param consumible_type: Name of item in pickit or in consumible_map 
+        :param consumible_type: Name of item in pickit or in consumible_map
         :param quantity: Increase the need (+int) or decrease the need (-int)
         """
         if consumible_type is None:
             Logger.error("adjust_consumible_need: required param consumible_type not given")
         if consumible_type in self._item_consumible_map:
             consumible_type = self._item_consumible_map[consumible_type]
-        elif consumible_type in _item_consumible_map.values():
-            continue
+        elif consumible_type in self._item_consumible_map.values():
+            pass
         else:
-            Logger.warning(f"ConsumibleManager does not know about item: {consumible_type}")
+            Logger.warning(f"ConsumiblesManager does not know about item: {consumible_type}")
+            return
         self._consumible_needs[consumible_type] = max(0, self._consumible_needs[consumible_type] + quantity)
 
-    def calc_all_needs(self, img: np.ndarray = None, consumible_type: list = []): 
-        rejuv, health, mana = self.calc_pot_needs()
-        tp, ids, key = self.calc_tp_id_key_quantity()
-        return {
-            "rejuv": rejuv, 
-            "health": health, 
-            "mana": mana, 
-            "tp": 20 - tp, 
-            "id": 20 - ids, 
-            "key": 12 - key,
-        }
-
-    def calc_pot_needs(self) -> List[int]:
+    def update_pot_needs(self):
         """
         Check how many pots are needed
-        :return: [need_rejuv_pots, need_health_pots, need_mana_pots]
         """
-        self._consumible_needs = {"rejuv": 0, "health": 0, "mana": 0}
-        rows_left = {
-            "rejuv": self._config.char["belt_rejuv_columns"],
-            "health": self._config.char["belt_hp_columns"],
-            "mana": self._config.char["belt_mp_columns"],
-        }
+        needs = {"rejuv": 0, "health": 0, "mana": 0}
         # In case we are in danger that the mouse hovers the belt rows, move it to the center
         screen_mouse_pos = self._screen.convert_monitor_to_screen(mouse.get_position())
         if screen_mouse_pos[1] > self._config.ui_pos["screen_height"] * 0.72:
@@ -148,9 +153,9 @@ class ConsumibleManager:
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
-                rows_left[potion_type] -= 1
-                if rows_left[potion_type] < 0:
-                    rows_left[potion_type] += 1
+                self._pot_rows[potion_type] -= 1
+                if self._pot_rows[potion_type] < 0:
+                    self._pot_rows[potion_type] += 1
                     key = f"potion{column+1}"
                     for _ in range(5):
                         keyboard.send(self._config.char[key])
@@ -165,37 +170,36 @@ class ConsumibleManager:
                     if potion_type != "empty":
                         current_column = potion_type
                     else:
-                        for key in rows_left:
-                            if rows_left[key] > 0:
-                                rows_left[key] -= 1
-                                self._consumible_needs[key] += self._config.char["belt_rows"]
+                        for key in self._pot_rows:
+                            if self._pot_rows[key] > 0:
+                                self._pot_rows[key] -= 1
+                                needs[key] += self._config.char["belt_rows"]
                                 break
                         break
                 elif current_column is not None and potion_type == "empty":
-                    self._consumible_needs[current_column] += 1
+                    needs[current_column] += 1
         wait(0.2)
-        Logger.debug(f"Will pickup: {self._consumible_needs}")
         keyboard.send(self._config.char["show_belt"])
+        self._consumible_needs["health"] = needs["health"]
+        self._consumible_needs["mana"] = needs["mana"]
+        self._consumible_needs["rejuv"] = needs["rejuv"]
 
-    def calc_tp_id_key_quantity(self, img: np.ndarray = None, item_type: str = "tp"):
+    def update_tome_key_needs(self, img: np.ndarray = None, item_type: str = "tp"):
         if img is None:
-            self.toggle_inventory("open")
+            self._inventory_manager.toggle_inventory("open")
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
             state, pos = self._tome_state(img, item_type)
-            if not state:
-                return -1
             if state == "empty":
-                return 0
+                self._consumible_needs[item_type] = 0
+                return
             # else the tome exists and is not empty, continue
-        elif item_type.lower() in ["key", "keys"]:
-            result = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
-            if not result.valid:
-                return -1
-            pos = self._screen.convert_screen_to_monitor(result.position)
+        elif item_type.lower() in ["key"]:
+            res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
+            pos = self._screen.convert_screen_to_monitor(res.position)
         else:
-            Logger.error(f"get_quantity failed, item_type:{item_type} not supported")
-            return -1
+            Logger.error(f"get_quantity failed, item_type: {item_type} not supported")
+            return
         mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
         wait(0.2, 0.4)
         hovered_item = self._screen.grab()
@@ -203,17 +207,15 @@ class ConsumibleManager:
         try:
             item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")[0]
             result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
-            return result
+            self._consumible_needs[item_type] = result
         except:
             Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
-            return -1
-
 
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    consumible_manager = ConsumibleManager(screen, template_finder)
-    consumible_manager.update_consumible_needs()
-    print(consumible_manager._consumible_needs)
+    consumibles_manager = ConsumiblesManager(screen, template_finder)
+    consumibles_manager.update_consumible_needs()
+    print(consumibles_manager._consumible_needs)

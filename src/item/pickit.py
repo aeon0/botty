@@ -8,14 +8,14 @@ from logger import Logger
 from screen import Screen
 from item import ItemFinder, Item
 from ui import UiManager
-from ui import ConsumibleManager
+from ui import ConsumiblesManager
 from char import IChar
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, consumible_manager: ConsumibleManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, consumibles_manager: ConsumiblesManager):
         self._item_finder = item_finder
         self._screen = screen
-        self._consumible_manager = consumible_manager
+        self._consumibles_manager = consumibles_manager
         self._ui_manager = ui_manager
         self._config = Config()
         self._last_closest_item: Item = None
@@ -56,14 +56,21 @@ class PickIt:
                         cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
                         cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
 
-            # Check if we need to pick up certain pots more pots
-            need_pots = self._consumible_manager.get_pot_needs()
-            if need_pots["mana"] <= 0:
+            # Check if we need to pick up any consumibles
+            needs = self._consumibles_manager.get_needs()
+            if needs["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
-            if need_pots["health"] <= 0:
+            if needs["health"] <= 0:
                 item_list = [x for x in item_list if "healing_potion" not in x.name]
-            if need_pots["rejuv"] <= 0:
+            if needs["rejuv"] <= 0:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+            if needs["tp"] <= 0:
+                item_list = [x for x in item_list if "scroll_tp" not in x.name]
+            if needs["id"] <= 0:
+                item_list = [x for x in item_list if "scroll_id" not in x.name]
+            if needs["key"] <= 0:
+                item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
             if self._config.char["gold_trav_only"] and not is_at_trav:
@@ -117,11 +124,11 @@ class PickIt:
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
                 if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
-                    # if potion is picked up, record it in the belt manager
-                    if "potion" in closest_item.name:
-                        self._consumible_manager.adjust_consumible_need(closest_item.name, -1)
+                    # if potion is picked up, record it in the consumibles manager
+                    if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name) or ("misc_key" == closest_item.name):
+                        self._consumibles_manager.increment_consumible_need(closest_item.name, -1)
                     # no need to stash potions, scrolls, or gold
-                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
+                    if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
@@ -167,10 +174,10 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
-    consumible_manager = ConsumibleManager(screen, t_finder)
-    consumible_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
+    consumibles_manager = ConsumiblesManager(screen, t_finder)
+    consumibles_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, consumible_manager)
+    pickit = PickIt(screen, item_finder, ui_manager, consumibles_manager)
     print(pickit.pick_up_items(char))

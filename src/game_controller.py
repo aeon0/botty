@@ -55,7 +55,7 @@ class GameController:
         # Register that thread to the death and health manager so they can stop the bot thread if needed
         self.death_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
-        self.health_manager.set_consumible_manager(self.bot.get_consumible_manager())
+        self.health_manager.set_consumibles_manager(self.bot.get_consumibles_manager())
         do_restart = False
         messenger = Messenger()
         while 1:
@@ -132,7 +132,7 @@ class GameController:
         if self.bot_thread: kill_thread(self.bot_thread)
         if self.game_controller_thread: kill_thread(self.game_controller_thread)
         GameController.is_running = False
-       
+
     def setup_screen(self):
         self.screen = Screen(self._config.general["monitor"])
         if self.screen.found_offsets:

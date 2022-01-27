@@ -6,7 +6,6 @@ import itertools
 import cv2
 import os
 import time
-import parse
 
 from utils.misc import wait, trim_black, color_filter, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
@@ -616,7 +615,7 @@ class InventoryManager:
         wait(0.5, 0.6)
         return True
 
-    def buy_item(self, template_name: str, quantity: int = 0, img: np.ndarray = None, shift_click: bool = False) -> bool:
+    def buy_item(self, template_name: str, quantity: int = 1, img: np.ndarray = None, shift_click: bool = False) -> bool:
         """
         Buy desired item from vendors. Vendor inventory needs to be open!
         :param template_name: Name of template for desired item to buy; e.g., SUPER_MANA_POTION
