@@ -202,6 +202,7 @@ class TownManager:
                 items = self._inventory_manager._transfer_items(items, action = "sell", close = False)
             if self._inventory_manager.repair():
                 if refill_tomes:
+                    self._inventory_manager.switch_to_misc_tab()
                     self._inventory_manager.exchange_tomes()
                     wait(0.1, 0.2)
                 self._inventory_manager.toggle_inventory(action = "close")
@@ -213,7 +214,9 @@ class TownManager:
         if items:
             items = self._inventory_manager._transfer_items(items, action = "sell", close = False)
         if self._inventory_manager.repair():
-            self._inventory_manager.exchange_tomes()
+            if refill_tomes:
+                self._inventory_manager.exchange_tomes()
+                self._inventory_manager.switch_to_misc_tab()
             wait(0.1, 0.2)
             self._inventory_manager.toggle_inventory(action = "close")
             return new_loc, items

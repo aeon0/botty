@@ -319,11 +319,11 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        repair_by_freq = True if self._config.char["runs_per_repair"] and (self._game_stats._run_counter % self._config.char["runs_per_repair"] == 0) else False
-        if need_repair or sell_items or repair_by_freq:
+        need_routine_repair = True if self._config.char["runs_per_repair"] and ((self._game_stats._run_counter) % self._config.char["runs_per_repair"] == 0) else False
+        if need_repair or sell_items or need_routine_repair:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             elif sell_items: Logger.info("Selling items")
-            else: Logger.info("Repairing and exchanging tomes at next Vendor")
+            else: Logger.info("Repairing items and exchanging tomes at next Vendor")
             refill_tomes = (
                 self._consumibles_manager.should_buy("tp", min_needed = random.randint(3, 5)) or
                 self._consumibles_manager.should_buy("id", min_needed = random.randint(3, 5))

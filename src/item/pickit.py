@@ -52,10 +52,13 @@ class PickIt:
                 timestamp = time.strftime("%Y%m%d_%H%M%S")
                 for cnt, item in enumerate(item_list):
                     for cnt2, x in enumerate(item.ocr_result['word_confidences']):
+                        found_low_confidence = False
                         if x <= 88:
                             Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
-                    cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
-                    cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
+                            found_low_confidence = True
+                        if found_low_confidence:
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
 
             # Check if we need to pick up any consumibles
             needs = self._consumibles_manager.get_needs()

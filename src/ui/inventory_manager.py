@@ -610,14 +610,18 @@ class InventoryManager:
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.1, 0.15)
-        x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
-        mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
-        wait(0.1, 0.15)
-        mouse.click(button="left")
         # another click to dismiss popup message in case you have not enough gold to repair, preventing tome not being bought back
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
+        return True
+
+    def switch_to_misc_tab(self) -> bool:
+        x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["vendor_misc_x"], self._config.ui_pos["vendor_misc_y"]))
+        mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
+        wait(0.1, 0.15)
+        mouse.click(button="left")
+        wait(0.2, 0.4)
         return True
 
     def buy_item(self, template_name: str, quantity: int = 1, img: np.ndarray = None, shift_click: bool = False) -> bool:
