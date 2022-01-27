@@ -10,10 +10,10 @@ import time
 
 
 class DeathManager:
-    def __init__(self, screen: Screen):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
-        self._template_finder = TemplateFinder(screen)
+        self._template_finder = template_finder
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
@@ -36,8 +36,9 @@ class DeathManager:
         return self._died
 
     @staticmethod
-    def pick_up_corpse(config: Config, screen: Screen):
+    def pick_up_corpse(screen: Screen):
         Logger.debug("Pick up corpse")
+        config = Config()
         x, y = screen.convert_screen_to_monitor((config.ui_pos["corpse_x"], config.ui_pos["corpse_y"]))
         mouse.move(x, y)
         mouse.click(button="left")
@@ -90,4 +91,4 @@ if __name__ == "__main__":
     config = Config()
     screen = Screen(config.general["monitor"])
     manager = DeathManager(screen)
-    manager.pick_up_corpse(config, screen)
+    manager.pick_up_corpse(screen)

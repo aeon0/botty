@@ -19,7 +19,7 @@ class Npc:
     #A2
     FARA = "fara"
     DROGNAN = "droganan"
-    LYSANDER = "lysander"       
+    LYSANDER = "lysander"
     #A3
     ORMUS = "ormus"
     #A4

@@ -69,7 +69,7 @@ class AnyaShopper:
 
 
         self._screen = Screen(config.general["monitor"])
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"])
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder

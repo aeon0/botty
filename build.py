@@ -4,6 +4,9 @@ from pathlib import Path
 from src.version import __version__
 import argparse
 import getpass
+import random
+from cryptography.fernet import Fernet
+import string
 
 
 parser = argparse.ArgumentParser(description="Build Botty")
@@ -18,11 +21,20 @@ parser.add_argument(
     type=str,
     help="Path to local conda e.g. C:\\Users\\USER\\miniconda3",
     default=f"C:\\Users\\{getpass.getuser()}\\miniconda3")
+parser.add_argument(
+    "-r", "--random_name",
+    action='store_true',
+    help="Will generate a random name for the botty exe")
+parser.add_argument(
+    "-k", "--use_key",
+    action='store_true',
+    help="Will build with encryption key")
 args = parser.parse_args()
 
 
 # clean up
 def clean_up():
+    # pyinstaller
     if os.path.exists("build"):
         shutil.rmtree("build")
     if os.path.exists("main.spec"):
@@ -59,13 +71,17 @@ if __name__ == "__main__":
                 shutil.rmtree(path)
         shutil.rmtree(botty_dir)
 
-    for exe in ["main.py", "shopper.py", "health_manager.py"]:
-        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
+    for exe in ["main.py", "shopper.py"]:
+        key_cmd = " "
+        if args.use_key:
+            key = Fernet.generate_key().decode("utf-8")
+            key_cmd = " --key " + key
+        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
 
     os.system(f"cd {botty_dir} && mkdir config && cd ..")
 
-    with open(f"{botty_dir}/config/custom.ini", "w") as f: 
+    with open(f"{botty_dir}/config/custom.ini", "w") as f:
         f.write("; Add parameters you want to overwrite from param.ini here")
     shutil.copy("config/game.ini", f"{botty_dir}/config/")
     shutil.copy("config/params.ini", f"{botty_dir}/config/")
@@ -74,6 +90,11 @@ if __name__ == "__main__":
     shutil.copy("README.md", f"{botty_dir}/")
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()
+
+    if args.random_name:
+        print("Generate random names")
+        new_name = ''.join(random.choices(string.ascii_letters, k=random.randint(6, 14)))
+        os.rename(f'{botty_dir}/main.exe', f'{botty_dir}/{new_name}.exe')
 
     if new_version_code is not None:
         os.system(f'git add .')
