@@ -20,7 +20,7 @@ class HealthManager:
         self._screen = screen
         self._template_finder = template_finder
         self._ui_manager = UiManager(screen, self._template_finder)
-        self._consumibles_manager = None # must be set with the belt manager form bot.py
+        self._consumibles_manager = None # must be set with the belt manager from bot.py
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()

@@ -626,7 +626,7 @@ class InventoryManager:
         """
         if img is None:
             img = self._screen.grab()
-        desired_item = self._template_finder.search(template_name, img=img, roi=self._config.ui_roi["vendor_stash"])
+        desired_item = self._template_finder.search(template_name, inp_img=img, roi=self._config.ui_roi["vendor_stash"])
         if desired_item.valid:
             x, y = self._screen.convert_screen_to_monitor(desired_item.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])

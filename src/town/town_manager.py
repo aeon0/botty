@@ -6,7 +6,7 @@ from pather import Location
 from logger import Logger
 from ui import UiManager
 from ui import InventoryManager
-from ui import ConsumibleManager
+from ui import ConsumiblesManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
@@ -105,10 +105,10 @@ class TownManager:
             # Buy HP pots
             if needs["health"] > 0:
                 can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
-                if self._inventory_manager.buy_item(self, template_name="SUPER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                if self._inventory_manager.buy_item(template_name = "SUPER_HEALING_POTION", quantity = needs["health"], shift_click = can_shift_click):
                     needs["health"] = 0
                 else:
-                    if self._inventory_manager.buy_item(self, template_name="GREATER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                    if self._inventory_manager.buy_item(template_name="GREATER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
                         needs["health"] = 0
                     else:
                         Logger.error("buy_consumibles: Error purchasing health potions")
@@ -116,31 +116,31 @@ class TownManager:
             # Buy mana pots
             if needs["mana"] > 0:
                 can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
-                if self._inventory_manager.buy_item(self, template_name="SUPER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                if self._inventory_manager.buy_item(template_name="SUPER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
                     needs["mana"] = 0
                 else:
-                    if self._inventory_manager.buy_item(self, template_name="GREATER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                    if self._inventory_manager.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
                         needs["mana"] = 0
                     else:
                         Logger.error("buy_consumibles: Error purchasing mana potions")
                         return False, items, needs
             # Buy TP scrolls
             if needs["tp"] > 0:
-                if self._inventory_manager.buy_item(self, template_name="INV_SCROLL_TP", shift_click = True):
+                if self._inventory_manager.buy_item(template_name="INV_SCROLL_TP", shift_click = True):
                     needs["tp"] = 0
                 else:
                     Logger.error("buy_consumibles: Error purchasing teleport scrolls")
                     return False, items, needs
             # Buy ID scrolls
             if needs["id"] > 0:
-                if self._inventory_manager.buy_item(self, template_name="INV_SCROLL_ID", shift_click = True):
+                if self._inventory_manager.buy_item(template_name="INV_SCROLL_ID", shift_click = True):
                     needs["id"] = 0
                 else:
                     Logger.error("buy_consumibles: Error purchasing ID scrolls")
                     return False, items, needs
             # Buy keys
-            if needs["keys"] > 0:
-                if self._inventory_manager.buy_item(self, template_name="INV_KEY", shift_click = True):
+            if needs["key"] > 0:
+                if self._inventory_manager.buy_item(template_name="INV_KEY", shift_click = True):
                     needs["key"] = 0
                 else:
                     Logger.error("buy_consumibles: Error purchasing keys")

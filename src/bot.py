@@ -244,8 +244,8 @@ class Bot:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             # Update TP, ID, key needs
-            if self._game_stats._game_counter() == 0:
-                id_state = self._inventory_manager._tome_state('id')[0]
+            if self._game_stats._game_counter == 1:
+                id_state = self._inventory_manager._tome_state(img, 'id')[0]
                 self._use_id_tome = True if id_state else False
                 self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9).valid
             if self._no_stash_counter % 4 == 0:

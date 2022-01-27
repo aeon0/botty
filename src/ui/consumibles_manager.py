@@ -2,6 +2,8 @@ import numpy as np
 from typing import List
 import keyboard
 import parse
+import time
+import cv2
 
 from utils.misc import cut_roi, wait, color_filter
 from utils.custom_mouse import mouse
@@ -46,10 +48,14 @@ class ConsumiblesManager:
         if item_name is None:
             Logger.error("conv_need_to_remaining: param item_name is required")
             return False
-        if item_name in ["health", "mana", "rejuv"]:
+        if item_name.lower() in ["health", "mana", "rejuv"]:
             return self._pot_rows[item_name] * self._config.char["belt_rows"] - self._consumible_needs[item_name]
-        elif item_name in ['tp', 'id']:
+        elif item_name.lower() in ['tp', 'id']:
             return 20 - self._consumible_needs[item_name]
+        elif item_name.lower() == "key":
+            return 12 - self._consumible_needs[item_name]
+        else:
+            Logger.error(f"conv_need_to_remaining: error with item_name={item_name}")
 
     def should_buy(self, item_name: str = None, min_remaining: int = None, min_needed: int = None):
         if item_name is None:
@@ -189,10 +195,13 @@ class ConsumiblesManager:
             self._inventory_manager.toggle_inventory("open")
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
-            state, pos = self._tome_state(img, item_type)
-            if state == "empty":
-                self._consumible_needs[item_type] = 0
-                return
+            tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
+            if tome_found.valid:
+                if tome_found.name == f"{item_type.upper()}_TOME_RED":
+                    self._consumible_needs[item_type] = 0
+                    return
+                else:
+                    pos = self._screen.convert_screen_to_monitor(tome_found.position)
             # else the tome exists and is not empty, continue
         elif item_type.lower() in ["key"]:
             res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
@@ -201,15 +210,20 @@ class ConsumiblesManager:
             Logger.error(f"get_quantity failed, item_type: {item_type} not supported")
             return
         mouse.move(pos[0], pos[1], randomize=4, delay_factor=[0.5, 0.7])
-        wait(0.2, 0.4)
+        wait(0.2, 0.2)
         hovered_item = self._screen.grab()
         # get the item description box
         try:
             item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")[0]
             result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
-            self._consumible_needs[item_type] = result
+            if item_type.lower() in ["tp", "id"]:
+                self._consumible_needs[item_type] = 20 - result
+            if item_type.lower() == "key":
+                self._consumible_needs[item_type] = 12 - result
         except:
             Logger.error(f"get_consumible_quantity: Failed to capture item description box for {item_type}")
+            if self._config.general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
 
 if __name__ == "__main__":
     keyboard.wait("f11")
