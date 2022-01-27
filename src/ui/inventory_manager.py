@@ -413,7 +413,6 @@ class InventoryManager:
         """
         Stashing all items in inventory. Stash UI must be open when calling the function.
         """
-        Logger.debug("Searching for inventory gold btn...")
         self.center_mouse()
         # Wait till gold btn is found
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
@@ -461,7 +460,7 @@ class InventoryManager:
         self._move_to_stash_tab(self._curr_stash["items"])
         while self._curr_stash["items"] <= 3:
             img = self._screen.grab()
-            found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"], threshold = 0.80)
+            found_empty_slot = self._template_finder.search("STASH_EMPTY_SLOT", img, roi = self._config.ui_roi["vendor_stash"])
             if found_empty_slot.valid:
                 break
             else:
