@@ -1,0 +1,289 @@
+======================== current error_number 1
+[2022-01-27 19:35:08,739] DEBUG      Traverse: [622]
+[2022-01-27 19:35:09,602] DEBUG      Traverse: [622]
+[2022-01-27 19:35:09,702] INFO       A2-Y: Static Pathing to Pentagram
+[2022-01-27 19:35:11,644] INFO       A2-Y: Looping to PENTAGRAM
+[2022-01-27 19:35:11,644] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-27 19:35:12,035] DEBUG      Found Match: DIA_NEW_PENT_TP (88.9% confidence)
+[2022-01-27 19:35:12,035] DEBUG      Traverse: [602]
+[2022-01-27 19:35:12,822] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[2022-01-27 19:35:18,406] DEBUG      Took a screenshot of current loot
+[2022-01-27 19:35:19,149] DEBUG      Traverse: [602]
+[2022-01-27 19:35:26,488] DEBUG      B: Checking Layout for De Seis
+[2022-01-27 19:35:26,548] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-27 19:35:27,557] DEBUG      Could not find any of the above templates
+[2022-01-27 19:35:27,558] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-27 19:35:27,558] DEBUG      Traverse: [647]
+[2022-01-27 19:35:31,318] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-27 19:35:37,635] ERROR      Got stuck exit pather
+[2022-01-27 19:35:38,040] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 19:35:38,058] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 19:35:40,283] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+======================== current error_number 2
+[2022-01-27 19:37:13,396] DEBUG      Traverse: [612]
+[2022-01-27 19:37:13,700] DEBUG      Traverse: [611]
+[2022-01-27 19:37:14,623] INFO       A1-L: Static Pathing to Pentagram
+[2022-01-27 19:37:16,933] INFO       A1-L: Looping to Pentagram
+[2022-01-27 19:37:16,933] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-27 19:37:17,297] DEBUG      Found Match: DIA_NEW_PENT_TP (94.9% confidence)
+[2022-01-27 19:37:17,297] DEBUG      Traverse: [602]
+[2022-01-27 19:37:17,437] INFO       A1-L: finished seal & calibrated at PENTAGRAM
+[2022-01-27 19:37:23,306] DEBUG      Took a screenshot of current loot
+[2022-01-27 19:37:24,420] DEBUG      Traverse: [602]
+[2022-01-27 19:37:31,154] DEBUG      B: Checking Layout for De Seis
+[2022-01-27 19:37:31,214] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-27 19:37:32,176] DEBUG      Could not find any of the above templates
+[2022-01-27 19:37:32,176] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-27 19:37:32,176] DEBUG      Traverse: [647]
+[2022-01-27 19:37:35,921] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-27 19:37:42,095] ERROR      Got stuck exit pather
+[2022-01-27 19:37:42,480] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 19:37:42,508] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 19:37:44,582] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+======================== current error_number 3
+[2022-01-27 20:25:31,806] DEBUG      ROF: Calibrated at WAYPOINT
+[2022-01-27 20:25:38,093] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1281)
+[2022-01-27 20:25:42,579] INFO       ROF: Teleporting directly to PENTAGRAM
+[2022-01-27 20:25:42,580] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:43,446] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:44,181] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:44,941] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:45,700] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1491)
+[2022-01-27 20:25:46,249] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:47,016] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:47,784] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:48,566] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:49,367] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:50,168] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:50,947] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:51,720] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:52,518] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-27 20:25:53,697] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 20:25:53,715] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 20:25:56,197] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+======================== current error_number 4
+[2022-01-27 21:40:07,415] DEBUG      Traverse: [611]
+[2022-01-27 21:40:08,321] INFO       A1-L: Static Pathing to Pentagram
+[2022-01-27 21:40:10,660] INFO       A1-L: Looping to Pentagram
+[2022-01-27 21:40:10,661] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-27 21:40:10,766] DEBUG      Found Match: DIA_NEW_PENT_1 (85.8% confidence)
+[2022-01-27 21:40:10,766] DEBUG      Traverse: [602]
+[2022-01-27 21:40:11,592] INFO       A1-L: finished seal & calibrated at PENTAGRAM
+[2022-01-27 21:40:17,006] DEBUG      Took a screenshot of current loot
+[2022-01-27 21:40:17,898] DEBUG      Traverse: [602]
+[2022-01-27 21:40:23,052] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1203)
+[2022-01-27 21:40:25,320] DEBUG      B: Checking Layout for De Seis
+[2022-01-27 21:40:25,381] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-27 21:40:26,369] DEBUG      Could not find any of the above templates
+[2022-01-27 21:40:26,370] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-27 21:40:26,370] DEBUG      Traverse: [647]
+[2022-01-27 21:40:29,597] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-27 21:40:35,378] ERROR      Got stuck exit pather
+[2022-01-27 21:40:35,761] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 21:40:35,806] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 21:40:38,118] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+======================== current error_number 5
+[2022-01-27 22:26:46,321] DEBUG      Traverse: [626]
+[2022-01-27 22:26:46,750] DEBUG      A2-Y-Boss: trying to open (try #5 of 7)
+[2022-01-27 22:26:47,313] ERROR      Wanted to select ['DIA_A2Y4_36_CLOSED', 'DIA_A2Y4_36_MOUSEOVER'], but could not find it
+[2022-01-27 22:26:49,314] DEBUG      Waiting for Template ['DIA_A2Y4_36_OPEN']
+[2022-01-27 22:26:49,876] DEBUG      A2-Y-Boss: [91mnot open[0m
+[2022-01-27 22:26:50,304] DEBUG      A2-Y-Boss: failed 6 of 7 times, trying to kill trash now
+[2022-01-27 22:26:50,304] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-01-27 22:26:55,786] DEBUG      Took a screenshot of current loot
+[2022-01-27 22:26:58,819] DEBUG      Traverse: [626]
+[2022-01-27 22:26:59,261] DEBUG      A2-Y-Boss: trying to open (try #6 of 7)
+[2022-01-27 22:26:59,833] ERROR      Wanted to select ['DIA_A2Y4_36_CLOSED', 'DIA_A2Y4_36_MOUSEOVER'], but could not find it
+[2022-01-27 22:27:02,337] DEBUG      Waiting for Template ['DIA_A2Y4_36_OPEN']
+[2022-01-27 22:27:02,869] DEBUG      A2-Y-Boss: [91mnot open[0m
+[2022-01-27 22:27:03,305] DEBUG      A2-Y-Boss: failed 7 of 7 times, trying to kill trash now
+[2022-01-27 22:27:03,305] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-01-27 22:27:08,695] DEBUG      Took a screenshot of current loot
+[2022-01-27 22:27:12,259] DEBUG      Traverse: [626]
+[2022-01-27 22:27:13,039] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 22:27:13,069] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 22:27:15,272] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+======================== current error_number 6
+[2022-01-27 22:32:49,452] DEBUG      Traverse: [622]
+[2022-01-27 22:32:49,673] INFO       A2-Y: Static Pathing to Pentagram
+[2022-01-27 22:32:51,781] INFO       A2-Y: Looping to PENTAGRAM
+[2022-01-27 22:32:51,782] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-27 22:32:52,175] DEBUG      Found Match: DIA_NEW_PENT_TP (92.2% confidence)
+[2022-01-27 22:32:52,175] DEBUG      Traverse: [602]
+[2022-01-27 22:32:53,223] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[2022-01-27 22:32:59,112] DEBUG      Took a screenshot of current loot
+[2022-01-27 22:33:00,220] DEBUG      Traverse: [602]
+[2022-01-27 22:33:06,243] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1497)
+[2022-01-27 22:33:08,011] DEBUG      B: Checking Layout for De Seis
+[2022-01-27 22:33:08,070] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-27 22:33:09,090] DEBUG      Could not find any of the above templates
+[2022-01-27 22:33:09,091] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-27 22:33:09,091] DEBUG      Traverse: [647]
+[2022-01-27 22:33:12,437] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-27 22:33:18,266] ERROR      Got stuck exit pather
+[2022-01-27 22:33:18,685] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-27 22:33:18,748] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-27 22:33:21,073] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
++-----------------------------------------------------------------+--------+
+|                             String                              | amount |
++-----------------------------------------------------------------+--------+
+|                          Starting game                          |  48.0  |
++-----------------------------------------------------------------+--------+
+|                           Run Diablo                            |  48.0  |
++-----------------------------------------------------------------+--------+
+|                   ROF: Calibrated at WAYPOINT                   |  48.0  |
++-----------------------------------------------------------------+--------+
+|                  ROF: Calibrated at PENTAGRAM                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|             ROF: Teleporting directly to PENTAGRAM              |  48.0  |
++-----------------------------------------------------------------+--------+
+|                           CS: OPEN TP                           |  47.0  |
++-----------------------------------------------------------------+--------+
+|                   CS: Calibrated at PENTAGRAM                   |  47.0  |
++-----------------------------------------------------------------+--------+
+|                   Checking Layout for Vizier                    |  47.0  |
++-----------------------------------------------------------------+--------+
+|                   Checking Layout for De Seis                   |  45.0  |
++-----------------------------------------------------------------+--------+
+|                  Checking Layout for Infector                   |  40.0  |
++-----------------------------------------------------------------+--------+
+|                   Waiting for Diablo to spawn                   |  40.0  |
++-----------------------------------------------------------------+--------+
+|                            End game                             |  41.0  |
++-----------------------------------------------------------------+--------+
+|                        Trying to chicken                        |  1.0   |
++-----------------------------------------------------------------+--------+
+|                          You have died                          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A1-L: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A1-L: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  A1-L: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A1-L: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A1-L: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         A1-L: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               A1-L: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               A1-L: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| A1-L: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A1-L: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          A1-L: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A2-Y: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A2-Y: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  A2-Y: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A2-Y: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A2-Y: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         A2-Y: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               A2-Y: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               A2-Y: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| A2-Y: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   A2-Y: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          A2-Y: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B1-S: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B1-S: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  B1-S: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B1-S: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B1-S: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         B1-S: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               B1-S: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               B1-S: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| B1-S: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B1-S: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          B1-S: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B2-U: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B2-U: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  B2-U: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B2-U: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B2-U: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         B2-U: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               B2-U: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               B2-U: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| B2-U: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   B2-U: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          B2-U: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C1-F: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C1-F: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  C1-F: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C1-F: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C1-F: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         C1-F: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               C1-F: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               C1-F: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| C1-F: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C1-F: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          C1-F: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C2-G: Layout_check step 1/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C2-G: Layout_check step 2/2                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                  C2-G: Starting to clear Seal                   |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C2-G: Boss: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C2-G: Fake: trying to open                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|                         C2-G: Kill Boss                         |  0.0   |
++-----------------------------------------------------------------+--------+
+|               C2-G: Attacking Vizier at position                |  0.0   |
++-----------------------------------------------------------------+--------+
+|               C2-G: Attacking De Seis at position               |  0.0   |
++-----------------------------------------------------------------+--------+
+| C2-G: Attacking Infector at positionStatic Pathing to Pentagram |  0.0   |
++-----------------------------------------------------------------+--------+
+|                   C2-G: Looping to Pentagram                    |  0.0   |
++-----------------------------------------------------------------+--------+
+|          C2-G: finished seal & calibrated at PENTAGRAM          |  0.0   |
++-----------------------------------------------------------------+--------+

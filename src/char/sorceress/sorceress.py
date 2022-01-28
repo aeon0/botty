@@ -10,12 +10,16 @@ from utils.misc import wait
 import time
 from typing import Tuple
 from pather import Pather
+import cv2 #for Diablo
+from item.pickit import PickIt #for Diablo
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
+        self._pickit = pickit #for Diablo
+        self._picked_up_items = False #for Diablo
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):

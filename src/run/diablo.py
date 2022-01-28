@@ -93,18 +93,18 @@ class Diablo:
     #CLEAR CS TRASH
     def _entrance_hall(self) -> bool:
         Logger.info("CS: Starting to clear Trash")
-        if not self._pather.traverse_nodes([677], self._char, time_out=3): return False 
+        if not self._pather.traverse_nodes([677], self._char): return False #, time_out=3): return False 
         Logger.debug("Kill trash at location: entrance_hall_01")
         self._char.kill_cs_trash("entrance_hall_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # Gets to door and checks starts attacks and picks up items
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
         Logger.debug("Kill trash at location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02") # since theres probably a mob there just lands and attacks
-        if not self._pather.traverse_nodes([670,671], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([670,671], self._char): return False # , time_out=3):
         Logger.debug("Kill trash at location: entrance_hall_03")
         self._char.kill_cs_trash("entrance_hall_03") 
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
-        if not self._pather.traverse_nodes([671], self._char, time_out=3): return False # re centers it self
+        if not self._pather.traverse_nodes([671], self._char): return False # , time_out=3): # re centers it self
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self._char) # Moves to second open area
         
         templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18"] #Entrance 1 Refrences
@@ -123,13 +123,13 @@ class Diablo:
                 Logger.info("Entrance Layout: " + entrance2_layout)
                 Logger.debug("Kill trash at location: entrance2_01")
                 self._char.kill_cs_trash("entrance2_01")
-                if not self._pather.traverse_nodes([682], self._char, time_out=3): return False
+                if not self._pather.traverse_nodes([682], self._char): return False # , time_out=3):
                 Logger.debug("Kill trash at location: entrance2_02")
                 self._char.kill_cs_trash("entrance2_02")
                 Logger.info(entrance2_layout + " - cleaning hall 1/3")
-                if not self._pather.traverse_nodes([682], self._char, time_out=3): return False
+                if not self._pather.traverse_nodes([682], self._char): return False # , time_out=3):
                 self._pather.traverse_nodes_fixed("diablo_entrance2_1", self._char)
-                if not self._pather.traverse_nodes([683], self._char, time_out=3): return False
+                if not self._pather.traverse_nodes([683], self._char): return False # , time_out=3):
                 Logger.info(entrance2_layout + " - cleaning hall 2/3")
                 Logger.debug("Kill trash at location: entrance2_03")
                 self._char.kill_cs_trash("entrance2_03")
@@ -155,7 +155,7 @@ class Diablo:
                 Logger.info(entrance1_layout + " - cleaning hall 1/3")
                 Logger.debug("Kill trash at location: entrance1_01")
                 self._char.kill_cs_trash("entrance1_01") # Lands on location and starts attacking
-                if not self._pather.traverse_nodes([673], self._char, time_out=3): return False # Re-adjust itself and continues to attack
+                if not self._pather.traverse_nodes([673], self._char): return False # , time_out=3): # Re-adjust itself and continues to attack
                 Logger.debug("Kill trash at location: entrance1_02")
                 self._char.kill_cs_trash("entrance1_02")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -181,7 +181,7 @@ class Diablo:
         
 
     def _river_of_flames(self) -> bool:
-        if not self._pather.traverse_nodes([600], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([600], self._char): return False # , time_out=3):
         Logger.debug("ROF: Calibrated at WAYPOINT")
         self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
         Logger.info("ROF: Teleporting directly to PENTAGRAM")
@@ -199,7 +199,7 @@ class Diablo:
         
 
     def _river_of_flames_trash(self) -> bool:
-        if not self._pather.traverse_nodes([600], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([600], self._char): return False # , time_out=3):
         Logger.debug("ROF: Calibrated at WAYPOINT")
         self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
         Logger.debug("Kill trash at location: rof_01")
@@ -266,22 +266,22 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        if not self._pather.traverse_nodes([614], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([614], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([615], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([615], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
         ### GO HOME ###
-        if not self._pather.traverse_nodes([611], self._char, time_out=3): return False # calibrating here brings us home with higher consistency.
+        if not self._pather.traverse_nodes([611], self._char): return False # , time_out=3): # calibrating here brings us home with higher consistency.
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a1l_home", self._char): return False
         Logger.info(seal_layout + ": Looping to Pentagram")
         if not self._loop_pentagram("dia_a1l_home_loop"): return False
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
@@ -300,23 +300,23 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        if not self._pather.traverse_nodes([625], self._char, time_out=3): return False #recalibrate after loot & at seal
+        if not self._pather.traverse_nodes([625], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([626], self._char, time_out=3): return False #recalibrate after loot & at seal
+        if not self._pather.traverse_nodes([626], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
         ### GO HOME ###
-        if not self._pather.traverse_nodes([622], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([622], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         if not self._pather.traverse_nodes_fixed("dia_a2y_home", self._char): return False
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a2y_home_loop"): return False
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
@@ -336,13 +336,14 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([634], self._char, time_out=3): return False #recalibrate after loot & at seal
+        if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### GO HOME ###
-        if not self._pather.traverse_nodes([633, 634], self._char, time_out=3): return False 
+        if not self._pather.traverse_nodes([633, 634], self._char): return False # , time_out=3): 
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -366,13 +367,14 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([644], self._char, time_out=3): return False #recalibrate after loot & at seal
+        if not self._pather.traverse_nodes([644], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### GO HOME ###
-        if not self._pather.traverse_nodes([640], self._char, time_out=3): return False # recalibrate after loot
+        if not self._pather.traverse_nodes([640], self._char): return False # , time_out=3): # recalibrate after loot
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -397,22 +399,22 @@ class Diablo:
         ### APPROACH SEAL ###        
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        if not self._pather.traverse_nodes([655], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([652], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([652], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         ### GO HOME ###
-        if not self._pather.traverse_nodes([654], self._char, time_out=3): return False # this node often is not found
+        if not self._pather.traverse_nodes([654], self._char): return False # , time_out=3): # this node often is not found
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_c1f_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c1f_home_loop"): return False
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
@@ -431,22 +433,22 @@ class Diablo:
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_boss")
-        if not self._pather.traverse_nodes([662], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([662], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         Logger.debug(seal_layout + "_fake: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_fake")
-        if not self._pather.traverse_nodes([665], self._char, time_out=3): return False  #recalibrate after loot & at seal
+        if not self._pather.traverse_nodes([665], self._char): return False # , time_out=3):  #recalibrate after loot & at seal
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False       
         ### GO HOME ###
-        if not self._pather.traverse_nodes([665], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([665], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_c2g_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c2g_home_loop"): return False
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
@@ -466,12 +468,12 @@ class Diablo:
 
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         #self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
         Logger.info("A: Checking Layout for Vizier")
-        if not self._pather.traverse_nodes([619], self._char, time_out=3): return False # HEUREKA, I merged the templates of both A1L and A2Y into this node. So it should calibrate independent of layout.
+        if not self._pather.traverse_nodes([619], self._char): return False # , time_out=3): # HEUREKA, I merged the templates of both A1L and A2Y into this node. So it should calibrate independent of layout.
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"] # We check for A2Y templates first, they are more distinct, but we still have a 10% failure rate here amongst 100s of runs. Mostly it is related to NOT perfectly arriving at the layout check position (overshooting by 1 teleport) - maybe looping could help here?. The ratio of seals is typically skewed towards A1L, due to failing here.
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
@@ -506,7 +508,7 @@ class Diablo:
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"] #We check for B1S templates first, they are more distinct
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("B1-S: Layout_check step 1/2 - B1S templates found")
-            if not self._pather.traverse_nodes([634], self._char, time_out=3): return False
+            if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3):
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
                 Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
@@ -517,7 +519,7 @@ class Diablo:
                 if not self._seal_B1(): return False
         else:
             Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
-            if not self._pather.traverse_nodes([647], self._char, time_out=3): return False #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
+            if not self._pather.traverse_nodes([647], self._char): return False # , time_out=3): #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug('\033[94m'+"B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U"+'\033[0m')
@@ -529,7 +531,7 @@ class Diablo:
         
         # Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
@@ -559,13 +561,13 @@ class Diablo:
 
         # Diablo
         Logger.info("Waiting for Diablo to spawn")
-        if not self._pather.traverse_nodes([602], self._char, time_out=3): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
         self._char.kill_diablo() 
         wait(0.2, 0.3)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
-        
+      
 if __name__ == "__main__":
     from screen import Screen
     import keyboard

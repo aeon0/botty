@@ -303,7 +303,7 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -380,20 +380,27 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
-            if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            #if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([612], self, time_out=3): 
+                Logger.info("A1-L: might be blocked by a shrine, clicking left.")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                mouse.press(button="left")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if not self._pather.traverse_nodes([612], self): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -404,9 +411,9 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
             self._picked_up_items |= self._pickit.pick_up_items(self)
             keyboard.send(self._skill_hotkeys["cleansing"])
@@ -426,11 +433,18 @@ class Hammerdin(IChar):
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info("A2-Y: Hop!")
-            if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
+            #if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([622], self, time_out=3): 
+                Logger.info("A2-Y: might be blocked by a shrine, clicking left.")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                mouse.press(button="left")
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if not self._pather.traverse_nodes([622], self): return False
+            keyboard.send(self._skill_hotkeys["redemption"])
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -442,7 +456,7 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -457,7 +471,7 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -489,23 +503,32 @@ class Hammerdin(IChar):
         #elif location == "C1-F_03": #skipped
 
         elif location == "C1-F_fake":
-            wait(0.1, 0.2)
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
-            wait(0.1, 0.2)
+            if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             
         elif location == "C1-F_boss":
+            self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
+            if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
-            self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
 
 
         #elif location == "C2-G_01": #skipped
@@ -517,7 +540,7 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -534,7 +557,7 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.5, "redemption")
+            self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
@@ -598,7 +621,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([624], self): return False # , time_out=3): #recalibrate after loot
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
-            if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([622], self): return False #, time_out=3): 
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([622], self): return False # , time_out=3): #recalibrate after loot

@@ -25,7 +25,6 @@ def start_or_pause_bot():
         game_controller.toggle_pause_bot()
     else:
         # Kill the debugger if we invoke botty
-        debugger_controller.stop()
         game_controller.start()
 
 
