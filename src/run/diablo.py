@@ -341,7 +341,6 @@ class Diablo:
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### GO HOME ###
         if not self._pather.traverse_nodes([633, 634], self._char): return False # , time_out=3): 
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -372,7 +371,6 @@ class Diablo:
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         ### GO HOME ###
         if not self._pather.traverse_nodes([640], self._char): return False # , time_out=3): # recalibrate after loot
         self._pather.traverse_nodes_fixed("dia_b2u_home", self._char)
