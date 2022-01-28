@@ -27,9 +27,15 @@ class GameStats:
         self._failed_game_time = 0
         self._location = None
         self._location_stats = {}
-        self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
+        self._location_stats["totals"] = {
+            "items": 0,
+            "deaths": 0,
+            "chickens": 0,
+            "merc_deaths": 0,
+            "failed_runs": 0,
+        }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
-        
+
     def update_location(self, loc: str):
         if self._location != loc:
             self._location = str(loc)
@@ -37,12 +43,20 @@ class GameStats:
 
     def populate_location_stat(self):
         if self._location not in self._location_stats:
-            self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
+            self._location_stats[self._location] = {
+                "items": [],
+                "deaths": 0,
+                "chickens": 0,
+                "merc_deaths": 0,
+                "failed_runs": 0,
+            }
 
     def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray):
         Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold"]
-        if self._location is not None and not any(substring in item_name for substring in filtered_items):
+        if self._location is not None and not any(
+            substring in item_name for substring in filtered_items
+        ):
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
@@ -54,7 +68,7 @@ class GameStats:
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
-            
+
         self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
@@ -74,7 +88,11 @@ class GameStats:
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
+            if (
+                self._config.general["discord_status_count"]
+                and self._game_counter % self._config.general["discord_status_count"]
+                == 0
+            ):
                 # every discord_status_count game send a message update about current status
                 self._send_status_update()
         self._game_counter += 1
@@ -127,29 +145,47 @@ class GameStats:
             avg_length = good_games_time / float(good_games_count)
             avg_length_str = hms(avg_length)
 
-        msg = f'\nSession length: {elapsed_time_str}\nGames: {self._game_counter}\nAvg Game Length: {avg_length_str}'
+        msg = f"\nSession length: {elapsed_time_str}\nGames: {self._game_counter}\nAvg Game Length: {avg_length_str}"
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
         for location in self._location_stats:
-            if location == "totals": 
+            if location == "totals":
                 continue
             stats = self._location_stats[location]
-            table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
+            table.rows.append(
+                [
+                    location,
+                    len(stats["items"]),
+                    stats["chickens"],
+                    stats["deaths"],
+                    stats["merc_deaths"],
+                    stats["failed_runs"],
+                ]
+            )
 
-        table.rows.append([
-            "T" if self._config.general['discord_status_condensed'] else "Total",
-            self._location_stats["totals"]["items"],
-            self._location_stats["totals"]["chickens"],
-            self._location_stats["totals"]["deaths"],
-            self._location_stats["totals"]["merc_deaths"],
-            self._location_stats["totals"]["failed_runs"]
-        ])
+        table.rows.append(
+            [
+                "T" if self._config.general["discord_status_condensed"] else "Total",
+                self._location_stats["totals"]["items"],
+                self._location_stats["totals"]["chickens"],
+                self._location_stats["totals"]["deaths"],
+                self._location_stats["totals"]["merc_deaths"],
+                self._location_stats["totals"]["failed_runs"],
+            ]
+        )
 
-        if self._config.general['discord_status_condensed']:
+        if self._config.general["discord_status_condensed"]:
             table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
         else:
-            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]
+            table.columns.header = [
+                "Run",
+                "Items",
+                "Chicken",
+                "Death",
+                "Merc Death",
+                "Failed Runs",
+            ]
 
         msg += f"\n{str(table)}\n"
         return msg
@@ -162,14 +198,16 @@ class GameStats:
         msg = self._create_msg()
         msg += "\nItems:"
         for location in self._location_stats:
-            if location == "totals": 
+            if location == "totals":
                 continue
             stats = self._location_stats[location]
             msg += f"\n  {location}:"
             for item_name in stats["items"]:
                 msg += f"\n    {item_name}"
 
-        with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
+        with open(
+            file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8"
+        ) as f:
             f.write(msg)
 
 

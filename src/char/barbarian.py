@@ -12,7 +12,14 @@ from pather import Pather, Location
 
 
 class Barbarian(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(
+        self,
+        skill_hotkeys: dict,
+        screen: Screen,
+        template_finder: TemplateFinder,
+        ui_manager: UiManager,
+        pather: Pather,
+    ):
         Logger.info("Setting up Barbarian")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
@@ -70,12 +77,16 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not self._ui_manager.is_left_skill_selected(["LEAP"])
-        can_teleport = self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
-        if  should_cast_leap and not can_teleport:
+        should_cast_leap = self._skill_hotkeys[
+            "leap"
+        ] and not self._ui_manager.is_left_skill_selected(["LEAP"])
+        can_teleport = (
+            self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
+        )
+        if should_cast_leap and not can_teleport:
             keyboard.send(self._skill_hotkeys["leap"])
             wait(0.15, 0.25)
-            
+
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = self._screen.convert_abs_to_monitor(abs_move)
         self.pre_move()
@@ -88,10 +99,17 @@ class Barbarian(IChar):
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
-            #  keyboard.send(self._skill_hotkeys["concentration"])
-            #  wait(0.05, 0.15)
-                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
+                #  keyboard.send(self._skill_hotkeys["concentration"])
+                #  wait(0.05, 0.15)
+                self._pather.traverse_nodes(
+                    (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END),
+                    self,
+                    time_out=1.0,
+                    do_pre_move=self._do_pre_move,
+                )
+        self._pather.traverse_nodes(
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1
+        )
         self._cast_war_cry(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
         self._do_hork(4)
@@ -101,7 +119,12 @@ class Barbarian(IChar):
         if self.can_teleport():
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes(
+                (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END),
+                self,
+                time_out=1.0,
+                do_pre_move=self._do_pre_move,
+            )
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -109,7 +132,12 @@ class Barbarian(IChar):
         return True
 
     def kill_shenk(self):
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes(
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END),
+            self,
+            time_out=1.0,
+            do_pre_move=self._do_pre_move,
+        )
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -154,17 +182,22 @@ class Barbarian(IChar):
         self._do_hork(5)
         return True
 
+
 if __name__ == "__main__":
     import os
     import keyboard
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+
+    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
     keyboard.wait("f11")
     from config import Config
     from ui.ui_manager import UiManager
+
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = Barbarian(config.barbarian, config.char, screen, t_finder, ui_manager, pather)
+    char = Barbarian(
+        config.barbarian, config.char, screen, t_finder, ui_manager, pather
+    )
     char.kill_council()

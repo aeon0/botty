@@ -11,24 +11,24 @@ import string
 
 parser = argparse.ArgumentParser(description="Build Botty")
 parser.add_argument(
-    "-v" , "--version",
-    type=str,
-    help="New release version e.g. 0.4.2",
-    default=""
+    "-v", "--version", type=str, help="New release version e.g. 0.4.2", default=""
 )
 parser.add_argument(
-    "-c", "--conda_path",
+    "-c",
+    "--conda_path",
     type=str,
     help="Path to local conda e.g. C:\\Users\\USER\\miniconda3",
-    default=f"C:\\Users\\{getpass.getuser()}\\miniconda3")
+    default=f"C:\\Users\\{getpass.getuser()}\\miniconda3",
+)
 parser.add_argument(
-    "-r", "--random_name",
-    action='store_true',
-    help="Will generate a random name for the botty exe")
+    "-r",
+    "--random_name",
+    action="store_true",
+    help="Will generate a random name for the botty exe",
+)
 parser.add_argument(
-    "-k", "--use_key",
-    action='store_true',
-    help="Will build with encryption key")
+    "-k", "--use_key", action="store_true", help="Will build with encryption key"
+)
 args = parser.parse_args()
 
 
@@ -44,6 +44,7 @@ def clean_up():
     if os.path.exists("shopper.spec"):
         os.remove("shopper.spec")
 
+
 if __name__ == "__main__":
     new_version_code = None
     if args.version != "":
@@ -51,11 +52,11 @@ if __name__ == "__main__":
         os.system(f"git checkout -b new-release-v{args.version}")
         botty_dir = f"botty_v{args.version}"
         version_code = ""
-        with open('src/version.py', 'r') as f:
+        with open("src/version.py", "r") as f:
             version_code = f.read()
         version_code = version_code.split("=")
         new_version_code = f"{version_code[0]}= '{args.version}'"
-        with open('src/version.py', 'w') as f:
+        with open("src/version.py", "w") as f:
             f.write(new_version_code)
     else:
         botty_dir = f"botty_v{__version__}"
@@ -93,9 +94,11 @@ if __name__ == "__main__":
 
     if args.random_name:
         print("Generate random names")
-        new_name = ''.join(random.choices(string.ascii_letters, k=random.randint(6, 14)))
-        os.rename(f'{botty_dir}/main.exe', f'{botty_dir}/{new_name}.exe')
+        new_name = "".join(
+            random.choices(string.ascii_letters, k=random.randint(6, 14))
+        )
+        os.rename(f"{botty_dir}/main.exe", f"{botty_dir}/{new_name}.exe")
 
     if new_version_code is not None:
-        os.system(f'git add .')
+        os.system(f"git add .")
         os.system(f'git commit -m "Bump version to v{args.version}"')

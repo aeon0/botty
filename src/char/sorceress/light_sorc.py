@@ -13,7 +13,12 @@ class LightSorc(Sorceress):
         Logger.info("Setting up Light Sorc")
         super().__init__(*args, **kwargs)
 
-    def _chain_lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
+    def _chain_lightning(
+        self,
+        cast_pos_abs: tuple[float, float],
+        delay: tuple[float, float] = (0.2, 0.3),
+        spray: int = 10,
+    ):
         keyboard.send(self._char_config["stand_still"], do_release=False)
         if self._skill_hotkeys["chain_lightning"]:
             keyboard.send(self._skill_hotkeys["chain_lightning"])
@@ -27,7 +32,12 @@ class LightSorc(Sorceress):
             mouse.release(button="left")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-    def _lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
+    def _lightning(
+        self,
+        cast_pos_abs: tuple[float, float],
+        delay: tuple[float, float] = (0.2, 0.3),
+        spray: float = 10,
+    ):
         if not self._skill_hotkeys["lightning"]:
             raise ValueError("You did not set lightning hotkey!")
         keyboard.send(self._skill_hotkeys["lightning"])
@@ -40,7 +50,12 @@ class LightSorc(Sorceress):
             wait(delay[0], delay[1])
             mouse.release(button="right")
 
-    def _frozen_orb(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
+    def _frozen_orb(
+        self,
+        cast_pos_abs: tuple[float, float],
+        delay: tuple[float, float] = (0.2, 0.3),
+        spray: float = 10,
+    ):
         if self._skill_hotkeys["frozen_orb"]:
             keyboard.send(self._skill_hotkeys["frozen_orb"])
             for _ in range(3):
@@ -53,7 +68,9 @@ class LightSorc(Sorceress):
                 mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
-        pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
+        pindle_pos_abs = self._screen.convert_screen_to_abs(
+            self._config.path["pindle_end"][0]
+        )
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_pindle"])):
             self._chain_lightning(cast_pos_abs, spray=11)
@@ -64,7 +81,9 @@ class LightSorc(Sorceress):
         return True
 
     def kill_eldritch(self) -> bool:
-        eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
+        eld_pos_abs = self._screen.convert_screen_to_abs(
+            self._config.path["eldritch_end"][0]
+        )
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_eldritch"])):
             self._chain_lightning(cast_pos_abs, spray=90)
@@ -77,14 +96,18 @@ class LightSorc(Sorceress):
     def kill_shenk(self) -> bool:
         shenk_pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+            shenk_pos_abs = self._screen.convert_screen_to_abs(
+                self._config.path["shenk_end"][0]
+            )
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_shenk"] * 0.5)):
             self._chain_lightning(cast_pos_abs, spray=90)
         pos_m = self._screen.convert_abs_to_monitor((150, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+        shenk_pos_abs = self._screen.convert_screen_to_abs(
+            self._config.path["shenk_end"][0]
+        )
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_shenk"] * 0.5)):
             self._chain_lightning(cast_pos_abs, spray=90)
@@ -92,7 +115,9 @@ class LightSorc(Sorceress):
         pos_m = self._screen.convert_abs_to_monitor((150, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+        shenk_pos_abs = self._screen.convert_screen_to_abs(
+            self._config.path["shenk_end"][0]
+        )
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(self._char_config["atk_len_shenk"])):
             self._chain_lightning(cast_pos_abs, spray=90)
@@ -101,7 +126,12 @@ class LightSorc(Sorceress):
         self.move(pos_m, force_move=True)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes(
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END),
+            self,
+            time_out=1.4,
+            force_tp=True,
+        )
         return True
 
     def kill_council(self) -> bool:
@@ -190,14 +220,20 @@ class LightSorc(Sorceress):
         delay = [0.2, 0.3]
         atk_len = int(self._char_config["atk_len_nihlatak"])
         for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            nihlatak_pos_abs = self._pather.find_abs_node_pos(
+                end_nodes[-1], self._screen.grab()
+            )
             if nihlatak_pos_abs is None:
                 return False
-            cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+            cast_pos_abs = np.array(
+                [nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9]
+            )
             self._chain_lightning(cast_pos_abs, delay, 90)
             # Do some tele "dancing" after each sequence
             if i < atk_len - 1:
-                rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
+                rot_deg = (
+                    random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
+                )
                 tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
                 pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
                 self.pre_move()
@@ -220,20 +256,25 @@ class LightSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
 
+
 if __name__ == "__main__":
     import os
     import keyboard
     from screen import Screen
     from template_finder import TemplateFinder
     from pather import Pather
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+
+    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
+
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = LightSorc(config.light_sorc, config.char, screen, t_finder, ui_manager, pather)
+    char = LightSorc(
+        config.light_sorc, config.char, screen, t_finder, ui_manager, pather
+    )
     char.kill_council()
