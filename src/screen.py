@@ -31,13 +31,11 @@ class Screen:
         # auto find offests
         self.found_offsets = False
         position = None
-        if self._config.general["find_window_via_win32_api"]:
+        if self._config.general["find_window_via_win32_api"] :
             Logger.debug("Using WinAPI to search for window under D2R.exe process")
             position = self.find_window_via_winapi()
             if position is None:
-                Logger.debug(
-                    "Can't find any window owned by D2R.exe falling back to matching via assets. Make sure D2R is in focus and you are on the hero selection screen"
-                )
+                Logger.debug("Can't find any window owned by D2R.exe falling back to matching via assets. Make sure D2R is in focus and you are on the hero selection screen")
 
         if position is None:
             position = self.find_window_via_assets(wait)
@@ -46,19 +44,10 @@ class Screen:
             self._set_window_position(*position)
         else:
             if self._config.general["info_screenshots"]:
-                cv2.imwrite(
-                    "./info_screenshots/error_d2r_window_not_found_"
-                    + time.strftime("%Y%m%d_%H%M%S")
-                    + ".png",
-                    self.grab(),
-                )
-            Logger.error(
-                "Could not find hero selection or template for ingame, shutting down"
-            )
-            Logger.error(
-                "Could not determine window offset. Please make sure you have the D2R window "
-                + f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}"
-            )
+                cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
+            Logger.error("Could not find hero selection or template for ingame, shutting down")
+            Logger.error("Could not determine window offset. Please make sure you have the D2R window " +
+                                    f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}")
 
     def _set_window_position(self, offset_x: int, offset_y: int):
         Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
@@ -109,9 +98,7 @@ class Screen:
                         + "You might run into template matching issues along the way!"
                     )
                 return max_pos
-        Logger.error(
-            f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)"
-        )
+        Logger.error(f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)")
         return None
 
     def find_window_via_winapi(self) -> Tuple[int, int]:
@@ -119,8 +106,11 @@ class Screen:
         if position is None:
             return None
 
-        offset_x, offset_y, _, _ = position
+        offset_x, offset_y = position
         return offset_x, offset_y
+
+    def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+        return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
 
     def convert_monitor_to_screen(
         self, screen_coord: Tuple[float, float]
