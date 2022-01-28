@@ -50,8 +50,8 @@ class Diablo:
     # OPEN SEALS
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
-        while i < 6:
-            Logger.debug(seal_layout + ": trying to open (try #" + str(i+1) + " of 7)") # try to select seal
+        while i < 3:
+            Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)) # try to select seal
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
             wait(i*0.5)
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.5, take_ss=False).valid # check if seal is opened
@@ -63,8 +63,8 @@ class Diablo:
                 pos_m = self._screen.convert_abs_to_monitor((0, 0)) #remove mouse from seal
                 mouse.move(*pos_m, randomize=[90, 160])
                 wait(0.3)
-                if i >= 2:
-                    Logger.debug(seal_layout + ": failed " + str(i+2) + " of 7 times, trying to kill trash now") # ISSUE: if it failed 7/7 times, she does not try to open the seal: this way all the effort of the 7th try are useless. she should click at the end of the whole story. 
+                if i >= 1:
+                    Logger.debug(seal_layout + ": failed " + str(i+2) + " times, trying to kill trash now")
                     Logger.debug("Sealdance: Kill trash at location: sealdance")
                     self._char.kill_cs_trash("sealdance")
                     wait(i*0.5) #let the hammers clear & check the template -> the more tries, the longer the wait
@@ -100,7 +100,14 @@ class Diablo:
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
         Logger.debug("Kill trash at location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02") # since theres probably a mob there just lands and attacks
-        if not self._pather.traverse_nodes([670,671], self._char): return False # , time_out=3):
+        if not self._pather.traverse_nodes([670,671], self._char, time_out=3): #): return False # 
+            Logger.info("CS Entrance: 671 might be blocked by a shrine, clicking left.")
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_671_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            wait(0.1, 0.2)
+            mouse.press(button="left")
+            wait(0.1, 0.2)
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_671_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if not self._pather.traverse_nodes([671], self): return False
         Logger.debug("Kill trash at location: entrance_hall_03")
         self._char.kill_cs_trash("entrance_hall_03") 
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
@@ -216,7 +223,14 @@ class Diablo:
         if not found:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
-        if not self._pather.traverse_nodes([601], self._char, threshold=0.8, time_out=3): return False
+        if not self._pather.traverse_nodes([601], self._char, threshold=0.8, time_out=3): #return False
+            Logger.info("CS Entrance: 601 might be blocked by a shrine, clicking left.")
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_601_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            wait(0.1, 0.2)
+            mouse.press(button="left")
+            wait(0.1, 0.2)
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_601_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if not self._pather.traverse_nodes([601], self): return False
         Logger.debug("Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02") #inside
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -250,6 +264,29 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
+
+    def _trash_seals(self) -> bool:
+        self._pather.traverse_nodes([602], self._char)
+        self._pather.traverse_nodes_fixed("dia_trash_a", self._char)
+        Logger.debug("A: Clearing trash betwen Pentagramm & Layoutcheck")
+        self._char.kill_cs_trash("trash_a")
+        if not self._loop_pentagram("dia_a1l_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        Logger.info("A: finished clearing Trash at Seal & calibrated at PENTAGRAM")
+
+        self._pather.traverse_nodes_fixed("dia_trash_b", self._char)
+        Logger.debug("B: Clearing trash betwen Pentagramm & Layoutcheck")
+        self._char.kill_cs_trash("trash_b")
+        if not self._loop_pentagram("dia_b1s_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        Logger.info("B: finished clearing Trash at Seal & calibrated at PENTAGRAM")
+        
+        self._pather.traverse_nodes_fixed("dia_trash_c", self._char)
+        Logger.debug("C: Clearing trash betwen Pentagramm & Layoutcheck")
+        self._char.kill_cs_trash("trash_c")
+        if not self._loop_pentagram("dia_c1f_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        Logger.info("C: finished clearing Trash at Seal & calibrated at PENTAGRAM")
 
 
     def _seal_A1(self) -> bool:
@@ -456,6 +493,7 @@ class Diablo:
         self._picked_up_items = False
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
+        #Clear Trash in CS
         if self._config.char["kill_cs_trash"]: 
             Logger.info("Clearing CS trash")
             if not self._river_of_flames_trash(): return False
@@ -463,6 +501,8 @@ class Diablo:
             if not self._river_of_flames(): return False
         if not self._cs_pentagram(): return False
         
+        # CLEAR  Trash between Seals & LC
+        if self._config.char["kill_cs_trash"]: self._trash_seals()
 
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0

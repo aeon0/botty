@@ -1,33 +1,33 @@
 +----------------------------------------+------+
-|             Starting game              | 49.0 |
+|             Starting game              | 32.0 |
 +----------------------------------------+------+
-|               Run Diablo               | 49.0 |
+|               Run Diablo               | 31.0 |
 +----------------------------------------+------+
-|      ROF: Calibrated at WAYPOINT       | 49.0 |
+|      ROF: Calibrated at WAYPOINT       | 31.0 |
 +----------------------------------------+------+
-|      ROF: Calibrated at PENTAGRAM      | 1.0  |
+|      ROF: Calibrated at PENTAGRAM      | 0.0  |
 +----------------------------------------+------+
-| ROF: Teleporting directly to PENTAGRAM | 49.0 |
+| ROF: Teleporting directly to PENTAGRAM | 0.0  |
 +----------------------------------------+------+
-|              CS: OPEN TP               | 48.0 |
+|              CS: OPEN TP               | 24.0 |
 +----------------------------------------+------+
-|      CS: Calibrated at PENTAGRAM       | 48.0 |
+|      CS: Calibrated at PENTAGRAM       | 24.0 |
 +----------------------------------------+------+
-|       Checking Layout for Vizier       | 48.0 |
+|       Checking Layout for Vizier       | 24.0 |
 +----------------------------------------+------+
-|      Checking Layout for De Seis       | 46.0 |
+|      Checking Layout for De Seis       | 24.0 |
 +----------------------------------------+------+
-|      Checking Layout for Infector      | 41.0 |
+|      Checking Layout for Infector      | 22.0 |
 +----------------------------------------+------+
-|      Waiting for Diablo to spawn       | 41.0 |
+|      Waiting for Diablo to spawn       | 21.0 |
 +----------------------------------------+------+
-|                End game                | 42.0 |
+|                End game                | 21.0 |
 +----------------------------------------+------+
-|            End failed game             | 6.0  |
+|            End failed game             | 10.0 |
 +----------------------------------------+------+
-|           Trying to chicken            | 2.0  |
+|           Trying to chicken            | 0.0  |
 +----------------------------------------+------+
-|             You have died              | 1.0  |
+|             You have died              | 0.0  |
 +----------------------------------------+------+
 +-----------------------------------------------+--------+
 |                    String                     | amount |
@@ -189,73 +189,121 @@
 | C2-G: finished seal & calibrated at PENTAGRAM |  0.0   |
 +-----------------------------------------------+--------+
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:1
-[2022-01-27 19:35:26,488] DEBUG      B: Checking Layout for De Seis
-[2022-01-27 19:35:26,548] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
-[2022-01-27 19:35:27,557] DEBUG      Could not find any of the above templates
-[2022-01-27 19:35:27,558] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
-[2022-01-27 19:35:27,558] DEBUG      Traverse: [647]
-[2022-01-27 19:35:31,318] DEBUG      Pather: taking a random guess towards (0, 150)
-[2022-01-27 19:35:37,635] ERROR      Got stuck exit pather
-[2022-01-27 19:35:38,040] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 19:35:38,058] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 19:35:40,283] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 13:52:37,021] DEBUG      Took a screenshot of current loot
+[2022-01-28 13:52:37,837] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-01-28 13:52:37,838] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 13:52:38,883] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 13:52:39,685] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 13:52:39,743] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (80.7% confidence)
+[2022-01-28 13:52:39,744] DEBUG      Traverse: [601]
+[2022-01-28 13:52:43,245] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 13:52:43,264] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 13:52:46,120] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
 
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:2
-[2022-01-27 19:37:31,154] DEBUG      B: Checking Layout for De Seis
-[2022-01-27 19:37:31,214] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
-[2022-01-27 19:37:32,176] DEBUG      Could not find any of the above templates
-[2022-01-27 19:37:32,176] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
-[2022-01-27 19:37:32,176] DEBUG      Traverse: [647]
-[2022-01-27 19:37:35,921] DEBUG      Pather: taking a random guess towards (0, 150)
-[2022-01-27 19:37:42,095] ERROR      Got stuck exit pather
-[2022-01-27 19:37:42,480] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 19:37:42,508] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 19:37:44,582] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 14:21:34,398] WARNING    Could not pick up: gray_armor_mage_plate. Continue with other items
+[2022-01-28 14:21:35,131] WARNING    Got stuck during pickit, skipping it this time...
+[2022-01-28 14:21:35,131] INFO       CS Entrance Style 2 - cleaning hall 1/3
+[2022-01-28 14:21:35,132] DEBUG      Traverse: [682]
+[2022-01-28 14:21:36,639] DEBUG      Traverse: [683]
+[2022-01-28 14:21:39,914] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-28 14:21:45,789] ERROR      Got stuck exit pather
+[2022-01-28 14:21:46,187] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 14:21:46,222] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 14:21:48,695] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
 
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:3
-[2022-01-27 20:25:47,784] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:48,566] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:49,367] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:50,168] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:50,947] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:51,720] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:52,518] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
-[2022-01-27 20:25:53,697] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 20:25:53,715] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 20:25:56,197] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 14:58:34,090] DEBUG      Kill trash at location: rof_01
+[2022-01-28 14:58:39,720] DEBUG      Took a screenshot of current loot
+[2022-01-28 14:58:41,421] DEBUG      Took a screenshot of current loot
+[2022-01-28 14:58:42,071] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-01-28 14:58:42,071] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 14:58:42,138] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (85.9% confidence)
+[2022-01-28 14:58:42,138] DEBUG      Traverse: [601]
+[2022-01-28 14:58:46,528] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 14:58:46,552] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 14:58:49,169] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
 
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:4
-[2022-01-27 21:40:25,320] DEBUG      B: Checking Layout for De Seis
-[2022-01-27 21:40:25,381] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
-[2022-01-27 21:40:26,369] DEBUG      Could not find any of the above templates
-[2022-01-27 21:40:26,370] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
-[2022-01-27 21:40:26,370] DEBUG      Traverse: [647]
-[2022-01-27 21:40:29,597] DEBUG      Pather: taking a random guess towards (0, 150)
-[2022-01-27 21:40:35,378] ERROR      Got stuck exit pather
-[2022-01-27 21:40:35,761] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 21:40:35,806] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 21:40:38,118] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:00:18,582] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:00:20,533] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:00:23,641] DEBUG      Kill trash at location: entrance_hall_02
+[2022-01-28 15:00:28,803] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:00:29,497] DEBUG      Traverse: [670, 671]
+[2022-01-28 15:00:32,985] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-28 15:00:38,893] ERROR      Got stuck exit pather
+[2022-01-28 15:00:39,279] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:00:39,301] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:00:41,910] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
 
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:5
-[2022-01-27 22:26:59,833] ERROR      Wanted to select ['DIA_A2Y4_36_CLOSED', 'DIA_A2Y4_36_MOUSEOVER'], but could not find it
-[2022-01-27 22:27:02,337] DEBUG      Waiting for Template ['DIA_A2Y4_36_OPEN']
-[2022-01-27 22:27:02,869] DEBUG      A2-Y-Boss: [91mnot open[0m
-[2022-01-27 22:27:03,305] DEBUG      A2-Y-Boss: failed 7 of 7 times, trying to kill trash now
-[2022-01-27 22:27:03,305] DEBUG      Sealdance: Kill trash at location: sealdance
-[2022-01-27 22:27:08,695] DEBUG      Took a screenshot of current loot
-[2022-01-27 22:27:12,259] DEBUG      Traverse: [626]
-[2022-01-27 22:27:13,039] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 22:27:13,069] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 22:27:15,272] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:04:40,099] DEBUG      B1-S: Attacking De Seis at position 4/4
+[2022-01-28 15:04:40,099] DEBUG      Traverse: [632]
+[2022-01-28 15:04:52,433] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:04:56,026] DEBUG      Traverse: [633, 634]
+[2022-01-28 15:04:59,227] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-28 15:05:04,613] DEBUG      Give health potion in slot 1 to merc. HP: 55.0%
+[2022-01-28 15:05:04,973] ERROR      Got stuck exit pather
+[2022-01-28 15:05:05,379] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:05:05,429] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:05:07,740] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
 
  ==== LAST 10 LOG LINES BEFORE FAILED GAME:6
-[2022-01-27 22:33:08,011] DEBUG      B: Checking Layout for De Seis
-[2022-01-27 22:33:08,070] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
-[2022-01-27 22:33:09,090] DEBUG      Could not find any of the above templates
-[2022-01-27 22:33:09,091] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
-[2022-01-27 22:33:09,091] DEBUG      Traverse: [647]
-[2022-01-27 22:33:12,437] DEBUG      Pather: taking a random guess towards (0, 150)
-[2022-01-27 22:33:18,266] ERROR      Got stuck exit pather
-[2022-01-27 22:33:18,685] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
-[2022-01-27 22:33:18,748] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
-[2022-01-27 22:33:21,073] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:05:43,116] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-01-28 15:05:43,117] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 15:05:44,168] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 15:05:45,001] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 15:05:45,832] DEBUG      Waiting for Template ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-01-28 15:05:45,924] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (80.1% confidence)
+[2022-01-28 15:05:45,924] DEBUG      Traverse: [601]
+[2022-01-28 15:05:49,481] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:05:49,509] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:05:52,034] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:7
+[2022-01-28 15:07:27,691] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:28,466] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:29,223] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:29,983] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:30,805] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:31,587] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:32,354] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-28 15:07:33,551] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:07:33,581] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:07:36,180] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:8
+[2022-01-28 15:11:32,329] DEBUG      Traverse: [631]
+[2022-01-28 15:11:38,048] DEBUG      B1-S: Attacking De Seis at position 4/4
+[2022-01-28 15:11:38,048] DEBUG      Traverse: [632]
+[2022-01-28 15:11:49,999] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:11:51,121] DEBUG      Traverse: [633, 634]
+[2022-01-28 15:11:59,871] DEBUG      Pather: taking a random guess towards (300, -171)
+[2022-01-28 15:12:05,512] ERROR      Got stuck exit pather
+[2022-01-28 15:12:05,889] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:12:05,917] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:12:08,544] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:9
+[2022-01-28 15:13:00,473] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:13:02,255] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:13:05,134] DEBUG      Kill trash at location: entrance_hall_02
+[2022-01-28 15:13:10,597] DEBUG      Took a screenshot of current loot
+[2022-01-28 15:13:11,386] DEBUG      Traverse: [670, 671]
+[2022-01-28 15:13:14,953] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-28 15:13:20,563] ERROR      Got stuck exit pather
+[2022-01-28 15:13:20,959] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:13:20,990] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:13:23,367] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:10
+[2022-01-28 15:24:12,257] DEBUG      Could not find any of the above templates
+[2022-01-28 15:24:12,935] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-28 15:24:13,735] DEBUG      Could not find any of the above templates
+[2022-01-28 15:24:14,365] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-28 15:24:15,180] DEBUG      Could not find any of the above templates
+[2022-01-28 15:24:15,833] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_TPTOP', 'DIA_NEW_PENT_TPBOT']
+[2022-01-28 15:24:16,626] DEBUG      Could not find any of the above templates
+[2022-01-28 15:24:17,673] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-28 15:24:17,693] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-28 15:24:20,569] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']

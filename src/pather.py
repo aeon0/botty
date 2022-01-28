@@ -6,6 +6,7 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
+from item.pickit import PickIt
 
 from utils.misc import is_in_roi
 from config import Config
@@ -262,8 +263,8 @@ class Pather:
             656: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), },#layoutcheck
 
             #SEAL C2G_new Infector
-            660: {"DIA_C2G2_19": (178, -45), "DIA_C2G2_2": (-182, 71), "DIA_C2G2_20": (-9, 205), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_23": (401, 46), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach "DIA_C2G2_16": (41, 57),
-            661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_19": (164, 410), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close "DIA_C2G2_16": (27, 512),
+            660: {"DIA_C2G2_2": (-182, 71), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach "DIA_C2G2_16": (41, 57),"DIA_C2G2_20": (-9, 205),"DIA_C2G2_19": (178, -45), "DIA_C2G2_23": (401, 46),
+            661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close "DIA_C2G2_16": (27, 512), "DIA_C2G2_19": (164, 410),
             662: {"DIA_C2G2_15": (-54, -160), "DIA_C2G2_12": (271, -138), "DIA_C2G2_17": (-137, 280), "DIA_C2G2_10": (-146, 316), "DIA_C2G2_9": (-251, 354), "DIA_C2G2_7_CLOSED": (433, 88), "DIA_C2G2_7_OPEN": (433, 88),"DIA_C2G2_7_MOUSEOVER": (433, 88),"DIA_C2G2_14": (315, 323), "DIA_C2G2_8": (-124, 447), }, # seal boss far #"DIA_C2G2_16": (-443, -29),  #"DIA_C2G2_23": (244, 133),
             663: {"DIA_C2G2_9": (94, 181), "DIA_C2G2_17": (207, 107), "DIA_C2G2_10": (198, 143), "DIA_C2G2_21_OPEN": (16, 297), "DIA_C2G2_21_CLOSED": (16, 297),"DIA_C2G2_21_MOUSEOVER": (16, 297),"DIA_C2G2_8": (221, 274), "DIA_C2G2_15": (290, -333), "DIA_C2G2_20": (-435, 93), "DIA_C2G2_19": (-504, 24), }, # safe dist "DIA_C2G2_16": (-99, -202), #"DIA_C2G2_23": (297, -207), 
             664: {"DIA_C2G2_20": (-214, -66), "DIA_C2G2_21_OPEN": (237, 137), "DIA_C2G2_21_CLOSED": (237, 137),"DIA_C2G2_21_MOUSEOVER": (237, 137),"DIA_C2G2_19": (-284, -135), "DIA_C2G2_9": (315, 22), "DIA_C2G2_10": (419, -16), "DIA_C2G2_17": (428, -52), "DIA_C2G2_8": (442, 115), "DIA_C2G2_5": (868, 63), }, # seal fake far "DIA_C2G2_16": (122, -361), #"DIA_C2G2_23": (126, -240),
@@ -685,7 +686,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_C1F")
+    #display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
     # code = ""
@@ -698,10 +699,22 @@ if __name__ == "__main__":
     # print(code)
 
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather) #config.char,
+    char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
-    pather.traverse_nodes([622], char)
-    pather.traverse_nodes([624], char)
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_trash_a", char)
+    pather.traverse_nodes_fixed("dia_a1l_home_loop", char)
+    pather.traverse_nodes_fixed("dia_a1l_home_loop", char)
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_trash_b", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes_fixed("dia_b1s_home_loop", char)
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_trash_c", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes_fixed("dia_c1f_home_loop", char)
+    pather.traverse_nodes([602], char)
+    #pather.traverse_nodes([624], char)
     #pather.traverse_nodes_fixed("dia_a_layout", char)
     #pather.traverse_nodes_fixed("dia_a_layout3-0", char)
     #pather.traverse_nodes_fixed("dia_a2y_home_loop", char)
