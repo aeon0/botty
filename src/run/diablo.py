@@ -107,7 +107,7 @@ class Diablo:
             mouse.press(button="left")
             wait(0.1, 0.2)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_671_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            if not self._pather.traverse_nodes([671], self): return False
+            if not self._pather.traverse_nodes([671], self._char): return False
         Logger.debug("Kill trash at location: entrance_hall_03")
         self._char.kill_cs_trash("entrance_hall_03") 
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
@@ -230,7 +230,7 @@ class Diablo:
             mouse.press(button="left")
             wait(0.1, 0.2)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_601_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            if not self._pather.traverse_nodes([601], self): return False
+            if not self._pather.traverse_nodes([601], self._char): return False
         Logger.debug("Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02") #inside
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
@@ -359,7 +359,7 @@ class Diablo:
         return True
 
 
-    def _seal_B1(self): #define order for killing trash
+    def _seal_B1(self) -> bool: #define order for killing trash
         seal_layout = "B1-S"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
@@ -389,7 +389,7 @@ class Diablo:
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/calibrated_pentagram_after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return True
 
-    def _seal_B2(self):
+    def _seal_B2(self) -> bool:
         seal_layout = "B2-U"
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
