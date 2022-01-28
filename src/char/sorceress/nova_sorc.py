@@ -46,9 +46,7 @@ class NovaSorc(Sorceress):
         return True
 
     def kill_shenk(self) -> bool:
-        self._pather.traverse_nodes(
-            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0
-        )
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0)
         self._cast_static(0.6)
         self._nova(self._char_config["atk_len_shenk"])
         return True
@@ -59,7 +57,6 @@ class NovaSorc(Sorceress):
         # change node to be further to the right
         offset_229 = np.array([200, 100])
         self._pather.offset_node(229, offset_229)
-
         def clear_inside():
             self._pather.traverse_nodes_fixed([(1110, 120)], self)
             self._pather.traverse_nodes([229], self, time_out=0.8, force_tp=True)
@@ -67,13 +64,11 @@ class NovaSorc(Sorceress):
             self._move_and_attack((-40, -20), atk_len)
             self._move_and_attack((40, 20), atk_len)
             self._move_and_attack((40, 20), atk_len)
-
         def clear_outside():
             self._pather.traverse_nodes([226], self, time_out=0.8, force_tp=True)
             self._nova(atk_len)
             self._move_and_attack((45, -20), atk_len)
             self._move_and_attack((-45, 20), atk_len)
-
         clear_inside()
         clear_outside()
         clear_inside()
@@ -114,12 +109,10 @@ if __name__ == "__main__":
     from screen import Screen
     from template_finder import TemplateFinder
     from pather import Pather
-
-    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)

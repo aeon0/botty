@@ -20,13 +20,10 @@ class TestItemFinder:
         config.items["rare_stag_bow"] = ItemProps(pickit_type=1)
         self.item_finder = ItemFinder()
 
-    @pytest.mark.parametrize(
-        "img_path, expected",
-        [
-            ("test/assets/item_finder.png", 6),
-        ],
-    )
+    @pytest.mark.parametrize("img_path, expected", [
+        ("test/assets/item_finder.png", 6),
+    ])
     def test_search(self, img_path: str, expected: int):
         inp_img = cv2.imread(img_path)
         item_list = self.item_finder.search(inp_img)
-        assert len(item_list) == expected
+        assert(len(item_list) == expected)
