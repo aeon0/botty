@@ -13,10 +13,12 @@ from pather import Location, Pather
 import numpy as np
 import time
 from utils.misc import cut_roi, is_in_roi
+import os
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        Logger.info('\033[94m'+"Setting up Necro"+'\033[0m')
+        os.system('color')
+        Logger.info("\033[94m<<Setting up Necro>>\033[0m")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         #custom necro pathing for pindle
@@ -30,8 +32,129 @@ class Necro(IChar):
         self._pather.adapt_path((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST),[141, 142, 143, 144, 145])
         self._pather.adapt_path((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), [149])
         #custom locations for trav paths
-        self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 223, 224, 225, 226])
+        #self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 223, 224, 225, 226])
 
+        self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [900])
+        self._pather.offset_node(910, [50,50])
+        self._pather.offset_node(906, [20,0])
+        self._pather.offset_node(226, [-20,0])
+        self._pather.offset_node(228, [0,20])
+
+        self._shenk_dead = 0
+        self._skeletons_count=0
+        self._mages_count=0
+        self._golem_count="none"
+        self._revive_count=0
+
+
+    def _check_shenk_death(self):
+        ''' make sure shenk is dead checking for fireballs so we can exit combat sooner '''
+
+        roi = [640,0,640,720]
+        img = self._screen.grab()
+        
+        template_match = self._template_finder.search(
+            ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
+            img,
+            threshold=0.6,
+            roi=roi,
+            normalize_monitor=True,
+            use_grayscale = False
+        )
+        if template_match.valid:        
+            self._shenk_dead=1
+            Logger.info('\33[31m'+"Shenks Dead, looting..."+'\033[0m')
+        else:
+            return True
+
+    def _count_revives(self):
+        roi = [15,14,400,45]
+        img = self._screen.grab()
+        max_rev = 13
+
+        template_match = self._template_finder.search(
+            ['REV_BASE'],
+            img,
+            threshold=0.6,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:        
+            self._revive_count=max_rev
+        else:
+            self._revive_count=0
+            return True
+
+        for count in range(1,max_rev):
+            rev_num = "REV_"+str(count)
+            template_match = self._template_finder.search(
+                [rev_num],
+                img,
+                threshold=0.66,
+                roi=roi,
+                normalize_monitor=True,
+                use_grayscale = False
+            )
+            if template_match.valid:
+                self._revive_count=count
+
+    def _count_skeletons(self):
+        roi = [15,14,400,45]
+        img = self._screen.grab()
+        max_skeles = 13
+
+        template_match = self._template_finder.search(
+            ['SKELE_BASE'],
+            img,
+            threshold=0.6,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:        
+            self._skeletons_count=max_skeles
+        else:
+            self._skeletons_count=0
+            return True
+
+        for count in range(1,max_skeles):
+            skele_num = "SKELE_"+str(count)
+            template_match = self._template_finder.search(
+                [skele_num],
+                img,
+                threshold=0.66,
+                roi=roi,
+                normalize_monitor=True,
+                use_grayscale = False
+            )
+            if template_match.valid:
+                self._skeletons_count=count
+
+    def _count_gol(self):
+        roi = [15,14,400,45]
+        img = self._screen.grab()
+        
+        template_match = self._template_finder.search(
+            ['CLAY'],
+            img,
+            threshold=0.6,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:        
+            self._golem_count="clay gol"
+        else:
+            self._golem_count="none"
+            return True
+
+    def _summon_count(self):
+        ''' see how many summons and which golem are out '''
+
+        self._count_skeletons()
+        self._count_revives()
+        self._count_gol()
+    def _summon_stat(self):
+        ''' print counts for summons '''
+        Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
     def _revive(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
@@ -91,11 +214,52 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
+    def _raise_mage(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
+        Logger.info('\033[94m'+"raise mage"+'\033[0m')
+        keyboard.send(self._char_config["stand_still"], do_release=False)
+        for _ in range(cast_count):
+            if self._skill_hotkeys["raise_mage"]:
+                keyboard.send(self._skill_hotkeys["raise_mage"])
+                #Logger.info("raise skeleton -> cast")
+            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
+            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+
+            nx = cast_pos_monitor[0]
+            ny = cast_pos_monitor[1]
+            if(nx>1280):
+                nx=1279
+            if(ny>720):
+                ny=719
+            if(nx<0):
+                nx=0
+            if(ny<0):
+                ny=0
+            clamp = [nx,ny]
+
+            mouse.move(*clamp)
+            mouse.press(button="right")
+            wait(0.02, 0.05)
+            mouse.release(button="right")
+        keyboard.send(self._char_config["stand_still"], do_press=False)
 
 
     def pre_buff(self):
-        # not used currently
-        Logger.info("prebuff")
+        #only CTA if pre trav
+        if self._char_config["cta_available"]:
+            self._pre_buff_cta()
+        if self._shenk_dead==1:
+            Logger.info("trav buff?")
+            #self._heart_of_wolverine()
+        Logger.info("prebuff/cta")
+
+
+    def _heart_of_wolverine(self):
+        Logger.info('\033[94m'+"buff ~> heart_of_wolverine"+'\033[0m')
+        keyboard.send(self._skill_hotkeys["heart_of_wolverine"])
+        wait(0.05, 0.2)
+        mouse.click(button="right")
+        wait(self._cast_duration)
 
     def _clay_golem(self):
         Logger.info('\033[94m'+"cast ~> clay golem"+'\033[0m')
@@ -242,8 +406,7 @@ class Necro(IChar):
         #move to pindle combat position
 
         self._pather.traverse_nodes([102,103], self)
-
-
+        
         wait(self._cast_duration, self._cast_duration +.2)
 
         # wiggle to unstick merc....
@@ -263,6 +426,7 @@ class Necro(IChar):
         wait(self._cast_duration, self._cast_duration +.2)
         self._clay_golem()
 
+        self._summon_count()
         
         for _ in range(atk_len):
             Logger.info('\033[96m'+ "pindle atk cycle" + '\033[0m')
@@ -291,7 +455,9 @@ class Necro(IChar):
             self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
 
+        self._summon_count()
         self._revive(cast_pos_abs,50,cast_count=4)
+        self._summon_stat()
 
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
         #wait for pindle to die just incase - maybe needs death detection
@@ -303,6 +469,7 @@ class Necro(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
+        self._summon_stat()
         atk_len = max(2, int(self._char_config["atk_len_eldritch"] / 2))
         eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
@@ -334,9 +501,24 @@ class Necro(IChar):
         self.bone_armor()
 
         #get some more summons out for elite packs
+        
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
-        self._raise_skeleton([0,-40],80,cast_count=4)
+        #self._summon_count()
+        #self._raise_skeleton([0,-40],80,cast_count=4)
+        #self._raise_mage(cast_pos_abs,80,cast_count=10)
 
+        for _ in range(10):
+            self._summon_count()
+            if self._skeletons_count < 10:
+                self._raise_skeleton([0,10],180,cast_count=2)
+                self._raise_skeleton([0,-10],180,cast_count=2)
+            #if self._mages_count < 5:
+            #    self._raise_mage([0,-40],80,cast_count=2)
+            #    self._raise_mage(cast_pos_abs,90,cast_count=2)
+            if self._revive_count < 10:
+                self._revive([0,10],180,cast_count=2)
+                self._revive([0,-10],180,cast_count=2)
+        self._summon_stat()
         # move a bit back
         pos_m = self._screen.convert_abs_to_monitor((0, -350))
         self.pre_move()
@@ -354,6 +536,7 @@ class Necro(IChar):
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
         self._corpse_explosion([0,50], 80, cast_count=8)
 
+        self._summon_stat()
         #continue to shenk fight
         self._pather.traverse_nodes(([ 146, 147, 148]), self, time_out=1.4, force_tp=True)
 
@@ -368,44 +551,286 @@ class Necro(IChar):
 
         for _ in range(int(self._char_config["atk_len_shenk"])):
             Logger.info('\033[96m'+ "shenk atk cycle" + '\033[0m')
+            self._check_shenk_death()
+            if(self._shenk_dead):
+                break
             self._left_attack_single(cast_pos_abs, 11, cast_count=4)
             self._bone_armor()
             self._amp_dmg(cast_pos_abs, 11)
             self._corpse_explosion(corpse_exp_pos, 80, cast_count=12)
+            self._summon_count()
+            if self._skeletons_count < 10:
+                self._raise_skeleton(cast_pos_abs,160,cast_count=6)
+            #if self._mages_count < 5:
+            #    self._raise_mage(cast_pos_abs,160,cast_count=6)
+            if self._revive_count < 10:
+                self._revive(cast_pos_abs,160,cast_count=2)
+            self._check_shenk_death()
+            if(self._shenk_dead):
+                break
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
 
-        self._raise_skeleton(cast_pos_abs,80,cast_count=4)
-        self._revive(cast_pos_abs,80,cast_count=4)
         # Move to items
-        wait(self._cast_duration, self._cast_duration + 0.2)
+        #wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(([148,149]), self, time_out=3.4, force_tp=True)
+        for _ in range(30):
+            self._summon_count()
+            if self._skeletons_count < 10:
+                self._raise_skeleton([-50,-90],160,cast_count=2)
+            #if self._mages_count < 5:
+            #    self._raise_mage([-50,-90],160,cast_count=2)
+            if self._revive_count < 10:
+                self._revive([-50,-90],160,cast_count=2)
+        self._shenk_dead = 1
+        self._summon_stat()
         return True
 
-    def kill_council(self) -> bool:
 
+    def stairs_S(self):
+        roi = [0,0,1280,720]
+        img = self._screen.grab()
+        template_match = self._template_finder.search(
+            ["TRAV_S","TRAV_S_1"],
+            img,
+            threshold=0.4,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:
+            pos = template_match.position
+            pos = (pos[0], pos[1] )
+            Logger.debug("mid point >> "+str(pos))
+
+            for i in range(8):
+                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                wait(0.08, 0.15)
+                mouse.click(button="left")
+                Logger.debug("got to S")
+                return True
+        else:
+            Logger.debug("cant find path!")
+
+    def stairs_F(self):
+        roi = [0,0,1280,720]
+        img = self._screen.grab()
+        template_match = self._template_finder.search(
+            ["TRAV_F"],
+            img,
+            threshold=0.4,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:
+            pos = template_match.position
+            pos = (pos[0], pos[1] )
+            Logger.debug("mid point >> "+str(pos))
+
+            for i in range(8):
+                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                wait(0.08, 0.15)
+                mouse.click(button="left")
+                Logger.debug("got to F")
+                return True
+        else:
+            Logger.debug("cant find path!")
+
+
+    def stairs_W(self):
+        roi = [0,0,1280,720]
+        img = self._screen.grab()
+        template_match = self._template_finder.search(
+            ["TRAV_W","TRAV_W_1"],
+            img,
+            threshold=0.4,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:
+            pos = template_match.position
+            pos = (pos[0], pos[1] )
+            Logger.debug("mid point >> "+str(pos))
+
+            for i in range(8):
+                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                wait(0.08, 0.15)
+                mouse.click(button="left")
+                Logger.debug("got to W")
+                return True
+        else:
+            Logger.debug("cant find path!")
+
+
+
+    def to_durance(self):
+        '''enter the durance of hate to gather summons'''
+
+        roi = [0,0,1280,720]
+
+        img = self._screen.grab()
+        template_match = self._template_finder.search(
+            ["TRAV_18"],
+            img,
+            threshold=0.3,
+            roi=roi,
+            normalize_monitor=True
+        )
+        if template_match.valid:
+            pos = template_match.position
+            pos = (pos[0], pos[1] )
+            Logger.debug("DURANCE ENTRANCE >> "+str(pos))
+            # Note: Template is top of portal, thus move the y-position a bit to the bottom
+            for i in range(2):
+                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                wait(0.08, 0.15)
+                mouse.click(button="left")
+                Logger.debug("enter durance lv 1")
+                if self._ui_manager.wait_for_loading_screen(2.0):
+                    return True
+                else:
+                    return False
+        else:
+            Logger.debug("cant find durance!, trying fixed loc")
+            return False
+
+    def to_trav(self):
+        '''exit the durance of hate back to trav'''
+        Logger.debug("leaving the durance...")
+
+        roi = [0,0,1280,720]
+        sel = False
+        while sel is False:
+            spray = 200
+            target =[0,0]  
+            x = target[0] + (random.random() * 2*spray - spray)
+            y = target[1] + (random.random() * 2*spray - spray)
+            target = self._screen.convert_abs_to_monitor((x, y))
   
-        #this could still use some work, mostly works though, needs a fairly well geared merc
+            mouse.move(*target, randomize=6, delay_factor=[0.9, 1.1])
+
+            img = self._screen.grab()
+            template_match = self._template_finder.search(
+                ["TO_TRAV_0"],
+                img,
+                threshold=0.95,
+                roi=roi,
+                normalize_monitor=True
+            )
+            if template_match.valid:
+                pos = template_match.   position
+                pos = (pos[0], pos[1] )
+                Logger.debug("DURANCE EXIT >> "+str(pos))
+                # Note: Template is top of portal, thus move the y-position a bit to the bottom
+                for i in range(2):
+                    mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                    wait(0.08, 0.15)
+                    mouse.click(button="left")
+                    Logger.debug("entering trav...")
+                    if self._ui_manager.wait_for_loading_screen(2.0):
+                        sel = True
+                        return True
+                    else:
+                        return False
+                        sel = False
+
+
+    def kill_council(self) -> bool:
+        ''' kill the council '''
+
+        result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5,threshold=.55)
+
+    #this is gross but the skeletons I think cause pathing issues
+        while result is False:
+            #struggle to find a way, prob a skeleton confusing the way
+            pos_m = self._screen.convert_abs_to_monitor((20, 20))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(self._cast_duration, self._cast_duration +.1)
+
+            pos_m = self._screen.convert_abs_to_monitor((-20, -20))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(self._cast_duration, self._cast_duration +.1)
+
+            if self._pather.find_abs_node_pos(904, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+            elif self._pather.find_abs_node_pos(905, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((905,906,226,228,300), self, force_move=True,time_out = 2.5)
+            elif self._pather.find_abs_node_pos(906, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((906,226,228,300), self, force_move=True,time_out = 2.5)
+            elif self._pather.find_abs_node_pos(226, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((226,228,300), self, force_move=True,time_out = 2.5)
+            elif self._pather.find_abs_node_pos(901, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+            elif self._pather.find_abs_node_pos(902, self._screen.grab()):
+                #try again
+                result = self._pather.traverse_nodes((902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+
+        enter = False
+        while enter is False:
+            enter = self.to_durance()
+        wait(.25)
+        exit = self.to_trav()
+
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+
+        #enter = False
+        #while enter is False:
+        #    enter = self.to_durance()
+        #wait(.25)
+        #exit = self.to_trav()
+
 
         self._bone_armor()
-        wait(self._cast_duration, self._cast_duration +.4)
+        wait(self._cast_duration, self._cast_duration +.2)
         self._clay_golem()
+        wait(self._cast_duration, self._cast_duration +.2)
+                
+        self._pather.traverse_nodes([911], self)
 
 
+         # wiggle to unstick merc....
+        pos_m = self._screen.convert_abs_to_monitor((-20, -150))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(self._cast_duration, self._cast_duration +.2)
+        
+
+        # move up a bit
+        pos_m = self._screen.convert_abs_to_monitor((-20, -40))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        wait(self._cast_duration, self._cast_duration +.1)
 
 
-        cast_pos_abs = [-300,-200]
-
-
+        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
+        if atk_pos_abs is None:
+            Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
+            atk_pos_abs = [-300, -40]
+        else:
+            atk_pos_abs = [atk_pos_abs[0], atk_pos_abs[1] + 70]
+        cast_pos_abs = np.array([atk_pos_abs[0] * 1.0, atk_pos_abs[1] * 1.0])
 
         corpse_exp_pos = cast_pos_abs
 
-        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
+        
         atk_len = self._char_config["atk_len_trav"]
-        # Go inside and hammer a bit
-        self.bone_armor()
+        
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
         self._amp_dmg(cast_pos_abs, 11)
         self._corpse_explosion(corpse_exp_pos, 80, cast_count=8)
+
+        self._bone_armor()
+        wait(self._cast_duration, self._cast_duration +.2)
+        self._clay_golem()
+        wait(self._cast_duration, self._cast_duration +.2)
+                
 
          # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, 50))
@@ -413,19 +838,17 @@ class Necro(IChar):
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
         
+        #self._pather.traverse_nodes([229], self)
 
         # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration +.1)
-    
+        
         wait(self._cast_duration, self._cast_duration +.1)
         self._bone_armor()
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
-    
         self._corpse_explosion(corpse_exp_pos, 80, cast_count=12)
-
 
         # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, 50))
@@ -438,8 +861,8 @@ class Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
-        cast_pos_abs = [50,-50]
-
+        
+        
         self._amp_dmg(cast_pos_abs, 11)
         self._bone_armor()
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
@@ -449,70 +872,12 @@ class Necro(IChar):
         self._corpse_explosion(corpse_exp_pos, 240, cast_count=18)
 
 
-        #take care of inside mobs
-        self._pather.offset_node(229, [250, 130])
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
-        self._pather.offset_node(229, [-250, -130])
-        atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
-        if atk_pos_abs is None:
-            Logger.debug("Could not find node [230]. Using static attack coordinates instead.")
-            atk_pos_abs = [-300, -200]
-        else:
-            atk_pos_abs = [atk_pos_abs[0], atk_pos_abs[1] + 70]
-        cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
-
-        self.bone_armor()
-        self._left_attack_single(cast_pos_abs, 11, cast_count=4)
-        self._amp_dmg(cast_pos_abs, 11)
-        self._corpse_explosion(corpse_exp_pos, 80, cast_count=8)
-
-         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration +.1)
-        
-
-        # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration +.1)
-    
-        wait(self._cast_duration, self._cast_duration +.1)
-        self._bone_armor()
-        self._left_attack_single(cast_pos_abs, 11, cast_count=4)
-    
-        self._corpse_explosion(corpse_exp_pos, 80, cast_count=12)
-
-
-        # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration +.1)
-    
-        # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration +.1)
-        #cast_pos_abs = [-300,-200]
-
-        self._amp_dmg(cast_pos_abs, 11)
-        self._bone_armor()
-        self._left_attack_single(cast_pos_abs, 11, cast_count=4)
-        self._corpse_explosion(corpse_exp_pos, 80, cast_count=8)
-        self._bone_armor()
-        self._left_attack_single(cast_pos_abs, 11, cast_count=4)
-        self._corpse_explosion(corpse_exp_pos, 240, cast_count=18)
-        
-
-        self._pather.traverse_nodes([230, 229 ,228], self, time_out=2.5, force_tp=True)
+        #self._pather.traverse_nodes([230, 229 ,228], self, time_out=2.5, force_tp=True)
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
 
 
         return True
+
 
 
 if __name__ == "__main__":
