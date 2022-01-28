@@ -12,6 +12,7 @@ from math import cos, sin, dist
 import subprocess
 from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_TOP, HWND_BOTTOM, SWP_NOZORDER, SWP_NOOWNERZORDER, HWND_DESKTOP, SWP_NOSENDCHANGING, SWP_SHOWWINDOW, HWND_NOTOPMOST
 from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
+from win32api import GetMonitorInfo, MonitorFromWindow
 from win32process import GetWindowThreadProcessId
 import psutil
 
@@ -26,8 +27,10 @@ def find_d2r_window():
         for (hwnd, _, process_id) in window_list:
             if psutil.Process(process_id).name() == "D2R.exe":
                 left, top, right, bottom = GetClientRect(hwnd)
+                monitor = MonitorFromWindow(hwnd)
+                (monitor_offset_x, monitor_offset_y,_,_) = GetMonitorInfo(monitor)['Monitor']
                 (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
-                return (left, top, right, bottom)
+                return (left - monitor_offset_x, top - monitor_offset_y)
     return None
         
 def set_d2r_always_on_top():
