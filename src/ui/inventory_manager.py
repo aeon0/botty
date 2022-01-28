@@ -145,18 +145,20 @@ class InventoryManager:
                 if is_in_roi(item_roi, slot[0]):
                     skip = True
                     break
-            if skip: continue
+            if skip:
+                continue
             delay = [0.2, 0.3] if count else [1, 1.3]
             mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
             wait(0.3, 0.5)
             hovered_item = self._screen.grab()
             # get the item description box
-            try:
-                item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
-            except:
+            item_box = self._item_cropper.crop_item_descr(hovered_item)
+            if item_box:
+                item_box = item_box[0]
+            else:
                 Logger.error(f"item_cropper failed for slot_pos: {slot[0]}")
                 if self._config.general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                    cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
                 continue
             if item_box.color:
                 # determine the item's ROI in inventory
@@ -174,7 +176,7 @@ class InventoryManager:
                 # attempt to identify item
                 need_id = False
                 if self._config.char["id_items"]:
-                    is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data, threshold = 0.9).valid
+                    is_unidentified = self._template_finder.search("UNIDENTIFIED", item_box.data).valid
                     if is_unidentified:
                         need_id = True
                         self.center_mouse()
@@ -186,7 +188,9 @@ class InventoryManager:
                         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
                         wait(0.3, 0.5)
                         hovered_item = self._screen.grab()
-                        item_box = self._item_cropper.crop_item_descr(hovered_item)[0]
+                        item_box = self._item_cropper.crop_item_descr(hovered_item)
+                        if item_box:
+                            item_box = item_box[0]
                 Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
                 for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
                     Logger.debug(f"OCR LINE{i}: {line}")
@@ -419,7 +423,6 @@ class InventoryManager:
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return None
-        Logger.debug("Found inventory gold btn")
         # stash gold
         if self._config.char["stash_gold"]:
             inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
@@ -502,26 +505,26 @@ class InventoryManager:
         """
         wait(0.7, 1.0)
         if action == "open":
-            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.8).valid
             if not inventory_open:
                 keyboard.send(self._config.char["inventory_screen"])
                 wait(0.4, 0.6)
-                inventory_open = self._template_finder.search_and_wait("CLOSE_PANEL", roi = self._config.ui_roi["right_panel_header"], threshold = 0.9, time_out = 2).valid
+                inventory_open = self._template_finder.search_and_wait("CLOSE_PANEL", roi = self._config.ui_roi["right_panel_header"], threshold = 0.8, time_out = 2).valid
                 if not inventory_open:
                     # might need to close a dialogue box or something
                     keyboard.send("esc")
                     wait(0.7, 1)
                     keyboard.send(self._config.char["inventory_screen"])
                     wait(0.4, 0.6)
-                    inventory_open = self._template_finder.search_and_wait("CLOSE_PANEL", roi = self._config.ui_roi["right_panel_header"], threshold = 0.9, time_out = 2).valid
+                    inventory_open = self._template_finder.search_and_wait("CLOSE_PANEL", roi = self._config.ui_roi["right_panel_header"], threshold = 0.8, time_out = 2).valid
                     if not inventory_open:
                         Logger.error("could not open inventory")
         elif action == "close":
-            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.8).valid
             if inventory_open:
                 keyboard.send("esc")
         else:
-            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.9).valid
+            inventory_open = self._template_finder.search("CLOSE_PANEL", self._screen.grab(), roi = self._config.ui_roi["right_panel_header"], threshold = 0.8).valid
             if inventory_open:
                 keyboard.send("esc")
             else:
@@ -529,7 +532,7 @@ class InventoryManager:
         wait(0.4, 0.6)
 
     def _tome_state(self, img: np.ndarray, tome_type: str = "tp"):
-        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.9, best_match = True)
+        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.8, best_match = True)
         if tome_found.valid:
             if tome_found.name == f"{tome_type.upper()}_TOME":
                 state = "ok"

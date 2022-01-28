@@ -20,8 +20,10 @@ class OcrResult:
 
 class Ocr:
     def __init__(self):
-        self.I_regex = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9])")
-        self.One_regex = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
+        self.I_1 = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9])")
+        self.II_U = re.compile(r"(?<=[A-Z])II|II(?=[A-Z])|1?=[a-z]")
+        self.One_I = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
+        self.OneOne_U = re.compile(r"(?<=[A-Z])11|11(?=[A-Z])|1?=[a-z]")
 
     def prep_input_img(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
         if clean:
@@ -54,15 +56,25 @@ class Ocr:
         return image
 
     def fix_ocr_output(self, ocr_output: str) -> str:
-        # case: a 1 within a string; e.g., "W1RT'S LEG"
+        # case: two 1's within a string; e.g., "SIIPER MANA POTION"
+        try:
+            text = self.II_U.sub('U', ocr_output)
+        except:
+            Logger.error(f"Error _II_ -> _U_ on {ocr_output}")
+            text = ocr_output
+        # case: two 1's within a string; e.g., "S11PER MANA POTION"
+        try:
+            text = self.OneOne_U.sub('U', text)
+        except:
+            Logger.error(f"Error _11_ -> _U_ on {ocr_output}")
         # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
         try:
-            text = self.I_regex.sub('1', ocr_output)
+            text = self.I_1.sub('1', text)
         except:
             Logger.error(f"Error I -> 1 on {ocr_output}")
-            text = ocr_output
+        # case: a 1 within a string; e.g., "W1RT'S LEG"
         try:
-            text = self.One_regex.sub('I', text)
+            text = self.One_I.sub('I', text)
         except:
             Logger.error(f"Error 1 -> I on {ocr_output}")
 
@@ -85,7 +97,7 @@ class Ocr:
             break
 
         # case: consecutive I's; e.g., "DEFENSE: II"
-        repeat=False
+        #repeat=False
         cnt=0
         while "II" in text:
             cnt += 1
@@ -93,9 +105,9 @@ class Ocr:
                 Logger.error(f"Error 4 on {ocr_output}")
                 break
             text = text.replace("II", "11")
-            repeat=True
-        if repeat:
-            self.fix_ocr_output(text)
+        #    repeat=True
+        #if repeat:
+        #    self.fix_ocr_output(text)
 
         # manual edits...:
         ocr_output.replace("SHIFLD", "SHIELD")

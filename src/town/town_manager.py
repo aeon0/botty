@@ -175,18 +175,18 @@ class TownManager:
 
     def stash(self, curr_loc: Location, items: list = None) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
+        if curr_act is None: return False, False
         # check if we can stash in current act
         if self._acts[curr_act].can_stash():
             new_loc = self._acts[curr_act].open_stash(curr_loc)
-            if not new_loc: return False
+            if not new_loc: return False, False
             wait(1.0)
             items = self._inventory_manager.stash_all_items(self._item_finder, items)
             return new_loc, items
         new_loc = self.go_to_act(5, curr_loc)
-        if not new_loc: return False
+        if not new_loc: return False, False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
-        if not new_loc: return False
+        if not new_loc: return False, False
         wait(1.0)
         items = self._inventory_manager.stash_all_items(self._item_finder, items)
         return new_loc, items

@@ -42,7 +42,7 @@ class ConsumiblesManager:
         return self._consumible_needs
 
     def reset_need(self, item_type):
-        self._consumible_needs["item_type"] = 0
+        self._consumible_needs[item_type] = 0
 
     def conv_need_to_remaining(self, item_name: str = None):
         if item_name is None:
@@ -210,7 +210,7 @@ class ConsumiblesManager:
                 return False
             pos = self._screen.convert_screen_to_monitor(tome_found.position)
         elif item_type.lower() in ["key"]:
-            res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
+            res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"])
             if not res.valid:
                 return False
             pos = self._screen.convert_screen_to_monitor(res.position)
@@ -221,17 +221,19 @@ class ConsumiblesManager:
         wait(0.2, 0.2)
         hovered_item = self._screen.grab()
         # get the item description box
-        try:
-            item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")[0]
+        item_box = self._item_cropper.crop_item_descr(hovered_item, ocr_language="engd2r_inv_th_fast")
+        if item_box:
+            item_box = item_box[0]
             result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
             if item_type.lower() in ["tp", "id"]:
                 self._consumible_needs[item_type] = 20 - result
             if item_type.lower() == "key":
                 self._consumible_needs[item_type] = 12 - result
-        except:
-            Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}, box is below:")
-            Logger.error(item_box)
-            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        else:
+            Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}")
+            if self._config.general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+            return False
         return True
 if __name__ == "__main__":
     keyboard.wait("f11")
