@@ -18,7 +18,7 @@ class Sorceress(IChar):
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
-        if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
+        if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'misc_scroll']):
             keyboard.send(self._skill_hotkeys["telekinesis"])
             wait(0.1, 0.2)
             mouse.move(pos[0], pos[1])
