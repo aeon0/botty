@@ -8,7 +8,11 @@ from game_controller import GameController
 from utils.misc import restore_d2r_window_visibility
 from version import __version__
 from utils.graphic_debugger import GraphicDebuggerController
-from utils.auto_settings import adjust_settings, backup_settings, restore_settings_from_backup
+from utils.auto_settings import (
+    adjust_settings,
+    backup_settings,
+    restore_settings_from_backup,
+)
 
 from config import Config
 from logger import Logger
@@ -17,6 +21,7 @@ from logger import Logger
 # Will be initialized in the __main__() function
 game_controller = None
 debugger_controller = None
+
 
 def start_or_pause_bot():
     global game_controller
@@ -41,8 +46,8 @@ def start_or_stop_graphic_debugger():
 
 
 def on_exit(config: Config):
-    Logger.info(f'Force Exit')
-    if config.advanced_options['d2r_windows_always_on_top']:
+    Logger.info(f"Force Exit")
+    if config.advanced_options["d2r_windows_always_on_top"]:
         restore_d2r_window_visibility()
     os._exit(1)
 
@@ -54,34 +59,66 @@ def main():
     elif config.general["logg_lvl"] == "debug":
         Logger.init(logging.DEBUG)
     else:
-        print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
+        print(
+            f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]"
+        )
 
     # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("stats"):
         os.system("mkdir stats")
-    if not os.path.exists("info_screenshots") and (config.general["info_screenshots"] or config.general["message_api_type"] == "discord"):
+    if not os.path.exists("info_screenshots") and (
+        config.general["info_screenshots"]
+        or config.general["message_api_type"] == "discord"
+    ):
         os.system("mkdir info_screenshots")
-    if not os.path.exists("loot_screenshots") and (config.general["loot_screenshots"] or config.general["message_api_type"] == "discord"):
+    if not os.path.exists("loot_screenshots") and (
+        config.general["loot_screenshots"]
+        or config.general["message_api_type"] == "discord"
+    ):
         os.system("mkdir loot_screenshots")
 
-    print(f"============ Botty {__version__} [name: {config.general['name']}] ============")
-    print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
+    print(
+        f"============ Botty {__version__} [name: {config.general['name']}] ============"
+    )
+    print(
+        "\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n"
+    )
     table = BeautifulTable()
-    table.rows.append([config.general['restore_settings_from_backup_key'], "Restore D2R settings from backup"])
-    table.rows.append([config.general['settings_backup_key'], "Backup D2R current settings"])
-    table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
-    table.rows.append([config.general['graphic_debugger_key'], "Start / Stop Graphic debugger"])
-    table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
-    table.rows.append([config.general['exit_key'], "Stop bot"])
+    table.rows.append(
+        [
+            config.general["restore_settings_from_backup_key"],
+            "Restore D2R settings from backup",
+        ]
+    )
+    table.rows.append(
+        [config.general["settings_backup_key"], "Backup D2R current settings"]
+    )
+    table.rows.append([config.general["auto_settings_key"], "Adjust D2R settings"])
+    table.rows.append(
+        [config.general["graphic_debugger_key"], "Start / Stop Graphic debugger"]
+    )
+    table.rows.append([config.general["resume_key"], "Start / Pause Botty"])
+    table.rows.append([config.general["exit_key"], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
 
-    keyboard.add_hotkey(config.general['auto_settings_key'], lambda: adjust_settings(config))
-    keyboard.add_hotkey(config.general['graphic_debugger_key'], lambda: start_or_stop_graphic_debugger())
-    keyboard.add_hotkey(config.general['restore_settings_from_backup_key'], lambda: restore_settings_from_backup(config))
-    keyboard.add_hotkey(config.general['settings_backup_key'], lambda: backup_settings(config))
-    keyboard.add_hotkey(config.general['resume_key'], lambda c: start_or_pause_bot(), args=[config])
+    keyboard.add_hotkey(
+        config.general["auto_settings_key"], lambda: adjust_settings(config)
+    )
+    keyboard.add_hotkey(
+        config.general["graphic_debugger_key"], lambda: start_or_stop_graphic_debugger()
+    )
+    keyboard.add_hotkey(
+        config.general["restore_settings_from_backup_key"],
+        lambda: restore_settings_from_backup(config),
+    )
+    keyboard.add_hotkey(
+        config.general["settings_backup_key"], lambda: backup_settings(config)
+    )
+    keyboard.add_hotkey(
+        config.general["resume_key"], lambda c: start_or_pause_bot(), args=[config]
+    )
     keyboard.add_hotkey(config.general["exit_key"], lambda: on_exit(config))
     keyboard.wait()
 

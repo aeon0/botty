@@ -38,6 +38,7 @@ Docstrings and line-comments wrapped to 80 characters, code wrapped to
 """
 import sys
 import threading
+
 # Python 3
 from tkinter import *
 import queue
@@ -103,10 +104,14 @@ class _TkAttr(object):
         # Check if we're in the creation thread
         if threading.current_thread() == self._tk._creation_thread:
             # We're in the creation thread; just call the event directly
-            if self._tk._debug >= 8 or \
-                    self._tk._debug >= 3 and self._attr.__name__ == 'call' and \
-                    len(args) >= 1 and args[0] == 'after':
-                print('Calling event directly:', self._attr.__name__, args, kwargs)
+            if (
+                self._tk._debug >= 8
+                or self._tk._debug >= 3
+                and self._attr.__name__ == "call"
+                and len(args) >= 1
+                and args[0] == "after"
+            ):
+                print("Calling event directly:", self._attr.__name__, args, kwargs)
             return self._attr(*args, **kwargs)
         else:
             if not self._tk._destroying:
@@ -114,8 +119,10 @@ class _TkAttr(object):
                 # enqueue the event, and then wait for the response.
                 response_queue = queue.Queue(1)
                 if self._tk._debug >= 1:
-                    print('Marshalling event:', self._attr.__name__, args, kwargs)
-                self._tk._event_queue.put((self._attr, args, kwargs, response_queue), True, 1)
+                    print("Marshalling event:", self._attr.__name__, args, kwargs)
+                self._tk._event_queue.put(
+                    (self._attr, args, kwargs, response_queue), True, 1
+                )
                 is_exception, response = response_queue.get(True, None)
 
                 # Handle the response, whether it's a normal return value or
@@ -134,9 +141,10 @@ def _Tk__init__(self, *args, **kwargs):
     """
     # We support some new keyword arguments that the original __init__ method
     # doesn't expect, so separate those out before doing anything else.
-    new_kwnames = ('mt_check_period', 'mt_debug')
+    new_kwnames = ("mt_check_period", "mt_debug")
     new_kwargs = {
-        kw_name: kwargs.pop(kw_name) for kw_name in new_kwnames
+        kw_name: kwargs.pop(kw_name)
+        for kw_name in new_kwnames
         if kwargs.get(kw_name, None) is not None
     }
 
@@ -175,7 +183,9 @@ def _check_events(tk):
                 # the result back to the caller via the response queue.
                 used = True
                 if tk.tk._debug >= 2:
-                    print('Calling event from main thread:', method.__name__, args, kwargs)
+                    print(
+                        "Calling event from main thread:", method.__name__, args, kwargs
+                    )
                 try:
                     response_queue.put((False, method(*args, **kwargs)))
                 except SystemExit:
@@ -185,6 +195,7 @@ def _check_events(tk):
                     # exception back to the caller so that it can be raised
                     # in the caller's thread.
                     from sys import exc_info  # Python 2 requirement
+
                     ex_type, ex_value, ex_tb = exc_info()
                     response_queue.put((True, (ex_type, ex_value, ex_tb)))
     finally:

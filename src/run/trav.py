@@ -18,7 +18,7 @@ class Trav:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
     ):
         self._config = Config()
         self._template_finder = template_finder
@@ -40,14 +40,20 @@ class Trav:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
-        if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
+        if not self._template_finder.search_and_wait(
+            ["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20
+        ).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()
         if self._char.can_teleport():
             self._pather.traverse_nodes_fixed("trav_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
+            if not self._pather.traverse_nodes(
+                (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS),
+                self._char,
+                force_move=True,
+            ):
                 return False
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char, is_at_trav=True)

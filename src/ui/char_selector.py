@@ -23,13 +23,15 @@ class CharSelector:
     def select_char(self):
         if self._char_template is not None:
             scrolls_attempts = 0
-            while scrolls_attempts < 2:  # 2 scrolls should suffice to see all possible characters
+            while (
+                scrolls_attempts < 2
+            ):  # 2 scrolls should suffice to see all possible characters
                 template_result = self._template_finder.search(
                     self._char_template,
                     self._screen.grab(),
                     threshold=0.8,
                     roi=self._config.ui_roi["char_selection_all"],
-                    normalize_monitor=True
+                    normalize_monitor=True,
                 )
                 if template_result.valid:
                     # move cursor to result and select
@@ -39,7 +41,10 @@ class CharSelector:
                     break
                 else:
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    pos = (self._config.ui_pos["char_selection_center_x"], self._config.ui_pos["char_selection_center_y"])
+                    pos = (
+                        self._config.ui_pos["char_selection_center_x"],
+                        self._config.ui_pos["char_selection_center_y"],
+                    )
                     pos = self._screen.convert_screen_to_monitor(pos)
                     mouse.move(*pos)
                     wait(0.5)
@@ -51,8 +56,10 @@ class CharSelector:
 
 if __name__ == "__main__":
     import keyboard
+
     keyboard.wait("f11")
     from config import Config
+
     config = Config()
     screen = Screen(config.general["monitor"])
     tf = TemplateFinder(screen)
