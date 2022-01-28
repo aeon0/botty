@@ -53,7 +53,7 @@ class HealthManager:
                 "shenk",
                 "eldritch",
                 "pindle",
-                "nihlatak",
+                "nihlathak",
                 "trav",
                 "arc",
                 "diablo",

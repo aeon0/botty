@@ -215,18 +215,18 @@ class LightSorc(Sorceress):
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         delay = [0.2, 0.3]
-        atk_len = int(self._char_config["atk_len_nihlatak"])
+        atk_len = int(self._char_config["atk_len_nihlathak"])
         for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(
                 end_nodes[-1], self._screen.grab()
             )
-            if nihlatak_pos_abs is None:
+            if nihlathak_pos_abs is None:
                 return False
             cast_pos_abs = np.array(
-                [nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9]
+                [nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9]
             )
             self._chain_lightning(cast_pos_abs, delay, 90)
             # Do some tele "dancing" after each sequence

@@ -252,8 +252,8 @@ class IChar:
     def kill_council(self) -> bool:
         raise ValueError("Council is not implemented!")
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        raise ValueError("Nihlatak is not implemented!")
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        raise ValueError("Nihlathak is not implemented!")
 
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")

@@ -32,7 +32,7 @@ from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
-from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
+from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
@@ -183,7 +183,7 @@ class Bot:
             "run_pindle": self._route_config["run_pindle"],
             "run_shenk": self._route_config["run_shenk"]
             or self._route_config["run_eldritch"],
-            "run_nihlatak": self._route_config["run_nihlatak"],
+            "run_nihlathak": self._route_config["run_nihlathak"],
             "run_arcane": self._route_config["run_arcane"],
             "run_diablo": self._route_config["run_diablo"],
         }
@@ -221,7 +221,7 @@ class Bot:
             self._char,
             self._pickit,
         )
-        self._nihlatak = Nihlatak(
+        self._nihlathak = Nihlathak(
             self._screen,
             self._template_finder,
             self._pather,
@@ -268,7 +268,7 @@ class Bot:
             "pindle",
             "shenk",
             "trav",
-            "nihlatak",
+            "nihlathak",
             "arcane",
             "diablo",
         ]
@@ -306,10 +306,10 @@ class Bot:
                 "before": "on_run_trav",
             },
             {
-                "trigger": "run_nihlatak",
+                "trigger": "run_nihlathak",
                 "source": "town",
-                "dest": "nihlatak",
-                "before": "on_run_nihlatak",
+                "dest": "nihlathak",
+                "before": "on_run_nihlathak",
             },
             {
                 "trigger": "run_arcane",
@@ -320,13 +320,13 @@ class Bot:
             {
                 "trigger": "run_diablo",
                 "source": "town",
-                "dest": "nihlatak",
+                "dest": "nihlathak",
                 "before": "on_run_diablo",
             },
             # End run / game
             {
                 "trigger": "end_run",
-                "source": ["shenk", "pindle", "nihlatak", "trav", "arcane", "diablo"],
+                "source": ["shenk", "pindle", "nihlathak", "trav", "arcane", "diablo"],
                 "dest": "town",
                 "before": "on_end_run",
             },
@@ -336,7 +336,7 @@ class Bot:
                     "town",
                     "shenk",
                     "pindle",
-                    "nihlatak",
+                    "nihlathak",
                     "trav",
                     "arcane",
                     "diablo",
@@ -642,15 +642,15 @@ class Bot:
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
-    def on_run_nihlatak(self):
+    def on_run_nihlathak(self):
         res = False
-        self._do_runs["run_nihlatak"] = False
+        self._do_runs["run_nihlathak"] = False
         self._game_stats.update_location(
-            "Nihl" if self._config.general["discord_status_condensed"] else "Nihlatak"
+            "Nihl" if self._config.general["discord_status_condensed"] else "Nihlathak"
         )
-        self._curr_loc = self._nihlatak.approach(self._curr_loc)
+        self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
-            res = self._nihlatak.battle(not self._pre_buffed)
+            res = self._nihlathak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
     def on_run_arcane(self):

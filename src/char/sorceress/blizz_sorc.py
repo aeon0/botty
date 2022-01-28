@@ -221,16 +221,16 @@ class BlizzSorc(Sorceress):
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_sequences = max(1, int(self._char_config["atk_len_nihlatak"]) - 1)
+        atk_sequences = max(1, int(self._char_config["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(
                 end_nodes[-1], self._screen.grab()
             )
-            if nihlatak_pos_abs is not None:
+            if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array(
-                    [nihlatak_pos_abs[0] * 1.0, nihlatak_pos_abs[1] * 1.0]
+                    [nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0]
                 )
                 wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)

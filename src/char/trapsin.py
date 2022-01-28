@@ -141,17 +141,17 @@ class Trapsin(IChar):
         )
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_len = max(1, int(self._char_config["atk_len_nihlatak"] / 2))
+        atk_len = max(1, int(self._char_config["atk_len_nihlathak"] / 2))
         for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(
                 end_nodes[-1], self._screen.grab()
             )
-            if nihlatak_pos_abs is None:
+            if nihlathak_pos_abs is None:
                 return False
             cast_pos_abs = np.array(
-                [nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9]
+                [nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9]
             )
             self._left_attack(cast_pos_abs, 90)
             self._right_attack(cast_pos_abs, 90)

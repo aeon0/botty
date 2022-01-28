@@ -208,15 +208,15 @@ class Basic_Ranged(IChar):
                     self._left_attack(cast_pos_abs, spray=11)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_len = int(self._char_config["atk_len_nihlatak"])
-        nihlatak_pos_abs = self._pather.find_abs_node_pos(
+        atk_len = int(self._char_config["atk_len_nihlathak"])
+        nihlathak_pos_abs = self._pather.find_abs_node_pos(
             end_nodes[-1], self._screen.grab()
         )
-        if nihlatak_pos_abs is None:
+        if nihlathak_pos_abs is None:
             return False
-        cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+        cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
         for _ in range(atk_len):
             if self._ui_manager.is_right_skill_active():
                 self._right_attack(cast_pos_abs, spray=11)
