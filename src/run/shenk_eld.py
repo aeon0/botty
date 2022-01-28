@@ -18,7 +18,7 @@ class ShenkEld:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt,
+        pickit: PickIt
     ):
         self._config = Config()
         self._template_finder = template_finder
@@ -38,27 +38,17 @@ class ShenkEld:
             return Location.A5_ELDRITCH_START
         return False
 
-    def battle(
-        self, do_shenk: bool, do_pre_buff: bool, game_stats
-    ) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch
-        game_stats.update_location(
-            "Eld" if self._config.general["discord_status_condensed"] else "Eldritch"
-        )
-        if not self._template_finder.search_and_wait(
-            ["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20
-        ).valid:
+        game_stats.update_location("Eld" if self._config.general['discord_status_condensed'] else "Eldritch")
+        if not self._template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()
         if self._char.can_teleport():
             self._pather.traverse_nodes_fixed("eldritch_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes(
-                (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST),
-                self._char,
-                force_move=True,
-            ):
+            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST), self._char, force_move=True):
                 return False
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
@@ -68,18 +58,14 @@ class ShenkEld:
         # Shenk
         if do_shenk:
             Logger.info("Run Shenk")
-            game_stats.update_location(
-                "Shk" if self._config.general["discord_status_condensed"] else "Shenk"
-            )
+            game_stats.update_location("Shk" if self._config.general['discord_status_condensed'] else "Shenk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
-            if not self._pather.traverse_nodes(
-                (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char
-            ):
+            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
                 return False
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END
-            wait(1.9, 2.4)  # sometimes merc needs some more time to kill shenk...
+            wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
             picked_up_items |= self._pickit.pick_up_items(self._char)
 
         return (loc, picked_up_items)

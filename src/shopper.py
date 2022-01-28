@@ -18,21 +18,15 @@ def main():
     elif config.general["logg_lvl"] == "debug":
         Logger.init(logging.DEBUG)
     else:
-        print(
-            f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]"
-        )
+        print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
 
-    keyboard.add_hotkey(
-        config.general["exit_key"], lambda: Logger.info(f"Force Exit") or os._exit(1)
-    )
+    keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
 
-    print(
-        f"============ Shop {__version__} [name: {config.general['name']}] ============"
-    )
+    print(f"============ Shop {__version__} [name: {config.general['name']}] ============")
     table = BeautifulTable()
     table.rows.append(["f10", "Shop at Drognan (for D2R Classic)"])
     table.rows.append(["f11", "Shop at Anya"])
-    table.rows.append([config.general["exit_key"], "Stop shop"])
+    table.rows.append([config.general['exit_key'], "Stop shop"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
@@ -47,7 +41,6 @@ def main():
             merchant.run()
             break
         time.sleep(0.02)
-
 
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end

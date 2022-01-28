@@ -5,12 +5,10 @@ import sys
 import re
 import warnings
 
-
 class Logger:
     """Manage logging"""
-
     _logger_level = None
-    _formatter = logging.Formatter("[%(asctime)s] %(levelname)-10s %(message)s")
+    _formatter = logging.Formatter('[%(asctime)s] %(levelname)-10s %(message)s')
     _log_contents = io.StringIO()
     _current_log_file_path = "info.log"
     _output = ""  # intercepted output from stdout and stderr
@@ -24,7 +22,7 @@ class Logger:
         if Logger.logger is None:
             Logger.init()
         Logger.logger.debug(data)
-
+    
     @staticmethod
     def info(data: str):
         if Logger.logger is None:
@@ -44,16 +42,14 @@ class Logger:
         Logger.logger.error(data)
 
     @staticmethod
-    def init(lvl=logging.DEBUG):
+    def init(lvl = logging.DEBUG):
         """
         Setup logger for StringIO, console and file handler
         """
         Logger._logger_level = lvl
 
         if Logger.logger is not None:
-            Logger.logger.warning(
-                "WARNING: logger was setup already, deleting all previously existing handlers"
-            )
+            Logger.logger.warning("WARNING: logger was setup already, deleting all previously existing handlers")
             for hdlr in Logger.logger.handlers[:]:  # remove all old handlers
                 Logger.logger.removeHandler(hdlr)
 
@@ -74,7 +70,7 @@ class Logger:
         Logger.console_handler.setLevel(Logger._logger_level)
 
         # Setup the file handler
-        Logger.file_handler = logging.FileHandler(Logger._current_log_file_path, "a")
+        Logger.file_handler = logging.FileHandler(Logger._current_log_file_path, 'a')
         Logger.file_handler.setLevel(Logger._logger_level)
 
         # Optionally add a formatter
@@ -86,7 +82,7 @@ class Logger:
         Logger.logger.addHandler(Logger.string_handler)
         Logger.logger.addHandler(Logger.console_handler)
         Logger.logger.addHandler(Logger.file_handler)
-
+        
         # redirect stderr & stdout to logger, e.g. print("...")
         # would have to implement all the std func such as write() flush() etc.
         # sys.stderr = Logger

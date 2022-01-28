@@ -39,9 +39,6 @@ jobs:
         run: |
           C:\Miniconda\condabin\conda.bat init powershell
           set PYTHONPATH=./src
-      - name: Lint black formatting
-        shell: powershell
-        run: black --check ./**/*.py
       - name: Pytest & Coverage
         shell: powershell
         run: |

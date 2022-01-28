@@ -12,14 +12,7 @@ from pather import Pather, Location
 
 
 class Basic(IChar):
-    def __init__(
-        self,
-        skill_hotkeys: dict,
-        screen: Screen,
-        template_finder: TemplateFinder,
-        ui_manager: UiManager,
-        pather: Pather,
-    ):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Character")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
@@ -68,7 +61,8 @@ class Basic(IChar):
         self.move(pos_m, force_move=True)
         self._cast_attack_pattern(atk_len)
 
-    # this is where we kill bosses
+
+#this is where we kill bosses
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
@@ -76,17 +70,10 @@ class Basic(IChar):
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
-                #  keyboard.send(self._skill_hotkeys["concentration"])
-                #  wait(0.05, 0.15)
-                self._pather.traverse_nodes(
-                    (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END),
-                    self,
-                    time_out=1.0,
-                    do_pre_move=self._do_pre_move,
-                )
-        self._pather.traverse_nodes(
-            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1
-        )
+            #  keyboard.send(self._skill_hotkeys["concentration"])
+            #  wait(0.05, 0.15)
+                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
         self._cast_attack_pattern(self._char_config["atk_len_pindle"])
         wait(0.1, 0.15)
         return True
@@ -96,14 +83,9 @@ class Basic(IChar):
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             if not self._do_pre_move:
-                #  keyboard.send(self._skill_hotkeys["concentration"])
-                #  wait(0.05, 0.15)
-                self._pather.traverse_nodes(
-                    (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END),
-                    self,
-                    time_out=1.0,
-                    do_pre_move=self._do_pre_move,
-                )
+            #  keyboard.send(self._skill_hotkeys["concentration"])
+            #  wait(0.05, 0.15)
+                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_attack_pattern(self._char_config["atk_len_eldritch"])
         return True
@@ -112,12 +94,7 @@ class Basic(IChar):
         # if not self._do_pre_move:
         #     keyboard.send(self._skill_hotkeys["concentration"])
         #     wait(0.05, 0.15)
-        self._pather.traverse_nodes(
-            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END),
-            self,
-            time_out=1.0,
-            do_pre_move=self._do_pre_move,
-        )
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_attack_pattern(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -159,16 +136,13 @@ class Basic(IChar):
         self._cast_attack_pattern(1.2)
         return True
 
-
 if __name__ == "__main__":
     import os
     import keyboard
-
-    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
     from ui.ui_manager import UiManager
-
     config = Config()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
