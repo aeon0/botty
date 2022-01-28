@@ -204,12 +204,11 @@ class ConsumiblesManager:
                 if tome_found.name == f"{item_type.upper()}_TOME_RED":
                     self._consumible_needs[item_type] = 0
                     return True
-                else:
                 # else the tome exists and is not empty, continue
-                    pos = self._screen.convert_screen_to_monitor(tome_found.position)
             else:
                 Logger.debug(f"update_tome_key_needs: could not find {item_type}")
                 return False
+            pos = self._screen.convert_screen_to_monitor(tome_found.position)
         elif item_type.lower() in ["key"]:
             res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"], threshold=0.9)
             if not res.valid:
