@@ -241,7 +241,7 @@ class Bot:
 
         # Inspect inventory
         items = None
-        if self._picked_up_items or self._game_stats._run_counter % 4 == 0 or self._prev_run_failed:
+        if self._picked_up_items or ((self._game_stats._run_counter - 1) % 4 == 0) or self._prev_run_failed:
             self._inventory_manager.toggle_inventory("open")
             img=self._screen.grab()
             # Update TP, ID, key needs
@@ -249,7 +249,7 @@ class Bot:
                 id_state = self._inventory_manager._tome_state(img, 'id')[0]
                 self._use_id_tome = True if id_state else False
                 self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"]).valid
-            if self._game_stats._run_counter % 4 == 0 or self._prev_run_failed:
+            if (self._game_stats._run_counter - 1) % 4 == 0 or self._prev_run_failed:
                 self._consumibles_manager.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
                     id_state = self._inventory_manager._tome_state(img, 'id')[0]
