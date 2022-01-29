@@ -4,6 +4,7 @@ from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
+from transmute import Transmute
 from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
@@ -125,6 +126,19 @@ class TownManager:
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A5_TOWN_START].identify(new_loc)
+
+    def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        new_loc = curr_loc
+        
+        if not self._acts[curr_act].can_stash():
+            new_loc = self.go_to_act(5, curr_loc)
+            if not new_loc: return False
+            curr_act = Location.A5_TOWN_START
+        
+        new_loc = self._acts[curr_act].open_stash(new_loc)
+        if not new_loc: return False
+        return new_loc
         
     def stash(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)

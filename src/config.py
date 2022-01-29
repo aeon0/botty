@@ -24,6 +24,7 @@ class Config:
     _game_config = None
     _pickit_config = None
     _shop_config = None
+    _transmute_config = None
     _custom = None
     # config data
     general = {}
@@ -64,6 +65,8 @@ class Config:
             return Config._pickit_config[section][key]
         elif section in Config._shop_config:
             return Config._shop_config[section][key]
+        elif section in Config._transmute_config:
+            return Config._transmute_config[section][key]
         else:
             return Config._game_config[section][key]
 
@@ -157,6 +160,8 @@ class Config:
         Config._pickit_config.read('config/pickit.ini')
         Config._shop_config = configparser.ConfigParser()
         Config._shop_config.read('config/shop.ini')
+        Config._transmute_config = configparser.ConfigParser()
+        Config._transmute_config.read('config/transmute.ini')
         Config._custom = configparser.ConfigParser()
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
             Config._custom.read('config/custom.ini')
@@ -343,6 +348,11 @@ class Config:
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
             "speed_factor": float(Config._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
+        }
+        stash_destination_str = Config._select_val("gems","stash_destination")
+        Config.transmute = {
+            "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
+            "transmute_every_x_game": int(Config._select_val("gems","transmute_every_x_game"))
         }
 
 if __name__ == "__main__":

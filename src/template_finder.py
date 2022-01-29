@@ -31,7 +31,7 @@ class TemplateFinder:
     def __init__(
         self,
         screen: Screen,
-        template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests"],
+        template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\items_inventory"],
         save_last_res: bool = False
     ):
         self._screen = screen

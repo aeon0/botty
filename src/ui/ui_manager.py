@@ -500,7 +500,6 @@ class UiManager():
 
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
-        keyboard.send("esc")
 
     def should_stash(self, num_loot_columns: int):
         """
