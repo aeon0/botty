@@ -52,10 +52,8 @@ class BeltManager:
         mask, _ = color_filter(img, self._config.colors["rejuv_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # health
-        mask1, _ = color_filter(img, self._config.colors["health_potion_0"])
-        mask2, _ = color_filter(img, self._config.colors["health_potion_1"])
-        mask_health = cv2.bitwise_or(mask1, mask2)
-        score_list.append((float(np.sum(mask_health)) / mask_health.size) * (1/255.0))
+        mask, _ = color_filter(img, self._config.colors["health_potion"])
+        score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # mana
         mask, _ = color_filter(img, self._config.colors["mana_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
