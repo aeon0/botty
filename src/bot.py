@@ -124,9 +124,12 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
+        self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo']
         self._transitions = [
-            { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
+            { 'trigger': 'init', 'source': 'initialization', 'dest': '=','before': "on_init"},
+            { 'trigger': 'select_character', 'source': 'initialization', 'dest': 'hero_selection', 'before': "on_select_character"},
+            { 'trigger': 'start_from_town', 'source': ['initialization', 'hero_selection'], 'dest': 'town', 'before': "on_town_init"},
+            { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': '=', 'before': "on_create_game"},
             # Tasks within town
             { 'trigger': 'maintenance', 'source': 'town', 'dest': 'town', 'before': "on_maintenance"},
             # Different runs
@@ -137,15 +140,15 @@ class Bot:
             { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_diablo"},
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'initialization', 'before': "on_end_game"},
         ]
-        self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
         from transitions.extensions import GraphMachine
-        self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self.machine = GraphMachine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
     def get_belt_manager(self) -> BeltManager:
@@ -155,7 +158,7 @@ class Bot:
         return self._curr_loc
 
     def start(self):
-        self.trigger('create_game')
+        self.trigger_or_stop('init')
 
     def stop(self):
         self._stopping = True
@@ -192,15 +195,50 @@ class Bot:
                 found_unfinished_run = True
                 break
         return not found_unfinished_run
+    
+    def _rebuild_as_asset_to_trigger(trigger_to_assets: dict):
+        result = {}
+        for key in trigger_to_assets.keys():
+            for asset in trigger_to_assets[key]:
+                result[asset] = key
+        return result
+
+    def on_init(self):
+        keyboard.release(self._config.char["stand_still"])
+        transition_to_screens = Bot._rebuild_as_asset_to_trigger({
+            "select_character": [
+                "MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"
+            ],
+            "start_from_town": [
+                 "A5_TOWN_0", "A5_TOWN_1",
+                 "A4_TOWN_4", "A4_TOWN_5",
+                 "A3_TOWN_0", "A3_TOWN_1",
+                 "A2_TOWN_0", "A2_TOWN_1", 
+                 "A2_TOWN_10","A1_TOWN_1", "A1_TOWN_3"],
+        })
+        match = self._template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
+        self.trigger_or_stop(transition_to_screens[match.name])
+    
+    def on_select_character(self):
+        if self._config.general['restart_d2r_when_stuck']:
+            # Make sure the correct char is selected
+            if self.char_selector.has_char_template_saved():
+                Logger.info("Selecting original char")
+                self.char_selector.select_char()
+            else:
+                Logger.info("Saving top-most char as template")
+                self.char_selector.save_char_template()
+        self.trigger_or_stop("create_game")
 
     def on_create_game(self):
-        keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
-        self._game_stats.log_start_game()
         self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
-        self._curr_loc = self._town_manager.wait_for_town_spawn()
+        self.trigger_or_stop("start_from_town")
 
+    def on_town_init(self):
+        self._game_stats.log_start_game()
+        self._curr_loc = self._town_manager.wait_for_town_spawn()
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
             cur_game_ip = get_d2r_game_ip()
@@ -222,6 +260,7 @@ class Bot:
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
+        
 
     def on_maintenance(self):
         # Handle picking up corpse in case of death
@@ -319,7 +358,7 @@ class Bot:
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         wait(0.2, 0.5)
-        self.trigger_or_stop("create_game")
+        self.trigger_or_stop("init")
 
     def on_end_run(self):
         if not self._config.char["pre_buff_every_run"]:
