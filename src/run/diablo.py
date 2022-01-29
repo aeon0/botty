@@ -8,8 +8,9 @@ from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
-from town.town_manager import TownManager
+from town.town_manager import TownManager, A4
 from ui import UiManager
+from ui import BeltManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
@@ -24,7 +25,8 @@ class Diablo:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        belt_manager: BeltManager
     ):
         self._config = Config()
         self._screen = screen
@@ -35,6 +37,7 @@ class Diablo:
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
+        self._belt_manager = belt_manager
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
@@ -47,6 +50,73 @@ class Diablo:
         self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
     
+    def _cs_town_visit(self) -> bool: # WiZ addition for town visits to heal/clear debuffs/restock pots 
+        # Do we want to go back to town and restock potions etc? 
+        if self._config.char["cs_town_visits"]:
+            buy_pots = self._belt_manager.should_buy_pots()
+            if not buy_pots:
+                Logger.info("Got enough pots, no need to go to town right now.")
+            else:
+                Logger.info("Going back to town to visit our friend Jamella (heal/clear debuffs/restock potions)")
+                success = self._char.tp_town()
+                if success:
+                    self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
+                    # Check if we should stash while we are in town
+                    force_stash = False
+                    force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+                    if force_stash:
+                        if self._config.char["id_items"]:
+                            Logger.info("Identifying items")
+                            self._curr_loc = self._town_manager.identify(self._curr_loc)
+                            if not self._curr_loc:
+                                return self.trigger_or_stop("end_game", failed=True)
+                        Logger.info("Stashing items")
+                        self._curr_loc = self._town_manager.stash(self._curr_loc)
+                        if not self._curr_loc:
+                            return self.trigger_or_stop("end_game", failed=True)
+                        self._no_stash_counter = 0
+                        self._picked_up_items = False
+                        wait(1.0)
+                    # Shop some pots
+                    if self._curr_loc:
+                        pot_needs = self._belt_manager.get_pot_needs()
+                        self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                    Logger.debug("Done in town, now going back to portal...")
+                    # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
+                    if not self._pather.traverse_nodes([164, 163], self._char, time_out=2): return False
+                    wait(0.22, 0.28)
+                    roi = self._config.ui_roi["reduce_to_center"]
+                    img = self._screen.grab()
+                    template_match = self._template_finder.search(
+                        ["BLUE_PORTAL","BLUE_PORTAL_2"],
+                        img,
+                        threshold=0.66,
+                        roi=roi,
+                        normalize_monitor=True
+                    )
+                    if template_match.valid:
+                        pos = template_match.position
+                        pos = (pos[0], pos[1] + 30)
+                        Logger.debug("Going through portal...")
+                        # Note: Template is top of portal, thus move the y-position a bit to the bottom
+                        mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
+                        wait(0.08, 0.15)
+                        mouse.click(button="left")
+                        if self._ui_manager.wait_for_loading_screen(2.0):
+                            Logger.debug("Waiting for loading screen...")
+                            
+                        # Recalibrate at Pentagram and set up new TP to improve loop back to penta success  
+                        self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
+                        self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP    
+                        if not self._ui_manager.has_tps():
+                            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
+                            self.used_tps += 20
+                        mouse.click(button="right")
+                        self.used_tps += 1
+                        Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))   
+                
+        return True
+
     # OPEN SEALS
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
@@ -507,6 +577,7 @@ class Diablo:
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         #self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
@@ -538,6 +609,7 @@ class Diablo:
         # Seal B: De Seis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
+        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
@@ -570,6 +642,7 @@ class Diablo:
         # Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency

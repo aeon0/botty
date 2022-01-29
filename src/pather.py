@@ -686,7 +686,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIABLO_ENTRANCE")
 
     # # changing node pos and generating new code
     # code = ""

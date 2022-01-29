@@ -110,7 +110,8 @@ run_shenk=0
 | atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
-| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared (clearing trash between Pentagram & Seals is NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
+| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
+| cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |

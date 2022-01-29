@@ -178,6 +178,7 @@ class Config:
             "atk_len_diablo": float(Config._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
+            "cs_town_visits": float(Config._select_val("char", "cs_town_visits")),
             "always_repair": bool(int(Config._select_val("char", "always_repair"))),
         }
 
