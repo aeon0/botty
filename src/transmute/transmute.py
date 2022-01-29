@@ -75,7 +75,7 @@ class Transmute:
         self._ui_manager._move_to_stash_tab(0)
         screen = self._screen.grab()
         match = self._template_finder.search(
-            ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["hero_stash_roi"])
+            ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["left_inventory"])
         if match.valid:
             x, y = self._screen.convert_screen_to_monitor(match.position)
             mouse.move(x, y)
@@ -108,11 +108,11 @@ class Transmute:
         return self.pick_from_area(column, row, Config.ui_roi["cube_area_roi"])
 
     def pick_from_inventory_at(self, column, row):
-        return self.pick_from_area(column, row, Config.ui_roi["inventory"])
+        return self.pick_from_area(column, row, Config.ui_roi["right_inventory"])
 
     def pick_from_stash_at(self, index, column, row):
         self._ui_manager._move_to_stash_tab(index)
-        return self.pick_from_area(column, row, Config.ui_roi["hero_stash_roi"])
+        return self.pick_from_area(column, row, Config.ui_roi["left_inventory"])
 
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
         result = InventoryCollection()
@@ -140,7 +140,7 @@ class Transmute:
         return avg_brightness > treshold
 
     def inspect_inventory_area(self, known_items) -> InventoryCollection:
-        return self.inspect_area(4, Config.char["num_loot_columns"], Config.ui_roi["inventory"], known_items)
+        return self.inspect_area(4, Config.char["num_loot_columns"], Config.ui_roi["right_inventory"], known_items)
 
     def inspect_stash(self) -> Stash:
         stash = Stash()
@@ -148,7 +148,7 @@ class Transmute:
             self._ui_manager._move_to_stash_tab(i)
             wait(0.4, 0.5)
             tab = self.inspect_area(
-                10, 10, Config.ui_roi["hero_stash_roi"], FLAWLESS_GEMS)
+                10, 10, Config.ui_roi["left_inventory"], FLAWLESS_GEMS)
             stash.add_tab(i, tab)
         return stash
 

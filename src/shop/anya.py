@@ -80,7 +80,7 @@ class AnyaShopper:
 
         # Claws config
         self.roi_claw_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
-        self.roi_vendor = config.ui_roi["vendor_stash"]
+        self.roi_vendor = config.ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
         self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
@@ -108,7 +108,7 @@ class AnyaShopper:
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
-                roi=self._config.ui_roi["vendor_stash"],
+                roi=self._config.ui_roi["left_inventory"],
                 normalize_monitor=True,
             )
             if ias_glove.valid:
