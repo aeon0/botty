@@ -12,7 +12,7 @@ from game_recovery import GameRecovery
 from game_stats import GameStats
 from health_manager import HealthManager
 from logger import Logger
-from messenger import Messenger
+from messages import Messenger
 from screen import Screen
 from ui.char_selector import CharSelector
 from utils.restart import restart_game

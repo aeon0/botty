@@ -13,9 +13,8 @@ from npc_manager import NpcManager, Npc
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template
-import cv2
 
-from messenger import Messenger
+from messages import Messenger
 
 
 def exit(run_obj):
