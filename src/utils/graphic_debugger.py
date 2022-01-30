@@ -42,7 +42,7 @@ class GraphicDebuggerController:
         self.is_running = False
 
     def start(self):
-        self.screen = Screen(self._config.general["monitor"])
+        self.screen = Screen()
         self.item_finder = ItemFinder()
         self.template_finder = TemplateFinder(self.screen)
         if self._config.advanced_options['graphic_debugger_layer_creator']:

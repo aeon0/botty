@@ -37,9 +37,7 @@ def start_or_stop_graphic_debugger(controllers: Controllers):
 
 def on_exit():
     Logger.info(f'Force Exit')
-    config = Config()
-    if config.advanced_options['d2r_windows_always_on_top']:
-        restore_d2r_window_visibility()
+    restore_d2r_window_visibility()
     os._exit(1)
 
 def main():
@@ -49,12 +47,12 @@ def main():
     )
 
     config = Config()
-    if config.general["logg_lvl"] == "info":
+    if config.advanced_options["logg_lvl"] == "info":
         Logger.init(logging.INFO)
-    elif config.general["logg_lvl"] == "debug":
+    elif config.advanced_options["logg_lvl"] == "debug":
         Logger.init(logging.DEBUG)
     else:
-        print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
+        print(f"ERROR: Unkown logg_lvl {config.advanced_options['logg_lvl']}. Must be one of [info, debug]")
 
     # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("stats"):
@@ -67,22 +65,22 @@ def main():
     print(f"============ Botty {__version__} [name: {config.general['name']}] ============")
     print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
     table = BeautifulTable()
-    table.rows.append([config.general['restore_settings_from_backup_key'], "Restore D2R settings from backup"])
-    table.rows.append([config.general['settings_backup_key'], "Backup D2R current settings"])
-    table.rows.append([config.general['auto_settings_key'], "Adjust D2R settings"])
-    table.rows.append([config.general['graphic_debugger_key'], "Start / Stop Graphic debugger"])
-    table.rows.append([config.general['resume_key'], "Start / Pause Botty"])
-    table.rows.append([config.general['exit_key'], "Stop bot"])
+    table.rows.append([config.advanced_options['restore_settings_from_backup_key'], "Restore D2R settings from backup"])
+    table.rows.append([config.advanced_options['settings_backup_key'], "Backup D2R current settings"])
+    table.rows.append([config.advanced_options['auto_settings_key'], "Adjust D2R settings"])
+    table.rows.append([config.advanced_options['graphic_debugger_key'], "Start / Stop Graphic debugger"])
+    table.rows.append([config.advanced_options['resume_key'], "Start / Pause Botty"])
+    table.rows.append([config.advanced_options['exit_key'], "Stop bot"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
 
-    keyboard.add_hotkey(config.general['auto_settings_key'], lambda: adjust_settings())
-    keyboard.add_hotkey(config.general['graphic_debugger_key'], lambda: start_or_stop_graphic_debugger(controllers))
-    keyboard.add_hotkey(config.general['restore_settings_from_backup_key'], lambda: restore_settings_from_backup())
-    keyboard.add_hotkey(config.general['settings_backup_key'], lambda: backup_settings())
-    keyboard.add_hotkey(config.general['resume_key'], lambda: start_or_pause_bot(controllers))
-    keyboard.add_hotkey(config.general["exit_key"], lambda: on_exit())
+    keyboard.add_hotkey(config.advanced_options['auto_settings_key'], lambda: adjust_settings())
+    keyboard.add_hotkey(config.advanced_options['graphic_debugger_key'], lambda: start_or_stop_graphic_debugger(controllers))
+    keyboard.add_hotkey(config.advanced_options['restore_settings_from_backup_key'], lambda: restore_settings_from_backup())
+    keyboard.add_hotkey(config.advanced_options['settings_backup_key'], lambda: backup_settings())
+    keyboard.add_hotkey(config.advanced_options['resume_key'], lambda: start_or_pause_bot(controllers))
+    keyboard.add_hotkey(config.advanced_options["exit_key"], lambda: on_exit())
     keyboard.wait()
 
 

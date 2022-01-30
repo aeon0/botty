@@ -309,8 +309,7 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
     npc_manager.open_npc_menu(Npc.MALAH)

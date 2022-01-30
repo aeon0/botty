@@ -115,15 +115,7 @@ class Config:
         Config.general = {
             "saved_games_folder": Config._select_val("general", "saved_games_folder"),
             "name": Config._select_val("general", "name"),
-            "monitor": int(Config._select_val("general", "monitor")),
             "max_game_length_s": float(Config._select_val("general", "max_game_length_s")),
-            "exit_key": Config._select_val("general", "exit_key"),
-            "resume_key": Config._select_val("general", "resume_key"),
-            "auto_settings_key": Config._select_val("general", "auto_settings_key"),
-            "restore_settings_from_backup_key": Config._select_val("general", "restore_settings_from_backup_key"),
-            "settings_backup_key": Config._select_val("general", "settings_backup_key"),
-            "graphic_debugger_key": Config._select_val("general", "graphic_debugger_key"),
-            "logg_lvl": Config._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(Config._select_val("general", "randomize_runs"))),
             "difficulty": Config._select_val("general", "difficulty"),
             "message_api_type": Config._select_val("general", "message_api_type"),
@@ -134,7 +126,6 @@ class Config:
             "loot_screenshots": bool(int(Config._select_val("general", "loot_screenshots"))),
             "d2r_path": Config._select_val("general", "d2r_path"),
             "restart_d2r_when_stuck": bool(int(Config._select_val("general", "restart_d2r_when_stuck"))),
-            "find_window_via_win32_api": bool(int(Config._select_val("general", "find_window_via_win32_api")))
         }
 
         # Added for dclone ip hunting
@@ -258,9 +249,14 @@ class Config:
             "pathing_delay_factor": min(max(int(Config._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": Config._select_val("advanced_options", "message_headers"),
             "message_body_template": Config._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(Config._select_val("advanced_options", "message_highlight"))),
-            "d2r_windows_always_on_top": bool(int(Config._select_val("advanced_options", "d2r_windows_always_on_top"))),
             "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator"))),
+            "logg_lvl": Config._select_val("advanced_options", "logg_lvl"),
+            "exit_key": Config._select_val("advanced_options", "exit_key"),
+            "resume_key": Config._select_val("advanced_options", "resume_key"),
+            "auto_settings_key": Config._select_val("advanced_options", "auto_settings_key"),
+            "restore_settings_from_backup_key": Config._select_val("advanced_options", "restore_settings_from_backup_key"),
+            "settings_backup_key": Config._select_val("advanced_options", "settings_backup_key"),
+            "graphic_debugger_key": Config._select_val("advanced_options", "graphic_debugger_key"),
         }
 
         Config.items = {}

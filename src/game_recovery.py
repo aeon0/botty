@@ -19,8 +19,7 @@ class GameRecovery:
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            set_d2r_always_on_top()
+        set_d2r_always_on_top()
         time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
@@ -70,8 +69,7 @@ if __name__ == "__main__":
     import os
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     death_manager = DeathManager(screen)
     game_recovery = GameRecovery(screen, death_manager)
     game_recovery.go_to_hero_selection()

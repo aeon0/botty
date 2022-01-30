@@ -54,7 +54,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     tf = TemplateFinder(screen)
     selector = CharSelector(screen, tf)
     if not selector.has_char_template_saved():

@@ -48,18 +48,14 @@ def restore_settings_from_backup():
     else:
         print("No backup was found, couldn't restore settings.")
 
-
 def adjust_settings():
-    config = Config()
     close_down_d2()
     # find monitor res
     sct = mss()
-    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
+    monitor_idx = 1
     if len(sct.monitors) == 1:
         print("How do you not have a monitor connected?!")
         os._exit(1)
-    if monitor_idx >= len(sct.monitors):
-        monitor_idx = 1
     d2_saved_games = get_d2r_folder()
     # adjust settings
     f = open(d2_saved_games + "\\Settings.json")
@@ -78,15 +74,6 @@ def adjust_settings():
     print("Adapted settings succesfully. You can now restart D2R.")
 
 def check_settings() -> dict:
-    # find monitor res
-    config = Config()
-    sct = mss()
-    monitor_idx = config.general["monitor"] + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
-    if len(sct.monitors) == 1:
-        print("How do you not have a monitor connected?!")
-        os._exit(1)
-    if monitor_idx >= len(sct.monitors):
-        monitor_idx = 1
     d2_saved_games = get_d2r_folder()
     # adjust settings
     f = open(d2_saved_games + "\\Settings.json")

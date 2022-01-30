@@ -13,20 +13,20 @@ from version import __version__
 
 def main():
     config = Config()
-    if config.general["logg_lvl"] == "info":
+    if config.advanced_options["logg_lvl"] == "info":
         Logger.init(logging.INFO)
-    elif config.general["logg_lvl"] == "debug":
+    elif config.advanced_options["logg_lvl"] == "debug":
         Logger.init(logging.DEBUG)
     else:
-        print(f"ERROR: Unkown logg_lvl {config.general['logg_lvl']}. Must be one of [info, debug]")
+        print(f"ERROR: Unkown logg_lvl {config.advanced_options['logg_lvl']}. Must be one of [info, debug]")
 
-    keyboard.add_hotkey(config.general["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
+    keyboard.add_hotkey(config.advanced_options["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
 
     print(f"============ Shop {__version__} [name: {config.general['name']}] ============")
     table = BeautifulTable()
     table.rows.append(["f10", "Shop at Drognan (for D2R Classic)"])
     table.rows.append(["f11", "Shop at Anya"])
-    table.rows.append([config.general['exit_key'], "Stop shop"])
+    table.rows.append([config.advanced_options['exit_key'], "Stop shop"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
