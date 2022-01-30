@@ -3,7 +3,6 @@ import random
 import ctypes
 import numpy as np
 
-from config import Config
 from logger import Logger
 import cv2
 from typing import List, Tuple

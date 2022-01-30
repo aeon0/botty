@@ -44,7 +44,7 @@ class GameRecovery:
                         time.sleep(0.2)
                     # Right now it selects the tab to the left of offline
                     offline_width = self._config.ui_pos["offline_width"]
-                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
+                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])
                     x, y = self._screen.convert_screen_to_monitor(tab)
                     mouse.move(x, y, randomize=8)
                     time.sleep(0.5)

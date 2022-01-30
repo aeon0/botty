@@ -25,7 +25,28 @@ class Config:
     _pickit_config = None
     _shop_config = None
     _custom = None
-
+    # config data
+    general = {}
+    advanced_options = {}
+    ui_roi = {}
+    ui_pos = {}
+    dclone = {}
+    routes = {}
+    routes_order = []
+    char = {}
+    items = {}
+    colors = {}
+    shop = {}
+    path = {}
+    blizz_sorc = {}
+    light_sorc = {}
+    nova_sorc = {}
+    hammerdin = {}
+    trapsin = {}
+    barbarian = {}
+    necro = {}
+    basic = {}
+    basic_ranged = {}
 
     def __init__(self):
         with config_lock:
