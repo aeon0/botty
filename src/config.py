@@ -258,7 +258,6 @@ class Config:
             "pathing_delay_factor": min(max(int(Config._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": Config._select_val("advanced_options", "message_headers"),
             "message_body_template": Config._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(Config._select_val("advanced_options", "message_highlight"))),
             "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator"))),
         }
 
