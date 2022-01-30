@@ -130,7 +130,7 @@ class GameController:
         self.is_running = False
        
     def setup_screen(self):
-        self.screen = Screen(self._config.general["monitor"])
+        self.screen = Screen()
         if self.screen.found_offsets:
             return True
         return False

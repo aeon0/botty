@@ -636,7 +636,7 @@ if __name__ == "__main__":
     from config import Config
     config = Config()
     game_stats = GameStats()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder, game_stats)

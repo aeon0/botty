@@ -16,7 +16,6 @@ def process_exists(process_name):
     return last_line.lower().startswith(process_name.lower())
 
 def restart_game(d2_path = None):
-    config = Config()
     if not d2_path:
         path = "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe"
     else:
@@ -34,7 +33,7 @@ def restart_game(d2_path = None):
     attempts = 0
     set_d2r_always_on_top()
     while not success:
-        screen = Screen(config.general["monitor"], wait=5)
+        screen = Screen()
         success = screen.found_offsets
         if not success:
             keyboard.send("space")

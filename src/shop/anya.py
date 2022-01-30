@@ -68,7 +68,7 @@ class AnyaShopper:
         self.melee_claw_min_score = self._config.shop["melee_min_score"]
 
 
-        self._screen = Screen(config.general["monitor"])
+        self._screen = Screen()
         self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
         self._npc_manager = NpcManager(
