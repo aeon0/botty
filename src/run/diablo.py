@@ -50,14 +50,14 @@ class Diablo:
         self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
     
-    def _cs_town_visit(self) -> bool: # WiZ addition for town visits to heal/clear debuffs/restock pots 
+    def _cs_town_visit(self, location:str) -> bool: # WiZ addition for town visits to heal/clear debuffs/restock pots 
         # Do we want to go back to town and restock potions etc? 
         if self._config.char["cs_town_visits"]:
             buy_pots = self._belt_manager.should_buy_pots()
             if not buy_pots:
-                Logger.info("Got enough pots, no need to go to town right now.")
+                Logger.info(location + ": Got enough pots, no need to go to town right now.")
             else:
-                Logger.info("Going back to town to visit our friend Jamella (heal/clear debuffs/restock potions)")
+                Logger.info(location + ": Going back to town to visit our friend Jamella (heal/clear debuffs/restock potions)")
                 success = self._char.tp_town()
                 if success:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
@@ -66,11 +66,11 @@ class Diablo:
                     force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
                     if force_stash:
                         if self._config.char["id_items"]:
-                            Logger.info("Identifying items")
+                            Logger.info(location + ": Identifying items")
                             self._curr_loc = self._town_manager.identify(self._curr_loc)
                             if not self._curr_loc:
                                 return self.trigger_or_stop("end_game", failed=True)
-                        Logger.info("Stashing items")
+                        Logger.info(location + ":Stashing items")
                         self._curr_loc = self._town_manager.stash(self._curr_loc)
                         if not self._curr_loc:
                             return self.trigger_or_stop("end_game", failed=True)
@@ -81,7 +81,7 @@ class Diablo:
                     if self._curr_loc:
                         pot_needs = self._belt_manager.get_pot_needs()
                         self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
-                    Logger.debug("Done in town, now going back to portal...")
+                    Logger.debug(location + ": Done in town, now going back to portal...")
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
                     if not self._pather.traverse_nodes([164, 163], self._char, time_out=2): return False
                     wait(0.22, 0.28)
@@ -97,23 +97,23 @@ class Diablo:
                     if template_match.valid:
                         pos = template_match.position
                         pos = (pos[0], pos[1] + 30)
-                        Logger.debug("Going through portal...")
+                        Logger.debug(location + ": Going through portal...")
                         # Note: Template is top of portal, thus move the y-position a bit to the bottom
                         mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                         wait(0.08, 0.15)
                         mouse.click(button="left")
                         if self._ui_manager.wait_for_loading_screen(2.0):
-                            Logger.debug("Waiting for loading screen...")
+                            Logger.debug(location + ": Waiting for loading screen...")
                             
                         # Recalibrate at Pentagram and set up new TP to improve loop back to penta success  
                         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
                         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char) # move to TP    
                         if not self._ui_manager.has_tps():
-                            Logger.warning("CS: Open TP failed, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
+                            Logger.warning("CS after Town: Open TP failed, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
                             self.used_tps += 20
                         mouse.click(button="right")
                         self.used_tps += 1
-                        Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))   
+                        Logger.debug("CS after town: FYI, total TPs used: " + str(self.used_tps))   
                 
         return True
 
@@ -121,7 +121,7 @@ class Diablo:
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
         while i < 3:
-            Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)) # try to select seal
+            Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")") # try to select seal
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
             wait(i*0.5)
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.5, take_ss=False).valid # check if seal is opened
@@ -372,13 +372,13 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + ": Fake")
         if not self._pather.traverse_nodes([614], self._char): return False # , time_out=3):
-        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + "-Fake", [614]): return False
+        if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + ": Fake", [614]): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([615], self._char): return False # , time_out=3):
-        if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + "-Boss", [615]): return False
+        if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + ": Boss", [615]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
@@ -406,14 +406,14 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + ": Fake")
         if not self._pather.traverse_nodes([625], self._char): return False # , time_out=3): #recalibrate after loot & at seal
-        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + "-Fake", [625]): return False
+        if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + ": Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([626], self._char): return False # , time_out=3): #recalibrate after loot & at seal
-        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + "-Boss", [626]): return False
+        if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + ": Boss", [626]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss A (Vizier)")
         self._char.kill_vizier(seal_layout)
@@ -442,9 +442,9 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3): #recalibrate after loot & at seal
-        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + "-Boss", [634])
+        self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + ": Boss", [634])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
@@ -472,9 +472,9 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([644], self._char): return False # , time_out=3): #recalibrate after loot & at seal
-        self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + "-Boss", [644])
+        self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + ": Boss", [644])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
@@ -503,13 +503,13 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###        
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + ": Fake")
         if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
-        if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + "-Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
-        Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + ": Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
+        Logger.debug(seal_layout + " Boss: Kill trash")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([652], self._char): return False # , time_out=3):
-        if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + "-Boss", [652]): return False
+        if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + ": Boss", [652]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
@@ -537,16 +537,16 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_boss")
+        self._char.kill_cs_trash(seal_layout + ": Boss")
         if not self._pather.traverse_nodes([662], self._char): return False # , time_out=3):
-        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + "-Boss", [662]): return False
+        if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + ": Boss", [662]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "_fake")
+        self._char.kill_cs_trash(seal_layout + ": Fake")
         if not self._pather.traverse_nodes([665], self._char): return False # , time_out=3):  #recalibrate after loot & at seal
-        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + "-Fake", [665]): return False       
+        if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + ": Fake", [665]): return False       
         ### GO HOME ###
         if not self._pather.traverse_nodes([665], self._char): return False # , time_out=3):
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
@@ -577,7 +577,7 @@ class Diablo:
         # Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a") # not needed if seals exectued in order A-B-C and clear_trash = 0
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
-        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
+        if self._config.char["cs_town_visits"]: self._cs_town_visit("A") #buy pots and stash items
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         #self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
@@ -609,7 +609,7 @@ class Diablo:
         # Seal B: De Seis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
+        if self._config.char["cs_town_visits"]: self._cs_town_visit("B") #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
@@ -642,7 +642,7 @@ class Diablo:
         # Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
-        if self._config.char["cs_town_visits"]: self._cs_town_visit() #buy pots and stash items
+        if self._config.char["cs_town_visits"]: self._cs_town_visit("C") #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
         #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency

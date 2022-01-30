@@ -10,7 +10,7 @@ wkdir = os.getcwd()
 #initialize strings
 simple_string = ["Starting game", "Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
-complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Failed to determine the right Layout", "Starting to clear Seal", "Boss: trying to open", "Fake: trying to open", "Kill Boss", "Attacking Vizier at position", "Attacking De Seis at position", "Attacking Infector at position", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"]
+complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Failed to determine the right Layout", "Starting to clear Seal", "Fake: trying to open", "Fake: not open", "Fake: is open", "Boss: trying to open", "Boss: not open", "Boss: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 error_string = ["End failed game"]
 error_array = []
 error_traverse = []

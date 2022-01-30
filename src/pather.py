@@ -686,7 +686,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIABLO_ENTRANCE")
+    #display_all_nodes(pather, "DIABLO_ENTRANCE")
 
     # # changing node pos and generating new code
     # code = ""
@@ -701,6 +701,8 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
+    pather.traverse_nodes([632], char)
+    """
     pather.traverse_nodes([602], char)
     pather.traverse_nodes_fixed("dia_trash_a", char)
     pather.traverse_nodes_fixed("dia_a1l_home_loop", char)
@@ -721,3 +723,4 @@ if __name__ == "__main__":
     #pather.traverse_nodes_fixed("dia_a2y_home_loop", char)
     #pather.traverse_nodes([602], char)
     #pather.traverse_nodes_fixed("dia_a_layout2", char)
+    """
