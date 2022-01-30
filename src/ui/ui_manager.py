@@ -15,7 +15,7 @@ from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
 
-from messenger import Messenger
+from messages import Messenger
 from game_stats import GameStats
 
 
