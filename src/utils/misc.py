@@ -96,6 +96,25 @@ def trim_black(image):
     img = image[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
     return img, roi
 
+def erode_to_black(img: np.ndarray, threshold: int = 14):
+    # Cleanup image with erosion image as marker with morphological reconstruction
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    thresh = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)[1]
+    kernel = np.ones((3, 3), np.uint8)
+    marker = thresh.copy()
+    marker[1:-1, 1:-1] = 0
+    while True:
+        tmp = marker.copy()
+        marker = cv2.dilate(marker, kernel)
+        marker = cv2.min(thresh, marker)
+        difference = cv2.subtract(marker, tmp)
+        if cv2.countNonZero(difference) <= 0:
+            break
+    mask_r = cv2.bitwise_not(marker)
+    mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
+    img = cv2.bitwise_and(img, mask_color_r)
+    return img
+
 def color_filter(img, color_range):
     color_ranges=[]
     # ex: [array([ -9, 201,  25]), array([ 9, 237,  61])]
