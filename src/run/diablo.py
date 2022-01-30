@@ -120,16 +120,18 @@ class Diablo:
     # OPEN SEALS
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
-        while i < 3:
+        while i < 4:
             Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")") # try to select seal
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.5)
             wait(i*0.5)
             found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.5, take_ss=False).valid # check if seal is opened
             if found:
-                Logger.info(seal_layout +": "'\033[92m'+"is open"+'\033[0m')
+                #Logger.info(seal_layout +": is open")
+                Logger.info(seal_layout +": is"'\033[92m'+" open"+'\033[0m')
                 break
             else:
-                Logger.debug(seal_layout +": "'\033[91m'+"not open"+'\033[0m')
+                #Logger.debug(seal_layout +": not open")
+                Logger.debug(seal_layout +": not"'\033[91m'+" open"+'\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((0, 0)) #remove mouse from seal
                 mouse.move(*pos_m, randomize=[90, 160])
                 wait(0.3)
@@ -189,11 +191,11 @@ class Diablo:
             Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.info('\033[91m'+"Entrance 2 Layout_check step 2/2: Failed to determine the right Layout, trying to loop to pentagram to save the run"+'\033[0m')
+                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
             else:
-                Logger.info('\033[96m'+"Entrance 2 Layout_check step 2/2: Entrance 2 templates found - all fine, proceeding with Entrance 2"+'\033[0m')
+                Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - "+'\033[96m'+"all fine, proceeding with Entrance 2"+'\033[0m')
                 #if not self._entrance_2(): return False
                 entrance2_layout = "CS Entrance Style 2"
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -224,7 +226,7 @@ class Diablo:
             Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug('\033[95m'+"Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - all fine, proceeding with Entrance 1"+'\033[0m')
+                Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - "+'\033[95m'+"all fine, proceeding with Entrance 1"+'\033[0m')
                 #if not self._entrance_1(): return False
                 entrance1_layout = "CS Entrance Style 1"
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -252,7 +254,7 @@ class Diablo:
                 # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM
                 return True
             else:
-                Logger.info('\033[91m'+"Entrance 1 Layout_check step 2/2: Failed to determine the right Layout, trying to loop to pentagram to save the run"+'\033[0m')
+                Logger.info("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
         
@@ -372,11 +374,11 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([614], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], seal_layout + ": Fake", [614]): return False
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([615], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"], seal_layout + ": Boss", [615]): return False
         ### KILL BOSS ###
@@ -406,12 +408,12 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([625], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], seal_layout + ": Fake", [625]): return False
         self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self._char) #instead of traversing node 626 which causes issues
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([626], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         if not self._sealdance(["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"], seal_layout + ": Boss", [626]): return False
         ### KILL BOSS ###
@@ -442,14 +444,14 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         self._sealdance(["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"], seal_layout + ": Boss", [634])
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss B (De Seis)")
         if not self._char.kill_deseis(seal_layout): return False
         ### GO HOME ###
-        if not self._pather.traverse_nodes([633, 634], self._char): return False # , time_out=3): 
+        if not self._pather.traverse_nodes([632], self._char): return False # , time_out=3): 
         Logger.info(seal_layout + ": Static Pathing to Pentagram")
         self._pather.traverse_nodes_fixed("dia_b1s_home", self._char)
         Logger.info(seal_layout + ": Looping to PENTAGRAM")
@@ -472,7 +474,7 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([644], self._char): return False # , time_out=3): #recalibrate after loot & at seal
         self._sealdance(["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"], seal_layout + ": Boss", [644])
         ### KILL BOSS ###
@@ -503,11 +505,11 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###        
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], seal_layout + ": Fake", [655]): return False #ISSUE: getting stuck on 705 during sealdance(), reaching maxgamelength
         Logger.debug(seal_layout + " Boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([652], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"], seal_layout + ": Boss", [652]): return False
         ### KILL BOSS ###
@@ -537,14 +539,14 @@ class Diablo:
         self._char.kill_cs_trash(seal_layout + "_03")
         ### APPROACH SEAL ###
         Logger.debug(seal_layout + "_boss: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-boss")
+        self._char.kill_cs_trash(seal_layout + "_boss")
         if not self._pather.traverse_nodes([662], self._char): return False # , time_out=3):
         if not self._sealdance(["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], seal_layout + ": Boss", [662]): return False
         ### KILL BOSS ###
         Logger.info(seal_layout + ": Kill Boss C (Infector)")
         self._char.kill_infector(seal_layout)
         Logger.debug(seal_layout + "_fake: Kill trash")
-        self._char.kill_cs_trash(seal_layout + "-fake")
+        self._char.kill_cs_trash(seal_layout + "_fake")
         if not self._pather.traverse_nodes([665], self._char): return False # , time_out=3):  #recalibrate after loot & at seal
         if not self._sealdance(["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"], seal_layout + ": Fake", [665]): return False       
         ### GO HOME ###
@@ -584,25 +586,25 @@ class Diablo:
         Logger.info("A: Checking Layout for Vizier")
         if not self._pather.traverse_nodes([619], self._char): return False # , time_out=3): # HEUREKA, I merged the templates of both A1L and A2Y into this node. So it should calibrate independent of layout.
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"] # We check for A2Y templates first, they are more distinct, but we still have a 10% failure rate here amongst 100s of runs. Mostly it is related to NOT perfectly arriving at the layout check position (overshooting by 1 teleport) - maybe looping could help here?. The ratio of seals is typically skewed towards A1L, due to failing here.
+        templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1"]  # these templates were never found in 200 runs:  "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
-            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]
+            templates = ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT"] # these templates were never found in 200 runs: "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", ,"DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"
             if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
-                Logger.debug('\033[91m'+"A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run"+'\033[0m') #this also happens approx (7%) of the times tested amongst 100s of runs
+                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m') #this also happens approx (7%) of the times tested amongst 100s of runs
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug('\033[93m'+"A1-L: Layout_check step 2/2 - A1L templates found - all fine, proceeding with A1L"+'\033[0m')
+                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - "+'\033[93m'+"all fine, proceeding with A1L"+'\033[0m')
                 if not self._seal_A1(): return False
         else:
             Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
-            templates = ["DIA_A1L_LAYOUTCHECK0","DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]
+            templates = ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT"] # these templates were never found in 200 runs: "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", ,"DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug('\033[94m'+"A2-Y: Layout_check step 2/2 - A1L templates NOT found - all fine, proceeding with A2Y"+'\033[0m')
+                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - "+'\033[94m'+"all fine, proceeding with A2Y"+'\033[0m')
                 if not self._seal_A2(): return False
             else:
-                Logger.debug('\033[91m'+"A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - aborting run"+'\033[0m')
+                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
@@ -619,23 +621,23 @@ class Diablo:
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("B1-S: Layout_check step 1/2 - B1S templates found")
             if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3):
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
+            templates = ["DIA_B2U_LAYOUTCHECK2",] # these templates were never found in 200 runs: "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
-                Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - aborting run")
+                Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug('\033[93m'+"B1-S: Layout_check step 2/2 - B2U templates NOT found - all fine, proceeding with B1S"+'\033[0m')
+                Logger.debug("B1-S: Layout_check step 2/2 - B2U templates NOT found - "+'\033[93m'+"all fine, proceeding with B1S"+'\033[0m')
                 if not self._seal_B1(): return False
         else:
             Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
             if not self._pather.traverse_nodes([647], self._char): return False # , time_out=3): #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
-            templates = ["DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]
+            templates = ["DIA_B2U_LAYOUTCHECK2",] # these templates were never found in 200 runs: "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug('\033[94m'+"B2-U: Layout_check step 2/2 - B2U templates found - all fine, proceeding with B2U"+'\033[0m')
+                Logger.debug("B2-U: Layout_check step 2/2 - B2U templates found - "+'\033[94m'+"all fine, proceeding with B2U"+'\033[0m')
                 if not self._seal_B2(): return False
             else:
-                Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - aborting run")
+                Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B2U_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
         
@@ -648,25 +650,25 @@ class Diablo:
         #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
         Logger.debug("C: Checking Layout for Infector")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"] #We check for C1F templates first, they are more distinct
+        templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"] #these tempaltes were never found in 200 runs: "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
             Logger.debug("C1-F: Layout_check step 1/2 - C2G templates NOT found")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("C1-F: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
+                Logger.debug("C1-F: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C1F_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug('\033[93m'+"C1-F: Layout_check step 2/2 - C1F templates found - all fine, proceeding with C1F"+'\033[0m')
+                Logger.debug("C1-F: Layout_check step 2/2 - C1F templates found - "+'\033[93m'+"all fine, proceeding with C1F"+'\033[0m')
                 if not self._seal_C1(): return False
         else:
             Logger.debug("C2-G: Layout_check step 1/2 - C2G templates found")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug('\033[94m'+"C2-G: Layout_check step 2/2 - C1F templates NOT found - all fine, proceeding with C2G"+'\033[0m')
+                Logger.debug("C2-G: Layout_check step 2/2 - C1F templates NOT found - "+'\033[94m'+"all fine, proceeding with C2G"+'\033[0m')
                 if not self._seal_C2(): return False
             else:
-                Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - aborting run")
+                Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C2GS_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 

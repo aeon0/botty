@@ -697,8 +697,7 @@ class Hammerdin(IChar):
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             wait(0.2, 0.3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([632], self): return False # , time_out=3): 
-            #if not self._pather.traverse_nodes([633, 634], self): return False # , time_out=3): # leads to many fails, because she gets in a loop between 633 and 634 - any corpse there will kill the run
+            
 
         elif seal_layout == "B2-U":
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
