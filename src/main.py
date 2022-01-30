@@ -37,9 +37,7 @@ def start_or_stop_graphic_debugger(controllers: Controllers):
 
 def on_exit():
     Logger.info(f'Force Exit')
-    config = Config()
-    if config.advanced_options['d2r_windows_always_on_top']:
-        restore_d2r_window_visibility()
+    restore_d2r_window_visibility()
     os._exit(1)
 
 def main():

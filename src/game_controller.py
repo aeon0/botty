@@ -110,8 +110,7 @@ class GameController:
         if len(diff) > 0:
             Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
             Logger.warning(f"{diff}")
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            set_d2r_always_on_top()
+        set_d2r_always_on_top()
         self.setup_screen()
         self.template_finder = TemplateFinder(self.screen)
         self.start_health_manager_thread()
@@ -123,8 +122,7 @@ class GameController:
         self.is_running = True
 
     def stop(self):
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            restore_d2r_window_visibility()
+        restore_d2r_window_visibility()
         if self.death_monitor_thread: kill_thread(self.death_monitor_thread)
         if self.health_monitor_thread: kill_thread(self.health_monitor_thread)
         if self.bot_thread: kill_thread(self.bot_thread)
