@@ -273,6 +273,7 @@ class UiManager():
             #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
             if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
                 include_props = False 
+                exclude_props = False
             if not (include_props or exclude_props):
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing")
