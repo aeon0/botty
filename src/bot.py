@@ -8,7 +8,7 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
-
+from ui.char_selector import CharSelector
 from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
@@ -122,6 +122,7 @@ class Bot:
         self._current_threads = []
         self._no_stash_counter = 0
         self._ran_no_pickup = False
+        self._char_selector = CharSelector(self._screen, self._template_finder)
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlatak', 'arcane', 'diablo']
@@ -222,12 +223,12 @@ class Bot:
     def on_select_character(self):
         if self._config.general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
-            if self.char_selector.has_char_template_saved():
+            if self._char_selector.has_char_template_saved():
                 Logger.info("Selecting original char")
-                self.char_selector.select_char()
+                self._char_selector.select_char()
             else:
                 Logger.info("Saving top-most char as template")
-                self.char_selector.save_char_template()
+                self._char_selector.save_char_template()
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
