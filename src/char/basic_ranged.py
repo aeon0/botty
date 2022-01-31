@@ -171,7 +171,9 @@ class Basic_Ranged(IChar):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         atk_len = int(self._char_config["atk_len_nihlathak"])
-        nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+        nihlathak_pos_abs = self._pather.find_abs_node_pos(
+            end_nodes[-1], self._screen.grab()
+        )
         if nihlathak_pos_abs is None:
             return False
         cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])

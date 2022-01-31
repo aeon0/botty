@@ -190,10 +190,14 @@ class LightSorc(Sorceress):
         delay = [0.2, 0.3]
         atk_len = int(self._char_config["atk_len_nihlathak"])
         for i in range(atk_len):
-            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(
+                end_nodes[-1], self._screen.grab()
+            )
             if nihlathak_pos_abs is None:
                 return False
-            cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
+            cast_pos_abs = np.array(
+                [nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9]
+            )
             self._chain_lightning(cast_pos_abs, delay, 90)
             # Do some tele "dancing" after each sequence
             if i < atk_len - 1:

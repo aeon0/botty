@@ -173,9 +173,15 @@ class Config:
             "atk_len_eldritch": float(Config._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(Config._select_val("char", "atk_len_shenk")),
             "atk_len_nihlathak": float(Config._select_val("char", "atk_len_nihlathak")),
-            "atk_len_diablo_vizier": float(Config._select_val("char", "atk_len_diablo_vizier")),
-            "atk_len_diablo_deseis": float(Config._select_val("char", "atk_len_diablo_deseis")),
-            "atk_len_diablo_infector": float(Config._select_val("char", "atk_len_diablo_infector")),
+            "atk_len_diablo_vizier": float(
+                Config._select_val("char", "atk_len_diablo_vizier")
+            ),
+            "atk_len_diablo_deseis": float(
+                Config._select_val("char", "atk_len_diablo_deseis")
+            ),
+            "atk_len_diablo_infector": float(
+                Config._select_val("char", "atk_len_diablo_infector")
+            ),
             "atk_len_diablo": float(Config._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
