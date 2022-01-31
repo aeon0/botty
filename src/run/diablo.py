@@ -467,7 +467,7 @@ if __name__ == "__main__":
     from ui import UiManager
     from bot import Bot
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     game_stats = GameStats()
     bot = Bot(screen, game_stats, False)
 

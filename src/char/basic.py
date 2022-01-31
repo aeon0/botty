@@ -144,7 +144,7 @@ if __name__ == "__main__":
     from config import Config
     from ui.ui_manager import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)

@@ -156,10 +156,8 @@ if __name__ == "__main__":
     from screen import Screen
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    config = Config()
-    screen = Screen(config.general["monitor"])
-    template_finder = TemplateFinder(screen)
-    cropper = ItemCropper(template_finder)
+    cropper = ItemCropper()
+    screen = Screen()
 
     while 1:
         img = screen.grab().copy()

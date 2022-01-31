@@ -132,8 +132,7 @@ if __name__ == "__main__":
     from config import Config
     from template_finder import TemplateFinder
     config = Config()
-    screen = Screen(config.general["monitor"])
-    template_finder = TemplateFinder(screen)
+    screen = Screen()
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")

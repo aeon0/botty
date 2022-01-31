@@ -212,9 +212,7 @@ class TemplateFinder:
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
     from screen import Screen
-    from config import Config
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     search_templates = ["A5_TOWN_0","A5_TOWN_0.5","A5_TOWN_1","A5_TOWN_2","A5_TOWN_3","A5_TOWN_4","A5_TOWN_5","A5_TOWN_6","A5_TOWN_7","A5_TOWN_8","A5_TOWN_9","A5_TOWN_10","A5_TOWN_11","A5_TOWN_12"]
 

@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from config import Config
 import numpy as np
 
-from api.generic_api import GenericApi
-from api.discord_embeds import DiscordEmbeds
+from messages.generic_api import GenericApi
+from messages.discord_embeds import DiscordEmbeds
+
 
 class Messenger:
     def __init__(self):
@@ -15,8 +16,13 @@ class Messenger:
         else:
             self._message_api = None
 
+<<<<<<< HEAD:src/messenger.py
     def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str):
         self._message_api.send_item(item, image, location, ocr_text)
+=======
+    def send_item(self, item: str, image:  np.ndarray, location: str):
+        self._message_api.send_item(item, image, location)
+>>>>>>> master:src/messages/messenger.py
 
     def send_death(self, location: str, image_path: str = None):
         self._message_api.send_death(location, image_path)

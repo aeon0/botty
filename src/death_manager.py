@@ -89,6 +89,6 @@ class DeathManager:
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     manager = DeathManager(screen)
     manager.pick_up_corpse(screen)

@@ -140,7 +140,7 @@ if __name__ == "__main__":
     run_name = input()
 
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
 
     recorder = NodeRecorder(screen, config, run_name)
     keyboard.hook(recorder.hook, suppress=True)

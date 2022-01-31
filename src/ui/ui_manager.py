@@ -13,6 +13,9 @@ from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
 
+from messages import Messenger
+from game_stats import GameStats
+
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
@@ -256,7 +259,8 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
-    screen = Screen(config.general["monitor"])
+    game_stats = GameStats()
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
     #ui_manager.stash_all_items(5, item_finder)

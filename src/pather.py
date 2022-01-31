@@ -674,7 +674,7 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     from ui import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
