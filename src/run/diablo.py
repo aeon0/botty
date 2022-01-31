@@ -570,7 +570,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
         self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
         Logger.info("A: Checking Layout for Vizier")
-        if not self._pather.traverse_nodes([619], self._char): return False # , time_out=3): # HEUREKA, I merged the templates of both A1L and A2Y into this node. So it should calibrate independent of layout.
+        if not self._pather.traverse_nodes([610620], self._char): return False
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1"]  # these templates were never found in 200 runs:  "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
@@ -602,6 +602,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char)
         self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
         Logger.debug("B: Checking Layout for De Seis")
+        if not self._pather.traverse_nodes([630640], self._char): return False
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"] #We check for B1S templates first, they are more distinct
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
@@ -635,6 +636,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
         self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
         Logger.debug("C: Checking Layout for Infector")
+        if not self._pather.traverse_nodes([650660], self._char): return False
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",]
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
