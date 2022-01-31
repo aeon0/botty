@@ -206,9 +206,7 @@ class TemplateFinder:
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
     from screen import Screen
-    from config import Config
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
 

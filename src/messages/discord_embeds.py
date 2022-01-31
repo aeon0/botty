@@ -64,6 +64,7 @@ class DiscordEmbeds(GenericApi):
         self._send_embed(e)
 
     def send_message(self, msg: str):
+        msg = f"{self._config.general['name']}: {msg}"
         e = discord.Embed(title=f"Update:", description=f"```{msg}```", color=Color.dark_teal())
         if not self._config.general['discord_status_condensed']:
             e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")

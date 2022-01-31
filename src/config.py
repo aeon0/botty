@@ -25,7 +25,28 @@ class Config:
     _pickit_config = None
     _shop_config = None
     _custom = None
-
+    # config data
+    general = {}
+    advanced_options = {}
+    ui_roi = {}
+    ui_pos = {}
+    dclone = {}
+    routes = {}
+    routes_order = []
+    char = {}
+    items = {}
+    colors = {}
+    shop = {}
+    path = {}
+    blizz_sorc = {}
+    light_sorc = {}
+    nova_sorc = {}
+    hammerdin = {}
+    trapsin = {}
+    barbarian = {}
+    necro = {}
+    basic = {}
+    basic_ranged = {}
 
     def __init__(self):
         with config_lock:
@@ -143,15 +164,7 @@ class Config:
         Config.general = {
             "saved_games_folder": Config._select_val("general", "saved_games_folder"),
             "name": Config._select_val("general", "name"),
-            "monitor": int(Config._select_val("general", "monitor")),
             "max_game_length_s": float(Config._select_val("general", "max_game_length_s")),
-            "exit_key": Config._select_val("general", "exit_key"),
-            "resume_key": Config._select_val("general", "resume_key"),
-            "auto_settings_key": Config._select_val("general", "auto_settings_key"),
-            "restore_settings_from_backup_key": Config._select_val("general", "restore_settings_from_backup_key"),
-            "settings_backup_key": Config._select_val("general", "settings_backup_key"),
-            "graphic_debugger_key": Config._select_val("general", "graphic_debugger_key"),
-            "logg_lvl": Config._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(Config._select_val("general", "randomize_runs"))),
             "difficulty": Config._select_val("general", "difficulty"),
             "message_api_type": Config._select_val("general", "message_api_type"),
@@ -162,7 +175,6 @@ class Config:
             "loot_screenshots": bool(int(Config._select_val("general", "loot_screenshots"))),
             "d2r_path": Config._select_val("general", "d2r_path"),
             "restart_d2r_when_stuck": bool(int(Config._select_val("general", "restart_d2r_when_stuck"))),
-            "find_window_via_win32_api": bool(int(Config._select_val("general", "find_window_via_win32_api")))
         }
 
         # Added for dclone ip hunting
@@ -208,6 +220,7 @@ class Config:
             "use_merc": bool(int(Config._select_val("char", "use_merc"))),
             "id_items": bool(int(Config._select_val("char", "id_items"))),
             "open_chests": bool(int(Config._select_val("char", "open_chests"))),
+            "fill_shared_stash_first": bool(int(Config._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(Config._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(Config._select_val("char", "cta_available"))),
             "weapon_switch": Config._select_val("char", "weapon_switch"),
@@ -285,9 +298,14 @@ class Config:
             "pathing_delay_factor": min(max(int(Config._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": Config._select_val("advanced_options", "message_headers"),
             "message_body_template": Config._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(Config._select_val("advanced_options", "message_highlight"))),
-            "d2r_windows_always_on_top": bool(int(Config._select_val("advanced_options", "d2r_windows_always_on_top"))),
             "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator"))),
+            "logg_lvl": Config._select_val("advanced_options", "logg_lvl"),
+            "exit_key": Config._select_val("advanced_options", "exit_key"),
+            "resume_key": Config._select_val("advanced_options", "resume_key"),
+            "auto_settings_key": Config._select_val("advanced_options", "auto_settings_key"),
+            "restore_settings_from_backup_key": Config._select_val("advanced_options", "restore_settings_from_backup_key"),
+            "settings_backup_key": Config._select_val("advanced_options", "settings_backup_key"),
+            "graphic_debugger_key": Config._select_val("advanced_options", "graphic_debugger_key"),
         }
 
         Config.items = {}
@@ -323,6 +341,8 @@ class Config:
             "trap_min_score": int(Config._select_val("claws", "trap_min_score")),
             "melee_min_score": int(Config._select_val("claws", "melee_min_score")),
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
+            "speed_factor": float(Config._select_val("scepters", "speed_factor")),
+            "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
 
 if __name__ == "__main__":

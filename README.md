@@ -41,7 +41,7 @@ All botty configuration files are located in the __config__ folder. To ease the 
 ```ini
 ; custom.ini - overwrites 3 params in the param.ini
 [general]
-monitor=1
+name=MyCustomName
 
 [routes]
 run_pindle=1
@@ -51,7 +51,6 @@ run_shenk=0
 | [general]                | Descriptions              |
 | --------------------     | --------------------------|
 | name                     | Name used in terminal and discord messages |
-| monitor                  | Select on which monitor D2R is running in case multiple are available |
 | custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
 | logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line |
 | max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
@@ -126,6 +125,7 @@ run_shenk=0
 | always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
+| fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
@@ -200,7 +200,6 @@ run_shenk=0
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
 | message_headers      | Headers that are sent with each messages                              |
 | message_body_template | Message body of the post message sent                                |
-| message_highligh     | 0: Send messages as is, 1: Uses message highlighting for discord      |
 
 ## Support this project
 

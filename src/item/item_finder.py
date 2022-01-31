@@ -129,7 +129,7 @@ if __name__ == "__main__":
     from screen import Screen
     from config import Config
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
