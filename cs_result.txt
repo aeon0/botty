@@ -1,0 +1,420 @@
++---------------------------------------------------+------+------+
+|                   Starting game                   | 87.0 | 100% |
++---------------------------------------------------+------+------+
+|                    Run Diablo                     | 85.0 | 98%  |
++---------------------------------------------------+------+------+
+|            ROF: Calibrated at WAYPOINT            | 85.0 | 98%  |
++---------------------------------------------------+------+------+
+|          ROF: Calibrated at CS ENTRANCE           | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|            CS: Starting to clear Trash            | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|          CS Trash: looping to PENTAGRAM           | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|           ROF: Calibrated at PENTAGRAM            | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|      ROF: Teleporting directly to PENTAGRAM       | 85.0 | 98%  |
++---------------------------------------------------+------+------+
+|                    CS: OPEN TP                    | 83.0 | 95%  |
++---------------------------------------------------+------+------+
+|            CS: Calibrated at PENTAGRAM            | 83.0 | 95%  |
++---------------------------------------------------+------+------+
+| A: Clearing trash betwen Pentagramm & Layoutcheck | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+| B: Clearing trash betwen Pentagramm & Layoutcheck | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+| C: Clearing trash betwen Pentagramm & Layoutcheck | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|            Checking Layout for Vizier             | 83.0 | 95%  |
++---------------------------------------------------+------+------+
+|            Checking Layout for De Seis            | 77.0 | 89%  |
++---------------------------------------------------+------+------+
+|           Checking Layout for Infector            | 71.0 | 82%  |
++---------------------------------------------------+------+------+
+|            Waiting for Diablo to spawn            | 70.0 | 80%  |
++---------------------------------------------------+------+------+
+|                     End game                      | 70.0 | 80%  |
++---------------------------------------------------+------+------+
+|                  End failed game                  | 14.0 | 16%  |
++---------------------------------------------------+------+------+
+|                 Trying to chicken                 | 0.0  |  0%  |
++---------------------------------------------------+------+------+
+|                   You have died                   | 0.0  |  0%  |
++---------------------------------------------------+------+------+
++------+------+------+
+|  A1  |  B1  |  C1  |
++------+------+------+
+| 37.0 | 37.0 | 34.0 |
++------+------+------+
+|  A2  |  B2  |  C2  |
++------+------+------+
+| 45.0 | 38.0 | 37.0 |
++------+------+------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            A1-L: Layout_check step 1/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            A1-L: Layout_check step 2/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+| A1-L: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           A1-L: Starting to clear Seal            |  35.0  |    95%     |
++---------------------------------------------------+--------+------------+
+|            A1-L: Fake: trying to open             |  36.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|                  A1-L: Fake: not                  |  1.0   |     3%     |
++---------------------------------------------------+--------+------------+
+|                  A1-L: Fake: is                   |  35.0  |    95%     |
++---------------------------------------------------+--------+------------+
+|            A1-L: Boss: trying to open             |  51.0  |    138%    |
++---------------------------------------------------+--------+------------+
+|                  A1-L: Boss: not                  |  17.0  |    46%     |
++---------------------------------------------------+--------+------------+
+|                  A1-L: Boss: is                   |  34.0  |    92%     |
++---------------------------------------------------+--------+------------+
+|                  A1-L: Kill Boss                  |  34.0  |    92%     |
++---------------------------------------------------+--------+------------+
+|         A1-L: Static Pathing to Pentagram         |  34.0  |    92%     |
++---------------------------------------------------+--------+------------+
+|            A1-L: Looping to Pentagram             |  34.0  |    92%     |
++---------------------------------------------------+--------+------------+
+|   A1-L: finished seal & calibrated at PENTAGRAM   |  34.0  |    92%     |
++---------------------------------------------------+--------+------------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            A2-Y: Layout_check step 1/2            |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            A2-Y: Layout_check step 2/2            |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+| A2-Y: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           A2-Y: Starting to clear Seal            |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            A2-Y: Fake: trying to open             |  82.0  |    182%    |
++---------------------------------------------------+--------+------------+
+|                  A2-Y: Fake: not                  |  37.0  |    82%     |
++---------------------------------------------------+--------+------------+
+|                  A2-Y: Fake: is                   |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            A2-Y: Boss: trying to open             |  84.0  |    187%    |
++---------------------------------------------------+--------+------------+
+|                  A2-Y: Boss: not                  |  39.0  |    87%     |
++---------------------------------------------------+--------+------------+
+|                  A2-Y: Boss: is                   |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|                  A2-Y: Kill Boss                  |  45.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|         A2-Y: Static Pathing to Pentagram         |  43.0  |    96%     |
++---------------------------------------------------+--------+------------+
+|            A2-Y: Looping to Pentagram             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|   A2-Y: finished seal & calibrated at PENTAGRAM   |  43.0  |    96%     |
++---------------------------------------------------+--------+------------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            B1-S: Layout_check step 1/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            B1-S: Layout_check step 2/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+| B1-S: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           B1-S: Starting to clear Seal            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            B1-S: Fake: trying to open             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|                  B1-S: Fake: not                  |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|                  B1-S: Fake: is                   |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|            B1-S: Boss: trying to open             |  82.0  |    222%    |
++---------------------------------------------------+--------+------------+
+|                  B1-S: Boss: not                  |  46.0  |    124%    |
++---------------------------------------------------+--------+------------+
+|                  B1-S: Boss: is                   |  36.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|                  B1-S: Kill Boss                  |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|         B1-S: Static Pathing to Pentagram         |  35.0  |    95%     |
++---------------------------------------------------+--------+------------+
+|            B1-S: Looping to Pentagram             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|   B1-S: finished seal & calibrated at PENTAGRAM   |  35.0  |    95%     |
++---------------------------------------------------+--------+------------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            B2-U: Layout_check step 1/2            |  40.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            B2-U: Layout_check step 2/2            |  38.0  |    95%     |
++---------------------------------------------------+--------+------------+
+| B2-U: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           B2-U: Starting to clear Seal            |  36.0  |    90%     |
++---------------------------------------------------+--------+------------+
+|            B2-U: Fake: trying to open             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|                  B2-U: Fake: not                  |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|                  B2-U: Fake: is                   |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|            B2-U: Boss: trying to open             |  66.0  |    165%    |
++---------------------------------------------------+--------+------------+
+|                  B2-U: Boss: not                  |  31.0  |    78%     |
++---------------------------------------------------+--------+------------+
+|                  B2-U: Boss: is                   |  35.0  |    88%     |
++---------------------------------------------------+--------+------------+
+|                  B2-U: Kill Boss                  |  36.0  |    90%     |
++---------------------------------------------------+--------+------------+
+|         B2-U: Static Pathing to Pentagram         |  36.0  |    90%     |
++---------------------------------------------------+--------+------------+
+|            B2-U: Looping to Pentagram             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|   B2-U: finished seal & calibrated at PENTAGRAM   |  36.0  |    90%     |
++---------------------------------------------------+--------+------------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            C1-F: Layout_check step 1/2            |  34.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            C1-F: Layout_check step 2/2            |  34.0  |    100%    |
++---------------------------------------------------+--------+------------+
+| C1-F: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           C1-F: Starting to clear Seal            |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|            C1-F: Fake: trying to open             |  53.0  |    156%    |
++---------------------------------------------------+--------+------------+
+|                  C1-F: Fake: not                  |  20.0  |    59%     |
++---------------------------------------------------+--------+------------+
+|                  C1-F: Fake: is                   |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|            C1-F: Boss: trying to open             |  66.0  |    194%    |
++---------------------------------------------------+--------+------------+
+|                  C1-F: Boss: not                  |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|                  C1-F: Boss: is                   |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|                  C1-F: Kill Boss                  |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|         C1-F: Static Pathing to Pentagram         |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
+|            C1-F: Looping to Pentagram             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|   C1-F: finished seal & calibrated at PENTAGRAM   |  33.0  |    97%     |
++---------------------------------------------------+--------+------------+
++---------------------------------------------------+--------+------------+
+|                      String                       | amount | percentage |
++---------------------------------------------------+--------+------------+
+|            C2-G: Layout_check step 1/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            C2-G: Layout_check step 2/2            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+| C2-G: Layout_check step 2/2 - Failed to determine |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|           C2-G: Starting to clear Seal            |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            C2-G: Fake: trying to open             |  84.0  |    227%    |
++---------------------------------------------------+--------+------------+
+|                  C2-G: Fake: not                  |  47.0  |    127%    |
++---------------------------------------------------+--------+------------+
+|                  C2-G: Fake: is                   |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            C2-G: Boss: trying to open             |  77.0  |    208%    |
++---------------------------------------------------+--------+------------+
+|                  C2-G: Boss: not                  |  40.0  |    108%    |
++---------------------------------------------------+--------+------------+
+|                  C2-G: Boss: is                   |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|                  C2-G: Kill Boss                  |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|         C2-G: Static Pathing to Pentagram         |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+|            C2-G: Looping to Pentagram             |  0.0   |     0%     |
++---------------------------------------------------+--------+------------+
+|   C2-G: finished seal & calibrated at PENTAGRAM   |  37.0  |    100%    |
++---------------------------------------------------+--------+------------+
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:1[2022-01-30 15:07:07,932] DEBUG      Traverse: [631]
+
+[2022-01-30 15:07:07,932] DEBUG      B1-S: Attacking De Seis at position 3/4
+[2022-01-30 15:07:07,932] DEBUG      Traverse: [631]
+[2022-01-30 15:07:35,425] DEBUG      Drink health potion in slot 1. HP: 77.2%, Mana: 99.7%
+[2022-01-30 15:08:09,883] DEBUG      Drink health potion in slot 1. HP: 78.2%, Mana: 99.7%
+[2022-01-30 15:08:13,647] DEBUG      Drink health potion in slot 1. HP: 79.2%, Mana: 99.3%
+[2022-01-30 15:08:39,694] DEBUG      Drink health potion in slot 1. HP: 79.2%, Mana: 99.7%
+[2022-01-30 15:18:43,376] INFO       Max game length reached. Attempting to restart Botty!
+[2022-01-30 15:18:47,250] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 15:18:47,276] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 15:18:50,076] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:2[2022-01-30 15:23:29,141] DEBUG      Traverse: [619]
+
+[2022-01-30 15:23:29,141] DEBUG      Traverse: [619]
+[2022-01-30 15:23:30,683] DEBUG      Waiting for Template ['DIA_A2Y_LAYOUTCHECK0', 'DIA_A2Y_LAYOUTCHECK1']
+[2022-01-30 15:23:31,526] DEBUG      Could not find any of the above templates
+[2022-01-30 15:23:31,526] DEBUG      A1-L: Layout_check step 1/2 - A2Y templates NOT found
+[2022-01-30 15:23:31,527] DEBUG      Waiting for Template ['DIA_A1L_LAYOUTCHECK0', 'DIA_A1L_LAYOUTCHECK4', 'DIA_A1L_LAYOUTCHECK4LEFT']
+[2022-01-30 15:23:32,200] DEBUG      Could not find any of the above templates
+[2022-01-30 15:23:32,200] DEBUG      A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - [91maborting run[0m
+[2022-01-30 15:23:32,677] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 15:23:32,752] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (93.1% confidence)
+[2022-01-30 15:23:35,155] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:3[2022-01-30 15:50:43,350] DEBUG      Traverse: [647]
+
+[2022-01-30 15:50:42,340] DEBUG      B: Checking Layout for De Seis
+[2022-01-30 15:50:42,401] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-30 15:50:43,349] DEBUG      Could not find any of the above templates
+[2022-01-30 15:50:43,349] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-30 15:50:43,350] DEBUG      Traverse: [647]
+[2022-01-30 15:50:47,089] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-30 15:50:53,190] ERROR      Got stuck exit pather
+[2022-01-30 15:50:53,595] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 15:50:53,624] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 15:50:56,021] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:4[2022-01-30 18:39:25,200] DEBUG      Traverse: [600]
+
+[2022-01-30 18:39:41,600] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:42,485] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:43,420] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:44,332] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:45,266] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:46,189] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:47,088] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 18:39:48,441] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 18:39:48,486] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 18:39:51,167] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:5[2022-01-30 19:04:13,751] DEBUG      Traverse: [624]
+
+[2022-01-30 19:03:42,227] DEBUG      A2-Y: Attacking Vizier at position 1/2
+[2022-01-30 19:03:46,788] DEBUG      A2-Y: Attacking Vizier at position 2/2
+[2022-01-30 19:03:46,788] DEBUG      Traverse: [623]
+[2022-01-30 19:03:54,263] DEBUG      A2-Y: Attacking Vizier at position 3/3
+[2022-01-30 19:03:54,263] DEBUG      Traverse: [624]
+[2022-01-30 19:04:13,751] DEBUG      Traverse: [624]
+[2022-01-30 19:16:59,146] INFO       Max game length reached. Attempting to restart Botty!
+[2022-01-30 19:17:03,155] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 19:17:03,230] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 19:17:05,691] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:6[2022-01-30 19:39:05,517] DEBUG      Traverse: [647]
+
+[2022-01-30 19:39:04,443] DEBUG      B: Checking Layout for De Seis
+[2022-01-30 19:39:04,519] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-30 19:39:05,516] DEBUG      Could not find any of the above templates
+[2022-01-30 19:39:05,517] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-30 19:39:05,517] DEBUG      Traverse: [647]
+[2022-01-30 19:39:08,854] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-30 19:39:15,216] ERROR      Got stuck exit pather
+[2022-01-30 19:39:15,633] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 19:39:15,678] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 19:39:18,330] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:7[2022-01-30 20:11:58,724] DEBUG      Traverse: [602]
+
+[2022-01-30 20:12:07,909] DEBUG      C: Checking Layout for Infector
+[2022-01-30 20:12:07,985] DEBUG      Waiting for Template ['DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5']
+[2022-01-30 20:12:08,769] DEBUG      Could not find any of the above templates
+[2022-01-30 20:12:08,770] DEBUG      C1-F: Layout_check step 1/2 - C2G templates NOT found
+[2022-01-30 20:12:08,770] DEBUG      Waiting for Template ['DIA_C1F_LAYOUTCHECK1', 'DIA_C1F_LAYOUTCHECK2', 'DIA_C1F_LAYOUTCHECK3']
+[2022-01-30 20:12:09,396] DEBUG      Could not find any of the above templates
+[2022-01-30 20:12:09,396] DEBUG      C1-F: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - [91maborting run[0m
+[2022-01-30 20:12:09,887] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 20:12:09,921] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 20:12:12,605] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:8[2022-01-30 20:27:20,591] DEBUG      Traverse: [647]
+
+[2022-01-30 20:27:19,599] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-30 20:27:20,590] DEBUG      Could not find any of the above templates
+[2022-01-30 20:27:20,591] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-30 20:27:20,591] DEBUG      Traverse: [647]
+[2022-01-30 20:27:20,835] DEBUG      Waiting for Template ['DIA_B2U_LAYOUTCHECK2']
+[2022-01-30 20:27:21,547] DEBUG      Could not find any of the above templates
+[2022-01-30 20:27:21,548] DEBUG      B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - [91maborting run[0m
+[2022-01-30 20:27:22,045] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 20:27:22,132] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 20:27:24,791] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:9[2022-01-30 20:41:10,934] DEBUG      Traverse: [619]
+
+[2022-01-30 20:41:10,934] DEBUG      Traverse: [619]
+[2022-01-30 20:41:11,975] DEBUG      Waiting for Template ['DIA_A2Y_LAYOUTCHECK0', 'DIA_A2Y_LAYOUTCHECK1']
+[2022-01-30 20:41:12,845] DEBUG      Could not find any of the above templates
+[2022-01-30 20:41:12,845] DEBUG      A1-L: Layout_check step 1/2 - A2Y templates NOT found
+[2022-01-30 20:41:12,846] DEBUG      Waiting for Template ['DIA_A1L_LAYOUTCHECK0', 'DIA_A1L_LAYOUTCHECK4', 'DIA_A1L_LAYOUTCHECK4LEFT']
+[2022-01-30 20:41:13,494] DEBUG      Could not find any of the above templates
+[2022-01-30 20:41:13,494] DEBUG      A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - [91maborting run[0m
+[2022-01-30 20:41:14,044] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 20:41:14,080] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 20:41:16,624] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:10[2022-01-30 21:15:01,619] DEBUG      Traverse: [647]
+
+[2022-01-30 21:15:00,586] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-01-30 21:15:01,618] DEBUG      Could not find any of the above templates
+[2022-01-30 21:15:01,619] DEBUG      B2-U: Layout_check step 1/2: B1S templates NOT found
+[2022-01-30 21:15:01,619] DEBUG      Traverse: [647]
+[2022-01-30 21:15:02,687] DEBUG      Waiting for Template ['DIA_B2U_LAYOUTCHECK2']
+[2022-01-30 21:15:03,470] DEBUG      Could not find any of the above templates
+[2022-01-30 21:15:03,470] DEBUG      B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - [91maborting run[0m
+[2022-01-30 21:15:04,016] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 21:15:04,065] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 21:15:06,513] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:11[2022-01-30 21:38:46,452] DEBUG      Traverse: [600]
+
+[2022-01-30 21:39:04,522] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:05,472] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:06,439] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:07,405] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:08,322] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:09,326] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-01-30 21:39:10,326] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1187)
+[2022-01-30 21:39:11,553] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 21:39:11,621] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 21:39:14,186] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:12[2022-01-30 22:27:52,073] DEBUG      Traverse: [619]
+
+[2022-01-30 22:27:45,676] DEBUG      Traverse: [602]
+[2022-01-30 22:27:48,711] INFO       CS: Calibrated at PENTAGRAM
+[2022-01-30 22:27:48,711] DEBUG      Traverse: [602]
+[2022-01-30 22:27:52,073] INFO       A: Checking Layout for Vizier
+[2022-01-30 22:27:52,073] DEBUG      Traverse: [619]
+[2022-01-30 22:28:03,574] DEBUG      Pather: taking a random guess towards (567, -296)
+[2022-01-30 22:28:09,278] ERROR      Got stuck exit pather
+[2022-01-30 22:28:09,774] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 22:28:09,813] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 22:28:12,804] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:13[2022-01-30 22:44:48,438] DEBUG      Traverse: [632]
+
+[2022-01-30 22:44:32,337] DEBUG      B1-S: Attacking De Seis at position 4/4
+[2022-01-30 22:44:32,337] DEBUG      Traverse: [632]
+[2022-01-30 22:44:44,475] INFO       Picking up: rare_ring (100.0% confidence)
+[2022-01-30 22:44:47,512] INFO       Picking up: misc_super_healing_potion (97.7% confidence)
+[2022-01-30 22:44:48,438] DEBUG      Traverse: [632]
+[2022-01-30 22:44:52,012] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-01-30 22:44:57,739] ERROR      Got stuck exit pather
+[2022-01-30 22:44:58,229] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 22:44:58,320] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 22:45:01,001] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+ ==== LAST 10 LOG LINES BEFORE FAILED GAME:14[2022-01-30 22:46:39,749] DEBUG      Traverse: [613, 615]
+
+[2022-01-30 22:46:38,996] DEBUG      Select DIA_A1L2_14_CLOSED (56.7% confidence)
+[2022-01-30 22:46:39,475] DEBUG      Waiting for Template ['DIA_A1L2_14_OPEN']
+[2022-01-30 22:46:39,748] DEBUG      Found Match: DIA_A1L2_14_OPEN (78.8% confidence)
+[2022-01-30 22:46:39,749] INFO       A1-L: Fake: is[92m open[0m
+[2022-01-30 22:46:39,749] DEBUG      A1-L_boss: Kill trash
+[2022-01-30 22:46:39,749] DEBUG      Traverse: [613, 615]
+[2022-01-30 23:00:04,007] INFO       Max game length reached. Attempting to restart Botty!
+[2022-01-30 23:00:08,217] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-01-30 23:00:08,262] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-01-30 23:00:10,761] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']

@@ -272,7 +272,7 @@ class Hammerdin(IChar):
             ### Layout Checks
             "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
             "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
@@ -349,7 +349,7 @@ class Hammerdin(IChar):
             ### Layout Checks
             #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
             #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist

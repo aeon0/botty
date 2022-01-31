@@ -582,29 +582,29 @@ class Diablo:
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A") #buy pots and stash items
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
-        #self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
+        self._char.kill_cs_trash("layoutcheck_a") # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC
         Logger.info("A: Checking Layout for Vizier")
         if not self._pather.traverse_nodes([619], self._char): return False # , time_out=3): # HEUREKA, I merged the templates of both A1L and A2Y into this node. So it should calibrate independent of layout.
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1"]  # these templates were never found in 200 runs:  "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("A1-L: Layout_check step 1/2 - A2Y templates NOT found")
+            Logger.debug("A1-L: Layout_check step 1/2 - templates NOT found for A2Y")
             templates = ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT"] # these templates were never found in 200 runs: "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", ,"DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"
             if not self._template_finder.search_and_wait(templates, threshold=0.85, time_out=0.5).valid:
-                Logger.debug("A1-L: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m') #this also happens approx (7%) of the times tested amongst 100s of runs
+                Logger.debug("A1-L: Layout_check step 2/2b - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m') #this also happens approx (7%) of the times tested amongst 100s of runs
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A1L_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("A1-L: Layout_check step 2/2 - A1L templates found - "+'\033[93m'+"all fine, proceeding with A1L"+'\033[0m')
+                Logger.debug("A1-L: Layout_check step 2/2 - templates found for A1L - "+'\033[93m'+"all fine, proceeding with A1L"+'\033[0m')
                 if not self._seal_A1(): return False
         else:
-            Logger.debug("A2-Y: Layout_check step 1/2 - A2Y templates found")
+            Logger.debug("A2-Y: Layout_check step 1/2 - templates found for A2Y")
             templates = ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT"] # these templates were never found in 200 runs: "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3", ,"DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("A2-Y: Layout_check step 2/2 - A1L templates NOT found - "+'\033[94m'+"all fine, proceeding with A2Y"+'\033[0m')
+                Logger.debug("A2-Y: Layout_check step 2/2 - templates NOT found for A1L - "+'\033[94m'+"all fine, proceeding with A2Y"+'\033[0m')
                 if not self._seal_A2(): return False
             else:
-                Logger.debug("A2-Y: Layout_check step 2/2 - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m')
+                Logger.debug("A2-Y: Layout_check step 2/2b - Failed to determine the right Layout at A (Vizier) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_A2Y_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
@@ -614,30 +614,30 @@ class Diablo:
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B") #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_b_layout_bold", self._char)
-        #self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
+        self._char.kill_cs_trash("layoutcheck_b") # this attack sequence increases layout check consistency
         Logger.debug("B: Checking Layout for De Seis")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"] #We check for B1S templates first, they are more distinct
         if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("B1-S: Layout_check step 1/2 - B1S templates found")
+            Logger.debug("B1-S: Layout_check step 1/2 - templates found for B1S")
             if not self._pather.traverse_nodes([634], self._char): return False # , time_out=3):
             templates = ["DIA_B2U_LAYOUTCHECK2",] # these templates were never found in 200 runs: "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"
             if self._template_finder.search_and_wait(templates, threshold=0.75, time_out=0.5).valid:
-                Logger.debug("B1-S: Layout_check step 2/2: Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
+                Logger.debug("B1-S: Layout_check step 2/2b: Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B1S_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("B1-S: Layout_check step 2/2 - B2U templates NOT found - "+'\033[93m'+"all fine, proceeding with B1S"+'\033[0m')
+                Logger.debug("B1-S: Layout_check step 2/2 - templates NOT found for B2U - "+'\033[93m'+"all fine, proceeding with B1S"+'\033[0m')
                 if not self._seal_B1(): return False
         else:
-            Logger.debug("B2-U: Layout_check step 1/2: B1S templates NOT found")
+            Logger.debug("B2-U: Layout_check step 1/2: templates NOT found for B1S")
             if not self._pather.traverse_nodes([647], self._char): return False # , time_out=3): #seems to be B2U, so we are calibrating at a node of B2U, just to be safe to see the right templates
             templates = ["DIA_B2U_LAYOUTCHECK2",] # these templates were never found in 200 runs: "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"
             if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("B2-U: Layout_check step 2/2 - B2U templates found - "+'\033[94m'+"all fine, proceeding with B2U"+'\033[0m')
+                Logger.debug("B2-U: Layout_check step 2/2 - templates found for B2U - "+'\033[94m'+"all fine, proceeding with B2U"+'\033[0m')
                 if not self._seal_B2(): return False
             else:
-                Logger.debug("B2-U: Layout_check step 2/2 - Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
+                Logger.debug("B2-U: Layout_check step 2/2b - Failed to determine the right Layout at B (De Seis) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_B2U_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
         
@@ -647,28 +647,28 @@ class Diablo:
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C") #buy pots and stash items
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed("dia_c_layout_bold", self._char)
-        #self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
+        self._char.kill_cs_trash("layoutcheck_c") # this attack sequence increases layout check consistency
         Logger.debug("C: Checking Layout for Infector")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         templates = ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4","DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5"] #these tempaltes were never found in 200 runs: "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-            Logger.debug("C1-F: Layout_check step 1/2 - C2G templates NOT found")
+            Logger.debug("C1-F: Layout_check step 1/2 - templates NOT found for C2G")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("C1-F: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
+                Logger.debug("C1-F: Layout_check step 2/2b - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C1F_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
             else:
-                Logger.debug("C1-F: Layout_check step 2/2 - C1F templates found - "+'\033[93m'+"all fine, proceeding with C1F"+'\033[0m')
+                Logger.debug("C1-F: Layout_check step 2/2 - templates found for C1F - "+'\033[93m'+"all fine, proceeding with C1F"+'\033[0m')
                 if not self._seal_C1(): return False
         else:
-            Logger.debug("C2-G: Layout_check step 1/2 - C2G templates found")
+            Logger.debug("C2-G: Layout_check step 1/2 - templates found for C2G")
             templates = ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
-                Logger.debug("C2-G: Layout_check step 2/2 - C1F templates NOT found - "+'\033[94m'+"all fine, proceeding with C2G"+'\033[0m')
+                Logger.debug("C2-G: Layout_check step 2/2 - templates NOT found for C1F - "+'\033[94m'+"all fine, proceeding with C2G"+'\033[0m')
                 if not self._seal_C2(): return False
             else:
-                Logger.debug("C2-G: Layout_check step 2/2 - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
+                Logger.debug("C2-G: Layout_check step 2/2b - Failed to determine the right Layout at C (Infector) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_C2GS_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return False
 
