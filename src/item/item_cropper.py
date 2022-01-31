@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 from config import Config
-from utils.misc import color_filter, erode_to_black
+from utils.misc import color_filter
+from ocr import Ocr, OcrResult
 from dataclasses import dataclass
 import time
 from logger import Logger
@@ -41,8 +42,23 @@ class ItemCropper:
         # In order to not filter out highlighted items, change their color to black
         highlight_mask = color_filter(img, self._config.colors["item_highlight"])[0]
         img[highlight_mask > 0] = (0, 0, 0)
-        img = erode_to_black(img)
-        return img
+        # Cleanup image with erosion image as marker with morphological reconstruction
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        thresh = cv2.threshold(gray, black_thresh, 255, cv2.THRESH_BINARY)[1]
+        kernel = np.ones((3, 3), np.uint8)
+        marker = thresh.copy()
+        marker[1:-1, 1:-1] = 0
+        while True:
+            tmp = marker.copy()
+            marker = cv2.dilate(marker, kernel)
+            marker = cv2.min(thresh, marker)
+            difference = cv2.subtract(marker, tmp)
+            if cv2.countNonZero(difference) <= 0:
+                break
+        mask_r = cv2.bitwise_not(marker)
+        mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
+        img = cv2.bitwise_and(img, mask_color_r)
+        return img, mask_r
 
     def crop(self, inp_img: np.ndarray, padding_y: int = 5, ocr: bool = True, ocr_language: str = "engd2r_inv_th_fast") -> list[ItemText]:
         start = time.time()
