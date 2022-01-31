@@ -39,11 +39,11 @@ class Ocr:
             if word and word != "NEWLINEHERE":
                 try:
                     if confidences[word_count] <= 88:
-                        if word not in self.word_list:
+                        if (word not in self.word_list) and (re.sub(r"[^a-zA-Z0-9]", "", word) not in self.word_list):
                             closest_match = difflib.get_close_matches(word, self.word_list, cutoff=0.9)
                             if closest_match and closest_match != word:
                                 new_string += f"{closest_match[0]} "
-                                Logger.debug(f"check_wordlist: Replacing {word} with {closest_match[0]}")
+                                Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match[0]}")
                             else:
                                 new_string += f"{word} "
                         else:
