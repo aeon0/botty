@@ -729,6 +729,10 @@ class Hammerdin(IChar):
             wait(0.2, 0.3)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([640], self): return False # , time_out=3):
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
