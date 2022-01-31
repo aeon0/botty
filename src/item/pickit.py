@@ -8,14 +8,14 @@ from logger import Logger
 from screen import Screen
 from item import ItemFinder, Item
 from ui import UiManager
-from ui import ConsumablesManager
+from ui import ConsumiblesManager
 from char import IChar
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, consumables_manager: ConsumablesManager):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, consumibles_manager: ConsumiblesManager):
         self._item_finder = item_finder
         self._screen = screen
-        self._consumables_manager = consumables_manager
+        self._consumibles_manager = consumibles_manager
         self._ui_manager = ui_manager
         self._config = Config()
         self._last_closest_item: Item = None
@@ -54,18 +54,14 @@ class PickIt:
                     for cnt2, x in enumerate(item.ocr_result['word_confidences']):
                         found_low_confidence = False
                         if x <= 88:
-                            try:
-                                Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
-                                found_low_confidence = True
-                            except: pass
+                            Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
+                            found_low_confidence = True
                         if found_low_confidence:
                             cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
                             cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
-                            with open(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.gt.txt", 'w') as f:
-                                f.write(item.ocr_result['text'])
 
-            # Check if we need to pick up any consumables
-            needs = self._consumables_manager.get_needs()
+            # Check if we need to pick up any consumibles
+            needs = self._consumibles_manager.get_needs()
             if needs["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if needs["health"] <= 0:
@@ -126,9 +122,9 @@ class PickIt:
                 x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
                 if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
-                    # if potion is picked up, record it in the consumables manager
+                    # if potion is picked up, record it in the consumibles manager
                     if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name) or ("misc_key" == closest_item.name):
-                        self._consumables_manager.increment_consumible_need(closest_item.name, -1)
+                        self._consumibles_manager.increment_consumible_need(closest_item.name, -1)
                     # no need to stash potions, scrolls, or gold
                     if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
@@ -180,10 +176,10 @@ if __name__ == "__main__":
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
-    consumables_manager = ConsumablesManager(screen, t_finder)
-    consumables_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
+    consumibles_manager = ConsumiblesManager(screen, t_finder)
+    consumibles_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, consumables_manager)
+    pickit = PickIt(screen, item_finder, ui_manager, consumibles_manager)
     print(pickit.pick_up_items(char))
