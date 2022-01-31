@@ -1,7 +1,9 @@
+from fileinput import close
 from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2
 import re
+import difflib
 
 from logger import Logger
 from typing import List, Union
@@ -20,12 +22,39 @@ class OcrResult:
 
 class Ocr:
     def __init__(self):
-        self.I_1 = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9])")
+        self.I_1 = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9\-+])")
         self.II_U = re.compile(r"(?<=[A-Z])II|II(?=[A-Z])|1?=[a-z]")
         self.One_I = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
         self.OneOne_U = re.compile(r"(?<=[A-Z])11|11(?=[A-Z])|1?=[a-z]")
+        with open('assets/tessdata/d2r.user-words') as file:
+            self.word_list = [line.rstrip() for line in file]
 
-    def prep_input_img(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
+    def check_wordlist(self, text: str = None, confidences: list = []) -> str:
+        word_count=0
+        new_string=""
+        text = text.replace('\n',' NEWLINEHERE ')
+        for word in text.split(' '):
+            word = word.strip()
+            if word:
+                if word != "NEWLINEHERE":
+                    if confidences[word_count] <= 88:
+                        if word not in self.word_list:
+                            closest_match = difflib.get_close_matches(word, self.word_list, cutoff=0.9)
+                            if closest_match and closest_match != word:
+                                new_string += f"{closest_match[0]} "
+                                Logger.debug(f"check_wordlist: Replacing {word} with {closest_match[0]}")
+                            else:
+                                new_string += f"{word} "
+                        else:
+                            new_string += f"{word} "
+                    else:
+                        new_string += f"{word} "
+                    word_count += 1
+                else:
+                    new_string += "\n"
+        return new_string.strip()
+
+    def prep_inv_th(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
         if clean:
             # Cleanup image with erosion image as marker with morphological reconstruction
             image = image[:, :, :]
@@ -55,7 +84,7 @@ class Ocr:
         image = cv2.bitwise_not(image)
         return image
 
-    def fix_ocr_output(self, ocr_output: str) -> str:
+    def fix_ocr_output(self, ocr_output: str, repeat_count: int = 0) -> str:
         # case: two 1's within a string; e.g., "SIIPER MANA POTION"
         try:
             text = self.II_U.sub('U', ocr_output)
@@ -97,7 +126,7 @@ class Ocr:
             break
 
         # case: consecutive I's; e.g., "DEFENSE: II"
-        #repeat=False
+        repeat=False
         cnt=0
         while "II" in text:
             cnt += 1
@@ -105,19 +134,31 @@ class Ocr:
                 Logger.error(f"Error 4 on {ocr_output}")
                 break
             text = text.replace("II", "11")
-        #    repeat=True
-        #if repeat:
-        #    self.fix_ocr_output(text)
+            repeat=True
+            repeat_count += 1
+        if repeat and repeat_count < 10:
+            self.fix_ocr_output(text)
 
         # manual edits...:
-        ocr_output.replace("SHIFLD", "SHIELD")
-        ocr_output.replace("SPFAR", "SPEAR")
-        ocr_output.replace("GLOVFS", "GLOVES")
-        ocr_output.replace("TELEFORT", "TELEPORT")
-        ocr_output.replace("TROPHV", "TROPHY")
-        ocr_output.replace("CLAVMORE", "CLAYMORE")
-        ocr_output.replace("MAKIMUM", "MAXIMUM")
-        ocr_output.replace("QUAHTITY", "QUANTITY")
+        text = text.replace("SHIFLD", "SHIELD")
+        text = text.replace("SPFAR", "SPEAR")
+        text = text.replace("GLOVFS", "GLOVES")
+        text = text.replace("TELEFORT", "TELEPORT")
+        text = text.replace("TROPHV", "TROPHY")
+        text = text.replace("CLAVMORE", "CLAYMORE")
+        text = text.replace("MAKIMUM", "MAXIMUM")
+        text = text.replace("DEKTERITY", "DEXTERITY")
+        text = text.replace("DERTERITY", "DEXTERITY")
+        text = text.replace("QUAHTITY", "QUANTITY")
+        text = text.replace("DEFERSE", "DEFENSE")
+        text = text.replace("ARMGR", "ARMOR")
+        text = text.replace("ARMER", "ARMOR")
+        text = text.replace("COMDAT", "COMBAT")
+        text = text.replace("WEAPORS", "WEAPONS")
+        text = text.replace("AXECLASS", "AXE CLASS")
+        text = text.replace("IOX%", "10%")
+        text = text.replace("IO%", "10%")
+        text = text.replace("TWYO", "TWO")
 
         return text
 
@@ -143,7 +184,7 @@ class Ocr:
 
         return image.tobytes(), width, height, bytes_per_pixel, bytes_per_line
 
-    def images_to_text(self, images: Union[np.ndarray, List[np.ndarray]], ocr_language: str = "engd2r_inv_th", multiline: bool = False) -> list[str]:
+    def images_to_text(self, images: Union[np.ndarray, List[np.ndarray]], ocr_language: str = "engd2r_inv_th", multiline: bool = False, process_mode: str = "inv_th") -> list[str]:
         if type(images) == np.ndarray:
             images = [images]
         # segmentation_mode = PSM.RAW_LINE
@@ -156,20 +197,32 @@ class Ocr:
         results = []
         with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata/{ocr_language}", lang=ocr_language ) as api:
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
+            api.SetSourceResolution(72)
             for image in images:
-                if multiline:
-                    processed_img = self.prep_input_img(image)
+                if process_mode == "inv_th":
+                    if multiline:
+                        clean = False
+                    else:
+                        clean = True
+                    processed_img = self.prep_inv_th(image, clean = clean)
                 else:
-                    processed_img = self.prep_input_img(image, clean = True)
+                    processed_img = image
                 api.SetImageBytes(*self.img_to_bytes(processed_img))
-                text = api.GetUTF8Text()
+                original_text = api.GetUTF8Text()
+                text = original_text
                 if not multiline:
                     text = text.replace('\n', '')
-                # TODO: delete words with very low confidence
+                word_confidences = api.AllWordConfidences()
+                text = self.fix_ocr_output(text)
+                if any([x <= 88 for x in word_confidences]):
+                #try:
+                    text = self.check_wordlist(text, word_confidences)
+                #except:
+                #    Logger.error(f"check_wordlist: failed on {text}")
                 results.append(OcrResult(
-                    original_text = text,
-                    text = self.fix_ocr_output(text),
-                    word_confidences = api.AllWordConfidences(),
+                    original_text = original_text,
+                    text = text,
+                    word_confidences = word_confidences,
                     mean_confidence = api.MeanTextConf(),
                     original_img = image,
                     processed_img = processed_img

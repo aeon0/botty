@@ -4,6 +4,7 @@ import keyboard
 import parse
 import time
 import cv2
+from ui import InventoryManager
 
 from utils.misc import cut_roi, wait, color_filter
 from utils.custom_mouse import mouse
@@ -14,7 +15,7 @@ from screen import Screen
 from template_finder import TemplateFinder
 from item import ItemCropper
 
-class ConsumiblesManager:
+class ConsumablesManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
@@ -56,6 +57,7 @@ class ConsumiblesManager:
             return 12 - self._consumible_needs[item_name]
         else:
             Logger.error(f"conv_need_to_remaining: error with item_name={item_name}")
+            return False
 
     def should_buy(self, item_name: str = None, min_remaining: int = None, min_needed: int = None):
         if item_name is None:
@@ -138,7 +140,7 @@ class ConsumiblesManager:
         elif consumible_type in self._item_consumible_map.values():
             pass
         else:
-            Logger.warning(f"ConsumiblesManager does not know about item: {consumible_type}")
+            Logger.warning(f"ConsumablesManager does not know about item: {consumible_type}")
             return
         self._consumible_needs[consumible_type] = max(0, self._consumible_needs[consumible_type] + quantity)
 
@@ -199,7 +201,7 @@ class ConsumiblesManager:
                 wait(0.4, 0.6)
             img = self._screen.grab()
         if item_type.lower() in ["tp", "id"]:
-            tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], best_match = True)
+            tome_found = self._template_finder.search([f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"], img, roi = InventoryManager.specific_inventory_roi(self._config, "reserved"), best_match = True)
             if tome_found.valid:
                 if tome_found.name == f"{item_type.upper()}_TOME_RED":
                     self._consumible_needs[item_type] = 0
@@ -210,7 +212,7 @@ class ConsumiblesManager:
                 return False
             pos = self._screen.convert_screen_to_monitor(tome_found.position)
         elif item_type.lower() in ["key"]:
-            res = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"])
+            res = self._template_finder.search("INV_KEY", img, roi = InventoryManager.specific_inventory_roi(self._config, "reserved"))
             if not res.valid:
                 return False
             pos = self._screen.convert_screen_to_monitor(res.position)
@@ -238,8 +240,8 @@ class ConsumiblesManager:
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
-    consumibles_manager = ConsumiblesManager(screen, template_finder)
-    consumibles_manager.update_consumible_needs()
-    print(consumibles_manager._consumible_needs)
+    consumables_manager = ConsumablesManager(screen, template_finder)
+    consumables_manager.update_consumible_needs()
+    print(consumables_manager._consumible_needs)

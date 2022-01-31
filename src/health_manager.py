@@ -1,6 +1,6 @@
 from template_finder import TemplateFinder
 from ui import UiManager
-from ui import ConsumiblesManager
+from ui import ConsumablesManager
 from pather import Location
 import cv2
 import time
@@ -20,7 +20,7 @@ class HealthManager:
         self._screen = screen
         self._template_finder = template_finder
         self._ui_manager = UiManager(screen, self._template_finder)
-        self._consumibles_manager = None # must be set with the belt manager from bot.py
+        self._consumables_manager = None # must be set with the belt manager from bot.py
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()
@@ -34,8 +34,8 @@ class HealthManager:
     def stop_monitor(self):
         self._do_monitor = False
 
-    def set_consumibles_manager(self, consumibles_manager: ConsumiblesManager):
-        self._consumibles_manager = consumibles_manager
+    def set_consumables_manager(self, consumables_manager: ConsumablesManager):
+        self._consumables_manager = consumables_manager
 
     def set_callback(self, callback):
         self._callback = callback
@@ -130,14 +130,14 @@ class HealthManager:
                 last_drink = time.time() - self._last_rejuv
                 if (health_percentage < self._config.char["take_rejuv_potion_health"] and last_drink > 1) or \
                    (mana_percentage < self._config.char["take_rejuv_potion_mana"] and last_drink > 2):
-                    success_drink_rejuv = self._consumibles_manager.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
+                    success_drink_rejuv = self._consumables_manager.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
                     self._last_rejuv = time.time()
                 # in case no rejuv was used, check for chicken, health pot and mana pot usage
                 if not success_drink_rejuv:
                     # check health
                     last_drink = time.time() - self._last_health
                     if health_percentage < self._config.char["take_health_potion"] and last_drink > 3.5:
-                        self._consumibles_manager.drink_potion("health", stats=[health_percentage, mana_percentage])
+                        self._consumables_manager.drink_potion("health", stats=[health_percentage, mana_percentage])
                         self._last_health = time.time()
                     # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
                     elif health_percentage < self._config.char["chicken"] and (time.time() - start) > 6:
@@ -146,7 +146,7 @@ class HealthManager:
                     # check mana
                     last_drink = time.time() - self._last_mana
                     if mana_percentage < self._config.char["take_mana_potion"] and last_drink > 4:
-                        self._consumibles_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
+                        self._consumables_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
                 merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], img, roi=self._config.ui_roi["merc_icon"]).valid
@@ -157,10 +157,10 @@ class HealthManager:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img)
                     if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
-                        self._consumibles_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
+                        self._consumables_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
                         self._last_merc_healh = time.time()
                     elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
-                        self._consumibles_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
+                        self._consumables_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_healh = time.time()
         Logger.debug("Stop health monitoring")
 
@@ -173,9 +173,9 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     screen = Screen()
     template_finder = TemplateFinder(screen)
-    consumibles_manager = ConsumiblesManager(screen, template_finder)
+    consumables_manager = ConsumablesManager(screen, template_finder)
     manager = HealthManager(screen, template_finder)
-    manager.set_consumibles_manager(consumibles_manager)
+    manager.set_consumables_manager(consumables_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)
