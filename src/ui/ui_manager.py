@@ -28,6 +28,8 @@ class UiManager():
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._screen = screen
+        self._gold_full = False
+        self._gambling_round = 1
         self._curr_stash = {
             "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
             "gold": 0
