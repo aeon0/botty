@@ -272,6 +272,11 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
+            #Disable include params for uniq, rare, magical if ident is disabled in params.ini
+            #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
+            if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
+                include_props = False 
+                exclude_props = False
             if not (include_props or exclude_props):
                 if do_logging:
                     Logger.debug(f"{x.name}: Stashing")
@@ -283,19 +288,40 @@ class UiManager():
                 include = False
                 found_props=[]
                 for prop in include_props:
-                    try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.95)
-                    except:
-                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                        template_match = lambda: None; template_match.valid = True
-                    if template_match.valid:
-                        if include_logic_type == "AND":
-                            found_props.append(True)
-                        else:
-                            include = True
+                    if len(prop)>1:
+                        found_subprops=[]
+                        for subprop in prop:
+                            try:
+                                template_match = self._template_finder.search(subprop, img, threshold=0.95)
+                            except:
+                                Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                                template_match = lambda: None; template_match.valid = True 
+                            if template_match.valid:
+                                if include_logic_type == "OR":
+                                    found_subprops.append(True)
+                                else:
+                                    found_props.append (True)
+                                    break
+                            else:
+                                found_subprops.append(False) 
+                                break
+                        if (len(found_subprops) > 0 and all(found_subprops)):
+                            include = True      
                             break
                     else:
-                        found_props.append(False)
+                        try:
+                            template_match = self._template_finder.search(prop, img, threshold=0.95)
+                        except:
+                            Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                            template_match = lambda: None; template_match.valid = True
+                        if template_match.valid:
+                            if include_logic_type == "AND":
+                                found_props.append(True)
+                            else:
+                                include = True
+                                break
+                        else:
+                            found_props.append(False)
                 if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
