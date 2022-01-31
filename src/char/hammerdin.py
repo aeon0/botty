@@ -399,15 +399,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
-            #if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
-            if not self._pather.traverse_nodes([612], self, time_out=3): 
-                Logger.info("A1-L: 612 might be blocked by a shrine, clicking left.")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_612_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                wait(0.1, 0.2)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_612_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                if not self._pather.traverse_nodes([612], self): return False
+            if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -448,12 +440,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
-            if not self._pather.traverse_nodes([622], self, time_out=3): 
-                Logger.info("A2-Y: might be blocked by a shrine, clicking left.")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                mouse.press(button="left")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                if not self._pather.traverse_nodes([622], self): return False
+            if not self._pather.traverse_nodes([622], self): return False
             keyboard.send(self._skill_hotkeys["redemption"])
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -466,14 +453,7 @@ class Hammerdin(IChar):
             #self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
-            if not self._pather.traverse_nodes([623,624], self, time_out=3): #): return False # 
-                Logger.info("A2-Y: 624 might be blocked by a shrine, clicking left.")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                wait(0.1, 0.2)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                if not self._pather.traverse_nodes([624], self): return False
+            if not self._pather.traverse_nodes([623,624], self): return False # 
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -630,14 +610,7 @@ class Hammerdin(IChar):
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
-            if not self._pather.traverse_nodes([624], self, time_out=3): #): return False # 
-                Logger.info("A2-Y: 624 might be blocked by a shrine, clicking left.")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                wait(0.1, 0.2)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                if not self._pather.traverse_nodes([624], self): return False
+            if not self._pather.traverse_nodes([624], self): return False
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"])
             wait(0.1, 0.15)
@@ -646,14 +619,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([624], self, time_out=3): #): return False # 
-                Logger.info("A2-Y: 624 might be blocked by a shrine, clicking left.")
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                wait(0.1, 0.2)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_624_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                if not self._pather.traverse_nodes([624], self): return False
+            if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
             if not self._pather.traverse_nodes([622], self): return False #, time_out=3): 

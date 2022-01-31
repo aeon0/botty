@@ -10,7 +10,7 @@ wkdir = os.getcwd()
 #initialize strings
 simple_string = ["Starting game", "Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
-complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check step 2/2b - Failed to determine", "Starting to clear Seal", "Fake: trying to open", "Fake: not", "Fake: is", "Boss: trying to open", "Boss: not", "Boss: is", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
+complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check step 2/2b - Failed", "Starting to clear Seal", "Fake: trying to open", "Fake: not", "Fake: is", "Boss: trying to open", "Boss: not", "Boss: is", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 error_string = ["End failed game"]
 error_array = []
 error_traverse = []
@@ -77,10 +77,21 @@ for string in simple_string:
     table1.rows.append ([string, simple_counter [simple_item_counter], f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
     simple_item_counter += 1
 
-result_file = open (wkdir + "/cs_result.txt", 'w')
+result_file = open (wkdir + "/info_log_parsed.txt", 'w')
+
+result_file.write ("================\n")
+result_file.write ("= RUN OVERVIEW =\n")
+result_file.write ("================\n")
 result_file.write (str(table1))
 result_file.write ("\n")
+result_file.write ("\n")
 
+result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("=======================\n")
+result_file.write ("= RATIO BETWEEN SEALS =\n")
+result_file.write ("=======================\n")
+result_file.write ("\n")
 table3 = BeautifulTable ()
 table3.rows.append ([complex_counter[0][layout_check_counter], complex_counter[2][layout_check_counter], complex_counter[4][layout_check_counter]])
 table3.rows.append (['A2', "B2", "C2"])
@@ -88,9 +99,15 @@ table3.rows.append ([complex_counter[1][layout_check_counter], complex_counter[3
 table3.columns.header = ['A1', 'B1', 'C1']
 result_file.write (str(table3))
 result_file.write ("\n")
+result_file.write ("\n")
 
 
-
+result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("===========================\n")
+result_file.write ("= INDIVIDUAL SEAL RESULTS =\n")
+result_file.write ("===========================\n")
+result_file.write ("\n")
 for prefix in prefix_string:
     table2 = BeautifulTable ()
     complex_item_counter = 0
@@ -101,16 +118,36 @@ for prefix in prefix_string:
     table2.columns.header = ['String', 'amount', 'percentage']
     result_file.write (str(table2))
     result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("\n")
 
+result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("====================================\n")
+result_file.write ("= LAST TRAVERSE BEFORE FAILED GAME =\n")
+result_file.write ("====================================\n")
+result_file.write ("\n")
 
 error_counter = 0
 for error in error_array:
     error_counter += 1
-    result_file.write (f"\n ==== LAST " + str(lines_before_error) + " LOG LINES BEFORE FAILED GAME:" + str(error_counter) + error_traverse [error_counter-1] + "\n")
+    result_file.write (error_traverse [error_counter-1])
+
+result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("\n")
+result_file.write ("==========================================\n")
+result_file.write ("= LAST " + str(lines_before_error) + " LOG LINES BEFORE FAILED GAME:" + "\n")
+result_file.write ("==========================================\n")
+result_file.write ("\n")
+error_counter = 0
+for error in error_array:
+    error_counter += 1
+    result_file.write (f"\n" + str(error_counter) + ") ========== " + error_traverse [error_counter-1])
     for line in error:
         result_file.write (line)
 
 Logger.info ("=================================================================================================")
-Logger.info ("Parsed info.log - results & details for failed runs stored in cs_result.txt in botty root folder")
+Logger.info ("Parsed info.log - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
 Logger.info ("=================================================================================================")
 #Logger.info ("\n" + str(table1))

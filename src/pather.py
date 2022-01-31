@@ -7,6 +7,8 @@ from typing import Tuple, Union, List
 import cv2
 import numpy as np
 from item.pickit import PickIt
+from utils.custom_mouse import mouse
+from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 
 from utils.misc import is_in_roi
 from config import Config
@@ -620,7 +622,38 @@ class Pather:
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
-
+                
+                """
+                # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
+                if not did_force_move and time.time() - last_move > 2:
+                    t0 = self._screen.grab()
+                    wait(0.1, 0.2)
+                    t1 = self._screen.grab()
+                    # check difference between the two frames to determine if tele was good or not
+                    diff = cv2.absdiff(t0, t1)
+                    diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                    _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                    score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                    did_teleport = True
+                    
+                    if score > 0.15:
+                        did_teleport = True
+                    else:
+                        did_teleport = False
+                
+                    if not did_teleport:
+                        i = 0
+                        stuck_count = 0
+                        while i < len(path):
+                                stuck_count += 1
+                                Logger.debug(f"Teleport cancel detected. Might be Shrine or Stash, let's left click. ({score:.4f})")
+                                mouse.click("left")
+                                if stuck_count >= 5:
+                                    cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                                    return False
+                        return True
+                """
+                
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:

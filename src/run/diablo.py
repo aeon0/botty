@@ -152,7 +152,7 @@ class Diablo:
     # GET TO PENTAGRAM
     def _loop_pentagram(self, path) -> bool:
         found = False
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2", "DIA_NEW_PENT_TP", "DIA_NEW_PENT_TPTOP", "DIA_NEW_PENT_TPBOT"]
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_TP", "DIA_NEW_PENT_2"] # these templates are just found 2-3 times amongst 100 runs  "DIA_NEW_PENT_TPTOP", "DIA_NEW_PENT_TPBOT"
         start_time = time.time()
         while not found and time.time() - start_time < 15: #increased from 10 to 15 to allow looping back in case of a failed layout check during clearing CS trash
             found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1).valid
@@ -172,14 +172,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # Moves to first open area
         Logger.debug("Kill trash at location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02") # since theres probably a mob there just lands and attacks
-        if not self._pather.traverse_nodes([670,671], self._char, time_out=3): #): return False # 
-            Logger.info("CS Entrance: 671 might be blocked by a shrine, clicking left.")
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_671_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            wait(0.1, 0.2)
-            mouse.press(button="left")
-            wait(0.1, 0.2)
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_671_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            if not self._pather.traverse_nodes([671], self._char): return False
+        if not self._pather.traverse_nodes([670,671], self._char): return False # 
         Logger.debug("Kill trash at location: entrance_hall_03")
         self._char.kill_cs_trash("entrance_hall_03") 
         self._picked_up_items |= self._pickit.pick_up_items(self._char) # moves back and forth to draw more enemies finishes em off picks up items.
@@ -265,7 +258,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("diablo_wp_pentagram", self._char)
         Logger.info("ROF: Teleporting directly to PENTAGRAM")
         found = False
-        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
+        templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"] # these templates are just found 2-3 times amongst 100 runs "DIA_NEW_PENT_2"
         start_time = time.time()
         while not found and time.time() - start_time < 10:
             found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, take_ss=False).valid 
@@ -295,14 +288,7 @@ class Diablo:
         if not found:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
-        if not self._pather.traverse_nodes([601], self._char, threshold=0.8, time_out=3): #return False
-            Logger.info("CS Entrance: 601 might be blocked by a shrine, clicking left.")
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_1before_601_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            wait(0.1, 0.2)
-            mouse.press(button="left")
-            wait(0.1, 0.2)
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_2after_601_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            if not self._pather.traverse_nodes([601], self._char): return False
+        if not self._pather.traverse_nodes([601], self._char): return False  #threshold=0.8
         Logger.debug("Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02") #inside
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
