@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import re
 import difflib
+from utils.misc import erode_to_black
 
 from logger import Logger
 from typing import List, Union
@@ -35,8 +36,8 @@ class Ocr:
         text = text.replace('\n',' NEWLINEHERE ')
         for word in text.split(' '):
             word = word.strip()
-            if word:
-                if word != "NEWLINEHERE":
+            if word and word != "NEWLINEHERE":
+                try:
                     if confidences[word_count] <= 88:
                         if word not in self.word_list:
                             closest_match = difflib.get_close_matches(word, self.word_list, cutoff=0.9)
@@ -50,29 +51,20 @@ class Ocr:
                     else:
                         new_string += f"{word} "
                     word_count += 1
-                else:
-                    new_string += "\n"
+                except IndexError:
+                    # bizarre word_count index exceeded sometimes... can't reproduce and words otherwise seem to match up
+                    Logger.error(f"check_wordlist: IndexError for word: {word}, index: {word_count}, text: {text}")
+                    return text
+                except:
+                    Logger.error(f"check_wordlist: Unknown error for word: {word}, index: {word_count}, text: {text}")
+                    return text
+            elif word == "NEWLINEHERE":
+                new_string += "\n"
         return new_string.strip()
 
     def prep_inv_th(self, image: np.ndarray = None, clean: bool = False) -> np.ndarray:
         if clean:
-            # Cleanup image with erosion image as marker with morphological reconstruction
-            image = image[:, :, :]
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            thresh = cv2.threshold(gray, 14, 255, cv2.THRESH_BINARY)[1]
-            kernel = np.ones((3, 3), np.uint8)
-            marker = thresh.copy()
-            marker[1:-1, 1:-1] = 0
-            while True:
-                tmp = marker.copy()
-                marker = cv2.dilate(marker, kernel)
-                marker = cv2.min(thresh, marker)
-                difference = cv2.subtract(marker, tmp)
-                if cv2.countNonZero(difference) <= 0:
-                    break
-            mask_r = cv2.bitwise_not(marker)
-            mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
-            image = cv2.bitwise_and(image, mask_color_r)
+            image = erode_to_black(image)
         # crop
         image = image[4: image.shape[0]-4, 5: image.shape[1]-5]
         # re-pad
