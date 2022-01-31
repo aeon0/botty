@@ -240,7 +240,7 @@ class Config:
             "message_body_template": Config._select_val("advanced_options", "message_body_template"),
             "message_highlight": bool(int(Config._select_val("advanced_options", "message_highlight"))),
             "d2r_windows_always_on_top": bool(int(Config._select_val("advanced_options", "d2r_windows_always_on_top"))),
-            "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator"))),
+            "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator")))
         }
 
         Config.items = {}

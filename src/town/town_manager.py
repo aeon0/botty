@@ -6,7 +6,7 @@ from pather import Location
 from logger import Logger
 from ui import UiManager
 from ui import InventoryManager
-from ui import ConsumiblesManager
+from ui import ConsumablesManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
@@ -95,7 +95,7 @@ class TownManager:
         Logger.warning(f"Could not heal in {curr_act}. Continue without healing")
         return curr_loc
 
-    def buy_consumibles(self, curr_loc: Location, items: list = None, needs: dict = {}):
+    def buy_consumables(self, curr_loc: Location, items: list = None, needs: dict = {}):
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False, items
         # check if we can buy pots in current act
@@ -111,7 +111,7 @@ class TownManager:
                     if self._inventory_manager.buy_item(template_name="GREATER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
                         needs["health"] = 0
                     else:
-                        Logger.error("buy_consumibles: Error purchasing health potions")
+                        Logger.error("buy_consumables: Error purchasing health potions")
                         return False, items
             # Buy mana pots
             if needs["mana"] > 0:
@@ -122,35 +122,35 @@ class TownManager:
                     if self._inventory_manager.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
                         needs["mana"] = 0
                     else:
-                        Logger.error("buy_consumibles: Error purchasing mana potions")
+                        Logger.error("buy_consumables: Error purchasing mana potions")
                         return False, items
             # Buy TP scrolls
             if needs["tp"] > 0:
                 if self._inventory_manager.buy_item(template_name="INV_SCROLL_TP", shift_click = True):
                     needs["tp"] = 0
                 else:
-                    Logger.error("buy_consumibles: Error purchasing teleport scrolls")
+                    Logger.error("buy_consumables: Error purchasing teleport scrolls")
                     return False, items
             # Buy ID scrolls
             if needs["id"] > 0:
                 if self._inventory_manager.buy_item(template_name="INV_SCROLL_ID", shift_click = True):
                     needs["id"] = 0
                 else:
-                    Logger.error("buy_consumibles: Error purchasing ID scrolls")
+                    Logger.error("buy_consumables: Error purchasing ID scrolls")
                     return False, items
             # Buy keys
             if needs["key"] > 0:
                 if self._inventory_manager.buy_item(template_name="INV_KEY", shift_click = True):
                     needs["key"] = 0
                 else:
-                    Logger.error("buy_consumibles: Error purchasing keys")
+                    Logger.error("buy_consumables: Error purchasing keys")
                     return False, items
             # Sell items, if any
             if items:
                 items = self._inventory_manager._transfer_items(items, action = "sell", close = False)
             self._inventory_manager.toggle_inventory(action = "close")
             return new_loc, items
-        Logger.warning(f"Could not buy consumibles in {curr_act}. Continue without buy pots")
+        Logger.warning(f"Could not buy consumables in {curr_act}. Continue without buy pots")
         return curr_loc, items
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:

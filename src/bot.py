@@ -19,7 +19,7 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from ui import UiManager
-from ui import ConsumiblesManager
+from ui import ConsumablesManager
 from ui import InventoryManager
 from pather import Pather, Location
 from npc_manager import NpcManager
@@ -50,9 +50,9 @@ class Bot:
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._screen, self._template_finder)
         self._inventory_manager = InventoryManager(self._screen, self._template_finder, self._game_stats)
-        self._consumibles_manager = ConsumiblesManager(self._screen, self._template_finder)
+        self._consumables_manager = ConsumablesManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._consumibles_manager)
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._consumables_manager)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
@@ -151,8 +151,8 @@ class Bot:
         self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
-    def get_consumibles_manager(self) -> ConsumiblesManager:
-        return self._consumibles_manager
+    def get_consumables_manager(self) -> ConsumablesManager:
+        return self._consumables_manager
 
     def get_curr_location(self):
         return self._curr_loc
@@ -237,7 +237,7 @@ class Bot:
             wait(0.5)
 
         # Update potion counts
-        self._consumibles_manager.update_pot_needs()
+        self._consumables_manager.update_pot_needs()
 
         # Inspect inventory
         items = None
@@ -248,17 +248,17 @@ class Bot:
             if self._game_stats._game_counter == 1:
                 id_state = self._inventory_manager._tome_state(img, 'id')[0]
                 self._use_id_tome = True if id_state else False
-                self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._config.ui_roi["inventory"]).valid
+                self._use_keys = self._template_finder.search("INV_KEY", img, roi=self._inventory_manager.specific_inventory_roi(self._config, "reserved")).valid
             if (self._game_stats._run_counter - 1) % 4 == 0 or self._prev_run_failed:
-                self._consumibles_manager.update_tome_key_needs(img, item_type = 'tp')
+                self._consumables_manager.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
                     id_state = self._inventory_manager._tome_state(img, 'id')[0]
                     if id_state == "empty":
-                        self._consumibles_manager._consumible_needs["id"] = 20
+                        self._consumables_manager._consumible_needs["id"] = 20
                     else:
-                        self._consumibles_manager.update_tome_key_needs(img, item_type = 'id')
+                        self._consumables_manager.update_tome_key_needs(img, item_type = 'id')
                 if self._use_keys:
-                    if not self._consumibles_manager.update_tome_key_needs(img, item_type = 'key'):
+                    if not self._consumables_manager.update_tome_key_needs(img, item_type = 'key'):
                         # keys have run out and refilling will be unreliable
                         self._use_keys = False
             # Check inventory items
@@ -266,7 +266,7 @@ class Bot:
                 items = self._inventory_manager._inspect_items(item_finder=self._item_finder, img = img)
             else:
                 self._inventory_manager.toggle_inventory("close")
-        Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
+        Logger.debug(f"Needs: {self._consumables_manager.get_needs()}")
         if items:
             # if there are still items that need identifying, go to cain to identify them
             if any([item.need_id for item in items]):
@@ -284,21 +284,21 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         need_refill = (
-            self._consumibles_manager.should_buy("health", min_needed = random.randint(3, 5)) or
-            self._consumibles_manager.should_buy("mana", min_needed = random.randint(3, 5)) or
-            self._consumibles_manager.should_buy("key", min_remaining = random.randint(3, 5)) or
-            self._consumibles_manager.should_buy("tp", min_remaining = random.randint(3, 5)) or
-            self._consumibles_manager.should_buy("id", min_remaining = random.randint(3, 5))
+            self._consumables_manager.should_buy("health", min_needed = random.randint(3, 5)) or
+            self._consumables_manager.should_buy("mana", min_needed = random.randint(3, 5)) or
+            self._consumables_manager.should_buy("key", min_remaining = random.randint(3, 5)) or
+            self._consumables_manager.should_buy("tp", min_remaining = random.randint(3, 5)) or
+            self._consumables_manager.should_buy("id", min_remaining = random.randint(3, 5))
         )
         if need_refill:
             Logger.info("Buy pots/keys/scrolls at next possible Vendor")
-            self._curr_loc, result_items = self._town_manager.buy_consumibles(self._curr_loc, items = items, needs = self._consumibles_manager.get_needs())
+            self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items, needs = self._consumables_manager.get_needs())
             if self._curr_loc:
                 items = result_items
                 sell_items = any([item.sell for item in items]) if items else None
                 for x in ["health", "mana", "key", "tp", "id"]:
-                    self._consumibles_manager.reset_need(x)
-                Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
+                    self._consumables_manager.reset_need(x)
+                Logger.debug(f"Needs: {self._consumables_manager.get_needs()}")
             wait(0.5, 0.8)
         elif HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2:
             Logger.info("Healing at next possible Vendor")
@@ -325,16 +325,16 @@ class Bot:
             elif sell_items: Logger.info("Selling items")
             else: Logger.info("Repairing items and exchanging tomes at next Vendor")
             refill_tomes = (
-                self._consumibles_manager.should_buy("tp", min_needed = random.randint(3, 5)) or
-                self._consumibles_manager.should_buy("id", min_needed = random.randint(3, 5))
+                self._consumables_manager.should_buy("tp", min_needed = random.randint(3, 5)) or
+                self._consumables_manager.should_buy("id", min_needed = random.randint(3, 5))
             )
             self._curr_loc, result_items = self._town_manager.repair_and_fill_tomes(self._curr_loc, items, refill_tomes)
             if self._curr_loc:
                 items = result_items
             if refill_tomes:
-                self._consumibles_manager._consumible_needs["tp"] = 0
-                self._consumibles_manager._consumible_needs["id"] = 0
-                Logger.debug(f"Needs: {self._consumibles_manager.get_needs()}")
+                self._consumables_manager._consumible_needs["tp"] = 0
+                self._consumables_manager._consumible_needs["id"] = 0
+                Logger.debug(f"Needs: {self._consumables_manager.get_needs()}")
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             wait(1.0)
@@ -377,12 +377,12 @@ class Bot:
             self._pre_buffed = True
         success = self._char.tp_town()
         if success:
-            self._consumibles_manager.increment_consumible_need("tp", 1)
+            self._consumables_manager.increment_consumible_need("tp", 1)
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
         if not self._ui_manager.has_tps():
-            self._consumibles_manager._consumible_needs["tp"] = 0
+            self._consumables_manager._consumible_needs["tp"] = 0
         self.trigger_or_stop("end_game", failed=True)
 
     # All the runs go here
@@ -445,7 +445,7 @@ class Bot:
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             res = self._arcane.battle(not self._pre_buffed)
-        self._consumibles_manager.increment_consumible_need("tp", self._arcane.used_tps)
+        self._consumables_manager.increment_consumible_need("tp", self._arcane.used_tps)
         self._ending_run_helper(res)
 
     def on_run_diablo(self):
@@ -455,5 +455,5 @@ class Bot:
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             res = self._diablo.battle(not self._pre_buffed)
-        self._consumibles_manager.increment_consumible_need("tp", 1) # we use one tp at pentagram for calibration
+        self._consumables_manager.increment_consumible_need("tp", 1) # we use one tp at pentagram for calibration
         self._ending_run_helper(res)

@@ -78,6 +78,21 @@ class InventoryManager:
         center_pos = (int(slot[0] + (slot_width // 2)), int(slot[1] + (slot_height // 2)))
         return center_pos, slot_img
 
+    @staticmethod
+    def specific_inventory_roi(config: Config, desired: str = "reserved"):
+        #roi spec: left, top, W, H
+        roi = config.ui_roi["inventory"].copy()
+        open_width = config.ui_pos["slot_width"] * config.char["num_loot_columns"]
+        if desired == "reserved":
+            roi[0]=roi[0] + open_width
+            roi[2]=roi[2] - open_width
+        elif desired == "open":
+            roi[2]=open_width
+        else:
+            Logger.error(f"set_inventory_rois: unsupported desired={desired}")
+            return None
+        return roi
+
     def center_mouse(self, delay_factor: List = None):
         center_m = self._screen.convert_abs_to_monitor((0, 0))
         if delay_factor:
@@ -100,7 +115,7 @@ class InventoryManager:
                 return True
         return False
 
-    def _find_color_diff_roi(self, img_pre, img_post):
+    def _calc_item_roi(self, img_pre, img_post):
         try:
             diff = cv2.absdiff(img_pre, img_post)
             gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -112,11 +127,19 @@ class InventoryManager:
 
             blue_red_mask = np.bitwise_or(blue_mask, red_mask)
             final = np.bitwise_and.reduce([blue_red_mask, green_mask, diff_thresh])
-            #cv2.imwrite("./info_screenshots/diff_roi_final_" + time.strftime("%Y%m%d_%H%M%S") + ".png", final)
             _, roi = trim_black(final)
+            #cv2.imwrite("./info_screenshots/pre_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img_pre)
+            #cv2.imwrite("./info_screenshots/post_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img_post)
+            #cv2.imwrite("./info_screenshots/diff_" + time.strftime("%Y%m%d_%H%M%S") + ".png", diff)
+            #cv2.imwrite("./info_screenshots/diff_thresh" + time.strftime("%Y%m%d_%H%M%S") + ".png", diff_thresh)
+            #cv2.imwrite("./info_screenshots/diff_blue_mask_" + time.strftime("%Y%m%d_%H%M%S") + ".png", blue_mask)
+            #cv2.imwrite("./info_screenshots/diff_red_mask_" + time.strftime("%Y%m%d_%H%M%S") + ".png", red_mask)
+            #cv2.imwrite("./info_screenshots/diff_green_mask_" + time.strftime("%Y%m%d_%H%M%S") + ".png", green_mask)
+            #cv2.imwrite("./info_screenshots/diff_blue_red_mask_" + time.strftime("%Y%m%d_%H%M%S") + ".png", blue_red_mask)
+            #cv2.imwrite("./info_screenshots/diff_final_" + time.strftime("%Y%m%d_%H%M%S") + ".png", final)
             return roi
         except:
-            Logger.error("_find_color_diff_roi failed")
+            Logger.error("_calc_item_roi failed")
             return None
 
     def _inspect_items(self, item_finder: ItemFinder, img: np.ndarray = None) -> bool:
@@ -137,8 +160,6 @@ class InventoryManager:
         # iterate over slots with items
         item_rois = []
         for count, slot in enumerate(slots):
-            img = self._screen.grab()
-            x_m, y_m = self._screen.convert_screen_to_monitor(slot[0])
             # ignore this slot if it lies within in a previous item's ROI
             skip = False
             for item_roi in item_rois:
@@ -147,6 +168,8 @@ class InventoryManager:
                     break
             if skip:
                 continue
+            img = self._screen.grab()
+            x_m, y_m = self._screen.convert_screen_to_monitor(slot[0])
             delay = [0.2, 0.3] if count else [1, 1.3]
             mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
             wait(0.3, 0.5)
@@ -162,11 +185,26 @@ class InventoryManager:
                 continue
             if item_box.color:
                 # determine the item's ROI in inventory
-                pre = mask_by_roi(img, self._config.ui_roi["inventory"])
-                post = mask_by_roi(hovered_item, self._config.ui_roi["inventory"])
+                cnt=0
+                while True:
+                    pre = mask_by_roi(img, self.specific_inventory_roi(self._config, "open"))
+                    post = mask_by_roi(hovered_item, self.specific_inventory_roi(self._config, "open"))
+                    # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
+                    if not np.array_equal(pre, post):
+                        break
+                    Logger.debug(f"_inspect_items: pre=post, try again. slot {slot[0]}")
+                    self.center_mouse()
+                    img = screen.grab()
+                    mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
+                    wait(0.3, 0.5)
+                    hovered_item = self._screen.grab()
+                    cnt += 1
+                    if cnt >= 2:
+                        Logger.error(f"_inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
+                        break
                 extend_roi = item_box.roi[:]
                 extend_roi[3] = extend_roi[3] + 30
-                item_roi = self._find_color_diff_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
+                item_roi = self._calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
                 if item_roi:
                     item_rois.append(item_roi)
                 # determine whether the item can be sold
@@ -199,8 +237,10 @@ class InventoryManager:
                     found_low_confidence = False
                     for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
                         if x <= 88:
-                            Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
-                            found_low_confidence = True
+                            try:
+                                Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                                found_low_confidence = True
+                            except: pass
                     if found_low_confidence:
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
@@ -532,7 +572,7 @@ class InventoryManager:
         wait(0.4, 0.6)
 
     def _tome_state(self, img: np.ndarray, tome_type: str = "tp"):
-        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = self._config.ui_roi["inventory"], threshold = 0.8, best_match = True)
+        tome_found = self._template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = self.specific_inventory_roi(self._config, "reserved"), threshold = 0.8, best_match = True)
         if tome_found.valid:
             if tome_found.name == f"{tome_type.upper()}_TOME":
                 state = "ok"
@@ -555,7 +595,7 @@ class InventoryManager:
         sold_tomes = []
         start = time.time()
         while True:
-            tome = self._template_finder.search(["ID_TOME", "ID_TOME_RED", "TP_TOME", "TP_TOME_RED"], self._screen.grab(), roi=self._config.ui_roi["inventory"], threshold=0.8)
+            tome = self._template_finder.search(["ID_TOME", "ID_TOME_RED", "TP_TOME", "TP_TOME_RED"], self._screen.grab(), roi = self.specific_inventory_roi(self._config, "reserved"), threshold=0.8)
             if not tome.valid:
                 break
             if "ID" in tome.name:
@@ -591,7 +631,7 @@ class InventoryManager:
             start = time.time()
             # check buy back
             while True:
-                tome = self._template_finder.search_and_wait(sold_tome, roi=self._config.ui_roi["inventory"], time_out=2)
+                tome = self._template_finder.search_and_wait(sold_tome, roi = self.specific_inventory_roi(self._config, "reserved"), time_out=2)
                 if tome.valid:
                     break
                 if time.time() - start > 5:
