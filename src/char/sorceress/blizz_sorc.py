@@ -212,13 +212,9 @@ class BlizzSorc(Sorceress):
         # Find nilhlatak position
         atk_sequences = max(1, int(self._char_config["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
-            nihlathak_pos_abs = self._pather.find_abs_node_pos(
-                end_nodes[-1], self._screen.grab()
-            )
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
             if nihlathak_pos_abs is not None:
-                cast_pos_abs = np.array(
-                    [nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0]
-                )
+                cast_pos_abs = np.array([nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0])
                 wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)

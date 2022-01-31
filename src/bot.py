@@ -95,8 +95,7 @@ class Bot:
         self._do_runs = {
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"]
-            or self._route_config["run_eldritch"],
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlathak": self._route_config["run_nihlathak"],
             "run_arcane": self._route_config["run_arcane"],
             "run_diablo": self._route_config["run_diablo"],
@@ -107,57 +106,12 @@ class Bot:
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._shenk = ShenkEld(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._trav = Trav(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._nihlathak = Nihlathak(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._arcane = Arcane(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._diablo = Diablo(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
+        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlathak = Nihlathak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -173,79 +127,21 @@ class Bot:
         self._prev_run_failed = False
 
         # Create State Machine
-        self._states = [
-            "hero_selection",
-            "town",
-            "pindle",
-            "shenk",
-            "trav",
-            "nihlathak",
-            "arcane",
-            "diablo",
-        ]
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
         self._transitions = [
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
             { 'trigger': 'maintenance', 'source': 'town', 'dest': 'town', 'before': "on_maintenance"},
             # Different runs
-            {
-                "trigger": "run_pindle",
-                "source": "town",
-                "dest": "pindle",
-                "before": "on_run_pindle",
-            },
-            {
-                "trigger": "run_shenk",
-                "source": "town",
-                "dest": "shenk",
-                "before": "on_run_shenk",
-            },
-            {
-                "trigger": "run_trav",
-                "source": "town",
-                "dest": "trav",
-                "before": "on_run_trav",
-            },
-            {
-                "trigger": "run_nihlathak",
-                "source": "town",
-                "dest": "nihlathak",
-                "before": "on_run_nihlathak",
-            },
-            {
-                "trigger": "run_arcane",
-                "source": "town",
-                "dest": "arcane",
-                "before": "on_run_arcane",
-            },
-            {
-                "trigger": "run_diablo",
-                "source": "town",
-                "dest": "nihlathak",
-                "before": "on_run_diablo",
-            },
+            { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
+            { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
+            { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
+            { 'trigger': 'run_nihlathak', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_nihlathak"},
+            { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
+            { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_diablo"},
             # End run / game
-            {
-                "trigger": "end_run",
-                "source": ["shenk", "pindle", "nihlathak", "trav", "arcane", "diablo"],
-                "dest": "town",
-                "before": "on_end_run",
-            },
-            {
-                "trigger": "end_game",
-                "source": [
-                    "town",
-                    "shenk",
-                    "pindle",
-                    "nihlathak",
-                    "trav",
-                    "arcane",
-                    "diablo",
-                    "end_run",
-                ],
-                "dest": "hero_selection",
-                "before": "on_end_game",
-            },
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
@@ -536,9 +432,7 @@ class Bot:
     def on_run_nihlathak(self):
         res = False
         self._do_runs["run_nihlathak"] = False
-        self._game_stats.update_location(
-            "Nihl" if self._config.general["discord_status_condensed"] else "Nihlathak"
-        )
+        self._game_stats.update_location("Nihl" if self._config.general['discord_status_condensed'] else "Nihlathak")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlathak.battle(not self._pre_buffed)
