@@ -5,14 +5,14 @@ import keyboard
 import time
 import os
 from shop.anya import AnyaShopper
+from shop.drognan import DrognanShopper
 from config import Config
 from logger import Logger
 from version import __version__
 
-print("HERE?")
 
 def main():
-    config = Config(print_warnings=True)
+    config = Config()
     if config.general["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif config.general["logg_lvl"] == "debug":
@@ -24,17 +24,21 @@ def main():
 
     print(f"============ Shop {__version__} [name: {config.general['name']}] ============")
     table = BeautifulTable()
+    table.rows.append(["f10", "Shop at Drognan (for D2R Classic)"])
     table.rows.append(["f11", "Shop at Anya"])
     table.rows.append([config.general['exit_key'], "Stop shop"])
     table.columns.header = ["hotkey", "action"]
     print(table)
     print("\n")
-    
-    anya = AnyaShopper(config)
 
     while 1:
+        if keyboard.is_pressed("f10"):
+            merchant = DrognanShopper(config)
+            merchant.run()
+            break
         if keyboard.is_pressed("f11"):
-            anya.run()
+            merchant = AnyaShopper(config)
+            merchant.run()
             break
         time.sleep(0.02)
 

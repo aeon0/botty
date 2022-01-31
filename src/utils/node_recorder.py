@@ -47,7 +47,7 @@ class NodeRecorder:
     def find_templates(self, img):
         ref_points = {}
         for key in self._template_finder._templates:
-            found = self._template_finder.search(key, img, use_grayscale=True)
+            found = self._template_finder.search(key, img, use_grayscale=False, threshold=0.77)
             if found.valid:
                 ref_points[key] = found.position
         return ref_points
@@ -127,7 +127,7 @@ class NodeRecorder:
                     results = sorted(new_path, key=lambda r: r["dist"])
                     code = f"{k}: " + "{"
                     for i, res in enumerate(results):
-                        if res["dist"] < 900 and i < 5:
+                        if res["dist"] < 1100 and i < 8:
                             code += f'"{res["key"].upper()}": {res["pos"]}, '
                     f.write(code + "}\n")
                 f.close()
@@ -156,5 +156,6 @@ if __name__ == "__main__":
                 cv2.putText(img, key, recorder.ref_points[key], cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
         except Exception:
             pass
+        img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("vis", img)
         cv2.waitKey(1)

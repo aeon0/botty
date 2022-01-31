@@ -25,7 +25,7 @@ class Item:
     roi: list[int] = None
 
 class ItemFinder:
-    def __init__(self, config: Config):
+    def __init__(self):
         self._item_cropper = ItemCropper()
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
@@ -38,7 +38,7 @@ class ItemFinder:
             "unique": [np.array([23, 80, 140]), np.array([23, 89, 216])],
             "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
-
+        config = Config()
         self._items_to_pick = config.items
         self._folder_name = "items"
         self._min_score = 0.86
@@ -67,9 +67,6 @@ class ItemFinder:
                     if blacklist_item:
                         template.blacklist = True
                     self._templates[item_name] = template
-
-    def update_items_to_pick(self, config: Config):
-        self._items_to_pick = config.items
 
     def search(self, inp_img: np.ndarray) -> list[Item]:
         img = inp_img[:,:,:]
@@ -133,7 +130,7 @@ if __name__ == "__main__":
     from config import Config
     config = Config()
     screen = Screen(config.general["monitor"])
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
         img = screen.grab().copy()

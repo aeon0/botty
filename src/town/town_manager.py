@@ -5,17 +5,19 @@ from config import Config
 from pather import Location
 from logger import Logger
 from ui import UiManager
-from town import IAct, A3, A4, A5
+from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
 
 class TownManager:
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a3: A3, a4: A4, a5: A5):
+    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
+            Location.A1_TOWN_START: a1,
+            Location.A2_TOWN_START: a2,
             Location.A3_TOWN_START: a3,
             Location.A4_TOWN_START: a4,
             Location.A5_TOWN_START: a5
@@ -30,6 +32,10 @@ class TownManager:
             location = Location.A4_TOWN_START
         elif loc.upper().startswith("A3_"):
             location = Location.A3_TOWN_START
+        elif loc.upper().startswith("A2_"):
+            location = Location.A2_TOWN_START
+        elif loc.upper().startswith("A1_"):
+            location = Location.A1_TOWN_START
         return location
 
     def wait_for_town_spawn(self, time_out: float = None) -> Location:
@@ -40,7 +46,9 @@ class TownManager:
         template_match = self._template_finder.search_and_wait([
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
-            "A3_TOWN_0", "A3_TOWN_1"
+            "A3_TOWN_0", "A3_TOWN_1",
+            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
+            "A1_TOWN_1", "A1_TOWN_3"
         ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
@@ -60,7 +68,9 @@ class TownManager:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we already are in the desired act
-        if act_idx == 3: act = Location.A3_TOWN_START
+        if act_idx == 1: act = Location.A1_TOWN_START
+        elif act_idx == 2: act = Location.A2_TOWN_START
+        elif act_idx == 3: act = Location.A3_TOWN_START
         elif act_idx == 4: act = Location.A4_TOWN_START
         elif act_idx == 5: act = Location.A5_TOWN_START
         else:
@@ -105,7 +115,17 @@ class TownManager:
         new_loc = self.go_to_act(4, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].resurrect(new_loc)
-
+              
+    def identify(self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can Identify in current act
+        if self._acts[curr_act].can_identify():
+            return self._acts[curr_act].identify(curr_loc)
+        new_loc = self.go_to_act(5, curr_loc)
+        if not new_loc: return False
+        return self._acts[Location.A5_TOWN_START].identify(new_loc)
+        
     def stash(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
@@ -164,10 +184,12 @@ if __name__ == "__main__":
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)
     a3 = A3(screen, template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, item_finder, a3, a4, a5)
-    print(town_manager.stash(Location.A5_STASH))
+    a2 = A2(screen, template_finder, pather, char, npc_manager)
+    a1 = A1(screen, template_finder, pather, char, npc_manager)
+    town_manager = TownManager(template_finder, ui_manager, item_finder, a1, a2, a3, a4, a5)
+    print(town_manager.open_wp(Location.A1_TOWN_START))

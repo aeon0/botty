@@ -6,7 +6,6 @@ from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
 from screen import Screen
-from game_stats import GameStats
 from item import ItemFinder, Item
 from ui import UiManager
 from ui import BeltManager
@@ -14,12 +13,11 @@ from char import IChar
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager, game_stats: GameStats = None):
+    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
         self._item_finder = item_finder
         self._screen = screen
         self._belt_manager = belt_manager
         self._ui_manager = ui_manager
-        self._game_stats = game_stats
         self._config = Config()
         self._last_closest_item: Item = None
 
@@ -92,10 +90,10 @@ class PickIt:
                     if same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
-                    elif time.time() - same_item_timer > 4 and not did_force_move:
+                    elif time.time() - same_item_timer > 1 and not did_force_move:
                         force_move = True
                         did_force_move = True
-                    elif time.time() - same_item_timer > 8:
+                    elif time.time() - same_item_timer > 3:
                         # backlist this item type for this pickit round
                         Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
                         skip_items.append(closest_item.name)
@@ -130,7 +128,6 @@ class PickIt:
                         # send log to discord
                         if found_items and closest_item.name not in picked_up_items:
                             Logger.info(f"Picking up: {closest_item.name} ({closest_item.score*100:.1f}% confidence)")
-                            self._game_stats.log_item_pickup(closest_item.name, self._config.items[closest_item.name].pickit_type == 2)
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
@@ -153,20 +150,18 @@ if __name__ == "__main__":
     from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
-    from game_stats import GameStats
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     config = Config()
-    game_states = GameStats()
     screen = Screen(config.general["monitor"])
     t_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, t_finder)
     belt_manager = BeltManager(screen, t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager, game_states)
+    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

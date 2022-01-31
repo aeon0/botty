@@ -10,21 +10,23 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, color_filter
 
 from logger import Logger
-from config import Config
+from config import Config, ItemProps
 from screen import Screen
 from item import ItemFinder
 from template_finder import TemplateFinder
 
 from messenger import Messenger
+from game_stats import GameStats
 
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, game_stats: GameStats = None):
         self._config = Config()
         self._template_finder = template_finder
         self._messenger = Messenger()
+        self._game_stats = game_stats
         self._screen = screen
         self._curr_stash = {"items": 0, "gold": 0} #0: personal, 1: shared1, 2: shared2, 3: shared3
 
@@ -34,7 +36,7 @@ class UiManager():
         :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
         :param idx: Index of the waypoint from top. Note that it start at 0!
         """
-        str_to_idx_map = {"WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        str_to_idx_map = {"WP_A1_ACTIVE": 1, "WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
         template_match = self._template_finder.search([*str_to_idx_map], self._screen.grab(), threshold=0.7, best_match=True, roi=self._config.ui_roi["wp_act_roi"])
         curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
         if curr_active_act != act:
@@ -49,10 +51,11 @@ class UiManager():
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen():
+        if self.wait_for_loading_screen(5):
             while 1:
                 if not self.wait_for_loading_screen(0.2):
-                    return
+                    return True
+        return False
 
     def is_right_skill_active(self) -> bool:
         """
@@ -73,7 +76,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the right skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_right"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_right"]).valid:
                 return True
         return False
 
@@ -82,7 +85,7 @@ class UiManager():
         :return: Bool if skill is currently the selected skill on the left skill slot.
         """
         for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.87, roi=self._config.ui_roi["skill_left"]).valid:
+            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_left"]).valid:
                 return True
         return False
 
@@ -249,11 +252,12 @@ class UiManager():
                 return True
         return False
 
-    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray) -> bool:
+    def _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
         """
         Check if an item should be kept, the item should be hovered and in own inventory when function is called
         :param item_finder: ItemFinder to check if item is in pickit
         :param img: Image in which the item is searched (item details should be visible)
+        :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
         :return: Bool if item should be kept
         """
         wait(0.2, 0.3)
@@ -265,8 +269,14 @@ class UiManager():
             if ("potion" in x.name) or (self._config.items[x.name].pickit_type == 0): continue
             include_props = self._config.items[x.name].include
             exclude_props = self._config.items[x.name].exclude
+            #Disable include params for uniq, rare, magical if ident is disabled in params.ini
+            #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
+            if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
+                include_props = False 
+                exclude_props = False
             if not (include_props or exclude_props):
-                Logger.debug(f"{x.name}: Stashing")
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing")
                 filtered_list.append(x)
                 continue
             include = True
@@ -275,23 +285,45 @@ class UiManager():
                 include = False
                 found_props=[]
                 for prop in include_props:
-                    try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.95)
-                    except:
-                        Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                        template_match = lambda: None; template_match.valid = True
-                    if template_match.valid:
-                        if include_logic_type == "AND":
-                            found_props.append(True)
-                        else:
-                            include = True
+                    if len(prop)>1:
+                        found_subprops=[]
+                        for subprop in prop:
+                            try:
+                                template_match = self._template_finder.search(subprop, img, threshold=0.95)
+                            except:
+                                Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                                template_match = lambda: None; template_match.valid = True 
+                            if template_match.valid:
+                                if include_logic_type == "OR":
+                                    found_subprops.append(True)
+                                else:
+                                    found_props.append (True)
+                                    break
+                            else:
+                                found_subprops.append(False) 
+                                break
+                        if (len(found_subprops) > 0 and all(found_subprops)):
+                            include = True      
                             break
                     else:
-                        found_props.append(False)
+                        try:
+                            template_match = self._template_finder.search(prop, img, threshold=0.95)
+                        except:
+                            Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
+                            template_match = lambda: None; template_match.valid = True
+                        if template_match.valid:
+                            if include_logic_type == "AND":
+                                found_props.append(True)
+                            else:
+                                include = True
+                                break
+                        else:
+                            found_props.append(False)
                 if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
                     include = True
             if not include:
-                Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
+                if do_logging:
+                    Logger.debug(f"{x.name}: Discarding. Required {include_logic_type}({include_props})={include}")
                 continue
             exclude = False
             exclude_logic_type = self._config.items[x.name].exclude_type
@@ -315,10 +347,11 @@ class UiManager():
                     exclude = True
                     break
             if include and not exclude:
-                Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
+                if do_logging:
+                    Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
                 filtered_list.append(x)
 
-        return len(filtered_list) > 0
+        return filtered_list
 
     def _move_to_stash_tab(self, stash_idx: int):
         """Move to a specifc tab in the stash
@@ -380,14 +413,11 @@ class UiManager():
                         cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                     if self._curr_stash["gold"] > 3:
                         # turn off gold pickup
-                        self._config.char["stash_gold"] = False
-                        self._config.items["misc_gold"].pickit_type = 0
-                        item_finder.update_items_to_pick(self._config)
+                        self._config.turn_off_goldpickup()
                         # inform user about it
-                        msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                        Logger.info(msg)
+                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
                         if self._config.general["custom_message_hook"]:
-                            self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                            self._messenger.send_gold()
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
@@ -404,7 +434,8 @@ class UiManager():
                 # check item again and discard it or stash it
                 wait(1.2, 1.4)
                 hovered_item = self._screen.grab()
-                if self._keep_item(item_finder, hovered_item):
+                found_items = self._keep_item(item_finder, hovered_item)
+                if len(found_items) > 0:
                     keyboard.send('ctrl', do_release=False)
                     wait(0.2, 0.25)
                     mouse.press(button="left")
@@ -412,6 +443,15 @@ class UiManager():
                     mouse.release(button="left")
                     wait(0.2, 0.25)
                     keyboard.send('ctrl', do_press=False)
+                    # To avoid logging multiple times the same item when stash tab is full
+                    # check the _keep_item again. In case stash is full we will still find the same item
+                    wait(0.3)
+                    did_stash_test_img = self._screen.grab()
+                    if len(self._keep_item(item_finder, did_stash_test_img, False)) > 0:
+                        Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
+                        break
+                    else:
+                        self._game_stats.log_item_keep(found_items[0].name, self._config.items[found_items[0].name].pickit_type == 2, hovered_item)
                 else:
                     # make sure there is actually an item
                     time.sleep(0.3)
@@ -449,7 +489,7 @@ class UiManager():
             if self._curr_stash["items"] > 3:
                 Logger.error("All stash is full, quitting")
                 if self._config.general["custom_message_hook"]:
-                    self._messenger.send(msg=f"{self._config.general['name']}: all stash is full, quitting")
+                    self._messenger.send_stash()
                 os._exit(1)
             else:
                 # move to next stash
@@ -582,18 +622,23 @@ class UiManager():
 
     def buy_pots(self, healing_pots: int = 0, mana_pots: int = 0):
         """
-        Buy pots from Malah or Ormus. Vendor inventory needs to be open!
+        Buy pots from vendors. Vendor inventory needs to be open!
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
         h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if h_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(h_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
+
         m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
         if m_pot.valid:
             x, y = self._screen.convert_screen_to_monitor(m_pot.position)
             mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
@@ -611,8 +656,9 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     config = Config()
+    game_stats = GameStats()
     screen = Screen(config.general["monitor"])
     template_finder = TemplateFinder(screen)
-    item_finder = ItemFinder(config)
-    ui_manager = UiManager(screen, template_finder)
-    ui_manager.buy_pots(3, 4)
+    item_finder = ItemFinder()
+    ui_manager = UiManager(screen, template_finder, game_stats)
+    ui_manager.stash_all_items(5, item_finder)

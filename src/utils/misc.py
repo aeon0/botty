@@ -2,16 +2,55 @@ import time
 import random
 import ctypes
 import numpy as np
+
+from config import Config
 from logger import Logger
 import cv2
 from typing import List, Tuple
 import os
 from math import cos, sin, dist
 import subprocess
-
+from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_TOP, HWND_BOTTOM, SWP_NOZORDER, SWP_NOOWNERZORDER, HWND_DESKTOP, SWP_NOSENDCHANGING, SWP_SHOWWINDOW, HWND_NOTOPMOST
+from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
+from win32process import GetWindowThreadProcessId
+import psutil
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
+
+
+def find_d2r_window():
+    if os.name == 'nt':
+        window_list = []
+        EnumWindows(lambda w, l: l.append((w, *GetWindowThreadProcessId(w))), window_list)
+        for (hwnd, _, process_id) in window_list:
+            if psutil.Process(process_id).name() == "D2R.exe":
+                left, top, right, bottom = GetClientRect(hwnd)
+                (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
+                return (left, top, right, bottom)
+    return None
+        
+def set_d2r_always_on_top():
+    if os.name == 'nt':
+        windows_list = []
+        EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
+        for w in windows_list:
+            if w[1] == "Diablo II: Resurrected":
+                SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
+                print("Set D2R to be always on top")
+    else:
+        print('OS not supported, unable to set D2R always on top')
+
+def restore_d2r_window_visibility():
+    if os.name == 'nt':
+        windows_list = []
+        EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
+        for w in windows_list:
+            if w[1] == "Diablo II: Resurrected":
+                SetWindowPos(w[0], HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
+                print("Restored D2R window visibility")
+    else:
+        print('OS not supported, unable to set D2R always on top')
 
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:
@@ -51,9 +90,13 @@ def hms(seconds: int):
 
 def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
     if os.path.isfile(path):
-        template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
-        template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
-        return template_img
+        try:
+            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
+            template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+            return template_img
+        except Exception as e:
+            print(e)
+            raise ValueError(f"Could not load template: {path}")
     return None
 
 def alpha_to_mask(img: np.ndarray):

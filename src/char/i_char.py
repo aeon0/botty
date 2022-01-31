@@ -16,9 +16,9 @@ from ui import UiManager
 
 
 class IChar:
-    def __init__(self, skill_hotkeys: Dict, char_config: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
-        self._char_config = char_config
+        self._char_config = Config().char
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._screen = screen
@@ -42,7 +42,8 @@ class IChar:
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
         time_out: float = 8,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        telekinesis: bool = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it
@@ -91,9 +92,9 @@ class IChar:
             pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            min_wd = self._config.ui_pos["min_walk_dist"]
+            min_wd = max(10, self._config.ui_pos["min_walk_dist"])
             max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
+            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
@@ -163,7 +164,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(self._char_config["battle_command"])
             wait(0.1, 0.19)
-            if self._ui_manager.is_right_skill_selected(["BC"]):
+            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
 
@@ -192,7 +193,6 @@ class IChar:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
 
-
     def pre_buff(self):
         pass
 
@@ -210,3 +210,21 @@ class IChar:
 
     def kill_nihlatak(self, end_nodes: list[int]) -> bool:
         raise ValueError("Nihlatak is not implemented!")
+
+    def kill_summoner(self) -> bool:
+        raise ValueError("Arcane is not implemented!")
+
+    def kill_diablo(self) -> bool:
+        raise ValueError("Diablo is not implemented!")
+
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
+        raise ValueError("Diablo De Seis is not implemented!")
+
+    def kill_infector(self) -> bool:
+        raise ValueError("Diablo Infector is not implemented!")
+
+    def kill_vizier(self, nodes1: list[int], nodes2: list[int]) -> bool:
+        raise ValueError("Diablo Vizier is not implemented!")
+
+    def kill_cs_trash(self) -> bool:
+        raise ValueError("Diablo CS Trash is not implemented!")
