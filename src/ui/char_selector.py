@@ -6,26 +6,27 @@ from template_finder import TemplateFinder
 
 
 class CharSelector:
+    _last_char_template = None
+
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
-        self._char_template = None
         self._screen = screen
         self._template_finder = template_finder
 
     def has_char_template_saved(self):
-        return self._char_template is not None
+        return CharSelector._last_char_template is not None
 
     def save_char_template(self):
         img = self._screen.grab()
         # TODO: check which character is currently selected rather than assuming the top one is the correct one
-        self._char_template = cut_roi(img, self._config.ui_roi["char_selection_top"])
+        CharSelector._last_char_template = cut_roi(img, self._config.ui_roi["char_selection_top"])
 
     def select_char(self):
-        if self._char_template is not None:
+        if self.has_char_template_saved():
             scrolls_attempts = 0
             while scrolls_attempts < 2:  # 2 scrolls should suffice to see all possible characters
                 template_result = self._template_finder.search(
-                    self._char_template,
+                    CharSelector._last_char_template,
                     self._screen.grab(),
                     threshold=0.8,
                     roi=self._config.ui_roi["char_selection_all"],
@@ -59,4 +60,9 @@ if __name__ == "__main__":
     selector = CharSelector(screen, tf)
     if not selector.has_char_template_saved():
         selector.save_char_template()
+    print("Move D2R window, select another character and press F11 to continue")
+    keyboard.wait("f11")
+    screen = Screen()
+    tf = TemplateFinder(screen)
+    selector = CharSelector(screen,tf)
     selector.select_char()
