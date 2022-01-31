@@ -93,7 +93,7 @@ class Screen:
         if position is None:
             return None
 
-        offset_x, offset_y, _, _ = position
+        offset_x, offset_y = position
         return offset_x, offset_y
 
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:

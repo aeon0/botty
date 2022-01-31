@@ -13,6 +13,7 @@ from math import cos, sin, dist
 import subprocess
 from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_TOP, HWND_BOTTOM, SWP_NOZORDER, SWP_NOOWNERZORDER, HWND_DESKTOP, SWP_NOSENDCHANGING, SWP_SHOWWINDOW, HWND_NOTOPMOST
 from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
+from win32api import GetMonitorInfo, MonitorFromWindow
 from win32process import GetWindowThreadProcessId
 import psutil
 
@@ -26,8 +27,10 @@ def find_d2r_window():
         for (hwnd, _, process_id) in window_list:
             if psutil.Process(process_id).name() == "D2R.exe":
                 left, top, right, bottom = GetClientRect(hwnd)
+                monitor = MonitorFromWindow(hwnd)
+                (monitor_offset_x, monitor_offset_y,_,_) = GetMonitorInfo(monitor)['Monitor']
                 (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
-                return (left, top, right, bottom)
+                return (left - monitor_offset_x, top - monitor_offset_y)
     return None
 
 def set_d2r_always_on_top():
@@ -91,6 +94,25 @@ def trim_black(image):
     roi = np.min(x_nonzero), np.min(y_nonzero), np.max(x_nonzero) - np.min(x_nonzero), np.max(y_nonzero) - np.min(y_nonzero)
     img = image[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
     return img, roi
+
+def erode_to_black(img: np.ndarray, threshold: int = 14):
+    # Cleanup image with erosion image as marker with morphological reconstruction
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    thresh = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)[1]
+    kernel = np.ones((3, 3), np.uint8)
+    marker = thresh.copy()
+    marker[1:-1, 1:-1] = 0
+    while True:
+        tmp = marker.copy()
+        marker = cv2.dilate(marker, kernel)
+        marker = cv2.min(thresh, marker)
+        difference = cv2.subtract(marker, tmp)
+        if cv2.countNonZero(difference) <= 0:
+            break
+    mask_r = cv2.bitwise_not(marker)
+    mask_color_r = cv2.cvtColor(mask_r, cv2.COLOR_GRAY2BGR)
+    img = cv2.bitwise_and(img, mask_color_r)
+    return img
 
 def color_filter(img, color_range):
     color_ranges=[]
