@@ -12,21 +12,19 @@ from pather import Pather, Location
 
 
 class Barbarian(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Barbarian")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
-        self._pather.offset_node(149, [120, 70])
-        # In case we have a running barb, we want to switch to ???? when moving to the boss
-        # as most likely we will click on some mobs 
-        if not self._skill_hotkeys["teleport"]:
-            self._do_pre_move = False
+        if self.can_teleport():
+            self._pather.offset_node(149, [120, 70])
 
     def _cast_war_cry(self, time_in_s: float):
         #  keyboard.send(self._skill_hotkeys["concentration"])
         #  wait(0.05, 0.1)
+        cry_frequency = min(0.2, self._skill_hotkeys["cry_frequency"])
         keyboard.send(self._char_config["stand_still"], do_release=False)
         wait(0.05, 0.1)
         if self._skill_hotkeys["war_cry"]:
@@ -36,7 +34,7 @@ class Barbarian(IChar):
         while (time.time() - start) < time_in_s:
             wait(0.06, 0.08)
             mouse.click(button="right")
-            wait(2, 2.2)
+            wait(cry_frequency, cry_frequency + 0.2)
             mouse.click(button="right")
         wait(0.01, 0.05)
         keyboard.send(self._char_config["stand_still"], do_press=False)
@@ -46,7 +44,8 @@ class Barbarian(IChar):
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
-        mouse.move(960, 487)
+        pos_m = self._screen.convert_abs_to_monitor((0, -20))
+        mouse.move(*pos_m)
         wait(0.5, 0.15)
         mouse.press(button="right")
         wait(hork_time)
@@ -102,10 +101,7 @@ class Barbarian(IChar):
         if self.can_teleport():
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
-            if not self._do_pre_move:
-            #  keyboard.send(self._skill_hotkeys["concentration"])
-            #  wait(0.05, 0.15)
-                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -113,9 +109,6 @@ class Barbarian(IChar):
         return True
 
     def kill_shenk(self):
-        # if not self._do_pre_move:
-        #     keyboard.send(self._skill_hotkeys["concentration"])
-        #     wait(0.05, 0.15)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_shenk"])
@@ -169,7 +162,7 @@ if __name__ == "__main__":
     from config import Config
     from ui.ui_manager import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)

@@ -13,8 +13,8 @@ from pather import Pather
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):

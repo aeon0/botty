@@ -18,7 +18,7 @@ class TestItemFinder:
         config.items["misc_super_healing_potion"] = ItemProps(pickit_type=1)
         config.items["magic_small_charm"] = ItemProps(pickit_type=1)
         config.items["rare_stag_bow"] = ItemProps(pickit_type=1)
-        self.item_finder = ItemFinder(config)
+        self.item_finder = ItemFinder()
 
     @pytest.mark.parametrize("img_path, expected", [
         ("test/assets/item_finder.png", 6),

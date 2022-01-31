@@ -9,17 +9,17 @@ import keyboard
 from utils.misc import set_d2r_always_on_top
 from utils.custom_mouse import mouse
 
+
 class GameRecovery:
-    def __init__(self, screen: Screen, death_manager: DeathManager):
+    def __init__(self, screen: Screen, death_manager: DeathManager, template_finder: TemplateFinder):
         self._config = Config()
         self._screen = screen
         self._death_manager = death_manager
-        self._template_finder = TemplateFinder(self._screen)
+        self._template_finder = template_finder
         self._ui_manager = UiManager(self._screen, self._template_finder)
 
     def go_to_hero_selection(self):
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            set_d2r_always_on_top()
+        set_d2r_always_on_top()
         time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
         keyboard.release(self._config.char["stand_still"])
@@ -43,7 +43,7 @@ class GameRecovery:
                         time.sleep(0.2)
                     # Right now it selects the tab to the left of offline
                     offline_width = self._config.ui_pos["offline_width"]
-                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])         
+                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])
                     x, y = self._screen.convert_screen_to_monitor(tab)
                     mouse.move(x, y, randomize=8)
                     time.sleep(0.5)
@@ -69,8 +69,7 @@ if __name__ == "__main__":
     import os
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     death_manager = DeathManager(screen)
     game_recovery = GameRecovery(screen, death_manager)
     game_recovery.go_to_hero_selection()

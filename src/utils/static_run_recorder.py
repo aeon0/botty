@@ -6,7 +6,7 @@ import mouse
 if __name__ == "__main__":
     pos_list = []
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     while 1:
         mouse.wait(button=mouse.RIGHT, target_types=mouse.DOWN)
         monitor_pos = mouse.get_position()

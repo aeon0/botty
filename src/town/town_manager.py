@@ -35,7 +35,7 @@ class TownManager:
         elif loc.upper().startswith("A2_"):
             location = Location.A2_TOWN_START
         elif loc.upper().startswith("A1_"):
-            location = Location.A1_TOWN_START            
+            location = Location.A1_TOWN_START
         return location
 
     def wait_for_town_spawn(self, time_out: float = None) -> Location:
@@ -48,7 +48,7 @@ class TownManager:
             "A4_TOWN_4", "A4_TOWN_5",
             "A3_TOWN_0", "A3_TOWN_1",
             "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
-            "A1_TOWN_0", "A1_TOWN_1"
+            "A1_TOWN_1", "A1_TOWN_3"
         ], best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
@@ -189,12 +189,12 @@ if __name__ == "__main__":
     from screen import Screen
     from npc_manager import NpcManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)
-    item_finder = ItemFinder(config)
+    item_finder = ItemFinder()
     char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
     a5 = A5(screen, template_finder, pather, char, npc_manager)
     a4 = A4(screen, template_finder, pather, char, npc_manager)
