@@ -54,11 +54,16 @@ class PickIt:
                     for cnt2, x in enumerate(item.ocr_result['word_confidences']):
                         found_low_confidence = False
                         if x <= 88:
-                            Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
-                            found_low_confidence = True
+                            try:
+                                Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
+                                found_low_confidence = True
+                            except: pass
                         if found_low_confidence:
                             cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
                             cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
+                            with open(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.gt.txt", 'w') as f:
+                                f.write(item.ocr_result['text'])
+
 
             # Check if we need to pick up any consumables
             needs = self._consumables_manager.get_needs()

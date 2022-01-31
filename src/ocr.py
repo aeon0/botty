@@ -43,7 +43,7 @@ class Ocr:
                             closest_match = difflib.get_close_matches(word, self.word_list, cutoff=0.9)
                             if closest_match and closest_match != word:
                                 new_string += f"{closest_match[0]} "
-                                Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match[0]}")
+                                Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match[0]}, score=")
                             else:
                                 new_string += f"{word} "
                         else:
