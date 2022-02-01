@@ -434,7 +434,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
-        if not char.can_teleport():
+        if not char.capabilities.can_teleport_natively:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)

@@ -4,6 +4,7 @@ import time
 import cv2
 import math
 import keyboard
+from char.capabilities import CharacterCapabilities
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi
@@ -16,6 +17,8 @@ from ui import UiManager
 
 
 class IChar:
+    _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
+
     def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
         self._char_config = Config().char
@@ -26,12 +29,29 @@ class IChar:
         self._last_tp = time.time()
         # Add a bit to be on the save side
         self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01
+        self.capabilities = None
 
-    def can_teleport(self) -> bool:
-        return bool(self._skill_hotkeys["teleport"]) and not self._char_config["have_teleport_charges"]
-    
-    def can_teleport_with_charges(self) -> bool:
-        return bool(self._skill_hotkeys["teleport"]) and self._char_config["have_teleport_charges"]
+    def _discover_capabilities(self) -> CharacterCapabilities:
+        if self._skill_hotkeys["teleport"]:
+            if self.select_tp():
+                match = self._template_finder.search(["TELE_NO_CHARGES", "TELE_NO_CHARGES_INACTIVE"], self._screen.grab(), threshold=0.95, roi=self._config.ui_roi["skill_right"])
+                if match.valid:
+                    return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
+                else:
+                    return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+        else:
+            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
+
+    def discover_capabilities(self, force = False):
+        if IChar._CrossGameCapabilities is None or force:
+            capabilities = self._discover_capabilities()
+            self.capabilities = capabilities
+        Logger.info(f"Capabilities: {self.capabilities}")
+        self.on_capabilities_discovered(self.capabilities)
+
+    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
+        pass
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
@@ -77,6 +97,8 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
+    
+
     def is_low_on_teleport_charges(self):
         return self._template_finder.search(["TELE_3_CHARGES", "TELE_3_CHARGES_INACTIVE", "TELE_2_CHARGES", "TELE_2_CHARGES_INACTIVE", "TELE_1_CHARGES", "TELE_1_CHARGES_INACTIVE"], self._screen.grab(), threshold=0.95, roi=self._config.ui_roi["skill_right"]).valid
 
@@ -100,14 +122,14 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
             
     def select_tp(self):
-       if self.can_teleport() or self.can_teleport_with_charges() and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
+       if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
        return self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
     
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self.select_tp()
 
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):

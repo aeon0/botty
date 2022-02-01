@@ -6,7 +6,7 @@ from logger import Logger
 from typing import Tuple
 from config import Config
 from utils import misc
-from utils.misc import load_template
+from utils.misc import cut_roi, load_template
 import os
 
 
