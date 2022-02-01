@@ -658,7 +658,7 @@ class UiManager():
             ignore_columns = self._config.char["num_loot_columns"]-2
         template_match = self._template_finder.search_and_wait(
                 "REFRESH",
-                best_match=True,
+                best_match=False,
                 threshold=0.79,
                 time_out=4)
         if template_match.valid:
@@ -679,10 +679,10 @@ class UiManager():
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
-                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
+                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
                     #item found in gambling menu
-                    x, y = self._screen.convert_screen_to_monitor(template_match_item.position)
-                    mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
+                    #x, y = self._screen.convert_screen_to_monitor(template_match_item.position)
+                    mouse.move(*template_match_item.position, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="right")
                     wait(0.1, 0.15)
