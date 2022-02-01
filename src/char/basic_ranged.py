@@ -14,25 +14,13 @@ from pather import Pather, Location
 
 
 class Basic_Ranged(IChar):
-    def __init__(
-        self,
-        skill_hotkeys: dict,
-        screen: Screen,
-        template_finder: TemplateFinder,
-        ui_manager: UiManager,
-        pather: Pather,
-    ):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Ranged Character")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
 
-    def _left_attack(
-        self,
-        cast_pos_abs: tuple[float, float],
-        delay: tuple[float, float] = (0.2, 0.3),
-        spray: int = 10,
-    ):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
         if self._skill_hotkeys["left_attack"]:
             keyboard.send(self._skill_hotkeys["left_attack"])
         for _ in range(4):
@@ -42,12 +30,7 @@ class Basic_Ranged(IChar):
             mouse.move(*pos_m)
             mouse.click(button="left")
 
-    def _right_attack(
-        self,
-        cast_pos_abs: tuple[float, float],
-        delay: tuple[float, float] = (0.2, 0.3),
-        spray: float = 10,
-    ):
+    def _right_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if not self._skill_hotkeys["right_attack"]:
             raise ValueError("You did not set right attack hotkey!")
         keyboard.send(self._skill_hotkeys["right_attack"])
@@ -70,12 +53,11 @@ class Basic_Ranged(IChar):
             mouse.click(button="right")
             wait(0.5, 0.15)
 
-    # bosses
+
+#bosses
 
     def kill_pindle(self) -> bool:
-        pindle_pos_abs = self._screen.convert_screen_to_abs(
-            self._config.path["pindle_end"][0]
-        )
+        pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -89,18 +71,12 @@ class Basic_Ranged(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes(
-            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END),
-            self,
-            time_out=1.4,
-            force_tp=True,
-        )
+        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.4, force_tp=True)
         return True
 
+
     def kill_eldritch(self) -> bool:
-        eld_pos_abs = self._screen.convert_screen_to_abs(
-            self._config.path["eldritch_end"][0]
-        )
+        eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -114,20 +90,13 @@ class Basic_Ranged(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes(
-            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END),
-            self,
-            time_out=1.4,
-            force_tp=True,
-        )
+        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.4, force_tp=True)
         return True
 
     def kill_shenk(self) -> bool:
         shenk_pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = self._screen.convert_screen_to_abs(
-                self._config.path["shenk_end"][0]
-            )
+            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -141,12 +110,7 @@ class Basic_Ranged(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes(
-            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END),
-            self,
-            time_out=1.4,
-            force_tp=True,
-        )
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
         return True
 
     def kill_council(self) -> bool:
@@ -158,9 +122,7 @@ class Basic_Ranged(IChar):
         self._pather.offset_node(229, [-250, -130])
         atk_pos_abs = self._pather.find_abs_node_pos(230, self._screen.grab())
         if atk_pos_abs is None:
-            Logger.debug(
-                "Could not find node [230]. Using static attack coordinates instead."
-            )
+            Logger.debug("Could not find node [230]. Using static attack coordinates instead.")
             atk_pos_abs = [-300, -200]
         else:
             atk_pos_abs = [atk_pos_abs[0], atk_pos_abs[1] + 70]
@@ -177,9 +139,7 @@ class Basic_Ranged(IChar):
         self.move(pos_m, force_move=True)
         atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
         if atk_pos_abs is None:
-            Logger.debug(
-                "Could not find node [229]. Using static attack coordinates instead."
-            )
+            Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
             atk_pos_abs = [-200, -80]
             for _ in range(atk_len_trav_2):
                 if self._ui_manager.is_right_skill_active():
@@ -211,9 +171,7 @@ class Basic_Ranged(IChar):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         atk_len = int(self._char_config["atk_len_nihlathak"])
-        nihlathak_pos_abs = self._pather.find_abs_node_pos(
-            end_nodes[-1], self._screen.grab()
-        )
+        nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
         if nihlathak_pos_abs is None:
             return False
         cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
@@ -234,18 +192,12 @@ if __name__ == "__main__":
     from screen import Screen
     from template_finder import TemplateFinder
     from pather import Pather
-
-    keyboard.add_hotkey("f12", lambda: Logger.info("Force Exit (f12)") or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
-    char = LightSorc(
-        config.light_sorc, config.char, screen, t_finder, ui_manager, pather
-    )
-    char.kill_council()

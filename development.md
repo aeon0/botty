@@ -30,13 +30,6 @@ pytest test/smoke_test.py
 ```
 To test single files / routines, most files also can be executed seperatly. E.g. running `python src/pickit.py` -> going to d2r window -> throw stuff on the groudn -> press f11, will test the pickit.
 
-## Linting
-The CI will fail if the linter would change any files. You can run linting by with:
-```bash
-conda activate botty
-black .
-```
-
 ## Adding Items
 To add items you can check the **assets/items** folder. Screenshot whatever you want to pick up in the same way (all settings must be as if you ran the bot). Then add the filename to the param.ini [items] section (e.g. if boots_rare.png add boots_rare=1)
 

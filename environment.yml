@@ -23,5 +23,3 @@ dependencies:
     - cryptography
     - pillow
     - discord.py
-    - black
-    - pre-commit

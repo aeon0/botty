@@ -7,17 +7,15 @@ from config import Config
 
 
 def process_exists(process_name):
-    call = "TASKLIST", "/FI", "imagename eq %s" % process_name
+    call = 'TASKLIST', '/FI', 'imagename eq %s' % process_name
     # use buildin check_output right away
     output = subprocess.check_output(call).decode()
     # check in last line for process name
-    last_line = output.strip().split("\r\n")[-1]
+    last_line = output.strip().split('\r\n')[-1]
     # because Fail message could be translated
     return last_line.lower().startswith(process_name.lower())
 
-
-def restart_game(d2_path=None):
-    config = Config()
+def restart_game(d2_path = None):
     if not d2_path:
         path = "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe"
     else:
@@ -33,10 +31,9 @@ def restart_game(d2_path=None):
         wait(0.5, 1.0)
     success = False
     attempts = 0
-    if config.advanced_options["d2r_windows_always_on_top"]:
-        set_d2r_always_on_top()
+    set_d2r_always_on_top()
     while not success:
-        screen = Screen(config.general["monitor"], wait=5)
+        screen = Screen()
         success = screen.found_offsets
         if not success:
             keyboard.send("space")
@@ -46,13 +43,9 @@ def restart_game(d2_path=None):
             return False
     return True
 
-
-def main():
+# For testing 
+if __name__ == "__main__":
     if len(sys.argv) > 1:
         restart_game(sys.argv[1])
     else:
         restart_game()
-
-
-if __name__ == "__main__":
-    main()

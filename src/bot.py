@@ -36,224 +36,86 @@ from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
-from messenger import Messenger
+from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
-
 class Bot:
-    def __init__(
-        self,
-        screen: Screen,
-        game_stats: GameStats,
-        template_finder: TemplateFinder,
-        pick_corpse: bool = False,
-    ):
+    def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._config = Config()
         self._template_finder = template_finder
         self._item_finder = ItemFinder()
-        self._ui_manager = UiManager(
-            self._screen, self._template_finder, self._game_stats
-        )
+        self._ui_manager = UiManager(self._screen, self._template_finder, self._game_stats)
         self._belt_manager = BeltManager(self._screen, self._template_finder)
         self._pather = Pather(self._screen, self._template_finder)
-        self._pickit = PickIt(
-            self._screen, self._item_finder, self._ui_manager, self._belt_manager
-        )
+        self._pickit = PickIt(self._screen, self._item_finder, self._ui_manager, self._belt_manager)
 
         # Create Character
         if self._config.char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(
-                self._config.light_sorc,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = LightSorc(self._config.light_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(
-                self._config.blizz_sorc,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = BlizzSorc(self._config.blizz_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(
-                self._config.nova_sorc,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = NovaSorc(self._config.nova_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(
-                self._config.hammerdin,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "trapsin":
-            self._char: IChar = Trapsin(
-                self._config.trapsin,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Trapsin(self._config.trapsin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
-            self._char: IChar = Barbarian(
-                self._config.barbarian,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Barbarian(self._config.barbarian, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "necro":
-            self._char: IChar = Necro(
-                self._config.necro,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Necro(self._config.necro, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic":
-            self._char: IChar = Basic(
-                self._config.basic,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Basic(self._config.basic, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(
-                self._config.basic_ranged,
-                self._screen,
-                self._template_finder,
-                self._ui_manager,
-                self._pather,
-            )
+            self._char: IChar = Basic_Ranged(self._config.basic_ranged, self._screen, self._template_finder, self._ui_manager, self._pather)
         else:
-            Logger.error(
-                f'{self._config.char["type"]} is not supported! Closing down bot.'
-            )
+            Logger.error(f'{self._config.char["type"]} is not supported! Closing down bot.')
             os._exit(1)
 
         # Create Town Manager
         npc_manager = NpcManager(screen, self._template_finder)
-        a5 = A5(
-            self._screen, self._template_finder, self._pather, self._char, npc_manager
-        )
-        a4 = A4(
-            self._screen, self._template_finder, self._pather, self._char, npc_manager
-        )
-        a3 = A3(
-            self._screen, self._template_finder, self._pather, self._char, npc_manager
-        )
-        a2 = A2(
-            self._screen, self._template_finder, self._pather, self._char, npc_manager
-        )
-        a1 = A1(
-            self._screen, self._template_finder, self._pather, self._char, npc_manager
-        )
-        self._town_manager = TownManager(
-            self._template_finder,
-            self._ui_manager,
-            self._item_finder,
-            a1,
-            a2,
-            a3,
-            a4,
-            a5,
-        )
+        a5 = A5(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a4 = A4(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a3 = A3(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a2 = A2(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        a1 = A1(self._screen, self._template_finder, self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
         self._route_config = self._config.routes
         self._route_order = self._config.routes_order
 
         # Create runs
         if self._route_config["run_shenk"] and not self._route_config["run_eldritch"]:
-            Logger.error(
-                "Running shenk without eldtritch is not supported. Either run none or both"
-            )
+            Logger.error("Running shenk without eldtritch is not supported. Either run none or both")
             os._exit(1)
         self._do_runs = {
             "run_trav": self._route_config["run_trav"],
             "run_pindle": self._route_config["run_pindle"],
-            "run_shenk": self._route_config["run_shenk"]
-            or self._route_config["run_eldritch"],
+            "run_shenk": self._route_config["run_shenk"] or self._route_config["run_eldritch"],
             "run_nihlathak": self._route_config["run_nihlathak"],
             "run_arcane": self._route_config["run_arcane"],
             "run_diablo": self._route_config["run_diablo"],
         }
         # Adapt order to the config
-        self._do_runs = OrderedDict(
-            (k, self._do_runs[k])
-            for k in self._route_order
-            if k in self._do_runs and self._do_runs[k]
-        )
+        self._do_runs = OrderedDict((k, self._do_runs[k]) for k in self._route_order if k in self._do_runs and self._do_runs[k])
         self._do_runs_reset = copy(self._do_runs)
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._shenk = ShenkEld(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._trav = Trav(
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._nihlathak = Nihlathak(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._arcane = Arcane(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
-        self._diablo = Diablo(
-            self._screen,
-            self._template_finder,
-            self._pather,
-            self._town_manager,
-            self._ui_manager,
-            self._char,
-            self._pickit,
-        )
+        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlathak = Nihlathak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
-        self._tps_left = 10  # assume half full tp book
+        self._tps_left = 10 # assume half full tp book
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -262,110 +124,29 @@ class Bot:
         self._ran_no_pickup = False
 
         # Create State Machine
-        self._states = [
-            "hero_selection",
-            "town",
-            "pindle",
-            "shenk",
-            "trav",
-            "nihlathak",
-            "arcane",
-            "diablo",
-        ]
+        self._states=['hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
         self._transitions = [
-            {
-                "trigger": "create_game",
-                "source": "hero_selection",
-                "dest": "town",
-                "before": "on_create_game",
-            },
+            { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': 'town', 'before': "on_create_game"},
             # Tasks within town
-            {
-                "trigger": "maintenance",
-                "source": "town",
-                "dest": "town",
-                "before": "on_maintenance",
-            },
+            { 'trigger': 'maintenance', 'source': 'town', 'dest': 'town', 'before': "on_maintenance"},
             # Different runs
-            {
-                "trigger": "run_pindle",
-                "source": "town",
-                "dest": "pindle",
-                "before": "on_run_pindle",
-            },
-            {
-                "trigger": "run_shenk",
-                "source": "town",
-                "dest": "shenk",
-                "before": "on_run_shenk",
-            },
-            {
-                "trigger": "run_trav",
-                "source": "town",
-                "dest": "trav",
-                "before": "on_run_trav",
-            },
-            {
-                "trigger": "run_nihlathak",
-                "source": "town",
-                "dest": "nihlathak",
-                "before": "on_run_nihlathak",
-            },
-            {
-                "trigger": "run_arcane",
-                "source": "town",
-                "dest": "arcane",
-                "before": "on_run_arcane",
-            },
-            {
-                "trigger": "run_diablo",
-                "source": "town",
-                "dest": "nihlathak",
-                "before": "on_run_diablo",
-            },
+            { 'trigger': 'run_pindle', 'source': 'town', 'dest': 'pindle', 'before': "on_run_pindle"},
+            { 'trigger': 'run_shenk', 'source': 'town', 'dest': 'shenk', 'before': "on_run_shenk"},
+            { 'trigger': 'run_trav', 'source': 'town', 'dest': 'trav', 'before': "on_run_trav"},
+            { 'trigger': 'run_nihlathak', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_nihlathak"},
+            { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
+            { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_diablo"},
             # End run / game
-            {
-                "trigger": "end_run",
-                "source": ["shenk", "pindle", "nihlathak", "trav", "arcane", "diablo"],
-                "dest": "town",
-                "before": "on_end_run",
-            },
-            {
-                "trigger": "end_game",
-                "source": [
-                    "town",
-                    "shenk",
-                    "pindle",
-                    "nihlathak",
-                    "trav",
-                    "arcane",
-                    "diablo",
-                    "end_run",
-                ],
-                "dest": "hero_selection",
-                "before": "on_end_game",
-            },
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
-        self.machine = Machine(
-            model=self,
-            states=self._states,
-            initial="hero_selection",
-            transitions=self._transitions,
-            queued=True,
-        )
+        self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
         from transitions.extensions import GraphMachine
-
-        self.machine = GraphMachine(
-            model=self,
-            states=self._states,
-            initial="hero_selection",
-            transitions=self._transitions,
-            queued=True,
-        )
-        self.machine.get_graph().draw("my_state_diagram.png", prog="dot")
+        self.machine = GraphMachine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
 
     def get_belt_manager(self) -> BeltManager:
         return self._belt_manager
@@ -374,7 +155,7 @@ class Bot:
         return self._curr_loc
 
     def start(self):
-        self.trigger("create_game")
+        self.trigger('create_game')
 
     def stop(self):
         self._stopping = True
@@ -416,19 +197,12 @@ class Bot:
         keyboard.release(self._config.char["stand_still"])
         # Start a game from hero selection
         self._game_stats.log_start_game()
-        self._template_finder.search_and_wait(
-            ["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"],
-            roi=self._config.ui_roi["main_menu_top_left"],
-        )
-        if not self._ui_manager.start_game():
-            return
+        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
+        if not self._ui_manager.start_game(): return
         self._curr_loc = self._town_manager.wait_for_town_spawn()
 
         # Check for the current game ip and pause if we are able to obtain the hot ip
-        if (
-            self._config.dclone["region_ips"] != ""
-            and self._config.dclone["dclone_hotip"] != ""
-        ):
+        if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
             cur_game_ip = get_d2r_game_ip()
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
@@ -456,9 +230,7 @@ class Bot:
             time.sleep(1.6)
             DeathManager.pick_up_corpse(self._screen)
             wait(1.2, 1.5)
-            self._belt_manager.fill_up_belt_from_inventory(
-                self._config.char["num_loot_columns"]
-            )
+            self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
@@ -466,26 +238,16 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
-        if (
-            HealthManager.get_health(img) < 0.6
-            or HealthManager.get_mana(img) < 0.2
-            or buy_pots
-        ):
+        if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()
-                self._curr_loc = self._town_manager.buy_pots(
-                    self._curr_loc, pot_needs["health"], pot_needs["mana"]
-                )
+                self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                 wait(0.5, 0.8)
                 self._belt_manager.update_pot_needs()
                 # TODO: Remove this, currently workaround cause too lazy to add all the pathes from MALAH
                 if self._curr_loc == Location.A5_MALAH:
-                    if self._pather.traverse_nodes(
-                        (Location.A5_MALAH, Location.A5_TOWN_START),
-                        self._char,
-                        force_move=True,
-                    ):
+                    if self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True):
                         self._curr_loc = Location.A5_TOWN_START
                     else:
                         self._curr_loc = False
@@ -498,13 +260,9 @@ class Bot:
         # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
         force_stash = False
         self._no_stash_counter += 1
-        if not self._picked_up_items and (
-            self._no_stash_counter > 4 or self._pick_corpse
-        ):
+        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
             self._no_stash_counter = 0
-            force_stash = self._ui_manager.should_stash(
-                self._config.char["num_loot_columns"]
-            )
+            force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if self._config.char["id_items"]:
@@ -522,15 +280,9 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if (
-            self._tps_left < random.randint(3, 5)
-            or need_repair
-            or self._config.char["always_repair"]
-        ):
-            if need_repair:
-                Logger.info("Repair needed. Gear is about to break")
-            else:
-                Logger.info("Repairing and buying TPs at next Vendor")
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
+            if need_repair: Logger.info("Repair needed. Gear is about to break")
+            else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
@@ -538,12 +290,7 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        merc_alive = self._template_finder.search(
-            ["MERC_A2", "MERC_A1", "MERC_A5", "MERC_A3"],
-            self._screen.grab(),
-            threshold=0.9,
-            roi=self._config.ui_roi["merc_icon"],
-        ).valid
+        merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
         if not merc_alive and self._config.char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
@@ -563,12 +310,7 @@ class Bot:
 
     def on_end_game(self, failed: bool = False):
         if self._config.general["info_screenshots"] and failed:
-            cv2.imwrite(
-                "./info_screenshots/info_failed_game_"
-                + time.strftime("%Y%m%d_%H%M%S")
-                + ".png",
-                self._screen.grab(),
-            )
+            cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
@@ -603,9 +345,7 @@ class Bot:
         # in case its the last run or the run was failed, end game, otherwise move to next run
         if self.is_last_run() or failed_run:
             if failed_run:
-                self._no_stash_counter = (
-                    10  # this will force a check if we should stash on next game
-                )
+                self._no_stash_counter = 10 # this will force a check if we should stash on next game
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
             self.trigger_or_stop("end_run")
@@ -613,9 +353,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
-        self._game_stats.update_location(
-            "Pin" if self._config.general["discord_status_condensed"] else "Pindle"
-        )
+        self._game_stats.update_location("Pin" if self._config.general['discord_status_condensed'] else "Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             res = self._pindle.battle(not self._pre_buffed)
@@ -626,17 +364,13 @@ class Bot:
         self._do_runs["run_shenk"] = False
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
-            res = self._shenk.battle(
-                self._route_config["run_shenk"], not self._pre_buffed, self._game_stats
-            )
+            res = self._shenk.battle(self._route_config["run_shenk"], not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location(
-            "Trav" if self._config.general["discord_status_condensed"] else "Travincal"
-        )
+        self._game_stats.update_location("Trav" if self._config.general['discord_status_condensed'] else "Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             res = self._trav.battle(not self._pre_buffed)
@@ -645,9 +379,7 @@ class Bot:
     def on_run_nihlathak(self):
         res = False
         self._do_runs["run_nihlathak"] = False
-        self._game_stats.update_location(
-            "Nihl" if self._config.general["discord_status_condensed"] else "Nihlathak"
-        )
+        self._game_stats.update_location("Nihl" if self._config.general['discord_status_condensed'] else "Nihlathak")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
             res = self._nihlathak.battle(not self._pre_buffed)
@@ -656,9 +388,7 @@ class Bot:
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
-        self._game_stats.update_location(
-            "Arc" if self._config.general["discord_status_condensed"] else "Arcane"
-        )
+        self._game_stats.update_location("Arc" if self._config.general['discord_status_condensed'] else "Arcane")
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             res = self._arcane.battle(not self._pre_buffed)
@@ -668,11 +398,9 @@ class Bot:
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False
-        self._game_stats.update_location(
-            "Dia" if self._config.general["discord_status_condensed"] else "Diablo"
-        )
+        self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             res = self._diablo.battle(not self._pre_buffed)
-        self._tps_left -= 1  # we use one tp at pentagram for calibration
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)

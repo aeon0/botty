@@ -16,13 +16,7 @@ from ui import UiManager
 
 
 class IChar:
-    def __init__(
-        self,
-        skill_hotkeys: Dict,
-        screen: Screen,
-        template_finder: TemplateFinder,
-        ui_manager: UiManager,
-    ):
+    def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
         self._char_config = Config().char
         self._template_finder = template_finder
@@ -36,12 +30,7 @@ class IChar:
     def can_teleport(self) -> bool:
         return bool(self._skill_hotkeys["teleport"])
 
-    def pick_up_item(
-        self,
-        pos: Tuple[float, float],
-        item_name: str = None,
-        prev_cast_start: float = 0,
-    ):
+    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
@@ -50,11 +39,11 @@ class IChar:
 
     def select_by_template(
         self,
-        template_type: Union[str, List[str]],
+        template_type:  Union[str, List[str]],
         success_func: Callable = None,
         time_out: float = 8,
         threshold: float = 0.68,
-        telekinesis: bool = False,
+        telekinesis: bool = False
     ) -> bool:
         """
         Finds any template from the template finder and interacts with it
@@ -70,16 +59,10 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(
-                template_type, self._screen.grab(), threshold=threshold
-            )
+            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
             if template_match.valid:
-                Logger.debug(
-                    f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)"
-                )
-                x_m, y_m = self._screen.convert_screen_to_monitor(
-                    template_match.position
-                )
+                Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
+                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 mouse.move(x_m, y_m)
                 wait(0.2, 0.3)
                 mouse.click(button="left")
@@ -93,30 +76,14 @@ class IChar:
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
-        if self._skill_hotkeys[
-            "teleport"
-        ] and not self._ui_manager.is_right_skill_selected(
-            ["TELE_ACTIVE", "TELE_INACTIVE"]
-        ):
+        if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.15, 0.25)
 
-    def move(
-        self,
-        pos_monitor: Tuple[float, float],
-        force_tp: bool = False,
-        force_move: bool = False,
-    ):
+    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
-        if self._skill_hotkeys["teleport"] and (
-            force_tp or self._ui_manager.is_right_skill_active()
-        ):
-            mouse.move(
-                pos_monitor[0],
-                pos_monitor[1],
-                randomize=3,
-                delay_factor=[factor * 0.1, factor * 0.14],
-            )
+        if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_active()):
+            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
             wait(self._cast_duration, self._cast_duration + 0.02)
@@ -126,14 +93,11 @@ class IChar:
             pos_abs = self._screen.convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
             min_wd = max(10, self._config.ui_pos["min_walk_dist"])
-            max_wd = random.randint(
-                int(self._config.ui_pos["max_walk_dist"] * 0.65),
-                self._config.ui_pos["max_walk_dist"],
-            )
+            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
             x, y = self._screen.convert_abs_to_monitor(pos_abs)
-            mouse.move(x, y, randomize=5, delay_factor=[factor * 0.1, factor * 0.14])
+            mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             if force_move:
                 keyboard.send(self._config.char["force_move"])
@@ -149,10 +113,10 @@ class IChar:
             int(self._config.ui_pos["screen_width"] * 0.3),
             0,
             int(self._config.ui_pos["screen_width"] * 0.4),
-            int(self._config.ui_pos["screen_height"] * 0.7),
+            int(self._config.ui_pos["screen_height"] * 0.7)
         ]
         pos_away = self._screen.convert_abs_to_monitor((-167, -30))
-        wait(0.8, 1.3)  # takes quite a while for tp to be visible
+        wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = self._config.ui_roi["tp_search"]
         start = time.time()
         retry_count = 0
@@ -160,21 +124,19 @@ class IChar:
             if time.time() - start > 3.7 and retry_count == 0:
                 retry_count += 1
                 Logger.debug("Move to another position and try to open tp again")
-                pos_m = self._screen.convert_abs_to_monitor(
-                    (random.randint(-70, 70), random.randint(-70, 70))
-                )
+                pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
                 if self._ui_manager.has_tps():
                     mouse.click(button="right")
-                wait(0.8, 1.3)  # takes quite a while for tp to be visible
+                wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = self._screen.grab()
             template_match = self._template_finder.search(
-                ["BLUE_PORTAL", "BLUE_PORTAL_2"],
+                ["BLUE_PORTAL","BLUE_PORTAL_2"],
                 img,
                 threshold=0.66,
                 roi=roi,
-                normalize_monitor=True,
+                normalize_monitor=True
             )
             if template_match.valid:
                 pos = template_match.position
@@ -207,9 +169,7 @@ class IChar:
                 break
 
         if not switch_sucess:
-            Logger.warning(
-                "You dont have Battle Command bound, or you do not have CTA. ending CTA buff"
-            )
+            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
             self._char_config["cta_available"] = 0
         else:
             # We switched succesfully, let's pre buff
@@ -225,12 +185,8 @@ class IChar:
         while time.time() - start < 4:
             keyboard.send(self._char_config["weapon_switch"])
             wait(0.3, 0.35)
-            skill_after = cut_roi(
-                self._screen.grab(), self._config.ui_roi["skill_right"]
-            )
-            _, max_val, _, _ = cv2.minMaxLoc(
-                cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED)
-            )
+            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
             if max_val > 0.9:
                 break
             else:
@@ -261,9 +217,7 @@ class IChar:
     def kill_diablo(self) -> bool:
         raise ValueError("Diablo is not implemented!")
 
-    def kill_deseis(
-        self, nodes1: list[int], nodes2: list[int], nodes3: list[int]
-    ) -> bool:
+    def kill_deseis(self, nodes1: list[int], nodes2: list[int], nodes3: list[int]) -> bool:
         raise ValueError("Diablo De Seis is not implemented!")
 
     def kill_infector(self) -> bool:
