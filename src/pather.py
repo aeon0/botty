@@ -740,7 +740,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_C2G")
+    #display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
     # code = ""
@@ -755,5 +755,6 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
-    #pather.traverse_nodes([632], char)
-    #pather.traverse_nodes_fixed("dia_b1s_home", char)
+    pather.traverse_nodes([600], char)
+    pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
+    pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)

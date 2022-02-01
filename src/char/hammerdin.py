@@ -478,6 +478,20 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "C2-G_seal2":
+            # Killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals
+            seal_layout="C2-G"
+            self._pather.traverse_nodes_fixed("dia_c2g_663", self)
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
+            self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
+            self._cast_hammers(0.8, "redemption")
+            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
+            wait(0.1, 0.15)
+            self._cast_hammers(1.2, "redemption")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
@@ -653,18 +667,8 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
-            self._pather.traverse_nodes_fixed("dia_c2g_663", self)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            # NOT killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals his attack sequence can be found in C2-G_seal2
+            Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
         
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
