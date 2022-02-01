@@ -176,6 +176,10 @@ class GameStats:
 
 
 if __name__ == "__main__":
+    from screen import Screen
+
     game_stats = GameStats()
-    game_stats.log_item_keep("rune_12", True)
+    screen = Screen()
+
+    game_stats.log_item_keep("rune_12", True, screen.grab())
     game_stats._save_stats_to_file()

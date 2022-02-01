@@ -45,8 +45,8 @@ if __name__ == "__main__":
     location = "Shenk"
 
     # messenger.send_item(item, img, location)
-    messenger.send_death(location, "./info_screenshots/info_gold_stash_full_20220110_170225.png")
-    messenger.send_chicken(location, "./info_screenshots/info_gold_stash_full_20220110_170225.png")
+    messenger.send_death(location, "./info_screenshots/debug_info_inventory_not_empty_20220131_063135.png")
+    messenger.send_chicken(location, "./info_screenshots/debug_info_inventory_not_empty_20220131_063135.png")
     messenger.send_stash()
     messenger.send_gold()
-    messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: FUCK", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")	
+    messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: FUCK", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")
