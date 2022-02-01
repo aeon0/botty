@@ -36,7 +36,7 @@ from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
-from messenger import Messenger
+from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:

@@ -184,7 +184,7 @@ class BeltManager:
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     ui_manager = UiManager(screen, template_finder)
     belt_manager = BeltManager(screen, template_finder)

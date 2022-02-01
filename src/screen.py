@@ -13,89 +13,35 @@ import os
 class Screen:
     """Grabs images from screen and converts different coordinate systems to each other"""
 
-    def __init__(self, monitor: int = 0, wait: int = 20):
+    def __init__(self):
         self._sct = mss()
-        monitor_idx = monitor + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
         if len(self._sct.monitors) == 1:
             Logger.error("How do you not have a monitor connected?!")
             os._exit(1)
-        if monitor_idx >= len(self._sct.monitors):
-            Logger.warning("Monitor index not available! Choose a smaller number for 'monitor' in the param.ini. Forcing value to 0 for now.")
-            monitor_idx = 1
         self._config = Config()
-        self._monitor_roi = self._sct.monitors[monitor_idx]
-        # auto find offests
-        self.found_offsets = False        
+        self._monitor_roi = self._sct.monitors[0]
+        # Find d2r screen offsets and monitor idx
+        self.found_offsets = False
         position = None
-        if self._config.general["find_window_via_win32_api"] :
-            Logger.debug("Using WinAPI to search for window under D2R.exe process")    
-            position = self.find_window_via_winapi()
-            if position is None:
-                Logger.debug("Can't find any window owned by D2R.exe falling back to matching via assets. Make sure D2R is in focus and you are on the hero selection screen")
-        
-        if position is None:                
-            position = self.find_window_via_assets(wait)        
-
+        Logger.debug("Using WinAPI to search for window under D2R.exe process")
+        position = misc.find_d2r_window()
         if position is not None:
             self._set_window_position(*position)
         else:
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
-            Logger.error("Could not find hero selection or template for ingame, shutting down")
-            Logger.error("Could not determine window offset. Please make sure you have the D2R window " +
-                                    f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}")
-    
+            Logger.error("Could not determine window offset. Please make sure you have the D2R window open.")
+
     def _set_window_position(self, offset_x: int, offset_y: int):
         Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
-        self._monitor_roi["top"] += offset_y
-        self._monitor_roi["left"] += offset_x
-        self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)
-        self._monitor_y_range = (self._monitor_roi["top"] + 10, self._monitor_roi["top"] + self._monitor_roi["height"] - 10)
+        self._monitor_roi["top"] = offset_y
+        self._monitor_roi["left"] = offset_x
         self._monitor_roi["width"] = self._config.ui_pos["screen_width"]
         self._monitor_roi["height"] = self._config.ui_pos["screen_height"]
+        self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)
+        self._monitor_y_range = (self._monitor_roi["top"] + 10, self._monitor_roi["top"] + self._monitor_roi["height"] - 10)
         self.found_offsets = True
 
-    
-    def find_window_via_assets(self, wait: int) -> Tuple[int, int]:
-        template = load_template(f"assets/templates/main_menu_top_left.png", 1.0)
-        template_ingame = load_template(f"assets/templates/window_ingame_offset_reference.png", 1.0)
-        debug_max_val = 0
-        start = time.time()
-        while time.time() - start < wait:
-            img = self.grab()
-            self._sct = mss()
-            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            res_ingame = cv2.matchTemplate(img, template_ingame, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(res)
-            _, max_val_ingame, _, max_pos_ingame = cv2.minMaxLoc(res_ingame)
-
-            # We are in game
-            if max_val_ingame > max_val:
-                max_val = max_val_ingame
-                offset_x, offset_y = max_pos_ingame
-                max_pos = (
-                    offset_x - self._config.ui_pos["ingame_ref_x"],
-                    offset_y - self._config.ui_pos["ingame_ref_y"],
-                )
-            # Save max found scores for debug in case it fails
-            if max_val > debug_max_val:
-                debug_max_val = max_val
-            if max_val > 0.84:
-                if max_val < 0.93:
-                    Logger.warning(f"Your template match score to calc corner was lower then usual ({max_val*100:.1f}% confidence). " +
-                        "You might run into template matching issues along the way!")
-                return max_pos
-        Logger.error(f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)")        
-        return None
-
-    def find_window_via_winapi(self) -> Tuple[int, int]:
-        position = misc.find_d2r_window()
-        if position is None:
-            return None
-
-        offset_x, offset_y, _, _ = position
-        return offset_x, offset_y
-                    
     def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
         return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
 
@@ -122,9 +68,8 @@ class Screen:
 
 
 if __name__ == "__main__":
-    from config import Config
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     while 1:
         start = time.time()
         test_img = screen.grab().copy()

@@ -1,6 +1,6 @@
 import psutil
 from config import Config
-from messenger import Messenger
+from messages import Messenger
 
 def get_d2r_game_ip():
     config = Config()

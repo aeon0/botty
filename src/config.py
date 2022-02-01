@@ -25,7 +25,28 @@ class Config:
     _pickit_config = None
     _shop_config = None
     _custom = None
-
+    # config data
+    general = {}
+    advanced_options = {}
+    ui_roi = {}
+    ui_pos = {}
+    dclone = {}
+    routes = {}
+    routes_order = []
+    char = {}
+    items = {}
+    colors = {}
+    shop = {}
+    path = {}
+    blizz_sorc = {}
+    light_sorc = {}
+    nova_sorc = {}
+    hammerdin = {}
+    trapsin = {}
+    barbarian = {}
+    necro = {}
+    basic = {}
+    basic_ranged = {}
 
     def __init__(self):
         with config_lock:
@@ -48,26 +69,75 @@ class Config:
 
     @staticmethod
     def parse_item_config_string(key: str = None) -> ItemProps:
+        string = Config._select_val("items", key).upper()
+        return Config.string_to_item_prop (string)
+
+    @staticmethod
+    def string_to_item_prop (string: str) -> ItemProps:
         item_props = ItemProps()
-        # split string by commas NOT contained within parentheses
-        item_string_as_list = re.split(r',\s*(?![^()]*\))', Config._select_val("items", key).upper())
-        trim_strs=["AND(", "OR(", "(", ")", " "]
-        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
-        item_props.pickit_type = int(clean_string[0])
-        try:
-            item_props.include = clean_string[1].split(',') if clean_string[1] else None
-            item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
-        try:
-            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
-            item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
+        brk_on = 0
+        brk_off = 0
+        section = 0
+        counter = 0
+        start_section = 0
+        start_item = 0
+        include_list = []
+        exclude_list = []
+        for char in string:
+            new_section = False
+            counter+=1
+            if char == "(":
+                brk_on +=1
+            elif char == ")":
+                brk_off += 1
+            if ((char == "," and brk_on==brk_off)):
+                new_section = True
+                if  (counter == len (string)):
+                    string_section = string [start_section:counter]
+                else:
+                    string_section = string [start_section:counter-1]
+                if section == 0:
+                    item_props.pickit_type = int (string_section)
+                section +=1
+                start_section = counter
+            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
+                if new_section: 
+                    section -=1
+                if start_item ==0:
+                    start_item = start_section
+                if  (counter == len (string)):
+                    item = string [start_item:counter]
+                else:
+                    item = string [start_item:counter-1]
+                if section == 0 and counter == len (string):
+                    item_props.pickit_type = int (item)
+                    pass
+                if section ==1:
+                    include_list.append (item)
+                    start_item = counter +1
+                elif section ==2:
+                    exclude_list.append (item)
+                    start_item = counter +1
+                if new_section: 
+                    section +=1
+        if (len (include_list)>0 and (len (include_list[0]) >=6)):
+            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
+                item_props.include_type = "AND"
+            else:
+                item_props.include_type = "OR"
+        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
+            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
+                item_props.exclude_type = "AND"
+            else:
+                item_props.exclude_type = "OR"
+        for i in range (len(include_list)):
+            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
+            include_list[i]  = include_list[i].split (",")
+        for l in range (len (exclude_list)):
+            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
+            exclude_list[l] = exclude_list[l].split (",")
+        item_props.include = include_list
+        item_props.exclude = exclude_list
         return item_props
 
     @staticmethod
@@ -94,15 +164,7 @@ class Config:
         Config.general = {
             "saved_games_folder": Config._select_val("general", "saved_games_folder"),
             "name": Config._select_val("general", "name"),
-            "monitor": int(Config._select_val("general", "monitor")),
             "max_game_length_s": float(Config._select_val("general", "max_game_length_s")),
-            "exit_key": Config._select_val("general", "exit_key"),
-            "resume_key": Config._select_val("general", "resume_key"),
-            "auto_settings_key": Config._select_val("general", "auto_settings_key"),
-            "restore_settings_from_backup_key": Config._select_val("general", "restore_settings_from_backup_key"),
-            "settings_backup_key": Config._select_val("general", "settings_backup_key"),
-            "graphic_debugger_key": Config._select_val("general", "graphic_debugger_key"),
-            "logg_lvl": Config._select_val("general", "logg_lvl"),
             "randomize_runs": bool(int(Config._select_val("general", "randomize_runs"))),
             "difficulty": Config._select_val("general", "difficulty"),
             "message_api_type": Config._select_val("general", "message_api_type"),
@@ -113,7 +175,6 @@ class Config:
             "loot_screenshots": bool(int(Config._select_val("general", "loot_screenshots"))),
             "d2r_path": Config._select_val("general", "d2r_path"),
             "restart_d2r_when_stuck": bool(int(Config._select_val("general", "restart_d2r_when_stuck"))),
-            "find_window_via_win32_api": bool(int(Config._select_val("general", "find_window_via_win32_api")))
         }
 
         # Added for dclone ip hunting
@@ -238,9 +299,14 @@ class Config:
             "pathing_delay_factor": min(max(int(Config._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": Config._select_val("advanced_options", "message_headers"),
             "message_body_template": Config._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(Config._select_val("advanced_options", "message_highlight"))),
-            "d2r_windows_always_on_top": bool(int(Config._select_val("advanced_options", "d2r_windows_always_on_top"))),
             "graphic_debugger_layer_creator": bool(int(Config._select_val("advanced_options", "graphic_debugger_layer_creator"))),
+            "logg_lvl": Config._select_val("advanced_options", "logg_lvl"),
+            "exit_key": Config._select_val("advanced_options", "exit_key"),
+            "resume_key": Config._select_val("advanced_options", "resume_key"),
+            "auto_settings_key": Config._select_val("advanced_options", "auto_settings_key"),
+            "restore_settings_from_backup_key": Config._select_val("advanced_options", "restore_settings_from_backup_key"),
+            "settings_backup_key": Config._select_val("advanced_options", "settings_backup_key"),
+            "graphic_debugger_key": Config._select_val("advanced_options", "graphic_debugger_key"),
         }
 
         Config.items = {}
@@ -279,7 +345,6 @@ class Config:
             "speed_factor": float(Config._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
-
 
 if __name__ == "__main__":
     from copy import deepcopy
