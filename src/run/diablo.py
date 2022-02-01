@@ -39,6 +39,7 @@ class Diablo:
         self._picked_up_items = False
         self._belt_manager = belt_manager
         self.used_tps = 0
+        self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START #wiz & legit
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Diablo")
@@ -319,6 +320,7 @@ class Diablo:
         mouse.click(button="right")
         self.used_tps += 1
         Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/pent_tp_location" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
