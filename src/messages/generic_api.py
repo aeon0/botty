@@ -66,6 +66,7 @@ class GenericApi:
             else:
                 msg = f"```\\n{msg} \\n```"
 
+
         url = self._config.general['custom_message_hook']
         if not url:
             return

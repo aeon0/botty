@@ -50,3 +50,4 @@ if __name__ == "__main__":
     messenger.send_stash()
     messenger.send_gold()
     messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: FUCK", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")	
+
