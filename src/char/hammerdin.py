@@ -660,8 +660,9 @@ class Hammerdin(IChar):
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
+            Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
+            wait(2.5, 3.5)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            wait(0.2, 0.5)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             
 

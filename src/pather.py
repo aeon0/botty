@@ -756,7 +756,7 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
     pather.traverse_nodes([632], char)
-    #pather.traverse_nodes_fixed("dia_b1s_home", char)
+    pather.traverse_nodes_fixed("dia_b1s_home", char)
     """
     pather.traverse_nodes([602], char)
     pather.traverse_nodes_fixed("dia_trash_a", char)
