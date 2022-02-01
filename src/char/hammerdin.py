@@ -172,76 +172,6 @@ class Hammerdin(IChar):
     
     def kill_cs_trash(self, location:str) -> bool:
 
-        ### LIST OF ALL POSSIBLE LOCATIONS FOR CALLING CS_TRASH - can be used as copy & paste basis for all classes ###
-        """ 
-        if location in [
-            "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            ### ROF
-            "rof_01", #static_path WP-> CS Entrance, outside CS Entrance
-            "rof_02", #node 601, CS Entrance
-            ### CS entrance
-            "entrance_hall_01", #node 677, CS Entrance
-            "entrance_hall_02", #static_path "diablo_entrance_hall_1", CS Entrance
-            "entrance_hall_03", #node 670,671, CS Entrance
-            ### layout 1
-            "entrance1_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            "entrance1_02", #node 673, CS Hall1/3 layout1
-            "entrance1_03", #node 674, CS Hall2/3 layout1
-            "entrance1_04", #node 676, CS Hall3/3 layout1
-            ### layout 2
-            "entrance2_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            "entrance2_02", #node 682, CS Hall1/3 layout2
-            "entrance2_03", #node 683, CS Hall2/3 layout2
-            "entrance2_04", #node 686, CS Hall3/3 layout2
-            ### Seal Trash
-            "trash_a", #trash before between Pentagramm and Seal A Layoutcheck
-            "trash_b", #trash before between Pentagramm and Seal A Layoutcheck
-            "trash_c", #trash before between Pentagramm and Seal A Layoutcheck
-            ### Pentagram
-            "pent_before_a", #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
-            "pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
-            "pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
-            ### Layout Checks
-            "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
-            ### A1-L
-            "A1-L_01",  #node 611 seal layout A1-L: approach
-            "A1-L_02",  #node 612 seal layout A1-L: safe_dist
-            "A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            "A1-L_fake", #node 614 layout A1-L: fake seal
-            "A1-L_boss", #node 615 layout A1-L: boss seal
-            ### A2-Y
-            "A2-Y_01", #node 622 seal layout A2-Y: safe_dist
-            "A2-Y_02", #node 623 seal layout A2-Y: center
-            "A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            "A2-Y_fake", #node 625 seal layout A2-Y: fake seal
-            "A2-Y_boss", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
-            ### B1-S
-            "B1-S_01", # no movement
-            "B1-S_02", # no movement
-            "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            "B1-S_boss", #node 634 layout B1-S: boss seal
-            ### B2-U
-            "B2-U_01", # no movement
-            "B2-U_02", # no movement
-            "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            "B2-U_boss", #node 644 layout B2-U: boss seal
-            ### C1-F
-            "C1-F_01", # no movement
-            "C1-F_02", # no movement
-            "C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
-            "C1-F_fake", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            "C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
-            ### C2-G
-            "C2-G_01", # no movement
-            "C2-G_02", # no movement
-            "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            "C2-G_fake", #fake seal layout C2-G
-            "C2-G_boss", #boss seal layout C2-G
-            ]: 
-        """
-
         if location in [
             "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### ROF
@@ -270,43 +200,43 @@ class Hammerdin(IChar):
             "pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
             "pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
             ### Layout Checks
-            "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
+            #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
+            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
             #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            #"A1-L_fake", #node 614 layout A1-L: fake seal
-            #"A1-L_boss", #node 615 layout A1-L: boss seal
+            #"A1-L_seal1", #node 614 layout A1-L: fake seal
+            #"A1-L_seal2", #node 615 layout A1-L: boss seal
             ### A2-Y
             #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
             #"A2-Y_02", #node 623 seal layout A2-Y: center
             #"A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            #"A2-Y_fake", #node 625 seal layout A2-Y: fake seal
-            #"A2-Y_boss", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
+            #"A2-Y_seal1", #node 625 seal layout A2-Y: fake seal
+            #"A2-Y_seal2", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
             ### B1-S
             #"B1-S_01", # no movement
             #"B1-S_02", # no movement
             #"B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            #"B1-S_boss", #node 634 layout B1-S: boss seal
+            #"B1-S_seal2", #node 634 layout B1-S: boss seal
             ### B2-U
             #"B2-U_01", # no movement
             #"B2-U_02", # no movement
             #"B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            #"B2-U_boss", #node 644 layout B2-U: boss seal
+            #"B2-U_seal2", #node 644 layout B2-U: boss seal
             ### C1-F
             #"C1-F_01", # no movement
             #"C1-F_02", # no movement
             #"C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
-            "C1-F_fake", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            #"C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
+            "C1-F_seal1", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
+            #"C1-F_seal2", #static_path "dia_c1f_654_651" C1-F: boss seal
             ### C2-G
             #"C2-G_01", # no movement
             #"C2-G_02", # no movement
             #"C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            #"C2-G_fake", #fake seal layout C2-G
-            #"C2-G_boss", #boss seal layout C2-G
+            #"C2-G_seal1", #fake seal layout C2-G
+            #"C2-G_seal2", #boss seal layout C2-G
             ]:        
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -347,43 +277,43 @@ class Hammerdin(IChar):
             #"pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
             #"pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
             ### Layout Checks
-            #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
+            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
+            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
             #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            #"A1-L_fake", #node 614 layout A1-L: fake seal
-            #"A1-L_boss", #node 615 layout A1-L: boss seal
+            #"A1-L_seal1", #node 614 layout A1-L: fake seal
+            #"A1-L_seal2", #node 615 layout A1-L: boss seal
             ### A2-Y
             #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
             #"A2-Y_02", #node 623 seal layout A2-Y: center
             "A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            #"A2-Y_fake", #node 625 seal layout A2-Y: fake seal
-            "A2-Y_boss", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
+            #"A2-Y_seal1", #node 625 seal layout A2-Y: fake seal
+            #"A2-Y_seal2", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
             ### B1-S
             "B1-S_01", # no movement
             "B1-S_02", # no movement
             "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            #"B1-S_boss", #node 634 layout B1-S: boss seal
+            #"B1-S_seal2", #node 634 layout B1-S: boss seal
             ### B2-U
             "B2-U_01", # no movement
             "B2-U_02", # no movement
             "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            #"B2-U_boss", #node 644 layout B2-U: boss seal
+            #"B2-U_seal2", #node 644 layout B2-U: boss seal
             ### C1-F
             "C1-F_01", # no movement
             "C1-F_02", # no movement
             "C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
-            #"C1-F_fake", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            #"C1-F_boss", #static_path "dia_c1f_654_651" C1-F: boss seal
+            #"C1-F_seal1", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
+            #"C1-F_seal2", #static_path "dia_c1f_654_651" C1-F: boss seal
             ### C2-G
             "C2-G_01", # no movement
             "C2-G_02", # no movement
             "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            #"C2-G_fake", #fake seal layout C2-G
-            #"C2-G_boss", #boss seal layout C2-G
+            #"C2-G_seal1", #fake seal layout C2-G
+            #"C2-G_seal2", #boss seal layout C2-G
             ]:  
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
@@ -426,12 +356,12 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
 
-        elif location == "A1-L_fake":  #node 613 seal layout A1-L: fake_seal
+        elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([614], self): return False
             keyboard.send(self._skill_hotkeys["redemption"])
 
-        elif location == "A1-L_boss":  #node 614 seal layout A1-L: boss_seal
+        elif location == "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
@@ -466,25 +396,19 @@ class Hammerdin(IChar):
 
         #elif location == "A2-Y_03": #skipped
     
-        elif location == "A2-Y_fake":  #node 625 seal layout A2-Y: fake seal
+        elif location == "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
-            """
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            """
+        
+        elif location == "A2-Y_seal2":
+            self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
+            keyboard.send(self._skill_hotkeys["redemption"])
 
         #elif location == "B1-S_01": #skipped
         #elif location == "B1-S_02": #skipped
         #elif location == "B1-S_03": #skipped
 
-        elif location == "B1-S_boss": 
+        elif location == "B1-S_seal2": 
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
@@ -493,7 +417,7 @@ class Hammerdin(IChar):
         #elif location == "B2-U_02": #skipped
         #elif location == "B2-U_03": #skipped
 
-        elif location == "B2-U_boss": 
+        elif location == "B2-U_seal2": 
             self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
             if not self._pather.traverse_nodes([644], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -503,8 +427,10 @@ class Hammerdin(IChar):
         #elif location == "C1-F_02": #skipped
         #elif location == "C1-F_03": #skipped
 
-        elif location == "C1-F_fake":
+        elif location == "C1-F_seal1":
+            wait(0.1,0.3)
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
+            wait(0.1,0.3)
             if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -516,8 +442,9 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
+            keyboard.send(self._skill_hotkeys["redemption"])
             
-        elif location == "C1-F_boss":
+        elif location == "C1-F_seal2":
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -530,13 +457,14 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
+            keyboard.send(self._skill_hotkeys["redemption"])
 
 
         #elif location == "C2-G_01": #skipped
         #elif location == "C2-G_02": #skipped
         #elif location == "C2-G_03": #skipped
 
-        elif location == "C2-G_boss":
+        elif location == "C2-G_seal1":
             if not self._pather.traverse_nodes([663, 662], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -547,11 +475,11 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            keyboard.send(self._skill_hotkeys["redemption"])
 
-        elif location == "C2-G_fake":
+        elif location == "C2-G_seal2":
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
-
-
+            keyboard.send(self._skill_hotkeys["redemption"])
 
         else:
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
