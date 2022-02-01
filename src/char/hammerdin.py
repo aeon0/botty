@@ -656,12 +656,12 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.15)
+            wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            wait(0.2, 0.3)
+            wait(0.2, 0.5)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             
 
@@ -688,11 +688,11 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
             self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.15)
+            wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.3)
+            wait(0.2, 0.5)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):

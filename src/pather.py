@@ -740,7 +740,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_C2G_CAL_")
+    #display_all_nodes(pather, "DIA_C2G_CAL_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -756,6 +756,7 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
     pather.traverse_nodes([632], char)
+    #pather.traverse_nodes_fixed("dia_b1s_home", char)
     """
     pather.traverse_nodes([602], char)
     pather.traverse_nodes_fixed("dia_trash_a", char)
