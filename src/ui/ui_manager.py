@@ -681,7 +681,6 @@ class UiManager():
                             wait(0.1, 0.15)
                         template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
                     #item found in gambling menu
-                    #x, y = self._screen.convert_screen_to_monitor(template_match_item.position)
                     mouse.move(*template_match_item.position, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="right")
