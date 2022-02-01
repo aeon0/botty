@@ -6,7 +6,7 @@ from beautifultable import BeautifulTable
 
 from logger import Logger
 from config import Config
-from messenger import Messenger
+from messages import Messenger
 from utils.misc import hms
 from version import __version__
 

@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     cropper = ItemCropper()
-    screen = Screen(cropper._config.general["monitor"])
+    screen = Screen()
 
     while 1:
         img = screen.grab().copy()
