@@ -8,9 +8,9 @@ wkdir = os.getcwd()
 #"Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 2 Layout_check step 2/2: Failed to determine", "Entrance 2 Layout_check step 2/2: Failed to determine", "CS Entrance Style 1", "CS Entrance Style 2", " - cleaning hall 1/3", " - cleaning hall 2/3", " - cleaning hall 3/3",
 
 #initialize strings
-simple_string = ["Starting game", "Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
+simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
-complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check step 2/2b - Failed", "Starting to clear Seal", "Fake: trying to open", "Fake: not", "Fake: is", "Boss: trying to open", "Boss: not", "Boss: is", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
+complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 trash_prefix= [""]
 trash_complex=[""]
 error_string = ["End failed game"]
@@ -96,9 +96,9 @@ result_file.write ("=======================\n")
 result_file.write ("\n")
 table3 = BeautifulTable ()
 table3.rows.append ([complex_counter[0][layout_check_counter], complex_counter[2][layout_check_counter], complex_counter[4][layout_check_counter]])
-table3.rows.append (['A2', "B2", "C2"])
+table3.rows.append (['A2-Y', "B2-U", "C2-G"])
 table3.rows.append ([complex_counter[1][layout_check_counter], complex_counter[3][layout_check_counter], complex_counter[5][layout_check_counter]])
-table3.columns.header = ['A1', 'B1', 'C1']
+table3.columns.header = ['A1-L', 'B1-S', 'C1-F']
 result_file.write (str(table3))
 result_file.write ("\n")
 result_file.write ("\n")
@@ -117,7 +117,7 @@ for prefix in prefix_string:
         table2.rows.append ([prefix + ": " + string, complex_counter [prefix_counter, complex_item_counter], f"{complex_counter [prefix_counter, complex_item_counter]/complex_counter [prefix_counter, reference_complex]:.0%}"])
         complex_item_counter += 1
     prefix_counter += 1
-    table2.columns.header = ['String', 'amount', 'percentage']
+    table2.columns.header = ['Event', '#', '%']
     result_file.write (str(table2))
     result_file.write ("\n")
 result_file.write ("\n")
