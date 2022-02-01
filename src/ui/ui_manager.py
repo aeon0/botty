@@ -656,11 +656,7 @@ class UiManager():
             ignore_columns = self._config.char["num_loot_columns"]-1
         else:
             ignore_columns = self._config.char["num_loot_columns"]-2
-        template_match = self._template_finder.search_and_wait(
-                "REFRESH",
-                best_match=False,
-                threshold=0.79,
-                time_out=4)
+        template_match = self._template_finder.search_and_wait("REFRESH", threshold=0.79, time_out=4)
         if template_match.valid:
             #Gambling window is open. Starting to spent some coins
             while (gamble_on and gold):
