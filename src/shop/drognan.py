@@ -52,7 +52,7 @@ class DrognanShopper:
             os._exit(0)
         self.apply_pather_adjustment = self._config.shop["apply_pather_adjustment"]
 
-        self._screen = Screen(config.general["monitor"])
+        self._screen = Screen()
         self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder

@@ -71,7 +71,7 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     pather = Pather(screen, template_finder)
     ui_manager = UiManager(screen, template_finder)

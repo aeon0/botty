@@ -13,9 +13,8 @@ from npc_manager import NpcManager, Npc
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template
-import cv2
 
-from messenger import Messenger
+from messages import Messenger
 
 
 def exit(run_obj):
@@ -68,7 +67,7 @@ class AnyaShopper:
         self.melee_claw_min_score = self._config.shop["melee_min_score"]
 
 
-        self._screen = Screen(config.general["monitor"])
+        self._screen = Screen()
         self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
         self._npc_manager = NpcManager(

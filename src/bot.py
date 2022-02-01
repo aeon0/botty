@@ -36,7 +36,7 @@ from run import Pindle, ShenkEld, Trav, Nihlatak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5
 
 # Added for dclone ip hunt
-from messenger import Messenger
+from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
@@ -207,7 +207,7 @@ class Bot:
             hot_ip = self._config.dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: {cur_game_ip}", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")	
+                self._messenger.send_message("Uber Diablo has been FOUND!", f"Dclone IP Found on IP: {cur_game_ip}", "https://i.psnprofiles.com/games/3bffee/trophies/11Lf29256.png")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -394,7 +394,7 @@ class Bot:
             res = self._arcane.battle(not self._pre_buffed)
         self._tps_left -= self._arcane.used_tps
         self._ending_run_helper(res)
-        
+
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False

@@ -1,10 +1,9 @@
 import os
 import threading
 import time
-
 import cv2
-from template_finder import TemplateFinder
 
+from template_finder import TemplateFinder
 from utils.auto_settings import check_settings
 from bot import Bot
 from config import Config
@@ -13,18 +12,17 @@ from game_recovery import GameRecovery
 from game_stats import GameStats
 from health_manager import HealthManager
 from logger import Logger
-from messenger import Messenger
+from messages import Messenger
 from screen import Screen
 from ui.char_selector import CharSelector
-from utils.misc import kill_thread
 from utils.restart import restart_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
-class GameController:
-    is_running = False
 
+class GameController:
     def __init__(self):
         self._config = Config()
+        self.is_running = False
         self.screen = None
         self.template_finder = None
         self.health_monitor_thread = None
@@ -108,12 +106,11 @@ class GameController:
 
     def start(self):
         # Check if we user should update the d2r settings
-        diff = check_settings(self._config)
+        diff = check_settings()
         if len(diff) > 0:
             Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
             Logger.warning(f"{diff}")
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            set_d2r_always_on_top()
+        set_d2r_always_on_top()
         self.setup_screen()
         self.template_finder = TemplateFinder(self.screen)
         self.start_health_manager_thread()
@@ -122,19 +119,18 @@ class GameController:
         self.game_stats = GameStats()
         self.char_selector = CharSelector(self.screen, self.template_finder)
         self.start_game_controller_thread()
-        GameController.is_running = True
+        self.is_running = True
 
     def stop(self):
-        if self._config.advanced_options['d2r_windows_always_on_top']:
-            restore_d2r_window_visibility()
+        restore_d2r_window_visibility()
         if self.death_monitor_thread: kill_thread(self.death_monitor_thread)
         if self.health_monitor_thread: kill_thread(self.health_monitor_thread)
         if self.bot_thread: kill_thread(self.bot_thread)
         if self.game_controller_thread: kill_thread(self.game_controller_thread)
-        GameController.is_running = False
+        self.is_running = False
        
     def setup_screen(self):
-        self.screen = Screen(self._config.general["monitor"])
+        self.screen = Screen()
         if self.screen.found_offsets:
             return True
         return False
@@ -160,4 +156,5 @@ class GameController:
         self.game_controller_thread.start()
 
     def toggle_pause_bot(self):
-        if self.bot: self.bot.toggle_pause()
+        if self.bot:
+            self.bot.toggle_pause()

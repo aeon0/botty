@@ -179,7 +179,7 @@ if __name__ == "__main__":
     from screen import Screen
     from npc_manager import NpcManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     npc_manager = NpcManager(screen, template_finder)
     pather = Pather(screen, template_finder)
