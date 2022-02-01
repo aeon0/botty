@@ -187,7 +187,7 @@ class Ocr:
         if multiline:
             segmentation_mode = PSM.SINGLE_BLOCK
         results = []
-        with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata/{ocr_language}", lang=ocr_language ) as api:
+        with PyTessBaseAPI(psm=segmentation_mode, oem=OEM.LSTM_ONLY, path=f"assets/tessdata", lang=ocr_language ) as api:
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
             api.SetSourceResolution(72)
             for image in images:
