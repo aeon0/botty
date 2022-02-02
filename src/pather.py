@@ -70,8 +70,8 @@ class Location:
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
     # Nihalatk
-    A5_NIHLATAK_START = "a5_nihlatak_lvl1_start"
-    A5_NIHLATAK_END = "a5_nihlatak_lvl2_end"
+    A5_NIHLATHAK_START = "a5_nihlathak_lvl1_start"
+    A5_NIHLATHAK_END = "a5_nihlathak_lvl2_end"
     # Arcane
     A2_ARC_START = "a2_arc_start"
     A2_ARC_CHECKPOINT = "a2_arc_checkpoint"

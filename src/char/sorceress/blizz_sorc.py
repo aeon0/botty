@@ -208,16 +208,16 @@ class BlizzSorc(Sorceress):
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_sequences = max(1, int(self._char_config["atk_len_nihlatak"]) - 1)
+        atk_sequences = max(1, int(self._char_config["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-            if nihlatak_pos_abs is not None:
-                cast_pos_abs = np.array([nihlatak_pos_abs[0] * 1.0, nihlatak_pos_abs[1] * 1.0])
-                wait(0.8)  
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            if nihlathak_pos_abs is not None:
+                cast_pos_abs = np.array([nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0])
+                wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)
-                wait(0.3)  
+                wait(0.3)
                 is_nihl = self._template_finder.search(["NIHL_BAR"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
                 nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], self._screen.grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
                 if is_nihl:
@@ -225,9 +225,9 @@ class BlizzSorc(Sorceress):
                     if nihl_immune:
                         Logger.info("Cold Immune! - Exiting")
                         return True
-        wait(0.8)      
+        wait(0.8)
         self._cast_static()
-        self._blizzard(cast_pos_abs, spray=15)                                     
+        self._blizzard(cast_pos_abs, spray=15)
         # Move to items
         wait(1.3)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
@@ -243,8 +243,8 @@ class BlizzSorc(Sorceress):
             self._ice_blast(cast_pos_abs, spray=11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
-    
-    
+
+
 if __name__ == "__main__":
     import os
     import keyboard
