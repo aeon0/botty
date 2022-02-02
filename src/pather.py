@@ -650,13 +650,13 @@ class Pather:
                     img = self._screen.grab()
                     Logger.debug("Took a screenshot and now searching for the words SHRINE, STASH or PILE")
                     if found_shrine == self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True):
-                        cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         Logger.debug(f"Oh, indeed I found Shrine or Stash blocking our way, left clicking above my head now - might find amazing treasures!")
                         mouse.move(640, 255)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
                         Logger.debug("click-y-click!")
-                        cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
                         Logger.debug("Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on, before Lucille gets us ...")
@@ -695,12 +695,11 @@ if __name__ == "__main__":
                     if template_match.valid:
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
+            #print(f"{template_scores:0.2f}")
             print(template_scores)
-            #print(f"{template_scores:1.2f}")
             print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
-                    #f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.2}"])
                     if template_type in template_map:
                         ref_pos_screen = template_map[template_type]
                         # Get reference position of template in abs coordinates
@@ -731,7 +730,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_C1")
+    display_all_nodes(pather, "A4_TOWN")
 
     # # changing node pos and generating new code
     # code = ""

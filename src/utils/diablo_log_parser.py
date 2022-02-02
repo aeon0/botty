@@ -8,7 +8,7 @@ wkdir = os.getcwd()
 #"Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 2 Layout_check step 2/2: Failed to determine", "Entrance 2 Layout_check step 2/2: Failed to determine", "CS Entrance Style 1", "CS Entrance Style 2", " - cleaning hall 1/3", " - cleaning hall 2/3", " - cleaning hall 3/3",
 
 #initialize strings
-simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
+simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died", "We teleport for quite a while - let's check if we are facetanking a Shrine or Stash", "click-y-click!", "Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on, before Lucille gets us ..."]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
 complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 trash_prefix= [""]
@@ -78,7 +78,7 @@ prefix_counter = 0
 table1 = BeautifulTable ()
 #append simple strings
 for string in simple_string:
-    table1.rows.append ([string, simple_counter [simple_item_counter], f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
+    table1.rows.append ([string, f"{simple_counter [simple_item_counter]:.0}", f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
     simple_item_counter += 1
 
 result_file = open (wkdir + "/info_log_parsed.txt", 'w')

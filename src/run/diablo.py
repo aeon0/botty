@@ -148,7 +148,7 @@ class Diablo:
                     x_m, y_m = self._screen.convert_abs_to_monitor([50 * direction, direction]) # do a little random hop & try to click the seal
                     self._char.move((x_m, y_m), force_move=True)
                 i += 1
-        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/_failed_seal_{seal_layout}_tries" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/_failed_seal_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
 
@@ -314,7 +314,6 @@ class Diablo:
         mouse.click(button="right")
         self.used_tps += 1
         Logger.debug("CS: FYI, total TPs used: " + str(self.used_tps))
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/pent_tp_location" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
@@ -393,7 +392,7 @@ class Diablo:
 
 
     #CHECK SEAL LAYOUT
-    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, templates_primary:list[str], templates_confirmation:list[str]): 
+    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]): 
         if sealname == "A":
             seal_layout1:str = "A1-L"
             seal_layout2:str = "A2-Y"
@@ -416,12 +415,15 @@ class Diablo:
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char)
         self._char.kill_cs_trash(trash_location) # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC    
         Logger.info(f"{sealname}: Checking Layout for "f"{boss}")
-        if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
+        if not calibration_node == None:
+            if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         #check1 using primary templates
         if not self._template_finder.search_and_wait(templates_primary, threshold=0.8, time_out=0.5).valid:
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
             #cross-check for confirmation
+            if not confirmation_node == None:
+                if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
             if not self._template_finder.search_and_wait(templates_confirmation, threshold=0.8, time_out=0.5).valid:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout1 + "_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
@@ -432,6 +434,8 @@ class Diablo:
         else:
             Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
             #cross-check for confirmation
+            if not confirmation_node == None:
+                if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
             if not self._template_finder.search_and_wait(templates_confirmation, threshold=0.8, time_out=0.5).valid:
                 Logger.debug(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[94m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
                 if not self._seal(*params_seal2): return False
@@ -459,21 +463,21 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
+        if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
         
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", [630640], 0.81, ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
+        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.81, [647],["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"], ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
         
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
+        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
         
         # Kill Diablo
         Logger.info("Waiting for Diablo to spawn")
