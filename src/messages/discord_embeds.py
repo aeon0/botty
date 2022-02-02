@@ -22,23 +22,13 @@ class DiscordEmbeds(GenericApi):
         image = image[:, (w//2):,:]
         cv2.imwrite(f"./loot_screenshots/{item}.png", image)
         file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
-        if item == "magic_gg_club":
-            e = discord.Embed(
-                title="Lucille located.",
-                description=f"This... This is Lucille, and she is awesome. All this, all this is just so we can pick out which one of you gets the honor. ",
-                color=self._get_Item_Color( item),
-            )
-        else:
-            e = discord.Embed(
-                title="Item Stashed!",
-                description=f"{item} at {location}",
-                color=self._get_Item_Color( item),
-            )
+        e = discord.Embed(
+            title="Item Stashed!",
+            description=f"{item} at {location}",
+            color=self._get_Item_Color( item),
+        )
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
-        if item == "magic_gg_club":
-            e.set_image(url=f"https://i.insider.com/5bd6fce948eb12606c6c4112?width=700&format=jpeg")
-        else:
-            e.set_image(url=f"attachment://{imgName}.png")
+        e.set_image(url=f"attachment://{imgName}.png")
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
