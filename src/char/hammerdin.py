@@ -610,6 +610,7 @@ class Hammerdin(IChar):
 
         elif seal_layout == "B2-U":
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
+            #self._pather.traverse_nodes_fixed("dia_b2u_seal_deseis", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
             nodes1 = [640]
             nodes2 = [646]
             nodes3 = [641]

@@ -645,7 +645,7 @@ class Pather:
                 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 found_shrine = False
-                if teleport_count > 15:
+                if teleport_count > 30:
                     Logger.debug("We teleport for quite a while - let's check if we are facetanking a Shrine or Stash")
                     img = self._screen.grab()
                     Logger.debug("Took a screenshot and now searching for the words SHRINE, STASH or PILE")
@@ -659,7 +659,16 @@ class Pather:
                         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
-                        Logger.debug("Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on, before Lucille gets us ...")
+                        Logger.debug("Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on with a little jump, before Lucille gets us ...")
+                        pos_abs = (0, 150)
+                        if last_direction is not None:
+                            pos_abs = last_direction
+                        pos_abs = self._adjust_abs_range_to_screen(pos_abs)
+                        Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
+                        x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                        char.move((x_m, y_m), force_move=True)
+                        did_force_move = True
+                        last_move = time.time()
                     teleport_count = 0
                     break
                 teleport_count += 1
@@ -730,7 +739,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "A4_TOWN")
+    display_all_nodes(pather, "DIA_B2U")
 
     # # changing node pos and generating new code
     # code = ""
@@ -745,8 +754,8 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
-    pather.traverse_nodes([602], char)
-    pather.traverse_nodes_fixed("dia_c_layout_bold", char)
-    pather.traverse_nodes([650660], char, threshold=0.9)
+    pather.traverse_nodes([644], char)
+    #pather.traverse_nodes_fixed("dia_b2u_644_646", char)
+    #pather.traverse_nodes([650660], char, threshold=0.9)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
