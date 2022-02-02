@@ -460,13 +460,13 @@ class Diablo:
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("B", "DeSeis", "dia_b_layout_bold", "layoutcheck_b", [630640], ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]): return False    
+        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", [630640], ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]): return False    
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("C", "Infections", "dia_c_layout_bold", "layoutcheck_c", [650660], ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
+        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
         # Kill Diablo
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):

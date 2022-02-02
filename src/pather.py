@@ -641,8 +641,29 @@ class Pather:
                     did_force_move = True
                     last_move = time.time()
                 
-                """
+                
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
+                """
+                shrine_counter = 0
+                shrine_check_frequency = 10
+                while shrine_counter < shrine_check_frequency:
+                    found_shrine = False
+                    if i == shrine_check_frequency:
+                        img = self._screen.grab()
+                        if found_shrine == self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True):
+                            cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                            Logger.debug(f"Found Shrine or Stash blocking our way, left clicking now!")
+                            mouse.move(640, 255)
+                            wait(0.1, 0.15)
+                            mouse.click(button="left")
+                            cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                            # we might need a check if she moved after the sequence here was executed
+                            break
+                    i = i=+1
+                """   
+        
+                """
+                # trying to use trigger that when there was no differnce between two screens after 4 seconds.
                 if not did_force_move and time.time() - last_move > 4:
                     t0 = self._screen.grab()
                     wait(0.1, 0.2)
