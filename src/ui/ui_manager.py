@@ -665,13 +665,12 @@ class UiManager():
                     self.close_vendor_screen ()
                     break
                 for item in self._config.char["gamble_items"]:
-                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
+                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
                     while not template_match_item.valid:
                         #Refresh gambling screen
                         template_match = self._template_finder.search ("REFRESH", self._screen.grab())
                         if (template_match.valid):
-                            x, y = self._screen.convert_screen_to_monitor(template_match.position)
-                            mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
+                            mouse.move(*template_match_item.position, randomize=12, delay_factor=[1.0, 1.5])
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)

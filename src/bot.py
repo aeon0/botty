@@ -308,9 +308,9 @@ class Bot:
                     self._curr_loc = self._town_manager.stash (self._curr_loc)
                 else:
                     self._curr_loc = self._town_manager.stash (self._curr_loc, gamble=gambling)
-            
+
             self._ui_manager.set__gold_full (False)
-                
+
         # Start a new run
         started_run = False
         for key in self._do_runs:
@@ -407,7 +407,7 @@ class Bot:
             res = self._arcane.battle(not self._pre_buffed)
         self._tps_left -= self._arcane.used_tps
         self._ending_run_helper(res)
-        
+
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False
