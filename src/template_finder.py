@@ -100,7 +100,8 @@ class TemplateFinder:
         elif type(ref) == list:
             if type(ref[0]) == str:
                 templates = [self._templates[i][0] for i in ref]
-                templates_gray = [self._templates[i][1] for i in ref]
+                if use_grayscale:
+                    templates_gray = [self._templates[i][1] for i in ref]
                 scales = [self._templates[i][2] for i in ref]
                 masks = [self._templates[i][3] for i in ref]
                 names = ref
