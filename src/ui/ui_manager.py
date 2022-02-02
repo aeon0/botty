@@ -277,7 +277,7 @@ class UiManager():
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
             #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
             if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
-                include_props = False 
+                include_props = False
                 exclude_props = False
             if not (include_props or exclude_props):
                 if do_logging:
@@ -297,7 +297,7 @@ class UiManager():
                                 template_match = self._template_finder.search(subprop, img, threshold=0.95)
                             except:
                                 Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                                template_match = lambda: None; template_match.valid = True 
+                                template_match = lambda: None; template_match.valid = True
                             if template_match.valid:
                                 if include_logic_type == "OR":
                                     found_subprops.append(True)
@@ -305,10 +305,10 @@ class UiManager():
                                     found_props.append (True)
                                     break
                             else:
-                                found_subprops.append(False) 
+                                found_subprops.append(False)
                                 break
                         if (len(found_subprops) > 0 and all(found_subprops)):
-                            include = True      
+                            include = True
                             break
                     else:
                         try:
@@ -419,7 +419,7 @@ class UiManager():
                             cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         if self._curr_stash["gold"] > 3:
                             #decide if gold pickup should be disabled or gambling is active
-                            if (self._config.gamble["gamble"]):
+                            if (self._config.char["gamble_items"]):
                                 self._gold_full = True
                             else:
                                 # turn off gold pickup
@@ -500,7 +500,7 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            
+
             # if filling shared stash first, we decrement from 3, otherwise increment
             self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
             if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
@@ -542,8 +542,8 @@ class UiManager():
                     mouse.release(button="left")
                     wait (0.1, 0.15)
                     keyboard.send ("Enter")
-                    wait (0.1, 0.15) 
-        self._gambling_round += 1   
+                    wait (0.1, 0.15)
+        self._gambling_round += 1
 
     def should_stash(self, num_loot_columns: int):
         """
@@ -644,7 +644,7 @@ class UiManager():
 
     def gambling_needed(self) -> bool:
         return self._gold_full
-    
+
     def set__gold_full (self, bool: bool):
         self._gold_full = bool
         self._gambling_round = 1
@@ -660,11 +660,11 @@ class UiManager():
         if template_match.valid:
             #Gambling window is open. Starting to spent some coins
             while (gamble_on and gold):
-                if (self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and self._inventory_has_items (self._screen.grab(),2)):   
+                if (self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and self._inventory_has_items (self._screen.grab(),2)):
                     gamble_on = False
                     self.close_vendor_screen ()
                     break
-                for item in self._config.gamble["gamble_items"]:  
+                for item in self._config.char["gamble_items"]:
                     template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"])
                     while not template_match_item.valid:
                         #Refresh gambling screen
@@ -702,7 +702,7 @@ class UiManager():
                                 mouse.click (button="left")
                                 wait(0.1, 0.15)
                                 keyboard.send('ctrl', do_press=False)
-            #Stashing needed        
+            #Stashing needed
         else:
             Logger.warning("gambling failed")
 
