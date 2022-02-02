@@ -101,7 +101,7 @@ class Config:
                 section +=1
                 start_section = counter
             if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
-                if new_section: 
+                if new_section:
                     section -=1
                 if start_item ==0:
                     start_item = start_section
@@ -118,7 +118,7 @@ class Config:
                 elif section ==2:
                     exclude_list.append (item)
                     start_item = counter +1
-                if new_section: 
+                if new_section:
                     section +=1
         if (len (include_list)>0 and (len (include_list[0]) >=6)):
             if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
@@ -232,7 +232,7 @@ class Config:
             "atk_len_pindle": float(Config._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(Config._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(Config._select_val("char", "atk_len_shenk")),
-            "atk_len_nihlatak": float(Config._select_val("char", "atk_len_nihlatak")),
+            "atk_len_nihlathak": float(Config._select_val("char", "atk_len_nihlathak")),
             "atk_len_diablo_vizier": float(Config._select_val("char", "atk_len_diablo_vizier")),
             "atk_len_diablo_deseis": float(Config._select_val("char", "atk_len_diablo_deseis")),
             "atk_len_diablo_infector": float(Config._select_val("char", "atk_len_diablo_infector")),
