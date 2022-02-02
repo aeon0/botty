@@ -610,6 +610,7 @@ class Pather:
             continue_to_next_node = False
             last_move = time.time()
             did_force_move = False
+            teleport_count = 0
             while not continue_to_next_node:
                 img = self._screen.grab()
                 # Handle timeout
@@ -642,61 +643,27 @@ class Pather:
                     did_force_move = True
                     last_move = time.time()
                 
-                
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
-                """
-                shrine_counter = 0
-                shrine_check_frequency = 10
-                while shrine_counter < shrine_check_frequency:
-                    found_shrine = False
-                    if i == shrine_check_frequency:
-                        img = self._screen.grab()
-                        if found_shrine == self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True):
-                            cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                            Logger.debug(f"Found Shrine or Stash blocking our way, left clicking now!")
-                            mouse.move(640, 255)
-                            wait(0.1, 0.15)
-                            mouse.click(button="left")
-                            cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                            # we might need a check if she moved after the sequence here was executed
-                            break
-                    i = i=+1
-                """   
-        
-                """
-                # trying to use trigger that when there was no differnce between two screens after 4 seconds.
-                if not did_force_move and time.time() - last_move > 4:
-                    t0 = self._screen.grab()
-                    wait(0.1, 0.2)
-                    t1 = self._screen.grab()
-                    # check difference between the two frames to determine if tele was good or not
-                    diff = cv2.absdiff(t0, t1)
-                    diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-                    _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-                    score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                    did_teleport = True
-                    
-                    if score > 0.15:
-                        did_teleport = True
+                found_shrine = False
+                if teleport_count > 15:
+                    Logger.debug("We teleport for quite a while - let's check if we are facetanking a Shrine or Stash")
+                    img = self._screen.grab()
+                    Logger.debug("Took a screenshot and now searching for the words SHRINE, STASH or PILE")
+                    if found_shrine == self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True):
+                        cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        Logger.debug(f"Oh, indeed I found Shrine or Stash blocking our way, left clicking above my head now - might find amazing treasures!")
+                        mouse.move(640, 255)
+                        wait(0.1, 0.15)
+                        mouse.click(button="left")
+                        Logger.debug("click-y-click!")
+                        cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
-                        did_teleport = False
-                
-                    if not did_teleport:
-                        i = 0
-                        stuck_count = 0
-                        while i < len(path):
-                                stuck_count += 1
-                                Logger.debug(f"Teleport cancel detected. Might be Shrine or Stash, let's left click. ({score:.4f})")
-                                if self._template_finder.search("SHRINE", "HIDDEN_STASH", "SKULL_PILE", img, threshold=threshold).valid:
-                                    mouse.click("left")
-                                else:
-                                    Logger.debug("Did not find a template for shrines or stashes")
-                                if stuck_count >= 5:
-                                    cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                                    return False
-                        return True
-                """
-                
+                        Logger.debug("Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on, before Lucille gets us ...")
+                    teleport_count = 0
+                    break
+                teleport_count += 1
+                                  
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
@@ -729,9 +696,11 @@ if __name__ == "__main__":
                         template_map[template_type] = template_match.position
                         template_scores[template_type] = template_match.score
             print(template_scores)
+            #print(f"{template_scores:1.2f}")
             print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
+                    #f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.2}"])
                     if template_type in template_map:
                         ref_pos_screen = template_map[template_type]
                         # Get reference position of template in abs coordinates
@@ -762,7 +731,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIA_C1")
 
     # # changing node pos and generating new code
     # code = ""
