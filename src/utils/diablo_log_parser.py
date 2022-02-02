@@ -12,7 +12,9 @@ simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated a
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
 complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 trash_prefix= [""]
-trash_complex=[""]
+trash_event=[""]
+lc_prefix=["Found Match:"]
+lc_event=["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5""DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
 error_string = ["End failed game"]
 error_array = []
 error_traverse = []
@@ -152,4 +154,4 @@ for error in error_array:
 Logger.info ("=================================================================================================")
 Logger.info ("Parsed info.log - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
 Logger.info ("=================================================================================================")
-#Logger.info ("\n" + str(table1))
+#Logger.info ("\n" + str(table1)) 
