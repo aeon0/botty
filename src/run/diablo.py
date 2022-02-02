@@ -344,7 +344,7 @@ class Diablo:
         Logger.info("C: finished clearing Trash at Seal & calibrated at PENTAGRAM")
 
     #CHECK SEAL LAYOUT
-    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, templates_primary:list[str], templates_confirmation:list[str]): 
+    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:float, templates_primary:list[str], templates_confirmation:list[str]): 
         if sealname == "A":
             seal_layout1:str = "A1-L"
             seal_layout2:str = "A2-Y"
@@ -367,7 +367,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char)
         self._char.kill_cs_trash(trash_location) # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC    
         Logger.info(f"{sealname}: Checking Layout for "f"{boss}")
-        if not self._pather.traverse_nodes(calibration_node, self._char): return False
+        if not self._pather.traverse_nodes(calibration_node, calibration_threshold, self._char): return False
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_layout_check_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         if not self._template_finder.search_and_wait(templates_primary, threshold=0.8, time_out=0.5).valid:
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -454,19 +454,19 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
+        if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.82 , ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", [630640], ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]): return False    
+        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", [630640], 0.83, ["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3"]): return False    
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
+        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.85, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
         # Kill Diablo
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):

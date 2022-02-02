@@ -1,4 +1,5 @@
 import math
+from cv2 import threshold
 import keyboard
 import time
 import os
@@ -761,7 +762,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_C2G")
+    display_all_nodes(pather, "DIA_C2G")
 
     # # changing node pos and generating new code
     # code = ""
@@ -776,6 +777,8 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
-    pather.traverse_nodes([600], char)
-    pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
-    pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_c_layout_bold", char)
+    pather.traverse_nodes([650660], char, threshold=0.9)
+    #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
+    #pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
