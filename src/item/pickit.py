@@ -79,10 +79,7 @@ class PickIt:
             else:
                 found_nothing = 0
                 item_list.sort(key=itemgetter('dist'))
-                for pattern in ["rune_", "uniq_", "set_"]:
-                    closest_item = next((obj for obj in item_list if pattern in obj["name"]), None)
-                    if closest_item:
-                        break
+                closest_item = next((obj for obj in item_list if "misc_gold" not in obj["name"]), None)
                 if not closest_item:
                     closest_item = item_list[0]
 
