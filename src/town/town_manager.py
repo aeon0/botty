@@ -8,8 +8,16 @@ from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
+TOWN_MARKERS = [
+            "A5_TOWN_0", "A5_TOWN_1",
+            "A4_TOWN_4", "A4_TOWN_5",
+            "A3_TOWN_0", "A3_TOWN_1",
+            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
+            "A1_TOWN_1", "A1_TOWN_3"
+        ]
 
 class TownManager:
+
     def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._config = Config()
         self._template_finder = template_finder
@@ -43,13 +51,7 @@ class TownManager:
         :param time_out: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within time_out time
         """
-        template_match = self._template_finder.search_and_wait([
-            "A5_TOWN_0", "A5_TOWN_1",
-            "A4_TOWN_4", "A4_TOWN_5",
-            "A3_TOWN_0", "A3_TOWN_1",
-            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
-            "A1_TOWN_1", "A1_TOWN_3"
-        ], best_match=True, time_out=time_out)
+        template_match = self._template_finder.search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None

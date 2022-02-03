@@ -33,13 +33,15 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
-from town import TownManager, A1, A2, A3, A4, A5
+from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
+    _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
+
     def __init__(self, screen: Screen, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
         self._screen = screen
         self._game_stats = game_stats
@@ -129,7 +131,7 @@ class Bot:
         self._transitions = [
             { 'trigger': 'init', 'source': 'initialization', 'dest': '=','before': "on_init"},
             { 'trigger': 'select_character', 'source': 'initialization', 'dest': 'hero_selection', 'before': "on_select_character"},
-            { 'trigger': 'start_from_town', 'source': ['initialization', 'hero_selection'], 'dest': 'town', 'before': "on_town_init"},
+            { 'trigger': 'start_from_town', 'source': ['initialization', 'hero_selection'], 'dest': 'town', 'before': "on_start_from_town"},
             { 'trigger': 'create_game', 'source': 'hero_selection', 'dest': '=', 'before': "on_create_game"},
             # Tasks within town
             { 'trigger': 'maintenance', 'source': 'town', 'dest': 'town', 'before': "on_maintenance"},
@@ -207,15 +209,8 @@ class Bot:
     def on_init(self):
         keyboard.release(self._config.char["stand_still"])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
-            "select_character": [
-                "MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"
-            ],
-            "start_from_town": [
-                 "A5_TOWN_0", "A5_TOWN_1",
-                 "A4_TOWN_4", "A4_TOWN_5",
-                 "A3_TOWN_0", "A3_TOWN_1",
-                 "A2_TOWN_0", "A2_TOWN_1", 
-                 "A2_TOWN_10","A1_TOWN_1", "A1_TOWN_3"],
+            "select_character": Bot._MAIN_MENU_MARKERS,
+            "start_from_town": town_manager.TOWN_MARKERS,
         })
         match = self._template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
         self.trigger_or_stop(transition_to_screens[match.name])
@@ -233,11 +228,11 @@ class Bot:
 
     def on_create_game(self):
         # Start a game from hero selection
-        self._template_finder.search_and_wait(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], roi=self._config.ui_roi["main_menu_top_left"])
+        self._template_finder.search_and_wait(Bot._MAIN_MENU_MARKERS, roi=self._config.ui_roi["main_menu_top_left"])
         if not self._ui_manager.start_game(): return
         self.trigger_or_stop("start_from_town")
 
-    def on_town_init(self):
+    def on_start_from_town(self):
         self._game_stats.log_start_game()
         self._curr_loc = self._town_manager.wait_for_town_spawn()
         # Check for the current game ip and pause if we are able to obtain the hot ip
@@ -261,7 +256,6 @@ class Bot:
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
-        
 
     def on_maintenance(self):
         # Handle picking up corpse in case of death
