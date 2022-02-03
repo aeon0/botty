@@ -13,7 +13,6 @@ from dataclasses import dataclass
 
 @dataclass
 class OcrResult:
-    valid: bool = False
     text: str = None
     original_text: str = None
     word_confidences: list = None
@@ -30,8 +29,6 @@ class Ocr:
         self.II_U = re.compile(r"(?<=[A-Z])II|II(?=[A-Z])|1?=[a-z]")
         self.One_I = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
         self.OneOne_U = re.compile(r"(?<=[A-Z])11|11(?=[A-Z])|1?=[a-z]")
-        with open('assets/tessdata/word_lists/all_strings.txt') as file:
-            self.word_list = [line.rstrip() for line in file]
         with open('assets/tessdata/ocr_errors.csv') as file:
             self.ocr_errors = dict(csv.reader(file, skipinitialspace = False, delimiter = ',', quoting = csv.QUOTE_NONE))
 
@@ -78,7 +75,7 @@ class Ocr:
         images: Union[np.ndarray, List[np.ndarray]],
         model: str = "engd2r_inv_th",
         psm: int = 3,
-        word_list: str = "assets/tessdata/word_lists/all_strings.txt",
+        word_list: str = "all_strings.txt",
         inv_th: bool = True,
         erode: bool = True,
         fix_regexps: bool = True,
@@ -97,10 +94,10 @@ class Ocr:
         :param inv_th: invert and threshold the input image(s)
         :param erode: use erosion function to erode image to black borders (i.e. for item drops)
         :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
-        :param check_known_errors: check for common errors and fix
+        :param check_known_errors: check for predefined common errors and replace
         :param check_wordlist: check dictionary of words and match closest match if proximity is greater than match_threshold
-        :param match_threshold: see check_wordlist
-        :return: Returns an OcrResult object with a valid flag
+        :param match_threshold: (see check_wordlist)
+        :return: Returns an OcrResult object
         """
 
         if type(images) == np.ndarray:
@@ -129,7 +126,7 @@ class Ocr:
                 if check_known_errors:
                     text = self.check_known_errors(text)
                 if check_wordlist and any([x <= 88 for x in word_confidences]):
-                    text = self.check_wordlist(text, word_confidences, match_threshold)
+                    text = self.check_wordlist(text, word_list, word_confidences, match_threshold)
                 results.append(OcrResult(
                     original_text = original_text,
                     text = text,
@@ -149,7 +146,10 @@ class Ocr:
                 text = text.replace(key, value)
         return text
 
-    def check_wordlist(self, text: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
+    def check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
+        with open('assets/tessdata/word_lists/{word_list}') as file:
+            word_list = [line.rstrip() for line in file]
+
         word_count=0
         new_string=""
         text = text.replace('\n',' NEWLINEHERE ')
@@ -158,8 +158,8 @@ class Ocr:
             if word and word != "NEWLINEHERE":
                 try:
                     if confidences[word_count] <= 88:
-                        if (word not in self.word_list) and (re.sub(r"[^a-zA-Z0-9]", "", word) not in self.word_list):
-                            closest_match = difflib.get_close_matches(word, self.word_list, cutoff=match_threshold)
+                        if (word not in word_list) and (re.sub(r"[^a-zA-Z0-9]", "", word) not in word_list):
+                            closest_match = difflib.get_close_matches(word, word_list, cutoff=match_threshold)
                             if closest_match and closest_match != word:
                                 new_string += f"{closest_match[0]} "
                                 Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match[0]}, score=")
@@ -234,6 +234,6 @@ class Ocr:
             repeat=True
             repeat_count += 1
         if repeat and repeat_count < 10:
-            self.fix_ocr_output(text)
+            self.fix_regexps(text)
 
         return text
