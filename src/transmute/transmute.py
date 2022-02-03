@@ -77,7 +77,7 @@ class Transmute:
         match = self._template_finder.search(
             ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["left_inventory"])
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.position)
+            x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("right")
@@ -90,7 +90,7 @@ class Transmute:
         match = self._template_finder.search(
             ["CUBE_TRANSMUTE_BTN"], screen, threshold=0.9, roi=Config.ui_roi["cube_btn_roi"])
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.position)
+            x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("left")

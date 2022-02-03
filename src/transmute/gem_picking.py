@@ -21,17 +21,9 @@ class SimpleGemPicking:
         eligible_items = list(filter(
             lambda item: sum(self._tracking[item]) >= 3, self._tracking.keys()
         ))
-
-        print(
-            list(map(lambda x: f'{x}-{self._item_score(x)}', eligible_items)))
-
         best_items = sorted(
             eligible_items, key=lambda item: self._item_score(item), reverse=True
         )
-
-        print(
-            list(map(lambda x: f'{x}-{self._item_score(x)}', eligible_items)))
-
         result = []
         for item in best_items:
             for tab in range(0, self._stash.tab_count()):
