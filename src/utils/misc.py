@@ -75,6 +75,10 @@ def is_in_roi(roi: List[float], pos: Tuple[float, float]):
     is_in_y_range = y < pos[1] < y + h
     return is_in_x_range and is_in_y_range
 
+def roi_center(roi: list[float] = None, scale: float = 1):
+    x, y, w, h = roi
+    return round(x + w/2), round(y + h/2)
+
 def color_filter(img, color_range):
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     color_mask = cv2.inRange(hsv_img, color_range[0], color_range[1])
