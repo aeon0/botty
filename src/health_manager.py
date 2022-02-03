@@ -49,7 +49,7 @@ class HealthManager:
 
     def update_location(self, loc: Location):
         if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "nihlatak", "trav", "arc", "diablo"]
+            bosses = ["shenk", "eldritch", "pindle", "nihlathak", "trav", "arc", "diablo"]
             prev_value = self._pausing
             self._pausing = not any(substring in loc for substring in bosses)
             if self._pausing != prev_value:
@@ -171,8 +171,7 @@ if __name__ == "__main__":
     import keyboard
     import os
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
-    config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     template_finder = TemplateFinder(screen)
     belt_manager = BeltManager(screen, template_finder)
     manager = HealthManager(screen, template_finder)

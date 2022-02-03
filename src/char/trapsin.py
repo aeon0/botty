@@ -68,7 +68,7 @@ class Trapsin(IChar):
         atk(4)
         keyboard.send(self._skill_hotkeys["death_sentry"])
         atk(1)
-        
+
     def kill_pindle(self) -> bool:
         atk_len = max(1, int(self._char_config["atk_len_pindle"] / 2))
         pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
@@ -113,14 +113,14 @@ class Trapsin(IChar):
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_len = max(1, int(self._char_config["atk_len_nihlatak"] / 2))
+        atk_len = max(1, int(self._char_config["atk_len_nihlathak"] / 2))
         for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-            if nihlatak_pos_abs is None:
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            if nihlathak_pos_abs is None:
                 return False
-            cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
+            cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
             self._left_attack(cast_pos_abs, 90)
             self._right_attack(cast_pos_abs, 90)
             # Do some tele "dancing" after each sequence
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     from char import Trapsin
     from ui import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)

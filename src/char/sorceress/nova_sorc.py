@@ -77,9 +77,9 @@ class NovaSorc(Sorceress):
         self._pather.offset_node(229, -offset_229)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        atk_len = self._char_config["atk_len_nihlatak"] * 0.3
-        # Move close to nilathak
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        atk_len = self._char_config["atk_len_nihlathak"] * 0.3
+        # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)

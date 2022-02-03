@@ -51,12 +51,11 @@ class Sorceress(IChar):
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
+            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
-                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 keyboard.send(self._skill_hotkeys["telekinesis"])
                 wait(0.1, 0.2)
-                mouse.move(x_m, y_m)
+                mouse.move(*template_match.center)
                 wait(0.2, 0.3)
                 mouse.click(button="right")
                 # check the successfunction for 2 sec, if not found, try again

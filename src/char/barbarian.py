@@ -138,17 +138,17 @@ class Barbarian(IChar):
         self._do_hork(5)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        # Move close to nilathak
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_war_cry(self._char_config["atk_len_nihlatak"] * 0.4)
+        self._cast_war_cry(self._char_config["atk_len_nihlathak"] * 0.4)
         self._cast_war_cry(0.8)
-        self._move_and_attack((30, 15), self._char_config["atk_len_nihlatak"] * 0.3)
+        self._move_and_attack((30, 15), self._char_config["atk_len_nihlathak"] * 0.3)
         self._cast_war_cry(0.8)
-        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlathak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_war_cry(1.2)
         self._do_hork(5)
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     from config import Config
     from ui.ui_manager import UiManager
     config = Config()
-    screen = Screen(config.general["monitor"])
+    screen = Screen()
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)

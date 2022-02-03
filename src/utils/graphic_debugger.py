@@ -22,7 +22,6 @@ class GraphicDebuggerController:
     to race condition, if you plan to touch it from within a thread you might have to
     add a locking mechanism to order to access it.
     """
-    is_running = False
     window_name_trackbars = "Graphic Debugger - Trackbars"
     window_name_images = "Graphic Debugger - Images"
 
@@ -40,9 +39,10 @@ class GraphicDebuggerController:
         self.active_layers = {}
         self.displayed_layers = {}
         self.panel = None
+        self.is_running = False
 
     def start(self):
-        self.screen = Screen(self._config.general["monitor"])
+        self.screen = Screen()
         self.item_finder = ItemFinder()
         self.template_finder = TemplateFinder(self.screen)
         if self._config.advanced_options['graphic_debugger_layer_creator']:
@@ -54,7 +54,7 @@ class GraphicDebuggerController:
         else:
             self.debugger_thread = threading.Thread(target=self.run_old_debugger, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
-        GraphicDebuggerController.is_running = True
+        self.is_running = True
 
     def stop(self):
         # TODO: these two layers variable (and panel) needs to be reassigned because F10 will not re-init the
@@ -70,7 +70,7 @@ class GraphicDebuggerController:
         if self.debugger_thread: kill_thread(self.debugger_thread)
         if self.ui_thread: kill_thread(self.ui_thread)
         cv2.destroyAllWindows()
-        GraphicDebuggerController.is_running = False
+        self.is_running = False
 
     def run_debgger_ui(self):
         self.app = mttkinter.Tk()
@@ -306,8 +306,8 @@ class GraphicDebuggerController:
                     template_match = self.template_finder.search(template_name, img, threshold=0.65)
                     if template_match.valid:
                         scores[template_match.name] = template_match.score
-                        cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                        cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
+                        cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                        cv2.circle(combined_img, template_match.center, 7, (255, 0, 0), thickness=5)
                 if len(scores) > 0:
                     print(scores)
 
@@ -337,8 +337,8 @@ class GraphicDebuggerController:
                 template_match = self.template_finder.search(template_name, img, threshold=0.65)
                 if template_match.valid:
                     scores[template_match.name] = template_match.score
-                    cv2.putText(combined_img, str(template_name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                    cv2.circle(combined_img, template_match.position, 7, (255, 0, 0), thickness=5)
+                    cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                    cv2.circle(combined_img, template_match.center, 7, (255, 0, 0), thickness=5)
             if len(scores) > 0:
                 print(scores)
             # Show img
@@ -350,5 +350,3 @@ class GraphicDebuggerController:
 if __name__ == "__main__":
     debugger = GraphicDebuggerController(Config())
     debugger.start()
-
-
