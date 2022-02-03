@@ -212,14 +212,17 @@ class Pather:
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
             #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
             602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
+            603: {"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
+            604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
+            605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
 
-            #CALIBRATION SPOTS
+            #CALIBRATION SPOTS FOR LAYOUT CHECKS
             610620: 
                 {
                 "DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), 
                 "DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), 
                 }, 
-            630640: 
+            630640: #not used 
                 {
                 "DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),
                 "DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), 
@@ -292,9 +295,9 @@ class Pather:
             665: {"DIA_C2G2_8": (43, -27), "DIA_C2G2_9": (-85, -121), "DIA_C2G2_10": (19, -158), "DIA_C2G2_21_OPEN": (-163, -6), "DIA_C2G2_21_CLOSED": (-163, -6),"DIA_C2G2_21_MOUSEOVER": (-163, -6),"DIA_C2G2_17": (28, -194),  "DIA_C2G2_5": (468, -80), "DIA_C2G2_14": (480, -153), "DIA_C2G2_22": (503, 208), "DIA_C2G2_20": (-614, -208), }, # seal boss close #"DIA_C2G2_23": (-260, 258),
         
             #DIABLO ENTRANCE STYLE 1 (clear_trash=1)
-            670: {"DIABLO_ENTRANCE_3": (-77, -182), "DIABLO_ENTRANCE_11": (73, -216), "DIABLO_ENTRANCE_2": (233, -174), "DIABLO_ENTRANCE_10": (233, 386), "DIABLO_ENTRANCE_9": (236, 418), "DIABLO_ENTRANCE_4": (-363, 372), "DIABLO_ENTRANCE_5": (-612, -76), "DIABLO_ENTRANCE_12": (-569, 611), "DIABLO_ENTRANCE_6": (869, 86), },
-            671: {"DIABLO_ENTRANCE_10": (-143, 245), "DIABLO_ENTRANCE_9": (-140, 276), "DIABLO_ENTRANCE_2": (-144, -318), "DIABLO_ENTRANCE_11": (-304, -360), "DIABLO_ENTRANCE_7": (216, 437), "DIABLO_ENTRANCE_6": (492, -56), "DIABLO_ENTRANCE_3": (-454, -327), "DIABLO_ENTRANCE_1": (621, 60), "DIABLO_ENTRANCE_8": (728, 159), },
-            672: {"DIABLO_ENTRANCE_7": (-78, 259), "DIABLO_ENTRANCE_6": (198, -234), "DIABLO_ENTRANCE_1": (327, -118), "DIABLO_ENTRANCE_8": (434, -19), "DIABLO_ENTRANCE_10": (-437, 66), "DIABLO_ENTRANCE_9": (-434, 98), "DIABLO_ENTRANCE_2": (-438, -496), "DIABLO_ENTRANCE_11": (-598, -538), },
+            670: {"DIABLO_ENTRANCE_1": (1200, 260),"DIABLO_ENTRANCE_2": (233, -174),"DIABLO_ENTRANCE_3": (-77, -182),"DIABLO_ENTRANCE_4": (-363, 372), "DIABLO_ENTRANCE_5": (-612, -76),  "DIABLO_ENTRANCE_6": (869, 86),"DIABLO_ENTRANCE_7": (593, 579),"DIABLO_ENTRANCE_8": (1105, 301),"DIABLO_ENTRANCE_9": (236, 418),  "DIABLO_ENTRANCE_10": (233, 386), "DIABLO_ENTRANCE_11": (73, -216), "DIABLO_ENTRANCE_12": (-569, 611), "DIABLO_ENTRANCE_31": (376, -100), "DIABLO_ENTRANCE_32": (506, -133), "DIABLO_ENTRANCE_33": (187, -150), "DIABLO_ENTRANCE_34": (-8, -152), "DIABLO_ENTRANCE_35": (-167, -202), "DIABLO_ENTRANCE_36": (-310, -90), "DIABLO_ENTRANCE_37": (-444, -40), "DIABLO_ENTRANCE_38": (1, 282), "DIABLO_ENTRANCE_39": (-275, 163),},# Hall 1 center
+            671: {"DIABLO_ENTRANCE_1": (621, 60),"DIABLO_ENTRANCE_2": (-144, -318), "DIABLO_ENTRANCE_3": (-454, -327), "DIABLO_ENTRANCE_4": (-740, 230), "DIABLO_ENTRANCE_5": (-989, -218),  "DIABLO_ENTRANCE_6": (492, -56), "DIABLO_ENTRANCE_7": (216, 437), "DIABLO_ENTRANCE_8": (728, 159), "DIABLO_ENTRANCE_9": (-140, 276), "DIABLO_ENTRANCE_10": (-143, 245),  "DIABLO_ENTRANCE_11": (-304, -360), "DIABLO_ENTRANCE_12": (-964, 469), "DIABLO_ENTRANCE_31": (-1, -242), "DIABLO_ENTRANCE_32": (129, -275), "DIABLO_ENTRANCE_33": (-190, -292), "DIABLO_ENTRANCE_34": (-385, -294), "DIABLO_ENTRANCE_35": (-544, -344), "DIABLO_ENTRANCE_36": (-687, -232), "DIABLO_ENTRANCE_37": (-821, -182), "DIABLO_ENTRANCE_38": (-376, 140), "DIABLO_ENTRANCE_39": (-652, 21),}, #hall1 right
+            672: {"DIABLO_ENTRANCE_1": (327, -118), "DIABLO_ENTRANCE_2": (-438, -496), "DIABLO_ENTRANCE_6": (198, -234), "DIABLO_ENTRANCE_7": (-78, 259),  "DIABLO_ENTRANCE_8": (434, -19),  "DIABLO_ENTRANCE_9": (-434, 98),  "DIABLO_ENTRANCE_10": (-437, 66),  "DIABLO_ENTRANCE_11": (-598, -538),  },#hall1 left not used
             673: {"DIABLO_ENTRANCE_12": (-129, -152), "DIABLO_ENTRANCE_15": (-273, -108), "DIABLO_ENTRANCE_13": (211, 241), "DIABLO_ENTRANCE_17": (-19, 386), "DIABLO_ENTRANCE_16": (-522, -174), "DIABLO_ENTRANCE_18": (-730, 239), },
             674: {"DIABLO_ENTRANCE_18": (13, 235), "DIABLO_ENTRANCE_19": (-150, 201), "DIABLO_ENTRANCE_16": (221, -178), "DIABLO_ENTRANCE_15": (470, -112), "DIABLO_ENTRANCE_23": (-718, 214), "DIABLO_ENTRANCE_26": (-551, 564), "DIABLO_ENTRANCE_17": (724, 382), },
             675: {"DIABLO_ENTRANCE_23": (-279, 181), "DIABLO_ENTRANCE_19": (289, 167), "DIABLO_ENTRANCE_18": (452, 202), "DIABLO_ENTRANCE_26": (-112, 531), "DIABLO_ENTRANCE_22": (-197, 523), "DIABLO_ENTRANCE_24": (-117, 587), "DIABLO_ENTRANCE_21": (-564, 399), "DIABLO_ENTRANCE_16": (660, -211), },
@@ -706,7 +709,7 @@ if __name__ == "__main__":
                         template_scores[template_type] = template_match.score
             #print(f"{template_scores:0.2f}")
             print(template_scores)
-            print(template_map)
+            # print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
                     if template_type in template_map:
@@ -739,7 +742,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_B2U")
+    display_all_nodes(pather, "DIABLO_ENTRANCE2_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -754,8 +757,12 @@ if __name__ == "__main__":
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
 
-    pather.traverse_nodes([644], char)
-    #pather.traverse_nodes_fixed("dia_b2u_644_646", char)
+    pather.traverse_nodes([604], char)
+    pather.traverse_nodes_fixed("diablo_entrance_hall_1", char)
+    pather.traverse_nodes([672, 670], char)
+    pather.traverse_nodes([671], char)
+    pather.traverse_nodes_fixed("diablo_entrance_hall_2", char)
+    pather.traverse_nodes([605], char)
     #pather.traverse_nodes([650660], char, threshold=0.9)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
