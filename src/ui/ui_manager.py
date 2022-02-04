@@ -164,13 +164,12 @@ class UiManager():
         Logger.debug("Wait for Play button")
         while 1:
             img = self._screen.grab()
-            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
-            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True)
+            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
+            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
             found_btn = found_btn_off if found_btn_off.valid else found_btn_on
             if found_btn.name == "PLAY_BTN":
-                x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
-                mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
+                mouse.move(*found_btn.center, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
@@ -178,15 +177,14 @@ class UiManager():
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
-            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9)
+            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9, normalize_monitor=True)
             if not template_match.valid:
                 Logger.debug(f"Could not find {difficulty}_BTN, try from start again")
                 return self.start_game()
             if template_match.name == "LOADING":
                 Logger.debug(f"Found {template_match.name} screen")
                 return True
-            x, y = self._screen.convert_screen_to_monitor(template_match.position)
-            mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
+            mouse.move(*template_match.center, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
             break
@@ -275,7 +273,7 @@ class UiManager():
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
             #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
             if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
-                include_props = False 
+                include_props = False
                 exclude_props = False
             if not (include_props or exclude_props):
                 if do_logging:
@@ -295,7 +293,7 @@ class UiManager():
                                 template_match = self._template_finder.search(subprop, img, threshold=0.95)
                             except:
                                 Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                                template_match = lambda: None; template_match.valid = True 
+                                template_match = lambda: None; template_match.valid = True
                             if template_match.valid:
                                 if include_logic_type == "OR":
                                     found_subprops.append(True)
@@ -303,10 +301,10 @@ class UiManager():
                                     found_props.append (True)
                                     break
                             else:
-                                found_subprops.append(False) 
+                                found_subprops.append(False)
                                 break
                         if (len(found_subprops) > 0 and all(found_subprops)):
-                            include = True      
+                            include = True
                             break
                     else:
                         try:
@@ -384,7 +382,7 @@ class UiManager():
         x, y = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         # Wait till gold btn is found
-        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
+        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
@@ -397,8 +395,7 @@ class UiManager():
             else:
                 Logger.debug("Stashing gold")
                 self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
-                x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
-                mouse.move(x, y, randomize=4)
+                mouse.move(*gold_btn.center, randomize=4)
                 wait(0.1, 0.15)
                 mouse.press(button="left")
                 wait(0.25, 0.35)
@@ -488,7 +485,7 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            
+
             # if filling shared stash first, we decrement from 3, otherwise increment
             self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
             if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
@@ -530,11 +527,10 @@ class UiManager():
         Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
-        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
+        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4, normalize_monitor=True)
         if not repair_btn.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(repair_btn.position)
-        mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
+        mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.1, 0.15)
@@ -546,24 +542,22 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.press(button="left")
         wait(0.25, 0.35)
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="right")
         wait(0.1, 0.15)
@@ -631,22 +625,20 @@ class UiManager():
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
         if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
         if h_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(h_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
         if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
         if m_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(m_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(mana_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)

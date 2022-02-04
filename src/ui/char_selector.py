@@ -33,7 +33,7 @@ class CharSelector:
                 )
                 if template_result.valid:
                     # move cursor to result and select
-                    mouse.move(*template_result.position)
+                    mouse.move(*template_result.center)
                     wait(0.5)
                     mouse.click(button="left")
                     break
