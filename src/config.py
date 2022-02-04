@@ -350,9 +350,9 @@ class Config:
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
         stash_destination_str = Config._select_val("gems","stash_destination")
-        Config.transmute = {
+        Config._transmute_config = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
-            "transmute_every_x_game": int(Config._select_val("gems","transmute_every_x_game"))
+            "transmute_every_x_game": Config._select_val("gems","transmute_every_x_game"),
         }
 
 if __name__ == "__main__":

@@ -181,8 +181,10 @@ class Transmute:
                 self.pick_from_inventory_at(*perfect_gems.pop(gem))
 
     def should_transmute(self) -> bool:
-        transmute_every = Config.transmute["transmute_every_x_game"]
-        return self._game_stats._game_counter - self._last_game >= transmute_every
+        every_x_game = Config._transmute_config["transmute_every_x_game"]
+        if every_x_game is None or every_x_game is "" or int(every_x_game) <= 0:
+            return False
+        return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
         gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=Config.ui_roi["gold_btn"], time_out=20)
