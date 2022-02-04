@@ -35,19 +35,6 @@ class GameRecovery:
             # lets just see if you might already be at hero selection
             found = self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], self._screen.grab(), roi=self._config.ui_roi["main_menu_top_left"]).valid
             if found:
-                offline_tab = self._template_finder.search(["OFFLINE_TAB","OFFLINE_TAB_DARK"], self._screen.grab(), roi=self._config.ui_roi["offline_tab"], threshold=0.8, best_match = True)
-                if offline_tab.valid:
-                    if offline_tab.name == "OFFLINE_TAB_DARK":
-                        #We need to press escape before clicking the tab
-                        keyboard.send("esc")
-                        time.sleep(0.2)
-                    # Right now it selects the tab to the left of offline
-                    offline_width = self._config.ui_pos["offline_width"]
-                    tab = (offline_tab.position[0] - offline_width , offline_tab.position[1])
-                    x, y = self._screen.convert_screen_to_monitor(tab)
-                    mouse.move(x, y, randomize=8)
-                    time.sleep(0.5)
-                    mouse.click(button="left")
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():

@@ -8,7 +8,6 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
-from ui.char_selector import CharSelector
 from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
@@ -18,8 +17,9 @@ from template_finder import TemplateFinder
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
-from ui import UiManager
+from ui import UiManager, char_selector
 from ui import BeltManager
+from ui import CharSelector
 from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
@@ -198,7 +198,7 @@ class Bot:
                 found_unfinished_run = True
                 break
         return not found_unfinished_run
-    
+
     def _rebuild_as_asset_to_trigger(trigger_to_assets: dict):
         result = {}
         for key in trigger_to_assets.keys():
@@ -214,7 +214,7 @@ class Bot:
         })
         match = self._template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
         self.trigger_or_stop(transition_to_screens[match.name])
-    
+
     def on_select_character(self):
         if self._config.general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
@@ -223,7 +223,9 @@ class Bot:
                 self._char_selector.select_char()
             else:
                 Logger.info("Saving top-most char as template")
+                self._char_selector.save_char_online_status()
                 self._char_selector.save_char_template()
+
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
