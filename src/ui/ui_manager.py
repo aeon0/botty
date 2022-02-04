@@ -668,9 +668,9 @@ class UiManager():
                     template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
                     while not template_match_item.valid:
                         #Refresh gambling screen
-                        template_match = self._template_finder.search ("REFRESH", self._screen.grab())
+                        template_match = self._template_finder.search ("REFRESH", self._screen.grab(), normalize_monitor=True)
                         if (template_match.valid):
-                            mouse.move(*template_match_item.position, randomize=12, delay_factor=[1.0, 1.5])
+                            mouse.move(*template_match.position, randomize=12, delay_factor=[1.0, 1.5])
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
@@ -769,4 +769,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder, game_stats)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.gamble (item_finder)
