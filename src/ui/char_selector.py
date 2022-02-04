@@ -5,7 +5,7 @@ import time
 
 from config import Config
 from utils.custom_mouse import mouse
-from utils.misc import cut_roi, wait, is_in_roi
+from utils.misc import cut_roi, roi_center, wait, is_in_roi
 from screen import Screen
 from template_finder import TemplateFinder
 from logger import Logger
@@ -44,7 +44,7 @@ class CharSelector:
                 online_status = True
             else:
                 online_status = False
-            Logger.debug(f"Online character: {online_status}")
+            Logger.debug(f"Character is an online profile? {online_status}")
         else:
             Logger.error("save_char_online_status: Could not determine character's online status")
             return
@@ -82,7 +82,6 @@ class CharSelector:
             if not active_char.valid:
                 Logger.error("select_char: Could not find highlighted profile")
                 return
-
             scrolls_attempts = 0
             while scrolls_attempts < 2:
                 desired_char = self._template_finder.search(CharSelector._last_char_template, img, roi = self._config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = True)
@@ -100,33 +99,14 @@ class CharSelector:
                 else:
                     Logger.debug("Highlighted profile found but saved character not in view, scroll")
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    x = self._config.ui_roi["character_select"][0] + 0.5 * self._config.ui_roi["character_select"][2]
-                    y = self._config.ui_roi["character_select"][1] + 0.5 * self._config.ui_roi["character_select"][3]
-                    pos = self._screen.convert_screen_to_monitor((x, y))
-                    mouse.move(*pos)
+                    center = roi_center(self._config.ui_roi["character_select"])
+                    center = self._screen.convert_screen_to_monitor(center)
+                    mouse.move(*center)
                     wait(0.4, 0.6)
                     mouse.wheel(-14)
                     scrolls_attempts += 1
                     wait(0.4, 0.6)
-                if True:
-                    Logger.debug(f"Selecting saved character")
-                    scrolls_attempts = 0
-                    while scrolls_attempts < 2:  # 2 scrolls should suffice to see all possible characters
-                        template_result = self._template_finder.search(
-                            CharSelector._last_char_template,
-                            self._screen.grab(),
-                            threshold=0.8,
-                            roi=self._config.ui_roi["character_select"],
-                            normalize_monitor=True
-                        )
-                        if template_result.valid:
-                            # move cursor to result and select
-                            mouse.move(*template_result.center)
-                            wait(0.4, 0.6)
-                            mouse.click(button="left")
-                            break
-                        else:
-
+            Logger.error(f"select_char: unable to find saved profile after {scrolls_attempts} scroll attempts")
 
 
 if __name__ == "__main__":
