@@ -384,7 +384,7 @@ class UiManager():
         x, y = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         # Wait till gold btn is found
-        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
+        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
@@ -398,8 +398,7 @@ class UiManager():
                 else:
                     Logger.debug("Stashing gold")
                     self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
-                    x, y = self._screen.convert_screen_to_monitor(gold_btn.center)
-                    mouse.move(x, y, randomize=4)
+                    mouse.move(*gold_btn.center, randomize=4)
                     wait(0.1, 0.15)
                     mouse.press(button="left")
                     wait(0.25, 0.35)
