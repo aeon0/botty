@@ -165,6 +165,7 @@ class Config:
             "saved_games_folder": Config._select_val("general", "saved_games_folder"),
             "name": Config._select_val("general", "name"),
             "max_game_length_s": float(Config._select_val("general", "max_game_length_s")),
+            "max_consecutive_fails": int(Config._select_val("general", "max_consecutive_fails")),
             "randomize_runs": bool(int(Config._select_val("general", "randomize_runs"))),
             "difficulty": Config._select_val("general", "difficulty"),
             "message_api_type": Config._select_val("general", "message_api_type"),
