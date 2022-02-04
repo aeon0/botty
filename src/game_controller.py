@@ -15,7 +15,7 @@ from logger import Logger
 from messages import Messenger
 from screen import Screen
 from ui.char_selector import CharSelector
-from utils.restart import restart_game
+from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
 
@@ -78,7 +78,7 @@ class GameController:
                     Logger.error(msg)
                     if self._config.general["custom_message_hook"]:
                         messenger.send_message(msg)
-                    os._exit(1)
+                    self.safe_exit(1)
                 else:
                     do_restart = self.game_recovery.go_to_hero_selection()
                 break
@@ -110,7 +110,7 @@ class GameController:
                 Logger.error("Could not recover from a max game length violation. Quitting botty.")
                 if self._config.general["custom_message_hook"]:
                     messenger.send_message("Got stuck and will now quit botty")
-            os._exit(1)
+            self.safe_exit(1)
 
     def start(self):
         # Check if we user should update the d2r settings
@@ -166,3 +166,7 @@ class GameController:
     def toggle_pause_bot(self):
         if self.bot:
             self.bot.toggle_pause()
+
+    def safe_exit(self, error_code=0):
+        kill_game()
+        os._exit(error_code)
