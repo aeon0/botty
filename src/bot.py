@@ -222,8 +222,12 @@ class Bot:
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
+    
+    def need_refill_teleport_charges(self) -> bool:    
+        return not self._char.select_tp() or self._char.is_low_on_teleport_charges()
 
     def on_maintenance(self):
+        self._char.discover_capabilities(force=False)
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
@@ -232,6 +236,11 @@ class Bot:
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
+            if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+                keybind = self._char._skill_hotkeys["teleport"]
+                Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+                self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+            
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
 
@@ -280,8 +289,10 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and self.need_refill_teleport_charges()
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"] or need_refill_teleport:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
+            if need_refill_teleport: Logger.info("Teleport charges ran out. Need to repair")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:

@@ -44,7 +44,7 @@ class Trav:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        if self._char.can_teleport():
+        if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("trav_safe_dist", self._char)
         else:
             if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
@@ -53,9 +53,9 @@ class Trav:
         picked_up_items = self._pickit.pick_up_items(self._char, is_at_trav=True)
         wait(0.2, 0.3)
         # If we can teleport we want to move back inside and also check loot there
-        if self._char.can_teleport():
-            if not self._pather.traverse_nodes([229], self._char, time_out=2.5):
-                self._pather.traverse_nodes([228, 229], self._char, time_out=2.5)
+        if self._char.capabilities.can_teleport_natively or self._char.capabilities.can_teleport_with_charges:
+            if not self._pather.traverse_nodes([229], self._char, time_out=2.5, use_tp_charge=True):
+                self._pather.traverse_nodes([228, 229], self._char, time_out=2.5, use_tp_charge=True)
             picked_up_items |= self._pickit.pick_up_items(self._char, is_at_trav=True)
         # Make sure we go back to the center to not hide the tp
         self._pather.traverse_nodes([230], self._char, time_out=2.5)
