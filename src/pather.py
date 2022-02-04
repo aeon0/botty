@@ -646,6 +646,7 @@ class Pather:
                     did_force_move = True
                     last_move = time.time()
                 
+                """
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 found_shrine = False
                 if teleport_count > 30:
@@ -675,6 +676,7 @@ class Pather:
                     teleport_count = 0
                     break
                 teleport_count += 1
+                """
                                   
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
@@ -742,7 +744,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIABLO_ENTRANCE2_")
+    display_all_nodes(pather, "DIA_B")
 
     # # changing node pos and generating new code
     # code = ""

@@ -1,4 +1,4 @@
-from ast import Break
+from ast import Break, Return
 from pickle import FALSE
 import cv2
 import time
@@ -52,6 +52,7 @@ class Diablo:
         self._ui_manager.use_wp(4, 2)
         return Location.A4_DIABLO_WP
     
+
     # BUY POTS & STASH
     def _cs_town_visit(self, location:str) -> bool:
         # Do we want to go back to town and restock potions etc? 
@@ -118,6 +119,7 @@ class Diablo:
                         self.used_tps += 1
                         Logger.debug("CS after town: FYI, total TPs used: " + str(self.used_tps))        
         return True
+
 
     # OPEN SEALS
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
@@ -188,10 +190,10 @@ class Diablo:
         
         if not self._pather.traverse_nodes([605], self._char): return False # hybrid calibration node
         templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"] #Entrance 1 Refrences
-        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1).valid:
             Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_55","DIABLO_ENTRANCE2_56"] #Entrance 2 Refrences
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
+            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1).valid:
                 Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
@@ -259,6 +261,7 @@ class Diablo:
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
         
+
     #GET FROM WP TO PENTAGRAM (clear_trash=0)
     def _river_of_flames(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char): return False
@@ -278,6 +281,7 @@ class Diablo:
             return False
         return True
         
+
     #GET FROM WP TO CS ENTRANCE (clear_trash=1)
     def _river_of_flames_trash(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char): return False
@@ -318,6 +322,7 @@ class Diablo:
             return False
         return True
 
+
     #ARRIVE AT PENTAGRAM AFTER LOOP
     def _cs_pentagram(self) -> bool:
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
@@ -333,6 +338,7 @@ class Diablo:
         self._pather.traverse_nodes([602], self._char, threshold=0.80, time_out=3)
         Logger.info("CS: Calibrated at PENTAGRAM")
         return True
+
 
     #CLEAR TRASH BETWEEN PENTAGRAM & LAYOUT CHECK (clear_trash=1)
     def _trash_seals(self) -> bool:
@@ -362,10 +368,81 @@ class Diablo:
         Logger.info("C: finished clearing Trash at Seal & calibrated at PENTAGRAM")
 
 
-    #CLEAR SEAL
+    #CHECK SEAL LAYOUT
+    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]): 
+        if sealname == "A":
+            seal_layout1:str = "A1-L"
+            seal_layout2:str = "A2-Y"
+            params_seal1 = seal_layout1, [614], [615], [611], "dia_a1l_home", "dia_a1l_home_loop", [602], ["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], ["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"]
+            params_seal2 = seal_layout2, [625], [626], [622], "dia_a2y_home", "dia_a2y_home_loop", [602], ["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], ["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"]
+            threshold_primary=0.8
+            threshold_confirmation=0.85
+            threshold_confirmation2=0.8
+            confirmation_node2=None
+        elif sealname == "B":
+            seal_layout2:str = "B1-S"
+            seal_layout1:str = "B2-U"
+            params_seal2 = seal_layout2, None, [634], [632], "dia_b1s_home", "dia_b1s_home_loop", [602], None, None, ["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
+            params_seal1 = seal_layout1, None, [644], [640], "dia_b2u_home", "dia_b2u_home_loop", [602], None, None, ["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]        
+            confirmation_node2=[634]
+            threshold_primary=0.8
+            threshold_confirmation2=0.8
+            threshold_confirmation=0.75 #B2-U check
+        elif sealname == "C":
+            seal_layout1:str = "C1-F"
+            seal_layout2:str = "C2-G"
+            params_seal1 = seal_layout1, [655], [652], [654], "dia_c1f_home", "dia_c1f_home_loop", [602], ["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], ["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
+            params_seal2 = seal_layout2, [661], [665], [665], "dia_c2g_home", "dia_c2g_home_loop", [602], ["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], ["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]
+            threshold_primary=0.8
+            confirmation_node2=None
+            threshold_confirmation=0.8
+            threshold_confirmation2=0.8
+
+        else:
+            Logger.warning(sealname + ": something is wrong - cannot check layouts: Aborting run.")
+            return False
+        
+        self._pather.traverse_nodes_fixed(static_layoutcheck, self._char)
+        self._char.kill_cs_trash(trash_location) # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC    
+        Logger.info(f"{sealname}: Checking Layout for "f"{boss}")
+        if not calibration_node == None:
+            if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_LC_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #check1 using primary templates
+        if not self._template_finder.search_and_wait(templates_primary, threshold =threshold_primary, time_out=0.5).valid:
+            Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
+            #cross-check for confirmation
+            if not confirmation_node == None:
+                if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
+            if not self._template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, time_out=0.5).valid:
+                Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+            else:
+                Logger.debug(f"{seal_layout1}: Layout_check step 2/2 - templates found for "f"{seal_layout1} - "+'\033[93m'+"all fine, proceeding with "f"{seal_layout1}"+'\033[0m')
+                if not self._seal(*params_seal1): return False
+        else:
+            Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
+            #cross-check for confirmation
+            if not confirmation_node2 == None:
+                if not self._pather.traverse_nodes(confirmation_node2, self._char, threshold=calibration_threshold,): return False
+            if not self._template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, time_out=0.5).valid:
+                Logger.debug(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[94m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
+                if not self._seal(*params_seal2): return False
+            else:
+                Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return False
+        return True
+
+
+#CLEAR SEAL
     def _seal(self, seal_layout:str, node_seal1:str, node_seal2:str, node_calibrate_to_pent:str, static_pent:str, static_loop_pent:str, node_calibrate_at_pent:str, seal1_opentemplates:list[str], seal1_closedtemplates:list[str], seal2_opentemplates:list[str], seal2_closedtemplates:list[str], ) -> bool:
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         Logger.info(seal_layout +": Starting to clear Seal")
+        ########
+        return False
+        ########
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
         self._char.kill_cs_trash(seal_layout + "_01")
@@ -410,60 +487,6 @@ class Diablo:
         return True
 
 
-    #CHECK SEAL LAYOUT
-    def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]): 
-        if sealname == "A":
-            seal_layout1:str = "A1-L"
-            seal_layout2:str = "A2-Y"
-            params_seal1 = seal_layout1, [614], [615], [611], "dia_a1l_home", "dia_a1l_home_loop", [602], ["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], ["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"]
-            params_seal2 = seal_layout2, [625], [626], [622], "dia_a2y_home", "dia_a2y_home_loop", [602], ["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], ["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"]
-        elif sealname == "B":
-            seal_layout1:str = "B1-S"
-            seal_layout2:str = "B2-U"
-            params_seal1 = seal_layout1, None, [634], [632], "dia_b1s_home", "dia_b1s_home_loop", [602], None, None, ["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
-            params_seal2 = seal_layout2, None, [644], [640], "dia_b2u_home", "dia_b2u_home_loop", [602], None, None, ["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]        
-        elif sealname == "C":
-            seal_layout1:str = "C1-F"
-            seal_layout2:str = "C2-G"
-            params_seal1 = seal_layout1, [655], [652], [654], "dia_c1f_home", "dia_c1f_home_loop", [602], ["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], ["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
-            params_seal2 = seal_layout2, [661], [665], [665], "dia_c2g_home", "dia_c2g_home_loop", [602], ["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], ["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]
-        else:
-            Logger.warning(sealname + ": something is wrong - cannot check layouts: Aborting run.")
-            return False
-        
-        self._pather.traverse_nodes_fixed(static_layoutcheck, self._char)
-        self._char.kill_cs_trash(trash_location) # this attack sequence increases layout check consistency, we loot when the boss is killed # removed, trying to speed up the LC    
-        Logger.info(f"{sealname}: Checking Layout for "f"{boss}")
-        if not calibration_node == None:
-            if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_LC_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        #check1 using primary templates
-        if not self._template_finder.search_and_wait(templates_primary, threshold=0.8, time_out=0.5).valid:
-            Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
-            #cross-check for confirmation
-            if not confirmation_node == None:
-                if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
-            if not self._template_finder.search_and_wait(templates_confirmation, threshold=0.8, time_out=0.5).valid:
-                Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-            else:
-                Logger.debug(f"{seal_layout1}: Layout_check step 2/2 - templates found for "f"{seal_layout1} - "+'\033[93m'+"all fine, proceeding with "f"{seal_layout1}"+'\033[0m')
-                if not self._seal(*params_seal1): return False
-        else:
-            Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
-            #cross-check for confirmation
-            #if not confirmation_node == None:
-            #    if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
-            if not self._template_finder.search_and_wait(templates_confirmation, threshold=0.8, time_out=0.5).valid:
-                Logger.debug(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[94m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
-                if not self._seal(*params_seal2): return False
-            else:
-                Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return False
-        return True
-
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
         self.used_tps = 0
@@ -475,6 +498,7 @@ class Diablo:
             if not self._river_of_flames(): return False
 
         if not self._cs_pentagram(): return False      
+        """
         if self._config.char["kill_cs_trash"]: self._trash_seals()
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
@@ -488,8 +512,9 @@ class Diablo:
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.81, [647],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"]): return False    
-        
+        """
+        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
+        """
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
@@ -504,6 +529,7 @@ class Diablo:
         wait(0.2, 0.3)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         wait(0.5, 0.7)
+        """
         return (Location.A4_DIABLO_END, self._picked_up_items)
         
 if __name__ == "__main__":

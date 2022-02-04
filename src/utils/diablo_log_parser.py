@@ -8,13 +8,13 @@ wkdir = os.getcwd()
 #"Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 2 Layout_check step 2/2: Failed to determine", "Entrance 2 Layout_check step 2/2: Failed to determine", "CS Entrance Style 1", "CS Entrance Style 2", " - cleaning hall 1/3", " - cleaning hall 2/3", " - cleaning hall 3/3",
 
 #initialize strings
-simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died", "We teleport for quite a while - let's check if we are facetanking a Shrine or Stash", "click-y-click!", "Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on, before Lucille gets us ..."]
+simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash betwen Pentagramm & Layoutcheck", "B: Clearing trash betwen Pentagramm & Layoutcheck", "C: Clearing trash betwen Pentagramm & Layoutcheck", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
 complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated at PENTAGRAM"] #"Attacking Vizier at position 1/3", "Attacking De Seis at position", "Attacking Infector at position",
 trash_prefix= [""]
 trash_event=[""]
 lc_prefix=["Found Match:"]
-lc_event=["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5""DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
+lc_event=["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]
 error_string = ["End failed game"]
 error_array = []
 error_traverse = []
@@ -25,6 +25,7 @@ reference_complex = 0
 #initialize counter
 simple_counter = numpy.zeros (len (simple_string)+1)
 complex_counter = numpy.zeros ((len (prefix_string)+1, len (complex_string)+1))
+lc_counter = numpy.zeros ((len (lc_prefix)+1, len (lc_event)+1)) 
 
 layout_check_counter = 0
 #check where layoutcheck 2/2 is
@@ -48,6 +49,7 @@ for line in log_lines:
     #some temp values for looping
     simple_item_counter = 0
     prefix_counter = 0
+    lc_cl_counter = 0
     #check simple strings
     for string in simple_string: 
         if string in line:
@@ -63,6 +65,15 @@ for line in log_lines:
                 break
             complex_item_counter += 1
         prefix_counter += 1
+    #check lc_strings
+    for pref in lc_prefix:
+        lc_item_counter = 0
+        for strr in lc_event:
+            if ((pref+ " " + strr) in line):
+                lc_counter [lc_cl_counter][lc_cl_counter] += 1
+                break
+            lc_item_counter += 1
+        lc_cl_counter += 1
     #check error strings
     for error in error_string:
         if error in line:
@@ -78,7 +89,7 @@ prefix_counter = 0
 table1 = BeautifulTable ()
 #append simple strings
 for string in simple_string:
-    table1.rows.append ([string, f"{simple_counter [simple_item_counter]:.0}", f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
+    table1.rows.append ([string, simple_counter [simple_item_counter], f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
     simple_item_counter += 1
 
 result_file = open (wkdir + "/info_log_parsed.txt", 'w')
@@ -95,7 +106,6 @@ result_file.write ("\n")
 result_file.write ("=======================\n")
 result_file.write ("= RATIO BETWEEN SEALS =\n")
 result_file.write ("=======================\n")
-result_file.write ("\n")
 table3 = BeautifulTable ()
 table3.rows.append ([complex_counter[0][layout_check_counter], complex_counter[2][layout_check_counter], complex_counter[4][layout_check_counter]])
 table3.rows.append (['A2-Y', "B2-U", "C2-G"])
@@ -127,6 +137,25 @@ result_file.write ("\n")
 
 result_file.write ("\n")
 result_file.write ("\n")
+result_file.write ("===========================\n")
+result_file.write ("= TEMPLATES MATCHED AT LC =\n")
+result_file.write ("===========================\n")
+result_file.write ("\n")
+
+lc_item_counter = 0
+lc_cl_counter = 0
+table4 = BeautifulTable ()
+for pre in lc_prefix:
+    for item in lc_event:
+        table4.rows.append ([pre + " " + item, lc_counter[lc_cl_counter][lc_item_counter]])
+        lc_item_counter += 1
+    lc_cl_counter += 1
+table4.columns.header = ["Event", "#"]
+result_file.write (str (table4))
+    
+
+result_file.write ("\n")
+result_file.write ("\n")
 result_file.write ("====================================\n")
 result_file.write ("= LAST TRAVERSE BEFORE FAILED GAME =\n")
 result_file.write ("====================================\n")
@@ -151,7 +180,7 @@ for error in error_array:
     for line in error:
         result_file.write (line)
 
-Logger.info ("=================================================================================================")
-Logger.info ("Parsed info.log - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
-Logger.info ("=================================================================================================")
+Logger.info ("======================================================================================================")
+Logger.info ("Parsed info.log - results & details for failed runs stored in info_log_parsed.txt in botty root folder")
+Logger.info ("======================================================================================================")
 #Logger.info ("\n" + str(table1)) 

@@ -172,7 +172,7 @@ class Hammerdin(IChar):
     
     def kill_cs_trash(self, location:str) -> bool:
 
-        if location in [
+        if location in [ #KILL TRASH ACTIVE
             "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### ROF
             "rof_01", #static_path WP-> CS Entrance, outside CS Entrance
@@ -201,7 +201,7 @@ class Hammerdin(IChar):
             "pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
             ### Layout Checks
             #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
+            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
             #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
@@ -249,7 +249,7 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
                         
         
-        elif location in [ #SKIP
+        elif location in [ #SKIP KILLING TRASH HERE
             #"sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### ROF
             #"rof_01", #static_path WP-> CS Entrance, outside CS Entrance
@@ -278,7 +278,7 @@ class Hammerdin(IChar):
             #"pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
             ### Layout Checks
             "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
+            #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
             "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
