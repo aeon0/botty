@@ -398,7 +398,7 @@ class UiManager():
                 else:
                     Logger.debug("Stashing gold")
                     self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
-                    x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
+                    x, y = self._screen.convert_screen_to_monitor(gold_btn.center)
                     mouse.move(x, y, randomize=4)
                     wait(0.1, 0.15)
                     mouse.press(button="left")
@@ -520,7 +520,7 @@ class UiManager():
             self._move_to_stash_tab (count)
             stash_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn_stash"], threshold=0.83)
             if stash_gold_btn.valid:
-                x,y = self._screen.convert_screen_to_monitor(stash_gold_btn.position)
+                x,y = self._screen.convert_screen_to_monitor(stash_gold_btn.center)
                 mouse.move(x, y, randomize=4)
                 wait (0.4, 0.5)
                 mouse.press(button="left")
@@ -532,7 +532,7 @@ class UiManager():
                 self._move_to_stash_tab (0)
                 inventory_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"], threshold=0.83)
                 if inventory_gold_btn.valid:
-                    x,y = self._screen.convert_screen_to_monitor(inventory_gold_btn.position)
+                    x,y = self._screen.convert_screen_to_monitor(inventory_gold_btn.center)
                     mouse.move(x, y, randomize=4)
                     wait (0.4, 0.5)
                     mouse.press(button="left")
@@ -665,13 +665,13 @@ class UiManager():
                         #Refresh gambling screen
                         template_match = self._template_finder.search ("REFRESH", self._screen.grab(), normalize_monitor=True)
                         if (template_match.valid):
-                            mouse.move(*template_match.position, randomize=12, delay_factor=[1.0, 1.5])
+                            mouse.move(*template_match.center, randomize=12, delay_factor=[1.0, 1.5])
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
                         template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
                     #item found in gambling menu
-                    mouse.move(*template_match_item.position, randomize=12, delay_factor=[1.0, 1.5])
+                    mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="right")
                     wait(0.1, 0.15)
