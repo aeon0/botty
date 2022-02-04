@@ -23,15 +23,15 @@ class CharSelector:
         return CharSelector._last_char_template is not None
 
     def save_char_template(self):
-        Logger.debug(f"Saving character template")
         img = self._screen.grab()
-        selected_character = self._template_finder.search("CHARACTER_ACTIVE", img, roi = self._config.ui_roi["character_select"], threshold = 0.8)
-        if selected_character.valid:
+        active_character = self._template_finder.search("CHARACTER_ACTIVE", img, roi = self._config.ui_roi["character_select"], threshold = 0.8)
+        if active_character.valid:
             x, y, w, h = self._config.ui_roi["character_name_sub_roi"]
-            x, y = x + selected_character.region[0] + self._config.ui_roi["character_select"][0], y + selected_character.region[1] + self._config.ui_roi["character_select"][1]
+            x, y = x + active_character.region[0], y + active_character.region[1]
             char_template = cut_roi(img, [x, y, w, h])
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/saved_character_" + time.strftime("%Y%m%d_%H%M%S") + ".png", char_template)
+            Logger.debug(f"Saved character template")
         else:
             Logger.error("save_char_template: Could not save character template")
             return
@@ -44,7 +44,7 @@ class CharSelector:
                 online_status = True
             else:
                 online_status = False
-            Logger.debug(f"Character is an online profile? {online_status}")
+            Logger.debug(f"Saved online status. Online={online_status}")
         else:
             Logger.error("save_char_online_status: Could not determine character's online status")
             return
@@ -84,10 +84,12 @@ class CharSelector:
                 return
             scrolls_attempts = 0
             while scrolls_attempts < 2:
+                if scrolls_attempts > 0:
+                    img = self._screen.grab()
                 desired_char = self._template_finder.search(CharSelector._last_char_template, img, roi = self._config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = True)
                 if desired_char.valid:
                     if is_in_roi(active_char.region, desired_char.center) and scrolls_attempts == 0:
-                        Logger.debug("Saved character template found and already highlighted")
+                        Logger.debug("Saved character template found and already highlighted, continue")
                         return
                     else:
                         Logger.debug("Selecting saved character")

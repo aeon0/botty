@@ -219,10 +219,8 @@ class Bot:
         if self._config.general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
             if self._char_selector.has_char_template_saved():
-                Logger.info("Selecting original char")
                 self._char_selector.select_char()
             else:
-                Logger.info("Saving top-most char as template")
                 self._char_selector.save_char_online_status()
                 self._char_selector.save_char_template()
 
