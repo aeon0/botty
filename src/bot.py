@@ -8,6 +8,7 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
+from transmute import Transmute
 
 from utils.misc import wait
 from game_stats import GameStats
@@ -141,6 +142,8 @@ class Bot:
             { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'hero_selection', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="hero_selection", transitions=self._transitions, queued=True)
+        self._transmute = Transmute(self._screen, self._template_finder, self._game_stats, self._ui_manager)
+
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
@@ -281,6 +284,9 @@ class Bot:
                     return self.trigger_or_stop("end_game", failed=True)
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
+            Logger.info("Running transmutes")
+            self._transmute.run_transmutes(force=False)
+            keyboard.send("esc")
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._no_stash_counter = 0
@@ -360,7 +366,7 @@ class Bot:
 
     # All the runs go here
     # ==================================
-    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+    def _ending_run_helper(self, res: Union[bool, 'tuple[Location, bool]']):
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:

@@ -24,6 +24,7 @@ class Config:
     _game_config = None
     _pickit_config = None
     _shop_config = None
+    _transmute_config = None
     _custom = None
     # config data
     general = {}
@@ -345,6 +346,11 @@ class Config:
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
             "speed_factor": float(Config._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
+        }
+        stash_destination_str = Config._select_val("transmute","stash_destination")
+        Config._transmute_config = {
+            "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
+            "transmute_every_x_game": Config._select_val("transmute","transmute_every_x_game"),
         }
 
 if __name__ == "__main__":
