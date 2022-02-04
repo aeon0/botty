@@ -125,8 +125,18 @@ class TownManager:
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A5_TOWN_START].identify(new_loc)
+
+    def gamble (self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can Identify in current act
+        if self._acts[curr_act].can_gamble():
+            return self._acts[curr_act].gamble(curr_loc)
+        new_loc = self.go_to_act(4, curr_loc)    
+        if not new_loc: return False
+        return self._acts[Location.A4_TOWN_START].gamble(new_loc)    
         
-    def stash(self, curr_loc: Location) -> Union[Location, bool]:
+    def stash(self, curr_loc: Location, gamble=False) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can stash in current act
@@ -134,7 +144,7 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
+            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False

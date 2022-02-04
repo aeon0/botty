@@ -1,6 +1,7 @@
 import time
 import keyboard
 import cv2
+from operator import itemgetter
 
 from utils.custom_mouse import mouse
 from config import Config
@@ -77,10 +78,10 @@ class PickIt:
                     time.sleep(0.2)
             else:
                 found_nothing = 0
-                closest_item = item_list[0]
-                for item in item_list[1:]:
-                    if closest_item.dist > item.dist:
-                        closest_item = item
+                item_list.sort(key=itemgetter('dist'))
+                closest_item = next((obj for obj in item_list if "misc_gold" not in obj["name"]), None)
+                if not closest_item:
+                    closest_item = item_list[0]
 
                 # check if we trying to pickup the same item for a longer period of time
                 force_move = False
@@ -162,6 +163,6 @@ if __name__ == "__main__":
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(screen, t_finder)
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, config.char, t_finder, ui_manager, pather)
     pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

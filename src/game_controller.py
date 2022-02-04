@@ -59,7 +59,8 @@ class GameController:
         while 1:
             self.health_manager.update_location(self.bot.get_curr_location())
             max_game_length_reached = self.game_stats.get_current_game_length() > self._config.general["max_game_length_s"]
-            if max_game_length_reached or self.death_manager.died() or self.health_manager.did_chicken():
+            max_consecutive_fails_reached = False if not self._config.general["max_consecutive_fails"] else self.game_stats.get_consecutive_runs_failed() >= self._config.general["max_consecutive_fails"]
+            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken():
                 # Some debug and logging
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {self._config.general['name']}!")
@@ -72,7 +73,14 @@ class GameController:
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
-                do_restart = self.game_recovery.go_to_hero_selection()
+                if max_consecutive_fails_reached: 
+                    msg = f"Consecutive fails {self.game_stats.get_consecutive_runs_failed()} >= Max {self._config.general['max_consecutive_fails']}. Quitting botty."
+                    Logger.error(msg)
+                    if self._config.general["custom_message_hook"]:
+                        messenger.send_message(msg)
+                    os._exit(1)
+                else:
+                    do_restart = self.game_recovery.go_to_hero_selection()
                 break
             time.sleep(0.5)
         self.bot_thread.join()
