@@ -117,8 +117,8 @@ class Ocr:
                 api.SetImageBytes(*self.img_to_bytes(processed_img))
                 original_text = api.GetUTF8Text()
                 text = original_text
-                # don't replace newlines if expected input is a block of text
-                if psm != 6:
+                # replace newlines if image is a single line
+                if psm in (7, 8, 13):
                     text = text.replace('\n', '')
                 word_confidences = api.AllWordConfidences()
                 if fix_regexps:
@@ -147,7 +147,7 @@ class Ocr:
         return text
 
     def check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
-        with open('assets/tessdata/word_lists/{word_list}') as file:
+        with open(f'assets/tessdata/word_lists/{word_list}') as file:
             word_list = [line.rstrip() for line in file]
 
         word_count=0
@@ -237,3 +237,18 @@ class Ocr:
             self.fix_regexps(text)
 
         return text
+
+if __name__ == "__main__":
+
+    import os
+    import keyboard
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+
+    from screen import Screen
+    screen = Screen()
+    ocr = Ocr()
+    img = screen.grab()
+
+    ocr_result = ocr.image_to_text(img)[0]
+    Logger.debug(ocr_result.text)
