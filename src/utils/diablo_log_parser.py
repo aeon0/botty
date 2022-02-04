@@ -70,7 +70,7 @@ for line in log_lines:
         lc_item_counter = 0
         for strr in lc_event:
             if ((pref+ " " + strr) in line):
-                lc_counter [lc_cl_counter][lc_cl_counter] += 1
+                lc_counter [lc_cl_counter][lc_item_counter] += 1
                 break
             lc_item_counter += 1
         lc_cl_counter += 1
@@ -106,6 +106,7 @@ result_file.write ("\n")
 result_file.write ("=======================\n")
 result_file.write ("= RATIO BETWEEN SEALS =\n")
 result_file.write ("=======================\n")
+result_file.write ("\n")
 table3 = BeautifulTable ()
 table3.rows.append ([complex_counter[0][layout_check_counter], complex_counter[2][layout_check_counter], complex_counter[4][layout_check_counter]])
 table3.rows.append (['A2-Y', "B2-U", "C2-G"])
@@ -137,9 +138,9 @@ result_file.write ("\n")
 
 result_file.write ("\n")
 result_file.write ("\n")
-result_file.write ("===========================\n")
-result_file.write ("= TEMPLATES MATCHED AT LC =\n")
-result_file.write ("===========================\n")
+result_file.write ("=====================\n")
+result_file.write ("= TEMPLATES CHECKED =\n")
+result_file.write ("=====================\n")
 result_file.write ("\n")
 
 lc_item_counter = 0
@@ -153,14 +154,12 @@ for pre in lc_prefix:
 table4.columns.header = ["Event", "#"]
 result_file.write (str (table4))
     
-
 result_file.write ("\n")
 result_file.write ("\n")
 result_file.write ("====================================\n")
 result_file.write ("= LAST TRAVERSE BEFORE FAILED GAME =\n")
 result_file.write ("====================================\n")
 result_file.write ("\n")
-
 error_counter = 0
 for error in error_array:
     error_counter += 1
@@ -180,7 +179,7 @@ for error in error_array:
     for line in error:
         result_file.write (line)
 
-Logger.info ("======================================================================================================")
-Logger.info ("Parsed info.log - results & details for failed runs stored in info_log_parsed.txt in botty root folder")
-Logger.info ("======================================================================================================")
+Logger.info ("=================================================================================================")
+Logger.info ("Parsed info.log - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
+Logger.info ("=================================================================================================")
 #Logger.info ("\n" + str(table1)) 

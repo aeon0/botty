@@ -1,0 +1,972 @@
+================
+= RUN OVERVIEW =
+================
++---------------------------------------------------+-------+------+
+|                    Run Diablo                     | 136.0 | 100% |
++---------------------------------------------------+-------+------+
+|            ROF: Calibrated at WAYPOINT            | 136.0 | 100% |
++---------------------------------------------------+-------+------+
+|          ROF: Calibrated at CS ENTRANCE           |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+|            CS: Starting to clear Trash            |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+|          CS Trash: looping to PENTAGRAM           |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+|           ROF: Calibrated at PENTAGRAM            |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+|      ROF: Teleporting directly to PENTAGRAM       | 136.0 | 100% |
++---------------------------------------------------+-------+------+
+|                    CS: OPEN TP                    | 133.0 | 98%  |
++---------------------------------------------------+-------+------+
+|            CS: Calibrated at PENTAGRAM            | 133.0 | 98%  |
++---------------------------------------------------+-------+------+
+| A: Clearing trash betwen Pentagramm & Layoutcheck |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+| B: Clearing trash betwen Pentagramm & Layoutcheck |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+| C: Clearing trash betwen Pentagramm & Layoutcheck |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+|            Checking Layout for Vizier             | 133.0 | 98%  |
++---------------------------------------------------+-------+------+
+|            Checking Layout for De Seis            | 121.0 | 89%  |
++---------------------------------------------------+-------+------+
+|           Checking Layout for Infector            | 94.0  | 69%  |
++---------------------------------------------------+-------+------+
+|            Waiting for Diablo to spawn            | 85.0  | 62%  |
++---------------------------------------------------+-------+------+
+|                     End game                      | 82.0  | 60%  |
++---------------------------------------------------+-------+------+
+|                  End failed game                  | 50.0  | 37%  |
++---------------------------------------------------+-------+------+
+|                 Trying to chicken                 |  1.0  |  1%  |
++---------------------------------------------------+-------+------+
+|                   You have died                   |  0.0  |  0%  |
++---------------------------------------------------+-------+------+
+
+
+
+=======================
+= RATIO BETWEEN SEALS =
+=======================
+
++------+------+------+
+| A1-L | B1-S | C1-F |
++------+------+------+
+| 57.0 | 49.0 | 47.0 |
++------+------+------+
+| A2-Y | B2-U | C2-G |
++------+------+------+
+| 69.0 | 58.0 | 45.0 |
++------+------+------+
+
+
+
+===========================
+= INDIVIDUAL SEAL RESULTS =
+===========================
+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          A1-L: Layout_check step 1/2          | 57.0 | 100% |
++-----------------------------------------------+------+------+
+|          A1-L: Layout_check step 2/2          | 57.0 | 100% |
++-----------------------------------------------+------+------+
+|          A1-L: Layout_check failure           | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|         A1-L: Starting to clear Seal          | 57.0 | 100% |
++-----------------------------------------------+------+------+
+|            A1-L: Seal1: is closed             | 5.0  |  9%  |
++-----------------------------------------------+------+------+
+|             A1-L: Seal1: is open              | 57.0 | 100% |
++-----------------------------------------------+------+------+
+|            A1-L: Seal2: is closed             | 48.0 | 84%  |
++-----------------------------------------------+------+------+
+|             A1-L: Seal2: is open              | 56.0 | 98%  |
++-----------------------------------------------+------+------+
+|                A1-L: Kill Boss                | 56.0 | 98%  |
++-----------------------------------------------+------+------+
+|       A1-L: Static Pathing to Pentagram       | 55.0 | 96%  |
++-----------------------------------------------+------+------+
+|          A1-L: Looping to Pentagram           | 55.0 | 96%  |
++-----------------------------------------------+------+------+
+| A1-L: finished seal & calibrated at PENTAGRAM | 55.0 | 96%  |
++-----------------------------------------------+------+------+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          A2-Y: Layout_check step 1/2          | 69.0 | 100% |
++-----------------------------------------------+------+------+
+|          A2-Y: Layout_check step 2/2          | 69.0 | 100% |
++-----------------------------------------------+------+------+
+|          A2-Y: Layout_check failure           | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|         A2-Y: Starting to clear Seal          | 69.0 | 100% |
++-----------------------------------------------+------+------+
+|            A2-Y: Seal1: is closed             | 73.0 | 106% |
++-----------------------------------------------+------+------+
+|             A2-Y: Seal1: is open              | 67.0 | 97%  |
++-----------------------------------------------+------+------+
+|            A2-Y: Seal2: is closed             | 67.0 | 97%  |
++-----------------------------------------------+------+------+
+|             A2-Y: Seal2: is open              | 66.0 | 96%  |
++-----------------------------------------------+------+------+
+|                A2-Y: Kill Boss                | 66.0 | 96%  |
++-----------------------------------------------+------+------+
+|       A2-Y: Static Pathing to Pentagram       | 66.0 | 96%  |
++-----------------------------------------------+------+------+
+|          A2-Y: Looping to Pentagram           | 66.0 | 96%  |
++-----------------------------------------------+------+------+
+| A2-Y: finished seal & calibrated at PENTAGRAM | 66.0 | 96%  |
++-----------------------------------------------+------+------+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          B1-S: Layout_check step 1/2          | 49.0 | 100% |
++-----------------------------------------------+------+------+
+|          B1-S: Layout_check step 2/2          | 49.0 | 100% |
++-----------------------------------------------+------+------+
+|          B1-S: Layout_check failure           | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|         B1-S: Starting to clear Seal          | 49.0 | 100% |
++-----------------------------------------------+------+------+
+|            B1-S: Seal1: is closed             | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|             B1-S: Seal1: is open              | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|            B1-S: Seal2: is closed             | 64.0 | 131% |
++-----------------------------------------------+------+------+
+|             B1-S: Seal2: is open              | 48.0 | 98%  |
++-----------------------------------------------+------+------+
+|                B1-S: Kill Boss                | 48.0 | 98%  |
++-----------------------------------------------+------+------+
+|       B1-S: Static Pathing to Pentagram       | 46.0 | 94%  |
++-----------------------------------------------+------+------+
+|          B1-S: Looping to Pentagram           | 46.0 | 94%  |
++-----------------------------------------------+------+------+
+| B1-S: finished seal & calibrated at PENTAGRAM | 45.0 | 92%  |
++-----------------------------------------------+------+------+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          B2-U: Layout_check step 1/2          | 72.0 | 100% |
++-----------------------------------------------+------+------+
+|          B2-U: Layout_check step 2/2          | 58.0 | 81%  |
++-----------------------------------------------+------+------+
+|          B2-U: Layout_check failure           | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|         B2-U: Starting to clear Seal          | 58.0 | 81%  |
++-----------------------------------------------+------+------+
+|            B2-U: Seal1: is closed             | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|             B2-U: Seal1: is open              | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|            B2-U: Seal2: is closed             | 76.0 | 106% |
++-----------------------------------------------+------+------+
+|             B2-U: Seal2: is open              | 56.0 | 78%  |
++-----------------------------------------------+------+------+
+|                B2-U: Kill Boss                | 56.0 | 78%  |
++-----------------------------------------------+------+------+
+|       B2-U: Static Pathing to Pentagram       | 51.0 | 71%  |
++-----------------------------------------------+------+------+
+|          B2-U: Looping to Pentagram           | 51.0 | 71%  |
++-----------------------------------------------+------+------+
+| B2-U: finished seal & calibrated at PENTAGRAM | 49.0 | 68%  |
++-----------------------------------------------+------+------+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          C1-F: Layout_check step 1/2          | 48.0 | 100% |
++-----------------------------------------------+------+------+
+|          C1-F: Layout_check step 2/2          | 47.0 | 98%  |
++-----------------------------------------------+------+------+
+|          C1-F: Layout_check failure           | 0.0  |  0%  |
++-----------------------------------------------+------+------+
+|         C1-F: Starting to clear Seal          | 47.0 | 98%  |
++-----------------------------------------------+------+------+
+|            C1-F: Seal1: is closed             | 36.0 | 75%  |
++-----------------------------------------------+------+------+
+|             C1-F: Seal1: is open              | 46.0 | 96%  |
++-----------------------------------------------+------+------+
+|            C1-F: Seal2: is closed             | 55.0 | 115% |
++-----------------------------------------------+------+------+
+|             C1-F: Seal2: is open              | 46.0 | 96%  |
++-----------------------------------------------+------+------+
+|                C1-F: Kill Boss                | 46.0 | 96%  |
++-----------------------------------------------+------+------+
+|       C1-F: Static Pathing to Pentagram       | 46.0 | 96%  |
++-----------------------------------------------+------+------+
+|          C1-F: Looping to Pentagram           | 46.0 | 96%  |
++-----------------------------------------------+------+------+
+| C1-F: finished seal & calibrated at PENTAGRAM | 45.0 | 94%  |
++-----------------------------------------------+------+------+
++-----------------------------------------------+------+------+
+|                     Event                     |  #   |  %   |
++-----------------------------------------------+------+------+
+|          C2-G: Layout_check step 1/2          | 45.0 | 100% |
++-----------------------------------------------+------+------+
+|          C2-G: Layout_check step 2/2          | 45.0 | 100% |
++-----------------------------------------------+------+------+
+|          C2-G: Layout_check failure           | 1.0  |  2%  |
++-----------------------------------------------+------+------+
+|         C2-G: Starting to clear Seal          | 45.0 | 100% |
++-----------------------------------------------+------+------+
+|            C2-G: Seal1: is closed             | 42.0 | 93%  |
++-----------------------------------------------+------+------+
+|             C2-G: Seal1: is open              | 41.0 | 91%  |
++-----------------------------------------------+------+------+
+|            C2-G: Seal2: is closed             | 71.0 | 158% |
++-----------------------------------------------+------+------+
+|             C2-G: Seal2: is open              | 41.0 | 91%  |
++-----------------------------------------------+------+------+
+|                C2-G: Kill Boss                | 41.0 | 91%  |
++-----------------------------------------------+------+------+
+|       C2-G: Static Pathing to Pentagram       | 41.0 | 91%  |
++-----------------------------------------------+------+------+
+|          C2-G: Looping to Pentagram           | 41.0 | 91%  |
++-----------------------------------------------+------+------+
+| C2-G: finished seal & calibrated at PENTAGRAM | 40.0 | 89%  |
++-----------------------------------------------+------+------+
+
+
+
+
+=====================
+= TEMPLATES CHECKED =
+=====================
+
++-----------------------------------------------+------+
+|                     Event                     |  #   |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK0       | 64.0 |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK1       | 4.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK2       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK4       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK5       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A2Y_LAYOUTCHECK6       | 1.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK0       | 49.0 |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK4       | 8.0  |
++-----------------------------------------------+------+
+|     Found Match: DIA_A1L_LAYOUTCHECK4LEFT     | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK1       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK2       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK3       | 0.0  |
++-----------------------------------------------+------+
+|    Found Match: DIA_A1L_LAYOUTCHECK4RIGHT     | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_A1L_LAYOUTCHECK5       | 0.0  |
++-----------------------------------------------+------+
+| Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1 | 27.0 |
++-----------------------------------------------+------+
+| Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2 | 10.0 |
++-----------------------------------------------+------+
+| Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3 | 8.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK2       | 55.0 |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK1       | 0.0  |
++-----------------------------------------------+------+
+|    Found Match: DIA_B2U_LAYOUTCHECK2SMALL     | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK3       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK4       | 2.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK5       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK6       | 1.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK7       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK8       | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_B2U_LAYOUTCHECK9       | 0.0  |
++-----------------------------------------------+------+
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1 | 44.0 |
++-----------------------------------------------+------+
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4 | 0.0  |
++-----------------------------------------------+------+
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5 | 0.0  |
++-----------------------------------------------+------+
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2 | 1.0  |
++-----------------------------------------------+------+
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3 | 0.0  |
++-----------------------------------------------+------+
+|       Found Match: DIA_C1F_LAYOUTCHECK1       | 13.0 |
++-----------------------------------------------+------+
+|       Found Match: DIA_C1F_LAYOUTCHECK2       | 34.0 |
++-----------------------------------------------+------+
+|       Found Match: DIA_C1F_LAYOUTCHECK3       | 0.0  |
++-----------------------------------------------+------+
+
+====================================
+= LAST TRAVERSE BEFORE FAILED GAME =
+====================================
+
+[2022-02-02 17:38:37,560] DEBUG      Traverse: [661]
+[2022-02-02 18:04:49,624] DEBUG      Traverse: [610620]
+[2022-02-02 18:08:32,534] DEBUG      Traverse: [655]
+[2022-02-02 18:16:00,023] DEBUG      Traverse: [610620]
+[2022-02-02 18:34:20,784] DEBUG      Traverse: [654]
+[2022-02-02 18:40:09,188] DEBUG      Traverse: [602]
+[2022-02-02 18:50:35,881] DEBUG      Traverse: [647]
+[2022-02-02 18:52:29,435] DEBUG      Traverse: [626]
+[2022-02-02 18:53:14,003] DEBUG      Traverse: [610620]
+[2022-02-02 19:23:03,334] DEBUG      Traverse: [661]
+[2022-02-02 19:25:55,780] DEBUG      Traverse: [647]
+[2022-02-02 19:57:45,594] DEBUG      Traverse: [647]
+[2022-02-02 20:36:06,735] DEBUG      Traverse: [647]
+[2022-02-02 23:28:55,515] DEBUG      Traverse: [647]
+[2022-02-02 23:49:09,730] DEBUG      Traverse: [640]
+[2022-02-03 00:56:32,011] DEBUG      Traverse: [600]
+[2022-02-03 01:02:42,011] DEBUG      Traverse: [661]
+[2022-02-03 01:30:38,672] DEBUG      Traverse: [640]
+[2022-02-03 01:33:34,706] DEBUG      Traverse: [647]
+[2022-02-03 01:37:53,893] DEBUG      Traverse: [647]
+[2022-02-03 01:41:16,053] DEBUG      Traverse: [610620]
+[2022-02-03 01:58:39,091] DEBUG      Traverse: [640]
+[2022-02-03 02:15:55,013] DEBUG      Traverse: [647]
+[2022-02-03 02:18:38,160] DEBUG      Traverse: [634]
+[2022-02-03 02:30:11,449] DEBUG      Traverse: [640]
+[2022-02-03 02:43:05,889] DEBUG      Traverse: [640]
+[2022-02-03 03:00:18,493] DEBUG      Traverse: [230]
+[2022-02-03 03:21:03,902] DEBUG      Traverse: [647]
+[2022-02-03 03:38:04,154] DEBUG      Traverse: [647]
+[2022-02-03 04:18:58,028] DEBUG      Traverse: [625]
+[2022-02-03 04:46:42,727] DEBUG      Traverse: [650660]
+[2022-02-03 04:51:52,796] DEBUG      Traverse: [632]
+[2022-02-03 05:00:28,534] DEBUG      Traverse: [632]
+[2022-02-03 05:11:15,797] DEBUG      Traverse: [647]
+[2022-02-03 05:25:11,313] DEBUG      Traverse: [647]
+[2022-02-03 05:30:14,087] DEBUG      Traverse: [644]
+[2022-02-03 05:31:12,209] DEBUG      Traverse: [610620]
+[2022-02-03 06:04:01,905] DEBUG      Traverse: [650660]
+[2022-02-03 06:07:15,310] DEBUG      Traverse: [644]
+[2022-02-03 06:59:27,710] DEBUG      Traverse: [665]
+[2022-02-03 07:12:57,552] DEBUG      Traverse: [640]
+[2022-02-03 07:26:30,417] DEBUG      Traverse: [661]
+[2022-02-03 07:37:29,806] DEBUG      Traverse: [610620]
+[2022-02-03 07:39:20,706] DEBUG      Traverse: [600]
+[2022-02-03 07:44:36,964] DEBUG      Traverse: [647]
+[2022-02-03 07:54:19,904] DEBUG      Traverse: [625]
+[2022-02-03 08:05:59,660] DEBUG      Traverse: [647]
+[2022-02-03 08:09:29,569] DEBUG      Traverse: [632]
+[2022-02-03 08:34:09,239] DEBUG      Traverse: [610620]
+[2022-02-03 08:52:41,418] DEBUG      Traverse: [615]
+
+
+
+==========================================
+= LAST 10 LOG LINES BEFORE FAILED GAME:
+==========================================
+
+
+1) ========== [2022-02-02 17:38:37,560] DEBUG      Traverse: [661]
+[2022-02-02 17:38:24,634] DEBUG      No attack choreography available in hammerdin.py for this node C2-G_03 - skipping to shorten run.
+[2022-02-02 17:38:24,634] DEBUG      C2-G_seal1: Kill trash
+[2022-02-02 17:38:24,635] DEBUG      Traverse: [663, 662]
+[2022-02-02 17:38:27,876] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 17:38:37,560] DEBUG      Traverse: [661]
+[2022-02-02 17:38:41,059] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 17:38:46,694] ERROR      Got stuck exit pather
+[2022-02-02 17:38:47,017] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 17:38:47,046] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 17:38:49,488] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+2) ========== [2022-02-02 18:04:49,624] DEBUG      Traverse: [610620]
+[2022-02-02 18:04:47,057] INFO       CS: Calibrated at PENTAGRAM
+[2022-02-02 18:04:47,057] DEBUG      Traverse: [602]
+[2022-02-02 18:04:49,622] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-02 18:04:49,622] INFO       A: Checking Layout for Vizier
+[2022-02-02 18:04:49,624] DEBUG      Traverse: [610620]
+[2022-02-02 18:04:53,291] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 18:05:00,513] ERROR      Got stuck exit pather
+[2022-02-02 18:05:00,843] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:05:00,862] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.1% confidence)
+[2022-02-02 18:05:03,058] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+3) ========== [2022-02-02 18:08:32,534] DEBUG      Traverse: [655]
+[2022-02-02 18:08:24,910] DEBUG      No attack choreography available in hammerdin.py for this node C1-F_02 - skipping to shorten run.
+[2022-02-02 18:08:24,910] DEBUG      C1-F_03: Kill trash
+[2022-02-02 18:08:24,910] DEBUG      No attack choreography available in hammerdin.py for this node C1-F_03 - skipping to shorten run.
+[2022-02-02 18:08:24,911] DEBUG      C1-F_seal1: Kill trash
+[2022-02-02 18:08:32,534] DEBUG      Traverse: [655]
+[2022-02-02 18:08:36,441] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 18:08:42,444] ERROR      Got stuck exit pather
+[2022-02-02 18:08:42,766] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:08:42,795] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 18:08:45,372] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+4) ========== [2022-02-02 18:16:00,023] DEBUG      Traverse: [610620]
+[2022-02-02 18:15:57,507] INFO       CS: Calibrated at PENTAGRAM
+[2022-02-02 18:15:57,508] DEBUG      Traverse: [602]
+[2022-02-02 18:16:00,021] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-02 18:16:00,022] INFO       A: Checking Layout for Vizier
+[2022-02-02 18:16:00,023] DEBUG      Traverse: [610620]
+[2022-02-02 18:16:03,657] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 18:16:09,375] ERROR      Got stuck exit pather
+[2022-02-02 18:16:09,696] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:16:09,728] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 18:16:12,452] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+5) ========== [2022-02-02 18:34:20,784] DEBUG      Traverse: [654]
+[2022-02-02 18:34:36,850] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1462)
+[2022-02-02 18:34:37,444] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1452)
+[2022-02-02 18:34:38,036] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1465)
+[2022-02-02 18:34:38,037] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-02 18:34:38,648] DEBUG      Could not find any of the above templates
+[2022-02-02 18:34:39,310] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-02 18:34:39,915] DEBUG      Could not find any of the above templates
+[2022-02-02 18:34:40,906] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:34:40,940] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 18:34:43,385] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+6) ========== [2022-02-02 18:40:09,188] DEBUG      Traverse: [602]
+[2022-02-02 18:40:31,176] INFO       Picking up: rare_jareds_stone (100.0% confidence)
+[2022-02-02 18:40:33,060] DEBUG      Waiting for Template ['TP_ACTIVE', 'TP_INACTIVE']
+[2022-02-02 18:40:37,075] DEBUG      Could not find any of the above templates
+[2022-02-02 18:40:37,075] WARNING    You are out of tps
+[2022-02-02 18:40:37,077] DEBUG      Waiting for Template ['TP_ACTIVE', 'TP_INACTIVE']
+[2022-02-02 18:40:41,091] DEBUG      Could not find any of the above templates
+[2022-02-02 18:40:41,092] WARNING    You are out of tps
+[2022-02-02 18:40:41,429] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:40:41,459] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 18:40:43,814] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+7) ========== [2022-02-02 18:50:35,881] DEBUG      Traverse: [647]
+[2022-02-02 18:50:33,370] INFO       B: Checking Layout for De Seis
+[2022-02-02 18:50:33,371] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-02 18:50:35,879] DEBUG      Could not find any of the above templates
+[2022-02-02 18:50:35,880] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-02 18:50:35,881] DEBUG      Traverse: [647]
+[2022-02-02 18:50:39,772] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 18:50:46,075] ERROR      Got stuck exit pather
+[2022-02-02 18:50:46,396] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:50:46,426] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.1% confidence)
+[2022-02-02 18:50:48,919] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+8) ========== [2022-02-02 18:52:29,435] DEBUG      Traverse: [626]
+[2022-02-02 18:52:17,254] DEBUG      A2-Y: Seal2: trying to open (try #4)
+[2022-02-02 18:52:17,857] ERROR      Wanted to select ['DIA_A2Y4_36_CLOSED', 'DIA_A2Y4_36_MOUSEOVER'], but could not find it
+[2022-02-02 18:52:19,357] DEBUG      Waiting for Template ['DIA_A2Y4_36_OPEN']
+[2022-02-02 18:52:19,858] DEBUG      A2-Y: Seal2: is closed - [91m closed[0m
+[2022-02-02 18:52:20,237] DEBUG      A2-Y: Seal2: failed 5 times, trying to kill trash now
+[2022-02-02 18:52:20,237] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-02 18:52:29,435] DEBUG      Traverse: [626]
+[2022-02-02 18:52:30,128] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:52:30,159] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (92.1% confidence)
+[2022-02-02 18:52:32,778] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+9) ========== [2022-02-02 18:53:14,003] DEBUG      Traverse: [610620]
+[2022-02-02 18:53:10,920] DEBUG      Traverse: [602]
+[2022-02-02 18:53:12,868] DEBUG      Teleport cancel detected. Try same teleport action again. (0.1067)
+[2022-02-02 18:53:14,001] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-02 18:53:14,002] INFO       A: Checking Layout for Vizier
+[2022-02-02 18:53:14,003] DEBUG      Traverse: [610620]
+[2022-02-02 18:53:17,722] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 18:53:23,526] ERROR      Got stuck exit pather
+[2022-02-02 18:53:23,861] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 18:53:23,893] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 18:53:26,334] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+10) ========== [2022-02-02 19:23:03,334] DEBUG      Traverse: [661]
+[2022-02-02 19:22:53,455] DEBUG      C2-G_03: Kill trash
+[2022-02-02 19:22:53,455] DEBUG      No attack choreography available in hammerdin.py for this node C2-G_03 - skipping to shorten run.
+[2022-02-02 19:22:53,456] DEBUG      C2-G_seal1: Kill trash
+[2022-02-02 19:22:53,456] DEBUG      Traverse: [663, 662]
+[2022-02-02 19:23:03,334] DEBUG      Traverse: [661]
+[2022-02-02 19:23:06,836] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 19:23:12,676] ERROR      Got stuck exit pather
+[2022-02-02 19:23:13,018] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 19:23:13,047] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 19:23:15,198] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+11) ========== [2022-02-02 19:25:55,780] DEBUG      Traverse: [647]
+[2022-02-02 19:25:53,267] INFO       B: Checking Layout for De Seis
+[2022-02-02 19:25:53,269] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-02 19:25:55,779] DEBUG      Could not find any of the above templates
+[2022-02-02 19:25:55,780] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-02 19:25:55,780] DEBUG      Traverse: [647]
+[2022-02-02 19:25:59,553] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 19:26:05,758] ERROR      Got stuck exit pather
+[2022-02-02 19:26:06,094] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 19:26:06,124] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 19:26:08,566] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+12) ========== [2022-02-02 19:57:45,594] DEBUG      Traverse: [647]
+[2022-02-02 19:57:43,067] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-02 19:57:45,592] DEBUG      Could not find any of the above templates
+[2022-02-02 19:57:45,593] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-02 19:57:45,594] DEBUG      Traverse: [647]
+[2022-02-02 19:57:45,718] DEBUG      Drink health potion in slot 2. HP: 77.2%, Mana: 69.3%
+[2022-02-02 19:57:49,351] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 19:57:55,594] ERROR      Got stuck exit pather
+[2022-02-02 19:57:55,926] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 19:57:55,955] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 19:57:58,060] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+13) ========== [2022-02-02 20:36:06,735] DEBUG      Traverse: [647]
+[2022-02-02 20:36:04,245] INFO       B: Checking Layout for De Seis
+[2022-02-02 20:36:04,245] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-02 20:36:06,734] DEBUG      Could not find any of the above templates
+[2022-02-02 20:36:06,734] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-02 20:36:06,735] DEBUG      Traverse: [647]
+[2022-02-02 20:36:10,464] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 20:36:16,670] ERROR      Got stuck exit pather
+[2022-02-02 20:36:17,005] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 20:36:17,035] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 20:36:19,712] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+14) ========== [2022-02-02 23:28:55,515] DEBUG      Traverse: [647]
+[2022-02-02 23:28:51,770] INFO       B: Checking Layout for De Seis
+[2022-02-02 23:28:51,772] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-02 23:28:55,513] DEBUG      Could not find any of the above templates
+[2022-02-02 23:28:55,514] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-02 23:28:55,515] DEBUG      Traverse: [647]
+[2022-02-02 23:28:58,812] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 23:29:05,025] ERROR      Got stuck exit pather
+[2022-02-02 23:29:05,360] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 23:29:05,388] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 23:29:08,008] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+15) ========== [2022-02-02 23:49:09,730] DEBUG      Traverse: [640]
+[2022-02-02 23:48:44,153] DEBUG      Traverse: [641]
+[2022-02-02 23:48:59,984] DEBUG      Traverse: [641]
+[2022-02-02 23:49:03,892] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 23:49:09,730] ERROR      Got stuck exit pather
+[2022-02-02 23:49:09,730] DEBUG      Traverse: [640]
+[2022-02-02 23:49:13,292] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-02 23:49:18,892] ERROR      Got stuck exit pather
+[2022-02-02 23:49:19,212] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-02 23:49:19,242] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-02 23:49:21,540] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+16) ========== [2022-02-03 00:56:32,011] DEBUG      Traverse: [600]
+[2022-02-03 00:56:49,641] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:50,609] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:51,624] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:52,564] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:53,431] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:54,282] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:55,132] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 00:56:56,336] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 00:56:56,368] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 00:56:58,978] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+17) ========== [2022-02-03 01:02:42,011] DEBUG      Traverse: [661]
+[2022-02-03 01:02:35,986] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:02:41,686] DEBUG      Give health potion in slot 2 to merc. HP: 35.0%
+[2022-02-03 01:02:42,010] ERROR      Got stuck exit pather
+[2022-02-03 01:02:42,011] DEBUG      Traverse: [661]
+[2022-02-03 01:02:45,337] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:02:48,801] DEBUG      Give health potion in slot 2 to merc. HP: 22.5%
+[2022-02-03 01:02:51,146] ERROR      Got stuck exit pather
+[2022-02-03 01:02:51,480] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:02:51,526] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:02:54,040] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+18) ========== [2022-02-03 01:30:38,672] DEBUG      Traverse: [640]
+[2022-02-03 01:30:51,060] DEBUG      Could not find any of the above templates
+[2022-02-03 01:30:51,802] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 01:30:52,759] DEBUG      Could not find any of the above templates
+[2022-02-03 01:30:53,519] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 01:30:54,465] DEBUG      Could not find any of the above templates
+[2022-02-03 01:30:55,128] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 01:30:56,062] DEBUG      Could not find any of the above templates
+[2022-02-03 01:30:57,161] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:30:57,189] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:30:59,842] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+19) ========== [2022-02-03 01:33:34,706] DEBUG      Traverse: [647]
+[2022-02-03 01:33:32,222] INFO       B: Checking Layout for De Seis
+[2022-02-03 01:33:32,223] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 01:33:34,705] DEBUG      Could not find any of the above templates
+[2022-02-03 01:33:34,705] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 01:33:34,706] DEBUG      Traverse: [647]
+[2022-02-03 01:33:38,710] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:33:45,258] ERROR      Got stuck exit pather
+[2022-02-03 01:33:45,589] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:33:45,616] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:33:48,063] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+20) ========== [2022-02-03 01:37:53,893] DEBUG      Traverse: [647]
+[2022-02-03 01:37:51,419] INFO       B: Checking Layout for De Seis
+[2022-02-03 01:37:51,420] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 01:37:53,892] DEBUG      Could not find any of the above templates
+[2022-02-03 01:37:53,893] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 01:37:53,893] DEBUG      Traverse: [647]
+[2022-02-03 01:37:57,759] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:38:03,890] ERROR      Got stuck exit pather
+[2022-02-03 01:38:04,212] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:38:04,242] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:38:06,706] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+21) ========== [2022-02-03 01:41:16,053] DEBUG      Traverse: [610620]
+[2022-02-03 01:41:12,783] DEBUG      Traverse: [602]
+[2022-02-03 01:41:15,501] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0895)
+[2022-02-03 01:41:16,051] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-03 01:41:16,052] INFO       A: Checking Layout for Vizier
+[2022-02-03 01:41:16,053] DEBUG      Traverse: [610620]
+[2022-02-03 01:41:19,779] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:41:26,004] ERROR      Got stuck exit pather
+[2022-02-03 01:41:26,335] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:41:26,384] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:41:28,507] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+22) ========== [2022-02-03 01:58:39,091] DEBUG      Traverse: [640]
+[2022-02-03 01:58:13,237] DEBUG      Traverse: [641]
+[2022-02-03 01:58:29,540] DEBUG      Traverse: [641]
+[2022-02-03 01:58:32,952] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:58:39,089] ERROR      Got stuck exit pather
+[2022-02-03 01:58:39,091] DEBUG      Traverse: [640]
+[2022-02-03 01:58:42,687] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 01:58:48,283] ERROR      Got stuck exit pather
+[2022-02-03 01:58:48,605] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 01:58:48,636] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 01:58:51,249] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+23) ========== [2022-02-03 02:15:55,013] DEBUG      Traverse: [647]
+[2022-02-03 02:15:51,359] INFO       B: Checking Layout for De Seis
+[2022-02-03 02:15:51,360] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 02:15:55,011] DEBUG      Could not find any of the above templates
+[2022-02-03 02:15:55,012] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 02:15:55,013] DEBUG      Traverse: [647]
+[2022-02-03 02:15:59,157] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 02:16:06,481] ERROR      Got stuck exit pather
+[2022-02-03 02:16:06,816] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 02:16:06,859] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 02:16:09,092] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+24) ========== [2022-02-03 02:18:38,160] DEBUG      Traverse: [634]
+[2022-02-03 02:18:30,051] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 02:18:31,313] DEBUG      Drink health potion in slot 2. HP: 70.7%, Mana: 99.6%
+[2022-02-03 02:18:38,160] DEBUG      Traverse: [634]
+[2022-02-03 02:18:43,579] DEBUG      Pather: taking a random guess towards (-227, -299)
+[2022-02-03 02:18:47,731] DEBUG      Give health potion in slot 2 to merc. HP: 45.0%
+[2022-02-03 02:18:48,164] DEBUG      Drink health potion in slot 2. HP: 78.4%, Mana: 99.7%
+[2022-02-03 02:18:49,438] ERROR      Got stuck exit pather
+[2022-02-03 02:18:49,773] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 02:18:49,802] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 02:18:52,010] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+25) ========== [2022-02-03 02:30:11,449] DEBUG      Traverse: [640]
+[2022-02-03 02:30:01,995] DEBUG      Traverse: [640]
+[2022-02-03 02:30:05,355] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 02:30:11,448] ERROR      Got stuck exit pather
+[2022-02-03 02:30:11,449] DEBUG      Traverse: [640]
+[2022-02-03 02:30:15,109] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 02:30:20,191] DEBUG      Drink health potion in slot 2. HP: 79.2%, Mana: 99.7%
+[2022-02-03 02:30:20,975] ERROR      Got stuck exit pather
+[2022-02-03 02:30:21,295] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 02:30:21,328] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 02:30:23,785] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+26) ========== [2022-02-03 02:43:05,889] DEBUG      Traverse: [640]
+[2022-02-03 02:42:56,399] DEBUG      Traverse: [641]
+[2022-02-03 02:42:59,971] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 02:43:05,889] ERROR      Got stuck exit pather
+[2022-02-03 02:43:05,889] DEBUG      Traverse: [640]
+[2022-02-03 02:43:08,639] DEBUG      Give health potion in slot 2 to merc. HP: 57.5%
+[2022-02-03 02:43:09,322] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 02:43:14,994] ERROR      Got stuck exit pather
+[2022-02-03 02:43:15,333] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 02:43:15,362] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 02:43:17,933] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+27) ========== [2022-02-03 03:00:18,493] DEBUG      Traverse: [230]
+[2022-02-03 03:00:18,493] DEBUG      Traverse: [230]
+[2022-02-03 03:00:21,134] DEBUG      Waiting for Template ['TP_ACTIVE', 'TP_INACTIVE']
+[2022-02-03 03:00:21,216] DEBUG      Found Match: TP_ACTIVE (96.1% confidence)
+[2022-02-03 03:00:22,585] DEBUG      Waiting for Template ['A3_TOWN_10']
+[2022-02-03 03:00:42,695] DEBUG      Could not find any of the above templates
+[2022-02-03 03:00:42,698] DEBUG      Waiting for Template ['TP_ACTIVE', 'TP_INACTIVE']
+[2022-02-03 03:00:42,723] DEBUG      Found Match: TP_ACTIVE (96.1% confidence)
+[2022-02-03 03:00:43,063] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 03:00:43,093] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 03:00:45,582] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+28) ========== [2022-02-03 03:21:03,902] DEBUG      Traverse: [647]
+[2022-02-03 03:21:00,730] INFO       B: Checking Layout for De Seis
+[2022-02-03 03:21:00,731] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 03:21:03,901] DEBUG      Could not find any of the above templates
+[2022-02-03 03:21:03,901] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 03:21:03,902] DEBUG      Traverse: [647]
+[2022-02-03 03:21:07,493] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 03:21:13,817] ERROR      Got stuck exit pather
+[2022-02-03 03:21:14,154] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 03:21:14,184] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 03:21:16,738] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+29) ========== [2022-02-03 03:38:04,154] DEBUG      Traverse: [647]
+[2022-02-03 03:38:00,783] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 03:38:04,153] DEBUG      Could not find any of the above templates
+[2022-02-03 03:38:04,154] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 03:38:04,154] DEBUG      Traverse: [647]
+[2022-02-03 03:38:04,423] DEBUG      Give health potion in slot 2 to merc. HP: 57.5%
+[2022-02-03 03:38:08,289] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 03:38:14,501] ERROR      Got stuck exit pather
+[2022-02-03 03:38:14,833] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 03:38:14,853] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 03:38:17,265] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+30) ========== [2022-02-03 04:18:58,028] DEBUG      Traverse: [625]
+[2022-02-03 04:18:44,659] DEBUG      A2-Y: Seal1: trying to open (try #4)
+[2022-02-03 04:18:45,324] ERROR      Wanted to select ['DIA_A2Y4_29_CLOSED', 'DIA_A2Y4_29_MOUSEOVER'], but could not find it
+[2022-02-03 04:18:46,825] DEBUG      Waiting for Template ['DIA_A2Y4_29_OPEN']
+[2022-02-03 04:18:47,361] DEBUG      A2-Y: Seal1: is closed - [91m closed[0m
+[2022-02-03 04:18:47,751] DEBUG      A2-Y: Seal1: failed 5 times, trying to kill trash now
+[2022-02-03 04:18:47,751] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 04:18:58,028] DEBUG      Traverse: [625]
+[2022-02-03 04:18:58,804] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 04:18:58,874] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 04:19:01,038] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+31) ========== [2022-02-03 04:46:42,727] DEBUG      Traverse: [650660]
+[2022-02-03 04:46:42,727] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_c - skipping to shorten run.
+[2022-02-03 04:46:42,727] INFO       C: Checking Layout for Infector
+[2022-02-03 04:46:42,727] DEBUG      Traverse: [650660]
+[2022-02-03 04:46:46,033] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 04:46:49,534] DEBUG      Drink rejuv potion in slot 4. HP: 81.2%, Mana: 0.0%
+[2022-02-03 04:46:49,701] DEBUG      Drink mana potion in slot 1. HP: 81.2%, Mana: 0.0%
+[2022-02-03 04:46:53,290] ERROR      Got stuck exit pather
+[2022-02-03 04:46:53,627] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 04:46:53,656] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 04:46:55,980] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+32) ========== [2022-02-03 04:51:52,796] DEBUG      Traverse: [632]
+[2022-02-03 04:51:36,459] DEBUG      Traverse: [632]
+[2022-02-03 04:51:39,962] DEBUG      Give health potion in slot 2 to merc. HP: 55.0%
+[2022-02-03 04:51:47,040] DEBUG      Give health potion in slot 2 to merc. HP: 55.0%
+[2022-02-03 04:51:47,592] DEBUG      B1-S: Waiting with Redemption active to clear more corpses.
+[2022-02-03 04:51:52,796] DEBUG      Traverse: [632]
+[2022-02-03 04:51:56,723] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 04:52:02,729] ERROR      Got stuck exit pather
+[2022-02-03 04:52:03,065] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 04:52:03,129] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 04:52:05,459] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+33) ========== [2022-02-03 05:00:28,534] DEBUG      Traverse: [632]
+[2022-02-03 05:00:00,613] DEBUG      Traverse: [631]
+[2022-02-03 05:00:06,935] DEBUG      B1-S: Attacking De Seis at position 4/4
+[2022-02-03 05:00:06,936] DEBUG      Traverse: [632]
+[2022-02-03 05:00:18,371] DEBUG      B1-S: Waiting with Redemption active to clear more corpses.
+[2022-02-03 05:00:28,534] DEBUG      Traverse: [632]
+[2022-02-03 05:00:32,029] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 05:00:37,936] ERROR      Got stuck exit pather
+[2022-02-03 05:00:38,273] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 05:00:38,303] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 05:00:41,020] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+34) ========== [2022-02-03 05:11:15,797] DEBUG      Traverse: [647]
+[2022-02-03 05:11:13,285] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 05:11:15,796] DEBUG      Could not find any of the above templates
+[2022-02-03 05:11:15,797] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 05:11:15,797] DEBUG      Traverse: [647]
+[2022-02-03 05:11:19,860] DEBUG      Give health potion in slot 2 to merc. HP: 50.0%
+[2022-02-03 05:11:20,008] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 05:11:26,313] ERROR      Got stuck exit pather
+[2022-02-03 05:11:26,653] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 05:11:26,682] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 05:11:28,928] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+35) ========== [2022-02-03 05:25:11,313] DEBUG      Traverse: [647]
+[2022-02-03 05:25:11,312] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 05:25:11,313] DEBUG      Traverse: [647]
+[2022-02-03 05:25:14,389] DEBUG      Give health potion in slot 2 to merc. HP: 47.5%
+[2022-02-03 05:25:15,571] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 05:25:21,486] DEBUG      Give health potion in slot 2 to merc. HP: 32.5%
+[2022-02-03 05:25:21,968] DEBUG      Drink health potion in slot 2. HP: 70.4%, Mana: 99.3%
+[2022-02-03 05:25:22,088] ERROR      Got stuck exit pather
+[2022-02-03 05:25:22,407] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 05:25:22,437] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 05:25:25,061] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+36) ========== [2022-02-03 05:30:14,087] DEBUG      Traverse: [644]
+[2022-02-03 05:30:01,562] DEBUG      B2-U: Seal2: trying to open (try #4)
+[2022-02-03 05:30:02,203] ERROR      Wanted to select ['DIA_B2U2_16_CLOSED', 'DIA_B2U2_16_MOUSEOVER'], but could not find it
+[2022-02-03 05:30:03,704] DEBUG      Waiting for Template ['DIA_B2U2_16_OPEN']
+[2022-02-03 05:30:04,295] DEBUG      B2-U: Seal2: is closed - [91m closed[0m
+[2022-02-03 05:30:04,673] DEBUG      B2-U: Seal2: failed 5 times, trying to kill trash now
+[2022-02-03 05:30:04,673] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 05:30:14,087] DEBUG      Traverse: [644]
+[2022-02-03 05:30:14,843] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 05:30:14,875] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 05:30:16,943] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+37) ========== [2022-02-03 05:31:12,209] DEBUG      Traverse: [610620]
+[2022-02-03 05:31:08,946] DEBUG      Traverse: [602]
+[2022-02-03 05:31:11,021] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0247)
+[2022-02-03 05:31:12,207] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-03 05:31:12,208] INFO       A: Checking Layout for Vizier
+[2022-02-03 05:31:12,209] DEBUG      Traverse: [610620]
+[2022-02-03 05:31:15,519] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 05:31:22,239] ERROR      Got stuck exit pather
+[2022-02-03 05:31:22,581] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 05:31:22,608] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 05:31:25,272] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+38) ========== [2022-02-03 06:04:01,905] DEBUG      Traverse: [650660]
+[2022-02-03 06:04:01,905] DEBUG      Traverse: [650660]
+[2022-02-03 06:04:02,781] DEBUG      Waiting for Template ['DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3']
+[2022-02-03 06:04:05,428] DEBUG      Could not find any of the above templates
+[2022-02-03 06:04:05,428] DEBUG      C1-F: Layout_check step 1/2 - templates NOT found for C2-G
+[2022-02-03 06:04:05,429] DEBUG      Waiting for Template ['DIA_C1F_LAYOUTCHECK1', 'DIA_C1F_LAYOUTCHECK2', 'DIA_C1F_LAYOUTCHECK3']
+[2022-02-03 06:04:06,826] DEBUG      Could not find any of the above templates
+[2022-02-03 06:04:06,826] WARNING    C2-G: Layout_check failure - could not determine the seal Layout atC (Infector) - [91maborting run[0m
+[2022-02-03 06:04:07,150] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 06:04:07,190] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 06:04:10,024] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+39) ========== [2022-02-03 06:07:15,310] DEBUG      Traverse: [644]
+[2022-02-03 06:07:03,401] DEBUG      B2-U: Seal2: trying to open (try #4)
+[2022-02-03 06:07:04,024] ERROR      Wanted to select ['DIA_B2U2_16_CLOSED', 'DIA_B2U2_16_MOUSEOVER'], but could not find it
+[2022-02-03 06:07:05,524] DEBUG      Waiting for Template ['DIA_B2U2_16_OPEN']
+[2022-02-03 06:07:06,103] DEBUG      B2-U: Seal2: is closed - [91m closed[0m
+[2022-02-03 06:07:06,481] DEBUG      B2-U: Seal2: failed 5 times, trying to kill trash now
+[2022-02-03 06:07:06,481] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 06:07:15,310] DEBUG      Traverse: [644]
+[2022-02-03 06:07:16,494] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 06:07:16,525] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 06:07:18,881] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+40) ========== [2022-02-03 06:59:27,710] DEBUG      Traverse: [665]
+[2022-02-03 06:59:41,315] DEBUG      Could not find any of the above templates
+[2022-02-03 06:59:41,963] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 06:59:42,853] DEBUG      Could not find any of the above templates
+[2022-02-03 06:59:43,525] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 06:59:44,413] DEBUG      Could not find any of the above templates
+[2022-02-03 06:59:45,070] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 06:59:45,966] DEBUG      Could not find any of the above templates
+[2022-02-03 06:59:46,972] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 06:59:47,000] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 06:59:49,598] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+41) ========== [2022-02-03 07:12:57,552] DEBUG      Traverse: [640]
+[2022-02-03 07:13:11,295] DEBUG      Could not find any of the above templates
+[2022-02-03 07:13:11,922] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 07:13:12,880] DEBUG      Could not find any of the above templates
+[2022-02-03 07:13:13,612] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 07:13:14,531] DEBUG      Could not find any of the above templates
+[2022-02-03 07:13:15,273] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 07:13:16,205] DEBUG      Could not find any of the above templates
+[2022-02-03 07:13:17,198] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:13:17,227] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:13:19,586] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+42) ========== [2022-02-03 07:26:30,417] DEBUG      Traverse: [661]
+[2022-02-03 07:26:19,282] DEBUG      C2-G_03: Kill trash
+[2022-02-03 07:26:19,282] DEBUG      No attack choreography available in hammerdin.py for this node C2-G_03 - skipping to shorten run.
+[2022-02-03 07:26:19,283] DEBUG      C2-G_seal1: Kill trash
+[2022-02-03 07:26:19,283] DEBUG      Traverse: [663, 662]
+[2022-02-03 07:26:30,417] DEBUG      Traverse: [661]
+[2022-02-03 07:26:34,558] DEBUG      Pather: taking a random guess towards (-43, 114)
+[2022-02-03 07:26:40,368] ERROR      Got stuck exit pather
+[2022-02-03 07:26:40,708] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:26:40,752] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:26:43,246] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+43) ========== [2022-02-03 07:37:29,806] DEBUG      Traverse: [610620]
+[2022-02-03 07:37:27,173] DEBUG      Traverse: [602]
+[2022-02-03 07:37:29,805] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-03 07:37:29,806] INFO       A: Checking Layout for Vizier
+[2022-02-03 07:37:29,806] DEBUG      Traverse: [610620]
+[2022-02-03 07:37:33,529] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 07:37:36,789] DEBUG      Drink health potion in slot 2. HP: 79.2%, Mana: 99.6%
+[2022-02-03 07:37:39,835] ERROR      Got stuck exit pather
+[2022-02-03 07:37:40,183] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:37:40,218] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:37:42,969] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+44) ========== [2022-02-03 07:39:20,706] DEBUG      Traverse: [600]
+[2022-02-03 07:39:37,472] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:38,287] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:39,122] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:39,967] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:40,986] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:42,014] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:42,981] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_2']
+[2022-02-03 07:39:44,391] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:39:44,425] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:39:46,978] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+45) ========== [2022-02-03 07:44:36,964] DEBUG      Traverse: [647]
+[2022-02-03 07:44:33,258] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 07:44:36,963] DEBUG      Could not find any of the above templates
+[2022-02-03 07:44:36,964] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 07:44:36,964] DEBUG      Traverse: [647]
+[2022-02-03 07:44:42,710] DEBUG      Pather: taking a random guess towards (149, 26)
+[2022-02-03 07:44:47,031] DEBUG      Drink health potion in slot 2. HP: 77.2%, Mana: 99.7%
+[2022-02-03 07:44:48,780] ERROR      Got stuck exit pather
+[2022-02-03 07:44:49,120] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:44:49,149] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:44:51,169] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+46) ========== [2022-02-03 07:54:19,904] DEBUG      Traverse: [625]
+[2022-02-03 07:54:07,626] DEBUG      A2-Y: Seal1: trying to open (try #4)
+[2022-02-03 07:54:07,811] DEBUG      Select DIA_A2Y4_29_CLOSED (79.7% confidence)
+[2022-02-03 07:54:09,654] DEBUG      Waiting for Template ['DIA_A2Y4_29_OPEN']
+[2022-02-03 07:54:10,265] DEBUG      A2-Y: Seal1: is closed - [91m closed[0m
+[2022-02-03 07:54:10,644] DEBUG      A2-Y: Seal1: failed 5 times, trying to kill trash now
+[2022-02-03 07:54:10,645] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 07:54:19,904] DEBUG      Traverse: [625]
+[2022-02-03 07:54:21,142] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 07:54:21,219] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 07:54:23,228] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+47) ========== [2022-02-03 08:05:59,660] DEBUG      Traverse: [647]
+[2022-02-03 08:05:55,941] DEBUG      Waiting for Template ['DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7', 'DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8']
+[2022-02-03 08:05:59,659] DEBUG      Could not find any of the above templates
+[2022-02-03 08:05:59,660] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[2022-02-03 08:05:59,660] DEBUG      Traverse: [647]
+[2022-02-03 08:06:03,087] DEBUG      Drink health potion in slot 2. HP: 77.1%, Mana: 50.5%
+[2022-02-03 08:06:03,800] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 08:06:10,476] ERROR      Got stuck exit pather
+[2022-02-03 08:06:10,817] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 08:06:10,859] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 08:06:13,475] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+48) ========== [2022-02-03 08:09:29,569] DEBUG      Traverse: [632]
+[2022-02-03 08:09:43,874] DEBUG      Could not find any of the above templates
+[2022-02-03 08:09:44,655] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 08:09:45,593] DEBUG      Could not find any of the above templates
+[2022-02-03 08:09:46,281] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 08:09:47,211] DEBUG      Could not find any of the above templates
+[2022-02-03 08:09:47,896] DEBUG      Waiting for Template ['DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2']
+[2022-02-03 08:09:48,809] DEBUG      Could not find any of the above templates
+[2022-02-03 08:09:49,805] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 08:09:49,836] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 08:09:52,770] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+49) ========== [2022-02-03 08:34:09,239] DEBUG      Traverse: [610620]
+[2022-02-03 08:34:06,672] INFO       CS: Calibrated at PENTAGRAM
+[2022-02-03 08:34:06,673] DEBUG      Traverse: [602]
+[2022-02-03 08:34:09,238] DEBUG      No attack choreography available in hammerdin.py for this node layoutcheck_a - skipping to shorten run.
+[2022-02-03 08:34:09,239] INFO       A: Checking Layout for Vizier
+[2022-02-03 08:34:09,239] DEBUG      Traverse: [610620]
+[2022-02-03 08:34:12,577] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-03 08:34:18,852] ERROR      Got stuck exit pather
+[2022-02-03 08:34:19,190] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 08:34:19,217] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 08:34:21,354] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+50) ========== [2022-02-03 08:52:41,418] DEBUG      Traverse: [615]
+[2022-02-03 08:52:31,616] DEBUG      A1-L: Seal2: failed 5 times, trying to kill trash now
+[2022-02-03 08:52:31,616] DEBUG      Sealdance: Kill trash at location: sealdance
+[2022-02-03 08:52:41,418] DEBUG      Traverse: [615]
+[2022-02-03 08:53:07,654] DEBUG      We teleport for quite a while - let's check if we are facetanking a Shrine or Stash
+[2022-02-03 08:53:07,688] DEBUG      Took a screenshot and now searching for the words SHRINE, STASH or PILE
+[2022-02-03 08:53:07,715] DEBUG      Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on with a little jump, before Lucille gets us ...
+[2022-02-03 08:53:07,715] DEBUG      Pather: taking a random guess towards (-622, -105)
+[2022-02-03 08:53:08,565] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-03 08:53:08,595] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (97.0% confidence)
+[2022-02-03 08:53:11,088] DEBUG      Waiting for Template ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
