@@ -54,7 +54,7 @@ class ItemCropper:
             blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
             contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             contours = contours[0] if len(contours) == 2 else contours[1]
-            for cntr in enumerate(contours):
+            for cntr in contours:
                 x, y, w, h = cv2.boundingRect(cntr)
                 expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
                 # increase height a bit to make sure we have the full item name in the cluster
