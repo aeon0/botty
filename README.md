@@ -54,6 +54,7 @@ run_shenk=0
 | custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
 | logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line |
 | max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
+| max_consecutive_fails    | Botty will stop making games if the number of consecutive fails reaches this max value     |
 | randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
@@ -126,6 +127,7 @@ run_shenk=0
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
+| gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |

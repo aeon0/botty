@@ -45,7 +45,7 @@ class Chest:
                 if chest_label.valid:
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
-                    self._char.pick_up_item(*template_match.center, 'potion')
+                    self._char.pick_up_item(template_match.center, 'potion')
                     wait(0.13, 0.16)
                     locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
                     if locked_chest.valid:
