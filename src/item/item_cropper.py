@@ -1,10 +1,11 @@
 import cv2
 import numpy as np
-from config import Config
 from utils.misc import color_filter, erode_to_black
 from dataclasses import dataclass
 import time
 
+from config import Config
+from template_finder import TemplateFinder
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
@@ -14,26 +15,29 @@ class ItemText:
     data: np.ndarray = None
 
 class ItemCropper:
-    def __init__(self):
+    def __init__(self, template_finder: TemplateFinder):
         self._config = Config()
+        self._template_finder = template_finder
 
         self._gaus_filter = (19, 1)
-        self._expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14, 40]]]
-        self._expected_width_range = [int(round(num, 0)) for num in [x / 1.5 for x in [60, 1280]]]
+        self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
+        self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
+        self._box_expected_width_range=[200, 900]
+        self._box_expected_height_range=[24, 710]        
 
         self._hud_mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self._hud_mask = cv2.threshold(self._hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
 
         self._item_colors = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
 
-    def clean_img(self, inp_img: np.ndarray) -> np.ndarray:
+    def clean_img(self, inp_img: np.ndarray, black_thresh: int = 14) -> np.ndarray:
         img = inp_img[:, :, :]
         if img.shape[0] == self._hud_mask.shape[0] and img.shape[1] == self._hud_mask.shape[1]:
             img = cv2.bitwise_and(img, img, mask=self._hud_mask)
         # In order to not filter out highlighted items, change their color to black
         highlight_mask = color_filter(img, self._config.colors["item_highlight"])[0]
         img[highlight_mask > 0] = (0, 0, 0)
-        img = erode_to_black(img)
+        img = erode_to_black(img, black_thresh)
         return img
 
     def crop(self, inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText]:
