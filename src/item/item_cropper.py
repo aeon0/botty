@@ -91,8 +91,9 @@ if __name__ == "__main__":
     from screen import Screen
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper()
     screen = Screen()
+    template_finder = TemplateFinder(screen)
+    cropper = ItemCropper(template_finder)
 
     while 1:
         img = screen.grab().copy()
