@@ -66,8 +66,6 @@ class Config:
             return Config._pickit_config[section][key]
         elif section in Config._shop_config:
             return Config._shop_config[section][key]
-        elif section in Config._transmute_config:
-            return Config._transmute_config[section][key]
         else:
             return Config._game_config[section][key]
 
@@ -161,8 +159,6 @@ class Config:
         Config._pickit_config.read('config/pickit.ini')
         Config._shop_config = configparser.ConfigParser()
         Config._shop_config.read('config/shop.ini')
-        Config._transmute_config = configparser.ConfigParser()
-        Config._transmute_config.read('config/transmute.ini')
         Config._custom = configparser.ConfigParser()
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
             Config._custom.read('config/custom.ini')
@@ -351,10 +347,10 @@ class Config:
             "speed_factor": float(Config._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
         }
-        stash_destination_str = Config._select_val("gems","stash_destination")
+        stash_destination_str = Config._select_val("transmute","stash_destination")
         Config._transmute_config = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
-            "transmute_every_x_game": Config._select_val("gems","transmute_every_x_game"),
+            "transmute_every_x_game": Config._select_val("transmute","transmute_every_x_game"),
         }
 
 if __name__ == "__main__":

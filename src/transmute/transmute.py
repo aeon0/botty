@@ -163,7 +163,7 @@ class Transmute:
             self.pick_from_inventory_at(x, y)
 
     def select_tab_with_enough_space(self, s: Stash) -> None:
-        tabs_priority = Config.transmute["stash_destination"]
+        tabs_priority = Config._transmute_config["stash_destination"]
         for tab in tabs_priority:
             if s.get_empty_on_tab(tab) > 0:
                 self._ui_manager._move_to_stash_tab(tab)
@@ -171,7 +171,7 @@ class Transmute:
 
     def put_back_all_gems(self, s: Stash) -> None:
         Logger.info(
-            f'Putting back gems in the following stash tabs (by priority): {Config.transmute["stash_destination"]}')
+            f'Putting back gems in the following stash tabs (by priority): {Config._transmute_config["stash_destination"]}')
         perfect_gems = self.inspect_inventory_area(
             PERFECT_GEMS + FLAWLESS_GEMS)
 

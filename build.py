@@ -87,7 +87,6 @@ if __name__ == "__main__":
     shutil.copy("config/params.ini", f"{botty_dir}/config/")
     shutil.copy("config/pickit.ini", f"{botty_dir}/config/")
     shutil.copy("config/shop.ini", f"{botty_dir}/config/")
-    shutil.copy("config/transmute.ini", f"{botty_dir}/config/")
     shutil.copy("README.md", f"{botty_dir}/")
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()
