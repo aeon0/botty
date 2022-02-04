@@ -23,7 +23,7 @@ class ItemCropper:
         self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
         self._box_expected_width_range=[200, 900]
-        self._box_expected_height_range=[24, 710]        
+        self._box_expected_height_range=[24, 710]
 
         self._hud_mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self._hud_mask = cv2.threshold(self._hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
@@ -54,7 +54,7 @@ class ItemCropper:
             blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
             contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             contours = contours[0] if len(contours) == 2 else contours[1]
-            for count, cntr in enumerate(contours):
+            for cntr in enumerate(contours):
                 x, y, w, h = cv2.boundingRect(cntr)
                 expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
                 # increase height a bit to make sure we have the full item name in the cluster
@@ -76,9 +76,9 @@ class ItemCropper:
                     max_idx = color_averages.index(max(color_averages))
                     if key == self._item_colors[max_idx]:
                         item_clusters.append(ItemText(
-                            color_key=self._item_colors[max_idx],
-                            roi=[x, y, w, h],
-                            data=cropped_item
+                            color_key = key,
+                            roi = [x, y, w, h],
+                            data = cropped_item
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
