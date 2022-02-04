@@ -28,6 +28,7 @@ class Config:
     # config data
     general = {}
     advanced_options = {}
+    gamble = {}
     ui_roi = {}
     ui_pos = {}
     dclone = {}
@@ -241,8 +242,8 @@ class Config:
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(Config._select_val("char", "always_repair"))),
+            "gamble_items": Config._select_val("char", "gamble_items").replace(" ","").split(","),
         }
-
         # Sorc base config
         sorc_base_cfg = dict(Config._config["sorceress"])
         if "sorceress" in Config._custom:

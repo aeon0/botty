@@ -127,6 +127,7 @@ run_shenk=0
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
+| gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |
