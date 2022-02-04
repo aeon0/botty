@@ -44,5 +44,6 @@
     "Chat Background": 0,
     "Always Run": 1,
     "Quick Cast Enabled": 0,
-    "Display Active Skill Bindings": 0
+    "Display Active Skill Bindings": 0,
+    "Lobby Wide Item Drop Enabled": 1
 }
