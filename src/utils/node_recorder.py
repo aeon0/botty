@@ -49,7 +49,7 @@ class NodeRecorder:
         for key in self._template_finder._templates:
             found = self._template_finder.search(key, img, use_grayscale=False, threshold=0.77)
             if found.valid:
-                ref_points[key] = found.position
+                ref_points[key] = found.center
         return ref_points
 
     def hook(self, e):

@@ -233,7 +233,7 @@ class Config:
             "atk_len_pindle": float(Config._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(Config._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(Config._select_val("char", "atk_len_shenk")),
-            "atk_len_nihlatak": float(Config._select_val("char", "atk_len_nihlatak")),
+            "atk_len_nihlathak": float(Config._select_val("char", "atk_len_nihlathak")),
             "atk_len_diablo_vizier": float(Config._select_val("char", "atk_len_diablo_vizier")),
             "atk_len_diablo_deseis": float(Config._select_val("char", "atk_len_diablo_deseis")),
             "atk_len_diablo_infector": float(Config._select_val("char", "atk_len_diablo_infector")),

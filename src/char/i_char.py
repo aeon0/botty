@@ -59,11 +59,10 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
+            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
-                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-                mouse.move(x_m, y_m)
+                mouse.move(*template_match.center)
                 wait(0.2, 0.3)
                 mouse.click(button="left")
                 # check the successfunction for 2 sec, if not found, try again
@@ -139,7 +138,7 @@ class IChar:
                 normalize_monitor=True
             )
             if template_match.valid:
-                pos = template_match.position
+                pos = template_match.center
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
@@ -208,8 +207,8 @@ class IChar:
     def kill_council(self) -> bool:
         raise ValueError("Council is not implemented!")
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        raise ValueError("Nihlatak is not implemented!")
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        raise ValueError("Nihlathak is not implemented!")
 
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
