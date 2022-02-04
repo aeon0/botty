@@ -240,7 +240,7 @@ class Config:
             "atk_len_diablo": float(Config._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
-            "always_repair": bool(int(Config._select_val("char", "always_repair"))),
+            "runs_per_repair": Config._select_val("char", "runs_per_repair"),
         }
 
         # Sorc base config

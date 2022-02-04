@@ -280,8 +280,10 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
+        need_routine_repair = True if self._config.char["runs_per_repair"] and ((self._game_stats._run_counter) % int(self._config.char["runs_per_repair"]) == 0) else False
+        if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
+            elif need_routine_repair: Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={self._config.char['runs_per_repair']}")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
@@ -337,6 +339,7 @@ class Bot:
     # All the runs go here
     # ==================================
     def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+        self._game_stats._run_counter += 1
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:
