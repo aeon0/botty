@@ -8,14 +8,14 @@ from version import __version__
 import numpy as np
 from discord import Webhook, RequestsWebhookAdapter, Color
 
-class DiscordEmbeds(GenericApi):
+class DiscordEmbeds():
     def __init__(self):
         self._config = Config()
         self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
 
-    def send_item(self, item: str, image:  np.ndarray, location: str):
+    def send_item(self, item: str = None, image:  np.ndarray = None, location: str = None):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape

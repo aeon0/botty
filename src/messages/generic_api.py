@@ -27,10 +27,10 @@ class GenericApi:
         msg = f"All stash is full, quitting"
         self._send(msg = msg)
 
-    def send_status(self, title: str , msg: str, img: str):
+    def send_status(self, title: str, msg: str, img: str):
         self._send(msg = msg)
 
-    def send_message(self, title: str , msg: str, img: str):
+    def send_message(self, title: str, msg: str, img: str):
         self._send(msg = msg)
 
     def _send(self, title: str = None, msg: str = None, img: str = None):
