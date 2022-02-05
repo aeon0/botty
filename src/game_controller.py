@@ -96,7 +96,7 @@ class GameController:
                         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
                         return self.run_bot(True)
                 Logger.error(f"{self._config.general['name']} could not restart the game. Quitting.")
-                messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and could not restart the game. Quitting.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
+                messenger.send_message(f"{self._config.general['name']} got stuck!", "Got stuck and could not restart the game. Quitting.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
             else:
                 Logger.error(f"{self._config.general['name']} could not recover from a max game length violation. Quitting.")
                 if self._config.general["custom_message_hook"]:
