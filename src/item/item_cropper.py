@@ -1,10 +1,10 @@
 import cv2
 import numpy as np
-from config import Config
-from utils.misc import color_filter, erode_to_black
 from dataclasses import dataclass
 import time
 
+from utils.misc import color_filter, erode_to_black
+from config import Config
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
@@ -18,22 +18,22 @@ class ItemCropper:
         self._config = Config()
 
         self._gaus_filter = (19, 1)
-        self._expected_height_range = [int(round(num, 0)) for num in [x / 1.5 for x in [14, 40]]]
-        self._expected_width_range = [int(round(num, 0)) for num in [x / 1.5 for x in [60, 1280]]]
+        self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
+        self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
 
         self._hud_mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self._hud_mask = cv2.threshold(self._hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
 
         self._item_colors = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
 
-    def clean_img(self, inp_img: np.ndarray) -> np.ndarray:
+    def clean_img(self, inp_img: np.ndarray, black_thresh: int = 14) -> np.ndarray:
         img = inp_img[:, :, :]
         if img.shape[0] == self._hud_mask.shape[0] and img.shape[1] == self._hud_mask.shape[1]:
             img = cv2.bitwise_and(img, img, mask=self._hud_mask)
         # In order to not filter out highlighted items, change their color to black
         highlight_mask = color_filter(img, self._config.colors["item_highlight"])[0]
         img[highlight_mask > 0] = (0, 0, 0)
-        img = erode_to_black(img)
+        img = erode_to_black(img, black_thresh)
         return img
 
     def crop(self, inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText]:
@@ -50,7 +50,7 @@ class ItemCropper:
             blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
             contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             contours = contours[0] if len(contours) == 2 else contours[1]
-            for count, cntr in enumerate(contours):
+            for cntr in contours:
                 x, y, w, h = cv2.boundingRect(cntr)
                 expected_height = 1 if (self._expected_height_range[0] < h < self._expected_height_range[1]) else 0
                 # increase height a bit to make sure we have the full item name in the cluster
@@ -72,9 +72,9 @@ class ItemCropper:
                     max_idx = color_averages.index(max(color_averages))
                     if key == self._item_colors[max_idx]:
                         item_clusters.append(ItemText(
-                            color_key=self._item_colors[max_idx],
-                            roi=[x, y, w, h],
-                            data=cropped_item
+                            color_key = key,
+                            roi = [x, y, w, h],
+                            data = cropped_item
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     from screen import Screen
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper()
     screen = Screen()
+    cropper = ItemCropper()
 
     while 1:
         img = screen.grab().copy()
