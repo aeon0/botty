@@ -47,4 +47,4 @@ class GenericApi:
         try:
             requests.post(url, headers=headers, json=data)
         except BaseException as err:
-            Logger.error("Error sending generic Discord message: " + err)
+            Logger.error("Error sending generic message: " + err)
