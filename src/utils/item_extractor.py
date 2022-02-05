@@ -5,7 +5,7 @@ import argparse
 import os
 import cv2
 import numpy as np
-from utils.misc import color_filter
+
 from item.item_cropper import ItemCropper
 import time
 

@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
-from utils.misc import color_filter, erode_to_black
 from dataclasses import dataclass
 import time
 
+from utils.misc import color_filter, erode_to_black
 from config import Config
 
 # TODO: With OCR we can then add a "text" field to this class
