@@ -21,7 +21,7 @@ class DiscordEmbeds():
         _, w, _ = image.shape
         image = image[:, (w//2):,:]
         cv2.imwrite(f"./loot_screenshots/{item}.png", image)
-        file = discord.File(f"./loot_screenshots/{item}.png", filename=f"{imgName}.png")
+        file = self._add_file(f"./loot_screenshots/{item}.png", f"{imgName}.png")
         e = discord.Embed(
             title="Item Stashed!",
             description=f"{item} at {location}",
