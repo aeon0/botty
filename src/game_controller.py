@@ -101,7 +101,7 @@ class GameController:
                 Logger.error(f"{self._config.general['name']} could not recover from a max game length violation. Quitting.")
                 if self._config.general["custom_message_hook"]:
                     messenger.send_message("Got stuck and will now quit botty")
-                    messenger.send_message(f"{self._config.general['name']} got stuck!", f"Got stuck and and will now quit.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
+                    messenger.send_message(f"{self._config.general['name']} got stuck!", "Got stuck and and will now quit.", "https://i.psnprofiles.com/games/3bffee/trophies/21Lc63b56.png")
             os._exit(1)
 
     def start(self):
