@@ -5,8 +5,7 @@ import time
 from logger import Logger
 from typing import Tuple
 from config import Config
-from utils import misc
-from utils.misc import load_template
+from utils.misc import find_d2r_window
 import os
 
 
@@ -24,7 +23,7 @@ class Screen:
         self.found_offsets = False
         position = None
         Logger.debug("Using WinAPI to search for window under D2R.exe process")
-        position = misc.find_d2r_window()
+        position = find_d2r_window()
         if position is not None:
             self._set_window_position(*position)
         else:

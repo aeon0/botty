@@ -8,6 +8,7 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
+from transmute import Transmute
 from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
@@ -147,6 +148,8 @@ class Bot:
             { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'initialization', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
+        self._transmute = Transmute(self._screen, self._template_finder, self._game_stats, self._ui_manager)
+
 
     def draw_graph(self):
         # Draw the whole graph, graphviz binaries must be installed and added to path for this!
@@ -256,8 +259,12 @@ class Bot:
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
+    
+    def need_refill_teleport_charges(self) -> bool:    
+        return not self._char.select_tp() or self._char.is_low_on_teleport_charges()
 
     def on_maintenance(self):
+        self._char.discover_capabilities(force=False)
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
@@ -266,6 +273,11 @@ class Bot:
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
+            if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+                keybind = self._char._skill_hotkeys["teleport"]
+                Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+                self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+            
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
 
@@ -306,6 +318,9 @@ class Bot:
                     return self.trigger_or_stop("end_game", failed=True)
             Logger.info("Stashing items")
             self._curr_loc = self._town_manager.stash(self._curr_loc)
+            Logger.info("Running transmutes")
+            self._transmute.run_transmutes(force=False)
+            keyboard.send("esc")
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._no_stash_counter = 0
@@ -314,8 +329,10 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"]:
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and self.need_refill_teleport_charges()
+        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"] or need_refill_teleport:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
+            if need_refill_teleport: Logger.info("Teleport charges ran out. Need to repair")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
@@ -331,6 +348,19 @@ class Bot:
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
+
+        # Check if gambling is needed
+        gambling = self._ui_manager.gambling_needed()
+        if gambling:
+            for x in range (4):
+                self._curr_loc = self._town_manager.gamble(self._curr_loc)
+                self._ui_manager.gamble(self._item_finder)
+                if (x ==3):
+                    self._curr_loc = self._town_manager.stash (self._curr_loc)
+                else:
+                    self._curr_loc = self._town_manager.stash (self._curr_loc, gamble=gambling)
+
+            self._ui_manager.set__gold_full (False)
 
         # Start a new run
         started_run = False
@@ -370,7 +400,7 @@ class Bot:
 
     # All the runs go here
     # ==================================
-    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+    def _ending_run_helper(self, res: Union[bool, 'tuple[Location, bool]']):
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:
