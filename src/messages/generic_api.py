@@ -9,45 +9,31 @@ class GenericApi:
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         msg = f"Found {item} at {location}"
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_death(self, location: str, image_path: str = None):
         msg = f"You have died at {location}"
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_chicken(self, location: str, image_path: str = None):
         msg = f"You have chickened at {location}"
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_gold(self):
         msg = f"All stash tabs and character are full of gold, turning off gold pickup"
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_stash(self):
         msg = f"All stash is full, quitting"
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_status(self, title: str , msg: str, img: str):
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
     def send_message(self, title: str , msg: str, img: str):
-        title="no"
-        img="no"
-        self._send(title, msg, img)
+        self._send(msg = msg)
 
-    def _send(self, title, msg, img):
+    def _send(self, title: str = None, msg: str = None, img: str = None):
         msg = f"{self._config.general['name']}: {msg}"
 
         url = self._config.general['custom_message_hook']

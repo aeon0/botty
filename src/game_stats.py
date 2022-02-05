@@ -24,6 +24,7 @@ class GameStats:
         self._death_counter = 0
         self._merc_death_counter = 0
         self._runs_failed = 0
+        self._consecutive_runs_failed = 0
         self._failed_game_time = 0
         self._location = None
         self._location_stats = {}
@@ -88,12 +89,14 @@ class GameStats:
         self._timer = None
         if failed:
             self._runs_failed += 1
+            self._consecutive_runs_failed += 1
             if self._location is not None:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
-            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s")
+            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
+            self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
     def pause_timer(self):
@@ -116,6 +119,9 @@ class GameStats:
             return self._timepaused - self._timer
         else:
             return time.time() - self._timer
+    
+    def get_consecutive_runs_failed(self):
+        return self._consecutive_runs_failed
 
     def _create_msg(self):
         elapsed_time = time.time() - self._start_time

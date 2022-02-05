@@ -13,7 +13,7 @@ from screen import Screen
 import random
 
 
-class Nihlatak:
+class Nihlathak:
     def __init__(
         self,
         screen: Screen,
@@ -34,14 +34,14 @@ class Nihlatak:
         self._pickit = pickit
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
-        Logger.info("Run Nihlatak")
-        if not self._char.can_teleport():
-            raise ValueError("Nihlatak requires teleport")
+        Logger.info("Run Nihlathak")
+        if not self._char.capabilities.can_teleport_natively:
+            raise ValueError("Nihlathak requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
         if self._ui_manager.use_wp(5, 5): # use Halls of Pain Waypoint (5th in A5)
-            return Location.A5_NIHLATAK_START
+            return Location.A5_NIHLATHAK_START
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
@@ -105,8 +105,8 @@ class Nihlatak:
             end_nodes = check_arr[0].end_nodes
 
         # Attack & Pick items
-        if not self._char.kill_nihlatak(end_nodes):
+        if not self._char.kill_nihlathak(end_nodes):
             return False
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
-        return (Location.A5_NIHLATAK_END, picked_up_items)
+        return (Location.A5_NIHLATHAK_END, picked_up_items)

@@ -1,6 +1,6 @@
 import keyboard
 from utils.custom_mouse import mouse
-from char import IChar
+from char import IChar,CharacterCapabilities
 from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
@@ -17,8 +17,10 @@ class Basic(IChar):
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
+
+    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         # offset shenk final position further to the right and bottom
-        if self._skill_hotkeys["teleport"]:
+        if capabilities.can_teleport_with_charges:
             self._pather.offset_node(149, [120, 70])
 
     def _cast_attack_pattern(self, time_in_s: float):
@@ -66,7 +68,7 @@ class Basic(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
@@ -79,7 +81,7 @@ class Basic(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             if not self._do_pre_move:
@@ -109,7 +111,7 @@ class Basic(IChar):
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             # Back to center stairs and more war cry
             self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
             self._cast_attack_pattern(atk_len)
@@ -121,17 +123,17 @@ class Basic(IChar):
             self._move_and_attack((-40, -20), atk_len)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
-        # Move close to nilathak
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_attack_pattern(self._char_config["atk_len_nihlatak"] * 0.4)
+        self._cast_attack_pattern(self._char_config["atk_len_nihlathak"] * 0.4)
         self._cast_attack_pattern(0.8)
-        self._move_and_attack((30, 15), self._char_config["atk_len_nihlatak"] * 0.3)
+        self._move_and_attack((30, 15), self._char_config["atk_len_nihlathak"] * 0.3)
         self._cast_attack_pattern(0.8)
-        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlatak"] * 0.4)
+        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlathak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_attack_pattern(1.2)
         return True

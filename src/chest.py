@@ -31,22 +31,21 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < time_out:
-            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True)
+            template_match = self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:
                     break
             else:
                 found_chest = True
-                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 # move mouse and check for label
-                mouse.move(x_m, y_m, delay_factor=[0.4, 0.6])
+                mouse.move(*template_match.center, delay_factor=[0.4, 0.6])
                 wait(0.13, 0.16)
                 chest_label = self._template_finder.search("CHEST_LABEL", self._screen.grab(), threshold=0.85)
                 if chest_label.valid:
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
-                    self._char.pick_up_item([x_m, y_m], 'potion')
+                    self._char.pick_up_item(template_match.center, 'potion')
                     wait(0.13, 0.16)
                     locked_chest = self._template_finder.search("LOCKED", self._screen.grab(), threshold=0.85)
                     if locked_chest.valid:

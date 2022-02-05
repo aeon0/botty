@@ -24,10 +24,12 @@ class Config:
     _game_config = None
     _pickit_config = None
     _shop_config = None
+    _transmute_config = None
     _custom = None
     # config data
     general = {}
     advanced_options = {}
+    gamble = {}
     ui_roi = {}
     ui_pos = {}
     dclone = {}
@@ -101,7 +103,7 @@ class Config:
                 section +=1
                 start_section = counter
             if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
-                if new_section: 
+                if new_section:
                     section -=1
                 if start_item ==0:
                     start_item = start_section
@@ -118,7 +120,7 @@ class Config:
                 elif section ==2:
                     exclude_list.append (item)
                     start_item = counter +1
-                if new_section: 
+                if new_section:
                     section +=1
         if (len (include_list)>0 and (len (include_list[0]) >=6)):
             if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
@@ -165,6 +167,7 @@ class Config:
             "saved_games_folder": Config._select_val("general", "saved_games_folder"),
             "name": Config._select_val("general", "name"),
             "max_game_length_s": float(Config._select_val("general", "max_game_length_s")),
+            "max_consecutive_fails": int(Config._select_val("general", "max_consecutive_fails")),
             "randomize_runs": bool(int(Config._select_val("general", "randomize_runs"))),
             "difficulty": Config._select_val("general", "difficulty"),
             "message_api_type": Config._select_val("general", "message_api_type"),
@@ -232,7 +235,7 @@ class Config:
             "atk_len_pindle": float(Config._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(Config._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(Config._select_val("char", "atk_len_shenk")),
-            "atk_len_nihlatak": float(Config._select_val("char", "atk_len_nihlatak")),
+            "atk_len_nihlathak": float(Config._select_val("char", "atk_len_nihlathak")),
             "atk_len_diablo_vizier": float(Config._select_val("char", "atk_len_diablo_vizier")),
             "atk_len_diablo_deseis": float(Config._select_val("char", "atk_len_diablo_deseis")),
             "atk_len_diablo_infector": float(Config._select_val("char", "atk_len_diablo_infector")),
@@ -240,8 +243,8 @@ class Config:
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
             "always_repair": bool(int(Config._select_val("char", "always_repair"))),
+            "gamble_items": Config._select_val("char", "gamble_items").replace(" ","").split(","),
         }
-
         # Sorc base config
         sorc_base_cfg = dict(Config._config["sorceress"])
         if "sorceress" in Config._custom:
@@ -343,6 +346,11 @@ class Config:
             "shop_hammerdin_scepters": bool(int(Config._select_val("scepters", "shop_hammerdin_scepters"))),
             "speed_factor": float(Config._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(Config._select_val("scepters", "apply_pather_adjustment"))),
+        }
+        stash_destination_str = Config._select_val("transmute","stash_destination")
+        Config._transmute_config = {
+            "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
+            "transmute_every_x_game": Config._select_val("transmute","transmute_every_x_game"),
         }
 
 if __name__ == "__main__":
