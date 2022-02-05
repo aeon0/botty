@@ -1,8 +1,11 @@
 name: botty
+channels:
+  - conda-forge
 dependencies:
   - python=3.9
   - pywin32
   - pip
+  - tesserocr
   - pip:
     - pyinstaller
     - opencv-python
@@ -23,3 +26,4 @@ dependencies:
     - cryptography
     - pillow
     - discord.py
+    - parse
