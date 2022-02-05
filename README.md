@@ -54,6 +54,7 @@ run_shenk=0
 | custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
 | logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line |
 | max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
+| max_consecutive_fails    | Botty will stop making games if the number of consecutive fails reaches this max value     |
 | randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
@@ -122,10 +123,16 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
-| always_repair      | 0: Will only repair when needed, 1: Will repair at the start of each run (EXPENSIVE FOR HIGH RUNEWORDS) |
+| runs_per_repair    | 0: Will only repair when needed, 1+: Will repair after # of runs set here |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
+| gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet
+
+| [transmute]             | Descriptions |
+| ------------------ | -------------------------------------------------------------------------------------------------|
+| transmute_every_x_game               | How often to run transmute routine (currently transmutes flawless gems into perfect gems). Transmute routine depends on stashing routine it will only start after items stashing is done. E.g. so it could take more than X games to perform transmutes if there were no items to stash at the time. Default: 20  |
+| stash_destination | Stash tabs by priority to place the results of the transmute. Default: 3,2,1,0. (It means the result will be first placed in stash 3 untils it's full, then to stash 2, etc. 0 - personal tab)
 
 ### Builds
 | [sorceress]   | Descriptions                                                                  |

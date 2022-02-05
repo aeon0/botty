@@ -14,8 +14,7 @@ from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
 from screen import Screen
-from ui.char_selector import CharSelector
-from utils.restart import restart_game
+from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
 
@@ -34,17 +33,8 @@ class GameController:
         self.game_controller_thread = None
         self.bot_thread = None
         self.bot = None
-        self.char_selector = None
 
-    def run_bot(self, pick_corpse: bool = False):
-        if self._config.general['restart_d2r_when_stuck']:
-            # Make sure the correct char is selected
-            if self.char_selector.has_char_template_saved():
-                Logger.info("Selecting original char")
-                self.char_selector.select_char()
-            else:
-                Logger.info("Saving top-most char as template")
-                self.char_selector.save_char_template()
+    def run_bot(self, pick_corpse: bool = False):        
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
@@ -59,7 +49,8 @@ class GameController:
         while 1:
             self.health_manager.update_location(self.bot.get_curr_location())
             max_game_length_reached = self.game_stats.get_current_game_length() > self._config.general["max_game_length_s"]
-            if max_game_length_reached or self.death_manager.died() or self.health_manager.did_chicken():
+            max_consecutive_fails_reached = False if not self._config.general["max_consecutive_fails"] else self.game_stats.get_consecutive_runs_failed() >= self._config.general["max_consecutive_fails"]
+            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken():
                 # Some debug and logging
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {self._config.general['name']}!")
@@ -72,7 +63,14 @@ class GameController:
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
-                do_restart = self.game_recovery.go_to_hero_selection()
+                if max_consecutive_fails_reached: 
+                    msg = f"Consecutive fails {self.game_stats.get_consecutive_runs_failed()} >= Max {self._config.general['max_consecutive_fails']}. Quitting botty."
+                    Logger.error(msg)
+                    if self._config.general["custom_message_hook"]:
+                        messenger.send_message(msg)
+                    self.safe_exit(1)
+                else:
+                    do_restart = self.game_recovery.go_to_hero_selection()
                 break
             time.sleep(0.5)
         self.bot_thread.join()
@@ -92,6 +90,7 @@ class GameController:
                 if restart_game(self._config.general["d2r_path"]):
                     self.game_stats.log_end_game(failed=max_game_length_reached)
                     if self.setup_screen():
+                        self.template_finder = TemplateFinder(self.screen)
                         self.start_health_manager_thread()
                         self.start_death_manager_thread()
                         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
@@ -102,7 +101,7 @@ class GameController:
                 Logger.error("Could not recover from a max game length violation. Quitting botty.")
                 if self._config.general["custom_message_hook"]:
                     messenger.send_message("Got stuck and will now quit botty")
-            os._exit(1)
+            self.safe_exit(1)
 
     def start(self):
         # Check if we user should update the d2r settings
@@ -116,8 +115,7 @@ class GameController:
         self.start_health_manager_thread()
         self.start_death_manager_thread()
         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
-        self.game_stats = GameStats()
-        self.char_selector = CharSelector(self.screen, self.template_finder)
+        self.game_stats = GameStats()        
         self.start_game_controller_thread()
         self.is_running = True
 
@@ -158,3 +156,7 @@ class GameController:
     def toggle_pause_bot(self):
         if self.bot:
             self.bot.toggle_pause()
+
+    def safe_exit(self, error_code=0):
+        kill_game()
+        os._exit(error_code)

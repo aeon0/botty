@@ -456,7 +456,7 @@ class Necro(IChar):
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
         #wait for pindle to die just incase - maybe needs death detection
         wait(self._cast_duration, self._cast_duration + 0.4)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes("pindle_end", self)
         else:
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
@@ -488,7 +488,7 @@ class Necro(IChar):
 
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)

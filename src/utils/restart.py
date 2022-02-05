@@ -15,13 +15,17 @@ def process_exists(process_name):
     # because Fail message could be translated
     return last_line.lower().startswith(process_name.lower())
 
+def kill_game():
+    while process_exists("D2R.exe"):
+        os.system("taskkill /f /im  D2R.exe")
+        wait(1.0, 1.5)
+
 def restart_game(d2_path = None):
     if not d2_path:
         path = "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe"
     else:
         path = d2_path
-    if process_exists("D2R.exe"):
-        os.system("taskkill /f /im  D2R.exe")
+    kill_game()
     wait(1.0, 1.5)
     # This method should function similar to opening the exe via double-click
     os.startfile(path)

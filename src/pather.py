@@ -111,6 +111,8 @@ class Pather:
             12: {'A5_TOWN_8': (-139, -196), 'A5_TOWN_9': (-165, 87)},
             13: {'A5_TOWN_3': (120, 120), 'A5_TOWN_10': (-533, 221), 'A5_TOWN_4': (548, 97)},
             14: {'A5_TOWN_3': (447, 173), 'A5_TOWN_10': (-200, 280)},
+            15: {'A5_TOWN_9': (310, -38), 'A5_TOWN_2': (-327, -118), 'A5_TOWN_12': (-267, 204)},
+            16: {'A5_TOWN_0.5': (65, 155), 'A5_TOWN_12': (-25, -107)},
             # Pindle
             100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
             101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
@@ -301,7 +303,7 @@ class Pather:
             911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
         }
         self._paths = {
-            # A5 Town
+	        # A5 Town
             (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
             (Location.A5_TOWN_START, Location.A5_STASH): [3, 4, 5],
             (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
@@ -309,20 +311,31 @@ class Pather:
             (Location.A5_TOWN_START, Location.A5_MALAH): [1, 2],
             (Location.A5_TOWN_START, Location.A5_LARZUK): [3, 4, 5, 13, 14],
             (Location.A5_MALAH, Location.A5_TOWN_START): [1, 0],
+            (Location.A5_MALAH, Location.A5_QUAL_KEHK): [16, 15, 12],
+            (Location.A5_MALAH, Location.A5_STASH): [1, 0, 3, 4, 5],
+            (Location.A5_MALAH, Location.A5_LARZUK): [1, 0, 3, 4, 5, 13, 14],
+            (Location.A5_MALAH, Location.A5_WP): [1, 0, 3, 4],
+            (Location.A5_MALAH, Location.A5_NIHLATHAK_PORTAL): [16, 15, 12, 11, 10, 6, 8, 9],
             (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
             (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
             (Location.A5_STASH, Location.A5_WP): [],
+            (Location.A5_STASH, Location.A5_MALAH): [4, 3, 0, 1, 2],
             (Location.A5_WP, Location.A5_STASH): [],
             (Location.A5_WP, Location.A5_LARZUK): [13, 14],
             (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
             (Location.A5_WP, Location.A5_QUAL_KEHK): [6, 10, 11, 12],
+            (Location.A5_WP, Location.A5_MALAH): [4, 3, 0, 1, 2],
             (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
             (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
             (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
+            (Location.A5_QUAL_KEHK, Location.A5_LARZUK): [12, 11, 10, 6, 5, 13, 14],
+            (Location.A5_QUAL_KEHK, Location.A5_MALAH): [15, 16, 2],
             (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
             (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
             (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
+            (Location.A5_LARZUK, Location.A5_STASH): [14, 13, 5],
+            (Location.A5_LARZUK, Location.A5_MALAH): [14, 13, 5, 4, 3, 1, 2],
             # Pindle
             (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
             (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
@@ -434,7 +447,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
-        if not char.can_teleport():
+        if not char.capabilities.can_teleport_natively:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -535,7 +548,8 @@ class Pather:
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        use_tp_charge: bool = False
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
@@ -560,8 +574,14 @@ class Pather:
                 return False
         else:
             Logger.debug(f"Traverse: {path}")
-        if do_pre_move:
+
+        if use_tp_charge and char.select_tp():
+            # this means we want to use tele charge and we were able to select it
+            pass
+        elif do_pre_move:
+            # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
             char.pre_move()
+
         last_direction = None
         for i, node_idx in enumerate(path):
             continue_to_next_node = False

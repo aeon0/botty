@@ -4,12 +4,21 @@ from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
+from transmute import Transmute
 from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
+TOWN_MARKERS = [
+            "A5_TOWN_0", "A5_TOWN_1",
+            "A4_TOWN_4", "A4_TOWN_5",
+            "A3_TOWN_0", "A3_TOWN_1",
+            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
+            "A1_TOWN_1", "A1_TOWN_3"
+        ]
 
 class TownManager:
+
     def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._config = Config()
         self._template_finder = template_finder
@@ -43,13 +52,7 @@ class TownManager:
         :param time_out: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within time_out time
         """
-        template_match = self._template_finder.search_and_wait([
-            "A5_TOWN_0", "A5_TOWN_1",
-            "A4_TOWN_4", "A4_TOWN_5",
-            "A3_TOWN_0", "A3_TOWN_1",
-            "A2_TOWN_0", "A2_TOWN_1", "A2_TOWN_10",
-            "A1_TOWN_1", "A1_TOWN_3"
-        ], best_match=True, time_out=time_out)
+        template_match = self._template_finder.search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -115,7 +118,7 @@ class TownManager:
         new_loc = self.go_to_act(4, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].resurrect(new_loc)
-              
+
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
@@ -125,8 +128,31 @@ class TownManager:
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         return self._acts[Location.A5_TOWN_START].identify(new_loc)
-        
-    def stash(self, curr_loc: Location) -> Union[Location, bool]:
+
+    def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        new_loc = curr_loc
+
+        if not self._acts[curr_act].can_stash():
+            new_loc = self.go_to_act(5, curr_loc)
+            if not new_loc: return False
+            curr_act = Location.A5_TOWN_START
+
+        new_loc = self._acts[curr_act].open_stash(new_loc)
+        if not new_loc: return False
+        return new_loc
+
+    def gamble (self, curr_loc: Location) -> Union[Location, bool]:
+        curr_act = TownManager.get_act_from_location(curr_loc)
+        if curr_act is None: return False
+        # check if we can Identify in current act
+        if self._acts[curr_act].can_gamble():
+            return self._acts[curr_act].gamble(curr_loc)
+        new_loc = self.go_to_act(4, curr_loc)
+        if not new_loc: return False
+        return self._acts[Location.A4_TOWN_START].gamble(new_loc)
+
+    def stash(self, curr_loc: Location, gamble=False) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can stash in current act
@@ -134,7 +160,7 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
+            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
