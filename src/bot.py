@@ -259,8 +259,8 @@ class Bot:
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
-    
-    def need_refill_teleport_charges(self) -> bool:    
+
+    def need_refill_teleport_charges(self) -> bool:
         return not self._char.select_tp() or self._char.is_low_on_teleport_charges()
 
     def on_maintenance(self):
@@ -277,7 +277,7 @@ class Bot:
                 keybind = self._char._skill_hotkeys["teleport"]
                 Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
                 self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
-            
+
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
 
@@ -323,10 +323,12 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
+        need_routine_repair = self._config.char["runs_per_repair"] and ((self._game_stats._run_counter) % int(self._config.char["runs_per_repair"]) == 0)
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and self.need_refill_teleport_charges()
-        if self._tps_left < random.randint(3, 5) or need_repair or self._config.char["always_repair"] or need_refill_teleport:
+        if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair or need_refill_teleport:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
-            if need_refill_teleport: Logger.info("Teleport charges ran out. Need to repair")
+            elif need_routine_repair: Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={self._config.char['runs_per_repair']}")
+            elif need_refill_teleport: Logger.info("Teleport charges ran out. Need to repair")
             else: Logger.info("Repairing and buying TPs at next Vendor")
             self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
             if not self._curr_loc:
@@ -394,7 +396,8 @@ class Bot:
 
     # All the runs go here
     # ==================================
-    def _ending_run_helper(self, res: Union[bool, 'tuple[Location, bool]']):
+    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+        self._game_stats._run_counter += 1
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:
