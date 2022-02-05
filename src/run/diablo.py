@@ -541,3 +541,6 @@ if __name__ == "__main__":
     screen = Screen()
     game_stats = GameStats()
     bot = Bot(screen, game_stats, False)
+
+    # Idea list:
+    # Ghetto Mob detection: clear CS, take a screenshot w/o mobs at each attack point. template check on arrival at each node the regions where mobs can spawn. if no match: attack. if match: skip.

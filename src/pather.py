@@ -646,14 +646,12 @@ class Pather:
                     did_force_move = True
                     last_move = time.time()
                 
-                """
+                
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
-                found_shrine = False
                 if teleport_count > 30:
                     Logger.debug("We teleport for quite a while - let's check if we are facetanking a Shrine or Stash")
                     img = self._screen.grab()
-                    Logger.debug("Took a screenshot and now searching for the words SHRINE, STASH or PILE")
-                    if found_shrine == self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True):
+                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
                         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         Logger.debug(f"Oh, indeed I found Shrine or Stash blocking our way, left clicking above my head now - might find amazing treasures!")
                         mouse.move(640, 255)
@@ -676,7 +674,7 @@ class Pather:
                     teleport_count = 0
                     break
                 teleport_count += 1
-                """
+                
                                   
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
