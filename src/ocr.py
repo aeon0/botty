@@ -76,8 +76,9 @@ class Ocr:
         model: str = "engd2r_inv_th",
         psm: int = 3,
         word_list: str = "all_strings.txt",
-        inv_th: bool = True,
+        scale: float = 1.0,
         erode: bool = True,
+        inv_th: bool = True,
         fix_regexps: bool = True,
         check_known_errors: bool = True,
         check_wordlist: bool = True,
@@ -91,8 +92,9 @@ class Ocr:
         :param psm: Tesseract PSM to use. 7=single uniform text line, 6=single block of text, 3=auto without orientation.
             See https://www.pyimagesearch.com/2021/11/15/tesseract-page-segmentation-modes-psms-explained-how-to-improve-your-ocr-accuracy/
         :param word_list: predefined wordlist to use. Tesseract will use these to help with recognition
-        :param inv_th: invert and threshold the input image(s)
+        :param scale: scales input image, sometimes necessary for smaller text (but doesn't always improve accuracy). Engd2r_inv_th trained on ~1.6x scaled assets.
         :param erode: use erosion function to erode image to black borders (i.e. for item drops)
+        :param inv_th: invert and threshold the input image(s)
         :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
         :param check_known_errors: check for predefined common errors and replace
         :param check_wordlist: check dictionary of words and match closest match if proximity is greater than match_threshold
@@ -106,10 +108,13 @@ class Ocr:
 
         with PyTessBaseAPI(psm=psm, oem=OEM.LSTM_ONLY, path=f"assets/tessdata", lang=model ) as api:
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
-            api.SetVariable("user_words_file", word_list)
+            if word_list:
+                api.SetVariable("user_words_file", word_list)
             api.SetSourceResolution(72)
             for image in images:
                 processed_img = image
+                if scale:
+                    processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
                 if erode:
                     processed_img = erode_to_black(processed_img)
                 if inv_th:
@@ -239,16 +244,33 @@ class Ocr:
         return text
 
 if __name__ == "__main__":
-
     import os
     import keyboard
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
+    from utils.misc import cut_roi
+    from config import Config
 
     from screen import Screen
     screen = Screen()
     ocr = Ocr()
     img = screen.grab()
 
+    Logger.debug("default settings (for item drops, tooltips, etc.)")
     ocr_result = ocr.image_to_text(img)[0]
+    Logger.debug("universal settings")
+    ocr_result = ocr.image_to_text(
+        #images = cut_roi(img, Config.ui_roi["char_selection_top"]),
+        images = img,
+        model = "engd2r_ui",
+        psm = 3,
+        word_list = "all_strings.txt",
+        scale = 1.5,
+        erode = False,
+        inv_th = False,
+        fix_regexps = False,
+        check_known_errors = False,
+        check_wordlist = False,
+        match_threshold = 0.9
+    )[0]
     Logger.debug(ocr_result.text)
