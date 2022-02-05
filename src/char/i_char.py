@@ -4,10 +4,11 @@ import time
 import cv2
 import math
 import keyboard
+import numpy as np
 from char.capabilities import CharacterCapabilities
 
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi
+from utils.misc import wait, cut_roi, is_in_roi, color_filter
 
 from logger import Logger
 from config import Config
@@ -34,11 +35,13 @@ class IChar:
     def _discover_capabilities(self) -> CharacterCapabilities:
         if self._skill_hotkeys["teleport"]:
             if self.select_tp():
-                match = self._template_finder.search(["TELE_NO_CHARGES", "TELE_NO_CHARGES_INACTIVE"], self._screen.grab(), threshold=0.95, roi=self._config.ui_roi["skill_right"])
-                if match.valid:
-                    return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
-                else:
+                img = self._screen.grab()
+                skill_img = cut_roi(img, self._config.ui_roi["skill_right"])
+                charge_mask, _ = color_filter(skill_img, self._config.colors["blue"])
+                if np.sum(charge_mask) > 0:
                     return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+                else:
+                    return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
             return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
         else:
             return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
@@ -96,7 +99,7 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-    
+
 
     def is_low_on_teleport_charges(self):
         return self._template_finder.search(["TELE_3_CHARGES", "TELE_3_CHARGES_INACTIVE", "TELE_2_CHARGES", "TELE_2_CHARGES_INACTIVE", "TELE_1_CHARGES", "TELE_1_CHARGES_INACTIVE"], self._screen.grab(), threshold=0.95, roi=self._config.ui_roi["skill_right"]).valid
@@ -116,16 +119,16 @@ class IChar:
             wait(0.3)
             mouse.click("left")
             wait(0.3)
-    
+
     def remap_right_skill_hotkey(self, skill_asset, hotkey):
         return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
-            
+
     def select_tp(self):
        if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
        return self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
-    
+
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
         if self.capabilities.can_teleport_natively:
@@ -133,7 +136,7 @@ class IChar:
 
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
-        if self._skill_hotkeys["teleport"] and (force_tp or self._ui_manager.is_right_skill_selected(["TELE_ACTIVE"])):
+        if self._skill_hotkeys["teleport"] and (force_tp or (self._ui_manager.is_right_skill_selected(["TELE_ACTIVE"]) and self._ui_manager.is_right_skill_active())):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")

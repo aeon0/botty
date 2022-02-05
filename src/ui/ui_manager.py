@@ -512,7 +512,6 @@ class UiManager():
 
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
-        keyboard.send("esc")
 
     def transfer_shared_to_private_gold (self, count: int):
         for x in range (3):
@@ -582,7 +581,7 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3, normalize_monitor=True)
+        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
         keyboard.send('ctrl', do_release=False)
@@ -593,7 +592,7 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
         keyboard.send('ctrl', do_release=False)
@@ -603,7 +602,7 @@ class UiManager():
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         # delay to make sure the tome has time to transfer to other inventory before closing window
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["right_inventory"], time_out=3)
         if not tp_tome.valid:
             return False
         return True
@@ -659,7 +658,7 @@ class UiManager():
                     self.close_vendor_screen ()
                     break
                 for item in self._config.char["gamble_items"]:
-                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
+                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["left_inventory"], normalize_monitor=True)
                     while not template_match_item.valid:
                         #Refresh gambling screen
                         template_match = self._template_finder.search ("REFRESH", self._screen.grab(), normalize_monitor=True)
@@ -668,7 +667,7 @@ class UiManager():
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
-                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["vendor_stash"], normalize_monitor=True)
+                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["left_inventory"], normalize_monitor=True)
                     #item found in gambling menu
                     mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
@@ -728,18 +727,18 @@ class UiManager():
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
+        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid:
             mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
+        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3, normalize_monitor=True)
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid:
             mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(mana_pots):
