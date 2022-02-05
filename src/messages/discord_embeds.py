@@ -69,7 +69,7 @@ class DiscordEmbeds():
             e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")
         self._send_embed(e)
 
-    def send_message(self, title: str, msg: str, img:str):
+    def send_message(self, title: str, msg: str):
         e = discord.Embed(title=f"{title}", description=f"```{msg}```", color=Color.dark_teal())
         e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")
         self._send_embed(e)
