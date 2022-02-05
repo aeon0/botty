@@ -35,17 +35,11 @@ class Ocr:
     """
     OCR input processing functions:
     """
-
-    def inv_th(self, image: np.ndarray = None) -> np.ndarray:
+    def crop_pad(self, image: np.ndarray = None):
         # crop
         image = image[4: image.shape[0]-4, 5: image.shape[1]-5]
         # re-pad
         image = np.pad(image, pad_width=[(4, 4),(4, 4),(0, 0)], mode='constant')
-        # threshold
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        image = cv2.threshold(image, 25, 255, cv2.THRESH_BINARY)[1]
-        # invert
-        image = cv2.bitwise_not(image)
         return image
 
     """
@@ -77,15 +71,18 @@ class Ocr:
         psm: int = 3,
         word_list: str = "all_strings.txt",
         scale: float = 1.0,
+        crop_pad: bool = True,
         erode: bool = True,
-        inv_th: bool = True,
+        invert: bool = True,
+        threshold: int = 25,
+        digits_only: bool = False,
         fix_regexps: bool = True,
         check_known_errors: bool = True,
         check_wordlist: bool = True,
-        match_threshold: float = 0.9
+        word_match_threshold: float = 0.9
     ) -> list[str]:
         """
-        Uses Tesseract to read an image
+        Uses Tesseract to read image(s)
         :param images (required): image or list of images to read in OpenCV format.
             Use a list of images rather than looping over single images where possible for best performance.
         :param model: OCR language model basename to use (in assets/tessdata folder)
@@ -93,12 +90,15 @@ class Ocr:
             See https://www.pyimagesearch.com/2021/11/15/tesseract-page-segmentation-modes-psms-explained-how-to-improve-your-ocr-accuracy/
         :param word_list: predefined wordlist to use. Tesseract will use these to help with recognition
         :param scale: scales input image, sometimes necessary for smaller text (but doesn't always improve accuracy). Engd2r_inv_th trained on ~1.6x scaled assets.
+        :param crop_pad: crop the outer part and then re-pad image. Intended for item drops.
         :param erode: use erosion function to erode image to black borders (i.e. for item drops)
-        :param inv_th: invert and threshold the input image(s)
+        :param invert: invert and threshold the input image(s)
+        :param threshold: apply threshold to image (ex. 25 would threshold around V=25). Set to 0 to not threshold image.
+        :param digits_only: only look for digits
         :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
         :param check_known_errors: check for predefined common errors and replace
         :param check_wordlist: check dictionary of words and match closest match if proximity is greater than match_threshold
-        :param match_threshold: (see check_wordlist)
+        :param word_match_threshold: (see check_wordlist)
         :return: Returns an OcrResult object
         """
 
@@ -110,16 +110,28 @@ class Ocr:
             api.ReadConfigFile("assets/tessdata/ocr_config.txt")
             if word_list:
                 api.SetVariable("user_words_file", word_list)
-            api.SetSourceResolution(72)
+            #api.SetSourceResolution(72 * scale)
             for image in images:
                 processed_img = image
                 if scale:
                     processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+                if crop_pad:
+                    processed_img = self.crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
-                if inv_th:
-                    processed_img = self.inv_th(processed_img)
+                if (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool:
+                    if threshold:
+                        processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
+                        processed_img = cv2.threshold(processed_img, threshold, 255, cv2.THRESH_BINARY)[1]
+                if invert:
+                    if threshold:
+                        processed_img = cv2.bitwise_not(processed_img)
+                    else:
+                        processed_img = ~processed_img
                 api.SetImageBytes(*self.img_to_bytes(processed_img))
+                if digits_only:
+                    api.SetVariable("tessedit_char_blacklist", ".,!?@#$%&*()<>_-+=/:;'\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+                    api.SetVariable("tessedit_char_whitelist", "0123456789")
                 original_text = api.GetUTF8Text()
                 text = original_text
                 # replace newlines if image is a single line
@@ -131,7 +143,7 @@ class Ocr:
                 if check_known_errors:
                     text = self.check_known_errors(text)
                 if check_wordlist and any([x <= 88 for x in word_confidences]):
-                    text = self.check_wordlist(text, word_list, word_confidences, match_threshold)
+                    text = self.check_wordlist(text, word_list, word_confidences, word_match_threshold)
                 results.append(OcrResult(
                     original_text = original_text,
                     text = text,
@@ -255,22 +267,25 @@ if __name__ == "__main__":
     screen = Screen()
     ocr = Ocr()
     img = screen.grab()
+    # img = cut_roi(img, Config.ui_roi["char_selection_top"])
 
     Logger.debug("default settings (for item drops, tooltips, etc.)")
     ocr_result = ocr.image_to_text(img)[0]
     Logger.debug("universal settings")
     ocr_result = ocr.image_to_text(
-        #images = cut_roi(img, Config.ui_roi["char_selection_top"]),
         images = img,
         model = "engd2r_ui",
         psm = 3,
         word_list = "all_strings.txt",
-        scale = 1.5,
+        scale = 1.0,
+        crop_pad = False,
         erode = False,
-        inv_th = False,
+        invert = False,
+        threshold = 0,
+        digits_only = False,
         fix_regexps = False,
         check_known_errors = False,
         check_wordlist = False,
-        match_threshold = 0.9
+        word_match_threshold = 0.9
     )[0]
     Logger.debug(ocr_result.text)
