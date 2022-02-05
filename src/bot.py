@@ -280,7 +280,7 @@ class Bot:
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
-        need_routine_repair = True if self._config.char["runs_per_repair"] and ((self._game_stats._run_counter) % int(self._config.char["runs_per_repair"]) == 0) else False
+        need_routine_repair = self._config.char["runs_per_repair"] and ((self._game_stats._run_counter) % int(self._config.char["runs_per_repair"]) == 0)
         if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             elif need_routine_repair: Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={self._config.char['runs_per_repair']}")
