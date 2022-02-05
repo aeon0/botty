@@ -1,19 +1,23 @@
 from .generic_api import GenericApi
 from config import Config
+from logger import Logger
 import cv2
 import datetime
 import traceback
 import discord
 from version import __version__
 import numpy as np
-from discord import Webhook, RequestsWebhookAdapter, Color
+from discord import Webhook, RequestsWebhookAdapter, Color, InvalidArgument
 
 class DiscordEmbeds(GenericApi):
     def __init__(self):
         self._config = Config()
-        self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
+        try:
+            self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
+        except InvalidArgument:
+            Logger.warning(f"Your custom_message_hook URL {self._config.general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         imgName = item.replace('_', '-')
@@ -73,8 +77,10 @@ class DiscordEmbeds(GenericApi):
     def _send_embed(self, e, file = None):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
         e.timestamp=datetime.datetime.now(datetime.timezone.utc)
-
-        self._webhook.send(embed=e, file=file, username=self._config.general['name'])
+        try:
+            self._webhook.send(embed=e, file=file, username=self._config.general['name'])
+        except BaseException as err:
+            Logger.error("Error sending Discord embed: " + err)
 
     def _get_Item_Color(self, item):
         if "magic_" in item:
