@@ -269,9 +269,7 @@ if __name__ == "__main__":
     img = screen.grab()
     # img = cut_roi(img, Config.ui_roi["char_selection_top"])
 
-    Logger.debug("default settings (for item drops, tooltips, etc.)")
-    ocr_result = ocr.image_to_text(img)[0]
-    Logger.debug("universal settings")
+    Logger.debug("OCR result:")
     ocr_result = ocr.image_to_text(
         images = img,
         model = "engd2r_ui",
