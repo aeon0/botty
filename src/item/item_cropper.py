@@ -5,7 +5,6 @@ from dataclasses import dataclass
 import time
 
 from config import Config
-from template_finder import TemplateFinder
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
@@ -15,15 +14,12 @@ class ItemText:
     data: np.ndarray = None
 
 class ItemCropper:
-    def __init__(self, template_finder: TemplateFinder):
+    def __init__(self):
         self._config = Config()
-        self._template_finder = template_finder
 
         self._gaus_filter = (19, 1)
         self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
-        self._box_expected_width_range=[200, 900]
-        self._box_expected_height_range=[24, 710]
 
         self._hud_mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self._hud_mask = cv2.threshold(self._hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
@@ -92,8 +88,7 @@ if __name__ == "__main__":
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     screen = Screen()
-    template_finder = TemplateFinder(screen)
-    cropper = ItemCropper(template_finder)
+    cropper = ItemCropper()
 
     while 1:
         img = screen.grab().copy()

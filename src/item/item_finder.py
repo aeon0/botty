@@ -6,7 +6,6 @@ import os
 from dataclasses import dataclass
 import math
 from config import Config
-from template_finder import TemplateFinder
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 
@@ -27,7 +26,7 @@ class Item:
 
 class ItemFinder:
     def __init__(self):
-        self._item_cropper = ItemCropper(TemplateFinder)
+        self._item_cropper = ItemCropper()
         # color range for each type of item
         # hsv ranges in opencv h: [0-180], s: [0-255], v: [0, 255]
         self._template_color_ranges = {
