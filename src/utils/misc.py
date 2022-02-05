@@ -112,7 +112,7 @@ def erode_to_black(img: np.ndarray, threshold: int = 14):
     img = cv2.bitwise_and(img, mask_color_r)
     return img
 
-def roi_center(roi: list[float] = None, scale: float = 1):
+def roi_center(roi: list[float] = None):
     x, y, w, h = roi
     return round(x + w/2), round(y + h/2)
 

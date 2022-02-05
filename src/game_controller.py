@@ -14,7 +14,6 @@ from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
 from screen import Screen
-from ui.char_selector import CharSelector
 from utils.restart import restart_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
@@ -34,17 +33,8 @@ class GameController:
         self.game_controller_thread = None
         self.bot_thread = None
         self.bot = None
-        self.char_selector = None
 
-    def run_bot(self, pick_corpse: bool = False):
-        if self._config.general['restart_d2r_when_stuck']:
-            # Make sure the correct char is selected
-            if self.char_selector.has_char_template_saved():
-                Logger.info("Selecting original char")
-                self.char_selector.select_char()
-            else:
-                Logger.info("Saving top-most char as template")
-                self.char_selector.save_char_template()
+    def run_bot(self, pick_corpse: bool = False):        
         # Start bot thread
         self.bot = Bot(self.screen, self.game_stats, self.template_finder, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
@@ -100,6 +90,7 @@ class GameController:
                 if restart_game(self._config.general["d2r_path"]):
                     self.game_stats.log_end_game(failed=max_game_length_reached)
                     if self.setup_screen():
+                        self.template_finder = TemplateFinder(self.screen)
                         self.start_health_manager_thread()
                         self.start_death_manager_thread()
                         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
@@ -124,8 +115,7 @@ class GameController:
         self.start_health_manager_thread()
         self.start_death_manager_thread()
         self.game_recovery = GameRecovery(self.screen, self.death_manager, self.template_finder)
-        self.game_stats = GameStats()
-        self.char_selector = CharSelector(self.screen, self.template_finder)
+        self.game_stats = GameStats()        
         self.start_game_controller_thread()
         self.is_running = True
 

@@ -434,7 +434,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
-        if not char.can_teleport():
+        if not char.capabilities.can_teleport_natively:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -535,7 +535,8 @@ class Pather:
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False,
-        threshold: float = 0.68
+        threshold: float = 0.68,
+        use_tp_charge: bool = False
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
@@ -560,8 +561,14 @@ class Pather:
                 return False
         else:
             Logger.debug(f"Traverse: {path}")
-        if do_pre_move:
+
+        if use_tp_charge and char.select_tp():
+            # this means we want to use tele charge and we were able to select it
+            pass
+        elif do_pre_move:
+            # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
             char.pre_move()
+
         last_direction = None
         for i, node_idx in enumerate(path):
             continue_to_next_node = False
