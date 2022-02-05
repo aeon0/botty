@@ -119,12 +119,13 @@ class Ocr:
                     processed_img = self.crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
-                if (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool:
+                image_is_binary = (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool
+                if image_is_binary:
                     if threshold:
                         processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
                         processed_img = cv2.threshold(processed_img, threshold, 255, cv2.THRESH_BINARY)[1]
                 if invert:
-                    if threshold:
+                    if threshold or image_is_binary:
                         processed_img = cv2.bitwise_not(processed_img)
                     else:
                         processed_img = ~processed_img
