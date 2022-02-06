@@ -260,9 +260,6 @@ class Bot:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
 
-    def need_refill_teleport_charges(self) -> bool:
-        return not self._char.select_tp() or self._char.is_low_on_teleport_charges()
-
     def on_maintenance(self):
         self._char.discover_capabilities(force=False)
         # Handle picking up corpse in case of death
@@ -326,7 +323,7 @@ class Bot:
         need_routine_repair = False
         if type(self._config.char["runs_per_repair"]) == int and self._config.char["runs_per_repair"] > 0:
             need_routine_repair = self._game_stats._run_counter % self._config.char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and self.need_refill_teleport_charges()
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
         if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair or need_refill_teleport:
             if need_repair: Logger.info("Repair needed. Gear is about to break")
             elif need_routine_repair: Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={self._config.char['runs_per_repair']}")
