@@ -210,6 +210,7 @@ class Bot:
         return result
 
     def on_init(self):
+        self._game_stats.log_start_game()
         keyboard.release(self._config.char["stand_still"])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
             "select_character": Bot._MAIN_MENU_MARKERS,
@@ -236,7 +237,6 @@ class Bot:
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
-        self._game_stats.log_start_game()
         self._curr_loc = self._town_manager.wait_for_town_spawn()
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if self._config.dclone["region_ips"] != "" and self._config.dclone["dclone_hotip"] != "":
