@@ -2,6 +2,7 @@ from asyncio.log import logger
 import cv2
 import time
 import random
+import keyboard
 from char.i_char import IChar
 from config import Config
 from logger import Logger
@@ -14,7 +15,7 @@ from ui import UiManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
-
+import numpy as np
 
 
 class Cows:
@@ -51,7 +52,7 @@ class Cows:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(0, 2)
+        self._ui_manager.use_wp(1, 2)
         return Location.A1_STONY_FIELD_WP
 
     def _legdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
@@ -87,14 +88,49 @@ class Cows:
         if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/cows_failed_corpse" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
+    def _corner_walk(self, corner_picker, x1_m, x2_m, y1_m, y2_m, dinky, stuck_count, super_stuck, corner_exclude)-> bool:
+        Logger.debug("Selected Corner: " + corner_picker)
+        pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
+        t0 = self._screen.grab()
+        self._char.move(pos_m, force_tp=True, force_move=True)
+        t1 = self._screen.grab()
+        diff = cv2.absdiff(t0, t1)
+        diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+        _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+        score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+        dinky += 1
+        if score < .10:
+            stuck_count += 1
+            if stuck_count >=2:
+                Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                super_stuck +=1
+            if super_stuck >= 2:
+                Logger.debug("SWAPPING AREA")
+                keepernumber = random.randint(1, 4)
+                if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                    keepernumber = random.randint(1, 4) 
+                    super_stuck = 0
+                else:
+                    corner_exclude = corner_picker
+                    corner_picker = keepernumber
+                    super_stuck = 0  
 
-    def _stony_field(self)-> bool:      
-        if do_pre_buff: self._char.pre_buff()   
+    def _stony_field(self)-> bool:      #do_pre_buff: bool
+        # if do_pre_buff: self._char.pre_buff()   
         #random tele to find yellow
         #click red portal        #dostuffto durance 3
         found = False
         dinky = 0
         keyboard.send("tab")
+        keyboard.send(self._char._skill_hotkeys["teleport"])
         score = 1
         stuck_count = 0
         found = False
@@ -108,8 +144,20 @@ class Cows:
             exclude1 = corner_picker - 2
             exclude2 = corner_picker + 2
             if corner_picker == 1:
-                Logger.debug("derpin1")
-                pos_m = self._screen.convert_abs_to_monitor((random.uniform(-150, -600), random.uniform(-20, -360)))
+                #self._corner_walk(1, -150, -600, -20, -360, 0, 0, 0, 1)
+            #elif corner_picker == 2:
+                #self._corner_walk(2, -150, -600, -20, -360, 0, 0, 0, 2)
+            #elif corner_picker == 3:
+                #self._corner_walk(3, -150, -600, -20, -360, 0, 0, 0, 3)
+            #elif corner_picker == 4:
+                #self._corner_walk(4, -150, -600, -20, -360, 0, 0, 0, 4)
+                
+                Logger.debug("Selected Corner 1 - Top Left")
+                x1_m = -250
+                x2_m = -500
+                y1_m = -50
+                y2_m = -100
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -123,11 +171,11 @@ class Cows:
                     stuck_count += 1
                     if stuck_count >=2:
                         Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
-                        pos_m = self._screen.convert_abs_to_monitor((600, 350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
-                        pos_m = self._screen.convert_abs_to_monitor((600, -350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
@@ -142,9 +190,14 @@ class Cows:
                             corner_exclude = corner_picker
                             corner_picker = keepernumber
                             super_stuck = 0  
+
             elif corner_picker == 2:
-                Logger.debug("derpin2")
-                pos_m = self._screen.convert_abs_to_monitor((random.uniform(150, 600), random.uniform(-20, -360)))
+                Logger.debug("Selected Corner 2 - Top Right")
+                x1_m = 250
+                x2_m = 500
+                y1_m = -50
+                y2_m = -100
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -158,27 +211,33 @@ class Cows:
                     stuck_count += 1
                     if stuck_count >=2:
                         Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
-                        pos_m = self._screen.convert_abs_to_monitor((-600, 350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
-                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
-                    if super_stuck >= 3:
+                    if super_stuck >= 2:
                         Logger.debug("SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
+                           super_stuck = 0
                         else:
                             corner_exclude = corner_picker
                             corner_picker = keepernumber
-                            super_stuck = 0   
+                            super_stuck = 0  
+            
             elif corner_picker == 3:
-                Logger.debug("derpin3")
-                pos_m = self._screen.convert_abs_to_monitor((random.uniform(480, 600), random.uniform(20, 360)))
+                Logger.debug("Selected Corner 3 - Bottom Right")
+                x1_m = 250
+                x2_m = 500
+                y1_m = 50
+                y2_m = 100
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -192,27 +251,33 @@ class Cows:
                     stuck_count += 1
                     if stuck_count >=2:
                         Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
-                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
-                        pos_m = self._screen.convert_abs_to_monitor((-600, 350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
-                    if super_stuck >= 3:
+                    if super_stuck >= 2:
                         Logger.debug("SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
+                           super_stuck = 0
                         else:
                             corner_exclude = corner_picker
                             corner_picker = keepernumber
                             super_stuck = 0
+                              
             elif corner_picker == 4:
-                Logger.debug("derpin4")
-                pos_m = self._screen.convert_abs_to_monitor((random.uniform(-480, -600), random.uniform(20, 360)))
+                Logger.debug("Selected Corner 4 - Right")
+                x1_m = -250
+                x2_m = -500
+                y1_m = 50
+                y2_m = 100
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -226,24 +291,26 @@ class Cows:
                     stuck_count += 1
                     if stuck_count >=2:
                         Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
-                        pos_m = self._screen.convert_abs_to_monitor((600, -350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
-                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
-                    if super_stuck >= 3:
+                    if super_stuck >= 2:
                         Logger.debug("SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
+                           super_stuck = 0
                         else:
                             corner_exclude = corner_picker
                             corner_picker = keepernumber
-                            super_stuck = 0
+                            super_stuck = 0  
+
         if found == True:
             dinky = 0
             roomfound = False
@@ -308,7 +375,7 @@ class Cows:
                 #     return False
 
 
-    def _tristram(self) -> bool:
+    def _tristram(self, do_pre_buff: bool) -> bool:
         if do_pre_buff: self._char.pre_buff()   
         logger.info("Entering Old Tristram to get the leg")
         logger.info("Calibrating at Entrance TP ")
