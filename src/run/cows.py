@@ -89,8 +89,221 @@ class Cows:
     def _stony_field(self)-> bool:      
         if do_pre_buff: self._char.pre_buff()   
         #random tele to find yellow
-        #click red portal
-        return True
+        #click red portal        #dostuffto durance 3
+        found = False
+        dinky = 0
+        keyboard.send("tab")
+        score = 1
+        stuck_count = 0
+        found = False
+        corner_picker = 3
+        corner_exclude = 3
+        super_stuck = 0
+        keepernumber = 0
+        while not found:   
+            found = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False).valid
+            Logger.debug(corner_picker)
+            exclude1 = corner_picker - 2
+            exclude2 = corner_picker + 2
+            if corner_picker == 1:
+                Logger.debug("derpin1")
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(-150, -600), random.uniform(-20, -360)))
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                dinky += 1
+                if score < .10:
+                    stuck_count += 1
+                    if stuck_count >=2:
+                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        pos_m = self._screen.convert_abs_to_monitor((600, 350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        pos_m = self._screen.convert_abs_to_monitor((600, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        super_stuck +=1
+                    if super_stuck >= 2:
+                        Logger.debug("SWAPPING AREA")
+                        keepernumber = random.randint(1, 4)
+                        if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                           keepernumber = random.randint(1, 4) 
+                           super_stuck = 0
+                        else:
+                            corner_exclude = corner_picker
+                            corner_picker = keepernumber
+                            super_stuck = 0  
+            elif corner_picker == 2:
+                Logger.debug("derpin2")
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(150, 600), random.uniform(-20, -360)))
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                dinky += 1
+                if score < .10:
+                    stuck_count += 1
+                    if stuck_count >=2:
+                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        pos_m = self._screen.convert_abs_to_monitor((-600, 350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        super_stuck +=1
+                    if super_stuck >= 3:
+                        Logger.debug("SWAPPING AREA")
+                        keepernumber = random.randint(1, 4)
+                        if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                           keepernumber = random.randint(1, 4) 
+                        else:
+                            corner_exclude = corner_picker
+                            corner_picker = keepernumber
+                            super_stuck = 0   
+            elif corner_picker == 3:
+                Logger.debug("derpin3")
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(480, 600), random.uniform(20, 360)))
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                dinky += 1
+                if score < .10:
+                    stuck_count += 1
+                    if stuck_count >=2:
+                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        pos_m = self._screen.convert_abs_to_monitor((-600, 350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        super_stuck +=1
+                    if super_stuck >= 3:
+                        Logger.debug("SWAPPING AREA")
+                        keepernumber = random.randint(1, 4)
+                        if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                           keepernumber = random.randint(1, 4) 
+                        else:
+                            corner_exclude = corner_picker
+                            corner_picker = keepernumber
+                            super_stuck = 0
+            elif corner_picker == 4:
+                Logger.debug("derpin4")
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(-480, -600), random.uniform(20, 360)))
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                dinky += 1
+                if score < .10:
+                    stuck_count += 1
+                    if stuck_count >=2:
+                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        pos_m = self._screen.convert_abs_to_monitor((600, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        pos_m = self._screen.convert_abs_to_monitor((-600, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        super_stuck +=1
+                    if super_stuck >= 3:
+                        Logger.debug("SWAPPING AREA")
+                        keepernumber = random.randint(1, 4)
+                        if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                           keepernumber = random.randint(1, 4) 
+                        else:
+                            corner_exclude = corner_picker
+                            corner_picker = keepernumber
+                            super_stuck = 0
+        if found == True:
+            dinky = 0
+            roomfound = False
+            badroom = False
+            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+            if template_match.valid:
+                keyboard.send("tab")
+                pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+            while not roomfound and not badroom:
+                roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
+                template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+                if template_match.valid:
+                    pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                if score < .15:
+                    stuck_count += 1
+                    if stuck_count >=3:
+                        pos_m = self._screen.convert_abs_to_monitor((500, -350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        pos_m = self._screen.convert_abs_to_monitor((-485, 350))
+                        self._char.move(pos_m, force_tp=True)
+                        self._char.move(pos_m, force_tp=True)
+                        keyboard.send("tab")
+                        wait(1)
+                        template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+                        stuck_count = 0
+                        if not template_match.valid:
+                            Logger.debug("GOING DEEP WITH THE COORDS BABYYYY!!!")
+                            pos_m = self._screen.convert_abs_to_monitor((500, 350))
+                            self._char.move(pos_m, force_tp=True)
+                            self._char.move(pos_m, force_tp=True)
+                            pos_m = self._screen.convert_abs_to_monitor((485, 350))
+                            self._char.move(pos_m, force_tp=True)
+                            self._char.move(pos_m, force_tp=True)                            
+                            if template_match.valid:
+                                pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                                keyboard.send("tab")
+                                continue
+            if roomfound == True:
+                found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
+                if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.5, time_out=4):
+                    # do a random tele jump and try again
+                    pos_m = self._screen.convert_abs_to_monitor((150, -200))
+                    self._char.move(pos_m, force_move=True)
+                    if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.3, time_out=4):
+                        return False
+                # Wait until templates in durance of hate lvl 3 entrance are found
+                # if not self._template_finder.search_and_wait(["MEPH_LVL3_1"], threshold=0.65, time_out=20).valid:
+                #     return False
 
 
     def _tristram(self) -> bool:
