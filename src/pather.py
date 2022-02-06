@@ -85,6 +85,10 @@ class Location:
     A4_DIABLO_B_LAYOUTCHECK = "a4_diablo_b_layoutcheck"
     A4_DIABLO_C_LAYOUTCHECK = "a4_diablo_c_layoutcheck"
     A4_DIABLO_END = "a4_diablo_end"
+    # Cows
+    A1_STONY_FIELD_WP = "a1_stony_field_wp"
+    A1_OLD_TRISTRAM = "a1_old_tristram"
+    A1_COW_LEVEL = "a1_cow_level"
 
 class Pather:
     """
