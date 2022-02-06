@@ -315,17 +315,21 @@ class Cows:
             dinky = 0
             roomfound = False
             badroom = False
-            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, normalize_monitor = True)
             if template_match.valid:
+                Logger.debug("I found the Portal to Old Tristram on the Minimap, switching minimap off")
                 keyboard.send("tab")         
-                pos_m = self._screen.convert_screen_to_monitor(template_match.position)
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                self._char.move(pos_m, force_tp=True, force_move=True)
+                #move to the position where the template was seen on the minimap.
+
+                #pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                self._char.move(*template_match.center, force_tp=True)
+  
             while not roomfound and not badroom:
+                Logger.debug("Trying to approach the portal to click by finding visual cues in its proximity") 
                 roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
                 template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                 if template_match.valid:
-                    pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                    pos_m = self._screen.convert_screen_to_monitor(template_match.center)
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -359,10 +363,12 @@ class Cows:
                             self._char.move(pos_m, force_tp=True)
                             self._char.move(pos_m, force_tp=True)                            
                             if template_match.valid:
-                                pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+                                pos_m = self._screen.convert_screen_to_monitor(template_match.center)
                                 keyboard.send("tab")
                                 continue
+
             if roomfound == True:
+                Logger.debug("Ok, I am well calibrated, let's enter the Portal to Old Tristram") 
                 found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
                 if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.5, time_out=4):
                     # do a random tele jump and try again
