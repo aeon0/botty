@@ -139,7 +139,7 @@ class Cows:
         super_stuck = 0
         keepernumber = 0
         while not found:   
-            found = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False).valid
+            found = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1"], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False).valid
             Logger.debug(corner_picker)
             exclude1 = corner_picker - 2
             exclude2 = corner_picker + 2
@@ -315,15 +315,15 @@ class Cows:
             dinky = 0
             roomfound = False
             badroom = False
-            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
             if template_match.valid:
-                keyboard.send("tab")
+                keyboard.send("tab")         
                 pos_m = self._screen.convert_screen_to_monitor(template_match.position)
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 self._char.move(pos_m, force_tp=True, force_move=True)
             while not roomfound and not badroom:
                 roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
-                template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+                template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                 if template_match.valid:
                     pos_m = self._screen.convert_screen_to_monitor(template_match.position)
                 t0 = self._screen.grab()
@@ -348,7 +348,7 @@ class Cows:
                         self._char.move(pos_m, force_tp=True)
                         keyboard.send("tab")
                         wait(1)
-                        template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+                        template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                         stuck_count = 0
                         if not template_match.valid:
                             Logger.debug("GOING DEEP WITH THE COORDS BABYYYY!!!")
