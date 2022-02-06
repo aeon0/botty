@@ -1,4 +1,5 @@
 import math
+from cv2 import threshold
 import keyboard
 import time
 import os
@@ -6,6 +7,9 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
+from item.pickit import PickIt
+from utils.custom_mouse import mouse
+from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 
 from utils.misc import is_in_roi
 from config import Config
@@ -301,6 +305,10 @@ class Pather:
             909: {"NECRO_TRAV_21": (-38, 101), "NECRO_TRAV_22": (-237, -35), "NECRO_TRAV_18": (450, -381), "NECRO_TRAV_17": (776, -286), },
             910: {"NECRO_TRAV_22": (287, 133), "NECRO_TRAV_21": (486, 269), },
             911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
+
+            #cows & Tristram
+            1000: {"COW_TRIST_1": (-165, 197), "COW_TRIST_0": (270, 117), "COW_TRIST_4": (-359, 255), "COW_TRIST_2": (454, -73), "COW_TRIST_3": (-584, 139), }, #Old Trist Red Portal
+            1001: {"COW_TRIST_5": (-171, 54), "COW_TRIST_22": (237, 95), "COW_TRIST_6": (240, 185), "COW_TRIST_8": (-341, -77), "COW_TRIST_24": (379, 113), "COW_TRIST_7": (501, -212), "COW_TRIST_9": (-157, -522), "COW_TRIST_23": (573, 45), }, #wirt corpse
         }
         self._paths = {
 	        # A5 Town
@@ -684,7 +692,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_B1S")
+    #display_all_nodes(pather, "COW_")
 
     # # changing node pos and generating new code
     # code = ""
@@ -697,6 +705,9 @@ if __name__ == "__main__":
     # print(code)
 
     ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
+    char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather) #config.char,
 
-    #pather.traverse_nodes([632], char)
+    pather.traverse_nodes([1000], char)
+    pather.traverse_nodes_fixed("cow_trist_tp_leg", char)
+    pather.traverse_nodes([1001], char)
+    

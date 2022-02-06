@@ -33,7 +33,7 @@ from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
-from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
+from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo, Cows
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
 # Added for dclone ip hunt
@@ -113,6 +113,7 @@ class Bot:
         self._nihlathak = Nihlathak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._cows = Cows(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -459,6 +460,16 @@ class Bot:
         res = False
         self._do_runs["run_diablo"] = False
         self._game_stats.update_location("Dia" if self._config.general['discord_status_condensed'] else "Diablo")
+        self._curr_loc = self._diablo.approach(self._curr_loc)
+        if self._curr_loc:
+            res = self._diablo.battle(not self._pre_buffed)
+        self._tps_left -= 1 # we use one tp at pentagram for calibration
+        self._ending_run_helper(res)
+    
+    def on_run_cows(self):
+        res = False
+        self._do_runs["run_cows"] = False
+        self._game_stats.update_location("Cows" if self._config.general['discord_status_condensed'] else "Cow Level")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             res = self._diablo.battle(not self._pre_buffed)
