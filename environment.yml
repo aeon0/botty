@@ -5,9 +5,7 @@ dependencies:
   - python=3.9
   - pywin32
   - pip
-  - leptonica
-  - tesseract
-  - pkg-config
+  - tesserocr
   - pip:
     - pyinstaller
     - opencv-python
@@ -29,4 +27,3 @@ dependencies:
     - pillow
     - discord.py
     - parse
-    - tesserocr
