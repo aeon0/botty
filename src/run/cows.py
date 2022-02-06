@@ -88,7 +88,7 @@ class Cows:
         if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/cows_failed_corpse" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
-    def _corner_walk(self, corner_picker, x1_m, x2_m, y1_m, y2_m, dinky, stuck_count, super_stuck, corner_exclude)-> bool:
+    def _corner_walk(self, corner_picker, x1_m, x2_m, y1_m, y2_m, dinky, stuck_count, super_stuck, corner_exclude, exclude1, exclude2)-> bool:
         Logger.debug("Selected Corner: " + corner_picker)
         pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
         t0 = self._screen.grab()
@@ -144,14 +144,13 @@ class Cows:
             exclude1 = corner_picker - 2
             exclude2 = corner_picker + 2
             if corner_picker == 1:
-                #self._corner_walk(1, -150, -600, -20, -360, 0, 0, 0, 1)
+                #self._corner_walk(1, -150, -600, -20, -360, 0, 0, 0, 1, 1, 1)
             #elif corner_picker == 2:
-                #self._corner_walk(2, -150, -600, -20, -360, 0, 0, 0, 2)
+                #self._corner_walk(2, -150, -600, -20, -360, 0, 0, 0, 2, 2, 2)
             #elif corner_picker == 3:
-                #self._corner_walk(3, -150, -600, -20, -360, 0, 0, 0, 3)
+                #self._corner_walk(3, -150, -600, -20, -360, 0, 0, 0, 3, 3, 3)
             #elif corner_picker == 4:
-                #self._corner_walk(4, -150, -600, -20, -360, 0, 0, 0, 4)
-                
+                #self._corner_walk(4, -150, -600, -20, -360, 0, 0, 0, 4, 4, 4)
                 Logger.debug("Selected Corner 1 - Top Left")
                 x1_m = -250
                 x2_m = -500
@@ -170,7 +169,7 @@ class Cows:
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
-                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        Logger.debug("Seems we are stuck, let's go reverse several steps")
                         pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
@@ -181,7 +180,7 @@ class Cows:
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
                     if super_stuck >= 2:
-                        Logger.debug("SWAPPING AREA")
+                        Logger.debug("Seems like we were not able to proceed in that direction, chosing another corner: SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
@@ -210,7 +209,7 @@ class Cows:
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
-                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        Logger.debug("Seems we are stuck, let's go reverse several steps")
                         pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
@@ -221,7 +220,7 @@ class Cows:
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
                     if super_stuck >= 2:
-                        Logger.debug("SWAPPING AREA")
+                        Logger.debug("Seems like we were not able to proceed in that direction, chosing another corner: SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
@@ -250,7 +249,7 @@ class Cows:
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
-                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        Logger.debug("Seems we are stuck, let's go reverse several steps")
                         pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
@@ -261,7 +260,7 @@ class Cows:
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
                     if super_stuck >= 2:
-                        Logger.debug("SWAPPING AREA")
+                        Logger.debug("Seems like we were not able to proceed in that direction, chosing another corner: SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
@@ -290,7 +289,7 @@ class Cows:
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
-                        Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                        Logger.debug("Seems we are stuck, let's go reverse several steps")
                         pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                         self._char.move(pos_m, force_tp=True)
                         self._char.move(pos_m, force_tp=True)
@@ -301,7 +300,7 @@ class Cows:
                         self._char.move(pos_m, force_tp=True)
                         super_stuck +=1
                     if super_stuck >= 2:
-                        Logger.debug("SWAPPING AREA")
+                        Logger.debug("Seems like we were not able to proceed in that direction, chosing another corner: SWAPPING AREA")
                         keepernumber = random.randint(1, 4)
                         if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                            keepernumber = random.randint(1, 4) 
@@ -317,7 +316,7 @@ class Cows:
             badroom = False
             template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, normalize_monitor = True)
             if template_match.valid:
-                Logger.debug("I found the Portal to Old Tristram on the Minimap, switching minimap off")
+                Logger.debug("I found the Portal to Old Tristram on the Minimap, switching Minimap off")
                 keyboard.send("tab")         
                 #move to the position where the template was seen on the minimap.
 
@@ -325,7 +324,7 @@ class Cows:
                 self._char.move(*template_match.center, force_tp=True)
   
             while not roomfound and not badroom:
-                Logger.debug("Trying to approach the portal to click by finding visual cues in its proximity") 
+                Logger.debug("Trying to approach the portal by finding visual cues in its proximity") 
                 roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
                 template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                 if template_match.valid:
@@ -384,10 +383,10 @@ class Cows:
     def _tristram(self, do_pre_buff: bool) -> bool:
         if do_pre_buff: self._char.pre_buff()   
         logger.info("Entering Old Tristram to get the leg")
-        logger.info("Calibrating at Entrance TP ")
+        logger.info("Calibrating at Entrance TP")
         if not self._pather.traverse_nodes([1000], self._char, time_out=5): return False
         logger.info("Static Path to Corpse")
-        self._pather.traverse_nodes_fixed("dia_a_layout", self._char)
+        self._pather.traverse_nodes_fixed("cow_trist_tp_leg", self._char)
         logger.info("Calibrating at Corpse")
         if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
         logger.info("Looting the leg the Corpse")
