@@ -25,17 +25,17 @@ class OcrResult:
 
 class Ocr:
     def __init__(self):
-        self.I_1 = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9\-+])")
-        self.II_U = re.compile(r"(?<=[A-Z])II|II(?=[A-Z])|1?=[a-z]")
-        self.One_I = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
-        self.OneOne_U = re.compile(r"(?<=[A-Z])11|11(?=[A-Z])|1?=[a-z]")
+        self._I_1 = re.compile(r"(?<=[%I0-9\-+])I|I(?=[%I0-9\-+])")
+        self._II_U = re.compile(r"(?<=[A-Z])II|II(?=[A-Z])|1?=[a-z]")
+        self._One_I = re.compile(r"(?<=[A-Z])1|1(?=[A-Z])|1?=[a-z]")
+        self._OneOne_U = re.compile(r"(?<=[A-Z])11|11(?=[A-Z])|1?=[a-z]")
         with open('assets/tessdata/ocr_errors.csv') as file:
-            self.ocr_errors = dict(csv.reader(file, skipinitialspace = False, delimiter = ',', quoting = csv.QUOTE_NONE))
+            self._ocr_errors = dict(csv.reader(file, skipinitialspace = False, delimiter = ',', quoting = csv.QUOTE_NONE))
 
     """
     OCR input processing functions:
     """
-    def crop_pad(self, image: np.ndarray = None):
+    def _crop_pad(self, image: np.ndarray = None):
         # crop
         image = image[4: image.shape[0]-4, 5: image.shape[1]-5]
         # re-pad
@@ -46,7 +46,7 @@ class Ocr:
     OCR functions:
     """
 
-    def img_to_bytes(self, image: np.ndarray, colorspace: str = 'BGR'):
+    def _img_to_bytes(self, image: np.ndarray, colorspace: str = 'BGR'):
         # Sets an OpenCV-style image for recognition: https://github.com/sirfz/tesserocr/issues/198
         bytes_per_pixel = image.shape[2] if len(image.shape) == 3 else 1
         height, width   = image.shape[:2]
@@ -116,7 +116,7 @@ class Ocr:
                 if scale:
                     processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
                 if crop_pad:
-                    processed_img = self.crop_pad(processed_img)
+                    processed_img = self._crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
                 image_is_binary = (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool
@@ -129,7 +129,7 @@ class Ocr:
                         processed_img = cv2.bitwise_not(processed_img)
                     else:
                         processed_img = ~processed_img
-                api.SetImageBytes(*self.img_to_bytes(processed_img))
+                api.SetImageBytes(*self._img_to_bytes(processed_img))
                 if digits_only:
                     api.SetVariable("tessedit_char_blacklist", ".,!?@#$%&*()<>_-+=/:;'\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
                     api.SetVariable("tessedit_char_whitelist", "0123456789")
@@ -140,11 +140,11 @@ class Ocr:
                     text = text.replace('\n', '')
                 word_confidences = api.AllWordConfidences()
                 if fix_regexps:
-                    text = self.fix_regexps(text)
+                    text = self._fix_regexps(text)
                 if check_known_errors:
-                    text = self.check_known_errors(text)
+                    text = self._check_known_errors(text)
                 if check_wordlist and any([x <= 88 for x in word_confidences]):
-                    text = self.check_wordlist(text, word_list, word_confidences, word_match_threshold)
+                    text = self._check_wordlist(text, word_list, word_confidences, word_match_threshold)
                 results.append(OcrResult(
                     original_text = original_text,
                     text = text,
@@ -158,13 +158,13 @@ class Ocr:
     """
     OCR output processing functions:
     """
-    def check_known_errors(self, text):
-        for key, value in self.ocr_errors.items():
+    def _check_known_errors(self, text):
+        for key, value in self._ocr_errors.items():
             if key in text:
                 text = text.replace(key, value)
         return text
 
-    def check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
+    def _check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
         with open(f'assets/tessdata/word_lists/{word_list}') as file:
             word_list = [line.rstrip() for line in file]
 
@@ -199,26 +199,26 @@ class Ocr:
                 new_string += "\n"
         return new_string.strip()
 
-    def fix_regexps(self, ocr_output: str, repeat_count: int = 0) -> str:
+    def _fix_regexps(self, ocr_output: str, repeat_count: int = 0) -> str:
         # case: two 1's within a string; e.g., "SIIPER MANA POTION"
         try:
-            text = self.II_U.sub('U', ocr_output)
+            text = self._II_U.sub('U', ocr_output)
         except:
             Logger.error(f"Error _II_ -> _U_ on {ocr_output}")
             text = ocr_output
         # case: two 1's within a string; e.g., "S11PER MANA POTION"
         try:
-            text = self.OneOne_U.sub('U', text)
+            text = self._OneOne_U.sub('U', text)
         except:
             Logger.error(f"Error _11_ -> _U_ on {ocr_output}")
         # case: an I within a number or by a sign; e.g., "+32I to mana attack rating"
         try:
-            text = self.I_1.sub('1', text)
+            text = self._I_1.sub('1', text)
         except:
             Logger.error(f"Error I -> 1 on {ocr_output}")
         # case: a 1 within a string; e.g., "W1RT'S LEG"
         try:
-            text = self.One_I.sub('I', text)
+            text = self._One_I.sub('I', text)
         except:
             Logger.error(f"Error 1 -> I on {ocr_output}")
 
@@ -252,7 +252,7 @@ class Ocr:
             repeat=True
             repeat_count += 1
         if repeat and repeat_count < 10:
-            self.fix_regexps(text)
+            self._fix_regexps(text)
 
         return text
 
