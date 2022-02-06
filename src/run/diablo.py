@@ -176,7 +176,7 @@ class Diablo:
         if not self._pather.traverse_nodes([604], self._char): return False #, time_out=3): return False 
         self._char.kill_cs_trash("entrance_hall_01")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        
+        Logger.debug("CS Trash: Clearing Hall 1")
         self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # 604 -> 671 Hall1
         Logger.debug("Kill trash at location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02")
@@ -191,18 +191,18 @@ class Diablo:
         if not self._pather.traverse_nodes([605], self._char): return False # hybrid calibration node
         templates = ["DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"] #Entrance 1 Refrences
         if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1).valid:
-            Logger.info("Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
+            Logger.info("CS Trash: Entrance 2 Layout_check step 1/2: Entrance 1 templates NOT found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_55","DIABLO_ENTRANCE2_56"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1).valid:
-                Logger.info("Entrance 2 Layout_check step 2/2: Failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
+                Logger.info("CS Trash: Entrance 2 Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance2_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
             else:
-                Logger.info("Entrance 2 Layout_check step 2/2: Entrance 2 templates found - "+'\033[96m'+"all fine, proceeding with Entrance 2"+'\033[0m')
-                if not self._entrance_2(): return False
-                entrance2_layout = "CS Entrance Style 2"
+                Logger.info("CS Trash: Entrance 2 Layout_check step 2/2: Entrance 2 templates found - "+'\033[96m'+"all fine, proceeding with Entrance 2"+'\033[0m')
+                entrance2_layout = "CS Trash: Layout B:"
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 Logger.info("Entrance Layout: " + entrance2_layout)
+                Logger.debug("CS Trash: Clearing Hall 2-2")
                 Logger.debug("Kill trash at location: entrance2_01")
                 self._char.kill_cs_trash("entrance2_01")
                 if not self._pather.traverse_nodes([682], self._char): return False # , time_out=3):
@@ -217,6 +217,7 @@ class Diablo:
                 self._char.kill_cs_trash("entrance2_03")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 self._pather.traverse_nodes([683,684], self._char, time_out=3)
+                Logger.debug("CS Trash: Clearing Hall 2-3")
                 self._pather.traverse_nodes_fixed("diablo_entrance2_2", self._char)
                 self._pather.traverse_nodes([685,686], self._char, time_out=3)
                 Logger.info(entrance2_layout + " - cleaning hall 3/3")
@@ -226,38 +227,36 @@ class Diablo:
                 # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM 
                 return True 
         else:
-            Logger.debug("Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
+            Logger.debug("CS Trash: Entrance 1 Layout_check step 1/2: Entrance 1 templates found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5).valid:
                 Logger.debug("Entrance 1 Layout_check step 2/2: Entrance 2 templates NOT found - "+'\033[95m'+"all fine, proceeding with Entrance 1"+'\033[0m')
-                if not self._entrance_1(): return False
-                entrance1_layout = "CS Entrance Style 1"
+                entrance1_layout = "CS Trash: Layout A:"
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 Logger.info("Entrance Layout: " + entrance1_layout)
-                Logger.info(entrance1_layout + " - cleaning hall 1/3")
-                Logger.debug("Kill trash at location: entrance1_01")
+                Logger.debug("CS Trash: Clearing Hall 1-2")
+                Logger.debug(entrance1_layout + " - cleaning hall 2 - 1/3 - location: entrance1_01")
                 self._char.kill_cs_trash("entrance1_01") # Lands on location and starts attacking
                 if not self._pather.traverse_nodes([673], self._char): return False # , time_out=3): # Re-adjust itself and continues to attack
-                Logger.debug("Kill trash at location: entrance1_02")
+                Logger.debug(entrance1_layout + " - cleaning hall 2 - 2/3 - location: entrance1_02")
                 self._char.kill_cs_trash("entrance1_02")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) # Moves char to postion close to node 674 continues to attack
                 self._pather.traverse_nodes([674], self._char, time_out=3)
-                Logger.debug("Kill trash at location: entrance1_03")
+                Logger.debug(entrance1_layout + " - cleaning hall 2 - 3/3 - location: entrance1_03")
                 self._char.kill_cs_trash("entrance1_03")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                Logger.info(entrance1_layout + " - cleaning hall 2/3")
                 self._pather.traverse_nodes([675], self._char, time_out=3) # Re-adjust itself
                 self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) #static path to get to be able to spot 676
+                Logger.debug("CS Trash: Clearing Hall 1-3")
                 self._pather.traverse_nodes([676], self._char, time_out=3)
-                Logger.info(entrance1_layout + " - cleaning hall 3/3")
-                Logger.debug("Kill trash at location: entrance1_04")
+                Logger.debug(entrance1_layout + " - cleaning hall 3 - 1/1 - location: entrance1_04")
                 self._char.kill_cs_trash("entrance1_04")
                 self._picked_up_items |= self._pickit.pick_up_items(self._char)
                 # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM
                 return True
             else:
-                Logger.warning("Entrance 1 Layout_check step 2/2: Failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
+                Logger.warning("CS Trash: Entrance 1 Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance1_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                 return True
         
@@ -344,7 +343,7 @@ class Diablo:
     def _trash_seals(self) -> bool:
         self._pather.traverse_nodes([602], self._char)
         self._pather.traverse_nodes_fixed("dia_trash_a", self._char)
-        Logger.debug("A: Clearing trash betwen Pentagramm & Layoutcheck")
+        Logger.debug("CS TRASH: A Pent to LC")
         self._char.kill_cs_trash("trash_a")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_Trash_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         if not self._loop_pentagram("dia_a1l_home_loop"): return False
@@ -352,7 +351,7 @@ class Diablo:
         Logger.info("A: finished clearing Trash at Seal & calibrated at PENTAGRAM")
 
         self._pather.traverse_nodes_fixed("dia_trash_b", self._char)
-        Logger.debug("B: Clearing trash betwen Pentagramm & Layoutcheck")
+        Logger.debug("CS TRASH: B Pent to LC")
         self._char.kill_cs_trash("trash_b")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_Trash_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         if not self._loop_pentagram("dia_b1s_home_loop"): return False
@@ -360,7 +359,7 @@ class Diablo:
         Logger.info("B: finished clearing Trash at Seal & calibrated at PENTAGRAM")
         
         self._pather.traverse_nodes_fixed("dia_trash_c", self._char)
-        Logger.debug("C: Clearing trash betwen Pentagramm & Layoutcheck")
+        Logger.debug("CS TRASH: C Pent to LC")
         self._char.kill_cs_trash("trash_c")
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_Trash_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         if not self._loop_pentagram("dia_c1f_home_loop"): return False
@@ -496,35 +495,34 @@ class Diablo:
 
         if not self._cs_pentagram(): return False      
         if self._config.char["kill_cs_trash"]: self._trash_seals()
-        
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
         if not self._pather.traverse_nodes([602], self._char): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
-        if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
+        #if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
+        #if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
+        #if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
         
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char , time_out=3): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
-        if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
+        #if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
+        #if do_pre_buff: self._char.pre_buff()
+        #if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
         
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
-        if do_pre_buff: self._char.pre_buff()
-        if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
+        #if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
+        #if do_pre_buff: self._char.pre_buff()
+        #if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
         
         # Kill Diablo
-        Logger.info("Waiting for Diablo to spawn")
-        if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
-        self._char.kill_diablo() 
-        wait(0.2, 0.3)
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        wait(0.5, 0.7)
+        #Logger.info("Waiting for Diablo to spawn")
+        #if not self._pather.traverse_nodes([602], self._char): return False # , time_out=3):
+        #self._char.kill_diablo() 
+        #wait(0.2, 0.3)
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
         
 if __name__ == "__main__":
@@ -544,3 +542,5 @@ if __name__ == "__main__":
 
     # Idea list:
     # Ghetto Mob detection: clear CS, take a screenshot w/o mobs at each attack point. template check on arrival at each node the regions where mobs can spawn. if no match: attack. if match: skip.
+    # use minimap to confirm map layouts & pentragram loop?
+    

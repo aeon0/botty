@@ -8,17 +8,58 @@ wkdir = os.getcwd()
 #"Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 1 Layout_check step 1/2:", "Entrance 1 Layout_check step 2/2:", "Entrance 2 Layout_check step 2/2: Failed to determine", "Entrance 2 Layout_check step 2/2: Failed to determine", "CS Entrance Style 1", "CS Entrance Style 2", " - cleaning hall 1/3", " - cleaning hall 2/3", " - cleaning hall 3/3",
 
 #initialize strings
-simple_string = ["Run Diablo", "ROF: Calibrated at WAYPOINT", "ROF: Calibrated at CS ENTRANCE","CS: Starting to clear Trash", "CS Trash: looping to PENTAGRAM", "ROF: Calibrated at PENTAGRAM", "ROF: Teleporting directly to PENTAGRAM", "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", "A: Clearing trash", "B: Clearing trash", "C: Clearing trash", "Checking Layout for Vizier", "Checking Layout for De Seis", "Checking Layout for Infector", "Waiting for Diablo to spawn", "End game", "End failed game", "Trying to chicken", "You have died"]
+simple_string = [
+    "Run Diablo", 
+    "ROF: Calibrated at WAYPOINT", 
+    "ROF: Teleporting directly to PENTAGRAM", 
+    "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", 
+    "CS Trash: Starting to clear Trash",
+    "CS Trash: Calibrated at CS ENTRANCE",
+    "CS Trash: Clearing Hall 1",
+    "Entrance 1 Layout_check step 2/2",
+    "Entrance 1 Layout_check step 1/2",
+    "Entrance 1 Layout_check failed",
+    "CS Trash: Clearing Hall 1-2",
+    "CS Trash: Clearing Hall 1-3",
+    "Entrance 2 Layout_check step 1/2",
+    "Entrance 2 Layout_check step 2/2",
+    "Entrance 2 Layout_check failed",
+    "CS Trash: Clearing Hall 2-2",
+    "CS Trash: Clearing Hall 2-3",
+    "CS Trash: looping to PENTAGRAM", 
+    "CS Trash: Calibrated at PENTAGRAM", 
+    "CS TRASH: A Pent to LC",
+    "CS TRASH: B Pent to LC",
+    "CS TRASH: C Pent to LC",
+    "Checking Layout for Vizier", 
+    "Checking Layout for De Seis", 
+    "Checking Layout for Infector", 
+    "Waiting for Diablo to spawn", 
+    "End game", 
+    "End failed game", 
+    "Trying to chicken", 
+    "You have died"
+    ]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
 complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated"]
 trash_prefix= [""]
 trash_event=[""]
 lc_prefix=["Found Match:"]
-lc_event=["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3", 'DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2',]
+lc_event=[
+        'DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2',
+        "DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", 
+        "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5", 
+        "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", 
+        "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", 
+        "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", 
+        "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3",
+        "DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55", 
+        "DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_55","DIABLO_ENTRANCE2_56"
+        ]
 error_string = ["End failed game"]
 error_array = []
 error_traverse = []
-lines_before_error = 20
+lines_before_error = 30
 #refrencevalue START WITH 0
 reference_simple = 0
 reference_complex = 0
@@ -95,24 +136,22 @@ for string in simple_string:
 
 result_file = open (wkdir + "/info_log_parsed.txt", 'w')
 
-result_file.write ("========================================================\n")
-result_file.write ("|                      RUN OVERVIEW                    |\n")
-result_file.write ("========================================================\n")
+result_file.write ("======================================================\n")
+result_file.write ("                      RUN OVERVIEW                   \n")
+result_file.write ("======================================================\n")
 result_file.write (str(table1))
 result_file.write ("\n")
 result_file.write ("\n")
 
 result_file.write ("\n")
 result_file.write ("\n")
-result_file.write ("======================\n")
-result_file.write ("|      SEAL RATIO    |\n")
-result_file.write ("======================\n")
+result_file.write ("===========================================\n")
+result_file.write ("                  SEAL RATIO              \n")
+result_file.write ("===========================================\n")
 
 table3 = BeautifulTable ()
-table3.rows.append ([complex_counter[0][layout_check_counter], complex_counter[2][layout_check_counter], complex_counter[4][layout_check_counter]])
-table3.rows.append (['A2-Y', "B2-U", "C2-G"])
-table3.rows.append ([complex_counter[1][layout_check_counter], complex_counter[3][layout_check_counter], complex_counter[5][layout_check_counter]])
-table3.columns.header = ['A1-L', 'B1-S', 'C1-F']
+table3.rows.append ([round(complex_counter[0][layout_check_counter]), round(complex_counter[1][layout_check_counter]), round(complex_counter[2][layout_check_counter]), round(complex_counter[3][layout_check_counter]), round(complex_counter[4][layout_check_counter]), round(complex_counter[5][layout_check_counter]),])
+table3.columns.header = ['A1-L', 'A2-Y', 'B1-S', "B2-U",'C1-F', "C2-G"]
 table3.set_style(BeautifulTable.STYLE_MARKDOWN)
 result_file.write (str(table3))
 result_file.write ("\n")
@@ -121,15 +160,15 @@ result_file.write ("\n")
 
 result_file.write ("\n")
 result_file.write ("\n")
-result_file.write ("===================================================\n")
-result_file.write ("|              INDIVIDUAL SEAL RESULTS            |\n")
-result_file.write ("===================================================\n")
+result_file.write ("=================================================\n")
+result_file.write ("              INDIVIDUAL SEAL RESULTS           \n")
+result_file.write ("=================================================\n")
 
 for prefix in prefix_string:
     table2 = BeautifulTable ()
     complex_item_counter = 0
     for string in complex_string:
-        table2.rows.append ([prefix + ": " + string, complex_counter [prefix_counter, complex_item_counter], f"{complex_counter [prefix_counter, complex_item_counter]/complex_counter [prefix_counter, reference_complex]:.0%}"])
+        table2.rows.append ([prefix + ": " + string, round(complex_counter [prefix_counter, complex_item_counter]), f"{complex_counter [prefix_counter, complex_item_counter]/complex_counter [prefix_counter, reference_complex]:.0%}"])
         complex_item_counter += 1
     prefix_counter += 1
     table2.columns.header = ['Event', '#', '%']
@@ -144,9 +183,9 @@ result_file.write ("\n")
 
 result_file.write ("\n")
 result_file.write ("\n")
-result_file.write ("=========================================================\n")
-result_file.write ("|                    TEMPLATES CHECKED                  |\n")
-result_file.write ("=========================================================\n")
+result_file.write ("=======================================================\n")
+result_file.write ("                    TEMPLATES CHECKED                 \n")
+result_file.write ("=======================================================\n")
 
 
 lc_item_counter = 0
@@ -155,17 +194,18 @@ table4 = BeautifulTable ()
 table4.set_style(BeautifulTable.STYLE_MARKDOWN)
 for pre in lc_prefix:
     for item in lc_event:
-        table4.rows.append ([pre + " " + item, lc_counter[lc_cl_counter][lc_item_counter]])
+        table4.rows.append ([pre + " " + item, round(lc_counter[lc_cl_counter][lc_item_counter])])
         lc_item_counter += 1
     lc_cl_counter += 1
 table4.columns.header = ["TEMPLATES CHECKED", "#"]
 table4.columns.alignment["TEMPLATES CHECKED"] = BeautifulTable.ALIGN_LEFT
 result_file.write (str (table4))
+result_file.write ("\n")
     
 result_file.write ("\n")
 result_file.write ("\n")
 result_file.write ("========================================================\n")
-result_file.write ("|          LAST TRAVERSE BEFORE FAILED GAME            |\n")
+result_file.write ("           LAST TRAVERSE BEFORE FAILED GAME            \n")
 result_file.write ("========================================================\n")
 error_counter = 0
 for error in error_array:
@@ -176,7 +216,7 @@ result_file.write ("\n")
 result_file.write ("\n")
 result_file.write ("\n")
 result_file.write ("==========================================\n")
-result_file.write ("| LAST " + str(lines_before_error) + " LOG LINES BEFORE FAILED GAME |\n")
+result_file.write ("   LAST " + str(lines_before_error) + " LOG LINES BEFORE FAILED GAME  \n")
 result_file.write ("==========================================\n")
 result_file.write ("\n")
 error_counter = 0
