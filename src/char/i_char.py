@@ -36,7 +36,7 @@ class IChar:
     def _discover_capabilities(self) -> CharacterCapabilities:
         if self._skill_hotkeys["teleport"]:
             if self.select_tp():
-                if self.skill_has_charges():
+                if self.skill_is_charged():
                     return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
                 else:
                     return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
@@ -97,7 +97,7 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-    def skill_has_charges(self, img: np.ndarray = None) -> bool:
+    def skill_is_charged(self, img: np.ndarray = None) -> bool:
         if not img:
             img = self._screen.grab()
         skill_img = cut_roi(img, self._config.ui_roi["skill_right"])
@@ -112,7 +112,7 @@ class IChar:
         if charges_remaining:
             return charges_remaining <= 3
         else:
-            charges_present = self.skill_has_charges(img)
+            charges_present = self.skill_is_charged(img)
             if charges_present:
                 Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
             return True
