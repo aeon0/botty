@@ -416,7 +416,7 @@ class UiManager():
                             cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         if self._curr_stash["gold"] > 3:
                             #decide if gold pickup should be disabled or gambling is active
-                            if (self._config.char["gamble_items"]):
+                            if self._config.char["gamble_items"]:
                                 self._gold_full = True
                             else:
                                 # turn off gold pickup
