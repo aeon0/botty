@@ -1,6 +1,7 @@
 from asyncio.log import logger
 import cv2
 import time
+import random
 from char.i_char import IChar
 from config import Config
 from logger import Logger
@@ -13,6 +14,7 @@ from ui import UiManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
+
 
 
 class Cows:
@@ -39,7 +41,7 @@ class Cows:
 
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
-        Logger.info("Run Cows /!\ BETA Version /!\ please do not run without supervision.")
+        Logger.info("Run Secret Cow Level")
         if not self._char.capabilities.can_teleport_natively:
             raise ValueError("Cows requires teleport")
         #CHECK IF THE LEG IS ALREADY IN THE STASH OR INVENTORY!

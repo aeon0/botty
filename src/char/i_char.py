@@ -326,6 +326,9 @@ class IChar:
     def kill_cs_trash(self) -> bool:
         raise ValueError("Diablo CS Trash is not implemented!")
 
+    def kill_cows(self) -> bool:
+        raise ValueError("Cows is not implemented!")
+
 if __name__ == "__main__":
     import os
     import keyboard
