@@ -103,7 +103,7 @@ class Cows:
         logger.info("Calibrating at Corpse")
         if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
         logger.info("Looting the leg the Corpse")
-        self._legdance(["WIRTOPEN.PNG"],["WIRTCLOSED.PNG"],"Old-Tristram", [1001])
+        self._legdance(["COW_WIRT_OPEN.PNG"],["COW_WIRT_CLOSED.PNG"],"Old-Tristram", [1001])
         logger.info("Grabbing the leg")
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         logger.info("Making TP to go home")
