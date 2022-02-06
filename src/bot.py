@@ -130,7 +130,7 @@ class Bot:
         self._char_selector = CharSelector(self._screen, self._template_finder)
 
         # Create State Machine
-        self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
+        self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo', 'cows']
         self._transitions = [
             { 'trigger': 'init', 'source': 'initialization', 'dest': '=','before': "on_init"},
             { 'trigger': 'select_character', 'source': 'initialization', 'dest': 'hero_selection', 'before': "on_select_character"},
@@ -472,8 +472,8 @@ class Bot:
         res = False
         self._do_runs["run_cows"] = False
         self._game_stats.update_location("Cows" if self._config.general['discord_status_condensed'] else "Cow Level")
-        self._curr_loc = self._diablo.approach(self._curr_loc)
+        self._curr_loc = self._cows.approach(self._curr_loc)
         if self._curr_loc:
-            res = self._diablo.battle(not self._pre_buffed)
+            res = self._cows.battle(not self._pre_buffed)
         self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)
