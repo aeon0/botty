@@ -147,7 +147,7 @@ class NpcManager:
                     }
                 },
                 "template_group": ["LYSANDER_FRONT", "LYSANDER_BACK", "LYSANDER_SIDE", "LYSANDER_SIDE_2"]
-            },              
+            },
             Npc.CAIN: {
                 "name_tag_white": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_WHITE"), self._config.colors["white"])[1],
                 "name_tag_gold": color_filter(self._template_finder.get_template("CAIN_NAME_TAG_GOLD"), self._config.colors["gold"])[1],
@@ -166,6 +166,10 @@ class NpcManager:
                     "trade": {
                         "white": color_filter(self._template_finder.get_template("TRADE"), self._config.colors["white"])[1],
                         "blue": color_filter(self._template_finder.get_template("TRADE_BLUE"), self._config.colors["blue"])[1],
+                    },
+                    "gamble": {
+                        "white": color_filter(self._template_finder.get_template("GAMBLE"), self._config.colors["white"])[1],
+                        "blue": color_filter(self._template_finder.get_template("GAMBLE_BLUE"), self._config.colors["blue"])[1],
                     }
                 },
                 "roi": [337, 188, (733-337), (622-188)],
@@ -242,7 +246,7 @@ class NpcManager:
                 if res.valid:
                     is_unique = True
                     for r in results:
-                        if (abs(r["pos"][0] - res.position[0]) + abs(r["pos"][1] - res.position[1])) < 22:
+                        if (abs(r["pos"][0] - res.center[0]) + abs(r["pos"][1] - res.center[1])) < 22:
                             is_unique = False
                             break
                     if is_unique:
@@ -250,9 +254,9 @@ class NpcManager:
                         if attempts == 0 and "poses" in self._npcs[npc_key]:
                             # find distance between template match and nearest pose (([x2] - x1)**2 + (y2 - y1)**2)
                             for pose in self._npcs[npc_key]["poses"]:
-                                dist = sqrt((res.position[0] - pose[0])**2 + (res.position[1] - pose[1])**2)
+                                dist = sqrt((res.center[0] - pose[0])**2 + (res.center[1] - pose[1])**2)
                                 min_dist = dist if dist < min_dist else min_dist
-                        results.append({"pos": res.position, "score": res.score, "combo": min_dist / (res.score**2)})
+                        results.append({"pos": res.center, "score": res.score, "combo": min_dist / (res.score**2)})
             # sort by composite of template match score and distance to NPC pose
             results = sorted(results, key=lambda r: r["combo"])
 
@@ -292,7 +296,7 @@ class NpcManager:
                 normalize_monitor=True
             )
         if res.valid:
-            mouse.move(*res.position, randomize=3, delay_factor=[1.0, 1.5])
+            mouse.move(*res.center, randomize=3, delay_factor=[1.0, 1.5])
             wait(0.2, 0.4)
             mouse.click(button="left")
             wait(0.3, 0.4)

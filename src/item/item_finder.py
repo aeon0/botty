@@ -5,6 +5,7 @@ import time
 import os
 from dataclasses import dataclass
 import math
+
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
@@ -23,6 +24,8 @@ class Item:
     score: float = -1.0
     dist: float = -1.0
     roi: list[int] = None
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
 
 class ItemFinder:
     def __init__(self):

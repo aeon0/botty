@@ -9,7 +9,7 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center
 
 template_finder_lock = threading.Lock()
 
@@ -18,8 +18,8 @@ template_finder_lock = threading.Lock()
 class TemplateMatch:
     name: str = None
     score: float = -1.0
-    position: tuple[float, float] = None
-    rec: list[float] = None
+    center: tuple[float, float] = None
+    region: list[float] = None
     valid: bool = False
 
 class TemplateFinder:
@@ -28,12 +28,7 @@ class TemplateFinder:
     to find these assets within another image
     IMPORTANT: This method must be thread safe!
     """
-    def __init__(
-        self,
-        screen: Screen,
-        template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests"],
-        save_last_res: bool = False
-    ):
+    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
         self._screen = screen
         self._config = Config()
         self._save_last_res = save_last_res
@@ -88,22 +83,32 @@ class TemplateFinder:
         rx, ry, rw, rh = roi
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
 
+        templates_gray = None
         if type(ref) == str:
             templates = [self._templates[ref][0]]
-            templates_gray = [self._templates[ref][1]]
+            if use_grayscale:
+                templates_gray = [self._templates[ref][1]]
             scales = [self._templates[ref][2]]
             masks = [self._templates[ref][3]]
             names = [ref]
             best_match = False
         elif type(ref) == list:
-            templates = [self._templates[i][0] for i in ref]
-            templates_gray = [self._templates[i][1] for i in ref]
-            scales = [self._templates[i][2] for i in ref]
-            masks = [self._templates[i][3] for i in ref]
-            names = ref
+            if type(ref[0]) == str:
+                templates = [self._templates[i][0] for i in ref]
+                if use_grayscale:
+                    templates_gray = [self._templates[i][1] for i in ref]
+                scales = [self._templates[i][2] for i in ref]
+                masks = [self._templates[i][3] for i in ref]
+                names = ref
+            else:
+                templates = ref
+                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
+                scales =  [1.0] * len(ref)
+                masks = [None] * len(ref)
         else:
             templates = [ref]
-            templates_gray = [cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY)]
+            if use_grayscale:
+                templates_gray = [cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY)]
             scales = [1.0]
             masks = [None]
             best_match = False
@@ -117,11 +122,14 @@ class TemplateFinder:
             scale = scales[count]
             mask = masks[count]
 
-            img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-            rx *= scale
-            ry *= scale
-            rw *= scale
-            rh *= scale
+            if scale != 1:
+                img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+                rx *= scale
+                ry *= scale
+                rw *= scale
+                rh *= scale
+            else:
+                img: np.ndarray = inp_img
 
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
                 if use_grayscale:
@@ -134,13 +142,12 @@ class TemplateFinder:
                     with template_finder_lock:
                         self.last_res = deepcopy(res)
                 if max_val > threshold:
-                    ref_point = (max_pos[0] + int(template.shape[1] * 0.5) + rx, max_pos[1] + int(template.shape[0] * 0.5) + ry)
-                    ref_point = (int(ref_point[0] * (1.0 / scale)), int(ref_point[1] * (1.0 / scale)))
-                    rec = [int(max_pos[0] // scale), int(max_pos[1] // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
+                    rec = [int((max_pos[0] + rx) // scale), int((max_pos[1] +ry) // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
+                    ref_point = roi_center(rec)
 
                     if normalize_monitor:
                         ref_point =  self._screen.convert_screen_to_monitor(ref_point)
-
+                        rec[0], rec[1] = self._screen.convert_screen_to_monitor((rec[0], rec[1]))
                     if best_match:
                         scores[count] = max_val
                         ref_points[count] = ref_point
@@ -148,9 +155,9 @@ class TemplateFinder:
                     else:
                         try: template_match.name = names[count]
                         except: pass
-                        template_match.position = ref_point
+                        template_match.center = ref_point
                         template_match.score = max_val
-                        template_match.rec = rec
+                        template_match.region = rec
                         template_match.valid = True
                         return template_match
 
@@ -158,9 +165,9 @@ class TemplateFinder:
             idx=scores.index(max(scores))
             try: template_match.name = names[idx]
             except: pass
-            template_match.position = ref_points[idx]
+            template_match.center = ref_points[idx]
             template_match.score = scores[idx]
-            template_match.rec = recs[idx]
+            template_match.region = recs[idx]
             template_match.valid = True
         else:
             template_match = TemplateMatch()
@@ -173,9 +180,11 @@ class TemplateFinder:
         roi: list[float] = None,
         time_out: float = None,
         threshold: float = 0.68,
+        normalize_monitor: bool = False,
         best_match: bool = False,
         take_ss: bool = True,
-        use_grayscale: bool = False
+        use_grayscale: bool = False,
+        suppress_debug: bool = False,
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
@@ -185,11 +194,12 @@ class TemplateFinder:
         """
         if type(ref) is str:
             ref = [ref]
-        Logger.debug(f"Waiting for Template {ref}")
+        if not suppress_debug:
+            Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
             img = self._screen.grab()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale)
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
@@ -218,10 +228,9 @@ if __name__ == "__main__":
         for key in search_templates:
             template_match = template_finder.search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
             if template_match.valid:
-                cv2.putText(display_img, str(template_match.name), template_match.position, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                cv2.circle(display_img, template_match.position, 7, (255, 0, 0), thickness=5)
-                x, y = template_match.position
-                print(f"Name: {template_match.name} Pos: {template_match.position}, Dist: {625-x, 360-y}, Score: {template_match.score}")
+                cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
+                print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
 
         # print(time.time() - start)
         # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)

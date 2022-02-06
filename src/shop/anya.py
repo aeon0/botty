@@ -77,10 +77,10 @@ class AnyaShopper:
         self.start_time = time.time()
         self.ias_gloves_seen = 0
         self.gloves_bought = 0
-        
+
         # Claws config
         self.roi_claw_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
-        self.roi_vendor = config.ui_roi["vendor_stash"]
+        self.roi_vendor = config.ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
         self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
@@ -93,11 +93,11 @@ class AnyaShopper:
         self.shop_loop()
 
     def shop_loop(self):
-    
+
         asset_folder = "assets/shop/gloves/"
-                    
+
         while True:
-        
+
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
@@ -108,28 +108,27 @@ class AnyaShopper:
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
-                roi=self._config.ui_roi["vendor_stash"],
+                roi=self._config.ui_roi["left_inventory"],
                 normalize_monitor=True,
             )
             if ias_glove.valid:
                 self.ias_gloves_seen += 1
-                mouse.move(*ias_glove.position)
+                mouse.move(*ias_glove.center)
                 time.sleep(0.1)
                 img = self._screen.grab()
-                
+
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = self._template_finder.search(
                         ref=load_template(
                             asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
                         inp_img=img,
-                        threshold=0.80,
-                        normalize_monitor=True,
+                        threshold=0.80
                     )
                     if gg_gloves.valid:
                         mouse.click(button="right")
                         self._messenger.send_message("Bought awesome IAS/+3 gloves!")
-                        
+
                         Logger.info("IAS/+3 gloves bought!")
                         self.gloves_bought += 1
                         time.sleep(1)
@@ -138,11 +137,10 @@ class AnyaShopper:
                     if self.look_for_plus_2_gloves is True:
                         g_gloves = self._template_finder.search(
                             ref=load_template(
-                                asset_folder + "g_gloves.png", 1.0 
+                                asset_folder + "g_gloves.png", 1.0
                             ),
                             inp_img=img,
-                            threshold=0.80,
-                            normalize_monitor=True,
+                            threshold=0.80
                         )
                         if g_gloves.valid:
                             mouse.click(button="right")
@@ -201,14 +199,14 @@ class AnyaShopper:
                         trap_score += 1
                     if self._template_finder.search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 4
-                        
+
                     self.claws_evaluated += 1
-                    
+
                     if trap_score > self.trap_claw_min_score and self.look_for_trap_claws is True:
                         # pick it up
                         mouse.click(button="right")
                         self._messenger.send_message(f"Bought some terrific trap Claws (score: {trap_score})")
-                        
+
                         Logger.info(f"Trap Claws (score: {trap_score}) bought!")
                         self.claws_bought += 1
                         time.sleep(1)
@@ -244,10 +242,9 @@ class AnyaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        template_match = self._template_finder.search_and_wait(template_type, time_out=10)
+        template_match = self._template_finder.search_and_wait(template_type, time_out=10, normalize_monitor=True)
         if template_match.valid:
-            x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
-            mouse.move(x_m, y_m)
+            mouse.move(*template_match.center)
             wait(0.1, 0.2)
             mouse.click(button="left")
             return True

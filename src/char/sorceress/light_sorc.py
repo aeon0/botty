@@ -185,25 +185,37 @@ class LightSorc(Sorceress):
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         return True
 
-    def kill_nihlatak(self, end_nodes: list[int]) -> bool:
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         delay = [0.2, 0.3]
-        atk_len = int(self._char_config["atk_len_nihlatak"])
+        atk_len = int(self._char_config["atk_len_nihlathak"])
+        nihlathak_pos_abs = None
         for i in range(atk_len):
-            nihlatak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
-            if nihlatak_pos_abs is None:
-                return False
-            cast_pos_abs = np.array([nihlatak_pos_abs[0] * 0.9, nihlatak_pos_abs[1] * 0.9])
-            self._chain_lightning(cast_pos_abs, delay, 90)
-            # Do some tele "dancing" after each sequence
-            if i < atk_len - 1:
-                rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
-                tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
-                pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
-                self.pre_move()
-                self.move(pos_m)
+            nihlathak_pos_abs_next = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+
+            if nihlathak_pos_abs_next is not None:
+                nihlathak_pos_abs = nihlathak_pos_abs_next
             else:
-                self._lightning(cast_pos_abs, spray=60)
+                Logger.warning(f"Can't find Nihlathak next position at node {end_nodes[-1]}")
+                if nihlathak_pos_abs is not None:
+                    Logger.warning(f"Using previous position for attack sequence")
+                    
+            if nihlathak_pos_abs is not None:
+                cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
+                self._chain_lightning(cast_pos_abs, delay, 90)
+                # Do some tele "dancing" after each sequence
+                if i < atk_len - 1:
+                    rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
+                    tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
+                    pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
+                    self.pre_move()
+                    self.move(pos_m)
+                else:
+                    self._lightning(cast_pos_abs, spray=60)
+            else:               
+                Logger.warning(f"Casting static as the last position isn't known. Skipping attack sequence")
+                self._cast_static(duration=2)
+
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)

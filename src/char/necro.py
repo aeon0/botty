@@ -52,16 +52,15 @@ class Necro(IChar):
 
         roi = [640,0,640,720]
         img = self._screen.grab()
-        
+
         template_match = self._template_finder.search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
             roi=roi,
-            normalize_monitor=True,
             use_grayscale = False
         )
-        if template_match.valid:        
+        if template_match.valid:
             self._shenk_dead=1
             Logger.info('\33[31m'+"Shenks Dead, looting..."+'\033[0m')
         else:
@@ -76,10 +75,9 @@ class Necro(IChar):
             ['REV_BASE'],
             img,
             threshold=0.6,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
-        if template_match.valid:        
+        if template_match.valid:
             self._revive_count=max_rev
         else:
             self._revive_count=0
@@ -92,7 +90,6 @@ class Necro(IChar):
                 img,
                 threshold=0.66,
                 roi=roi,
-                normalize_monitor=True,
                 use_grayscale = False
             )
             if template_match.valid:
@@ -107,10 +104,9 @@ class Necro(IChar):
             ['SKELE_BASE'],
             img,
             threshold=0.6,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
-        if template_match.valid:        
+        if template_match.valid:
             self._skeletons_count=max_skeles
         else:
             self._skeletons_count=0
@@ -123,7 +119,6 @@ class Necro(IChar):
                 img,
                 threshold=0.66,
                 roi=roi,
-                normalize_monitor=True,
                 use_grayscale = False
             )
             if template_match.valid:
@@ -132,15 +127,14 @@ class Necro(IChar):
     def _count_gol(self):
         roi = [15,14,400,45]
         img = self._screen.grab()
-        
+
         template_match = self._template_finder.search(
             ['CLAY'],
             img,
             threshold=0.6,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
-        if template_match.valid:        
+        if template_match.valid:
             self._golem_count="clay gol"
         else:
             self._golem_count="none"
@@ -388,7 +382,7 @@ class Necro(IChar):
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
 
         rot_deg=0
-        
+
 
         rot_deg=-180
 
@@ -406,7 +400,7 @@ class Necro(IChar):
         #move to pindle combat position
 
         self._pather.traverse_nodes([102,103], self)
-        
+
         wait(self._cast_duration, self._cast_duration +.2)
 
         # wiggle to unstick merc....
@@ -427,7 +421,7 @@ class Necro(IChar):
         self._clay_golem()
 
         self._summon_count()
-        
+
         for _ in range(atk_len):
             Logger.info('\033[96m'+ "pindle atk cycle" + '\033[0m')
             self._amp_dmg(cast_pos_abs, 11)
@@ -448,7 +442,7 @@ class Necro(IChar):
             # wiggle to unstick merc
             pos_m = self._screen.convert_abs_to_monitor((0, -150))
             self.pre_move()
-            self.move(pos_m, force_move=True)            
+            self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
             pos_m = self._screen.convert_abs_to_monitor((0, 150))
             self.pre_move()
@@ -462,7 +456,7 @@ class Necro(IChar):
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
         #wait for pindle to die just incase - maybe needs death detection
         wait(self._cast_duration, self._cast_duration + 0.4)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes("pindle_end", self)
         else:
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
@@ -476,7 +470,7 @@ class Necro(IChar):
 
 
         self.bone_armor()
-        
+
         # move a bit back
         pos_m = self._screen.convert_abs_to_monitor((0, 50))
         self.pre_move()
@@ -494,14 +488,14 @@ class Necro(IChar):
 
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
         self.bone_armor()
 
         #get some more summons out for elite packs
-        
+
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
         #self._summon_count()
         #self._raise_skeleton([0,-40],80,cast_count=4)
@@ -597,7 +591,7 @@ class Necro(IChar):
             normalize_monitor=True
         )
         if template_match.valid:
-            pos = template_match.position
+            pos = template_match.center
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -621,7 +615,7 @@ class Necro(IChar):
             normalize_monitor=True
         )
         if template_match.valid:
-            pos = template_match.position
+            pos = template_match.center
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -646,7 +640,7 @@ class Necro(IChar):
             normalize_monitor=True
         )
         if template_match.valid:
-            pos = template_match.position
+            pos = template_match.center
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -675,7 +669,7 @@ class Necro(IChar):
             normalize_monitor=True
         )
         if template_match.valid:
-            pos = template_match.position
+            pos = template_match.center
             pos = (pos[0], pos[1] )
             Logger.debug("DURANCE ENTRANCE >> "+str(pos))
             # Note: Template is top of portal, thus move the y-position a bit to the bottom
@@ -700,11 +694,11 @@ class Necro(IChar):
         sel = False
         while sel is False:
             spray = 200
-            target =[0,0]  
+            target =[0,0]
             x = target[0] + (random.random() * 2*spray - spray)
             y = target[1] + (random.random() * 2*spray - spray)
             target = self._screen.convert_abs_to_monitor((x, y))
-  
+
             mouse.move(*target, randomize=6, delay_factor=[0.9, 1.1])
 
             img = self._screen.grab()
@@ -716,7 +710,7 @@ class Necro(IChar):
                 normalize_monitor=True
             )
             if template_match.valid:
-                pos = template_match.   position
+                pos = template_match.center
                 pos = (pos[0], pos[1] )
                 Logger.debug("DURANCE EXIT >> "+str(pos))
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
@@ -791,7 +785,7 @@ class Necro(IChar):
         wait(self._cast_duration, self._cast_duration +.2)
         self._clay_golem()
         wait(self._cast_duration, self._cast_duration +.2)
-                
+
         self._pather.traverse_nodes([911], self)
 
 
@@ -800,7 +794,7 @@ class Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.2)
-        
+
 
         # move up a bit
         pos_m = self._screen.convert_abs_to_monitor((-20, -40))
@@ -819,9 +813,9 @@ class Necro(IChar):
 
         corpse_exp_pos = cast_pos_abs
 
-        
+
         atk_len = self._char_config["atk_len_trav"]
-        
+
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
         self._amp_dmg(cast_pos_abs, 11)
         self._corpse_explosion(corpse_exp_pos, 80, cast_count=8)
@@ -830,21 +824,21 @@ class Necro(IChar):
         wait(self._cast_duration, self._cast_duration +.2)
         self._clay_golem()
         wait(self._cast_duration, self._cast_duration +.2)
-                
+
 
          # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
-        
+
         #self._pather.traverse_nodes([229], self)
 
         # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        
+
         wait(self._cast_duration, self._cast_duration +.1)
         self._bone_armor()
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
@@ -855,14 +849,14 @@ class Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
-    
+
         # wiggle to unstick merc....
         pos_m = self._screen.convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
-        
-        
+
+
         self._amp_dmg(cast_pos_abs, 11)
         self._bone_armor()
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)

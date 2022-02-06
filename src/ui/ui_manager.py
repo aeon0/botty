@@ -28,6 +28,8 @@ class UiManager():
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._screen = screen
+        self._gold_full = False
+        self._gambling_round = 1
         self._curr_stash = {
             "items": 3 if self._config.char["fill_shared_stash_first"] else 0,
             "gold": 0
@@ -164,13 +166,12 @@ class UiManager():
         Logger.debug("Wait for Play button")
         while 1:
             img = self._screen.grab()
-            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True)
-            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True)
+            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
+            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
             found_btn = found_btn_off if found_btn_off.valid else found_btn_on
             if found_btn.name == "PLAY_BTN":
-                x, y = self._screen.convert_screen_to_monitor(found_btn.position)
                 Logger.debug(f"Found Play Btn")
-                mouse.move(x, y, randomize=[35, 7], delay_factor=[1.0, 1.8])
+                mouse.move(*found_btn.center, randomize=[35, 7], delay_factor=[1.0, 1.8])
                 wait(0.1, 0.15)
                 mouse.click(button="left")
                 break
@@ -178,15 +179,14 @@ class UiManager():
 
         difficulty=self._config.general["difficulty"].upper()
         while 1:
-            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9)
+            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9, normalize_monitor=True)
             if not template_match.valid:
                 Logger.debug(f"Could not find {difficulty}_BTN, try from start again")
                 return self.start_game()
             if template_match.name == "LOADING":
                 Logger.debug(f"Found {template_match.name} screen")
                 return True
-            x, y = self._screen.convert_screen_to_monitor(template_match.position)
-            mouse.move(x, y, randomize=[50, 9], delay_factor=[1.0, 1.8])
+            mouse.move(*template_match.center, randomize=[50, 9], delay_factor=[1.0, 1.8])
             wait(0.15, 0.2)
             mouse.click(button="left")
             break
@@ -242,14 +242,14 @@ class UiManager():
         center_pos = (int(slot[0] + (slot_width // 2)), int(slot[1] + (slot_height // 2)))
         return center_pos, slot_img
 
-    def _inventory_has_items(self, img, num_loot_columns: int) -> bool:
+    def _inventory_has_items(self, img, num_loot_columns: int, num_ignore_columns=0) -> bool:
         """
         Check if Inventory has any items
         :param img: Img from screen.grab() with inventory open
         :param num_loot_columns: Number of columns to check from left
         :return: Bool if inventory still has items or not
         """
-        for column, row in itertools.product(range(num_loot_columns), range(4)):
+        for column, row in itertools.product(range(num_ignore_columns, num_loot_columns), range(4)):
             _, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
             if self._slot_has_item(slot_img):
                 return True
@@ -275,7 +275,7 @@ class UiManager():
             #Disable include params for uniq, rare, magical if ident is disabled in params.ini
             #if (not self._config.char["id_items"]) and ("uniq" in x.name or "magic" in x.name or "rare" in x.name or "set" in x.name):
             if (not self._config.char["id_items"]) and any(item_type in x.name for item_type in ["uniq", "magic", "rare", "set"]):
-                include_props = False 
+                include_props = False
                 exclude_props = False
             if not (include_props or exclude_props):
                 if do_logging:
@@ -295,7 +295,7 @@ class UiManager():
                                 template_match = self._template_finder.search(subprop, img, threshold=0.95)
                             except:
                                 Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
-                                template_match = lambda: None; template_match.valid = True 
+                                template_match = lambda: None; template_match.valid = True
                             if template_match.valid:
                                 if include_logic_type == "OR":
                                     found_subprops.append(True)
@@ -303,10 +303,10 @@ class UiManager():
                                     found_props.append (True)
                                     break
                             else:
-                                found_subprops.append(False) 
+                                found_subprops.append(False)
                                 break
                         if (len(found_subprops) > 0 and all(found_subprops)):
-                            include = True      
+                            include = True
                             break
                     else:
                         try:
@@ -374,7 +374,7 @@ class UiManager():
             mouse.click(button="left")
             wait(0.3, 0.4)
 
-    def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder):
+    def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder, gamble = False):
         """
         Stashing all items in inventory. Stash UI must be open when calling the function.
         :param num_loot_columns: Number of columns used for loot from left
@@ -384,47 +384,56 @@ class UiManager():
         x, y = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         # Wait till gold btn is found
-        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20)
+        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=self._config.ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         Logger.debug("Found inventory gold btn")
-        # stash gold
-        if self._config.char["stash_gold"]:
-            inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
-            if inventory_no_gold.valid:
-                Logger.debug("Skipping gold stashing")
-            else:
-                Logger.debug("Stashing gold")
-                self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
-                x, y = self._screen.convert_screen_to_monitor(gold_btn.position)
-                mouse.move(x, y, randomize=4)
-                wait(0.1, 0.15)
-                mouse.press(button="left")
-                wait(0.25, 0.35)
-                mouse.release(button="left")
-                wait(0.4, 0.6)
-                keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-                wait(1.0, 1.2)
-                # move cursor away from button to interfere with screen grab
-                mouse.move(-120, 0, absolute=False, randomize=15)
+        if not gamble:
+            # stash gold
+            if self._config.char["stash_gold"]:
                 inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
-                if not inventory_no_gold.valid:
-                    Logger.info("Stash tab is full of gold, selecting next stash tab.")
-                    self._curr_stash["gold"] += 1
-                    if self._config.general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                    if self._curr_stash["gold"] > 3:
-                        # turn off gold pickup
-                        self._config.turn_off_goldpickup()
-                        # inform user about it
-                        Logger.info("All stash tabs and character are full of gold, turn of gold pickup")
-                        if self._config.general["custom_message_hook"]:
-                            self._messenger.send_gold()
-                    else:
-                        # move to next stash
-                        wait(0.5, 0.6)
-                        return self.stash_all_items(num_loot_columns, item_finder)
+                if inventory_no_gold.valid:
+                    Logger.debug("Skipping gold stashing")
+                else:
+                    Logger.debug("Stashing gold")
+                    self._move_to_stash_tab(min(3, self._curr_stash["gold"]))
+                    mouse.move(*gold_btn.center, randomize=4)
+                    wait(0.1, 0.15)
+                    mouse.press(button="left")
+                    wait(0.25, 0.35)
+                    mouse.release(button="left")
+                    wait(0.4, 0.6)
+                    keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+                    wait(1.0, 1.2)
+                    # move cursor away from button to interfere with screen grab
+                    mouse.move(-120, 0, absolute=False, randomize=15)
+                    inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", self._screen.grab(), roi=self._config.ui_roi["inventory_gold"], threshold=0.83)
+                    if not inventory_no_gold.valid:
+                        Logger.info("Stash tab is full of gold, selecting next stash tab.")
+                        self._curr_stash["gold"] += 1
+                        if self._config.general["info_screenshots"]:
+                            cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._curr_stash["gold"] > 3:
+                            #decide if gold pickup should be disabled or gambling is active
+                            if (self._config.char["gamble_items"]):
+                                self._gold_full = True
+                            else:
+                                # turn off gold pickup
+                                self._config.char["stash_gold"] = False
+                                self._config.items["misc_gold"].pickit_type = 0
+                                item_finder.update_items_to_pick(self._config)
+                                # inform user about it
+                                msg = "All stash tabs and character are full of gold, turn of gold pickup"
+                                Logger.info(msg)
+                                if self._config.general["custom_message_hook"]:
+                                    self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                        else:
+                            # move to next stash
+                            wait(0.5, 0.6)
+                            return self.stash_all_items(num_loot_columns, item_finder)
+        else:
+            self.transfer_shared_to_private_gold (self._gambling_round)
         # stash stuff
         self._move_to_stash_tab(self._curr_stash["items"])
         center_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -488,7 +497,7 @@ class UiManager():
             Logger.info("Stash page is full, selecting next stash")
             if self._config.general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            
+
             # if filling shared stash first, we decrement from 3, otherwise increment
             self._curr_stash["items"] += -1 if self._config.char["fill_shared_stash_first"] else 1
             if (self._config.char["fill_shared_stash_first"] and self._curr_stash["items"] < 0) or self._curr_stash["items"] > 3:
@@ -503,7 +512,34 @@ class UiManager():
 
         Logger.debug("Done stashing")
         wait(0.4, 0.5)
-        keyboard.send("esc")
+
+    def transfer_shared_to_private_gold (self, count: int):
+        for x in range (3):
+            self._move_to_stash_tab (count)
+            stash_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn_stash"], threshold=0.83)
+            if stash_gold_btn.valid:
+                x,y = self._screen.convert_screen_to_monitor(stash_gold_btn.center)
+                mouse.move(x, y, randomize=4)
+                wait (0.4, 0.5)
+                mouse.press(button="left")
+                wait (0.1, 0.15)
+                mouse.release(button="left")
+                wait (0.1, 0.15)
+                keyboard.send ("Enter")
+                wait (0.1, 0.15)
+                self._move_to_stash_tab (0)
+                inventory_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", self._screen.grab(), roi=self._config.ui_roi["gold_btn"], threshold=0.83)
+                if inventory_gold_btn.valid:
+                    x,y = self._screen.convert_screen_to_monitor(inventory_gold_btn.center)
+                    mouse.move(x, y, randomize=4)
+                    wait (0.4, 0.5)
+                    mouse.press(button="left")
+                    wait (0.1, 0.15)
+                    mouse.release(button="left")
+                    wait (0.1, 0.15)
+                    keyboard.send ("Enter")
+                    wait (0.1, 0.15)
+        self._gambling_round += 1
 
     def should_stash(self, num_loot_columns: int):
         """
@@ -530,11 +566,10 @@ class UiManager():
         Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
-        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4)
+        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=self._config.ui_roi["repair_btn"], time_out=4, normalize_monitor=True)
         if not repair_btn.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(repair_btn.position)
-        mouse.move(x, y, randomize=12, delay_factor=[1.0, 1.5])
+        mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.1, 0.15)
@@ -546,30 +581,28 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.press(button="left")
         wait(0.25, 0.35)
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
-        x, y = self._screen.convert_screen_to_monitor(tp_tome.position)
         keyboard.send('ctrl', do_release=False)
-        mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+        mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         # delay to make sure the tome has time to transfer to other inventory before closing window
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["inventory"], time_out=3)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["right_inventory"], time_out=3)
         if not tp_tome.valid:
             return False
         return True
@@ -602,6 +635,69 @@ class UiManager():
             use_grayscale=True)
         return template_match.valid
 
+    def gambling_needed(self) -> bool:
+        return self._gold_full
+
+    def set__gold_full (self, bool: bool):
+        self._gold_full = bool
+        self._gambling_round = 1
+
+    def gamble(self, item_finder: ItemFinder):
+        gold = True
+        gamble_on = True
+        if self._config.char["num_loot_columns"]%2==0:
+            ignore_columns = self._config.char["num_loot_columns"]-1
+        else:
+            ignore_columns = self._config.char["num_loot_columns"]-2
+        template_match = self._template_finder.search_and_wait("REFRESH", threshold=0.79, time_out=4)
+        if template_match.valid:
+            #Gambling window is open. Starting to spent some coins
+            while (gamble_on and gold):
+                if (self._inventory_has_items (self._screen.grab(),self._config.char["num_loot_columns"], ignore_columns) and self._inventory_has_items (self._screen.grab(),2)):
+                    gamble_on = False
+                    self.close_vendor_screen ()
+                    break
+                for item in self._config.char["gamble_items"]:
+                    template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["left_inventory"], normalize_monitor=True)
+                    while not template_match_item.valid:
+                        #Refresh gambling screen
+                        template_match = self._template_finder.search ("REFRESH", self._screen.grab(), normalize_monitor=True)
+                        if (template_match.valid):
+                            mouse.move(*template_match.center, randomize=12, delay_factor=[1.0, 1.5])
+                            wait(0.1, 0.15)
+                            mouse.click(button="left")
+                            wait(0.1, 0.15)
+                        template_match_item = self._template_finder.search (item.upper(), self._screen.grab(), roi=self._config.ui_roi["left_inventory"], normalize_monitor=True)
+                    #item found in gambling menu
+                    mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
+                    wait(0.1, 0.15)
+                    mouse.click(button="right")
+                    wait(0.1, 0.15)
+                    template_match = self._template_finder.search ("no_gold".upper(), self._screen.grab(), threshold= 0.90)
+                    #check if gold is av
+                    if template_match.valid:
+                        gold = False
+                        self.close_vendor_screen ()
+                        break
+                    for column, row in itertools.product(range(self._config.char["num_loot_columns"]), range(4)):
+                        img = self._screen.grab()
+                        slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
+                        if self._slot_has_item(slot_img):
+                            x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
+                            mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
+                            # check item again and discard it or stash it
+                            wait(1.2, 1.4)
+                            hovered_item = self._screen.grab()
+                            if not self._keep_item(item_finder, hovered_item):
+                                keyboard.send('ctrl', do_release=False)
+                                wait(0.1, 0.15)
+                                mouse.click (button="left")
+                                wait(0.1, 0.15)
+                                keyboard.send('ctrl', do_press=False)
+            #Stashing needed
+        else:
+            Logger.warning("gambling failed")
+
     def enable_no_pickup(self) -> bool:
         """
         Checks the best match between enabled and disabled an retrys if already set.
@@ -631,22 +727,20 @@ class UiManager():
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(h_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["vendor_stash"], time_out=3)
+            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=self._config.ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid:
-            x, y = self._screen.convert_screen_to_monitor(m_pot.position)
-            mouse.move(x, y, randomize=8, delay_factor=[1.0, 1.5])
+            mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(mana_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
@@ -666,4 +760,4 @@ if __name__ == "__main__":
     template_finder = TemplateFinder(screen)
     item_finder = ItemFinder()
     ui_manager = UiManager(screen, template_finder, game_stats)
-    ui_manager.stash_all_items(5, item_finder)
+    ui_manager.gamble (item_finder)
