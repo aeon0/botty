@@ -97,7 +97,7 @@ class Ocr:
         :param digits_only: only look for digits
         :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
         :param check_known_errors: check for predefined common errors and replace
-        :param check_wordlist: check dictionary of words and match closest match if proximity is greater than match_threshold
+        :param check_wordlist: check dictionary of words and match closest match if proximity is greater than word_match_threshold
         :param word_match_threshold: (see check_wordlist)
         :return: Returns an OcrResult object
         """
