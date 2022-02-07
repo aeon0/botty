@@ -93,7 +93,6 @@ class TemplateFinder:
         recs = [[0, 0, 0, 0]] * len(templates)
         future_list = []
         for count, template in enumerate(templates):
-            template_match = TemplateMatch()
             scale = scales[count]
             if scale != 1:
                 img: np.ndarray = cv2.resize(
@@ -128,6 +127,7 @@ class TemplateFinder:
                     break
             # else:
             #     Logger.error(f'{ref[i]} not found')
+        template_match = TemplateMatch()
         if len(scores) > 0 and max(scores) > 0:
             idx = scores.index(max(scores))
             try:
@@ -138,10 +138,6 @@ class TemplateFinder:
             template_match.score = scores[idx]
             template_match.region = recs[idx]
             template_match.valid = True
-        else:
-            template_match = TemplateMatch()
-            # Logger.debug(
-            #     f'Defaulting TemplateMatch result for ref {ref}')
         return template_match
 
     def parse_ref(self, ref, use_grayscale, best_match):
