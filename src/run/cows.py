@@ -88,8 +88,7 @@ class Cows:
         if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/cows_failed_corpse" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
-    def _corner_walk(self, corner_picker, x1_m, x2_m, y1_m, y2_m, dinky, stuck_count, super_stuck, corner_exclude, exclude1, exclude2)-> bool:
-        Logger.debug("Selected Corner: " + corner_picker)
+    def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
         pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
         t0 = self._screen.grab()
         self._char.move(pos_m, force_tp=True, force_move=True)
@@ -98,11 +97,11 @@ class Cows:
         diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
         _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
         score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-        dinky += 1
+        Logger.debug(str(score) + ": is our current score")
         if score < .10:
             stuck_count += 1
             if stuck_count >=2:
-                Logger.debug("Super stuck this little manuvuer will cost us... umm i dunno")
+                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports")
                 pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
@@ -113,7 +112,7 @@ class Cows:
                 self._char.move(pos_m, force_tp=True)
                 super_stuck +=1
             if super_stuck >= 2:
-                Logger.debug("SWAPPING AREA")
+                Logger.debug(str(corner_picker) + ": Seems we are still stuck, randomly chosing a different corner: SWAPPING AREA")
                 keepernumber = random.randint(1, 4)
                 if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
                     keepernumber = random.randint(1, 4) 
@@ -121,41 +120,43 @@ class Cows:
                 else:
                     corner_exclude = corner_picker
                     corner_picker = keepernumber
-                    super_stuck = 0  
+                    super_stuck = 0
+                    Logger.debug(str(corner_picker) + ": is now our selected corner.")  
 
     def _stony_field(self)-> bool:      #do_pre_buff: bool
         # if do_pre_buff: self._char.pre_buff()   
-        #random tele to find yellow
-        #click red portal        #dostuffto durance 3
-        found = False
-        dinky = 0
         keyboard.send("tab")
         keyboard.send(self._char._skill_hotkeys["teleport"])
-        score = 1
-        stuck_count = 0
+        #setting up variables
         found = False
-        corner_picker = 3
-        corner_exclude = 3
+        score = -1
+        corner_picker = 2 #we start searching towards the top, as often the cold plains entrance is at the bottom of the map
+        corner_exclude = 2
+        exclude1 = corner_picker - 2
+        exclude2 = corner_picker + 2 
+        stuck_count = 0
         super_stuck = 0
         keepernumber = 0
+        #lets start the search
+        Logger.debug(str(corner_picker) + ": is our selected corner.")
         while not found:   
-            found = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1"], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False).valid
-            Logger.debug(corner_picker)
-            exclude1 = corner_picker - 2
-            exclude2 = corner_picker + 2
+            found = self._template_finder.search_and_wait(["COW_STONY_FIELD_0_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_SINGLE", "COW_STONY_FIELD_YELLOW",], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False).valid #cow_stony_field_exit = exit to the underground passage, if that is found we just have to go to bottom directions to find the portal.
+
             if corner_picker == 1:
-                #self._corner_walk(1, -150, -600, -20, -360, 0, 0, 0, 1, 1, 1)
-            #elif corner_picker == 2:
-                #self._corner_walk(2, -150, -600, -20, -360, 0, 0, 0, 2, 2, 2)
-            #elif corner_picker == 3:
-                #self._corner_walk(3, -150, -600, -20, -360, 0, 0, 0, 3, 3, 3)
-            #elif corner_picker == 4:
-                #self._corner_walk(4, -150, -600, -20, -360, 0, 0, 0, 4, 4, 4)
+                """
+                    self._scout(1, -250, -600, -200, -400, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
+                elif corner_picker == 2:
+                    self._scout(2, 250, 600, -200, -400, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
+                elif corner_picker == 3:
+                    self._scout(3, 250, 600, 200, 400, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
+                elif corner_picker == 4:
+                    self._scout(4, -250, -600, 200, 400, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
+                """
                 Logger.debug("Selected Corner 1 - Top Left")
                 x1_m = -250
-                x2_m = -500
-                y1_m = -50
-                y2_m = -100
+                x2_m = -600
+                y1_m = -200
+                y2_m = -400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
@@ -165,7 +166,6 @@ class Cows:
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                dinky += 1
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
@@ -193,9 +193,9 @@ class Cows:
             elif corner_picker == 2:
                 Logger.debug("Selected Corner 2 - Top Right")
                 x1_m = 250
-                x2_m = 500
-                y1_m = -50
-                y2_m = -100
+                x2_m = 600
+                y1_m = -200
+                y2_m = -400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
@@ -205,7 +205,6 @@ class Cows:
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                dinky += 1
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
@@ -233,9 +232,9 @@ class Cows:
             elif corner_picker == 3:
                 Logger.debug("Selected Corner 3 - Bottom Right")
                 x1_m = 250
-                x2_m = 500
-                y1_m = 50
-                y2_m = 100
+                x2_m = 600
+                y1_m = 200
+                y2_m = 400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
@@ -245,7 +244,7 @@ class Cows:
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                dinky += 1
+                
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
@@ -273,9 +272,9 @@ class Cows:
             elif corner_picker == 4:
                 Logger.debug("Selected Corner 4 - Right")
                 x1_m = -250
-                x2_m = -500
-                y1_m = 50
-                y2_m = 100
+                x2_m = -600
+                y1_m = 200
+                y2_m = 400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
@@ -285,7 +284,7 @@ class Cows:
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                dinky += 1
+                
                 if score < .10:
                     stuck_count += 1
                     if stuck_count >=2:
@@ -311,22 +310,22 @@ class Cows:
                             super_stuck = 0  
 
         if found == True:
-            dinky = 0
+            # We found our template on the minimap. Typically its not yet seen on the screen, so we therefore have to moveo 1-2 times towards the direction where the template was seen on the map & veryify with non-minimap templates that we arrived
             roomfound = False
             badroom = False
-            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, normalize_monitor = True)
+            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_SINGLE", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, normalize_monitor = True)
             if template_match.valid:
                 Logger.debug("I found the Portal to Old Tristram on the Minimap, switching Minimap off")
                 keyboard.send("tab")         
-                #move to the position where the template was seen on the minimap.
+                Logger.debug("Teleporting towards the coordiantes where I saw the template on the minimap to make sure we have the Portal visible in our current view")
+                self._char.move(template_match.center, force_tp=True)
+                self._char.move(template_match.center, force_tp=True)
 
-                #pos_m = self._screen.convert_screen_to_monitor(template_match.position)
-                self._char.move(*template_match.center, force_tp=True)
-  
+            # Let's confirm we are really in the room, or continue to teleport around
             while not roomfound and not badroom:
-                Logger.debug("Trying to approach the portal by finding visual cues in its proximity") 
+                Logger.debug("We should be close enough, trying to approach the portal by finding visual cues in its proximity") 
                 roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
-                template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_1", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
+                template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_SINGLE", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                 if template_match.valid:
                     pos_m = self._screen.convert_screen_to_monitor(template_match.center)
                 t0 = self._screen.grab()
@@ -365,19 +364,28 @@ class Cows:
                                 pos_m = self._screen.convert_screen_to_monitor(template_match.center)
                                 keyboard.send("tab")
                                 continue
+        
+        # OK, we found our location, lets just accesss the portal   
+        if roomfound == True:                        
+            Logger.debug("I found the Portal to Old Tristram on the Minimap, switching Minimap off")
+            keyboard.send("tab") 
 
-            if roomfound == True:
-                Logger.debug("Ok, I am well calibrated, let's enter the Portal to Old Tristram") 
-                found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-                if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.5, time_out=4):
-                    # do a random tele jump and try again
-                    pos_m = self._screen.convert_abs_to_monitor((150, -200))
-                    self._char.move(pos_m, force_move=True)
-                    if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.3, time_out=4):
-                        return False
-                # Wait until templates in durance of hate lvl 3 entrance are found
-                # if not self._template_finder.search_and_wait(["MEPH_LVL3_1"], threshold=0.65, time_out=20).valid:
-                #     return False
+            Logger.debug("Ok, let's enter the Portal to Old Tristram") 
+            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
+            if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.5, time_out=4):
+                # do a random tele jump and try again
+                # move the mouse to center of the screen
+                pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                x_rand = random.uniform(-300, 300)
+                y_rand = random.uniform(-150, 150)
+                pos_m = self._screen.convert_abs_to_monitor((x_rand, y_rand))
+                self._char.move(pos_m, force_move=True)
+                if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], found_loading_screen_func, threshold=0.3, time_out=4):
+                    return False
+            # Wait until templates in Old Tristram entrance are found
+            if not self._template_finder.search_and_wait(["COW_TRIST_0", "COW_TRIST_2", "COW_TRIST_3", "COW_TRIST_4"], threshold=0.65, time_out=20).valid:
+                 return False
 
 
     def _tristram(self, do_pre_buff: bool) -> bool:
