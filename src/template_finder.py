@@ -163,8 +163,7 @@ class TemplateFinder:
                 names = ref
             else:
                 templates = ref
-                templates_gray = [cv2.cvtColor(
-                    i, cv2.COLOR_BGR2GRAY) for i in ref]
+                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
                 scales = [1.0] * len(ref)
                 masks = [None] * len(ref)
         else:
@@ -239,10 +238,8 @@ class TemplateFinder:
             img = self._screen.grab()
             screen_grab_end = time.time()
             search_start = time.time()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match,
-                                         use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
-            is_loading_black_roi = np.average(
-                img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
+            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             search_end = time.time()
             Logger.debug(
                 f'Image grab: {round(screen_grab_end - screen_grab_start, 2)}\tSearch: {round(search_end - search_start, 2)}')
