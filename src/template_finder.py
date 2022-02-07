@@ -10,8 +10,10 @@ import time
 import os
 from config import Config
 from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center
+import concurrent.futures
 
 template_finder_lock = threading.Lock()
+executor = concurrent.futures.ThreadPoolExecutor()
 
 
 @dataclass
@@ -82,8 +84,71 @@ class TemplateFinder:
             roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
         rx, ry, rw, rh = roi
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
+        templates, templates_gray, scales, masks, names, best_match = self.parse_ref(
+            ref,
+            use_grayscale,
+            best_match)
+        scores = [0] * len(templates)
+        ref_points = [(0, 0)] * len(templates)
+        recs = [[0, 0, 0, 0]] * len(templates)
+        future_list = []
+        for count, template in enumerate(templates):
+            template_match = TemplateMatch()
+            scale = scales[count]
+            if scale != 1:
+                img: np.ndarray = cv2.resize(
+                    inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+                rx *= scale
+                ry *= scale
+                rw *= scale
+                rh *= scale
+            else:
+                img: np.ndarray = inp_img
+            future = executor.submit(
+                self.match_template,
+                template,
+                templates_gray[count] if templates_gray else None,
+                img,
+                use_grayscale,
+                masks[count],
+                threshold,
+                scales[count],
+                normalize_monitor,
+                rx,
+                ry)
+            future_list.append(future)
+        for i in range(len(future_list)):
+            return_value = future_list[i].result()
+            if return_value:
+                # Logger.debug(return_value)
+                scores[i] = return_value[0]
+                ref_points[i] = return_value[1]
+                recs[i] = return_value[2]
+                if not best_match:
+                    break
+            # else:
+            #     Logger.error(f'{ref[i]} not found')
+        if len(scores) > 0 and max(scores) > 0:
+            idx = scores.index(max(scores))
+            try:
+                template_match.name = names[idx]
+            except:
+                pass
+            template_match.center = ref_points[idx]
+            template_match.score = scores[idx]
+            template_match.region = recs[idx]
+            template_match.valid = True
+        else:
+            template_match = TemplateMatch()
+            # Logger.debug(
+            #     f'Defaulting TemplateMatch result for ref {ref}')
+        return template_match
 
+    def parse_ref(self, ref, use_grayscale, best_match):
         templates_gray = None
+        scales = None
+        masks = None
+        names = None
         if type(ref) == str:
             templates = [self._templates[ref][0]]
             if use_grayscale:
@@ -102,8 +167,9 @@ class TemplateFinder:
                 names = ref
             else:
                 templates = ref
-                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
-                scales =  [1.0] * len(ref)
+                templates_gray = [cv2.cvtColor(
+                    i, cv2.COLOR_BGR2GRAY) for i in ref]
+                scales = [1.0] * len(ref)
                 masks = [None] * len(ref)
         else:
             templates = [ref]
@@ -112,67 +178,42 @@ class TemplateFinder:
             scales = [1.0]
             masks = [None]
             best_match = False
+        return templates, templates_gray, scales, masks, names, best_match
 
-        scores = [0] * len(templates)
-        ref_points = [(0, 0)] * len(templates)
-        recs = [[0, 0, 0, 0]] * len(templates)
-
-        for count, template in enumerate(templates):
-            template_match = TemplateMatch()
-            scale = scales[count]
-            mask = masks[count]
-
-            if scale != 1:
-                img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-                rx *= scale
-                ry *= scale
-                rw *= scale
-                rh *= scale
-            else:
-                img: np.ndarray = inp_img
-
-            if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
-                if use_grayscale:
-                    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    template = templates_gray[count]
-                res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
-                np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
-                _, max_val, _, max_pos = cv2.minMaxLoc(res)
-                if self._save_last_res:
-                    with template_finder_lock:
-                        self.last_res = deepcopy(res)
-                if max_val > threshold:
-                    rec = [int((max_pos[0] + rx) // scale), int((max_pos[1] +ry) // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
-                    ref_point = roi_center(rec)
-
-                    if normalize_monitor:
-                        ref_point =  self._screen.convert_screen_to_monitor(ref_point)
-                        rec[0], rec[1] = self._screen.convert_screen_to_monitor((rec[0], rec[1]))
-                    if best_match:
-                        scores[count] = max_val
-                        ref_points[count] = ref_point
-                        recs[count] = rec
-                    else:
-                        try: template_match.name = names[count]
-                        except: pass
-                        template_match.center = ref_point
-                        template_match.score = max_val
-                        template_match.region = rec
-                        template_match.valid = True
-                        return template_match
-
-        if len(scores) > 0 and max(scores) > 0:
-            idx=scores.index(max(scores))
-            try: template_match.name = names[idx]
-            except: pass
-            template_match.center = ref_points[idx]
-            template_match.score = scores[idx]
-            template_match.region = recs[idx]
-            template_match.valid = True
-        else:
-            template_match = TemplateMatch()
-
-        return template_match
+    def match_template(
+            self,
+            template,
+            template_gray,
+            img,
+            use_grayscale,
+            mask,
+            threshold,
+            scale,
+            normalize_monitor,
+            rx,
+            ry):
+        if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+            if use_grayscale:
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                template = template_gray
+            res = cv2.matchTemplate(
+                img,
+                template,
+                cv2.TM_CCOEFF_NORMED,
+                mask=mask)
+            np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+            _, max_val, _, max_pos = cv2.minMaxLoc(res)
+            if max_val > threshold:
+                rec = [int((max_pos[0] + rx) // scale), int((max_pos[1] + ry) // scale),
+                       int(template.shape[1] // scale), int(template.shape[0] // scale)]
+                ref_point = roi_center(rec)
+                if normalize_monitor:
+                    ref_point = self._screen.convert_screen_to_monitor(
+                        ref_point)
+                    rec[0], rec[1] = self._screen.convert_screen_to_monitor(
+                        (rec[0], rec[1]))
+                return [max_val, ref_point, rec]
+        return None
 
     def search_and_wait(
         self,
@@ -198,9 +239,17 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
+            screen_grab_start = time.time()
             img = self._screen.grab()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
-            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            screen_grab_end = time.time()
+            search_start = time.time()
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match,
+                                         use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
+            is_loading_black_roi = np.average(
+                img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            search_end = time.time()
+            Logger.debug(
+                f'Image grab: {round(screen_grab_end - screen_grab_start, 2)}\tSearch: {round(search_end - search_start, 2)}')
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
                     Logger.debug(f"Found Match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
