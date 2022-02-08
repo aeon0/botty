@@ -23,15 +23,6 @@ class Hammerdin(IChar):
 
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
-        # <<<<<< MASTER MIGHT REQUIRE DELETION FROM HERE DUE TO THE NEW CAPABILITIES FEATURE. LEAVING IT IN FOR NOW
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if not self._skill_hotkeys["teleport"]:
-            self._do_pre_move = False
-        else:
-            # we want to change positions of shenk and eld a bit to be more center for teleport
-            self._pather.offset_node(149, (70, 10))
-        # >>>>> MASTER MIGHT REQUIRE DELETION UP TO HERE HERE DUE TO THE NEW CAPABILITIES FEATURE. LEAVING IT IN FOR NOW
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
@@ -214,7 +205,7 @@ class Hammerdin(IChar):
             ### Layout Checks
             #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
             "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
@@ -258,6 +249,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
+            wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
                         
         
@@ -291,7 +283,7 @@ class Hammerdin(IChar):
             ### Layout Checks
             "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
             #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
+            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
             ### A1-L
             #"A1-L_01",  #node 611 seal layout A1-L: approach
             #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
@@ -328,7 +320,50 @@ class Hammerdin(IChar):
             #"C2-G_seal2", #boss seal layout C2-G
             ]:  
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+       
+        ###########
+        # SEALDANCE
+        ###########
         
+        #elif location == "sealdance": #skipped
+        
+        #############
+        # CLEAR TRASH
+        #############
+        
+        #elif location == "rof_01": #skipped
+        #elif location == "rof_02": #skipped
+        
+        #elif location == "entrance_hall_01": #skipped
+        #elif location == "entrance_hall_02": #skipped
+        #elif location == "entrance_hall_03": #skipped
+
+        #elif location == "entrance1_01": #skipped
+        #elif location == "entrance1_01": #skipped
+        #elif location == "entrance1_01": #skipped
+        #elif location == "entrance1_01": #skipped
+
+        #elif location == "entrance2_01": #skipped
+        #elif location == "entrance2_01": #skipped
+        #elif location == "entrance2_01": #skipped
+        #elif location == "entrance2_01": #skipped
+
+        #elif location == "trash_a": #skipped
+        #elif location == "trash_b": #skipped
+        #elif location == "trash_c": #skipped
+
+        ###############
+        # LAYOUT CHECKS
+        ###############
+
+        #elif location == "layoutcheck_a": #skipped
+        #elif location == "layoutcheck_b": #skipped
+        #elif location == "layoutcheck_c": #skipped
+
+        ###########
+        # SEAL A1-L
+        ###########
+
         elif location == "A1-L_01":  #node 611 seal layout A1-L: safe_dist
             if not self._pather.traverse_nodes([611], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -377,6 +412,9 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
+        ###########
+        # SEAL A2-Y
+        ###########
 
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
@@ -416,24 +454,34 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
             keyboard.send(self._skill_hotkeys["redemption"])
 
+        ###########
+        # SEAL B1-S
+        ###########
+
         #elif location == "B1-S_01": #skipped
         #elif location == "B1-S_02": #skipped
         #elif location == "B1-S_03": #skipped
 
-        elif location == "B1-S_seal2": 
+        elif location == "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
+        ###########
+        # SEAL B2-U
+        ###########
 
         #elif location == "B2-U_01": #skipped
         #elif location == "B2-U_02": #skipped
         #elif location == "B2-U_03": #skipped
 
-        elif location == "B2-U_seal2": 
+        elif location == "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
             self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
             if not self._pather.traverse_nodes([644], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
         
+        ###########
+        # SEAL C1-F
+        ###########
 
         #elif location == "C1-F_01": #skipped
         #elif location == "C1-F_02": #skipped
@@ -471,6 +519,9 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
+        ###########
+        # SEAL C2-G
+        ###########
 
         #elif location == "C2-G_01": #skipped
         #elif location == "C2-G_02": #skipped
@@ -520,6 +571,8 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
+
+
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
@@ -548,7 +601,6 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
-            
 
         elif seal_layout == "A2-Y":
             if not self._pather.traverse_nodes([627, 622], self): return False # , time_out=3):
@@ -586,6 +638,8 @@ class Hammerdin(IChar):
             return False
         return True
 
+
+
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
             self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
@@ -617,8 +671,7 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             wait(2.5, 3.5)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            
+            self._picked_up_items |= self._pickit.pick_up_items(self)     
 
         elif seal_layout == "B2-U":
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
@@ -664,6 +717,7 @@ class Hammerdin(IChar):
         return True 
 
 
+
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
@@ -687,6 +741,7 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
             return False 
         return True
+
 
 
     def kill_diablo(self) -> bool:

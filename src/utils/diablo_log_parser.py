@@ -10,24 +10,40 @@ wkdir = os.getcwd()
 #initialize strings
 simple_string = [
     "Run Diablo", 
-    "ROF: Calibrated at WAYPOINT", 
+    "ROF: Calibrated at WAYPOINT",
     "ROF: Teleporting directly to PENTAGRAM", 
-    "CS: OPEN TP", "CS: Calibrated at PENTAGRAM", 
-    "CS Trash: Starting to clear Trash",
+    
+    "ROF: Teleporting to CS ENTRANCE",
     "CS Trash: Calibrated at CS ENTRANCE",
-    "CS Trash: Clearing Hall 1",
-    "Entrance 1 Layout_check step 2/2",
-    "Entrance 1 Layout_check step 1/2",
-    "Entrance 1 Layout_check failed",
-    "CS Trash: Clearing Hall 1-2",
-    "CS Trash: Clearing Hall 1-3",
-    "Entrance 2 Layout_check step 1/2",
-    "Entrance 2 Layout_check step 2/2",
-    "Entrance 2 Layout_check failed",
-    "CS Trash: Clearing Hall 2-2",
-    "CS Trash: Clearing Hall 2-3",
+    "CS Trash: Starting to clear Trash",
+
+    "CS Trash: Clearing first hall 1/3",
+    "CS Trash: Clearing first hall 2/3",
+    "CS Trash: Clearing first hall 3/3",
+
+    "CS Trash (A): Layout_check step 1/2",
+    "CS Trash (A): Layout_check step 2/2",
+    "CS Trash (A): Layout_check failed",
+    
+    "CS Trash (A): cleaning second hall (1/3)",
+    "CS Trash (A): cleaning second hall (2/3)",
+    "CS Trash (A): cleaning second hall (3/3)",
+
+    "CS Trash (A): cleaning third hall (1/1)",
+
+    "CS Trash (B): Layout_check step 1/2",
+    "CS Trash (B): Layout_check step 2/2",
+    "CS Trash (B): Layout_check failed",
+
+    "CS Trash (B): cleaning second hall (1/3)",
+    "CS Trash (B): cleaning second hall (2/3)",
+    "CS Trash (B): cleaning second hall (3/3)",
+
+    "CS Trash (B): cleaning third hall (1/1)",
+
     "CS Trash: looping to PENTAGRAM", 
-    "CS Trash: Calibrated at PENTAGRAM", 
+    "CS: Calibrated at PENTAGRAM", 
+    "CS: OPEN TP",
     "CS TRASH: A Pent to LC",
     "CS TRASH: B Pent to LC",
     "CS TRASH: C Pent to LC",
