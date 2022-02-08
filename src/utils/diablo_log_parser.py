@@ -17,9 +17,8 @@ simple_string = [
     "CS Trash: Calibrated at CS ENTRANCE",
     "CS Trash: Starting to clear Trash",
 
-    "CS Trash: Clearing first hall 1/3",
-    "CS Trash: Clearing first hall 2/3",
-    "CS Trash: Clearing first hall 3/3",
+    "CS Trash: Clearing first hall 1/2",
+    "CS Trash: Clearing first hall 2/2",
 
     "CS Trash (A): Layout_check step 1/2",
     "CS Trash (A): Layout_check step 2/2",

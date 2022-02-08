@@ -218,7 +218,8 @@ class Pather:
             603: {"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
             604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
             605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
-
+            # Entrance 1 Hall3
+            609: {"DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130),"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3
 
             #CALIBRATION SPOTS FOR LAYOUT CHECKS
             610620: 
@@ -319,8 +320,7 @@ class Pather:
             683: {"DIABLO_ENTRANCE2_43": (356, 259), "DIABLO_ENTRANCE2_23": (-483, 14), "DIABLO_ENTRANCE2_21": (-484, 13), "DIABLO_ENTRANCE2_24": (-484, 24), "DIABLO_ENTRANCE2_32": (-485, -27), "DIABLO_ENTRANCE2_25": (-489, 45), "DIABLO_ENTRANCE2_27": (-645, 493), "DIABLO_ENTRANCE2_36": (-644, 508), },
             684: {"DIABLO_ENTRANCE2_25": (-203, -242), "DIABLO_ENTRANCE2_23": (-197, -273), "DIABLO_ENTRANCE2_27": (-359, 206), "DIABLO_ENTRANCE2_36": (-358, 221), "DIABLO_ENTRANCE2_31": (-536, 429), "DIABLO_ENTRANCE2_39": (-876, 120), },
             685: {"DIABLO_ENTRANCE2_42": (15, -383), "DIABLO_ENTRANCE2_39": (205, -363), "DIABLO_ENTRANCE2_31": (545, -54), "DIABLO_ENTRANCE2_41": (-474, -502), "DIABLO_ENTRANCE2_35": (-473, -507), "DIABLO_ENTRANCE2_28": (-474, -508), "DIABLO_ENTRANCE2_29": (-475, -508), },
-            686: {"DIABLO_ENTRANCE2_35": (-127, -314), "DIABLO_ENTRANCE2_28": (-128, -315), "DIABLO_ENTRANCE2_42": (361, -191), "DIABLO_ENTRANCE2_39": (551, -171),},
-
+            686: {"DIABLO_ENTRANCE2_35": (-127, -314), "DIABLO_ENTRANCE2_28": (-128, -315), "DIABLO_ENTRANCE2_42": (361, -191), "DIABLO_ENTRANCE2_39": (551, -171),}, #replaced by 609
 
             # A1 town
             #kashya_cain
@@ -671,22 +671,22 @@ class Pather:
                     did_force_move = True
                     last_move = time.time()
                 
-                
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
-                if teleport_count > 30:
-                    Logger.debug("We teleport for quite a while - let's check if we are facetanking a Shrine or Stash")
+                if teleport_count > 50:
+                    Logger.debug("Stuck. Performing check for Shrine")
                     img = self._screen.grab()
                     if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                        Logger.debug(f"Oh, indeed I found Shrine or Stash blocking our way, left clicking above my head now - might find amazing treasures!")
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        Logger.debug(f"Shrine found, activating it")
                         mouse.move(640, 255)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
                         Logger.debug("click-y-click!")
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_failed_tele_shrine_stash_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
-                        Logger.debug("Did not find the words SHRINE, STASH or PILE on that screenshot. Hm, maybe just a hickup: let's move on with a little jump, before Lucille gets us ...")
+                        Logger.debug("Shrine not found.")
+                        """
                         pos_abs = (0, 150)
                         if last_direction is not None:
                             pos_abs = last_direction
@@ -696,11 +696,11 @@ class Pather:
                         char.move((x_m, y_m), force_move=True)
                         did_force_move = True
                         last_move = time.time()
+                        """
                     teleport_count = 0
                     break
                 teleport_count += 1
-                
-                                  
+                     
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
@@ -767,7 +767,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIABLO_ENTRANCE")
+    #display_all_nodes(pather, "DIABLO_ENTRANCE2_H")
 
     # # changing node pos and generating new code
     # code = ""
@@ -781,7 +781,9 @@ if __name__ == "__main__":
 
     ui_manager = UiManager(screen, t_finder)
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
+    char.discover_capabilities()
 
+    
     """
     pather.traverse_nodes([604], char)
     pather.traverse_nodes_fixed("diablo_entrance_hall_1", char)
@@ -789,8 +791,20 @@ if __name__ == "__main__":
     pather.traverse_nodes([671], char)
     pather.traverse_nodes_fixed("diablo_entrance_hall_2", char)
     """
+    
     pather.traverse_nodes([605], char)
-    pather.traverse_nodes_fixed("diablo_entrance_1_1", char)
+    #attack
+    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", char)
+    pather.traverse_nodes([605], char)
+    #attack
+    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top", char)
+    pather.traverse_nodes([605], char)
+    #attack
+    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", char)
+    pather.traverse_nodes([609], char)
+    pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", char)
+    pather.traverse_nodes([609], char)
+    #attack
     
     #pather.traverse_nodes([650660], char, threshold=0.9)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)

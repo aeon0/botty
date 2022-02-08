@@ -219,7 +219,7 @@ class Hammerdin(IChar):
             wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        elif location == "entrance_hall_01": #node 677, CS Entrance Hall1
+        elif location == "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -231,7 +231,7 @@ class Hammerdin(IChar):
             wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        elif location == "entrance_hall_02": #static_path "diablo_entrance_hall_1", CS Entrance Hall1
+        elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -243,19 +243,7 @@ class Hammerdin(IChar):
             wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
-        elif location == "entrance_hall_03": #node 670,671, CS Entrance Hall1
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-
-        # LAYOUT A
+        # TRASH LAYOUT A
 
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -298,14 +286,15 @@ class Hammerdin(IChar):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
-        # LAYOUT B
+        # TRASH LAYOUT B
 
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -346,9 +335,12 @@ class Hammerdin(IChar):
         elif location == "entrance2_04": #node 686 - Hall3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((0, 0), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.1)
+            self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.1)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -364,7 +356,8 @@ class Hammerdin(IChar):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((300, -150), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -376,7 +369,8 @@ class Hammerdin(IChar):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((300, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -388,7 +382,8 @@ class Hammerdin(IChar):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -150), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
