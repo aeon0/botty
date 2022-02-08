@@ -1,7 +1,7 @@
 from cgitb import text
 import keyboard
 from utils.custom_mouse import mouse
-from char import IChar
+from char import IChar, CharacterCapabilities
 from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
@@ -20,8 +20,10 @@ class Hammerdin(IChar):
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
+
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
+        # <<<<<< MASTER MIGHT REQUIRE DELETION FROM HERE DUE TO THE NEW CAPABILITIES FEATURE. LEAVING IT IN FOR NOW
         # In case we have a running pala, we want to switch to concentration when moving to the boss
         # ass most likely we will click on some mobs and already cast hammers
         if not self._skill_hotkeys["teleport"]:
@@ -29,6 +31,7 @@ class Hammerdin(IChar):
         else:
             # we want to change positions of shenk and eld a bit to be more center for teleport
             self._pather.offset_node(149, (70, 10))
+        # >>>>> MASTER MIGHT REQUIRE DELETION UP TO HERE HERE DUE TO THE NEW CAPABILITIES FEATURE. LEAVING IT IN FOR NOW
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
@@ -56,13 +59,22 @@ class Hammerdin(IChar):
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
 
+    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
+        # In case we have a running pala, we want to switch to concentration when moving to the boss
+        # ass most likely we will click on some mobs and already cast hammers
+        if capabilities.can_teleport_natively:
+            self._do_pre_move = False
+        else:
+            # we want to change positions of shenk and eld a bit to be more center for teleport
+            self._pather.offset_node(149, (70, 10))
+
     def pre_move(self):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not self._ui_manager.is_right_skill_selected(["VIGOR"])
-        can_teleport = self._skill_hotkeys["teleport"] and self._ui_manager.is_right_skill_active()
-        if  should_cast_vigor and not can_teleport:
+        can_teleport = self.capabilities.can_teleport_natively and self._ui_manager.is_right_skill_active()
+        if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
 
@@ -74,7 +86,7 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
@@ -87,7 +99,7 @@ class Hammerdin(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively:
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
@@ -119,14 +131,14 @@ class Hammerdin(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = self._char_config["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, use_tp_charge=True)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.can_teleport():
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True, use_tp_charge=True)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)

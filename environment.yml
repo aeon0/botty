@@ -1,8 +1,13 @@
 name: botty
+channels:
+  - conda-forge
 dependencies:
   - python=3.9
   - pywin32
   - pip
+  - leptonica
+  - tesseract>=5.0.1
+  - pkg-config
   - pip:
     - pyinstaller
     - opencv-python
@@ -23,3 +28,5 @@ dependencies:
     - cryptography
     - pillow
     - discord.py
+    - parse
+    - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
