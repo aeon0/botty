@@ -25,25 +25,26 @@ simple_string = [
     "CS Trash (A): Layout_check step 2/2",
     "CS Trash (A): Layout_check failed",
     
-    "CS Trash (A): cleaning second hall (1/3)",
-    "CS Trash (A): cleaning second hall (2/3)",
-    "CS Trash (A): cleaning second hall (3/3)",
+    "CS Trash (A): clearing second hall (1/3)",
+    "CS Trash (A): clearing second hall (2/3)",
+    "CS Trash (A): clearing second hall (3/3)",
 
-    "CS Trash (A): cleaning third hall (1/1)",
+    "CS Trash (A): clearing third hall (1/1)",
 
     "CS Trash (B): Layout_check step 1/2",
     "CS Trash (B): Layout_check step 2/2",
     "CS Trash (B): Layout_check failed",
 
-    "CS Trash (B): cleaning second hall (1/3)",
-    "CS Trash (B): cleaning second hall (2/3)",
-    "CS Trash (B): cleaning second hall (3/3)",
+    "CS Trash (B): clearing second hall (1/3)",
+    "CS Trash (B): clearing second hall (2/3)",
+    "CS Trash (B): clearing second hall (3/3)",
 
-    "CS Trash (B): cleaning third hall (1/1)",
+    "CS Trash (B): clearing third hall (1/1)",
 
     "CS Trash: looping to PENTAGRAM", 
     "CS: Calibrated at PENTAGRAM", 
     "CS: OPEN TP",
+    "CS: failed to open TP",
     "CS TRASH: A Pent to LC",
     "CS TRASH: B Pent to LC",
     "CS TRASH: C Pent to LC",
@@ -54,7 +55,15 @@ simple_string = [
     "End game", 
     "End failed game", 
     "Trying to chicken", 
-    "You have died"
+    "You have died",
+    "Shrine found, activating it",
+    "Shrine not found",
+    "Got enough pots, no need to go to town right now",
+    "Going back to town to visit our friend Jamella",
+    "Done in town, now going back to portal",
+    "Going through portal",
+    "CS after town: Re-open TP",
+    "CS after Town: failed to open TP"
     ]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
 complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated"]

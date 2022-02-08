@@ -169,78 +169,17 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
     
-     #-------------------------------------------------------------------------------#   
-     # Chaos Sanctuary, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
-     #-------------------------------------------------------------------------------#
+     #--------------------------------------------------------------------------------------#   
+     # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
+     #--------------------------------------------------------------------------------------#
     
     def kill_cs_trash(self, location:str) -> bool:
-
-        if location in [ #KILL TRASH ACTIVE
-            "sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            ### ROF
-            "rof_01", #static_path WP-> CS Entrance, outside CS Entrance
-            "rof_02", #node 601, CS Entrance
-            ### CS entrance
-            "entrance_hall_01", #node 677, CS Entrance
-            "entrance_hall_02", #static_path "diablo_entrance_hall_1", CS Entrance
-            "entrance_hall_03", #node 670,671, CS Entrance
-            ### layout 1
-            "entrance1_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            "entrance1_02", #node 673, CS Hall1/3 layout1
-            "entrance1_03", #node 674, CS Hall2/3 layout1
-            "entrance1_04", #node 676, CS Hall3/3 layout1
-            ### layout 2
-            "entrance2_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            "entrance2_02", #node 682, CS Hall1/3 layout2
-            "entrance2_03", #node 683, CS Hall2/3 layout2
-            "entrance2_04", #node 686, CS Hall3/3 layout2
-            ### Seal Trash
-            "trash_a", #trash before between Pentagramm and Seal A Layoutcheck
-            "trash_b", #trash before between Pentagramm and Seal A Layoutcheck
-            "trash_c", #trash before between Pentagramm and Seal A Layoutcheck
-            ### Pentagram
-            #"pent_before_a", #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
-            "pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
-            "pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
-            ### Layout Checks
-            #"layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            "layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            "layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
-            ### A1-L
-            #"A1-L_01",  #node 611 seal layout A1-L: approach
-            #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
-            #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            #"A1-L_seal1", #node 614 layout A1-L: fake seal
-            #"A1-L_seal2", #node 615 layout A1-L: boss seal
-            ### A2-Y
-            #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
-            #"A2-Y_02", #node 623 seal layout A2-Y: center
-            #"A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            #"A2-Y_seal1", #node 625 seal layout A2-Y: fake seal
-            #"A2-Y_seal2", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
-            ### B1-S
-            #"B1-S_01", # no movement
-            #"B1-S_02", # no movement
-            #"B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            #"B1-S_seal2", #node 634 layout B1-S: boss seal
-            ### B2-U
-            #"B2-U_01", # no movement
-            #"B2-U_02", # no movement
-            #"B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            #"B2-U_seal2", #node 644 layout B2-U: boss seal
-            ### C1-F
-            #"C1-F_01", # no movement
-            #"C1-F_02", # no movement
-            #"C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
-            "C1-F_seal1", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            #"C1-F_seal2", #static_path "dia_c1f_654_651" C1-F: boss seal
-            ### C2-G
-            #"C2-G_01", # no movement
-            #"C2-G_02", # no movement
-            #"C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            #"C2-G_seal1", #fake seal layout C2-G
-            #"C2-G_seal2", #boss seal layout C2-G
-            ]:        
+    
+        ###########
+        # SEALDANCE
+        ###########
+        
+        if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -248,117 +187,275 @@ class Hammerdin(IChar):
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.5, 1.0) #clear seal from corpses
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+        
+        ################
+        # CLEAR CS TRASH
+        ################
+        
+        elif location == "rof_01": #node 603 - outside CS in ROF
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-                        
+            
+        elif location == "rof_02": #node 604 - inside ROF
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        elif location in [ #SKIP KILLING TRASH HERE
-            #"sealdance", #if seal opening fails & trash needs to be cleared -> used at ANY seal
-            ### ROF
-            #"rof_01", #static_path WP-> CS Entrance, outside CS Entrance
-            #"rof_02", #node 601, CS Entrance
-            ### CS entrance
-            #"entrance_hall_01", #node 677, CS Entrance
-            #"entrance_hall_02", #static_path "diablo_entrance_hall_1", CS Entrance
-            #"entrance_hall_03", #node 670,671, CS Entrance
-            ### layout 1
-            #"entrance1_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            #"entrance1_02", #node 673, CS Hall1/3 layout1
-            #"entrance1_03", #node 674, CS Hall2/3 layout1
-            #"entrance1_04", #node 676, CS Hall3/3 layout1
-            ### layout 2
-            #"entrance2_01", #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-            #"entrance2_02", #node 682, CS Hall1/3 layout2
-            #"entrance2_03", #node 683, CS Hall2/3 layout2
-            #"entrance2_04", #node 686, CS Hall3/3 layout2
-            ### Seal Trash
-            #"trash_a", #trash before between Pentagramm and Seal A Layoutcheck
-            #"trash_b", #trash before between Pentagramm and Seal A Layoutcheck
-            #"trash_c", #trash before between Pentagramm and Seal A Layoutcheck
-            ### Pentagram
-            "pent_before_a", #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
-            #"pent_before_b", #node 602, pentagram, before CTA buff & depature to layout check 
-            #"pent_before_c", #node 602, pentagram, before CTA buff & depature to layout check
-            ### Layout Checks
-            "layoutcheck_a", #layout check seal A, node 619 A1-L, node 620 A2-Y
-            #"layoutcheck_b", #layout check seal B, node 634 B1-S, node 649 B2-U
-            #"layoutcheck_c", #layout check seal C, node 656 C1-F, node 664 C2-G
-            ### A1-L
-            #"A1-L_01",  #node 611 seal layout A1-L: approach
-            #"A1-L_02",  #node 612 seal layout A1-L: safe_dist
-            #"A1-L_03",  #node 613 seal layout A1-L: center, # you need to end your attack sequence at node [613] center
-            #"A1-L_seal1", #node 614 layout A1-L: fake seal
-            #"A1-L_seal2", #node 615 layout A1-L: boss seal
-            ### A2-Y
-            #"A2-Y_01", #node 622 seal layout A2-Y: safe_dist
-            #"A2-Y_02", #node 623 seal layout A2-Y: center
-            "A2-Y_03", #node 624 seal layout A2-Y: seal fake far, you need to end your attack sequence at node [624] fake seal far
-            #"A2-Y_seal1", #node 625 seal layout A2-Y: fake seal
-            #"A2-Y_seal2", #static_path "dia_a2y_sealfake_sealboss" (at node 626) seal layout A2-Y: boss seal
-            ### B1-S
-            "B1-S_01", # no movement
-            "B1-S_02", # no movement
-            "B1-S_03", # no movement, but you need to end your attack sequence at layout check node [634]
-            #"B1-S_seal2", #node 634 layout B1-S: boss seal
-            ### B2-U
-            "B2-U_01", # no movement
-            "B2-U_02", # no movement
-            "B2-U_03", # no movement, but you need to end your attack sequence at layout check node [649]
-            #"B2-U_seal2", #node 644 layout B2-U: boss seal
-            ### C1-F
-            "C1-F_01", # no movement
-            "C1-F_02", # no movement
-            "C1-F_03", # no movement, but you need to end your char attack sequence at layout check node [656]
-            #"C1-F_seal1", #static_path "dia_c1f_hop_fakeseal" C1-F: boss seal
-            #"C1-F_seal2", #static_path "dia_c1f_654_651" C1-F: boss seal
-            ### C2-G
-            "C2-G_01", # no movement
-            "C2-G_02", # no movement
-            "C2-G_03", # no movement, but you need to end your char attack sequence at layout check node [664]
-            #"C2-G_seal1", #fake seal layout C2-G
-            #"C2-G_seal2", #boss seal layout C2-G
-            ]:  
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-       
-        ###########
-        # SEALDANCE
-        ###########
+        elif location == "entrance_hall_01": #node 677, CS Entrance Hall1
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        #elif location == "sealdance": #skipped
-        
-        #############
-        # CLEAR TRASH
-        #############
-        
-        #elif location == "rof_01": #skipped
-        #elif location == "rof_02": #skipped
-        
-        #elif location == "entrance_hall_01": #skipped
-        #elif location == "entrance_hall_02": #skipped
-        #elif location == "entrance_hall_03": #skipped
+        elif location == "entrance_hall_02": #static_path "diablo_entrance_hall_1", CS Entrance Hall1
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
-        #elif location == "entrance1_01": #skipped
-        #elif location == "entrance1_01": #skipped
-        #elif location == "entrance1_01": #skipped
-        #elif location == "entrance1_01": #skipped
+        elif location == "entrance_hall_03": #node 670,671, CS Entrance Hall1
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
-        #elif location == "entrance2_01": #skipped
-        #elif location == "entrance2_01": #skipped
-        #elif location == "entrance2_01": #skipped
-        #elif location == "entrance2_01": #skipped
+        # LAYOUT A
 
-        #elif location == "trash_a": #skipped
-        #elif location == "trash_b": #skipped
-        #elif location == "trash_c": #skipped
+        elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance1_02": #node 673
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance1_03": #node 674
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance1_04": #node 676- Hall3
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        # LAYOUT B
+
+        elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance2_02": #node 682
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance2_03": #node 683
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        elif location == "entrance2_04": #node 686 - Hall3
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        ####################
+        # PENT TRASH TO SEAL
+        ####################
+
+        elif location == "trash_a": #trash before between Pentagramm and Seal A Layoutcheck
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((300, -150), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+        
+        elif location == "trash_b": #trash before between Pentagramm and Seal B Layoutcheck
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((300, -15), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+        
+        elif location == "trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -150), self._char_config["atk_len_cs_trashmobs"])
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###############
         # LAYOUT CHECKS
         ###############
 
-        #elif location == "layoutcheck_a": #skipped
-        #elif location == "layoutcheck_b": #skipped
-        #elif location == "layoutcheck_c": #skipped
+        elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+        
+        elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+        
+        elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
+        ##################
+        # PENT BEFORE SEAL
+        ##################
+
+        elif location == "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+        
+        elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+        
+        elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._cast_hammers(0.75, "redemption")
+            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            keyboard.send(self._skill_hotkeys["cleansing"])
+            wait(0.1, 0.2)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###########
         # SEAL A1-L
@@ -430,7 +527,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
-            #self._picked_up_items |= self._pickit.pick_up_items(self)
+            wait(0.2, 0.4)
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
             if not self._pather.traverse_nodes([623,624], self): return False # 
@@ -442,9 +539,10 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
-            #self._picked_up_items |= self._pickit.pick_up_items(self)
+            wait(0.2, 0.4)
 
-        #elif location == "A2-Y_03": #skipped
+        elif location == "A2-Y_03": #skipped
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
     
         elif location == "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
@@ -458,9 +556,14 @@ class Hammerdin(IChar):
         # SEAL B1-S
         ###########
 
-        #elif location == "B1-S_01": #skipped
-        #elif location == "B1-S_02": #skipped
-        #elif location == "B1-S_03": #skipped
+        elif location == "B1-S_01": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "B1-S_02": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "B1-S_03": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
@@ -470,9 +573,14 @@ class Hammerdin(IChar):
         # SEAL B2-U
         ###########
 
-        #elif location == "B2-U_01": #skipped
-        #elif location == "B2-U_02": #skipped
-        #elif location == "B2-U_03": #skipped
+        elif location == "B2-U_01": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "B2-U_02": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "B2-U_03":
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
             self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
@@ -483,9 +591,14 @@ class Hammerdin(IChar):
         # SEAL C1-F
         ###########
 
-        #elif location == "C1-F_01": #skipped
-        #elif location == "C1-F_02": #skipped
-        #elif location == "C1-F_03": #skipped
+        elif location == "C1-F_01":
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+        
+        elif location == "C1-F_02": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+        
+        elif location == "C1-F_03": 
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_seal1":
             wait(0.1,0.3)
@@ -523,9 +636,14 @@ class Hammerdin(IChar):
         # SEAL C2-G
         ###########
 
-        #elif location == "C2-G_01": #skipped
-        #elif location == "C2-G_02": #skipped
-        #elif location == "C2-G_03": #skipped
+        elif location == "C2-G_01": #skipped
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "C2-G_02": #skipped
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+
+        elif location == "C2-G_03": #skipped
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_seal1":
             if not self._pather.traverse_nodes([663, 662], self): return False # , time_out=3):
@@ -587,18 +705,14 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             self._cast_hammers(1, "redemption")
-            #Logger.debug(seal_layout + ": Attacking Vizier at position 3/3 - i think we can skip this location, let me know if its useful")
-            #self._pather.traverse_nodes([610], self, time_out=3)
-            #self._move_and_attack((0, 0), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            #wait(0.1, 0.15)
-            #self._cast_hammers(2, "redemption")
-            #self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 1.2)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
 
@@ -622,12 +736,14 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.3)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 1.2)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 1.2)
             if not self._pather.traverse_nodes([622], self): return False #, time_out=3): 
             keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
