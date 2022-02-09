@@ -420,9 +420,7 @@ class UiManager():
                                 self._gold_full = True
                             else:
                                 # turn off gold pickup
-                                self._config.char["stash_gold"] = False
-                                self._config.items["misc_gold"].pickit_type = 0
-                                item_finder.update_items_to_pick(self._config)
+                                self._config.turn_off_goldpickup()
                                 # inform user about it
                                 msg = "All stash tabs and character are full of gold, turn of gold pickup"
                                 Logger.info(msg)
