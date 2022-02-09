@@ -88,7 +88,7 @@ class Transmute:
     def transmute(self):
         screen = self._screen.grab()
         match = self._template_finder.search(
-            ["CUBE_TRANSMUTE_BTN"], screen, threshold=0.9, roi=Config.ui_roi["cube_btn_roi"])
+            ["CUBE_TRANSMUTE_BTN"], screen, roi=Config.ui_roi["cube_btn_roi"])
         if match.valid:
             x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
