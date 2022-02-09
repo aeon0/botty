@@ -8,10 +8,13 @@ from logger import Logger
 from screen import Screen
 from utils.misc import wait, cut_roi
 import time
+import os
 from pather import Pather, Location
 
 
 class Barbarian(IChar):
+    os.system('color')
+    
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Barbarian")
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
@@ -95,8 +98,16 @@ class Barbarian(IChar):
                 self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
         self._cast_war_cry(self._char_config["atk_len_pindle"])
+        wait(0.5, 0.55)
+        #switch to off hand before horking
+        Logger.info('\033[92m'+"SWITCHING TO OFF HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         wait(0.1, 0.15)
         self._do_hork(4)
+        wait(0.5, 0.55)
+        #switch back to main hand
+        Logger.info('\033[92m'+"SWITCHING BACK TO MAIN HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         return True
 
     def kill_eldritch(self) -> bool:
@@ -106,16 +117,32 @@ class Barbarian(IChar):
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_eldritch"])
+        wait(0.5, 0.55)
+        #switch to off hand before horking
+        Logger.info('\033[92m'+"SWITCHING TO OFF HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         wait(0.1, 0.15)
         self._do_hork(4)
+        wait(0.5, 0.55)
+        #switch back to main hand
+        Logger.info('\033[92m'+"SWITCHING BACK TO MAIN HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         return True
 
     def kill_shenk(self):
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_war_cry(self._char_config["atk_len_shenk"])
+        wait(0.5, 0.55)
+        #switch to off hand before horking
+        Logger.info('\033[92m'+"SWITCHING TO OFF HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         wait(0.1, 0.15)
         self._do_hork(7)
+        wait(0.5, 0.55)
+        #switch back to main hand
+        Logger.info('\033[92m'+"SWITCHING BACK TO MAIN HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         return True
 
     def kill_council(self) -> bool:
@@ -137,7 +164,16 @@ class Barbarian(IChar):
             # Stay inside and cast war cry again moving forward
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
-        self._do_hork(5)
+        wait(0.5, 0.55)
+        #switch to off hand before horking
+        Logger.info('\033[92m'+"SWITCHING TO OFF HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
+        wait(0.1, 0.15)
+        self._do_hork(4)
+        wait(0.5, 0.55)
+        #switch back to main hand
+        Logger.info('\033[92m'+"SWITCHING BACK TO MAIN HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
@@ -153,7 +189,16 @@ class Barbarian(IChar):
         self._move_and_attack((-30, -15), self._char_config["atk_len_nihlathak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_war_cry(1.2)
-        self._do_hork(5)
+        wait(0.5, 0.55)
+        #switch to off hand before horking
+        Logger.info('\033[92m'+"SWITCHING TO OFF HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
+        wait(0.1, 0.15)
+        self._do_hork(4)
+        wait(0.5, 0.55)
+        #switch back to main hand
+        Logger.info('\033[92m'+"SWITCHING BACK TO MAIN HAND!!!!!"+'\033[0m')
+        keyboard.send(self._char_config["weapon_switch"])
         return True
 
 if __name__ == "__main__":
