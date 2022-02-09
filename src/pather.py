@@ -219,7 +219,7 @@ class Pather:
             604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
             605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
             # Entrance 1 Hall3
-            609: {"DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130),"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3
+            609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3 "DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130) 
 
             #CALIBRATION SPOTS FOR LAYOUT CHECKS
             610620: 
@@ -678,7 +678,9 @@ class Pather:
                     if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
                         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         Logger.debug(f"Shrine found, activating it")
-                        mouse.move(640, 255)
+                        pos_abs = (0, -130) #above my head
+                        x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                        mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
                         Logger.debug("click-y-click!")

@@ -297,7 +297,7 @@ class Bot:
         # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
         force_stash = False
         self._no_stash_counter += 1
-        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
+        if not self._picked_up_items and (self._no_stash_counter > self._config.char["runs_per_repair"] or self._pick_corpse):
             self._no_stash_counter = 0
             force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory

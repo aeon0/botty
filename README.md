@@ -124,6 +124,7 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
+| runs_per_stash    | Will force stashing after # of runs set here - will still ensure to stash when iventory is full before given value is reached |
 | runs_per_repair    | 0: Will only repair when needed, 1+: Will repair after # of runs set here |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |

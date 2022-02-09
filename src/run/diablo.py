@@ -174,115 +174,61 @@ class Diablo:
     #CLEAR CS TRASH
     def _entrance_hall(self) -> bool:
         Logger.info("CS Trash: Starting to clear Trash")
-        #if not self._pather.traverse_nodes([604], self._char): return False #, time_out=3): return False 
-        #Logger.debug("CS Trash: clearing first hall 1/3 - location: entrance1_01")
-        #self._char.kill_cs_trash("entrance_hall_01")
-        #self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        
         Logger.debug("CS Trash: clearing first hall 1/2 - location: entrance_hall_01")
-        self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self._char) # 604 -> 671 Hall1
         self._char.kill_cs_trash("entrance_hall_01")
-        if not self._pather.traverse_nodes([672, 670], self._char): return False # pull top mobs 672 to bottom 670
-        
         Logger.debug("CS Trash: clearing first hall 1/2 - location: entrance_hall_02")
         self._char.kill_cs_trash("entrance_hall_02") 
-        self._picked_up_items |= self._pickit.pick_up_items(self._char) 
-        if not self._pather.traverse_nodes([671], self._char): return False
-        self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self._char) # 671 -> LC Hall2
         
-        if not self._pather.traverse_nodes([605], self._char): return False # hybrid calibration node
-        templates = ["DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_51"] #"DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"] #Entrance 1 Refrences
-        if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
-            Logger.debug("CS Trash (B): Layout_check step 1/2: Layout A templates NOT found")
-            templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50"]# , "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"] #Entrance 2 Refrences
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
-                Logger.warning("CS Trash (B): Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance_b_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return True
-            else:
-                Logger.debug("CS Trash (B): Layout_check step 2/2: Layout B templates found - "+'\033[96m'+"all fine, proceeding with Layout B"+'\033[0m')
-                entrance2_layout = "CS Trash (B):"
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-
-                Logger.debug(entrance2_layout + " clearing second hall (1/3) - location: entrance2_01")
-                self._char.kill_cs_trash("entrance2_01") #605
-                
-                #if not self._pather.traverse_nodes([682], self._char): return False # , time_out=3):
-                
-                Logger.debug(entrance2_layout + " clearing second hall (2/3) - location: entrance2_02")
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", self._char)
-                if not self._pather.traverse_nodes([605], self._char): return False#, time_out=3)
-                self._char.kill_cs_trash("entrance2_02") # right
-
-                #if not self._pather.traverse_nodes([682], self._char): return False # , time_out=3):
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_1", self._char)
-                #if not self._pather.traverse_nodes([683], self._char): return False # , time_out=3):
-                
-                Logger.debug(entrance2_layout + " clearing second hall (3/3) - location: entrance2_03")
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top1", self._char)
-                wait (0.2, 0.5)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self._char)
-                if not self._pather.traverse_nodes([605], self._char): return False#, time_out=3)
-                self._char.kill_cs_trash("entrance2_03")
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                if not self._pather.traverse_nodes([605], self._char): return False#, time_out=3)
-
-                #if not self._pather.traverse_nodes([683,684], self._char): return False#, time_out=3)
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_2", self._char)
-                #if not self._pather.traverse_nodes([685,686], self._char): return False#, time_out=3)
-                
-                Logger.debug(entrance2_layout + " clearing third hall (1/1) - location: entrance2_04")            
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", self._char)
-                if not self._pather.traverse_nodes([609], self._char): return False#, time_out=3)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self._char)
-                if not self._pather.traverse_nodes([609], self._char): return False#, time_out=3)
-                self._char.kill_cs_trash("entrance2_04")
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-
-                # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM 
-                return True 
-        else:
+        if not self._pather.traverse_nodes([605], self._char): return False # hybrid calibration node for LC
+        templates = ["DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_51","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"] #Entrance 1 Refrences
+        if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
             Logger.debug("CS Trash (A): Layout_check step 1/2: Layout A templates found")
             templates = ["DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19","DIABLO_ENTRANCE2_17"] #Entrance 2 Refrences
             if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5, best_match=True, take_ss=False).valid:
                 Logger.debug("CS Trash (A): Layout_check step 2/2: Layout B templates NOT found - "+'\033[95m'+"all fine, proceeding with Layout A"+'\033[0m')
-                entrance1_layout = "CS Trash (A):"
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                   
+                entrance1_layout = "CS Trash (A):"   
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())       
                 Logger.debug(entrance1_layout + " clearing second hall (1/3) location: entrance1_01")
-                self._char.kill_cs_trash("entrance1_01") # Lands on location and starts attacking
-                if not self._pather.traverse_nodes([673], self._char): return False # , time_out=3): # Re-adjust itself and continues to attack
-                
+                self._char.kill_cs_trash("entrance1_01")
                 Logger.debug(entrance1_layout + " clearing second hall (2/3) location: entrance1_02")
                 self._char.kill_cs_trash("entrance1_02")
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) # Moves char to postion close to node 674 continues to attack
-                if not self._pather.traverse_nodes([674], self._char): return False#, time_out=3)
-                
                 Logger.debug(entrance1_layout + " clearing second hall (3/3) location: entrance1_03")
-                self._char.kill_cs_trash("entrance1_03")
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                if not self._pather.traverse_nodes([675], self._char): return False#, time_out=3) # Re-adjust itself
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self._char) #static path to get to be able to spot 676
-                if not self._pather.traverse_nodes([676], self._char): return False#, time_out=3)
-                
+                self._char.kill_cs_trash("entrance1_03")              
                 Logger.debug(entrance1_layout + " clearing third hall (1/1) location: entrance1_04")
                 self._char.kill_cs_trash("entrance1_04")
-                self._picked_up_items |= self._pickit.pick_up_items(self._char)
-                # HERE SHOULD BE A CALIBRATION AFTER THE LOOT TO ENSURE WE CORRECTLY LOOP TO THE PENTAGRAM
                 return True
             else:
                 Logger.warning("CS Trash (A): Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
                 if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance_a_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                return True
+                return True    
         
+        else:    
+            Logger.debug("CS Trash (B): Layout_check step 1/2: Layout A templates NOT found")
+            templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"] #Entrance 2 Refrences
+            if  self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:            
+                Logger.debug("CS Trash (B): Layout_check step 2/2: Layout B templates found - "+'\033[96m'+"all fine, proceeding with Layout B"+'\033[0m')
+                entrance2_layout = "CS Trash (B):"
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                Logger.debug(entrance2_layout + " clearing second hall (1/3) - location: entrance2_01")
+                self._char.kill_cs_trash("entrance2_01")                
+                Logger.debug(entrance2_layout + " clearing second hall (2/3) - location: entrance2_02")
+                self._char.kill_cs_trash("entrance2_02")
+                Logger.debug(entrance2_layout + " clearing second hall (3/3) - location: entrance2_03")
+                self._char.kill_cs_trash("entrance2_03")
+                Logger.debug(entrance2_layout + " clearing third hall (1/1) - location: entrance2_04")            
+                self._char.kill_cs_trash("entrance2_04")
+                return True        
+            else:
+                Logger.warning("CS Trash (B): Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
+                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_entrance_b_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                return True
 
     #GET FROM WP TO PENTAGRAM (clear_trash=0)
     def _river_of_flames(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char): return False
         Logger.debug("ROF: Calibrated at WAYPOINT")
         self._pather.traverse_nodes_fixed("diablo_wp_pentagram_1", self._char)
-        self._pather.traverse_nodes_fixed("diablo_wp_pentagram_2", self._char) # split into two paths to avoid bypassing PENT
+        self._pather.traverse_nodes_fixed("diablo_wp_pentagram_2", self._char)
         Logger.info("ROF: Teleporting directly to PENTAGRAM")
         found = False
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
@@ -301,12 +247,9 @@ class Diablo:
     def _river_of_flames_trash(self) -> bool:
         if not self._pather.traverse_nodes([600], self._char): return False
         Logger.debug("ROF: Calibrated at WAYPOINT")
-        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char)
-        if not self._pather.traverse_nodes([603], self._char): return False
+        self._pather.traverse_nodes_fixed("diablo_wp_entrance", self._char) #brings us to 603
         Logger.debug("Kill trash at location: rof_01")
         self._char.kill_cs_trash("rof_01") #outside
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        if not self._pather.traverse_nodes([603], self._char): return False
         Logger.info("ROF: Teleporting to CS ENTRANCE")
         found = False
         templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
@@ -318,10 +261,8 @@ class Diablo:
         if not found:
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             return False
-        if not self._pather.traverse_nodes([604], self._char): return False  #threshold=0.8 (ex 601)
         Logger.debug("Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02") #inside
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
         Logger.debug("CS Trash: Calibrated at CS ENTRANCE")
         if not self._entrance_hall(): return False
         Logger.debug("CS Trash: looping to PENTAGRAM")
@@ -505,10 +446,12 @@ class Diablo:
         if do_pre_buff: self._char.pre_buff()
         
         #Clear Trash in CS
+        """
         if self._config.char["kill_cs_trash"]: 
             if not self._river_of_flames_trash(): return False
         else:
-            if not self._river_of_flames(): return False
+        """
+        if not self._river_of_flames(): return False # dont forget the
         
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False      
@@ -516,21 +459,24 @@ class Diablo:
         
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
+        """
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
-        
+        """
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
+        """
         if not self._pather.traverse_nodes([602] , self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False    
-        
+        """
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
+        """
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
@@ -542,6 +488,7 @@ class Diablo:
         wait(0.2, 0.3)
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         wait(0.5, 0.7)
+        """
         return (Location.A4_DIABLO_END, self._picked_up_items)
         
 if __name__ == "__main__":

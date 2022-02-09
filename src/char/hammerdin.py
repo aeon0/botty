@@ -180,6 +180,8 @@ class Hammerdin(IChar):
         ###########
         
         if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
+            ### APPROACH 
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -189,6 +191,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.5, 1.0) #clear seal from corpses
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         ################
@@ -196,18 +199,28 @@ class Hammerdin(IChar):
         ################
         
         elif location == "rof_01": #node 603 - outside CS in ROF
+            ### APPROACH ###
+            if not self._pather.traverse_nodes([603], self, time_out=3): return False #calibrate after static path
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            ### ATTACK ###
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            ### LOOT ###
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
+
             
         elif location == "rof_02": #node 604 - inside ROF
+            ### APPROACH ###
+            if not self._pather.traverse_nodes([604], self, time_out=3): return False  #threshold=0.8 (ex 601)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -217,9 +230,13 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
+            ### APPROACH ###
+            self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -229,9 +246,13 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
+            ### APPROACH ###
+            if not self._pather.traverse_nodes([672, 670], self): return False # pull top mobs 672 to bottom 670
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -241,11 +262,19 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            #Move to Layout Check
+            if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
+            self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # 671 -> LC Hall2
+            
+
 
         # TRASH LAYOUT A
 
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -255,9 +284,13 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
 
         elif location == "entrance1_02": #node 673
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -267,9 +300,14 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
+            if not self._pather.traverse_nodes([674], self): return False#, time_out=3)
 
         elif location == "entrance1_03": #node 674
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -279,24 +317,34 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([675], self): return False#, time_out=3) # Re-adjust itself
+            self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
+            if not self._pather.traverse_nodes([676], self): return False#, time_out=3)
 
         elif location == "entrance1_04": #node 676- Hall3
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         # TRASH LAYOUT B
 
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -306,9 +354,16 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_02": #node 682
+            ### APPROACH ###
+            #if not self._pather.traverse_nodes([682], self): return False # , time_out=3):
+            self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", self) #pull mobs from the right
+            wait (0.2, 0.5)
+            if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -318,9 +373,19 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_03": #node 683
+            ### APPROACH ###
+            #if not self._pather.traverse_nodes([682], self): return False # , time_out=3):
+            #self._pather.traverse_nodes_fixed("diablo_entrance2_1", self)
+            #if not self._pather.traverse_nodes([683], self): return False # , time_out=3):
+            self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top1", self) #pull mobs from top
+            wait (0.2, 0.5)
+            self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
+            if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
@@ -330,64 +395,89 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_04": #node 686 - Hall3
+            ### APPROACH ###
+            if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
+            #if not self._pather.traverse_nodes([683,684], self): return False#, time_out=3)
+            #self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
+            #if not self._pather.traverse_nodes([685,686], self): return False#, time_out=3)
+            self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", self)
+            if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
+            self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
+            if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((0, 0), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.1)
+            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.1)
+            self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
 
         ####################
         # PENT TRASH TO SEAL
         ####################
 
         elif location == "trash_a": #trash before between Pentagramm and Seal A Layoutcheck
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "trash_b": #trash before between Pentagramm and Seal B Layoutcheck
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###############
@@ -395,9 +485,13 @@ class Hammerdin(IChar):
         ###############
 
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
+            ### APPROACH ###
+            ### ATTACK ###
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -407,9 +501,12 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -419,6 +516,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ##################
@@ -426,9 +524,14 @@ class Hammerdin(IChar):
         ##################
 
         elif location == "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -438,9 +541,12 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
+            ### APPROACH ###
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -450,6 +556,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.6)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###########
@@ -457,7 +564,9 @@ class Hammerdin(IChar):
         ###########
 
         elif location == "A1-L_01":  #node 611 seal layout A1-L: safe_dist
+            ### APPROACH ###
             if not self._pather.traverse_nodes([611], self): return False # , time_out=3):
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -466,9 +575,13 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
+            # we loot at boss
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
+            ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            ### ATTACK ###
             keyboard.send(self._skill_hotkeys["redemption"])
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -480,9 +593,13 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
+            # we loot at boss
 
         elif location == "A1-L_03":  #node 613 seal layout A1-L: fake_seal
+            ### APPROACH ###
             if not self._pather.traverse_nodes([613], self): return False # , time_out=3):
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -490,30 +607,41 @@ class Hammerdin(IChar):
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
+            ### APPROACH ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([614], self): return False
+            ### ATTACK ###
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
+            # we loot at boss
 
         elif location == "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
+            ### APPROACH ###
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
+            ### ATTACK ###
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
+            # we loot at boss
 
         ###########
         # SEAL A2-Y
         ###########
 
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
+            ### APPROACH ###
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([622], self): return False
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -523,9 +651,13 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.2, 0.4)
+            ### LOOT ###
+            # we loot at boss
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
-            if not self._pather.traverse_nodes([623,624], self): return False # 
+            ### APPROACH ###
+            # if not self._pather.traverse_nodes([623,624], self): return False # 
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -535,15 +667,29 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.2, 0.4)
+            ### LOOT ###
+            # we loot at boss
 
         elif location == "A2-Y_03": #skipped
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
     
         elif location == "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
         
         elif location == "A2-Y_seal2":
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
             keyboard.send(self._skill_hotkeys["redemption"])
 
@@ -552,54 +698,101 @@ class Hammerdin(IChar):
         ###########
 
         elif location == "B1-S_01": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_02": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_03": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
+            ### APPROACH ###
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
+            ### ATTACK ###
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
+            
 
         ###########
         # SEAL B2-U
         ###########
 
         elif location == "B2-U_01": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_02": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_03":
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
+            ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
             if not self._pather.traverse_nodes([644], self): return False # , time_out=3):
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             keyboard.send(self._skill_hotkeys["redemption"])
+
         
         ###########
         # SEAL C1-F
         ###########
 
         elif location == "C1-F_01":
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "C1-F_02": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "C1-F_03": 
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_seal1":
+            ### APPROACH ###
             wait(0.1,0.3)
             self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self) 
             wait(0.1,0.3)
-            if not self._pather.traverse_nodes([655], self._char): return False # , time_out=3):
+            if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -608,13 +801,16 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
             
         elif location == "C1-F_seal2":
+            ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -623,6 +819,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -632,16 +829,30 @@ class Hammerdin(IChar):
         ###########
 
         elif location == "C2-G_01": #skipped
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_02": #skipped
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_03": #skipped
+            ### APPROACH ###
+            ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_seal1":
+            ### APPROACH ###
             if not self._pather.traverse_nodes([663, 662], self): return False # , time_out=3):
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -650,13 +861,16 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "C2-G_seal2":
+            ### APPROACH ###
             # Killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
@@ -667,12 +881,15 @@ class Hammerdin(IChar):
             self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
 
         else:
+            ### APPROACH ###
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -681,6 +898,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
@@ -688,7 +906,9 @@ class Hammerdin(IChar):
 
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
+            ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -704,6 +924,7 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 1.2)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
@@ -712,7 +933,9 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
 
         elif seal_layout == "A2-Y":
+            ### APPROACH ###
             if not self._pather.traverse_nodes([627, 622], self): return False # , time_out=3):
+            ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -733,6 +956,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 1.2)
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
@@ -753,10 +977,12 @@ class Hammerdin(IChar):
 
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
+            ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
             nodes1 = [632]
             nodes2 = [631]
             nodes3 = [632]
+            ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -782,14 +1008,17 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             wait(2.5, 3.5)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)     
 
         elif seal_layout == "B2-U":
+            ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
             #self._pather.traverse_nodes_fixed("dia_b2u_seal_deseis", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
             nodes1 = [640]
             nodes2 = [646]
             nodes3 = [641]
+            ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -814,6 +1043,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.5)
             if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
@@ -831,7 +1061,9 @@ class Hammerdin(IChar):
 
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
+            ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
+            ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
@@ -842,6 +1074,7 @@ class Hammerdin(IChar):
             self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
+            ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
@@ -856,6 +1089,8 @@ class Hammerdin(IChar):
 
 
     def kill_diablo(self) -> bool:
+        ### APPROACH ###
+        ### ATTACK ###
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         Logger.debug("Attacking Diablo at position 1/1")
@@ -866,6 +1101,7 @@ class Hammerdin(IChar):
         self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
+        ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
 

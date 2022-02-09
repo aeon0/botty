@@ -1,49 +1,53 @@
 ======================================================
                       RUN OVERVIEW                   
 ======================================================
-| Event                                         |  #  |  %   |
-|-----------------------------------------------|-----|------|
-| Run Diablo                                    | 70  | 100% |
-| ROF: Calibrated at WAYPOINT                   | 34  | 49%  |
-| ROF: Teleporting directly to PENTAGRAM        |  0  |  0%  |
-| ROF: Teleporting to CS ENTRANCE               | 34  | 49%  |
-| CS Trash: Calibrated at CS ENTRANCE           | 62  | 89%  |
-| CS Trash: Starting to clear Trash             | 62  | 89%  |
-| CS Trash: Clearing first hall 1/3             | 33  | 47%  |
-| CS Trash: Clearing first hall 2/3             | 33  | 47%  |
-| CS Trash: Clearing first hall 3/3             | 33  | 47%  |
-| CS Trash (A): Layout_check step 1/2           | 21  | 30%  |
-| CS Trash (A): Layout_check step 2/2           | 21  | 30%  |
-| CS Trash (A): Layout_check failed             |  0  |  0%  |
-| CS Trash (A): clearing second hall (1/3)      | 21  | 30%  |
-| CS Trash (A): clearing second hall (2/3)      | 21  | 30%  |
-| CS Trash (A): clearing second hall (3/3)      | 21  | 30%  |
-| CS Trash (A): clearing third hall (1/1)       |  0  |  0%  |
-| CS Trash (B): Layout_check step 1/2           | 12  | 17%  |
-| CS Trash (B): Layout_check step 2/2           | 12  | 17%  |
-| CS Trash (B): Layout_check failed             |  0  |  0%  |
-| CS Trash (B): clearing second hall (1/3)      | 12  | 17%  |
-| CS Trash (B): clearing second hall (2/3)      | 12  | 17%  |
-| CS Trash (B): clearing second hall (3/3)      | 12  | 17%  |
-| CS Trash (B): clearing third hall (1/1)       | 12  | 17%  |
-| CS Trash: looping to PENTAGRAM                | 60  | 86%  |
-| CS: Calibrated at PENTAGRAM                   | 51  | 73%  |
-| CS: OPEN TP                                   | 51  | 73%  |
-| CS TRASH: A Pent to LC                        | 51  | 73%  |
-| CS TRASH: B Pent to LC                        | 51  | 73%  |
-| CS TRASH: C Pent to LC                        | 50  | 71%  |
-| Checking Layout for Vizier                    | 50  | 71%  |
-| Checking Layout for De Seis                   | 42  | 60%  |
-| Checking Layout for Infector                  | 41  | 59%  |
-| Waiting for Diablo to spawn                   | 39  | 56%  |
-| End game                                      | 42  | 60%  |
-| End failed game                               | 42  | 60%  |
-| Trying to chicken                             |  0  |  0%  |
-| You have died                                 |  0  |  0%  |
-| check if we are facetanking a Shrine or Stash | 118 | 169% |
-| Did not find the words SHRINE, STASH or PILE  | 116 | 166% |
-| found Shrine or Stash blocking our way        |  2  |  3%  |
-| click-y-click!                                |  2  |  3%  |
+| Event                                            |  #  |  %   |
+|--------------------------------------------------|-----|------|
+| Run Diablo                                       | 101 | 100% |
+| ROF: Calibrated at WAYPOINT                      | 65  | 64%  |
+| ROF: Teleporting directly to PENTAGRAM           |  0  |  0%  |
+| ROF: Teleporting to CS ENTRANCE                  | 61  | 60%  |
+| CS Trash: Calibrated at CS ENTRANCE              | 87  | 86%  |
+| CS Trash: Starting to clear Trash                | 87  | 86%  |
+| CS Trash: Clearing first hall 1/2                |  0  |  0%  |
+| CS Trash: Clearing first hall 2/2                |  0  |  0%  |
+| CS Trash (A): Layout_check step 1/2              | 26  | 26%  |
+| CS Trash (A): Layout_check step 2/2              | 26  | 26%  |
+| CS Trash (A): Layout_check failed                |  0  |  0%  |
+| CS Trash (A): clearing second hall (1/3)         | 26  | 26%  |
+| CS Trash (A): clearing second hall (2/3)         | 26  | 26%  |
+| CS Trash (A): clearing second hall (3/3)         | 26  | 26%  |
+| CS Trash (A): clearing third hall (1/1)          |  3  |  3%  |
+| CS Trash (B): Layout_check step 1/2              | 30  | 30%  |
+| CS Trash (B): Layout_check step 2/2              | 28  | 28%  |
+| CS Trash (B): Layout_check failed                |  2  |  2%  |
+| CS Trash (B): clearing second hall (1/3)         | 28  | 28%  |
+| CS Trash (B): clearing second hall (2/3)         | 28  | 28%  |
+| CS Trash (B): clearing second hall (3/3)         | 28  | 28%  |
+| CS Trash (B): clearing third hall (1/1)          | 25  | 25%  |
+| CS Trash: looping to PENTAGRAM                   | 77  | 76%  |
+| CS: Calibrated at PENTAGRAM                      | 66  | 65%  |
+| CS: OPEN TP                                      | 66  | 65%  |
+| CS: failed to open TP                            |  0  |  0%  |
+| CS TRASH: A Pent to LC                           | 64  | 63%  |
+| CS TRASH: B Pent to LC                           | 61  | 60%  |
+| CS TRASH: C Pent to LC                           | 60  | 59%  |
+| Checking Layout for Vizier                       | 58  | 57%  |
+| Checking Layout for De Seis                      | 50  | 50%  |
+| Checking Layout for Infector                     | 49  | 49%  |
+| Waiting for Diablo to spawn                      | 46  | 46%  |
+| End game                                         | 49  | 49%  |
+| End failed game                                  | 49  | 49%  |
+| Trying to chicken                                |  0  |  0%  |
+| You have died                                    |  0  |  0%  |
+| Shrine found, activating it                      |  1  |  1%  |
+| Shrine not found                                 | 12  | 12%  |
+| Got enough pots, no need to go to town right now | 149 | 148% |
+| Going back to town to visit our friend Jamella   |  7  |  7%  |
+| Done in town, now going back to portal           |  7  |  7%  |
+| Going through portal                             |  6  |  6%  |
+| CS after town: Re-open TP                        |  3  |  3%  |
+| CS after Town: failed to open TP                 |  0  |  0%  |
 
 
 
@@ -52,7 +56,7 @@
 ===========================================
 | A1-L | A2-Y | B1-S | B2-U | C1-F | C2-G |
 |------|------|------|------|------|------|
-|  25  |  18  |  19  |  22  |  18  |  22  |
+|  28  |  23  |  26  |  23  |  21  |  27  |
 
 
 
@@ -62,93 +66,93 @@
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| A1-L: Layout_check step 1/2       | 25 | 100% |
-| A1-L: Layout_check step 2/2       | 25 | 100% |
+| A1-L: Layout_check step 1/2       | 28 | 100% |
+| A1-L: Layout_check step 2/2       | 28 | 100% |
 | A1-L: Layout_check failure        | 0  |  0%  |
-| A1-L: Starting to clear Seal      | 25 | 100% |
-| A1-L: Seal1: is closed            | 32 | 128% |
-| A1-L: Seal1: is open              | 24 | 96%  |
-| A1-L: Seal2: is closed            | 25 | 100% |
-| A1-L: Seal2: is open              | 24 | 96%  |
-| A1-L: Kill Boss                   | 24 | 96%  |
-| A1-L: Static Pathing to Pentagram | 24 | 96%  |
-| A1-L: Looping to Pentagram        | 24 | 96%  |
-| A1-L: finished seal & calibrated  | 24 | 96%  |
+| A1-L: Starting to clear Seal      | 28 | 100% |
+| A1-L: Seal1: is closed            | 35 | 125% |
+| A1-L: Seal1: is open              | 27 | 96%  |
+| A1-L: Seal2: is closed            | 29 | 104% |
+| A1-L: Seal2: is open              | 27 | 96%  |
+| A1-L: Kill Boss                   | 27 | 96%  |
+| A1-L: Static Pathing to Pentagram | 27 | 96%  |
+| A1-L: Looping to Pentagram        | 27 | 96%  |
+| A1-L: finished seal & calibrated  | 27 | 96%  |
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| A2-Y: Layout_check step 1/2       | 18 | 100% |
-| A2-Y: Layout_check step 2/2       | 18 | 100% |
+| A2-Y: Layout_check step 1/2       | 23 | 100% |
+| A2-Y: Layout_check step 2/2       | 23 | 100% |
 | A2-Y: Layout_check failure        | 0  |  0%  |
-| A2-Y: Starting to clear Seal      | 18 | 100% |
-| A2-Y: Seal1: is closed            | 21 | 117% |
-| A2-Y: Seal1: is open              | 18 | 100% |
-| A2-Y: Seal2: is closed            | 29 | 161% |
-| A2-Y: Seal2: is open              | 18 | 100% |
-| A2-Y: Kill Boss                   | 18 | 100% |
-| A2-Y: Static Pathing to Pentagram | 18 | 100% |
-| A2-Y: Looping to Pentagram        | 18 | 100% |
-| A2-Y: finished seal & calibrated  | 18 | 100% |
+| A2-Y: Starting to clear Seal      | 23 | 100% |
+| A2-Y: Seal1: is closed            | 27 | 117% |
+| A2-Y: Seal1: is open              | 23 | 100% |
+| A2-Y: Seal2: is closed            | 34 | 148% |
+| A2-Y: Seal2: is open              | 23 | 100% |
+| A2-Y: Kill Boss                   | 23 | 100% |
+| A2-Y: Static Pathing to Pentagram | 23 | 100% |
+| A2-Y: Looping to Pentagram        | 23 | 100% |
+| A2-Y: finished seal & calibrated  | 23 | 100% |
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| B1-S: Layout_check step 1/2       | 19 | 100% |
-| B1-S: Layout_check step 2/2       | 19 | 100% |
+| B1-S: Layout_check step 1/2       | 26 | 100% |
+| B1-S: Layout_check step 2/2       | 26 | 100% |
 | B1-S: Layout_check failure        | 0  |  0%  |
-| B1-S: Starting to clear Seal      | 19 | 100% |
+| B1-S: Starting to clear Seal      | 26 | 100% |
 | B1-S: Seal1: is closed            | 0  |  0%  |
 | B1-S: Seal1: is open              | 0  |  0%  |
-| B1-S: Seal2: is closed            | 26 | 137% |
-| B1-S: Seal2: is open              | 19 | 100% |
-| B1-S: Kill Boss                   | 19 | 100% |
-| B1-S: Static Pathing to Pentagram | 19 | 100% |
-| B1-S: Looping to Pentagram        | 19 | 100% |
-| B1-S: finished seal & calibrated  | 19 | 100% |
+| B1-S: Seal2: is closed            | 38 | 146% |
+| B1-S: Seal2: is open              | 26 | 100% |
+| B1-S: Kill Boss                   | 26 | 100% |
+| B1-S: Static Pathing to Pentagram | 26 | 100% |
+| B1-S: Looping to Pentagram        | 26 | 100% |
+| B1-S: finished seal & calibrated  | 26 | 100% |
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| B2-U: Layout_check step 1/2       | 23 | 100% |
-| B2-U: Layout_check step 2/2       | 22 | 96%  |
+| B2-U: Layout_check step 1/2       | 24 | 100% |
+| B2-U: Layout_check step 2/2       | 23 | 96%  |
 | B2-U: Layout_check failure        | 0  |  0%  |
-| B2-U: Starting to clear Seal      | 22 | 96%  |
+| B2-U: Starting to clear Seal      | 23 | 96%  |
 | B2-U: Seal1: is closed            | 0  |  0%  |
 | B2-U: Seal1: is open              | 0  |  0%  |
-| B2-U: Seal2: is closed            | 31 | 135% |
-| B2-U: Seal2: is open              | 22 | 96%  |
-| B2-U: Kill Boss                   | 22 | 96%  |
-| B2-U: Static Pathing to Pentagram | 22 | 96%  |
-| B2-U: Looping to Pentagram        | 22 | 96%  |
-| B2-U: finished seal & calibrated  | 22 | 96%  |
+| B2-U: Seal2: is closed            | 33 | 138% |
+| B2-U: Seal2: is open              | 23 | 96%  |
+| B2-U: Kill Boss                   | 23 | 96%  |
+| B2-U: Static Pathing to Pentagram | 23 | 96%  |
+| B2-U: Looping to Pentagram        | 23 | 96%  |
+| B2-U: finished seal & calibrated  | 23 | 96%  |
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| C1-F: Layout_check step 1/2       | 18 | 100% |
-| C1-F: Layout_check step 2/2       | 18 | 100% |
+| C1-F: Layout_check step 1/2       | 21 | 100% |
+| C1-F: Layout_check step 2/2       | 21 | 100% |
 | C1-F: Layout_check failure        | 0  |  0%  |
-| C1-F: Starting to clear Seal      | 18 | 100% |
-| C1-F: Seal1: is closed            | 25 | 139% |
-| C1-F: Seal1: is open              | 18 | 100% |
-| C1-F: Seal2: is closed            | 21 | 117% |
-| C1-F: Seal2: is open              | 18 | 100% |
-| C1-F: Kill Boss                   | 18 | 100% |
-| C1-F: Static Pathing to Pentagram | 18 | 100% |
-| C1-F: Looping to Pentagram        | 18 | 100% |
-| C1-F: finished seal & calibrated  | 18 | 100% |
+| C1-F: Starting to clear Seal      | 21 | 100% |
+| C1-F: Seal1: is closed            | 27 | 129% |
+| C1-F: Seal1: is open              | 20 | 95%  |
+| C1-F: Seal2: is closed            | 23 | 110% |
+| C1-F: Seal2: is open              | 20 | 95%  |
+| C1-F: Kill Boss                   | 20 | 95%  |
+| C1-F: Static Pathing to Pentagram | 20 | 95%  |
+| C1-F: Looping to Pentagram        | 20 | 95%  |
+| C1-F: finished seal & calibrated  | 20 | 95%  |
 
 | Event                             | #  |  %   |
 |-----------------------------------|----|------|
-| C2-G: Layout_check step 1/2       | 22 | 100% |
-| C2-G: Layout_check step 2/2       | 22 | 100% |
+| C2-G: Layout_check step 1/2       | 27 | 100% |
+| C2-G: Layout_check step 2/2       | 27 | 100% |
 | C2-G: Layout_check failure        | 0  |  0%  |
-| C2-G: Starting to clear Seal      | 22 | 100% |
-| C2-G: Seal1: is closed            | 24 | 109% |
-| C2-G: Seal1: is open              | 22 | 100% |
-| C2-G: Seal2: is closed            | 47 | 214% |
-| C2-G: Seal2: is open              | 21 | 95%  |
-| C2-G: Kill Boss                   | 21 | 95%  |
-| C2-G: Static Pathing to Pentagram | 21 | 95%  |
-| C2-G: Looping to Pentagram        | 21 | 95%  |
-| C2-G: finished seal & calibrated  | 21 | 95%  |
+| C2-G: Starting to clear Seal      | 27 | 100% |
+| C2-G: Seal1: is closed            | 29 | 107% |
+| C2-G: Seal1: is open              | 27 | 100% |
+| C2-G: Seal2: is closed            | 57 | 211% |
+| C2-G: Seal2: is open              | 26 | 96%  |
+| C2-G: Kill Boss                   | 26 | 96%  |
+| C2-G: Static Pathing to Pentagram | 26 | 96%  |
+| C2-G: Looping to Pentagram        | 26 | 96%  |
+| C2-G: finished seal & calibrated  | 26 | 96%  |
 
 
 
@@ -158,17 +162,17 @@
 =======================================================
 | TEMPLATES CHECKED                             |  #  |
 |-----------------------------------------------|-----|
-| Found Match: DIA_NEW_PENT_0                   | 83  |
-| Found Match: DIA_NEW_PENT_1                   | 126 |
-| Found Match: DIA_NEW_PENT_TP                  | 156 |
-| Found Match: DIA_NEW_PENT_2                   |  6  |
+| Found Match: DIA_NEW_PENT_0                   | 99  |
+| Found Match: DIA_NEW_PENT_1                   | 168 |
+| Found Match: DIA_NEW_PENT_TP                  | 182 |
+| Found Match: DIA_NEW_PENT_2                   |  7  |
 | Found Match: DIA_A2Y_LAYOUTCHECK0             |  0  |
-| Found Match: DIA_A2Y_LAYOUTCHECK1             |  7  |
-| Found Match: DIA_A2Y_LAYOUTCHECK2             |  3  |
+| Found Match: DIA_A2Y_LAYOUTCHECK1             |  8  |
+| Found Match: DIA_A2Y_LAYOUTCHECK2             |  4  |
 | Found Match: DIA_A2Y_LAYOUTCHECK4             |  0  |
-| Found Match: DIA_A2Y_LAYOUTCHECK5             |  7  |
-| Found Match: DIA_A2Y_LAYOUTCHECK6             |  1  |
-| Found Match: DIA_A1L_LAYOUTCHECK0             | 20  |
+| Found Match: DIA_A2Y_LAYOUTCHECK5             |  9  |
+| Found Match: DIA_A2Y_LAYOUTCHECK6             |  2  |
+| Found Match: DIA_A1L_LAYOUTCHECK0             | 23  |
 | Found Match: DIA_A1L_LAYOUTCHECK4             |  4  |
 | Found Match: DIA_A1L_LAYOUTCHECK4LEFT         |  0  |
 | Found Match: DIA_A1L_LAYOUTCHECK1             |  0  |
@@ -178,14 +182,14 @@
 | Found Match: DIA_A1L_LAYOUTCHECK5             |  0  |
 | Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1 |  0  |
 | Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2 |  3  |
-| Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3 | 11  |
+| Found Match: DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3 | 16  |
 | Found Match: DIA_B2U_LAYOUTCHECK2             |  6  |
 | Found Match: DIA_B2U_LAYOUTCHECK1             |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK2SMALL        |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK3             |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK4             |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK5             |  0  |
-| Found Match: DIA_B2U_LAYOUTCHECK6             |  4  |
+| Found Match: DIA_B2U_LAYOUTCHECK6             |  5  |
 | Found Match: DIA_B2U_LAYOUTCHECK7             |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK8             |  0  |
 | Found Match: DIA_B2U_LAYOUTCHECK9             | 12  |
@@ -193,9 +197,9 @@
 | Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4 |  0  |
 | Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5 |  0  |
 | Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2 |  0  |
-| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3 | 17  |
-| Found Match: DIA_C1F_LAYOUTCHECK1             |  2  |
-| Found Match: DIA_C1F_LAYOUTCHECK2             | 16  |
+| Found Match: DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3 | 22  |
+| Found Match: DIA_C1F_LAYOUTCHECK1             |  3  |
+| Found Match: DIA_C1F_LAYOUTCHECK2             | 18  |
 | Found Match: DIA_C1F_LAYOUTCHECK3             |  0  |
 | Found Match: DIABLO_ENTRANCE_12               |  1  |
 | Found Match: DIABLO_ENTRANCE_13               |  0  |
@@ -206,19 +210,19 @@
 | Found Match: DIABLO_ENTRANCE_50               |  1  |
 | Found Match: DIABLO_ENTRANCE_51               | 10  |
 | Found Match: DIABLO_ENTRANCE_52               |  0  |
-| Found Match: DIABLO_ENTRANCE_53               | 21  |
+| Found Match: DIABLO_ENTRANCE_53               | 26  |
 | Found Match: DIABLO_ENTRANCE_54               |  2  |
 | Found Match: DIABLO_ENTRANCE_55               |  1  |
 | Found Match: DIABLO_ENTRANCE2_15              |  2  |
 | Found Match: DIABLO_ENTRANCE2_23              |  2  |
 | Found Match: DIABLO_ENTRANCE2_19              |  0  |
 | Found Match: DIABLO_ENTRANCE2_17              |  0  |
-| Found Match: DIABLO_ENTRANCE2_50              |  7  |
+| Found Match: DIABLO_ENTRANCE2_50              |  9  |
 | Found Match: DIABLO_ENTRANCE2_51              |  0  |
 | Found Match: DIABLO_ENTRANCE2_52              |  0  |
 | Found Match: DIABLO_ENTRANCE2_53              |  0  |
 | Found Match: DIABLO_ENTRANCE2_54              |  0  |
-| Found Match: DIABLO_ENTRANCE2_55              | 10  |
+| Found Match: DIABLO_ENTRANCE2_55              | 24  |
 | Found Match: DIABLO_ENTRANCE2_56              |  3  |
 
 
@@ -267,6 +271,13 @@
 [2022-02-08 20:33:56,396] DEBUG      Traverse: [602]
 [2022-02-08 21:10:23,937] DEBUG      Traverse: [676]
 [2022-02-08 21:22:11,793] DEBUG      Traverse: [676]
+[2022-02-09 00:36:50,938] DEBUG      Traverse: [605]
+[2022-02-09 09:40:24,544] DEBUG      Traverse: [603]
+[2022-02-09 09:42:12,381] DEBUG      Traverse: [603]
+[2022-02-09 10:15:38,162] DEBUG      Traverse: [603]
+[2022-02-09 10:17:29,889] DEBUG      Traverse: [672, 670]
+[2022-02-09 11:14:13,310] DEBUG      Traverse: [605]
+[2022-02-09 11:17:16,979] DEBUG      Traverse: [675]
 
 
 
@@ -1618,3 +1629,227 @@
 [2022-02-08 21:22:39,956] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0294)
 [2022-02-08 21:22:40,133] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0347)
 [2022-02-08 21:22:40,568] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+43) ========== [2022-02-09 00:36:50,938] DEBUG      Traverse: [605]
+[2022-02-09 00:35:40,745] DEBUG      Traverse: [603]
+[2022-02-09 00:35:40,990] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-02-09 00:35:40,990] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 00:35:41,871] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 00:35:42,620] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 00:35:42,783] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (89.0% confidence)
+[2022-02-09 00:35:42,784] DEBUG      Traverse: [604]
+[2022-02-09 00:35:43,461] DEBUG      Kill trash at location: rof_02
+[2022-02-09 00:35:55,287] DEBUG      CS Trash: Calibrated at CS ENTRANCE
+[2022-02-09 00:35:55,287] INFO       CS Trash: Starting to clear Trash
+[2022-02-09 00:35:55,287] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_01
+[2022-02-09 00:36:07,215] DEBUG      Traverse: [672, 670]
+[2022-02-09 00:36:09,440] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_02
+[2022-02-09 00:36:21,458] DEBUG      Traverse: [671]
+[2022-02-09 00:36:24,785] DEBUG      Traverse: [605]
+[2022-02-09 00:36:25,286] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE_53', 'DIABLO_ENTRANCE_51']
+[2022-02-09 00:36:25,790] DEBUG      CS Trash (B): Layout_check step 1/2: Layout A templates NOT found
+[2022-02-09 00:36:25,791] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE2_55', 'DIABLO_ENTRANCE2_50']
+[2022-02-09 00:36:26,029] DEBUG      Found Match: DIABLO_ENTRANCE2_55 (99.8% confidence)
+[2022-02-09 00:36:26,030] DEBUG      CS Trash (B): Layout_check step 2/2: Layout B templates found - [96mall fine, proceeding with Layout B[0m
+[2022-02-09 00:36:26,078] DEBUG      CS Trash (B): clearing second hall (1/3) - location: entrance2_01
+[2022-02-09 00:36:36,462] DEBUG      CS Trash (B): clearing second hall (2/3) - location: entrance2_02
+[2022-02-09 00:36:37,350] DEBUG      Traverse: [605]
+[2022-02-09 00:36:48,301] DEBUG      CS Trash (B): clearing second hall (3/3) - location: entrance2_03
+[2022-02-09 00:36:50,938] DEBUG      Traverse: [605]
+[2022-02-09 00:36:54,312] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-09 00:37:00,726] ERROR      Got stuck exit pather
+[2022-02-09 00:37:01,117] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 00:37:01,134] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 00:37:03,803] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+44) ========== [2022-02-09 09:40:24,544] DEBUG      Traverse: [603]
+[2022-02-09 09:39:34,345] DEBUG      ROF: Calibrated at WAYPOINT
+[2022-02-09 09:39:35,374] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0583)
+[2022-02-09 09:39:35,551] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0865)
+[2022-02-09 09:39:35,688] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0352)
+[2022-02-09 09:39:35,885] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0473)
+[2022-02-09 09:39:36,050] DEBUG      Teleport cancel detected. Try same teleport action again. (0.0438)
+[2022-02-09 09:39:36,051] DEBUG      Traverse: [603]
+[2022-02-09 09:40:08,056] DEBUG      Stuck. Performing check for Shrine
+[2022-02-09 09:40:08,077] DEBUG      Shrine not found.
+[2022-02-09 09:40:08,078] DEBUG      Kill trash at location: rof_01
+[2022-02-09 09:40:24,544] DEBUG      Traverse: [603]
+[2022-02-09 09:40:47,714] DEBUG      Stuck. Performing check for Shrine
+[2022-02-09 09:40:47,735] DEBUG      Shrine not found.
+[2022-02-09 09:40:47,735] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-02-09 09:40:47,735] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:48,682] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:49,480] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:50,251] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:51,048] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:51,918] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:52,670] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:53,465] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:54,248] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:55,050] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:55,851] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:56,637] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:57,419] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 09:40:58,625] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 09:40:58,643] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 09:41:01,322] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+45) ========== [2022-02-09 09:42:12,381] DEBUG      Traverse: [603]
+[2022-02-09 09:41:10,117] INFO       Health Manager is now pausing
+[2022-02-09 09:41:10,125] INFO       Capabilities: CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
+[2022-02-09 09:41:10,888] DEBUG      Will pickup: {'rejuv': 0, 'health': 0, 'mana': 0}
+[2022-02-09 09:41:12,675] INFO       Routine repair. Run count=2, runs_per_repair=1
+[2022-02-09 09:41:12,675] DEBUG      Traverse from a4_town_start to a4_halbu
+[2022-02-09 09:41:16,937] DEBUG      Waiting for templates: ['REPAIR_BTN']
+[2022-02-09 09:41:16,948] DEBUG      Found Match: REPAIR_BTN (100.0% confidence)
+[2022-02-09 09:41:18,963] DEBUG      Waiting for templates: ['TP_TOME', 'TP_TOME_RED']
+[2022-02-09 09:41:18,975] DEBUG      Found Match: TP_TOME (99.9% confidence)
+[2022-02-09 09:41:20,723] DEBUG      Waiting for templates: ['TP_TOME']
+[2022-02-09 09:41:20,752] DEBUG      Found Match: TP_TOME (98.3% confidence)
+[2022-02-09 09:41:21,887] DEBUG      Waiting for templates: ['TP_TOME']
+[2022-02-09 09:41:21,899] DEBUG      Found Match: TP_TOME (99.9% confidence)
+[2022-02-09 09:41:23,114] INFO       Run Diablo
+[2022-02-09 09:41:23,114] DEBUG      Traverse from a4_halbu to a4_town_wp
+[2022-02-09 09:41:27,448] DEBUG      Select A4_WP (91.2% confidence)
+[2022-02-09 09:41:30,514] INFO       Health Manager is now active
+[2022-02-09 09:41:33,019] DEBUG      Traverse: [600]
+[2022-02-09 09:41:33,963] DEBUG      ROF: Calibrated at WAYPOINT
+[2022-02-09 09:41:39,270] DEBUG      Traverse: [603]
+[2022-02-09 09:41:54,706] DEBUG      Pather: taking a random guess towards (633, -204)
+[2022-02-09 09:42:00,644] DEBUG      Stuck. Performing check for Shrine
+[2022-02-09 09:42:00,665] DEBUG      Shrine not found.
+[2022-02-09 09:42:00,665] DEBUG      Kill trash at location: rof_01
+[2022-02-09 09:42:12,381] DEBUG      Traverse: [603]
+[2022-02-09 09:42:19,261] DEBUG      Pather: taking a random guess towards (633, -232)
+[2022-02-09 09:42:28,239] ERROR      Got stuck exit pather
+[2022-02-09 09:42:28,635] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 09:42:28,653] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 09:42:31,178] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+46) ========== [2022-02-09 10:15:38,162] DEBUG      Traverse: [603]
+[2022-02-09 10:15:08,533] DEBUG      Found Match: TP_TOME (99.9% confidence)
+[2022-02-09 10:15:09,707] INFO       Run Diablo
+[2022-02-09 10:15:09,707] DEBUG      Traverse from a4_halbu to a4_town_wp
+[2022-02-09 10:15:13,607] DEBUG      Select A4_WP (93.1% confidence)
+[2022-02-09 10:15:17,004] INFO       Health Manager is now active
+[2022-02-09 10:15:19,347] DEBUG      Traverse: [600]
+[2022-02-09 10:15:20,308] DEBUG      ROF: Calibrated at WAYPOINT
+[2022-02-09 10:15:25,517] DEBUG      Traverse: [603]
+[2022-02-09 10:15:26,293] DEBUG      Kill trash at location: rof_01
+[2022-02-09 10:15:38,162] DEBUG      Traverse: [603]
+[2022-02-09 10:15:50,392] DEBUG      Pather: taking a random guess towards (372, -262)
+[2022-02-09 10:15:56,642] DEBUG      Stuck. Performing check for Shrine
+[2022-02-09 10:15:56,665] DEBUG      Shrine not found.
+[2022-02-09 10:15:56,666] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-02-09 10:15:56,666] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:15:57,084] DEBUG      Give health potion in slot 2 to merc. HP: 50.0%
+[2022-02-09 10:15:57,579] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:15:58,395] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:15:59,229] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:00,052] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:00,848] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:01,831] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:03,000] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:03,816] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:04,649] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:05,517] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:06,353] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:16:07,592] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 10:16:07,610] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 10:16:10,423] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+47) ========== [2022-02-09 10:17:29,889] DEBUG      Traverse: [672, 670]
+[2022-02-09 10:16:29,818] DEBUG      Waiting for templates: ['TP_TOME', 'TP_TOME_RED']
+[2022-02-09 10:16:29,831] DEBUG      Found Match: TP_TOME (99.9% confidence)
+[2022-02-09 10:16:31,452] DEBUG      Waiting for templates: ['TP_TOME']
+[2022-02-09 10:16:31,470] DEBUG      Found Match: TP_TOME (96.6% confidence)
+[2022-02-09 10:16:32,667] DEBUG      Waiting for templates: ['TP_TOME']
+[2022-02-09 10:16:32,682] DEBUG      Found Match: TP_TOME (99.9% confidence)
+[2022-02-09 10:16:33,850] INFO       Run Diablo
+[2022-02-09 10:16:33,851] DEBUG      Traverse from a4_halbu to a4_town_wp
+[2022-02-09 10:16:37,811] DEBUG      Select A4_WP (88.1% confidence)
+[2022-02-09 10:16:40,909] INFO       Health Manager is now active
+[2022-02-09 10:16:43,444] DEBUG      Traverse: [600]
+[2022-02-09 10:16:44,446] DEBUG      ROF: Calibrated at WAYPOINT
+[2022-02-09 10:16:49,837] DEBUG      Traverse: [603]
+[2022-02-09 10:16:50,760] DEBUG      Kill trash at location: rof_01
+[2022-02-09 10:17:02,462] DEBUG      Traverse: [603]
+[2022-02-09 10:17:04,592] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-02-09 10:17:04,592] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:17:05,566] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 10:17:05,732] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (81.9% confidence)
+[2022-02-09 10:17:05,732] DEBUG      Traverse: [604]
+[2022-02-09 10:17:06,441] DEBUG      Kill trash at location: rof_02
+[2022-02-09 10:17:18,214] DEBUG      CS Trash: Calibrated at CS ENTRANCE
+[2022-02-09 10:17:18,216] INFO       CS Trash: Starting to clear Trash
+[2022-02-09 10:17:18,216] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_01
+[2022-02-09 10:17:29,889] DEBUG      Traverse: [672, 670]
+[2022-02-09 10:17:33,512] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-09 10:17:39,254] ERROR      Got stuck exit pather
+[2022-02-09 10:17:39,629] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 10:17:39,647] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 10:17:42,505] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+48) ========== [2022-02-09 11:14:13,310] DEBUG      Traverse: [605]
+[2022-02-09 11:12:45,273] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 11:12:46,175] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 11:12:47,027] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 11:12:47,193] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (97.6% confidence)
+[2022-02-09 11:12:47,193] DEBUG      Traverse: [604]
+[2022-02-09 11:12:47,894] DEBUG      Kill trash at location: rof_02
+[2022-02-09 11:13:00,059] DEBUG      CS Trash: Calibrated at CS ENTRANCE
+[2022-02-09 11:13:00,059] INFO       CS Trash: Starting to clear Trash
+[2022-02-09 11:13:00,059] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_01
+[2022-02-09 11:13:12,238] DEBUG      Traverse: [672, 670]
+[2022-02-09 11:13:15,875] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-09 11:13:19,005] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_02
+[2022-02-09 11:13:30,802] DEBUG      Traverse: [671]
+[2022-02-09 11:13:34,319] DEBUG      Traverse: [605]
+[2022-02-09 11:13:34,818] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE_53', 'DIABLO_ENTRANCE_51']
+[2022-02-09 11:13:35,323] DEBUG      CS Trash (B): Layout_check step 1/2: Layout A templates NOT found
+[2022-02-09 11:13:35,324] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE2_55', 'DIABLO_ENTRANCE2_50']
+[2022-02-09 11:13:35,782] DEBUG      Found Match: DIABLO_ENTRANCE2_50 (97.1% confidence)
+[2022-02-09 11:13:35,783] DEBUG      CS Trash (B): Layout_check step 2/2: Layout B templates found - [96mall fine, proceeding with Layout B[0m
+[2022-02-09 11:13:35,842] DEBUG      CS Trash (B): clearing second hall (1/3) - location: entrance2_01
+[2022-02-09 11:13:48,185] DEBUG      CS Trash (B): clearing second hall (2/3) - location: entrance2_02
+[2022-02-09 11:13:49,293] DEBUG      Traverse: [605]
+[2022-02-09 11:13:52,690] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-09 11:14:10,059] DEBUG      CS Trash (B): clearing second hall (3/3) - location: entrance2_03
+[2022-02-09 11:14:13,310] DEBUG      Traverse: [605]
+[2022-02-09 11:14:16,775] DEBUG      Pather: taking a random guess towards (0, 150)
+[2022-02-09 11:14:22,468] ERROR      Got stuck exit pather
+[2022-02-09 11:14:22,855] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 11:14:22,907] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 11:14:25,223] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+
+49) ========== [2022-02-09 11:17:16,979] DEBUG      Traverse: [675]
+[2022-02-09 11:15:50,565] INFO       ROF: Teleporting to CS ENTRANCE
+[2022-02-09 11:15:50,565] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 11:15:51,397] DEBUG      Waiting for templates: ['DIABLO_CS_ENTRANCE_0', 'DIABLO_CS_ENTRANCE_2', 'DIABLO_CS_ENTRANCE_3']
+[2022-02-09 11:15:51,573] DEBUG      Found Match: DIABLO_CS_ENTRANCE_0 (81.8% confidence)
+[2022-02-09 11:15:51,574] DEBUG      Traverse: [604]
+[2022-02-09 11:15:52,322] DEBUG      Kill trash at location: rof_02
+[2022-02-09 11:16:04,485] DEBUG      CS Trash: Calibrated at CS ENTRANCE
+[2022-02-09 11:16:04,485] INFO       CS Trash: Starting to clear Trash
+[2022-02-09 11:16:04,485] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_01
+[2022-02-09 11:16:16,404] DEBUG      Traverse: [672, 670]
+[2022-02-09 11:16:18,832] DEBUG      CS Trash: clearing first hall 1/2 - location: entrance_hall_02
+[2022-02-09 11:16:30,454] DEBUG      Traverse: [671]
+[2022-02-09 11:16:33,862] DEBUG      Traverse: [605]
+[2022-02-09 11:16:34,026] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE_53', 'DIABLO_ENTRANCE_51']
+[2022-02-09 11:16:34,230] DEBUG      Found Match: DIABLO_ENTRANCE_53 (98.1% confidence)
+[2022-02-09 11:16:34,230] DEBUG      CS Trash (A): Layout_check step 1/2: Layout A templates found
+[2022-02-09 11:16:34,230] DEBUG      Waiting for templates: ['DIABLO_ENTRANCE2_15', 'DIABLO_ENTRANCE2_23', 'DIABLO_ENTRANCE2_19', 'DIABLO_ENTRANCE2_17']
+[2022-02-09 11:16:34,846] DEBUG      CS Trash (A): Layout_check step 2/2: Layout B templates NOT found - [95mall fine, proceeding with Layout A[0m
+[2022-02-09 11:16:34,898] DEBUG      CS Trash (A): clearing second hall (1/3) location: entrance1_01
+[2022-02-09 11:16:48,860] INFO       Picking up: magic_jewel (100.0% confidence)
+[2022-02-09 11:16:49,895] DEBUG      Traverse: [673]
+[2022-02-09 11:16:50,676] DEBUG      CS Trash (A): clearing second hall (2/3) location: entrance1_02
+[2022-02-09 11:17:04,022] DEBUG      Traverse: [674]
+[2022-02-09 11:17:04,773] DEBUG      CS Trash (A): clearing second hall (3/3) location: entrance1_03
+[2022-02-09 11:17:16,979] DEBUG      Traverse: [675]
+[2022-02-09 11:17:26,644] DEBUG      Pather: taking a random guess towards (-176, 260)
+[2022-02-09 11:17:32,603] ERROR      Got stuck exit pather
+[2022-02-09 11:17:32,973] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
+[2022-02-09 11:17:33,019] DEBUG      Found Match: SAVE_AND_EXIT_NO_HIGHLIGHT (100.0% confidence)
+[2022-02-09 11:17:35,650] DEBUG      Waiting for templates: ['SAVE_AND_EXIT_NO_HIGHLIGHT', 'SAVE_AND_EXIT_HIGHLIGHT']
