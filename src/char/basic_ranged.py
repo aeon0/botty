@@ -12,6 +12,7 @@ import random
 import numpy as np
 from pather import Pather, Location
 
+
 class Basic_Ranged(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Ranged Character")

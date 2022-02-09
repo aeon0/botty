@@ -14,9 +14,9 @@ import numpy as np
 
 
 class Trapsin(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Trapsin")
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
 
     def pre_buff(self):
@@ -37,24 +37,6 @@ class Trapsin(IChar):
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-
-    def _debuff(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["cloak_of_shadows"]:
-            keyboard.send(self._skill_hotkeys["cloak_of_shadows"])
-            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
-            mouse.move(*cast_pos_monitor)
-        def atk(num: int):
-            for _ in range(num):
-                mouse.press(button="right")
-                wait(0.20)
-                mouse.release(button="right")
-                wait(0.15)
-        atk(1)
-        if self._skill_hotkeys["mind_blast"]:
-            keyboard.send(self._skill_hotkeys["mind_blast"])
-        atk(2)
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -152,7 +134,8 @@ class Trapsin(IChar):
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
         return True
-    
+
+
 if __name__ == "__main__":
     import os
     import keyboard

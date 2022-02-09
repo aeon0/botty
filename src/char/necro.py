@@ -11,6 +11,7 @@ import random
 from typing import Tuple, Union, List
 from pather import Location, Pather
 import numpy as np
+import time
 from utils.misc import cut_roi, is_in_roi
 import os
 
@@ -178,7 +179,6 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
-
     def _raise_skeleton(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -189,6 +189,7 @@ class Necro(IChar):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
             cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+
             nx = cast_pos_monitor[0]
             ny = cast_pos_monitor[1]
             if(nx>1280):
@@ -200,6 +201,7 @@ class Necro(IChar):
             if(ny<0):
                 ny=0
             clamp = [nx,ny]
+
             mouse.move(*clamp)
             mouse.press(button="right")
             wait(0.02, 0.05)
@@ -235,6 +237,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
+
     def pre_buff(self):
         #only CTA if pre trav
         if self._char_config["cta_available"]:
@@ -252,6 +255,13 @@ class Necro(IChar):
         mouse.click(button="right")
         wait(self._cast_duration)
 
+    def _clay_golem(self):
+        Logger.info('\033[94m'+"cast ~> clay golem"+'\033[0m')
+        keyboard.send(self._skill_hotkeys["clay_golem"])
+        wait(0.05, 0.2)
+        mouse.click(button="right")
+        wait(self._cast_duration)
+
 
     def bone_armor(self):
         if self._skill_hotkeys["bone_armor"]:
@@ -265,21 +275,13 @@ class Necro(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-
-    def _clay_golem(self):
-        Logger.info('\033[94m'+"cast ~> clay golem"+'\033[0m')
-        keyboard.send(self._skill_hotkeys["clay_golem"])
-        wait(0.05, 0.2)
-        mouse.click(button="right")
-        wait(self._cast_duration)
-
-
     def _bone_armor(self):
         if self._skill_hotkeys["bone_armor"]:
             keyboard.send(self._skill_hotkeys["bone_armor"])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
+
 
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
@@ -294,8 +296,8 @@ class Necro(IChar):
             mouse.press(button="left")
             wait(0.25, 0.3)
             mouse.release(button="left")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
 
+        keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _left_attack_single(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=6):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -309,12 +311,13 @@ class Necro(IChar):
             mouse.press(button="left")
             wait(0.25, 0.3)
             mouse.release(button="left")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
 
+        keyboard.send(self._char_config["stand_still"], do_press=False)
 
     def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
             keyboard.send(self._skill_hotkeys["amp_dmg"])
+
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
         cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
@@ -322,19 +325,6 @@ class Necro(IChar):
         mouse.press(button="right")
         wait(0.25, 0.35)
         mouse.release(button="right")
-
-
-    def _lower_resist(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["lower_resist"]:
-            keyboard.send(self._skill_hotkeys["lower_resist"])
-        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
-        mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
-        wait(0.25, 0.35)
-        mouse.release(button="right")
-
 
     def _corpse_explosion(self, cast_pos_abs: Tuple[float, float], spray: int = 10,cast_count: int = 8):
         keyboard.send(self._char_config["stand_still"], do_release=False)
@@ -352,22 +342,8 @@ class Necro(IChar):
         keyboard.send(self._char_config["stand_still"], do_press=False)
 
 
-    def _poison_nova(self, duration: float): #, cast_pos_abs: Tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["psn_nova"]:
-            keyboard.send(self._skill_hotkeys["psn_nova"])
-        #x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-        #y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        #cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
-        #mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
-        wait(duration, duration + 0.35)
-        mouse.release(button="right")
-        Logger.info('\x1b[1;32m'+"poison nova"+'\x1b[1;32m')
-
-
     def _lerp(self,a: float,b: float, f:float):
         return a + f * (b - a)
-
 
     def _cast_circle(self, cast_dir: Tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
@@ -401,12 +377,12 @@ class Necro(IChar):
 
         raise_skel_pos = [0,10]
         rot_deg=0
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=2,cast_spell='raise_skeleton',offset=2,delay=1.6)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=32,cast_v_div=2,cast_spell='raise_skeleton',offset=2,delay=1.6)
         wait(self._cast_duration, self._cast_duration +.2)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
 
-
         rot_deg=0
+
 
         rot_deg=-180
 
@@ -415,7 +391,6 @@ class Necro(IChar):
 
         if(pindle_pack_kill):
             Logger.info('\033[93m'+"optional pindle pack"+'\033[0m')
-            if self._skill_hotkeys["psn_nova"]: self._poison_nova(1)
             self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
             wait(self._cast_duration, self._cast_duration +.2)
             self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
@@ -450,20 +425,16 @@ class Necro(IChar):
         for _ in range(atk_len):
             Logger.info('\033[96m'+ "pindle atk cycle" + '\033[0m')
             self._amp_dmg(cast_pos_abs, 11)
-            if self._skill_hotkeys["psn_nova"]: self._poison_nova(1)
             self._left_attack_single(cast_pos_abs, 11, cast_count=8)
-            if self._skill_hotkeys["psn_nova"]: self._poison_nova(1)
             rot_deg=0
 
 
             for _ in range(2):
-                if self._skill_hotkeys["psn_nova"]: self._poison_nova(1)
                 corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg-=7
             rot_deg=0
             for _ in range(2):
-                if self._skill_hotkeys["psn_nova"]: self._poison_nova(1)
                 corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg+=7
@@ -756,7 +727,6 @@ class Necro(IChar):
                         sel = False
 
 
-
     def kill_council(self) -> bool:
         ''' kill the council '''
 
@@ -901,6 +871,7 @@ class Necro(IChar):
 
 
         return True
+
 
 
 if __name__ == "__main__":

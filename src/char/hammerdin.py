@@ -169,9 +169,9 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
     
-     #--------------------------------------------------------------------------------------#   
+     ########################################################################################   
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
-     #--------------------------------------------------------------------------------------#
+     ########################################################################################
     
     def kill_cs_trash(self, location:str) -> bool:
     
@@ -472,7 +472,7 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"])
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.1, 0.2)
             keyboard.send(self._skill_hotkeys["redemption"])

@@ -10,6 +10,7 @@ from utils.misc import wait, cut_roi
 import time
 from pather import Pather, Location
 
+
 class Basic(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Character")
