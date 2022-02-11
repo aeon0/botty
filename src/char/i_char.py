@@ -125,7 +125,7 @@ class IChar:
         wait(0.3)
         match = self._template_finder.search(skill_asset, self._screen.grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.position)
+            x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             wait(0.3)
             keyboard.send(hotkey)
