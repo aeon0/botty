@@ -673,32 +673,20 @@ class Pather:
                 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if teleport_count > 50:
-                    Logger.debug("Stuck. Performing check for Shrine")
+                    Logger.debug("Stuck: Performing check for Shrine")
                     img = self._screen.grab()
                     if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         Logger.debug(f"Shrine found, activating it")
                         pos_abs = (0, -130) #above my head
                         x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
                         mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
-                        Logger.debug("click-y-click!")
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
                         Logger.debug("Shrine not found.")
-                        """
-                        pos_abs = (0, 150)
-                        if last_direction is not None:
-                            pos_abs = last_direction
-                        pos_abs = self._adjust_abs_range_to_screen(pos_abs)
-                        Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
-                        x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
-                        char.move((x_m, y_m), force_move=True)
-                        did_force_move = True
-                        last_move = time.time()
-                        """
                     teleport_count = 0
                     break
                 teleport_count += 1

@@ -44,19 +44,25 @@ simple_string = [
     "CS: Calibrated at PENTAGRAM", 
     "CS: OPEN TP",
     "CS: failed to open TP",
+    
     "CS TRASH: A Pent to LC",
     "CS TRASH: B Pent to LC",
     "CS TRASH: C Pent to LC",
+
     "Checking Layout for Vizier", 
     "Checking Layout for De Seis", 
     "Checking Layout for Infector", 
+    
     "Waiting for Diablo to spawn", 
+    
     "End game", 
     "End failed game", 
     "Trying to chicken", 
     "You have died",
+
     "Shrine found, activating it",
     "Shrine not found",
+
     "Got enough pots, no need to go to town right now",
     "Going back to town to visit our friend Jamella",
     "Done in town, now going back to portal",

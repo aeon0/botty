@@ -851,8 +851,13 @@ class Hammerdin(IChar):
 
         elif location == "C2-G_seal1":
             ### APPROACH ###
-            if not self._pather.traverse_nodes([663, 662], self): return False # , time_out=3):
+            #if not self._pather.traverse_nodes([663, 662], self): return False # , time_out=3): #caused 7% failed runs, replaced by static path.
+            self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
             ### ATTACK ###
+            ### LOOT ###
+            # we loot at boss
+            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            """
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -864,6 +869,7 @@ class Hammerdin(IChar):
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             keyboard.send(self._skill_hotkeys["redemption"])
+            """
 
         elif location == "C2-G_seal2":
             ### APPROACH ###
@@ -874,17 +880,18 @@ class Hammerdin(IChar):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
+            self._cast_hammers(self._char_config["atk_len_diablo_infector"])
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
+            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"])
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
+            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"])
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
             keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.3, 0.5)
+            if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
 
         else:
             ### APPROACH ###
@@ -1007,7 +1014,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             wait(2.5, 3.5)
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)     
 
@@ -1042,7 +1049,7 @@ class Hammerdin(IChar):
             self._cast_hammers(1, "cleansing")
             keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             wait(0.2, 0.5)
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
