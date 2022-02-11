@@ -85,7 +85,7 @@ class Cows:
                     x_m, y_m = self._screen.convert_abs_to_monitor([50 * direction, direction])
                     self._char.move((x_m, y_m), force_move=True)
                 i += 1
-        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/cows_failed_corpse" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/info_cows_failed_wirt" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         return found
 
     def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
@@ -101,15 +101,11 @@ class Cows:
         if score < .10:
             stuck_count += 1
             if stuck_count >=2:
-                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports")
+                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports")                
                 pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
-                self._char.move(pos_m, force_tp=True)
-                self._char.move(pos_m, force_tp=True)
-                self._char.move(pos_m, force_tp=True)
-                pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
-                self._char.move(pos_m, force_tp=True)
-                self._char.move(pos_m, force_tp=True)
-                self._char.move(pos_m, force_tp=True)
+                while i < 2:
+                    self._char.move(pos_m, force_tp=True)
+                    i = i+1
                 super_stuck +=1
             if super_stuck >= 2:
                 Logger.debug(str(corner_picker) + ": Seems we are still stuck, randomly chosing a different corner: SWAPPING AREA")
@@ -122,6 +118,12 @@ class Cows:
                     corner_picker = keepernumber
                     super_stuck = 0
                     Logger.debug(str(corner_picker) + ": is now our selected corner.")  
+
+    def _legcheck(self) -> bool:
+        #open inventory, search for leg
+            #open stash, search for leg
+                #open cube, search for leg
+        return True
 
     def _stony_field(self)-> bool:      #do_pre_buff: bool
         # if do_pre_buff: self._char.pre_buff()   
@@ -153,9 +155,9 @@ class Cows:
                     self._scout(4, -250, -600, 200, 400, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
                 """
                 Logger.debug("Selected Corner 1 - Top Left")
-                x1_m = -250
+                x1_m = -50
                 x2_m = -600
-                y1_m = -200
+                y1_m = -50
                 y2_m = -400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
@@ -192,9 +194,9 @@ class Cows:
 
             elif corner_picker == 2:
                 Logger.debug("Selected Corner 2 - Top Right")
-                x1_m = 250
+                x1_m = 50
                 x2_m = 600
-                y1_m = -200
+                y1_m = -50
                 y2_m = -400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
@@ -231,9 +233,9 @@ class Cows:
             
             elif corner_picker == 3:
                 Logger.debug("Selected Corner 3 - Bottom Right")
-                x1_m = 250
+                x1_m = 50
                 x2_m = 600
-                y1_m = 200
+                y1_m = 50
                 y2_m = 400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
@@ -271,9 +273,9 @@ class Cows:
                               
             elif corner_picker == 4:
                 Logger.debug("Selected Corner 4 - Right")
-                x1_m = -250
+                x1_m = -50
                 x2_m = -600
-                y1_m = 200
+                y1_m = 50
                 y2_m = 400
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
