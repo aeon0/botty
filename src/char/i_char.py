@@ -98,7 +98,7 @@ class IChar:
         return False
 
     def skill_is_charged(self, img: np.ndarray = None) -> bool:
-        if not img:
+        if img is None:
             img = self._screen.grab()
         skill_img = cut_roi(img, self._config.ui_roi["skill_right"])
         charge_mask, _ = color_filter(skill_img, self._config.colors["blue"])
@@ -143,7 +143,7 @@ class IChar:
        return self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def get_skill_charges(self, img: np.ndarray = None):
-        if not img:
+        if img is None:
             img = self._screen.grab()
         x, y, w, h = self._config.ui_roi["skill_right"]
         x = x - 1
