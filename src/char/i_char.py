@@ -98,7 +98,7 @@ class IChar:
         return False
 
     def skill_is_charged(self, img: np.ndarray = None) -> bool:
-        if not img:
+        if img is None:
             img = self._screen.grab()
         skill_img = cut_roi(img, self._config.ui_roi["skill_right"])
         charge_mask, _ = color_filter(skill_img, self._config.colors["blue"])
@@ -110,6 +110,7 @@ class IChar:
         img = self._screen.grab()
         charges_remaining = self.get_skill_charges()
         if charges_remaining:
+            Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
         else:
             charges_present = self.skill_is_charged(img)
@@ -125,7 +126,7 @@ class IChar:
         wait(0.3)
         match = self._template_finder.search(skill_asset, self._screen.grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.position)
+            x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             wait(0.3)
             keyboard.send(hotkey)
@@ -143,7 +144,7 @@ class IChar:
        return self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def get_skill_charges(self, img: np.ndarray = None):
-        if not img:
+        if img is None:
             img = self._screen.grab()
         x, y, w, h = self._config.ui_roi["skill_right"]
         x = x - 1

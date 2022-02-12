@@ -348,5 +348,5 @@ class GraphicDebuggerController:
             cv2.waitKey(1)
 
 if __name__ == "__main__":
-    debugger = GraphicDebuggerController(Config())
+    debugger = GraphicDebuggerController()
     debugger.start()
