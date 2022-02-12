@@ -99,6 +99,8 @@ run_shenk=0
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
+| take_break          | Leave Blank for No Breaks or set value for amount of games until break|
+| take_break_time     | Amount of time in seconds to break for. |
 | atk_len_arc        | Attack length for hdin/sorc fighting arcane  |
 | atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
 | atk_len_pindle     | Attack length for hdin or number of attack sequences for sorc when fighting pindle |
