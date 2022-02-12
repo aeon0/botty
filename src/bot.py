@@ -366,21 +366,22 @@ class Bot:
             self.trigger_or_stop("end_game")
 
     def on_end_game(self, failed: bool = False):
+        Logger.debug("Break Count Before:" + str(self._take_break))
+        self._take_break += 1
         if self._config.general["info_screenshots"] and failed:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
-        game_count = self._game_stats._game_counter       
+        Logger.debug("Break Count After:" + str(self._take_break))   
         self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
-            self.shuffle_runs()
-        self.trigger_or_stop("init")
-        if self._config.char["take_break"] and game_count >= self._config.char["take_break"]:
+            self.shuffle_runs()        
+        if self._take_break == self._config.char["take_break"]:
             breaker = self._config.char["take_break_time"]
             Logger.info("BREAK TIME!")
-            game_count = 0
+            self._take_break = 0            
             wait(breaker)
         wait(0.2, 0.5)           
         self.trigger_or_stop("create_game")
