@@ -214,39 +214,39 @@ class Pather:
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
             #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
 
-            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200), 
+            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200),
             603: {"DIA_CS_ENTRANCE_603": (121-111, 100-267),"DIA_CS_ENTRANCE_603_2": (121-111+700, 100-267-103),"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
             604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
             605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
             # Entrance 1 Hall3
-            609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3 "DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130) 
+            609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3 "DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130)
 
             #CALIBRATION SPOTS FOR LAYOUT CHECKS
-            610620: 
+            610620:
                 {
-                "DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), 
-                "DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), 
-                }, 
-            630640: #not used 
+                "DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),
+                "DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218),
+                },
+            630640: #not used
                 {
                 "DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),
-                "DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), 
+                "DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33),
                 },
-            
-            650660: 
+
+            650660:
                 {
                 "DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194),
                 "DIA_C2G_CAL_0": (-247, -56), "DIA_C2G_CAL_1": (-379, -64), "DIA_C2G_CAL_2": (134, -158), "DIA_C2G_CAL_3": (52, 157), "DIA_C2G_CAL_4": (269, 196), "DIA_C2G_CAL_6": (200, -22), "DIA_C2G_CAL_7": (166, -83), "DIA_C2G_CAL_8": (248, -151), "DIA_C2G_CAL_9": (-87, 55), "DIA_C2G_CAL_10": (377, -220), "DIA_C2G_CAL_11": (46, -30), "DIA_C2G_CAL_12": (172, -34), "DIA_C2G_CAL_13": (118, -177), "DIA_C2G_CAL_14": (130, -290), "DIA_C2G_CAL_15": (290, -341), "DIA_C2G_CAL_16": (-218, -148), "DIA_C2G_CAL_17": (40, 66), "DIA_C2G_CAL_18": (745, 70), "DIA_C2G_CAL_19": (666, 231),
                 },
-            
+
             # SEAL A1L_new Vizier
 
-            610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52), 
-            611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist 2"DIA_A1L2_11": (176, -346), 
-            612: {"DIA_A1L2_9": (-126, 171), "DIA_A1L2_6": (-122, 181), "DIA_A1L2_18": (-140, 174), "DIA_A1L2_3": (-268, 160), "DIA_A1L2_7": (-319, 103), "DIA_A1L2_4": (-181, -299), "DIA_A1L2_5_OPEN": (335, 110), "DIA_A1L2_5_CLOSED": (335, 110), "DIA_A1L2_5_MOUSEOVER": (335, 110), "DIA_A1L2_0": (91, -393), "DIA_A1L2_1": (-431, 14), }, # seal boss far "DIA_A1L2_11": (-324, -211), 
-            613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357), 
-            614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308), 
-            615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218), 
+            610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52),
+            611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist 2"DIA_A1L2_11": (176, -346),
+            612: {"DIA_A1L2_9": (-126, 171), "DIA_A1L2_6": (-122, 181), "DIA_A1L2_18": (-140, 174), "DIA_A1L2_3": (-268, 160), "DIA_A1L2_7": (-319, 103), "DIA_A1L2_4": (-181, -299), "DIA_A1L2_5_OPEN": (335, 110), "DIA_A1L2_5_CLOSED": (335, 110), "DIA_A1L2_5_MOUSEOVER": (335, 110), "DIA_A1L2_0": (91, -393), "DIA_A1L2_1": (-431, 14), }, # seal boss far "DIA_A1L2_11": (-324, -211),
+            613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357),
+            614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308),
+            615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218),
             619: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), "DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check MERGED  619 and  620 templates from both seals to have a "common node" for calibration before layout check
 
 
@@ -670,7 +670,7 @@ class Pather:
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
-                
+
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if teleport_count > 50:
                     Logger.debug("Stuck: Performing check for Shrine")
@@ -678,8 +678,7 @@ class Pather:
                     if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
                         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         Logger.debug(f"Shrine found, activating it")
-                        pos_abs = (0, -130) #above my head
-                        x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                        x_m, y_m = self._screen.convert_abs_to_monitor((0, -130)) #above head
                         mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
@@ -690,7 +689,7 @@ class Pather:
                     teleport_count = 0
                     break
                 teleport_count += 1
-                     
+
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
@@ -773,7 +772,7 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
     char.discover_capabilities()
 
-    
+
     """
     pather.traverse_nodes([604], char)
     pather.traverse_nodes_fixed("diablo_entrance_hall_1", char)
@@ -781,7 +780,7 @@ if __name__ == "__main__":
     pather.traverse_nodes([671], char)
     pather.traverse_nodes_fixed("diablo_entrance_hall_2", char)
     """
-    
+
     pather.traverse_nodes([605], char)
     #attack
     pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", char)
@@ -795,7 +794,7 @@ if __name__ == "__main__":
     pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", char)
     pather.traverse_nodes([609], char)
     #attack
-    
+
     #pather.traverse_nodes([650660], char, threshold=0.9)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
     #pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
