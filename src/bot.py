@@ -371,12 +371,16 @@ class Bot:
         self._curr_loc = False
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
-        self._game_stats.log_end_game(failed=failed)
+        game_count = self._game_stats._game_counter
         self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
-        wait(0.2, 0.5)
-        self.trigger_or_stop("init")
+        if self._config.char["take_break"] and game_count > 1:
+            breaker = self._config.char["take_break_time"]
+            Logger.info("BREAK TIME!")
+            wait(breaker)
+        wait(0.2, 0.5)           
+        self.trigger_or_stop("create_game")
 
     def on_end_run(self):
         if not self._config.char["pre_buff_every_run"]:
