@@ -182,7 +182,7 @@ class Transmute:
 
     def should_transmute(self) -> bool:
         every_x_game = Config._transmute_config["transmute_every_x_game"]
-        if every_x_game is None or every_x_game is "" or int(every_x_game) <= 0:
+        if every_x_game is None or every_x_game == "" or int(every_x_game) <= 0:
             return False
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
@@ -204,7 +204,7 @@ class Transmute:
 
     def inspect_cube(self)-> InventoryCollection:
         return self.inspect_area(4, 3, roi=Config.ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
-    
+
     def _run_gem_transmutes(self) -> None:
         Logger.info("Starting gem transmute")
         self._last_game = self._game_stats._game_counter
@@ -214,7 +214,7 @@ class Transmute:
         is_cube_empty = None
         while True:
             while inventory.count_empty() >= 3:
-                next_batch = algorithm.next_batch()                
+                next_batch = algorithm.next_batch()
                 is_cube_empty = self.check_cube_empty() if is_cube_empty is None else is_cube_empty
                 if not is_cube_empty:
                     Logger.warning("Some items detected in the cube. Skipping transmute")
