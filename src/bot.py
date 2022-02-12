@@ -372,14 +372,15 @@ class Bot:
         self._pre_buffed = False
         self._ui_manager.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
-        game_count = self._game_stats._game_counter
+        game_count = self._game_stats._game_counter       
         self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
         self.trigger_or_stop("init")
-        if self._config.char["take_break"] and game_count > 1:
+        if self._config.char["take_break"] and game_count >= self._config.char["take_break"]:
             breaker = self._config.char["take_break_time"]
             Logger.info("BREAK TIME!")
+            game_count = 0
             wait(breaker)
         wait(0.2, 0.5)           
         self.trigger_or_stop("create_game")
