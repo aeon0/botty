@@ -221,6 +221,8 @@ class Config:
             "stash_gold": bool(int(Config._select_val("char", "stash_gold"))),
             "gold_trav_only": bool(int(Config._select_val("char", "gold_trav_only"))),
             "use_merc": bool(int(Config._select_val("char", "use_merc"))),
+            "take_break": bool(int(Config._select_val("char", "take_break"))),
+            "take_break_time": int(int(Config._select_val("char", "take_break_time"))),
             "id_items": bool(int(Config._select_val("char", "id_items"))),
             "open_chests": bool(int(Config._select_val("char", "open_chests"))),
             "fill_shared_stash_first": bool(int(Config._select_val("char", "fill_shared_stash_first"))),
