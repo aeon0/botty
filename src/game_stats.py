@@ -31,6 +31,7 @@ class GameStats:
         self._location_stats = {}
         self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
+        self._nopickup_active = False
 
     def update_location(self, loc: str):
         if self._location != loc:
