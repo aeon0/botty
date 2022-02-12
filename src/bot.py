@@ -376,6 +376,7 @@ class Bot:
         self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
             self.shuffle_runs()
+        self.trigger_or_stop("init")
         if self._config.char["take_break"] and game_count > 1:
             breaker = self._config.char["take_break_time"]
             Logger.info("BREAK TIME!")
