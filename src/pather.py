@@ -218,7 +218,11 @@ class Pather:
             603: {"DIA_CS_ENTRANCE_603": (121-111, 100-267),"DIA_CS_ENTRANCE_603_2": (121-111+700, 100-267-103),"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
             604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
             605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
-            # Entrance 1 Hall3
+            606: {"DIA_TRASH_A_6": (146, -35), "DIA_TRASH_A_1": (104, 136), "DIA_TRASH_A_2": (-262, -36), "DIA_TRASH_A_0": (294, 48), "DIA_TRASH_A_3": (-368, 70), "DIA_TRASH_A_7": (446, 22), "DIA_TRASH_A_9": (-280, 391), "DIA_TRASH_A_10": (262, -484), }, #A2Y Trash Pent A
+            607: {'DIA_TRASH_B_0': (466, -103), 'DIA_TRASH_B_1': (-487, -187), 'DIA_TRASH_B_2': (244, -201), 'DIA_TRASH_B_3': (92, -157), 'DIA_TRASH_B_4': (12, 226), 'DIA_TRASH_B_5': (-275, 157), 'DIA_TRASH_B_6': (-112, -40), 'DIA_TRASH_B_7': (425, -20), 'DIA_TRASH_B_8': (310, 221), 'DIA_TRASH_B_9': (50, 47), 'DIA_TRASH_B_10': (750, 321), 'DIA_TRASH_B_11': (577, 305), 'DIA_TRASH_B_13': (574, -238), 'DIA_TRASH_B_15': (-682, 389), 'DIA_TRASH_B_16': (-756, 298), 'DIA_TRASH_B_17': (-775, -124), 'DIA_TRASH_B_18': (-895, -121)}, #trash B pent
+            608: {}, #Trash Pent C
+
+            #609 Entrance 1 Hall3
             609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3 "DIABLO_ENTRANCE2_HALL3_1": (291,-129), "DIABLO_ENTRANCE2_HALL3_2": (-10,-130)
 
             #CALIBRATION SPOTS FOR LAYOUT CHECKS
@@ -756,7 +760,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    display_all_nodes(pather, "DIA_CS_ENTRANCE")
+    #display_all_nodes(pather, "DIA_TRASH_B")
 
     # # changing node pos and generating new code
     # code = ""
@@ -772,29 +776,9 @@ if __name__ == "__main__":
     char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
     char.discover_capabilities()
 
+   
+    pather.traverse_nodes([602], char)
+    pather.traverse_nodes_fixed("dia_trash_b", char)
+    pather.traverse_nodes([607], char, threshold=0.9)
+    #pather.traverse_nodes([602], char)
 
-    """
-    pather.traverse_nodes([604], char)
-    pather.traverse_nodes_fixed("diablo_entrance_hall_1", char)
-    pather.traverse_nodes([672, 670], char)
-    pather.traverse_nodes([671], char)
-    pather.traverse_nodes_fixed("diablo_entrance_hall_2", char)
-    """
-
-    pather.traverse_nodes([605], char)
-    #attack
-    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", char)
-    pather.traverse_nodes([605], char)
-    #attack
-    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top", char)
-    pather.traverse_nodes([605], char)
-    #attack
-    pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", char)
-    pather.traverse_nodes([609], char)
-    pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", char)
-    pather.traverse_nodes([609], char)
-    #attack
-
-    #pather.traverse_nodes([650660], char, threshold=0.9)
-    #pather.traverse_nodes_fixed("diablo_wp_pentagram_1", char)
-    #pather.traverse_nodes_fixed("diablo_wp_pentagram_2", char)
