@@ -110,6 +110,7 @@ class IChar:
         img = self._screen.grab()
         charges_remaining = self.get_skill_charges()
         if charges_remaining:
+            Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
         else:
             charges_present = self.skill_is_charged(img)
