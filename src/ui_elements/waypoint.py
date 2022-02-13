@@ -1,2 +1,0 @@
-# tabs (acts)
-# waypoints (rows)

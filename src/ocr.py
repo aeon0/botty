@@ -115,10 +115,10 @@ class Ocr:
                 processed_img = image
                 if scale:
                     processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-                if crop_pad:
-                    processed_img = self._crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
+                if crop_pad:
+                    processed_img = self._crop_pad(processed_img)
                 image_is_binary = (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool
                 if image_is_binary:
                     if threshold:
