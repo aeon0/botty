@@ -1,5 +1,3 @@
-from ast import Break, Return
-from pickle import FALSE
 import cv2
 import time
 from char.i_char import IChar
