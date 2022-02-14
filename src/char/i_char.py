@@ -230,7 +230,7 @@ class IChar:
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = self._screen.grab()
             template_match = self._template_finder.search(
-                ["BLUE_PORTAL","BLUE_PORTAL_2"],
+                ["BLUE_PORTAL"],
                 img,
                 threshold=0.66,
                 roi=roi,

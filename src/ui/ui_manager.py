@@ -1,4 +1,5 @@
 from typing import List
+from xmlrpc.client import Server
 import keyboard
 import time
 import cv2
@@ -157,54 +158,6 @@ class UiManager():
                 wait(0.1, 0.5)
             return True
         return False
-
-    def start_game(self) -> bool:
-        """
-        Starting a game. Will wait and retry on server connection issue.
-        :return: Bool if action was successful
-        """
-        Logger.debug("Wait for Play button")
-        while 1:
-            img = self._screen.grab()
-            found_btn_off = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["offline_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
-            found_btn_on = self._template_finder.search(["PLAY_BTN", "PLAY_BTN_GRAY"], img, roi=self._config.ui_roi["online_btn"], threshold=0.8, best_match=True, normalize_monitor=True)
-            found_btn = found_btn_off if found_btn_off.valid else found_btn_on
-            if found_btn.name == "PLAY_BTN":
-                Logger.debug(f"Found Play Btn")
-                mouse.move(*found_btn.center, randomize=[35, 7], delay_factor=[1.0, 1.8])
-                wait(0.1, 0.15)
-                mouse.click(button="left")
-                break
-            wait(2.0, 3.0)
-
-        difficulty=self._config.general["difficulty"].upper()
-        while 1:
-            template_match = self._template_finder.search_and_wait(["LOADING", f"{difficulty}_BTN"], time_out=8, roi=self._config.ui_roi["difficulty_select"], threshold=0.9, normalize_monitor=True)
-            if not template_match.valid:
-                Logger.debug(f"Could not find {difficulty}_BTN, try from start again")
-                return self.start_game()
-            if template_match.name == "LOADING":
-                Logger.debug(f"Found {template_match.name} screen")
-                return True
-            mouse.move(*template_match.center, randomize=[50, 9], delay_factor=[1.0, 1.8])
-            wait(0.15, 0.2)
-            mouse.click(button="left")
-            break
-
-        # check for server issue
-        wait(2.0)
-        server_issue = self._template_finder.search("SERVER_ISSUES", self._screen.grab()).valid
-        if server_issue:
-            Logger.warning("Server connection issue. waiting 20s")
-            x, y = self._screen.convert_screen_to_monitor((self._config.ui_pos["issue_occured_ok_x"], self._config.ui_pos["issue_occured_ok_y"]))
-            mouse.move(x, y, randomize=10, delay_factor=[2.0, 4.0])
-            mouse.click(button="left")
-            wait(1, 2)
-            keyboard.send("esc")
-            wait(18, 22)
-            return self.start_game()
-        else:
-            return True
 
     @staticmethod
     def _slot_has_item(slot_img: np.ndarray) -> bool:

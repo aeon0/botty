@@ -11,3 +11,5 @@
 # - enemy_info / enemy_resistances
 # - death message
 # - death button
+# - red portal
+# - blue portal

@@ -28,7 +28,7 @@ class TemplateFinder:
     to find these assets within another image
     IMPORTANT: This method must be thread safe!
     """
-    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
+    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\ui_templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
         self._screen = screen
         self._config = Config()
         self._save_last_res = save_last_res

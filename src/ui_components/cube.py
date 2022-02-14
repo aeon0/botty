@@ -12,7 +12,7 @@ import keyboard
 
 from ui_components import ScreenObject, Locator
 
-@Locator(assets=["HORADRIC_CUBE"], roi="left_inventory", threshold=0.8)
+@Locator(ref=["HORADRIC_CUBE"], roi="left_inventory", threshold=0.8)
 class CubeInventory(ScreenObject):
     def open(self) -> 'tuple[CubeOpened, TemplateMatch]':
         self.hover_over_self()
@@ -21,7 +21,7 @@ class CubeInventory(ScreenObject):
         return CubeOpened.detect(self.screen, self.finder)
 
 
-@Locator(assets=["CUBE_TRANSMUTE_BTN"], roi="cube_btn_roi", threshold=0.8)
+@Locator(ref=["CUBE_TRANSMUTE_BTN"], roi="cube_btn_roi", threshold=0.8)
 class CubeOpened(ScreenObject):
 
     def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:

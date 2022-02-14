@@ -33,6 +33,8 @@ from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
+from ui_components.main_menu import MainMenu
+
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
@@ -233,7 +235,7 @@ class Bot:
     def on_create_game(self):
         # Start a game from hero selection
         self._template_finder.search_and_wait(Bot._MAIN_MENU_MARKERS, roi=self._config.ui_roi["main_menu_top_left"])
-        if not self._ui_manager.start_game(): return
+        if not MainMenu(self._screen, self._template_finder).start_game(): return
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):

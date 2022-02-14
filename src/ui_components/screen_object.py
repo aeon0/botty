@@ -10,20 +10,20 @@ from transmute.inventory_collection import InventoryCollection, inspect_area
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
-from numpy import np
+import numpy as np
 import keyboard
 
 
 @dataclass
 class Locator:
     ref: list[str]
-    inp_img: np.ndarray = None,
-    roi: list[float] = None,
-    time_out: float = 30,
-    threshold: float = 0.68,
-    normalize_monitor: bool = False,
-    best_match: bool = False,
-    use_grayscale: bool = False,
+    inp_img: np.ndarray = None
+    roi: list[float] = None
+    time_out: float = 30
+    threshold: float = 0.68
+    normalize_monitor: bool = False
+    best_match: bool = False
+    use_grayscale: bool = False
 
     def __call__(self, cls):
         cls._locator = self
@@ -44,22 +44,18 @@ class ScreenObject:
     @classmethod
     def detect(cls: Self, screen: Screen, template_finder: TemplateFinder) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
-        img = screen.grab() if loc.inp_img is None else loc.inp_img
-        match = template_finder.search(ref = loc.ref, inp_img = img, threshold = loc.threshold, roi = Config.ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
+        match = template_finder.search(ref = loc.ref, inp_img = screen.grab(), threshold = loc.threshold, roi = Config.ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
             return cls(screen, template_finder, match), match
-        else:
-            Logger.debug(f'not matching: {match}')
         return None, match
 
     @classmethod
-    def wait_for(cls: Self, screen: Screen, template_finder: TemplateFinder) -> tuple[Self, TemplateMatch]:
+    def wait_for(cls: Self, screen: Screen, template_finder: TemplateFinder, time_out: int = None) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
-        match = template_finder.search(ref = loc.ref, time_out = loc.time_out, threshold = loc.threshold, roi = Config.ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
+        time_out = time_out if time_out else loc.time_out
+        match = template_finder.search(ref = loc.ref, time_out = time_out, threshold = loc.threshold, roi = Config.ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
             return cls(screen, template_finder, match), match
-        else:
-            Logger.debug(f'not matching: {match}')
         return None, match
 
 

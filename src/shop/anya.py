@@ -68,7 +68,7 @@ class AnyaShopper:
 
 
         self._screen = Screen()
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
+        self._template_finder = TemplateFinder(self._screen,  ["assets\\ui_templates\\view", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
         self._npc_manager = NpcManager(
             screen=self._screen, template_finder=self._template_finder
@@ -225,7 +225,7 @@ class AnyaShopper:
 
     def reset_shop(self):
         while 1:
-            success = self.select_by_template("A5_RED_PORTAL")
+            success = self.select_by_template("RED_PORTAL")
             success &= wait_for_loading_screen(self._screen, 2)
             if success:
                 break
@@ -233,7 +233,7 @@ class AnyaShopper:
                 mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
         time.sleep(2.5)
         while 1:
-            success = self.select_by_template("A5_RED_PORTAL")
+            success = self.select_by_template("RED_PORTAL")
             success &= wait_for_loading_screen(self._screen, 2)
             if success:
                 break
