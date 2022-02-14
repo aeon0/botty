@@ -1,4 +1,4 @@
-from cgitb import text
+#from cgitb import text
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities

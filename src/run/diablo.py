@@ -296,12 +296,12 @@ class Diablo:
 
     #CLEAR TRASH BETWEEN PENTAGRAM & LAYOUT CHECK (clear_trash=1)
     def _trash_seals(self, seal:str, path:str, node_calibration:str, loop_path:str, threshold:float) -> bool:
-        if not self._pather.traverse_nodes([602], self._char, time_out=2): return  False
-        if not self._pather.traverse_nodes_fixed(path, self._char): return  False
+        if not self._pather.traverse_nodes([602], self._char, time_out=2): return False
+        self._pather.traverse_nodes_fixed(path, self._char)
         Logger.debug("CS TRASH: " + seal + " Pent to LC")
         self._char.kill_cs_trash(path)
         #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_" + seal + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        if not self._pather.traverse_nodes(self._char, node_calibration, time_out=2, threshold=threshold): return False
+        if not self._pather.traverse_nodes(node_calibration, self._char, time_out=2, threshold=threshold): return False
         if not self._loop_pentagram(loop_path): return False
         if not self._pather.traverse_nodes([602], self._char, time_out=2): return False
         Logger.info(seal + ": finished clearing Trash at Seal & calibrated at PENTAGRAM")
@@ -429,25 +429,26 @@ class Diablo:
 
         #Clear Trash in CS
         
-        
+        """
         if self._config.char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
         else:
             if not self._river_of_flames(): return False
-        
+        """
+
         #DELETE ME VVVV ####################
-        #if not self._river_of_flames(): return False
+        if not self._river_of_flames(): return False
         #DELETE ME ^^^^ ####################
 
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False
 
         #DELETE ME VVVV ####################
-        if self._config.char["kill_cs_trash"]: self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.85)
-        if self._config.char["kill_cs_trash"]: self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85)
+        if self._config.char["kill_cs_trash"]: self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78)
+        if self._config.char["kill_cs_trash"]: self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85) #high threshold needed to avoid chasing 607 ghosts
         if self._config.char["kill_cs_trash"]: self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78)
         #DELETE ME ^^^^ ####################
-        
+        """
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
         if not self._pather.traverse_nodes([602], self._char): return False
@@ -477,6 +478,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo()
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        """
         self._picked_up_items = self._pickit.pick_up_items(self)
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
