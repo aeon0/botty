@@ -425,7 +425,7 @@ class UiManager():
                                 msg = "All stash tabs and character are full of gold, turn of gold pickup"
                                 Logger.info(msg)
                                 if self._config.general["custom_message_hook"]:
-                                    self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                                    self._messenger.send_message(msg=f"{self._config.general['name']}: {msg}")
                         else:
                             # move to next stash
                             wait(0.5, 0.6)
