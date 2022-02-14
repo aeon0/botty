@@ -432,7 +432,7 @@ class Hammerdin(IChar):
         # PENT TRASH TO SEAL
         ####################
 
-        elif location == "trash_a": #trash before between Pentagramm and Seal A Layoutcheck
+        elif location == "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -448,7 +448,7 @@ class Hammerdin(IChar):
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        elif location == "trash_b": #trash before between Pentagramm and Seal B Layoutcheck
+        elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -464,7 +464,7 @@ class Hammerdin(IChar):
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
-        elif location == "trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
+        elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
