@@ -241,9 +241,12 @@ class Config:
             "atk_len_diablo_infector": float(Config._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(Config._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(Config._select_val("char", "atk_len_cs_trashmobs")),
-            "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
+            "kill_cs_trash": bool(int(Config._select_val("char", "kill_cs_trash"))),
+            "cs_town_visits": bool(int(Config._select_val("char", "cs_town_visits"))),
+            "runs_per_stash": False if not Config._select_val("char", "runs_per_stash") else int(Config._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not Config._select_val("char", "runs_per_repair") else int(Config._select_val("char", "runs_per_repair")),
             "gamble_items": False if not Config._select_val("char", "gamble_items") else Config._select_val("char", "gamble_items").replace(" ","").split(","),
+
         }
         # Sorc base config
         sorc_base_cfg = dict(Config._config["sorceress"])
