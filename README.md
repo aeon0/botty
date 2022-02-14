@@ -74,7 +74,7 @@ run_shenk=0
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlathak | Run Nihlathak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
-| run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_diablo   | Run Diablo in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -110,7 +110,8 @@ run_shenk=0
 | atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
-| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram and Seals A, B, C are cleared (NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
+| kill_cs_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
+| cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
@@ -123,7 +124,8 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
-| runs_per_repair    | 0: Will only repair when needed, 1+: Will repair after # of runs set here |
+| runs_per_stash    | 0: Will only stash after intentional item pickup, 1+: Will force stash after # of runs set here (recommend at least 4 in case of accidental pickups) |
+| runs_per_repair    | 0: Will only repair when needed, 1+: Will force repair after # of runs set here |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
@@ -175,6 +177,8 @@ run_shenk=0
 | shadow_warrior | Optional Hotkey for Shadow Warrior                                                  |
 | lightning_sentry | Required Hotkey for Lightning Sentry                                              |
 | death_sentry   | Required Hotkey for Death Sentry                                                    |
+| cloak_of_shadows| Optional Hotkey for Cloak of Shadows                                                |
+|  mind_blast    | Optional Hotkey for Mind Blast                                                      |
 
 | [barbarian]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |

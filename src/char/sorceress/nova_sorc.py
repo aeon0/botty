@@ -119,4 +119,3 @@ if __name__ == "__main__":
     pather = Pather(screen, t_finder)
     ui_manager = UiManager(screen, t_finder)
     char = NovaSorc(config.nova_sorc, config.char, screen, t_finder, ui_manager, pather)
-    char.kill_council()
