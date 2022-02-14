@@ -293,19 +293,60 @@ class Diablo:
         Logger.debug("CS: Calibrated at PENTAGRAM")
         return True
 
-
-    #CLEAR TRASH BETWEEN PENTAGRAM & LAYOUT CHECK (clear_trash=1)
+    """
+    #CLEAR TRASH BETWEEN PENTAGRAM & LAYOUT CHECK (clear_trash=1): NEW METHOD, BUT ONLY 50% EFFICACY
     def _trash_seals(self, seal:str, path:str, node_calibration:str, loop_path:str, threshold:float) -> bool:
         if not self._pather.traverse_nodes([602], self._char, time_out=2): return False
-        self._pather.traverse_nodes_fixed(path, self._char)
-        Logger.debug("CS TRASH: " + seal + " Pent to LC")
+        if not self._pather.traverse_nodes_fixed(path, self._char): return False
+        Logger.info("CS TRASH: " + seal + " Pent to LC")
         self._char.kill_cs_trash(path)
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_" + seal + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         if not self._pather.traverse_nodes(node_calibration, self._char, time_out=2, threshold=threshold): return False
-        if not self._loop_pentagram(loop_path): return False
+        Logger.info("CS TRASH: " + str(seal) + " looping to PENTAGRAM")
+        #if not self._loop_pentagram(loop_path): return False
+        found = False
+        templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
+        start_time = time.time()
+        while not found and time.time() - start_time < 15:
+            found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            if not found: self._pather.traverse_nodes_fixed(loop_path, self._char)
+        if not found:
+            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            return False
         if not self._pather.traverse_nodes([602], self._char, time_out=2): return False
-        Logger.info(seal + ": finished clearing Trash at Seal & calibrated at PENTAGRAM")
- 
+        Logger.info("CS TRASH: " + str(seal) + " calibrated at PENTAGRAM")
+        return True
+    """
+
+    #CLEAR TRASH BETWEEN PENTAGRAM & LAYOUT CHECK (clear_trash=1) OLD METHOD, GIVING US 80% EFFICIENCY
+    def _trash_seals(self) -> bool:
+        self._pather.traverse_nodes([602], self._char)
+        self._pather.traverse_nodes_fixed("dia_trash_a", self._char)
+        Logger.debug("CS TRASH: A Pent to LC")
+        self._char.kill_cs_trash("trash_a")
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("CS TRASH: A looping to PENTAGRAM")
+        if not self._loop_pentagram("dia_a1l_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False
+        Logger.info("CS TRASH: A calibrated at PENTAGRAM")
+
+        self._pather.traverse_nodes_fixed("dia_trash_b", self._char)
+        Logger.debug("CS TRASH: B Pent to LC")
+        self._char.kill_cs_trash("trash_b")
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("CS TRASH: B looping to PENTAGRAM")
+        if not self._loop_pentagram("dia_b1s_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False
+        Logger.info("CS TRASH: B calibrated at PENTAGRAM")
+        
+        self._pather.traverse_nodes_fixed("dia_trash_c", self._char)
+        Logger.debug("CS TRASH: C Pent to LC")
+        self._char.kill_cs_trash("trash_c")
+        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        Logger.info("CS TRASH: C looping to PENTAGRAM")
+        if not self._loop_pentagram("dia_c1f_home_loop"): return False
+        if not self._pather.traverse_nodes([602], self._char): return False
+        Logger.info("CS TRASH: C calibrated at PENTAGRAM")
+    
 
     #CHECK SEAL LAYOUT
     def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]):
@@ -429,32 +470,27 @@ class Diablo:
 
         #Clear Trash in CS
         
-        """
         if self._config.char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
         else:
             if not self._river_of_flames(): return False
-        """
-
-        #DELETE ME VVVV ####################
-        if not self._river_of_flames(): return False
-        #DELETE ME ^^^^ ####################
 
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False
 
-        #DELETE ME VVVV ####################
-        if self._config.char["kill_cs_trash"]: self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78)
-        if self._config.char["kill_cs_trash"]: self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85) #high threshold needed to avoid chasing 607 ghosts
-        if self._config.char["kill_cs_trash"]: self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78)
-        #DELETE ME ^^^^ ####################
+        """ NEW APPROACH ONLY HAS 50% SUCCESS RATE
+        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78): return False
+        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85): return False #high threshold needed to avoid chasing 607 ghosts
+        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78): return False
         """
+        #OLD APPROACH HAS 80% SUCCESS RATE
+        if self._config.char["kill_cs_trash"]: self._trash_seals()
+        
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
-        #if self._config.char["kill_cs_trash"]: self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.85)
         if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
         
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
@@ -462,7 +498,6 @@ class Diablo:
         if not self._pather.traverse_nodes([602] , self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
-        #if self._config.char["kill_cs_trash"]: self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85)
         if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False
 
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
@@ -470,7 +505,6 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
-        #if self._config.char["kill_cs_trash"]: self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78)
         if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
 
         # Kill Diablo
@@ -478,7 +512,6 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo()
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        """
         self._picked_up_items = self._pickit.pick_up_items(self)
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
@@ -505,7 +538,7 @@ if __name__ == "__main__":
     # Efficiency overview.
     # Clear Trash Entrance Layout A: 91 % efficiency
     # Clear Trash Entrance Layout B: 80 % efficiency
-    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain
+    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain | new issue, if merc kills mobs at edge of screen & 
     # Clear Seals: 98% efficiency. Root Cause: templates covered by corpses or getting lost when tele back to pentagram. Fix: Optimize templates used at nodes.
     # LC A failing -> add template of seal to the calibration node. in case she overshoots to the seal, it will rubber-band her back to LC node.
     # Kill Dia with Trash: >70%

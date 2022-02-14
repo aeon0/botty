@@ -46,8 +46,16 @@ simple_string = [
     "CS: failed to open TP",
     
     "CS TRASH: A Pent to LC",
+    "CS TRASH: A looping to PENTAGRAM",
+    "CS TRASH: A calibrated at PENTAGRAM",
+
     "CS TRASH: B Pent to LC",
+    "CS TRASH: B looping to PENTAGRAM",
+    "CS TRASH: B calibrated at PENTAGRAM",
+
     "CS TRASH: C Pent to LC",
+    "CS TRASH: C looping to PENTAGRAM",
+    "CS TRASH: C calibrated at PENTAGRAM",
 
     "Checking Layout for Vizier", 
     "Checking Layout for De Seis", 
