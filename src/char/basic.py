@@ -20,7 +20,7 @@ class Basic(IChar):
 
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         # offset shenk final position further to the right and bottom
-        if capabilities.can_teleport_with_charges:
+        if capabilities.can_teleport_natively:
             self._pather.offset_node(149, [120, 70])
 
     def _cast_attack_pattern(self, time_in_s: float):

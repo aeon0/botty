@@ -49,9 +49,8 @@ class Hammerdin(IChar):
         # ass most likely we will click on some mobs and already cast hammers
         if capabilities.can_teleport_natively:
             self._do_pre_move = False
-        else:
-            # we want to change positions of shenk and eld a bit to be more center for teleport
-            self._pather.offset_node(149, (70, 10))
+        #hammerdin needs to be closer to shenk to reach it with hammers
+        self._pather.offset_node(149, (70, 10))
 
     def pre_move(self):
         # select teleport if available
@@ -91,7 +90,7 @@ class Hammerdin(IChar):
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -102,7 +101,7 @@ class Hammerdin(IChar):
         if not self._do_pre_move:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
         self._cast_hammers(self._char_config["atk_len_shenk"])
         wait(0.1, 0.15)
