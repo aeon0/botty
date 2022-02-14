@@ -251,7 +251,9 @@ class Hammerdin(IChar):
         
         elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
             ### APPROACH ###
-            if not self._pather.traverse_nodes([672, 670], self): return False # pull top mobs 672 to bottom 670
+            if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
+            self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
+            if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
