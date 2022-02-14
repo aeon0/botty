@@ -244,6 +244,7 @@ class Config:
             "kill_cs_trash": float(Config._select_val("char", "kill_cs_trash")),
             "runs_per_repair": False if not Config._select_val("char", "runs_per_repair") else int(Config._select_val("char", "runs_per_repair")),
             "gamble_items": False if not Config._select_val("char", "gamble_items") else Config._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": False if not Config._select_val("char", "sell_junk") else Config._select_val("char", "gamble_items").replace(" ","").split(","),
         }
         # Sorc base config
         sorc_base_cfg = dict(Config._config["sorceress"])

@@ -743,6 +743,39 @@ class UiManager():
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
+    def sell_junk(self, num_loot_columns, item_finder):
+        for column, row in itertools.product(range(num_loot_columns), range(4)):
+            img = self._screen.grab()
+            slot_pos, slot_img = self.get_slot_pos_and_img(self._config, img, column, row)
+            if self._slot_has_item(slot_img):
+                x_m, y_m = self._screen.convert_screen_to_monitor(slot_pos)
+                mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
+                # check item again and discard it or stash it
+                wait(1.2, 1.4)
+                hovered_item = self._screen.grab()
+                found_items = self._keep_item(item_finder, hovered_item)
+                if len(found_items) == 0:
+                    # make sure there is actually an item
+                    time.sleep(0.3)
+                    curr_pos = mouse.get_position()
+                    # move mouse away from inventory, for some reason it was sometimes included in the grabed img
+                    x, y = self._screen.convert_abs_to_monitor((0, 0))
+                    mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
+                    item_check_img = self._screen.grab()
+                    mouse.move(*curr_pos, randomize=2)
+                    wait(0.4, 0.6)
+                    slot_pos, slot_img = self.get_slot_pos_and_img(self._config, item_check_img, column, row)
+                    if self._slot_has_item(slot_img):
+                        if self._config.general["info_screenshots"]:
+                            cv2.imwrite("./info_screenshots/info_sold_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+                        keyboard.press("ctrl")
+                        wait(0.2, 0.4)
+                        mouse.press(button="left")
+                        wait(0.2, 0.4)
+                        keyboard.release("ctrl")
+        self.close_vendor_screen()
+        wait(0.2, 0.4)
+
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
