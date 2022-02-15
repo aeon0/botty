@@ -146,15 +146,13 @@ class NovaSorc(Sorceress):
         if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### APPROACH 
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.5, 1.0) #clear seal from corpses
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -167,15 +165,13 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([603], self, time_out=3): return False #calibrate after static path
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            ### LOOT ###
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
@@ -185,15 +181,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([604], self, time_out=3): return False  #threshold=0.8 (ex 601)
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -201,15 +195,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -219,15 +211,13 @@ class NovaSorc(Sorceress):
             self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
             if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             #Move to Layout Check
@@ -241,15 +231,13 @@ class NovaSorc(Sorceress):
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
@@ -257,15 +245,13 @@ class NovaSorc(Sorceress):
         elif location == "entrance1_02": #node 673
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
@@ -274,15 +260,13 @@ class NovaSorc(Sorceress):
         elif location == "entrance1_03": #node 674
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -293,16 +277,13 @@ class NovaSorc(Sorceress):
         elif location == "entrance1_04": #node 676- Hall3
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -311,15 +292,13 @@ class NovaSorc(Sorceress):
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -330,15 +309,13 @@ class NovaSorc(Sorceress):
             wait (0.2, 0.5)
             if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -352,15 +329,13 @@ class NovaSorc(Sorceress):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
             if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -375,18 +350,15 @@ class NovaSorc(Sorceress):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
             if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"]
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((0, 0), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
             self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -401,48 +373,39 @@ class NovaSorc(Sorceress):
         elif location == "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -453,35 +416,39 @@ class NovaSorc(Sorceress):
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
             ### APPROACH ###
             ### ATTACK ###
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
+            ### LOOT ###
+            self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -492,36 +459,39 @@ class NovaSorc(Sorceress):
         elif location == "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -533,14 +503,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([611], self): return False # , time_out=3):
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             # we loot at boss
 
@@ -548,17 +517,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             # we loot at boss
 
@@ -566,25 +531,21 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613], self): return False # , time_out=3):
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._cast_hammers(0.5, "cleansing")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             ### APPROACH ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([614], self): return False
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
             ### LOOT ###
             # we loot at boss
 
@@ -592,7 +553,6 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
             ### LOOT ###
             # we loot at boss
 
@@ -606,17 +566,14 @@ class NovaSorc(Sorceress):
             Logger.info("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([622], self): return False
-            keyboard.send(self._skill_hotkeys["redemption"])
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.2, 0.4)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             # we loot at boss
 
@@ -624,15 +581,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             # if not self._pather.traverse_nodes([623,624], self): return False # 
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.2, 0.4)
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             # we loot at boss
 
@@ -649,7 +604,6 @@ class NovaSorc(Sorceress):
             ### LOOT ###
             # we loot at boss
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
         
         elif location == "A2-Y_seal2":
             ### APPROACH ###
@@ -657,7 +611,6 @@ class NovaSorc(Sorceress):
             ### LOOT ###
             # we loot at boss
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
-            keyboard.send(self._skill_hotkeys["redemption"])
 
         ###########
         # SEAL B1-S
@@ -688,7 +641,6 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
             ### LOOT ###
             
 
@@ -724,8 +676,6 @@ class NovaSorc(Sorceress):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            keyboard.send(self._skill_hotkeys["redemption"])
-
         
         ###########
         # SEAL C1-F
@@ -759,36 +709,32 @@ class NovaSorc(Sorceress):
             wait(0.1,0.3)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
             
         elif location == "C1-F_seal2":
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
 
         ###########
         # SEAL C2-G
@@ -824,17 +770,15 @@ class NovaSorc(Sorceress):
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
             """
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["redemption"])
             """
 
         elif location == "C2-G_seal2":
@@ -843,19 +787,15 @@ class NovaSorc(Sorceress):
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"])
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"])
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"])
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.3, 0.5)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
 
@@ -863,14 +803,13 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
+            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
@@ -878,6 +817,7 @@ class NovaSorc(Sorceress):
 
 
     def kill_vizier(self, seal_layout:str) -> bool:
+        atk_len = self._char_config["atk_len_diablo_vizier"]
         if seal_layout == "A1-L":
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
@@ -885,23 +825,21 @@ class NovaSorc(Sorceress):
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            self._cast_hammers(1, "redemption")
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 1.2)
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
 
@@ -912,32 +850,32 @@ class NovaSorc(Sorceress):
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"])
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 1.2)
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 1.2)
             if not self._pather.traverse_nodes([622], self): return False #, time_out=3): 
-            keyboard.send(self._skill_hotkeys["redemption"])
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([622], self): return False # , time_out=3): #recalibrate after loot
         
@@ -947,8 +885,9 @@ class NovaSorc(Sorceress):
         return True
 
 
-
+    #NEED TO CHANGE PATHING, NOVA SORC DIES WITH HAMMERDIN ATTACK PATTERNS
     def kill_deseis(self, seal_layout:str) -> bool:
+        atk_len = self._char_config["atk_len_diablo_deseis"]
         if seal_layout == "B1-S":
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
@@ -959,28 +898,34 @@ class NovaSorc(Sorceress):
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.2)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            wait(2.5, 3.5)
-            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)     
 
@@ -995,27 +940,35 @@ class NovaSorc(Sorceress):
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.2)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.5)
-            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            pos_m = self._screen.convert_abs_to_monitor((0, 0))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
+
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
@@ -1033,20 +986,17 @@ class NovaSorc(Sorceress):
 
 
     def kill_infector(self, seal_layout:str) -> bool:
+        atk_len = self._char_config["atk_len_diablo_infector"]
         if seal_layout == "C1-F":
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
+            self._cast_static(0.6)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -1064,16 +1014,14 @@ class NovaSorc(Sorceress):
     def kill_diablo(self) -> bool:
         ### APPROACH ###
         ### ATTACK ###
+        atk_len = self._char_config["atk_len_diablo"]
+        Logger.debug("Attacking Diablo at position 1/1")
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        Logger.debug("Attacking Diablo at position 1/1")
-        self._cast_hammers(self._char_config["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((60, 30), self._char_config["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
-        wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption")
+        self._cast_static(0.6)
+        self._nova(atk_len)
+        self._move_and_attack((50, 25), atk_len)
+        self._move_and_attack((-70, -35), atk_len)
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
