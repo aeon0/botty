@@ -919,21 +919,39 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             ### ATTACK ###
+
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len * 0.3)
+            self._move_and_attack((50, 25), atk_len * 0.3)
+            self._move_and_attack((-70, -35), atk_len) * 0.3
+            self._redemption(1)
+            vizier_pos_abs = self._pather.find_abs_node_pos(611, self._screen.grab())
+            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config[atk_len] * 0.5)):
+                self._chain_lightning(cast_pos_abs, spray=90)
+            pos_m = self._screen.convert_abs_to_monitor((150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([611], self, time_out=3)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len * 0.3)
+            self._move_and_attack((50, 25), atk_len * 0.3)
+            self._move_and_attack((-70, -35), atk_len) * 0.3
+            self._redemption(1)
+            vizier_pos_abs = self._pather.find_abs_node_pos(612, self._screen.grab())
+            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config[atk_len] * 0.5)):
+                self._chain_lightning(cast_pos_abs, spray=90)
+            pos_m = self._screen.convert_abs_to_monitor((150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+
             ### LOOT ###
             self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -945,29 +963,56 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             if not self._pather.traverse_nodes([627, 622], self): return False # , time_out=3):
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([623], self, time_out=3)
+            self._nova(atk_len * 0.3)
+            self._move_and_attack((50, 25), atk_len * 0.3)
+            self._move_and_attack((-70, -35), atk_len) * 0.3
+            self._redemption(1)
+            vizier_pos_abs = self._pather.find_abs_node_pos(623, self._screen.grab())
+            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config[atk_len] * 0.3)):
+                self._chain_lightning(cast_pos_abs, spray=90)
+            pos_m = self._screen.convert_abs_to_monitor((150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+
+            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
+            if not self._pather.traverse_nodes([623], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len * 0.3)
+            self._move_and_attack((50, 25), atk_len * 0.3)
+            self._move_and_attack((-70, -35), atk_len) * 0.3
+            self._redemption(1)
+            vizier_pos_abs = self._pather.find_abs_node_pos(624, self._screen.grab())
+            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config[atk_len] * 0.3)):
+                self._chain_lightning(cast_pos_abs, spray=90)
+            pos_m = self._screen.convert_abs_to_monitor((150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
-            if not self._pather.traverse_nodes([624], self): return False
+            if not self._pather.traverse_nodes([624], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len * 0.3)
+            self._move_and_attack((50, 25), atk_len * 0.3)
+            self._move_and_attack((-70, -35), atk_len) * 0.3
+            self._redemption(1)
+            vizier_pos_abs = self._pather.find_abs_node_pos(622, self._screen.grab())
+            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
+            for _ in range(int(self._char_config[atk_len] * 0.3)):
+                self._chain_lightning(cast_pos_abs, spray=90)
+            pos_m = self._screen.convert_abs_to_monitor((150, 50))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+
             ### LOOT ###
             self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
