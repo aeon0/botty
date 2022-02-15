@@ -185,10 +185,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.5, 1.0) #clear seal from corpses
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.5, 1.0) #clear seal from corpses
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -206,10 +208,12 @@ class Hammerdin(IChar):
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
             ### LOOT ###
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
@@ -224,10 +228,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -240,10 +246,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -258,10 +266,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             #Move to Layout Check
@@ -280,10 +290,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
@@ -296,10 +308,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
@@ -313,10 +327,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -333,10 +349,12 @@ class Hammerdin(IChar):
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"])
             self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -350,10 +368,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -369,10 +389,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -391,10 +413,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -417,10 +441,12 @@ class Hammerdin(IChar):
             self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -441,10 +467,12 @@ class Hammerdin(IChar):
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
             self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -457,10 +485,12 @@ class Hammerdin(IChar):
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
             self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -473,10 +503,12 @@ class Hammerdin(IChar):
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
             self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"])
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -497,10 +529,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -512,10 +546,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -537,10 +573,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
@@ -552,10 +590,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -572,9 +612,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -582,7 +625,9 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
@@ -590,9 +635,12 @@ class Hammerdin(IChar):
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -609,16 +657,21 @@ class Hammerdin(IChar):
             self._cast_hammers(0.5, "cleansing")
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             ### APPROACH ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([614], self): return False
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -626,7 +679,9 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -640,17 +695,21 @@ class Hammerdin(IChar):
             Logger.info("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([622], self): return False
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### ATTACK ###
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.2, 0.4)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -663,10 +722,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.2, 0.4)
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -683,7 +744,9 @@ class Hammerdin(IChar):
             ### LOOT ###
             # we loot at boss
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
         
         elif location == "A2-Y_seal2":
             ### APPROACH ###
@@ -691,7 +754,9 @@ class Hammerdin(IChar):
             ### LOOT ###
             # we loot at boss
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
 
         ###########
         # SEAL B1-S
@@ -722,7 +787,9 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             
 
@@ -758,7 +825,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
 
         
         ###########
@@ -798,13 +867,18 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             
         elif location == "C1-F_seal2":
             ### APPROACH ###
@@ -816,13 +890,18 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
 
         ###########
         # SEAL C2-G
@@ -863,12 +942,17 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             """
 
         elif location == "C2-G_seal2":
@@ -889,8 +973,9 @@ class Hammerdin(IChar):
             self._cast_hammers(1.2, "redemption")
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.5)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
 
         else:
@@ -902,9 +987,12 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
@@ -927,15 +1015,19 @@ class Hammerdin(IChar):
             self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
             self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             self._cast_hammers(1, "redemption")
-            keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2)
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["cleansing"]:
+                keyboard.send(self._skill_hotkeys["cleansing"])
+                wait(0.1, 0.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             wait(0.3, 1.2)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 0.6)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
 
@@ -961,17 +1053,21 @@ class Hammerdin(IChar):
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 1.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
             Logger.info(seal_layout + ": Hop!")
-            keyboard.send(self._skill_hotkeys["redemption"])
-            wait(0.3, 1.2)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             if not self._pather.traverse_nodes([622], self): return False #, time_out=3): 
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([622], self): return False # , time_out=3): #recalibrate after loot
         
@@ -1011,9 +1107,10 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            wait(2.5, 3.5)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
+                Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)     
@@ -1047,8 +1144,9 @@ class Hammerdin(IChar):
             wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
-            keyboard.send(self._skill_hotkeys["redemption"]) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-            wait(0.2, 0.5)
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
