@@ -8,6 +8,8 @@ from logger import Logger
 from utils.misc import wait
 from pather import Location
 from item.pickit import PickIt #for Diablo
+from utils.misc import wait, cut_roi #for Diablo Weapon Switch to Phoenix
+import cv2 #for Diablo Weapon Switch to Phoenix
 
 class NovaSorc(Sorceress):
     def __init__(self, *args, **kwargs):
@@ -56,6 +58,40 @@ class NovaSorc(Sorceress):
             mouse.press(button="right")
             wait(delay[0], delay[1])
             mouse.release(button="right")
+    
+    #for Diablo
+    def _redemption(self, duration:float):
+        # Save current skill img
+        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+        # Try to switch weapons and select bo until we find the skill on the right skill slot
+        start = time.time()
+        switch_sucess = False
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.1, 0.3)
+            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
+                switch_sucess = True
+                break
+
+        if not switch_sucess:
+            Logger.warning("Failed to switch to Phoenx offhand for Redemption. I checked searching for BC or BO, assuming you also have a CTA. You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
+            self._char_config["cta_available"] = 0
+        else:
+            # We switched succesfully, let's wait for redemption to occur
+            wait(duration * 0.9 , duration * 1.1)
+
+        # Make sure the switch back to the original weapon is good
+        start = time.time()
+        while time.time() - start < 4:
+            keyboard.send(self._char_config["weapon_switch"])
+            wait(0.3, 0.35)
+            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+            if max_val > 0.9:
+                break
+            else:
+                Logger.warning("Failed to switch weapon, try again")
+                wait(0.5)
 
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
@@ -154,6 +190,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         ################
@@ -173,6 +210,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
 
@@ -189,6 +227,8 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
@@ -203,6 +243,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
@@ -219,6 +260,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             #Move to Layout Check
             if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
@@ -239,6 +281,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
 
@@ -253,6 +296,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
             if not self._pather.traverse_nodes([674], self): return False#, time_out=3)
@@ -268,7 +312,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([675], self): return False#, time_out=3) # Re-adjust itself
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
@@ -285,6 +329,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         # TRASH LAYOUT B
@@ -300,6 +345,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_02": #node 682
@@ -317,6 +363,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_03": #node 683
@@ -337,6 +384,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_04": #node 686 - Hall3
@@ -360,7 +408,10 @@ class NovaSorc(Sorceress):
             self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
+            ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -381,6 +432,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
@@ -394,6 +446,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
@@ -407,6 +460,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###############
@@ -424,6 +478,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
@@ -437,6 +492,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
@@ -450,6 +506,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ##################
@@ -467,6 +524,8 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
@@ -480,6 +539,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
@@ -493,6 +553,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###########
@@ -511,6 +572,9 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+            ### LOOT ###
+            self._redemption(1)
             # we loot at boss
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
@@ -525,6 +589,8 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+
             # we loot at boss
 
         elif location == "A1-L_03":  #node 613 seal layout A1-L: fake_seal
@@ -539,6 +605,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
@@ -547,6 +614,8 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([614], self): return False
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
+
             # we loot at boss
 
         elif location == "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
@@ -554,6 +623,8 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
+
             # we loot at boss
 
         ###########
@@ -575,6 +646,8 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+
             # we loot at boss
 
         elif location == "A2-Y_02":  #node 623 seal layout A2-Y: center
@@ -589,12 +662,15 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
+
             # we loot at boss
 
         elif location == "A2-Y_03": #skipped
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
     
@@ -602,6 +678,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
         
@@ -609,6 +686,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
 
@@ -620,6 +698,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -627,6 +706,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -634,6 +714,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -642,6 +723,7 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             
 
         ###########
@@ -652,6 +734,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -659,6 +742,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -666,6 +750,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -675,6 +760,7 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([644], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
         
         ###########
@@ -685,6 +771,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
@@ -692,6 +779,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
         
@@ -699,6 +787,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -717,6 +806,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             
@@ -733,6 +823,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
 
@@ -744,6 +835,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -751,6 +843,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -758,6 +851,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
@@ -767,6 +861,7 @@ class NovaSorc(Sorceress):
             self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
             ### ATTACK ###
             ### LOOT ###
+            self._redemption(1)
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
             """
@@ -778,6 +873,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             """
 
@@ -795,8 +891,8 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            wait(0.3, 0.5)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
 
         else:
@@ -811,6 +907,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
@@ -838,6 +935,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -871,6 +969,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
@@ -927,6 +1026,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)     
 
         elif seal_layout == "B2-U":
@@ -970,12 +1070,17 @@ class NovaSorc(Sorceress):
             self._move_and_attack((-70, -35), atk_len)
 
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
+            ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([640], self): return False # , time_out=3):
+            ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         else:
@@ -998,6 +1103,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
+            self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
@@ -1023,7 +1129,11 @@ class NovaSorc(Sorceress):
         self._move_and_attack((50, 25), atk_len)
         self._move_and_attack((-70, -35), atk_len)
         ### LOOT ###
+        if self._char_config["cta_available"]:
+            keyboard.send(self._skill_hotkeys["weapon_switch"])
+            wait(0.1, 0.2)
         self._picked_up_items |= self._pickit.pick_up_items(self)
+        if self._char_config["cta_available"]: keyboard.send(self._skill_hotkeys["weapon_switch"])
         return True
 
 
