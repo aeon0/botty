@@ -3,7 +3,7 @@
 # f: save_char_online_status(self):
 # f: select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
 # f: select_char(self):
-# f:  start_game(self) -> bool:
+# DONE - f:  start_game(self) -> bool:
 # - btn_play (online vs. offline)
 # - characters
 # - tabs (online vs offline)
@@ -27,8 +27,10 @@ class PlayBtn(ScreenObject):
     def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(screen, template_finder, match)
 
-class MainMenu():
-    def __init__(self, screen: Screen, template_finder: TemplateFinder) -> None:
+@Locator(ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"])
+class MainMenu(ScreenObject):
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(screen, template_finder, match)
         self._screen = screen
         self._template_finder = template_finder
         self._config = Config()

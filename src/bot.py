@@ -18,7 +18,7 @@ from template_finder import TemplateFinder
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
-from ui import UiManager, char_selector
+from ui import UiManager
 from ui import BeltManager
 from ui import CharSelector
 from pather import Pather, Location
@@ -235,7 +235,7 @@ class Bot:
     def on_create_game(self):
         # Start a game from hero selection
         self._template_finder.search_and_wait(Bot._MAIN_MENU_MARKERS, roi=self._config.ui_roi["main_menu_top_left"])
-        if not MainMenu(self._screen, self._template_finder).start_game(): return
+        if not MainMenu.start_game(): return
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
