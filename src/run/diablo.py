@@ -510,7 +510,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo()
         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-        self._picked_up_items = self._pickit.pick_up_items(self)
+        self._picked_up_items = self._pickit.pick_up_items(char=self._char)
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
 
