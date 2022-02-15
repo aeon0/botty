@@ -625,7 +625,9 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             ### ATTACK ###
-            keyboard.send(self._skill_hotkeys["redemption"])
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
