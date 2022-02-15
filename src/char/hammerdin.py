@@ -19,10 +19,10 @@ class Hammerdin(IChar):
         super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
-
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
-        self._offset_completed = False
+        #hammerdin needs to be closer to shenk to reach it with hammers
+        self._pather.offset_node(149, (70, 10))
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
@@ -55,10 +55,6 @@ class Hammerdin(IChar):
         # ass most likely we will click on some mobs and already cast hammers
         if capabilities.can_teleport_natively:
             self._do_pre_move = False
-        #hammerdin needs to be closer to shenk to reach it with hammers
-        if not self._offset_completed:
-            self._pather.offset_node(149, (70, 10))
-            self._offset_completed = True
 
     def pre_move(self):
         # select teleport if available
