@@ -9,7 +9,6 @@ from screen import Screen
 from utils.misc import wait
 import time
 from pather import Pather, Location
-import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
 
 
@@ -167,9 +166,9 @@ class Hammerdin(IChar):
         self._cast_hammers(1.6, "redemption")
         return True
     
-     ########################################################################################   
-     # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
-     ########################################################################################
+    ########################################################################################   
+    # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
+    ########################################################################################
     
     def kill_cs_trash(self, location:str) -> bool:
     
