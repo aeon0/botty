@@ -23,6 +23,7 @@ def start_or_pause_bot(controllers: Controllers):
     if controllers.game.is_running:
         controllers.game.toggle_pause_bot()
     else:
+
         # Kill any other controllers and start botty
         controllers.debugger.stop()
         controllers.game.start()
@@ -65,6 +66,7 @@ def main():
     print(f"============ Botty {__version__} [name: {config.general['name']}] ============")
     print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")
     table = BeautifulTable()
+    table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
     table.rows.append([config.advanced_options['restore_settings_from_backup_key'], "Restore D2R settings from backup"])
     table.rows.append([config.advanced_options['settings_backup_key'], "Backup D2R current settings"])
     table.rows.append([config.advanced_options['auto_settings_key'], "Adjust D2R settings"])
