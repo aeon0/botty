@@ -17,7 +17,6 @@ from ui_components.waypoint import Waypoint
 class Arcane:
     def __init__(
         self,
-        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -32,7 +31,7 @@ class Arcane:
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
-        self._chest = Chest(screen, self._char, self._template_finder, 'arcane')
+        self._chest = Chest(self._char, self._template_finder, 'arcane')
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
@@ -124,7 +123,6 @@ if __name__ == "__main__":
     from ui import UiManager
     from bot import Bot
     config = Config()
-    screen = Screen()
     game_stats = GameStats()
-    bot = Bot(screen, game_stats, False)
+    bot = Bot(game_stats, False)
     bot._arcane._find_summoner([(500, 40)])

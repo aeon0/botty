@@ -27,7 +27,6 @@ class GraphicDebuggerController:
 
     def __init__(self):
         self._config = Config()
-        self.screen = None
         self.item_finder = None
         self.template_finder = None
         self.debugger_thread = None
@@ -42,9 +41,8 @@ class GraphicDebuggerController:
         self.is_running = False
 
     def start(self):
-        self.screen = Screen()
         self.item_finder = ItemFinder()
-        self.template_finder = TemplateFinder(self.screen)
+        self.template_finder = TemplateFinder()
         if self._config.advanced_options['graphic_debugger_layer_creator']:
             self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
@@ -283,7 +281,7 @@ class GraphicDebuggerController:
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
-            img = self.screen.grab()
+            img = Screen().grab()
             # Convert the BGR image to HSV image.
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
@@ -319,7 +317,7 @@ class GraphicDebuggerController:
     def run_old_debugger(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
-            img = self.screen.grab()
+            img = Screen().grab()
             # Show item detections
             combined_img = np.zeros(img.shape, dtype="uint8")
             for key in self._config.colors:

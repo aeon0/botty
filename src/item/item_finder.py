@@ -132,11 +132,10 @@ if __name__ == "__main__":
     from screen import Screen
     from config import Config
     config = Config()
-    screen = Screen()
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
-        img = screen.grab().copy()
+        img = Screen().grab().copy()
         item_list = item_finder.search(img)
         for item in item_list:
             # print(item.name + " " + str(item.score))

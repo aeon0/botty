@@ -265,9 +265,8 @@ if __name__ == "__main__":
     from config import Config
 
     from screen import Screen
-    screen = Screen()
     ocr = Ocr()
-    img = screen.grab()
+    img = Screen().grab()
     # img = cut_roi(img, Config.ui_roi["char_selection_top"])
 
     Logger.debug("OCR result:")

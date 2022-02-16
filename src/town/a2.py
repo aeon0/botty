@@ -10,9 +10,8 @@ from utils.misc import wait
 
 
 class A2(IAct):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
         self._config = Config()
-        self._screen = screen
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
@@ -36,7 +35,7 @@ class A2(IAct):
             return False
         wait(0.3)
         def stash_is_open_func():
-            img = self._screen.grab()
+            img = Screen().grab()
             found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
             found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
             return found
@@ -68,7 +67,7 @@ class A2(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=self._config.ui_roi["left_panel_label"], inp_img=self._screen.grab()).valid
+        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=self._config.ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:

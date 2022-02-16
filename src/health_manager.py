@@ -18,11 +18,10 @@ from ui_components.merc import get_merc_health, MercIcon
 
 
 class HealthManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, template_finder: TemplateFinder):
         self._config = Config()
-        self._screen = screen
         self._template_finder = template_finder
-        self._ui_manager = UiManager(screen, self._template_finder)
+        self._ui_manager = UiManager(self._template_finder)
         self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
         self._did_chicken = False
@@ -75,7 +74,7 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        save_and_exit(self._screen, self._template_finder, self._config, does_chicken=True)
+        save_and_exit(self._template_finder, self._config, does_chicken=True)
         self._did_chicken = True
         self._pausing = True
 
@@ -88,7 +87,7 @@ class HealthManager:
             time.sleep(0.1)
             # Wait until the flag is reset by main.py
             if self._did_chicken or self._pausing: continue
-            img = self._screen.grab()
+            img = Screen().grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
             ingame_template_match = self._template_finder.search("WINDOW_INGAME_OFFSET_REFERENCE", img, roi=self._config.ui_roi["window_ingame_ref"], threshold=0.9)
             if ingame_template_match.valid:
@@ -118,7 +117,7 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                _, m = MercIcon.detect(self._screen, self._template_finder, img)
+                _, m = MercIcon.detect(self._template_finder)
                 if m.valid:
                     merc_health_percentage = get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
@@ -140,10 +139,9 @@ if __name__ == "__main__":
     import keyboard
     import os
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    belt_manager = BeltManager(screen, template_finder)
-    manager = HealthManager(screen, template_finder)
+    template_finder = TemplateFinder()
+    belt_manager = BeltManager(template_finder)
+    manager = HealthManager(template_finder)
     manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")

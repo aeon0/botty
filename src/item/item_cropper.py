@@ -87,11 +87,10 @@ if __name__ == "__main__":
     from screen import Screen
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    screen = Screen()
     cropper = ItemCropper()
 
     while 1:
-        img = screen.grab().copy()
+        img = Screen().grab().copy()
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi

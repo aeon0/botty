@@ -33,9 +33,8 @@ class Npc:
     ANYA = "anya"
 
 class NpcManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, template_finder: TemplateFinder):
         self._config = Config()
-        self._screen = screen
         self._template_finder = template_finder
         self._npcs = {
             Npc.QUAL_KEHK: {
@@ -235,7 +234,7 @@ class NpcManager:
         start = time.time()
         attempts = 0
         while (time.time() - start) < 35:
-            img = self._screen.grab()
+            img = Screen().grab()
             results = []
             for key in self._npcs[npc_key]["template_group"]:
                 if attempts == 0 and "roi" in self._npcs[npc_key] and (time.time() - start) < 6:
@@ -263,15 +262,15 @@ class NpcManager:
             for result in results:
                 mouse.move(*result["pos"], randomize=3, delay_factor=[0.3, 0.5])
                 wait(0.2, 0.3)
-                _, filtered_inp_w = color_filter(self._screen.grab(), self._config.colors["white"])
-                _, filtered_inp_g = color_filter(self._screen.grab(), self._config.colors["gold"])
+                _, filtered_inp_w = color_filter(Screen().grab(), self._config.colors["white"])
+                _, filtered_inp_g = color_filter(Screen().grab(), self._config.colors["gold"])
                 res_w = self._template_finder.search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
                 res_g = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
                 if res_w:
                     mouse.click(button="left")
                     attempts += 1
                     wait(0.7, 1.0)
-                    _, filtered_inp = color_filter(self._screen.grab(), self._config.colors["gold"])
+                    _, filtered_inp = color_filter(Screen().grab(), self._config.colors["gold"])
                     res = self._template_finder.search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
                     if res:
                         return True
@@ -280,7 +279,7 @@ class NpcManager:
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
-        img = self._screen.grab()
+        img = Screen().grab()
         _, filtered_inp_w = color_filter(img, self._config.colors["white"])
         res = self._template_finder.search(
             self._npcs[npc_key]["action_btns"][action_btn_key]["white"],
@@ -313,8 +312,7 @@ if __name__ == "__main__":
     import keyboard
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    npc_manager = NpcManager(screen, template_finder)
+    template_finder = TemplateFinder()
+    npc_manager = NpcManager(template_finder)
     npc_manager.open_npc_menu(Npc.MALAH)
     # npc_manager.press_npc_btn(Npc.ORMUS, "trade")

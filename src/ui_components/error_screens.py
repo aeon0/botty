@@ -1,5 +1,4 @@
 # - server issues?
-from screen import Screen
 from template_finder import TemplateFinder, TemplateMatch
 from ui_components import ScreenObject, Locator
 from logger import Logger
@@ -8,8 +7,8 @@ import keyboard
 
 @Locator(ref=["SERVER_ISSUES"])
 class ServerError(ScreenObject):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
 
     def handle_error(self) -> bool:
         Logger.warning("Server connection issue. waiting 20s")

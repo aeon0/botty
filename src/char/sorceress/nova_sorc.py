@@ -6,6 +6,7 @@ from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
 from pather import Location
+from screen import Screen
 
 
 class NovaSorc(Sorceress):
@@ -28,7 +29,7 @@ class NovaSorc(Sorceress):
             mouse.release(button="right")
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = self._screen.convert_abs_to_monitor(abs_move)
+        pos_m = Screen().convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._nova(atk_len)
@@ -82,7 +83,7 @@ class NovaSorc(Sorceress):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_static(0.6)
         self._nova(atk_len)
@@ -92,7 +93,7 @@ class NovaSorc(Sorceress):
 
     def kill_summoner(self) -> bool:
         # move mouse to below altar
-        pos_m = self._screen.convert_abs_to_monitor((0, 20))
+        pos_m = Screen().convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         # Attack
         self._nova(self._char_config["atk_len_arc"])
@@ -114,8 +115,7 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = NovaSorc(config.nova_sorc, config.char, screen, t_finder, ui_manager, pather)
+    t_finder = TemplateFinder()
+    pather = Pather(t_finder)
+    ui_manager = UiManager(t_finder)
+    char = NovaSorc(config.nova_sorc, config.char, t_finder, ui_manager, pather)

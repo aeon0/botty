@@ -13,9 +13,9 @@ from pather import Pather, Location
 
 
 class Basic(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Character")
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
 
@@ -33,7 +33,7 @@ class Basic(IChar):
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:
-            if is_right_skill_active(super()._config, super()._screen):
+            if is_right_skill_active(super()._config):
                 wait(0.05, 0.1)
                 mouse.click(button="right")
             else:
@@ -59,7 +59,7 @@ class Basic(IChar):
         super().pre_move()
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = self._screen.convert_abs_to_monitor(abs_move)
+        pos_m = Screen().convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_attack_pattern(atk_len)
@@ -128,7 +128,7 @@ class Basic(IChar):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_attack_pattern(self._char_config["atk_len_nihlathak"] * 0.4)
         self._cast_attack_pattern(0.8)
@@ -147,8 +147,7 @@ if __name__ == "__main__":
     from config import Config
     from ui.ui_manager import UiManager
     config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = Basic(config.basic, config.char, screen, t_finder, ui_manager, pather)
+    t_finder = TemplateFinder()
+    pather = Pather(t_finder)
+    ui_manager = UiManager(t_finder)
+    char = Basic(config.basic, config.char, t_finder, ui_manager, pather)
