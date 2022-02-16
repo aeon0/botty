@@ -6,7 +6,7 @@ import math
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui_components.skills import has_tps, is_right_skill_active, is_right_skill_selected
+from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -109,7 +109,7 @@ class IChar:
 
     def is_low_on_teleport_charges(self):
         img = self._screen.grab()
-        charges_remaining = self.get_skill_charges()
+        charges_remaining = get_skill_charges(self._screen, self._config, self._ocr, img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -151,36 +151,6 @@ class IChar:
            self._screen,
            self._config,
            ["TELE_ACTIVE", "TELE_INACTIVE"])
-
-    def get_skill_charges(self, img: np.ndarray = None):
-        if img is None:
-            img = self._screen.grab()
-        x, y, w, h = self._config.ui_roi["skill_right"]
-        x = x - 1
-        y = y + round(h/2)
-        h = round(h/2 + 5)
-        img = cut_roi(img, [x, y, w, h])
-        mask, _ = color_filter(img, self._config.colors["skill_charges"])
-        ocr_result = self._ocr.image_to_text(
-            images = mask,
-            model = "engd2r_inv_th",
-            psm = 7,
-            word_list = "",
-            scale = 1.4,
-            crop_pad = False,
-            erode = False,
-            invert = True,
-            threshold = 0,
-            digits_only = True,
-            fix_regexps = False,
-            check_known_errors = False,
-            check_wordlist = False,
-            word_match_threshold = 0.9
-        )[0]
-        try:
-            return int(ocr_result.text)
-        except:
-            return None
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
