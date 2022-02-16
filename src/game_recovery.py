@@ -5,6 +5,7 @@ from death_manager import DeathManager
 from ui import UiManager
 import time
 import keyboard
+from ui_components.ingame_menu import save_and_exit
 
 from utils.misc import set_d2r_always_on_top
 from utils.custom_mouse import mouse
@@ -43,7 +44,7 @@ class GameRecovery:
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
             template_match = self._template_finder.search(["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"], self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85)
             if template_match.valid:
-                self._ui_manager.save_and_exit()
+                save_and_exit(self._screen, self._template_finder, self._config, False)
             else:
                 keyboard.send("esc")
             time.sleep(1)
