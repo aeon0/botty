@@ -1,19 +1,11 @@
-# f: has_char_template_saved(self):
-# f: save_char_template(self):
-# f: save_char_online_status(self):
-# f: select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
-# f: select_char(self):
+
 # DONE - f:  start_game(self) -> bool:
-# - btn_play (online vs. offline)
-# - characters
-# - tabs (online vs offline)
-import keyboard
+
 import time
 
 from config import Config
 from screen import Screen
 from template_finder import TemplateFinder, TemplateMatch
-from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
 
@@ -27,13 +19,15 @@ class PlayBtn(ScreenObject):
     def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(screen, template_finder, match)
 
-@Locator(ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"])
+    def play_active(self) -> bool:
+        return self.match.name == "PLAY_BTN"
+
+@Locator(ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"], roi="main_menu_top_left")
 class MainMenu(ScreenObject):
     def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(screen, template_finder, match)
         self._screen = screen
         self._template_finder = template_finder
-        self._config = Config()
 
     def start_game(self) -> bool:
         """
@@ -45,7 +39,7 @@ class MainMenu(ScreenObject):
         while True:
             res, m = PlayBtn.detect(self._screen, self._template_finder)
             if m.valid:
-                if m.name == "PLAY_BTN":
+                if res.play_active:
                     # found active play button
                     Logger.debug(f"Found Play Btn")
                     res.select_self()
@@ -60,11 +54,12 @@ class MainMenu(ScreenObject):
                 Logger.error("start_game: Active play button never appeared")
                 return False
 
-        difficulty=self._config.general["difficulty"].upper()
+        difficulty=Config.general["difficulty"].upper()
+        # TODO: need to revise logic here
         if difficulty == "NORMAL": Difficulty = Normal
         elif difficulty == "NIGHTMARE": Difficulty = Nightmare
         elif difficulty == "HELL": Difficulty = Hell
-        else: Logger.error(f"Invalid difficulty: {self._config.general['difficulty']}")
+        else: Logger.error(f"Invalid difficulty: {Config.general['difficulty']}")
         start = time.time()
         while True:
             #look for difficulty select
@@ -75,21 +70,17 @@ class MainMenu(ScreenObject):
             #check for loading screen
             _, m = Loading.detect(self._screen, self._template_finder)
             if m.valid:
-                Logger.debug("Found loading screen rather than difficulty select, normal difficulty")
+                Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
                 break
             else:
                 wait(1,2)
             # check for server issue
             res, m = ServerError.detect(self._screen, self._template_finder)
             if m.valid:
-                Logger.warning("Server connection issue. waiting 20s")
-                res.select_self()
-                wait(1, 2)
-                keyboard.send("esc")
-                wait(18, 22)
-                return self.start_game()
+                res.handle_error()
+                return self.start_game(self)
 
             if time.time() - start > 15:
                 Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
-                return self.start_game()
+                return self.start_game(self)
         return True
