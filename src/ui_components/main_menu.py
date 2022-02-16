@@ -76,9 +76,9 @@ class MainMenu(ScreenObject):
             res, m = ServerError.detect(self._template_finder)
             if m.valid:
                 res.handle_error()
-                return self.start_game(self)
+                return self.start_game()
 
             if time.time() - start > 15:
                 Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
-                return self.start_game(self)
+                return self.start_game()
         return True
