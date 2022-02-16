@@ -21,7 +21,7 @@ from logger import Logger
 import cv2
 import time
 import numpy as np
-from utils.misc import cut_roi
+from utils.misc import cut_roi, color_filter
 
 def is_left_skill_selected(template_finder, screen, config, template_list: List[str]) -> bool:
     """
@@ -77,3 +77,33 @@ def is_right_skill_selected(template_finder, screen, config, template_list: List
         if template_finder.search(template, screen.grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
             return True
     return False
+
+def get_skill_charges(screen, config, ocr, img: np.ndarray = None):
+    if img is None:
+        img = screen.grab()
+    x, y, w, h = config.ui_roi["skill_right"]
+    x = x - 1
+    y = y + round(h/2)
+    h = round(h/2 + 5)
+    img = cut_roi(img, [x, y, w, h])
+    mask, _ = color_filter(img, config.colors["skill_charges"])
+    ocr_result = ocr.image_to_text(
+        images = mask,
+        model = "engd2r_inv_th",
+        psm = 7,
+        word_list = "",
+        scale = 1.4,
+        crop_pad = False,
+        erode = False,
+        invert = True,
+        threshold = 0,
+        digits_only = True,
+        fix_regexps = False,
+        check_known_errors = False,
+        check_wordlist = False,
+        word_match_threshold = 0.9
+    )[0]
+    try:
+        return int(ocr_result.text)
+    except:
+        return None
