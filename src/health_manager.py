@@ -5,6 +5,7 @@ from pather import Location
 import cv2
 import time
 import keyboard
+from ui_components.globes import get_health, get_mana
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, color_filter, wait
 from logger import Logger
@@ -28,7 +29,7 @@ class HealthManager:
         self._last_rejuv = time.time()
         self._last_health = time.time()
         self._last_mana = time.time()
-        self._last_merc_heal = time.time()
+        self._last_merc_healh = time.time()
         self._callback = None
         self._pausing = True
         self._last_chicken_screenshot = None
@@ -57,30 +58,6 @@ class HealthManager:
             if self._pausing != prev_value:
                 debug_str = "pausing" if self._pausing else "active"
                 Logger.info(f"Health Manager is now {debug_str}")
-
-    @staticmethod
-    def get_health(img: np.ndarray) -> float:
-        config = Config()
-        health_rec = [config.ui_pos["health_left"], config.ui_pos["health_top"], config.ui_pos["health_width"], config.ui_pos["health_height"]]
-        health_img = cut_roi(img, health_rec)
-        # red mask
-        mask1, _ = color_filter(health_img, [np.array([0, 110, 20]), np.array([2, 255, 255])])
-        mask2, _ = color_filter(health_img, [np.array([178, 110, 20]), np.array([180, 255, 255])])
-        mask = cv2.bitwise_or(mask1, mask2)
-        health_percentage = (float(np.sum(mask)) / mask.size) * (1/255.0)
-        # green (in case of poison)
-        mask, _ = color_filter(health_img, [np.array([47, 90, 20]), np.array([54, 255, 255])])
-        health_percentage_green = (float(np.sum(mask)) / mask.size) * (1/255.0)
-        return max(health_percentage, health_percentage_green)
-
-    @staticmethod
-    def get_mana(img: np.ndarray) -> float:
-        config = Config()
-        mana_rec = [config.ui_pos["mana_left"], config.ui_pos["mana_top"], config.ui_pos["mana_width"], config.ui_pos["mana_height"]]
-        mana_img = cut_roi(img, mana_rec)
-        mask, _ = color_filter(mana_img, [np.array([117, 120, 20]), np.array([121, 255, 255])])
-        mana_percentage = (float(np.sum(mask)) / mask.size) * (1/255.0)
-        return mana_percentage
 
     def _do_chicken(self, img):
         if self._callback is not None:
@@ -115,8 +92,8 @@ class HealthManager:
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
             ingame_template_match = self._template_finder.search("WINDOW_INGAME_OFFSET_REFERENCE", img, roi=self._config.ui_roi["window_ingame_ref"], threshold=0.9)
             if ingame_template_match.valid:
-                health_percentage = self.get_health(img)
-                mana_percentage = self.get_mana(img)
+                health_percentage = get_health(img)
+                mana_percentage = get_mana(img)
                 # check rejuv
                 success_drink_rejuv = False
                 last_drink = time.time() - self._last_rejuv
