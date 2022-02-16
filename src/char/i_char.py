@@ -6,7 +6,7 @@ import math
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected
+from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected, select_tp
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -139,18 +139,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-       if self._skill_hotkeys["teleport"] and not is_right_skill_selected(
-           self._template_finder,
-           self._screen,
-           self._config,
-           ["TELE_ACTIVE", "TELE_INACTIVE"]):
-            keyboard.send(self._skill_hotkeys["teleport"])
-            wait(0.1, 0.2)
-       return is_right_skill_selected(
-           self._template_finder,
-           self._screen,
-           self._config,
-           ["TELE_ACTIVE", "TELE_INACTIVE"])
+        return select_tp(self._skill_hotkeys["Teleport"], self._template_finder, self._screen, self._config)
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
