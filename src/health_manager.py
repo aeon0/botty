@@ -12,6 +12,7 @@ from screen import Screen
 import numpy as np
 import time
 from config import Config
+from ui_components.ingame_menu import save_and_exit
 
 
 class HealthManager:
@@ -106,7 +107,7 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        self._ui_manager.save_and_exit(does_chicken=True)
+        save_and_exit(self._screen, self._template_finder, self._config, does_chicken=True)
         self._did_chicken = True
         self._pausing = True
 

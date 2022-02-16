@@ -34,6 +34,7 @@ from char.basic_ranged import Basic_Ranged
 
 from ui_components.main_menu import MainMenu
 from ui_components.character_select import SelectedCharacter, OnlineStatus, SelectCharacter
+from ui_components.ingame_menu import save_and_exit
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -374,7 +375,7 @@ class Bot:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
         self._curr_loc = False
         self._pre_buffed = False
-        self._ui_manager.save_and_exit()
+        save_and_exit(self._screen, self._template_finder, self._config, False)
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if self._config.general["randomize_runs"]:
