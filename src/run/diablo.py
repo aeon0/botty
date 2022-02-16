@@ -92,7 +92,7 @@ class Diablo:
                     roi = self._config.ui_roi["reduce_to_center"]
                     img = self._screen.grab()
                     template_match = self._template_finder.search(
-                        ["BLUE_PORTAL","BLUE_PORTAL_2"],
+                        "BLUE_PORTAL",
                         img,
                         threshold=0.66,
                         roi=roi,
@@ -335,7 +335,7 @@ class Diablo:
         if not self._loop_pentagram("dia_b1s_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("CS TRASH: B calibrated at PENTAGRAM")
-        
+
         self._pather.traverse_nodes_fixed("dia_trash_c", self._char)
         Logger.debug("CS TRASH: C Pent to LC")
         self._char.kill_cs_trash("trash_c")
@@ -344,7 +344,7 @@ class Diablo:
         if not self._loop_pentagram("dia_c1f_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("CS TRASH: C calibrated at PENTAGRAM")
-    
+
 
     #CHECK SEAL LAYOUT
     def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]):
@@ -467,7 +467,7 @@ class Diablo:
         if do_pre_buff: self._char.pre_buff()
 
         #Clear Trash in CS
-        
+
         if self._config.char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
         else:
@@ -483,14 +483,14 @@ class Diablo:
         """
         #OLD APPROACH HAS 80% SUCCESS RATE
         if self._config.char["kill_cs_trash"]: self._trash_seals()
-        
+
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
         if not self._pather.traverse_nodes([602], self._char): return False
         if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
         if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
-        
+
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char): return False
@@ -536,7 +536,7 @@ if __name__ == "__main__":
     # Efficiency overview.
     # Clear Trash Entrance Layout A: 91 % efficiency
     # Clear Trash Entrance Layout B: 80 % efficiency
-    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain | new issue, if merc kills mobs at edge of screen & 
+    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain | new issue, if merc kills mobs at edge of screen &
     # Clear Seals: 98% efficiency. Root Cause: templates covered by corpses or getting lost when tele back to pentagram. Fix: Optimize templates used at nodes.
     # LC A failing -> add template of seal to the calibration node. in case she overshoots to the seal, it will rubber-band her back to LC node.
     # Kill Dia with Trash: >70%

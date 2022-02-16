@@ -13,6 +13,7 @@ import numpy as np
 import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
+from ui_components.merc import get_merc_health, MercIcon
 
 
 class HealthManager:
@@ -27,7 +28,7 @@ class HealthManager:
         self._last_rejuv = time.time()
         self._last_health = time.time()
         self._last_mana = time.time()
-        self._last_merc_healh = time.time()
+        self._last_merc_heal = time.time()
         self._callback = None
         self._pausing = True
         self._last_chicken_screenshot = None
@@ -80,16 +81,6 @@ class HealthManager:
         mask, _ = color_filter(mana_img, [np.array([117, 120, 20]), np.array([121, 255, 255])])
         mana_percentage = (float(np.sum(mask)) / mask.size) * (1/255.0)
         return mana_percentage
-
-    @staticmethod
-    def get_merc_health(img: np.ndarray) -> float:
-        config = Config()
-        health_rec = [config.ui_pos["merc_health_left"], config.ui_pos["merc_health_top"], config.ui_pos["merc_health_width"], config.ui_pos["merc_health_height"]]
-        merc_health_img = cut_roi(img, health_rec)
-        merc_health_img = cv2.cvtColor(merc_health_img, cv2.COLOR_BGR2GRAY)
-        _, health_tresh = cv2.threshold(merc_health_img, 5, 255, cv2.THRESH_BINARY)
-        merc_health_percentage = (float(np.sum(health_tresh)) / health_tresh.size) * (1/255.0)
-        return merc_health_percentage
 
     def _do_chicken(self, img):
         if self._callback is not None:
@@ -150,19 +141,19 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], img, roi=self._config.ui_roi["merc_icon"]).valid
-                if merc_alive:
-                    merc_health_percentage = self.get_merc_health(img)
-                    last_drink = time.time() - self._last_merc_healh
+                _, m = MercIcon.detect(self._screen, self._template_finder)
+                if m.valid:
+                    merc_health_percentage = get_merc_health(img)
+                    last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < self._config.char["merc_chicken"]:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img)
                     if merc_health_percentage < self._config.char["heal_rejuv_merc"] and last_drink > 4.0:
                         self._belt_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_healh = time.time()
+                        self._last_merc_heal = time.time()
                     elif merc_health_percentage < self._config.char["heal_merc"] and last_drink > 7.0:
                         self._belt_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_healh = time.time()
+                        self._last_merc_heal = time.time()
         Logger.debug("Stop health monitoring")
 
 

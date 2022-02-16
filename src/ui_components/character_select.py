@@ -1,8 +1,8 @@
-# f: has_char_template_saved(self):
-# f: save_char_template(self):
-# f: save_char_online_status(self):
-# f: select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
-# f: select_char(self):
+# DONE: f: has_char_template_saved(self):
+# DONE: f: save_char_template(self):
+# DONE: f: save_char_online_status(self):
+# DONE: f: select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
+# DONE: f: select_char(self):
 
 import cv2
 import numpy as np
