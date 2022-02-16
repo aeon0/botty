@@ -188,9 +188,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         ################
@@ -208,9 +211,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
 
@@ -225,10 +231,13 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
-            self._redemption(1)
+            #self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
@@ -241,9 +250,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
@@ -258,9 +270,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             #Move to Layout Check
             if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
@@ -279,9 +294,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
 
@@ -294,9 +312,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
             if not self._pather.traverse_nodes([674], self): return False#, time_out=3)
@@ -310,9 +331,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([675], self): return False#, time_out=3) # Re-adjust itself
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
@@ -327,9 +351,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         # TRASH LAYOUT B
@@ -343,9 +370,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_02": #node 682
@@ -361,9 +391,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_03": #node 683
@@ -382,9 +415,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_04": #node 686 - Hall3
@@ -403,15 +439,21 @@ class NovaSorc(Sorceress):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
             self._nova(atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
             self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -429,10 +471,13 @@ class NovaSorc(Sorceress):
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
             self._nova(atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
@@ -444,9 +489,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
@@ -458,9 +506,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###############
@@ -470,16 +521,10 @@ class NovaSorc(Sorceress):
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
             ### APPROACH ###
             ### ATTACK ###
-            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            #self._redemption(1)
+            # we loot at boss
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
@@ -490,9 +535,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
@@ -504,9 +552,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ##################
@@ -522,11 +573,14 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
@@ -537,9 +591,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
@@ -551,9 +608,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###########
@@ -570,11 +630,14 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
 
         elif location == "A1-L_02":  #node 612 seal layout A1-L: center
@@ -587,9 +650,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
 
             # we loot at boss
 
@@ -603,9 +669,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
@@ -614,7 +683,7 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([614], self): return False
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
 
             # we loot at boss
 
@@ -623,7 +692,7 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([613, 615], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
 
             # we loot at boss
 
@@ -644,9 +713,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
 
             # we loot at boss
 
@@ -660,9 +732,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
 
             # we loot at boss
 
@@ -670,15 +745,15 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
     
         elif location == "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
             if not self._pather.traverse_nodes([625], self): return False # , time_out=3):
         
@@ -686,7 +761,7 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
             self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
 
@@ -698,32 +773,32 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_02": 
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_03": 
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
             ### APPROACH ###
             if not self._pather.traverse_nodes([634], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             
 
         ###########
@@ -734,25 +809,25 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_02": 
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_03":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
             ### APPROACH ###
@@ -760,7 +835,7 @@ class NovaSorc(Sorceress):
             if not self._pather.traverse_nodes([644], self): return False # , time_out=3):
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
         
         ###########
@@ -771,25 +846,25 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "C1-F_02": 
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
         
         elif location == "C1-F_03": 
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_seal1":
             ### APPROACH ###
@@ -804,9 +879,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             
@@ -821,9 +899,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
 
@@ -835,25 +916,25 @@ class NovaSorc(Sorceress):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_02": #skipped
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_03": #skipped
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_seal1":
             ### APPROACH ###
@@ -861,9 +942,9 @@ class NovaSorc(Sorceress):
             self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
             ### ATTACK ###
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in nova_sorc.py for this node " + location + " - skipping to shorten run.")
             """
             atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -873,7 +954,7 @@ class NovaSorc(Sorceress):
             self._move_and_attack((50, 25), atk_len)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             """
 
@@ -883,15 +964,26 @@ class NovaSorc(Sorceress):
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
-            atk_len = self._char_config["atk_len_cs_trashmobs"] * 0.3
+            atk_len = self._char_config["atk_len_diablo_infector"]
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (-75, -50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (10, 10)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
 
@@ -905,9 +997,12 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
     
@@ -916,105 +1011,95 @@ class NovaSorc(Sorceress):
     def kill_vizier(self, seal_layout:str) -> bool:
         atk_len = self._char_config["atk_len_diablo_vizier"]
         if seal_layout == "A1-L":
-            ### APPROACH ###
-            if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            ### APPROACH ###          
+            
             ### ATTACK ###
-
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len * 0.3)
-            self._move_and_attack((50, 25), atk_len * 0.3)
-            self._move_and_attack((-70, -35), atk_len) * 0.3
-            self._redemption(1)
-            vizier_pos_abs = self._pather.find_abs_node_pos(611, self._screen.grab())
-            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config[atk_len] * 0.5)):
-                self._chain_lightning(cast_pos_abs, spray=90)
+            #self._redemption(1)
+            cast_pos_abs = (60,200)
+            # self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=75)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=75)
             pos_m = self._screen.convert_abs_to_monitor((150, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
 
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
+            if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len * 0.3)
-            self._move_and_attack((50, 25), atk_len * 0.3)
-            self._move_and_attack((-70, -35), atk_len) * 0.3
-            self._redemption(1)
-            vizier_pos_abs = self._pather.find_abs_node_pos(612, self._screen.grab())
-            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config[atk_len] * 0.5)):
-                self._chain_lightning(cast_pos_abs, spray=90)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
+            #self._redemption(1)
+            cast_pos_abs = (125,225)
+            # self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
             pos_m = self._screen.convert_abs_to_monitor((150, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
 
+
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([612], self): return False
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3): # recalibrate after loot
 
         elif seal_layout == "A2-Y":
             ### APPROACH ###
-            if not self._pather.traverse_nodes([627, 622], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes_fixed("dia_a2y_626_625", self): return False
+            if not self._pather.traverse_nodes([624], self): return False
+            
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/3")
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len * 0.3)
-            self._move_and_attack((50, 25), atk_len * 0.3)
-            self._move_and_attack((-70, -35), atk_len) * 0.3
-            self._redemption(1)
-            vizier_pos_abs = self._pather.find_abs_node_pos(623, self._screen.grab())
-            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config[atk_len] * 0.3)):
-                self._chain_lightning(cast_pos_abs, spray=90)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
+            #self._redemption(1)
+            cast_pos_abs = (150,0) # fromn 625 to 624, 623 & 622
+            #self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
             pos_m = self._screen.convert_abs_to_monitor((150, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
 
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/3")
-            if not self._pather.traverse_nodes([623], self): return False # , time_out=3):
+            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
+            if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
+            Logger.info(seal_layout + ": Hop!")
+            if not self._pather.traverse_nodes([622], self): return False # , time_out=3):
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len * 0.3)
-            self._move_and_attack((50, 25), atk_len * 0.3)
-            self._move_and_attack((-70, -35), atk_len) * 0.3
-            self._redemption(1)
-            vizier_pos_abs = self._pather.find_abs_node_pos(624, self._screen.grab())
-            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config[atk_len] * 0.3)):
-                self._chain_lightning(cast_pos_abs, spray=90)
-            pos_m = self._screen.convert_abs_to_monitor((150, 50))
-            self.pre_move()
-            self.move(pos_m, force_move=True)
-            
-            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
-            if not self._pather.traverse_nodes([624], self): return False # , time_out=3):
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len * 0.3)
-            self._move_and_attack((50, 25), atk_len * 0.3)
-            self._move_and_attack((-70, -35), atk_len) * 0.3
-            self._redemption(1)
-            vizier_pos_abs = self._pather.find_abs_node_pos(622, self._screen.grab())
-            cast_pos_abs = [vizier_pos_abs[0] * 0.9, vizier_pos_abs[1] * 0.9]
-            for _ in range(int(self._char_config[atk_len] * 0.3)):
-                self._chain_lightning(cast_pos_abs, spray=90)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            self._move_and_attack((-70, -35), atk_len)
+            #self._redemption(1)
+            cast_pos_abs = (-250,-150) # fromn 624 to 623 & 622
+            #self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
             pos_m = self._screen.convert_abs_to_monitor((150, 50))
             self.pre_move()
             self.move(pos_m, force_move=True)
 
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False 
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
@@ -1034,100 +1119,93 @@ class NovaSorc(Sorceress):
         atk_len = self._char_config["atk_len_diablo_deseis"]
         if seal_layout == "B1-S":
             ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
-            nodes1 = [632]
-            nodes2 = [631]
-            nodes3 = [632]
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 1/2")
+            self._pather.traverse_nodes([633], self, time_out=3)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, time_out=3)
+            #self._redemption(1)
+            cast_pos_abs = (-450, 90)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+
+            Logger.debug(seal_layout + ": Attacking De Seis at position 2/2")
+            self._pather.traverse_nodes([632], self, time_out=3)
             pos_m = self._screen.convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, time_out=3)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, time_out=3)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            #self._redemption(1)
+            cast_pos_abs = (-250, 200)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=45)
+            self._lightning(cast_pos_abs, spray=75)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
+            self._pather.traverse_nodes([631], self, time_out=3)
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            self._pather.traverse_nodes([631, 632], self, time_out=3)
             self._picked_up_items |= self._pickit.pick_up_items(self)     
+            self._pather.traverse_nodes([632], self, time_out=3)
 
         elif seal_layout == "B2-U":
             ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
-            #self._pather.traverse_nodes_fixed("dia_b2u_seal_deseis", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
-            nodes1 = [640]
-            nodes2 = [646]
-            nodes3 = [641]
+            #clear 643
+            Logger.debug(seal_layout + ": Clearing Landing Node")
+            cast_pos_abs = (-190,120)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=75)
+            self._lightning(cast_pos_abs, spray=50)
+        
+
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            Logger.debug(seal_layout + ": Attacking De Seis at position 1/2")
+            self._pather.traverse_nodes_fixed("dia_b2u_644_643", self)
+            #self._pather.traverse_nodes(643, self, time_out=3)
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, time_out=3)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+            #self._redemption(1)
+            cast_pos_abs = (-190,120)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=45)
+            self._lightning(cast_pos_abs, spray=75)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+
+            
+            Logger.debug(seal_layout + ": Attacking De Seis at position 2/2")
+            self._pather.traverse_nodes_fixed("dia_b2u_644_643", self)
+            #self._pather.traverse_nodes([641], self, time_out=3)
             self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, time_out=3)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, time_out=3)
-            pos_m = self._screen.convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._cast_static(0.6)
-            self._nova(atk_len)
-            self._move_and_attack((50, 25), atk_len)
-            self._move_and_attack((-70, -35), atk_len)
+            #self._redemption(1)
+            cast_pos_abs = (-190,120)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=45)
+            self._lightning(cast_pos_abs, spray=75)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
 
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
-            if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
-            ### LOOT ###
-            self._redemption(1)
+            if not self._pather.traverse_nodes([641], self): return False # , time_out=3):    
+            if not self._pather.traverse_nodes([643], self): return False # , time_out=3):
             self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([646], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([643], self): return False # , time_out=3):
             if not self._pather.traverse_nodes([640], self): return False # , time_out=3):
-            ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
-        
+            if not self._pather.traverse_nodes([640], self): return False # , time_out=3):
+
         else:
             Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
@@ -1146,9 +1224,20 @@ class NovaSorc(Sorceress):
             self._cast_static(0.6)
             self._nova(atk_len)
             self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._move_and_attack((-70, -35), atk_len)
+            self._nova(atk_len)
+            self._move_and_attack((50, 25), atk_len)
+            cast_pos_abs = (0, 0)
+            self._chain_lightning(cast_pos_abs, spray=90)
+            self._lightning(cast_pos_abs, spray=50)
+            self._chain_lightning(cast_pos_abs, spray=90)
             self._move_and_attack((-70, -35), atk_len)
             ### LOOT ###
-            self._redemption(1)
+            #self._redemption(1)
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
@@ -1165,6 +1254,7 @@ class NovaSorc(Sorceress):
     def kill_diablo(self) -> bool:
         ### APPROACH ###
         ### ATTACK ###
+        wait(1)
         atk_len = self._char_config["atk_len_diablo"]
         Logger.debug("Attacking Diablo at position 1/1")
         pos_m = self._screen.convert_abs_to_monitor((0, 0))
@@ -1172,13 +1262,21 @@ class NovaSorc(Sorceress):
         self._cast_static(0.6)
         self._nova(atk_len)
         self._move_and_attack((50, 25), atk_len)
+        cast_pos_abs = (80, -120)
+        self._chain_lightning(cast_pos_abs, spray=90)
+        self._lightning(cast_pos_abs, spray=50)
+        self._move_and_attack((-70, -35), atk_len)
+        wait(2)
+        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._nova(atk_len)
+        self._move_and_attack((50, 25), atk_len)
+        cast_pos_abs = (80, -120)
+        self._chain_lightning(cast_pos_abs, spray=90)
+        self._lightning(cast_pos_abs, spray=50)
         self._move_and_attack((-70, -35), atk_len)
         ### LOOT ###
-        if self._char_config["cta_available"]:
-            keyboard.send(self._skill_hotkeys["weapon_switch"])
-            wait(0.1, 0.2)
         self._picked_up_items |= self._pickit.pick_up_items(self)
-        if self._char_config["cta_available"]: keyboard.send(self._skill_hotkeys["weapon_switch"])
         return True
 
 

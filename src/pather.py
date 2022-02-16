@@ -748,7 +748,7 @@ if __name__ == "__main__":
     t_finder = TemplateFinder(screen)
     pather = Pather(screen, t_finder)
 
-    #display_all_nodes(pather, "DIA_TRASH_")
+    display_all_nodes(pather, "SHENK")
 
     # # changing node pos and generating new code
     # code = ""
@@ -765,5 +765,5 @@ if __name__ == "__main__":
     char.discover_capabilities()
 
    
-    #pather.traverse_nodes([602], char)
+    #pather.traverse_nodes([633], char)
     #pather.traverse_nodes_fixed("dia_trash_c", char)
