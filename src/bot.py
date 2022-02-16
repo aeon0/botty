@@ -9,6 +9,7 @@ from copy import copy
 from typing import Union
 from collections import OrderedDict
 from transmute import Transmute
+from ui_components.globes import get_health, get_mana
 from ui_components.skills import has_tps
 from utils.misc import wait
 from game_stats import GameStats
@@ -287,7 +288,7 @@ class Bot:
         # Check if should need some healing
         img = self._screen.grab()
         buy_pots = self._belt_manager.should_buy_pots()
-        if HealthManager.get_health(img) < 0.6 or HealthManager.get_mana(img) < 0.2 or buy_pots:
+        if get_health(img) < 0.6 or get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
                 pot_needs = self._belt_manager.get_pot_needs()
