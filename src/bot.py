@@ -20,7 +20,6 @@ from item import ItemFinder
 from item.pickit import PickIt
 from ui import UiManager
 from ui import BeltManager
-from ui import CharSelector
 from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
@@ -34,6 +33,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 
 from ui_components.main_menu import MainMenu
+from ui_components.character_select import SelectedCharacter, OnlineStatus, SelectCharacter
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -126,7 +126,6 @@ class Bot:
         self._pausing = False
         self._current_threads = []
         self._ran_no_pickup = False
-        self._char_selector = CharSelector(self._screen, self._template_finder)
         self._previous_run_failed = False
 
         # Create State Machine
@@ -224,11 +223,11 @@ class Bot:
     def on_select_character(self):
         if self._config.general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
-            if self._char_selector.has_char_template_saved():
-                self._char_selector.select_char()
+            if SelectedCharacter.has_char_template_saved():
+                SelectCharacter(self._screen, self._template_finder).select_char()
             else:
-                self._char_selector.save_char_online_status()
-                self._char_selector.save_char_template()
+                SelectCharacter(self._screen, self._template_finder).save_char_online_status()
+                SelectCharacter(self._screen, self._template_finder).save_char_template()
 
         self.trigger_or_stop("create_game")
 

@@ -16,101 +16,127 @@ from screen import Screen
 from template_finder import TemplateFinder, TemplateMatch
 from utils.misc import wait
 from logger import Logger
+from ocr import Ocr
 
 from ui_components import ScreenObject, Locator
 
-@Locator(ref=["CHARACTER_STATE_ONLINE", "CHARACTER_STATE_OFFLINE"], roi="character_select")
+@Locator(ref=["CHARACTER_STATE_ONLINE", "CHARACTER_STATE_OFFLINE"], roi="character_online_status", best_match = True)
 class OnlineStatus(ScreenObject):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
-
-@Locator(ref=["CHARACTER_ACTIVE"], roi="character_select", threshold=0.8)
-class ActiveCharacter(ScreenObject):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
-
-class SavedCharacter:
-    _last_char_template = None
     _online_character = None
 
-    def __init__(self):
-        pass
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(screen, template_finder, match)
 
-    def has_char_template_saved(self):
-        return self._last_char_template is not None
+    def online_active(self) -> bool:
+        return self.match.name == "CHARACTER_STATE_ONLINE"
 
-    def save_char_template(self):
-        img = self._screen.grab()
-        active_character = self._template_finder.search("CHARACTER_ACTIVE", img, roi = self._config.ui_roi["character_select"], threshold = 0.8)
-        if active_character.valid:
-            x, y, w, h = self._config.ui_roi["character_name_sub_roi"]
-            x, y = x + active_character.region[0], y + active_character.region[1]
-            char_template = cut_roi(img, [x, y, w, h])
-            if self._config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/saved_character_" + time.strftime("%Y%m%d_%H%M%S") + ".png", char_template)
-            Logger.debug(f"Saved character template")
-        else:
-            Logger.error("save_char_template: Could not save character template")
-            return
-        CharSelector._last_char_template = char_template
-
-    def save_char_online_status(self):
-        online_tabs = self._template_finder.search(["CHARACTER_STATE_OFFLINE","CHARACTER_STATE_ONLINE"], self._screen.grab(), roi=self._config.ui_roi["character_online_status"], threshold=0.8, best_match = True)
-        if online_tabs.valid:
-            if online_tabs.name == "CHARACTER_STATE_ONLINE":
-                online_status = True
-            else:
-                online_status = False
-            Logger.debug(f"Saved online status. Online={online_status}")
-        else:
-            Logger.error("save_char_online_status: Could not determine character's online status")
-            return
-        CharSelector._online_character = online_status
-
-    def select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
+    @staticmethod
+    def select_online_tab(screen, region, center):
         btn_width = center[0] - region[0]
-        if CharSelector._online_character:
+        if OnlineStatus._online_character:
             Logger.debug(f"Selecting online tab")
             x = region[0] + (btn_width / 2)
         else:
             Logger.debug(f"Selecting offline tab")
             x = region[0] + (3 * btn_width / 2)
-        pos = self._screen.convert_screen_to_monitor((x, center[1]))
-        # move cursor to result and select
+        pos = screen.convert_screen_to_monitor((x, center[1]))
+        # move cursor to appropriate tab and select
         mouse.move(*pos)
         wait(0.4, 0.6)
         mouse.click(button="left")
         wait(0.4, 0.6)
 
+@Locator(ref=["CHARACTER_ACTIVE"], roi="character_select", threshold=0.8)
+class SelectedCharacter(ScreenObject):
+    _last_char_template = None
+
+    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(screen, template_finder, match)
+
+    @staticmethod
+    def has_char_template_saved():
+        return SelectedCharacter._last_char_template is not None
+
+
+class SelectCharacter():
+    def __init__(self, screen: Screen, template_finder: TemplateFinder) -> None:
+        self._screen = screen
+        self._template_finder = template_finder
+
+    def save_char_online_status(self):
+        res, m = OnlineStatus.detect(self._screen, self._template_finder)
+        if m.valid:
+            online_status = res.online_active()
+            Logger.debug(f"Saved online status. Online={online_status}")
+        else:
+            Logger.error("save_char_online_status: Could not determine character's online status")
+            return
+        OnlineStatus._online_character = online_status
+
+    def save_char_template(self):
+        img = self._screen.grab()
+        res, m = SelectedCharacter.detect(self._screen, self._template_finder, img)
+        if m.valid:
+            x, y, w, h = Config.ui_roi["character_name_sub_roi"]
+            x, y = x + m.region[0], y + m.region[1]
+            char_template = cut_roi(img, [x, y, w, h])
+
+            ocr_result = Ocr().image_to_text(
+                images = char_template,
+                model = "engd2r_ui",
+                psm = 6,
+                scale = 1.2,
+                crop_pad = False,
+                erode = False,
+                invert = False,
+                threshold = 0,
+                digits_only = False,
+                fix_regexps = False,
+                check_known_errors = False,
+                check_wordlist = False,
+            )[0]
+            Logger.debug(f"Saved character template: {ocr_result.text.splitlines()[0]}")
+        else:
+            Logger.error("save_char_template: Could not save character template")
+            return
+        SelectedCharacter._last_char_template = char_template
+
     def select_char(self):
-        if CharSelector._last_char_template is not None:
-            online_tabs = self._template_finder.search(["CHARACTER_STATE_OFFLINE","CHARACTER_STATE_ONLINE"], self._screen.grab(), roi=self._config.ui_roi["character_online_status"], threshold=0.8, best_match = True)
-            if online_tabs.valid:
-                if online_tabs.name == "CHARACTER_STATE_ONLINE" and (not CharSelector._online_character):
-                    self.select_online_tab(online_tabs.region, online_tabs.center)
-                elif online_tabs.name == "CHARACTER_STATE_OFFLINE" and (CharSelector._online_character):
-                    self.select_online_tab(online_tabs.region, online_tabs.center)
+        if SelectedCharacter._last_char_template is not None:
+            img = self._screen.grab()
+            res, m = OnlineStatus.detect(self._screen, self._template_finder, img)
+            if m.valid:
+                if res.online_active() and (not OnlineStatus._online_character):
+                    OnlineStatus.select_online_tab(self._screen, m.region, m.center)
+                    img = self._screen.grab()
+                elif not res.online_active() and (OnlineStatus._online_character):
+                    OnlineStatus.select_online_tab(self._screen, m.region, m.center)
+                    img = self._screen.grab()
                 wait(1, 1.5)
             else:
                 Logger.error("select_char: Could not find online/offline tabs")
                 return
-            img = self._screen.grab()
-            active_char = self._template_finder.search("CHARACTER_ACTIVE", img, roi = self._config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = True)
-            if not active_char.valid:
+
+            res, m = SelectedCharacter.detect(self._screen, self._template_finder, img)
+            if not m.valid:
                 Logger.error("select_char: Could not find highlighted profile")
                 return
+
             scrolls_attempts = 0
             while scrolls_attempts < 2:
                 if scrolls_attempts > 0:
                     img = self._screen.grab()
-                desired_char = self._template_finder.search(CharSelector._last_char_template, img, roi = self._config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = True)
+                # TODO: can cleanup logic here, can we utilize a generic ScreenObject or use custom locator?
+                desired_char = self._template_finder.search(SelectedCharacter._last_char_template, img, roi = Config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
                 if desired_char.valid:
-                    if is_in_roi(active_char.region, desired_char.center) and scrolls_attempts == 0:
+                    print(f"{m.region} {desired_char.center}")
+                    if is_in_roi(m.region, desired_char.center) and scrolls_attempts == 0:
                         Logger.debug("Saved character template found and already highlighted, continue")
                         return
                     else:
                         Logger.debug("Selecting saved character")
-                        mouse.move(*desired_char.center)
+                        pos = self._screen.convert_screen_to_monitor(desired_char.center)
+                        mouse.move(*pos)
                         wait(0.4, 0.6)
                         mouse.click(button="left")
                         wait(0.4), 0.6
@@ -118,7 +144,7 @@ class SavedCharacter:
                 else:
                     Logger.debug("Highlighted profile found but saved character not in view, scroll")
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    center = roi_center(self._config.ui_roi["character_select"])
+                    center = roi_center(Config.ui_roi["character_select"])
                     center = self._screen.convert_screen_to_monitor(center)
                     mouse.move(*center)
                     wait(0.4, 0.6)
@@ -126,21 +152,3 @@ class SavedCharacter:
                     scrolls_attempts += 1
                     wait(0.4, 0.6)
             Logger.error(f"select_char: unable to find saved profile after {scrolls_attempts} scroll attempts")
-
-
-if __name__ == "__main__":
-    import keyboard
-    keyboard.wait("f11")
-    from config import Config
-    config = Config()
-    screen = Screen()
-    tf = TemplateFinder(screen)
-    selector = CharSelector(screen, tf)
-    if not selector.has_char_template_saved():
-        selector.save_char_template()
-    print("Move D2R window, select another character and press F11 to continue")
-    keyboard.wait("f11")
-    screen = Screen()
-    tf = TemplateFinder(screen)
-    selector = CharSelector(screen,tf)
-    selector.select_char()
