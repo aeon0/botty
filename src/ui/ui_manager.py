@@ -130,17 +130,15 @@ class UiManager():
         :return: Bool if action was successful
         """
         start = time.time()
+        mouse.move(1250, 754)
         while (time.time() - start) < 15:
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             if not self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85).valid:
                 keyboard.send("esc")
+            wait(0.01)
+            mouse.click(button="left")
             wait(0.05)
-            keyboard.send('up')
-            keyboard.send('up')
-            keyboard.send('up')
-            keyboard.send('down')
-            wait(0.05)
-            keyboard.send('enter')
+            mouse.click(button="left")
             wait(0.1, 0.5)
             return True
         return False
