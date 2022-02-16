@@ -118,7 +118,7 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                _, m = MercIcon.detect(self._screen, self._template_finder)
+                _, m = MercIcon.detect(self._screen, self._template_finder, img)
                 if m.valid:
                     merc_health_percentage = get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
