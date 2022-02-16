@@ -13,9 +13,9 @@ from pather import Pather, Location
 
 
 class Barbarian(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Barbarian")
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, template_finder, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
@@ -47,7 +47,7 @@ class Barbarian(IChar):
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
-        pos_m = self._screen.convert_abs_to_monitor((0, -20))
+        pos_m = Screen().convert_abs_to_monitor((0, -20))
         mouse.move(*pos_m)
         wait(0.5, 0.15)
         mouse.press(button="right")
@@ -73,14 +73,14 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(self._template_finder, self._screen, self._config, ["LEAP"])
-        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active(self._config, self._screen)
+        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(self._template_finder, self._config, ["LEAP"])
+        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active(self._config)
         if  should_cast_leap and not can_teleport:
             keyboard.send(self._skill_hotkeys["leap"])
             wait(0.15, 0.25)
             
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = self._screen.convert_abs_to_monitor(abs_move)
+        pos_m = Screen().convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_war_cry(atk_len)
@@ -145,7 +145,7 @@ class Barbarian(IChar):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_war_cry(self._char_config["atk_len_nihlathak"] * 0.4)
         self._cast_war_cry(0.8)
@@ -165,9 +165,8 @@ if __name__ == "__main__":
     from config import Config
     from ui.ui_manager import UiManager
     config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = Barbarian(config.barbarian, config.char, screen, t_finder, ui_manager, pather)
+    t_finder = TemplateFinder()
+    pather = Pather(t_finder)
+    ui_manager = UiManager(t_finder)
+    char = Barbarian(config.barbarian, config.char, t_finder, ui_manager, pather)
     char.kill_council()

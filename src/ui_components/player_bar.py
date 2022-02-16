@@ -18,17 +18,16 @@ from config import Config
 from ocr import Ocr
 
 class PlayerBar():
-    def __init__(self, screen: Screen) -> None:
-        self._screen = screen
+    def __init__(self) -> None:
         self._config = Config()
 
     def get_experience(self):
         # mouseover exp bar
         pos=(self._config.ui_pos["xp_bar_x"], self._config.ui_pos["xp_bar_y"])
-        x_m, y_m =  self._screen.convert_screen_to_monitor(screen_coord = pos)
+        x_m, y_m =  Screen().convert_screen_to_monitor(screen_coord = pos)
         mouse.move(x_m, y_m, randomize = (80,1))
         # crop roi
-        img = self._screen.grab()
+        img = Screen().grab()
         crop = cut_roi(img, self._config.ui_roi["xp_bar_text"])
         ocr_result = Ocr().image_to_text(
             images = crop,

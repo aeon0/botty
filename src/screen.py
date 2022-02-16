@@ -12,24 +12,48 @@ import os
 class Screen:
     """Grabs images from screen and converts different coordinate systems to each other"""
 
-    def __init__(self):
-        self._sct = mss()
-        if len(self._sct.monitors) == 1:
-            Logger.error("How do you not have a monitor connected?!")
-            os._exit(1)
-        self._config = Config()
-        self._monitor_roi = self._sct.monitors[0]
-        # Find d2r screen offsets and monitor idx
-        self.found_offsets = False
-        position = None
-        Logger.debug("Using WinAPI to search for window under D2R.exe process")
-        position = find_d2r_window()
-        if position is not None:
-            self._set_window_position(*position)
-        else:
-            if self._config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
-            Logger.error("Could not determine window offset. Please make sure you have the D2R window open.")
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Screen, cls).__new__(cls)
+            cls._instance._sct = mss()
+            if len(cls._instance._sct.monitors) == 1:
+                Logger.error("How do you not have a monitor connected?!")
+                os._exit(1)
+            cls._instance._config = Config()
+            cls._instance._monitor_roi = cls._instance._sct.monitors[0]
+            # Find d2r screen offsets and monitor idx
+            cls._instance.found_offsets = False
+            position = None
+            Logger.debug("Using WinAPI to search for window under D2R.exe process")
+            position = find_d2r_window()
+            if position is not None:
+                cls._instance._set_window_position(*position)
+            else:
+                if cls._instance._config.general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", cls._instance.grab())
+                Logger.error("Could not determine window offset. Please make sure you have the D2R window open.")
+        return cls._instance
+
+    # def __init__(self):
+    #     self._sct = mss()
+    #     if len(self._sct.monitors) == 1:
+    #         Logger.error("How do you not have a monitor connected?!")
+    #         os._exit(1)
+    #     self._config = Config()
+    #     self._monitor_roi = self._sct.monitors[0]
+    #     # Find d2r screen offsets and monitor idx
+    #     self.found_offsets = False
+    #     position = None
+    #     Logger.debug("Using WinAPI to search for window under D2R.exe process")
+    #     position = find_d2r_window()
+    #     if position is not None:
+    #         self._set_window_position(*position)
+    #     else:
+    #         if self._config.general["info_screenshots"]:
+    #             cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
+    #         Logger.error("Could not determine window offset. Please make sure you have the D2R window open.")
 
     def _set_window_position(self, offset_x: int, offset_y: int):
         Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
@@ -68,10 +92,9 @@ class Screen:
 
 if __name__ == "__main__":
     config = Config()
-    screen = Screen()
     while 1:
         start = time.time()
-        test_img = screen.grab().copy()
+        test_img = Screen().grab().copy()
         # print(time.time() - start)
 
         show_roi = True

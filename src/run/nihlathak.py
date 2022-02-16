@@ -16,7 +16,6 @@ import random
 class Nihlathak:
     def __init__(
         self,
-        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -25,7 +24,6 @@ class Nihlathak:
         pickit: PickIt
     ):
         self._config = Config()
-        self._screen = screen
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
@@ -61,7 +59,7 @@ class Nihlathak:
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
             # do a random tele jump and try again
-            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            pos_m = Screen().convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
                 return False

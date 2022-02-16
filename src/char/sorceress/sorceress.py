@@ -13,8 +13,8 @@ from pather import Pather
 
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+        super().__init__(skill_hotkeys, template_finder, ui_manager)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
@@ -47,11 +47,11 @@ class Sorceress(IChar):
             return super().select_by_template(template_type, success_func, time_out, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
+            if self._template_finder.search("WAYPOINT_MENU", Screen().grab()).valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold, normalize_monitor=True)
+            template_match = self._template_finder.search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 keyboard.send(self._skill_hotkeys["telekinesis"])
                 wait(0.1, 0.2)

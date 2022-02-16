@@ -28,10 +28,10 @@ def exit(run_obj):
     os._exit(0)
 
 
-def wait_for_loading_screen(screen: Screen, time_out):
+def wait_for_loading_screen(time_out):
     start = time.time()
     while time.time() - start < time_out:
-        img = screen.grab()
+        img = Screen().grab()
         is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
         if is_loading_black_roi:
             return True
@@ -67,12 +67,9 @@ class AnyaShopper:
         self.melee_claw_min_score = self._config.shop["melee_min_score"]
 
 
-        self._screen = Screen()
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\ui_templates\\view", "assets\\npc", "assets\\shop"], save_last_res=True)
+        self._template_finder = TemplateFinder(["assets\\ui_templates\\view", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
-        self._npc_manager = NpcManager(
-            screen=self._screen, template_finder=self._template_finder
-        )
+        self._npc_manager = NpcManager(self._template_finder)
         self.run_count = 0
         self.start_time = time.time()
         self.ias_gloves_seen = 0
@@ -82,8 +79,8 @@ class AnyaShopper:
         self.roi_claw_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
         self.roi_vendor = config.ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
-        self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.sb_x, self.sb_y = Screen().convert_screen_to_monitor((180, 77))
+        self.c_x, self.c_y = Screen().convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
         self.claws_evaluated = 0
         self.claws_bought = 0
 
@@ -101,7 +98,7 @@ class AnyaShopper:
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
-            img = self._screen.grab()
+            img = Screen().grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
             ias_glove = self._template_finder.search(
@@ -115,7 +112,7 @@ class AnyaShopper:
                 self.ias_gloves_seen += 1
                 mouse.move(*ias_glove.center)
                 time.sleep(0.1)
-                img = self._screen.grab()
+                img = Screen().grab()
 
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = self._template_finder.search(
@@ -157,7 +154,7 @@ class AnyaShopper:
                 wait(0.3, 0.4)
                 # Search for claws
                 claw_pos = []
-                img = self._screen.grab().copy()
+                img = Screen().grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
                 for ck in claw_keys:
                     template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
@@ -176,10 +173,10 @@ class AnyaShopper:
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
-                    x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+                    x_m, y_m = Screen().convert_screen_to_monitor(pos)
                     mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
                     wait(0.5, 0.6)
-                    img_stats = self._screen.grab()
+                    img_stats = Screen().grab()
                     trap_score = 0
                     melee_score = 0
                     if self._template_finder.search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
@@ -226,7 +223,7 @@ class AnyaShopper:
     def reset_shop(self):
         while 1:
             success = self.select_by_template("RED_PORTAL")
-            success &= wait_for_loading_screen(self._screen, 2)
+            success &= wait_for_loading_screen(2)
             if success:
                 break
             else:
@@ -234,7 +231,7 @@ class AnyaShopper:
         time.sleep(2.5)
         while 1:
             success = self.select_by_template("RED_PORTAL")
-            success &= wait_for_loading_screen(self._screen, 2)
+            success &= wait_for_loading_screen(2)
             if success:
                 break
             else:

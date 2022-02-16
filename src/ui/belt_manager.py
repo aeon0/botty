@@ -15,9 +15,8 @@ from ui import UiManager
 
 
 class BeltManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
+    def __init__(self, template_finder: TemplateFinder):
         self._config = Config()
-        self._screen = screen
         self._template_finder = template_finder
         self._pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
         self._item_pot_map = {
@@ -76,7 +75,7 @@ class BeltManager:
         return cut_roi(img, roi)
 
     def drink_potion(self, potion_type: str, merc: bool = False, stats: List = []) -> bool:
-        img = self._screen.grab()
+        img = Screen().grab()
         for i in range(4):
             potion_img = self._cut_potion_img(img, i, 0)
             if self._potion_type(potion_img) == potion_type:
@@ -112,14 +111,14 @@ class BeltManager:
             "mana": self._config.char["belt_mp_columns"],
         }
         # In case we are in danger that the mouse hovers the belt rows, move it to the center
-        screen_mouse_pos = self._screen.convert_monitor_to_screen(mouse.get_position())
+        screen_mouse_pos = Screen().convert_monitor_to_screen(mouse.get_position())
         if screen_mouse_pos[1] > self._config.ui_pos["screen_height"] * 0.72:
-            center_m = self._screen.convert_abs_to_monitor((-200, -120))
+            center_m = Screen().convert_abs_to_monitor((-200, -120))
             mouse.move(*center_m, randomize=100)
         keyboard.send(self._config.char["show_belt"])
         wait(0.5)
         # first clean up columns that might be too much
-        img = self._screen.grab()
+        img = Screen().grab()
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
@@ -131,7 +130,7 @@ class BeltManager:
                         keyboard.send(self._config.char[key])
                         wait(0.2, 0.3)
         # calc how many potions are needed
-        img = self._screen.grab()
+        img = Screen().grab()
         current_column = None
         for column in range(4):
             for row in range(self._config.char["belt_rows"]):
@@ -159,7 +158,7 @@ class BeltManager:
         """
         keyboard.send(self._config.char["inventory_screen"])
         wait(0.7, 1.0)
-        img = self._screen.grab()
+        img = Screen().grab()
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = UiManager.get_slot_pos_and_img(self._config, img, column, row)
@@ -168,7 +167,7 @@ class BeltManager:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
         for pos in pot_positions:
-            x, y = self._screen.convert_screen_to_monitor(pos)
+            x, y = Screen().convert_screen_to_monitor(pos)
             mouse.move(x, y, randomize=9, delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")
@@ -182,9 +181,8 @@ class BeltManager:
 if __name__ == "__main__":
     keyboard.wait("f11")
     config = Config()
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, template_finder)
-    belt_manager = BeltManager(screen, template_finder)
+    template_finder = TemplateFinder()
+    ui_manager = UiManager(template_finder)
+    belt_manager = BeltManager(template_finder)
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)

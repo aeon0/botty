@@ -51,11 +51,11 @@ class InventoryCollection:
 
 
 def inspect_area(
-    screen: Screen, finder: TemplateFinder, total_rows, total_columns, roi, known_items
+    finder: TemplateFinder, total_rows, total_columns, roi, known_items
 ) -> InventoryCollection:
     result = InventoryCollection()
     x, y, w, h = roi
-    img = screen.grab()[y : y + h, x : x + w]
+    img = Screen().grab()[y : y + h, x : x + w]
     slot_w = Config.ui_pos["slot_width"]
     slot_h = Config.ui_pos["slot_height"]
     for column, row in itertools.product(range(total_columns), range(total_rows)):

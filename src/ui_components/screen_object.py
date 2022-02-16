@@ -36,33 +36,32 @@ class ScreenObject:
     def locator(cls) -> Locator:
         return cls._locator
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch, img: np.ndarray = None) -> None:
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch, img: np.ndarray = None) -> None:
         self.match = match
-        self.screen = screen
         self.finder = template_finder
         self.img = img
 
     @classmethod
-    def detect(cls: Self, screen: Screen, template_finder: TemplateFinder, img: np.ndarray = None) -> tuple[Self, TemplateMatch]:
+    def detect(cls: Self, template_finder: TemplateFinder, img: np.ndarray = None) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
         roi = Config.ui_roi[loc.roi] if loc.roi else None
-        img = screen.grab() if img is None else img
+        img = Screen().grab() if img is None else img
         match = template_finder.search(ref = loc.ref, inp_img = img, threshold = loc.threshold, roi = roi, best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
-            return cls(screen, template_finder, match), match
+            return cls(template_finder, match), match
         return None, match
 
     @classmethod
-    def wait_for(cls: Self, screen: Screen, template_finder: TemplateFinder, time_out: int = None) -> tuple[Self, TemplateMatch]:
+    def wait_for(cls: Self, template_finder: TemplateFinder, time_out: int = None) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
         time_out = time_out if time_out else loc.time_out
         match = template_finder.search_and_wait(ref = loc.ref, time_out = time_out, threshold = loc.threshold, roi = Config.ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
-            return cls(screen, template_finder, match), match
+            return cls(template_finder, match), match
         return None, match
 
     def hover_over_self(self) -> None:
-        mouse.move(*self.screen.convert_screen_to_monitor(self.match.center))
+        mouse.move(*Screen().convert_screen_to_monitor(self.match.center))
         wait(0.2, 0.4)
 
     def select_self(self) -> None:

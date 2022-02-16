@@ -47,8 +47,7 @@ class Transmute:
     def _wait():
         wait(0.2, 0.3)
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, game_stats: GameStats, ui_manager: UiManager) -> None:
-        self._screen = screen
+    def __init__(self, template_finder: TemplateFinder, game_stats: GameStats, ui_manager: UiManager) -> None:
         self._game_stats = game_stats
         self._template_finder = template_finder
         self._ui_manager = ui_manager
@@ -60,7 +59,7 @@ class Transmute:
         offset_y = (row+0.5)*slot_h
         offset_x = (column+0.5)*slot_w
         x, y, _, _ = roi
-        x, y = self._screen.convert_screen_to_monitor(
+        x, y = Screen().convert_screen_to_monitor(
             (x + offset_x, y + offset_y))
         mouse.move(x, y)
         self._wait()
@@ -73,11 +72,11 @@ class Transmute:
 
     def open_cube(self):
         self._ui_manager._move_to_stash_tab(0)
-        screen = self._screen.grab()
+        screen = Screen().grab()
         match = self._template_finder.search(
             ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["left_inventory"])
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.center)
+            x, y = Screen().convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("right")
@@ -86,11 +85,11 @@ class Transmute:
             Logger.error(f"Can't find cube: {match.score}")
 
     def transmute(self):
-        screen = self._screen.grab()
+        screen = Screen().grab()
         match = self._template_finder.search(
             ["CUBE_TRANSMUTE_BTN"], screen, roi=Config.ui_roi["cube_btn_roi"])
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.center)
+            x, y = Screen().convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("left")
@@ -117,7 +116,7 @@ class Transmute:
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
         result = InventoryCollection()
         x, y, w, h = roi
-        img = self._screen.grab()[y:y+h, x:x+w]
+        img = Screen().grab()[y:y+h, x:x+w]
         slot_w = Config.ui_pos["slot_width"]
         slot_h = Config.ui_pos["slot_height"]
         for column, row in itertools.product(range(total_columns), range(total_rows)):

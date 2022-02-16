@@ -52,11 +52,8 @@ class DrognanShopper:
             os._exit(0)
         self.apply_pather_adjustment = self._config.shop["apply_pather_adjustment"]
 
-        self._screen = Screen()
-        self._template_finder = TemplateFinder(self._screen,  ["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
-        self._npc_manager = NpcManager(
-            screen=self._screen, template_finder=self._template_finder
-        )
+        self._template_finder = TemplateFinder(["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
+        self._npc_manager = NpcManager(self._template_finder)
         self.run_count = 0
         self.start_time = time.time()
 
@@ -64,8 +61,8 @@ class DrognanShopper:
         self.roi_shop_item_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
         self.roi_vendor = config.ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
-        self.sb_x, self.sb_y = self._screen.convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = self._screen.convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.sb_x, self.sb_y = Screen().convert_screen_to_monitor((180, 77))
+        self.c_x, self.c_y = Screen().convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
         self.items_evaluated = 0
         self.items_bought = 0
 
@@ -82,7 +79,7 @@ class DrognanShopper:
             self._npc_manager.open_npc_menu(Npc.DROGNAN)
             self._npc_manager.press_npc_btn(Npc.DROGNAN, "trade")
             time.sleep(0.1)
-            img = self._screen.grab()
+            img = Screen().grab()
 
             if self.look_for_scepters is True:
                 mouse.move(self.sb_x, self.sb_y, randomize=3, delay_factor=[0.6, 0.8])
@@ -94,7 +91,7 @@ class DrognanShopper:
 
                 # Search for items
                 item_pos = []
-                img = self._screen.grab().copy()
+                img = Screen().grab().copy()
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
                 for ck in item_keys:
                     template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
@@ -113,10 +110,10 @@ class DrognanShopper:
 
                 # check out each item
                 for pos in item_pos:
-                    x_m, y_m = self._screen.convert_screen_to_monitor(pos)
+                    x_m, y_m = Screen().convert_screen_to_monitor(pos)
                     mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
                     wait(0.5, 0.6)
-                    img_stats = self._screen.grab()
+                    img_stats = Screen().grab()
 
                     # First check for +2 Paladin Skills. This weeds out most scepters right away.
                     if self._template_finder.search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
@@ -143,12 +140,12 @@ class DrognanShopper:
         # This can probably be tweaked but seems to work well enough for now.
 
         # Exit town
-        pos_m = self._screen.convert_abs_to_monitor((200, -100))
+        pos_m = Screen().convert_abs_to_monitor((200, -100))
         mouse.move(pos_m[0], pos_m[1])
         self.hold_move(pos_m, time_held=(3.0 / self.speed_factor))
 
         # Return to town
-        pos_m = self._screen.convert_abs_to_monitor((-200, 100))
+        pos_m = Screen().convert_abs_to_monitor((-200, 100))
         mouse.move(pos_m[0], pos_m[1])
         self.hold_move(pos_m, time_held=(2.0 / self.speed_factor))
 
@@ -156,8 +153,8 @@ class DrognanShopper:
     def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
         factor = self._config.advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-        pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
-        pos_abs = self._screen.convert_screen_to_abs(pos_screen)
+        pos_screen = Screen().convert_monitor_to_screen(pos_monitor)
+        pos_abs = Screen().convert_screen_to_abs(pos_screen)
 
         # This logic (from pather.py) sometimes negatively affects the shopper, so default is to skip this.
         if self.apply_pather_adjustment:
@@ -167,7 +164,7 @@ class DrognanShopper:
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
 
-        x, y = self._screen.convert_abs_to_monitor(pos_abs)
+        x, y = Screen().convert_abs_to_monitor(pos_abs)
         mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
         wait(0.012, 0.02)
         mouse.press(button="left")

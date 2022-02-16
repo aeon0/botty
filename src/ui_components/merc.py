@@ -1,7 +1,6 @@
 # - merc_portrait
 # - merc_life
 
-from screen import Screen
 from template_finder import TemplateFinder, TemplateMatch
 from ui_components import ScreenObject, Locator
 from config import Config
@@ -11,8 +10,8 @@ from utils.misc import cut_roi
 
 @Locator(ref=["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], roi="merc_icon", threshold=0.9)
 class MercIcon(ScreenObject):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
 
 def get_merc_health(img: np.ndarray) -> float:
     config = Config()
