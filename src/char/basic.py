@@ -1,4 +1,5 @@
 import keyboard
+from ui_components.skills import is_right_skill_active
 from utils.custom_mouse import mouse
 from char import IChar,CharacterCapabilities
 from template_finder import TemplateFinder
@@ -32,7 +33,7 @@ class Basic(IChar):
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 wait(0.05, 0.1)
                 mouse.click(button="right")
             else:

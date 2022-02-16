@@ -1,4 +1,5 @@
 import keyboard
+from ui_components.skills import is_right_skill_active
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
@@ -62,7 +63,7 @@ class Basic_Ranged(IChar):
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
         while (time.time() - start) < self._char_config["atk_len_pindle"]:
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
             else:
@@ -81,7 +82,7 @@ class Basic_Ranged(IChar):
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
         while (time.time() - start) < self._char_config["atk_len_eldritch"]:
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
             else:
@@ -101,7 +102,7 @@ class Basic_Ranged(IChar):
         start = time.time()
         keyboard.send(self._char_config["stand_still"], do_release=False)
         while (time.time() - start) < self._char_config["atk_len_shenk"]:
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 wait(0.05, 0.1)
                 self._right_attack(cast_pos_abs, spray=11)
             else:
@@ -129,7 +130,7 @@ class Basic_Ranged(IChar):
         cast_pos_abs = np.array([atk_pos_abs[0] * 0.9, atk_pos_abs[1] * 0.9])
         self._left_attack(cast_pos_abs, spray=80)
         for _ in range(atk_len_trav_2):
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 self._right_attack(cast_pos_abs, spray=11)
             else:
                 self._left_attack(cast_pos_abs, spray=11)
@@ -142,7 +143,7 @@ class Basic_Ranged(IChar):
             Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
             atk_pos_abs = [-200, -80]
             for _ in range(atk_len_trav_2):
-                if self._ui_manager.is_right_skill_active():
+                if is_right_skill_active(super()._config, super()._screen):
                     self._right_attack(cast_pos_abs, spray=11)
                 else:
                     self._left_attack(cast_pos_abs, spray=11)
@@ -151,7 +152,7 @@ class Basic_Ranged(IChar):
         self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
         cast_pos_abs = np.array([-300, -100])
         for _ in range(atk_len_trav_2):
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 self._right_attack(cast_pos_abs, spray=11)
             else:
                 self._left_attack(cast_pos_abs, spray=11)
@@ -162,7 +163,7 @@ class Basic_Ranged(IChar):
             self.pre_move()
             self.move(pos_m, force_move=True)
             for _ in range(atk_len_trav_2):
-                if self._ui_manager.is_right_skill_active():
+                if is_right_skill_active(super()._config, super()._screen):
                     self._right_attack(cast_pos_abs, spray=11)
                 else:
                     self._left_attack(cast_pos_abs, spray=11)
@@ -176,7 +177,7 @@ class Basic_Ranged(IChar):
             return False
         cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
         for _ in range(atk_len):
-            if self._ui_manager.is_right_skill_active():
+            if is_right_skill_active(super()._config, super()._screen):
                 self._right_attack(cast_pos_abs, spray=11)
             else:
                 self._left_attack(cast_pos_abs, spray=11)

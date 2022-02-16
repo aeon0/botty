@@ -9,6 +9,7 @@ from copy import copy
 from typing import Union
 from collections import OrderedDict
 from transmute import Transmute
+from ui_components.skills import has_tps
 from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
@@ -392,7 +393,7 @@ class Bot:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
-        if not self._ui_manager.has_tps():
+        if has_tps(self._config, self._template_finder, self._screen):
             self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
 
