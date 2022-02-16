@@ -139,7 +139,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return select_tp(self._skill_hotkeys["Teleport"], self._template_finder, self._screen, self._config)
+        return select_tp(self._skill_hotkeys["teleport"], self._template_finder, self._screen, self._config)
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -174,7 +174,7 @@ class IChar:
 
     def tp_town(self):
         # will check if tp is available and select the skill
-        if has_tps(self._config, self._template_finder, self._screen):
+        if not has_tps(self._config, self._template_finder, self._screen):
             return False
         mouse.click(button="right")
         roi_mouse_move = [
@@ -200,7 +200,7 @@ class IChar:
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = self._screen.grab()
             template_match = self._template_finder.search(
-                ["BLUE_PORTAL"],
+                "BLUE_PORTAL",
                 img,
                 threshold=0.66,
                 roi=roi,

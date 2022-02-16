@@ -36,6 +36,7 @@ from char.basic_ranged import Basic_Ranged
 from ui_components.main_menu import MainMenu
 from ui_components.character_select import SelectedCharacter, OnlineStatus, SelectCharacter
 from ui_components.ingame_menu import save_and_exit
+from ui_components.merc import MercIcon
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -341,8 +342,8 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        merc_alive = self._template_finder.search(["MERC_A2","MERC_A1","MERC_A5","MERC_A3"], self._screen.grab(), threshold=0.9, roi=self._config.ui_roi["merc_icon"]).valid
-        if not merc_alive and self._config.char["use_merc"]:
+        _, m = MercIcon.detect(self._screen, self._template_finder)
+        if not m.valid and self._config.char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
