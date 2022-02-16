@@ -21,7 +21,7 @@ from logger import Logger
 import cv2
 import time
 import numpy as np
-from utils.misc import cut_roi, color_filter
+from utils.misc import cut_roi, color_filter, wait
 
 def is_left_skill_selected(template_finder, screen, config, template_list: List[str]) -> bool:
     """
@@ -53,6 +53,20 @@ def has_tps(config, template_finder, screen) -> bool:
         return template_match.valid
     else:
         return False
+
+def select_tp(tp_hotkey, template_finder, screen, config):
+    if tp_hotkey and not is_right_skill_selected(
+        template_finder,
+        screen,
+        config,
+        ["TELE_ACTIVE", "TELE_INACTIVE"]):
+        keyboard.send(tp_hotkey)
+        wait(0.1, 0.2)
+    return is_right_skill_selected(
+        template_finder,
+        screen,
+        config,
+        ["TELE_ACTIVE", "TELE_INACTIVE"])
 
 def is_right_skill_active(config, screen) -> bool:
     """
