@@ -29,7 +29,7 @@ class HealthManager:
         self._last_rejuv = time.time()
         self._last_health = time.time()
         self._last_mana = time.time()
-        self._last_merc_healh = time.time()
+        self._last_merc_heal = time.time()
         self._callback = None
         self._pausing = True
         self._last_chicken_screenshot = None
