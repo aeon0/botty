@@ -63,38 +63,6 @@ class UiManager():
                     return True
         return False
 
-    def is_right_skill_active(self) -> bool:
-        """
-        :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
-        """
-        roi = [
-            self._config.ui_pos["skill_right_x"] - (self._config.ui_pos["skill_width"] // 2),
-            self._config.ui_pos["skill_y"] - (self._config.ui_pos["skill_height"] // 2),
-            self._config.ui_pos["skill_width"],
-            self._config.ui_pos["skill_height"]
-        ]
-        img = cut_roi(self._screen.grab(), roi)
-        avg = np.average(img)
-        return avg > 75.0
-
-    def is_right_skill_selected(self, template_list: List[str]) -> bool:
-        """
-        :return: Bool if skill is currently the selected skill on the right skill slot.
-        """
-        for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_right"]).valid:
-                return True
-        return False
-
-    def is_left_skill_selected(self, template_list: List[str]) -> bool:
-        """
-        :return: Bool if skill is currently the selected skill on the left skill slot.
-        """
-        for template in template_list:
-            if self._template_finder.search(template, self._screen.grab(), threshold=0.84, roi=self._config.ui_roi["skill_left"]).valid:
-                return True
-        return False
-
     def is_overburdened(self) -> bool:
         """
         :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.
@@ -523,26 +491,6 @@ class UiManager():
         if not tp_tome.valid:
             return False
         return True
-
-    def has_tps(self) -> bool:
-        """
-        :return: Returns True if botty has town portals available. False otherwise
-        """
-        if self._config.char["tp"]:
-            keyboard.send(self._config.char["tp"])
-            template_match = self._template_finder.search_and_wait(
-                ["TP_ACTIVE", "TP_INACTIVE"],
-                roi=self._config.ui_roi["skill_right"],
-                best_match=True,
-                threshold=0.79,
-                time_out=4)
-            if not template_match.valid:
-                Logger.warning("You are out of tps")
-                if self._config.general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-            return template_match.valid
-        else:
-            return False
 
     def repair_needed(self) -> bool:
         template_match = self._template_finder.search(

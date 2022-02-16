@@ -114,7 +114,7 @@ class Diablo:
                         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
                         Logger.debug("CS after town: Re-open TP")
                         if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/TP_after_town" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                        if not self._ui_manager.has_tps():
+                        if not has_tps(self._config, self._template_finder, self._screen):
                             Logger.warning("CS after Town: failed to open TP, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
                             self.used_tps += 20
                         mouse.click(button="right")
@@ -281,7 +281,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, threshold=0.80): return False
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
         Logger.debug("CS: OPEN TP")
-        if not self._ui_manager.has_tps():
+        if not has_tps(self._config, self._template_finder, self._screen):
             Logger.warning("CS: failed to open TP, higher chance of failing runs from now on, you should buy new TPs!")
             self.used_tps += 20
         mouse.click(button="right")

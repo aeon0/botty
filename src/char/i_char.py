@@ -6,6 +6,7 @@ import math
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
+from ui_components.skills import has_tps, is_right_skill_active, is_right_skill_selected
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -138,10 +139,18 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-       if self._skill_hotkeys["teleport"] and not self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"]):
+       if self._skill_hotkeys["teleport"] and not is_right_skill_selected(
+           self._template_finder,
+           self._screen,
+           self._config,
+           ["TELE_ACTIVE", "TELE_INACTIVE"]):
             keyboard.send(self._skill_hotkeys["teleport"])
             wait(0.1, 0.2)
-       return self._ui_manager.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
+       return is_right_skill_selected(
+           self._template_finder,
+           self._screen,
+           self._config,
+           ["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def get_skill_charges(self, img: np.ndarray = None):
         if img is None:
@@ -180,7 +189,9 @@ class IChar:
 
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = self._config.advanced_options["pathing_delay_factor"]
-        if self._skill_hotkeys["teleport"] and (force_tp or (self._ui_manager.is_right_skill_selected(["TELE_ACTIVE"]) and self._ui_manager.is_right_skill_active())):
+        if self._skill_hotkeys["teleport"] and \
+            (force_tp or (is_right_skill_selected(self._template_finder, self._screen, self._config, ["TELE_ACTIVE"]) and \
+                is_right_skill_active(self._config, self._screen))):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -204,7 +215,7 @@ class IChar:
 
     def tp_town(self):
         # will check if tp is available and select the skill
-        if not self._ui_manager.has_tps():
+        if has_tps(self._config, self._template_finder, self._screen):
             return False
         mouse.click(button="right")
         roi_mouse_move = [
@@ -225,7 +236,7 @@ class IChar:
                 pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
-                if self._ui_manager.has_tps():
+                if has_tps(self._config, self._template_finder, self._screen):
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = self._screen.grab()
@@ -262,7 +273,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(self._char_config["battle_command"])
             wait(0.1, 0.19)
-            if self._ui_manager.is_right_skill_selected(["BC", "BO"]):
+            if is_right_skill_selected(self._template_finder, self._screen, self._config, ["BC", "BO"]):
                 switch_sucess = True
                 break
 
