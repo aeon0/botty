@@ -20,7 +20,6 @@ from template_finder import TemplateFinder
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
-from ui import UiManager
 from ui import BeltManager
 from pather import Pather, Location
 from npc_manager import NpcManager
@@ -33,11 +32,14 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-
-from ui_components.main_menu import MainMenu
-from ui_components.character_select import SelectedCharacter, OnlineStatus, SelectCharacter
+from ui_components.main_menu import start_game
+from ui_components.character_select import has_char_template_saved, select_char, save_char_template, save_char_online_status
 from ui_components.ingame_menu import save_and_exit
-from ui_components.merc import MercIcon
+from ui.ui_manager import UiManager, wait_for_screen_object, detect_screen_object, SCREEN_OBJECTS
+from ui_components.view import repair_needed, enable_no_pickup
+from ui_components.stash import gambling_needed, set_gold_full
+from ui_components.vendor import gamble
+from ui_components.inventory import should_stash
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -222,19 +224,20 @@ class Bot:
     def on_select_character(self):
         if Config().general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
-            selector = SelectCharacter()
-            if SelectedCharacter.has_char_template_saved():
-                selector.select_char()
+            if has_char_template_saved():
+                select_char()
             else:
-                selector.save_char_online_status()
-                selector.save_char_template()
+                save_char_online_status()
+                save_char_template()
 
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
         # Start a game from hero selection
-        res, m = MainMenu.wait_for()
-        if m.valid: res.start_game()
+        m = wait_for_screen_object(SCREEN_OBJECTS['MainMenu'])
+        # res, m = MainMenu.wait_for()
+        Logger.debug('booyah')
+        if m.valid: start_game()
         else: return
         self.trigger_or_stop("start_from_town")
 
@@ -256,7 +259,7 @@ class Bot:
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup and not self._game_stats._nopickup_active:
             self._ran_no_pickup = True
-            if self._ui_manager.enable_no_pickup():
+            if enable_no_pickup():
                 self._game_stats._nopickup_active = True
                 Logger.info("Activated /nopickup")
             else:
@@ -303,7 +306,7 @@ class Bot:
             routine_stash = self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
         force_stash = False
         if not self._picked_up_items and (routine_stash or self._pick_corpse or self._previous_run_failed):
-            force_stash = self._ui_manager.should_stash(Config().char["num_loot_columns"])
+            force_stash = should_stash(Config().char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if Config().char["id_items"]:
@@ -322,7 +325,7 @@ class Bot:
             wait(1.0)
 
         # Check if we are out of tps or need repairing
-        need_repair = self._ui_manager.repair_needed()
+        need_repair = repair_needed()
         need_routine_repair = False
         if Config().char["runs_per_repair"]:
             need_routine_repair = self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
@@ -339,8 +342,8 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        _, m = MercIcon.detect()
-        if not m.valid and Config().char["use_merc"]:
+        match = detect_screen_object(SCREEN_OBJECTS['MercIcon'])
+        if not match.valid and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
@@ -348,15 +351,15 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if gambling is needed
-        if self._ui_manager.gambling_needed() and Config().char["gamble_items"]:
+        if gambling_needed() and Config().char["gamble_items"]:
             for x in range (4):
                 self._curr_loc = self._town_manager.gamble(self._curr_loc)
-                self._ui_manager.gamble(self._item_finder)
+                gamble(self._item_finder)
                 if (x ==3):
                     self._curr_loc = self._town_manager.stash(self._curr_loc)
                 else:
                     self._curr_loc = self._town_manager.stash(self._curr_loc, gamble=True)
-            self._ui_manager.set__gold_full(False)
+            set_gold_full(False)
 
         # Start a new run
         started_run = False

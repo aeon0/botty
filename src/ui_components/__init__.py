@@ -1,1 +1,0 @@
-from .screen_object import ScreenObject, Locator

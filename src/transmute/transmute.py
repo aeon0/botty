@@ -1,7 +1,5 @@
-from asyncore import loop
 import itertools
-from random import randint, random
-import threading
+from random import randint
 from config import Config
 from .inventory_collection import InventoryCollection
 from .stash import Stash
@@ -16,10 +14,9 @@ from logger import Logger
 from game_stats import GameStats
 from template_finder import TemplateFinder
 import numpy as np
-
 import keyboard
-import os
 import cv2
+from ui_components.inventory import move_to_stash_tab, stash_all_items
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -70,7 +67,7 @@ class Transmute:
         self._wait()
 
     def open_cube(self):
-        self._ui_manager._move_to_stash_tab(0)
+        move_to_stash_tab(0)
         screen = Screen().grab()
         match = TemplateFinder().search(
             ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config().ui_roi["left_inventory"])
@@ -99,7 +96,7 @@ class Transmute:
         keyboard.send("esc")
 
     def stash_all_items(self):
-        self._ui_manager.stash_all_items(
+        stash_all_items(
             Config().char["num_loot_columns"], ItemFinder())
 
     def pick_from_cube_at(self, column, row):
@@ -109,7 +106,7 @@ class Transmute:
         return self.pick_from_area(column, row, Config().ui_roi["right_inventory"])
 
     def pick_from_stash_at(self, index, column, row):
-        self._ui_manager._move_to_stash_tab(index)
+        move_to_stash_tab(index)
         return self.pick_from_area(column, row, Config().ui_roi["left_inventory"])
 
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
@@ -143,7 +140,7 @@ class Transmute:
     def inspect_stash(self) -> Stash:
         stash = Stash()
         for i in range(4):
-            self._ui_manager._move_to_stash_tab(i)
+            move_to_stash_tab(i)
             wait(0.4, 0.5)
             tab = self.inspect_area(
                 10, 10, Config().ui_roi["left_inventory"], FLAWLESS_GEMS)
@@ -157,14 +154,14 @@ class Transmute:
             while flawless_gems.count_by(gem) > 0:
                 pick.append((randint(0, 3), *flawless_gems.pop(gem)))
         for tab, x, y in sorted(pick, key=lambda x: x[0]):
-            self._ui_manager._move_to_stash_tab(tab)
+            move_to_stash_tab(tab)
             self.pick_from_inventory_at(x, y)
 
     def select_tab_with_enough_space(self, s: Stash) -> None:
         tabs_priority = Config()._transmute_config["stash_destination"]
         for tab in tabs_priority:
             if s.get_empty_on_tab(tab) > 0:
-                self._ui_manager._move_to_stash_tab(tab)
+                move_to_stash_tab(tab)
                 break
 
     def put_back_all_gems(self, s: Stash) -> None:

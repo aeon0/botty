@@ -9,14 +9,13 @@ from screen import Screen
 from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple, Union, List
+from typing import Tuple
 from pather import Location, Pather
 import numpy as np
 import time
-from utils.misc import cut_roi, is_in_roi
 import os
 
-from ui_components.loading import Loading
+from ui.ui_manager import UiManager, SCREEN_OBJECTS
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
@@ -681,8 +680,8 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                _, m = Loading.wait_for(2)
-                if m.valid:
+                match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                if match.valid:
                     return True
                 else:
                     return False
@@ -722,8 +721,8 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    _, m = Loading.wait_for(2)
-                    if m.valid:
+                    match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                    if match.valid:
                         return True
                     return False
 

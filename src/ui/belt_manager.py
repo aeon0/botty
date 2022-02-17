@@ -2,16 +2,13 @@ import numpy as np
 from typing import List
 import keyboard
 import itertools
-import cv2
-
+from ui.ui_manager import get_slot_pos_and_img
 from utils.misc import cut_roi, wait, color_filter
 from utils.custom_mouse import mouse
-
 from logger import Logger
 from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
-from ui import UiManager
 
 
 class BeltManager:
@@ -159,7 +156,7 @@ class BeltManager:
         img = Screen().grab()
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
-            center_pos, slot_img = UiManager.get_slot_pos_and_img(img, column, row)
+            center_pos, slot_img = get_slot_pos_and_img(img, column, row)
             found = TemplateFinder().search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
             if found:
                 pot_positions.append(center_pos)
@@ -178,7 +175,6 @@ class BeltManager:
 
 if __name__ == "__main__":
     keyboard.wait("f11")
-    ui_manager = UiManager()
     belt_manager = BeltManager()
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)

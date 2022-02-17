@@ -1,5 +1,4 @@
 import math
-from cv2 import threshold
 import keyboard
 import time
 import os
@@ -10,15 +9,13 @@ import numpy as np
 from item.pickit import PickIt
 from utils.custom_mouse import mouse
 from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
-
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
 from screen import Screen
 from template_finder import TemplateFinder
 from char import IChar
-
-from ui_components.waypoint import WaypointLabel
+from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
 
 class Location:
     # A5 Town
@@ -633,8 +630,8 @@ class Pather:
                 img = Screen().grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    _, m = WaypointLabel.detect()
-                    if m.valid:
+                    match = detect_screen_object(SCREEN_OBJECTS['WaypointLabel'])
+                    if match.valid:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")

@@ -7,9 +7,11 @@ from logger import Logger
 from transmute import Transmute
 from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
+import ui_components
 from utils.misc import wait
-
 from ui_components.waypoint import use_wp
+from ui_components.inventory import stash_all_items
+from ui_components.vendor import close_vendor_screen, repair_and_fill_up_tp
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -102,9 +104,9 @@ class TownManager:
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
             if not new_loc: return False
-            self._ui_manager.buy_pots(healing_pots, mana_pots)
+            ui_components.vendor.buy_pots(healing_pots, mana_pots)
             wait(0.1, 0.2)
-            self._ui_manager.close_vendor_screen()
+            close_vendor_screen()
             return new_loc
         Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
         return curr_loc
@@ -160,14 +162,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._ui_manager.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
+            stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        self._ui_manager.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
+        stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
@@ -177,17 +179,17 @@ class TownManager:
         if self._acts[curr_act].can_trade_and_repair():
             new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
             if not new_loc: return False
-            if self._ui_manager.repair_and_fill_up_tp():
+            if repair_and_fill_up_tp():
                 wait(0.1, 0.2)
-                self._ui_manager.close_vendor_screen()
+                close_vendor_screen()
                 return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
         if not new_loc: return False
-        if self._ui_manager.repair_and_fill_up_tp():
+        if repair_and_fill_up_tp():
             wait(0.1, 0.2)
-            self._ui_manager.close_vendor_screen()
+            close_vendor_screen()
             return new_loc
         return False
 

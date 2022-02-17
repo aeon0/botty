@@ -1,19 +1,14 @@
 # - server issues?
-from template_finder import TemplateFinder, TemplateMatch
-from ui_components import ScreenObject, Locator
+from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match, SCREEN_OBJECTS
 from logger import Logger
 from utils.misc import wait
 import keyboard
 
-@Locator(ref=["SERVER_ISSUES"])
-class ServerError(ScreenObject):
-    def __init__(self, match: TemplateMatch) -> None:
-        super().__init__(match)
-
-    @staticmethod
-    def handle_error() -> bool:
-        Logger.warning("Server connection issue. waiting 20s")
-        ScreenObject.select_self()
+def handle_error() -> bool:
+    Logger.warning("Server connection issue. waiting 20s")
+    match = detect_screen_object(SCREEN_OBJECTS['SERVER_ISSUES'])
+    if match.valid:
+        select_screen_object_match(match)
         wait(1, 2)
         keyboard.send("esc")
         wait(18, 22)

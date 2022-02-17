@@ -1,83 +1,66 @@
 # DONE - f:  start_game(self) -> bool:
-
 import time
-
 from config import Config
-from screen import Screen
-from template_finder import TemplateMatch
 from utils.misc import wait
 from logger import Logger
+from ui_components.error_screens import handle_error
+from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match, SCREEN_OBJECTS
 
-from ui_components import ScreenObject, Locator
-from ui_components.difficulty import Normal, Nightmare, Hell
-from ui_components.loading import Loading
-from ui_components.error_screens import ServerError
-
-@Locator(ref=["PLAY_BTN", "PLAY_BTN_GRAY"], roi="play_btn", best_match=True)
-class PlayBtn(ScreenObject):
-    def __init__(self, match: TemplateMatch) -> None:
-        super().__init__(match)
-
-    def play_active(self) -> bool:
-        return self.match.name == "PLAY_BTN"
-
-@Locator(ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"], roi="main_menu_top_left")
-class MainMenu(ScreenObject):
-    def __init__(self, match: TemplateMatch) -> None:
-        super().__init__(match)
-
-    def start_game(self) -> bool:
-        """
-        Starting a game. Will wait and retry on server connection issue.
-        :return: Bool if action was successful
-        """
-        Logger.debug("Wait for Play button")
-        start = time.time()
-        while True:
-            res, m = PlayBtn.detect()
-            if m.valid:
-                if res.play_active:
-                    # found active play button
-                    Logger.debug(f"Found Play Btn")
-                    res.select_self()
-                    break
-                # else found inactive play button, continue loop
-            else:
-                # did not find either active or inactive play button
-                Logger.error("start_game: No play button found, not on main menu screen")
-                return False
+def start_game() -> bool:
+    """
+    Starting a game. Will wait and retry on server connection issue.
+    :return: Bool if action was successful
+    """
+    Logger.debug("Wait for Play button")
+    start = time.time()
+    while True:
+        m = detect_screen_object(SCREEN_OBJECTS['PlayBtn'])
+        if m.valid:
+            if play_active(m):
+                # found active play button
+                Logger.debug(f"Found Play Btn")
+                select_screen_object_match(m)
+                break
+            # else found inactive play button, continue loop
+        else:
+            # did not find either active or inactive play button
+            Logger.error("start_game: No play button found, not on main menu screen")
+            return False
+        wait(1,2)
+        if time.time() - start > 90:
+            Logger.error("start_game: Active play button never appeared")
+            return False
+    difficulty=Config().general["difficulty"].upper()
+    # TODO: need to revise logic here
+    if difficulty == "NORMAL": Difficulty = SCREEN_OBJECTS['Normal']
+    elif difficulty == "NIGHTMARE": Difficulty = SCREEN_OBJECTS['Nightmare']
+    elif difficulty == "HELL": Difficulty = SCREEN_OBJECTS['Hell']
+    else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
+    start = time.time()
+    while True:
+        #look for difficulty select
+        m = detect_screen_object(Difficulty)
+        if m.valid:
+            select_screen_object_match(m)
+            break
+        #check for loading screen
+        m = detect_screen_object(SCREEN_OBJECTS['Loading'])
+        if m.valid:
+            Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
+            break
+        else:
             wait(1,2)
-            if time.time() - start > 90:
-                Logger.error("start_game: Active play button never appeared")
-                return False
+        # check for server issue
+        m = detect_screen_object(SCREEN_OBJECTS['ServerError'])
+        if m.valid:
+            handle_error()
+            return start_game()
 
-        difficulty=Config().general["difficulty"].upper()
-        # TODO: need to revise logic here
-        if difficulty == "NORMAL": Difficulty = Normal
-        elif difficulty == "NIGHTMARE": Difficulty = Nightmare
-        elif difficulty == "HELL": Difficulty = Hell
-        else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
-        start = time.time()
-        while True:
-            #look for difficulty select
-            res, m = Difficulty.detect()
-            if m.valid:
-                res.select_self()
-                break
-            #check for loading screen
-            _, m = Loading.detect()
-            if m.valid:
-                Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
-                break
-            else:
-                wait(1,2)
-            # check for server issue
-            res, m = ServerError.detect()
-            if m.valid:
-                res.handle_error()
-                return self.start_game()
+        if time.time() - start > 15:
+            Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
+            return start_game()
+    return True
 
-            if time.time() - start > 15:
-                Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
-                return self.start_game()
-        return True
+
+def play_active(match) -> bool:
+    return match.name == "PLAY_BTN"
