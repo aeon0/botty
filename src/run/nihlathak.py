@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from screen import Screen
 import random
 
+from ui_components.waypoint import Waypoint
 
 class Nihlathak:
     def __init__(
@@ -40,7 +41,7 @@ class Nihlathak:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if self._ui_manager.use_wp(5, 5): # use Halls of Pain Waypoint (5th in A5)
+        if Waypoint(self._screen, self._template_finder).use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
             return Location.A5_NIHLATHAK_START
         return False
 

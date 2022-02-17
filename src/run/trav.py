@@ -9,6 +9,7 @@ from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
 
+from ui_components.waypoint import Waypoint
 
 class Trav:
     def __init__(
@@ -34,7 +35,7 @@ class Trav:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if self._ui_manager.use_wp(3, 7):
+        if Waypoint(self._screen, self._template_finder).use_wp("Travincal"):
             return Location.A3_TRAV_START
         return False
 

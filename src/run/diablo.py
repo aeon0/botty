@@ -14,6 +14,8 @@ from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
 
+from ui_components.waypoint import Waypoint
+
 
 class Diablo:
     def __init__(
@@ -49,7 +51,7 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(4, 2)
+        Waypoint(self._screen, self._template_finder).use_wp("River of Flame")
         return Location.A4_DIABLO_WP
 
 

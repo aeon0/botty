@@ -9,6 +9,8 @@ from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 
+from ui_components.waypoint import Waypoint
+
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
             "A4_TOWN_4", "A4_TOWN_5",
@@ -83,7 +85,7 @@ class TownManager:
             return curr_loc
         # if not, move to the desired act via waypoint
         if not self._acts[curr_act].open_wp(curr_loc): return False
-        self._ui_manager.use_wp(act_idx, 0)
+        Waypoint(self._screen, self._template_finder).use_wp(act = act_idx, idx = 0)
         return self._acts[act].get_wp_location()
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:

@@ -18,6 +18,7 @@ from screen import Screen
 from template_finder import TemplateFinder
 from char import IChar
 
+from ui_components.waypoint import WaypointLabel
 
 class Location:
     # A5 Town
@@ -635,8 +636,8 @@ class Pather:
                 img = self._screen.grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    success = self._template_finder.search("WAYPOINT_MENU", img, threshold=threshold).valid
-                    if success:
+                    _, m = WaypointLabel.detect(self._screen, self._template_finder)
+                    if m.valid:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
