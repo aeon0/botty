@@ -88,7 +88,7 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = Screen().grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            _, m = BarAnchor.detect(self._template_finder)
+            _, m = BarAnchor.detect(self._template_finder, img)
             if m.valid:
                 health_percentage = get_health(img)
                 mana_percentage = get_mana(img)
