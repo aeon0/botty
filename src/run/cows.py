@@ -254,6 +254,7 @@ class Cows:
             else:
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                 keyboard.send(self._config.char["minimap"]) #turn on minimap
+            return True
             self._tristram()
 
     
@@ -478,8 +479,8 @@ class Cows:
             pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): return False
-
-        self._open_cow_portal()
+        return True
+        
 
     
     #this function opens the cow portal
@@ -508,7 +509,8 @@ class Cows:
         self._scout(1, -50, 50, -150, -250, stuck_count, 0, 4, 2, 2, 0) #tries to get to exit   
         #pre, during_1, during_2, diffed = self._map_capture()
         #self.map_diff(pre, during_1, during_2)
-        if not self.scout(): return False
+        if not self._tristram(): return False
+        if not self._open_cow_portal(): return False
         """
         if not self._stony_field(): return False
         if not self._tristram(): return False
