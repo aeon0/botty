@@ -3,7 +3,6 @@ from ui_components.skills import is_right_skill_active
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
@@ -16,9 +15,9 @@ from pather import Pather, Location
 
 
 class Basic_Ranged(IChar):
-    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
         Logger.info("Setting up Basic Ranged Character")
-        super().__init__(skill_hotkeys, ui_manager)
+        super().__init__(skill_hotkeys)
         self._pather = pather
         self._do_pre_move = True
 
@@ -196,6 +195,4 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()

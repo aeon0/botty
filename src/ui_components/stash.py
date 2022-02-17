@@ -1,11 +1,5 @@
-# f: transfer_shared_to_private_gold (self, count: int):
-# f: gambling_needed(self) -> bool:
-# f: set__gold_full (self, bool: bool):
-# f: _move_to_stash_tab(self, stash_idx: int):
 # - tabs (personal, shared, shared, shared)
 # - gold (different per tab)
-import ui_components.inventory as inventory
-from ui_components.inventory import gambling_round
 from template_finder import TemplateFinder
 from screen import grab, convert_screen_to_monitor
 from config import Config
@@ -14,6 +8,7 @@ import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse
 
+gambling_round = 1
 gold_full = False
 curr_stash = {
     "items": 3 if Config().char["fill_shared_stash_first"] else 0,
@@ -22,7 +17,7 @@ curr_stash = {
 
 def transfer_shared_to_private_gold(count: int):
     for x in range (3):
-        inventory.move_to_stash_tab(count)
+        move_to_stash_tab(count)
         stash_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", grab(), roi=Config().ui_roi["gold_btn_stash"], threshold=0.83)
         if stash_gold_btn.valid:
             x,y = convert_screen_to_monitor(stash_gold_btn.center)
@@ -34,7 +29,7 @@ def transfer_shared_to_private_gold(count: int):
             wait (0.1, 0.15)
             keyboard.send ("Enter")
             wait (0.1, 0.15)
-            inventory.move_to_stash_tab(0)
+            move_to_stash_tab(0)
             inventory_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", grab(), roi=Config().ui_roi["gold_btn"], threshold=0.83)
             if inventory_gold_btn.valid:
                 x,y = convert_screen_to_monitor(inventory_gold_btn.center)
@@ -58,3 +53,21 @@ def set_gold_full (bool: bool):
     gold_full = bool
     global gambling_round
     gambling_round = 1
+
+def move_to_stash_tab(stash_idx: int):
+    """Move to a specifc tab in the stash
+    :param stash_idx: idx of the stash starting at 0 (personal stash)
+    """
+    str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
+    template_match = TemplateFinder().search([*str_to_idx_map], grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
+    curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
+    if curr_active_stash != stash_idx:
+        # select the start stash
+        personal_stash_pos = (Config().ui_pos["stash_personal_btn_x"], Config().ui_pos["stash_personal_btn_y"])
+        stash_btn_width = Config().ui_pos["stash_btn_width"]
+        next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
+        x_m, y_m = convert_screen_to_monitor(next_stash_pos)
+        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
+        wait(0.2, 0.3)
+        mouse.click(button="left")
+        wait(0.3, 0.4)

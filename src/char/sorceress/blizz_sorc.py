@@ -254,8 +254,6 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()
-    char = BlizzSorc(Config().blizz_sorc, Config().char, ui_manager, pather)
+    char = BlizzSorc(Config().blizz_sorc, Config().char, pather)
     char.kill_council()

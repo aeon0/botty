@@ -5,7 +5,6 @@ from config import Config
 from pather import Location
 from logger import Logger
 from transmute import Transmute
-from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 import ui_components
 from utils.misc import wait
@@ -23,8 +22,7 @@ TOWN_MARKERS = [
 
 class TownManager:
 
-    def __init__(self, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._ui_manager = ui_manager
+    def __init__(self, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
             Location.A1_TOWN_START: a1,
@@ -218,13 +216,12 @@ if __name__ == "__main__":
     from npc_manager import NpcManager
     npc_manager = NpcManager()
     pather = Pather()
-    ui_manager = UiManager()
     item_finder = ItemFinder()
-    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
     a5 = A5(pather, char, npc_manager)
     a4 = A4(pather, char, npc_manager)
     a3 = A3(pather, char, npc_manager)
     a2 = A2(pather, char, npc_manager)
     a1 = A1(pather, char, npc_manager)
-    town_manager = TownManager(ui_manager, item_finder, a1, a2, a3, a4, a5)
+    town_manager = TownManager(item_finder, a1, a2, a3, a4, a5)
     print(town_manager.open_wp(Location.A1_TOWN_START))

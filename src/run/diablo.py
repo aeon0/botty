@@ -8,7 +8,6 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager, A4
-from ui import UiManager
 from ui_components.skills import has_tps
 from utils.misc import wait
 from utils.custom_mouse import mouse
@@ -16,6 +15,7 @@ from screen import convert_abs_to_monitor, grab
 from ui_components.loading import wait_for_loading_screen
 from ui_components.waypoint import use_wp
 from ui_components.belt import get_pot_needs, should_buy_pots
+from ui_components.inventory import should_stash
 
 
 class Diablo:
@@ -23,13 +23,11 @@ class Diablo:
         self,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
@@ -63,7 +61,7 @@ class Diablo:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
                     # Check if we should stash while we are in town
                     force_stash = False
-                    force_stash = self._ui_manager.should_stash(Config().char["num_loot_columns"])
+                    force_stash = should_stash(Config().char["num_loot_columns"])
                     if force_stash:
                         if Config().char["id_items"]:
                             Logger.debug(location + ": Identifying items")
@@ -517,7 +515,6 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     from bot import Bot
     game_stats = GameStats()
     bot = Bot(game_stats, False)

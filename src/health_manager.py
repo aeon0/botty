@@ -1,4 +1,3 @@
-from ui import UiManager
 from pather import Location
 import cv2
 import time
@@ -13,12 +12,11 @@ import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
 from ui_components.merc import get_merc_health
-from ui.ui_manager import UiManager, detect_screen_object
+from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 
 class HealthManager:
     def __init__(self):
-        self._ui_manager = UiManager()
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()

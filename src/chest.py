@@ -64,9 +64,7 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     from pather import Pather
     from config import Config
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()
-    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
     chest = Chest(char, 'arcane')
     chest.open_up_chests(threshold=0.8)

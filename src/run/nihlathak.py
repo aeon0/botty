@@ -6,7 +6,6 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
 from screen import convert_abs_to_monitor
@@ -20,13 +19,11 @@ class Nihlathak:
         self,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
 
