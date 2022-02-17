@@ -227,11 +227,12 @@ class Bot:
     def on_select_character(self):
         if self._config.general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
+            selector = SelectCharacter(self._screen, self._template_finder)
             if SelectedCharacter.has_char_template_saved():
-                SelectCharacter(self._screen, self._template_finder).select_char()
+                selector.select_char()
             else:
-                SelectCharacter(self._screen, self._template_finder).save_char_online_status()
-                SelectCharacter(self._screen, self._template_finder).save_char_template()
+                selector.save_char_online_status()
+                selector.save_char_template()
 
         self.trigger_or_stop("create_game")
 

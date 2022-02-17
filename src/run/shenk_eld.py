@@ -8,7 +8,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
-
+from ui_components.waypoint import Waypoint
 
 class ShenkEld:
     def __init__(
@@ -34,7 +34,7 @@ class ShenkEld:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if self._ui_manager.use_wp(5, 1):
+        if Waypoint(self._screen, self._template_finder).use_wp("Frigid Highlands"):
             return Location.A5_ELDRITCH_START
         return False
 

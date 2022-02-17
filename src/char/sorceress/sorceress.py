@@ -11,6 +11,7 @@ import time
 from typing import Tuple
 from pather import Pather
 
+from ui_components.waypoint import WaypointLabel
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
@@ -47,7 +48,8 @@ class Sorceress(IChar):
             return super().select_by_template(template_type, success_func, time_out, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
+            _, m = WaypointLabel.detect(self._screen, self._template_finder)
+            if m.valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:

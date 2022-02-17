@@ -38,7 +38,7 @@ class A4(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_WP), self._char): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid
+        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=self._config.ui_roi["left_panel_label"], inp_img=self._screen.grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
         return self._char.select_by_template(["A4_WP", "A4_WP_2"], found_wp_func, threshold=0.62, telekinesis=False)
 
@@ -54,7 +54,7 @@ class A4(IAct):
             self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
             return Location.A4_TYRAEL_STASH
         return False
-    
+
     def gamble (self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
         if self._npc_manager.open_npc_menu(Npc.JAMELLA):
