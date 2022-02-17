@@ -76,5 +76,9 @@
         "ref": ["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"],
         "roi": "save_and_exit",
         "threshold": 0.85
+    },
+    "RepairNeeded": {
+        "ref": "REPAIR_NEEDED",
+        "roi": "repair_needed"
     }
 }
