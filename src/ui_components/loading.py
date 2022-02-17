@@ -20,6 +20,10 @@ class Loading(ScreenObject):
     def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(template_finder, match)
 
+def check_for_black_screen() -> bool:
+    img = Screen().grab()
+    return np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.5
+
 def wait_for_loading_screen(time_out: float = None) -> bool:
     """
     Waits until loading screen apears
@@ -28,8 +32,7 @@ def wait_for_loading_screen(time_out: float = None) -> bool:
     """
     start = time.time()
     while True:
-        img = Screen().grab()
-        is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.5
+        is_loading_black_roi = check_for_black_screen()
         if is_loading_black_roi:
             return True
         if time_out is not None and time.time() - start > time_out:

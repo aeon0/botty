@@ -10,7 +10,8 @@ class ServerError(ScreenObject):
     def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(template_finder, match)
 
-    def handle_error(self) -> bool:
+    @staticmethod
+    def handle_error() -> bool:
         Logger.warning("Server connection issue. waiting 20s")
         ScreenObject.select_self()
         wait(1, 2)

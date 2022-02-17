@@ -13,7 +13,7 @@ from screen import Screen
 import numpy as np
 import time
 from config import Config
-from ui_components.ingame_menu import save_and_exit
+from ui_components.ingame_menu import SaveAndExit
 from ui_components.merc import get_merc_health, MercIcon
 from ui_components.player_bar import BarAnchor
 
@@ -73,7 +73,7 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        save_and_exit(self._template_finder, does_chicken=True)
+        SaveAndExit(self._template_finder).save_and_exit(True)
         self._did_chicken = True
         self._pausing = True
 
