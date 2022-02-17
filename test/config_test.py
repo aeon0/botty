@@ -23,8 +23,7 @@ class TestConfig:
     ("1, AND(ENHANCED_DEFENSE, SOCKETED), (SOCKETED_1, SOCKETED_2)", 1, [["ENHANCED_DEFENSE"], ["SOCKETED"]], [["SOCKETED_1"], ["SOCKETED_2"]],"AND")
     ])
     def test_string_to_item_prop (self, string, pickit_type, include, exclude, include_type):
-        cfg = Config()
-        Itemprops = cfg.string_to_item_prop (string)
+        Itemprops = Config().string_to_item_prop (string)
         assert (Itemprops.pickit_type == pickit_type)
         assert (Itemprops.include == include)
         assert (Itemprops.exclude == exclude)

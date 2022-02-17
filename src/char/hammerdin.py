@@ -7,6 +7,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
+from config import Config
 from utils.misc import wait
 import time
 from pather import Pather, Location
@@ -29,7 +30,7 @@ class Hammerdin(IChar):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
             wait(0.05, 0.1)
-            keyboard.send(self._char_config["stand_still"], do_release=False)
+            keyboard.send(Config().char["stand_still"], do_release=False)
             wait(0.05, 0.1)
             if self._skill_hotkeys["blessed_hammer"]:
                 keyboard.send(self._skill_hotkeys["blessed_hammer"])
@@ -41,10 +42,10 @@ class Hammerdin(IChar):
                 wait(0.1, 0.2)
                 mouse.release(button="left")
             wait(0.01, 0.05)
-            keyboard.send(self._char_config["stand_still"], do_press=False)
+            keyboard.send(Config().char["stand_still"], do_press=False)
 
     def pre_buff(self):
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         keyboard.send(self._skill_hotkeys["holy_shield"])
         wait(0.04, 0.1)
@@ -63,9 +64,8 @@ class Hammerdin(IChar):
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not is_right_skill_selected(
             self._template_finder,
-            self._config,
             ["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active(self._config)
+        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
@@ -85,7 +85,7 @@ class Hammerdin(IChar):
                 keyboard.send(self._skill_hotkeys["concentration"])
                 wait(0.05, 0.15)
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._cast_hammers(self._char_config["atk_len_pindle"])
+        self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
@@ -100,7 +100,7 @@ class Hammerdin(IChar):
                 wait(0.05, 0.15)
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
-        self._cast_hammers(self._char_config["atk_len_eldritch"])
+        self._cast_hammers(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
@@ -111,7 +111,7 @@ class Hammerdin(IChar):
             wait(0.05, 0.15)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
-        self._cast_hammers(self._char_config["atk_len_shenk"])
+        self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
@@ -121,7 +121,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        atk_len = self._char_config["atk_len_trav"]
+        atk_len = Config().char["atk_len_trav"]
         # Go inside and hammer a bit
         self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True, use_tp_charge=True)
         self._cast_hammers(atk_len)
@@ -147,11 +147,11 @@ class Hammerdin(IChar):
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_hammers(self._char_config["atk_len_nihlathak"] * 0.4)
+        self._cast_hammers(Config().char["atk_len_nihlathak"] * 0.4)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((30, 15), self._char_config["atk_len_nihlathak"] * 0.3)
+        self._move_and_attack((30, 15), Config().char["atk_len_nihlathak"] * 0.3)
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlathak"] * 0.4)
+        self._move_and_attack((-30, -15), Config().char["atk_len_nihlathak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         return True
@@ -161,11 +161,11 @@ class Hammerdin(IChar):
         pos_m = Screen().convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         # Attack
-        self._cast_hammers(self._char_config["atk_len_arc"])
+        self._cast_hammers(Config().char["atk_len_arc"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         # Move a bit back and another round
-        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
+        self._move_and_attack((0, 80), Config().char["atk_len_arc"] * 0.5)
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
@@ -185,9 +185,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -207,9 +207,9 @@ class Hammerdin(IChar):
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             ### ATTACK ###
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             ### LOOT ###
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
@@ -228,9 +228,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -246,9 +246,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -266,9 +266,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -290,9 +290,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -308,9 +308,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -327,9 +327,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -348,10 +348,10 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
+            self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -368,9 +368,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -389,9 +389,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -413,9 +413,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -438,12 +438,12 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((0, 0), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-50, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((50, 150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
-            self._move_and_attack((250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((-250, -150), self._char_config["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.2)
+            self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -466,10 +466,10 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -484,10 +484,10 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -502,10 +502,10 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), self._char_config["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), self._char_config["atk_len_cs_trashmobs"])
+            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -529,9 +529,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -546,9 +546,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -573,9 +573,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -590,9 +590,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -612,9 +612,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -633,9 +633,9 @@ class Hammerdin(IChar):
                 wait(0.3, 0.6)
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
             if self._skill_hotkeys["cleansing"]:
@@ -653,9 +653,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
             self._cast_hammers(0.5, "cleansing")
             ### LOOT ###
@@ -704,9 +704,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -722,9 +722,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -867,9 +867,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -890,9 +890,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -942,9 +942,9 @@ class Hammerdin(IChar):
             """
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -967,11 +967,11 @@ class Hammerdin(IChar):
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"])
+            self._cast_hammers(Config().char["atk_len_diablo_infector"])
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"])
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"])
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"])
+            self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"])
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
             ### LOOT ###
@@ -987,9 +987,9 @@ class Hammerdin(IChar):
             ### ATTACK ###
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), self._char_config["atk_len_cs_trashmobs"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2)
@@ -1010,13 +1010,13 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             self._cast_hammers(1, "redemption")
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
@@ -1041,18 +1041,18 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_vizier"])
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
             wait(0.1, 0.15)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
@@ -1092,21 +1092,21 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
+            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
@@ -1129,21 +1129,21 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, time_out=3)
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), self._char_config["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"] * 0.5)
+            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
             self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, time_out=3)
-            self._move_and_attack((0, 0), self._char_config["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
             wait(0.1, 0.2)
             self._cast_hammers(2, "redemption")
             self._cast_hammers(1, "cleansing")
@@ -1175,11 +1175,11 @@ class Hammerdin(IChar):
             pos_m = Screen().convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(self._char_config["atk_len_diablo_infector"] * 0.4)
+            self._cast_hammers(Config().char["atk_len_diablo_infector"] * 0.4)
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), self._char_config["atk_len_diablo_infector"] * 0.3)
+            self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"] * 0.3)
             self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), self._char_config["atk_len_diablo_infector"] * 0.4)
+            self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"] * 0.4)
             wait(0.1, 0.15)
             self._cast_hammers(1.2, "redemption")
             ### LOOT ###
@@ -1202,11 +1202,11 @@ class Hammerdin(IChar):
         pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         Logger.debug("Attacking Diablo at position 1/1")
-        self._cast_hammers(self._char_config["atk_len_diablo"])
+        self._cast_hammers(Config().char["atk_len_diablo"])
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((60, 30), self._char_config["atk_len_diablo"])
+        self._move_and_attack((60, 30), Config().char["atk_len_diablo"])
         self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), self._char_config["atk_len_diablo"])
+        self._move_and_attack((-60, -30), Config().char["atk_len_diablo"])
         wait(0.1, 0.15)
         self._cast_hammers(1.2, "redemption")
         ### LOOT ###
@@ -1221,8 +1221,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    config = Config()
     t_finder = TemplateFinder()
     pather = Pather(t_finder)
     ui_manager = UiManager(t_finder)
-    char = Hammerdin(config.hammerdin, config.char, t_finder, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, t_finder, ui_manager, pather)

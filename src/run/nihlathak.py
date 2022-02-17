@@ -23,7 +23,6 @@ class Nihlathak:
         char: IChar,
         pickit: PickIt
     ):
-        self._config = Config()
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager

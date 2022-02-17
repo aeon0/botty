@@ -12,7 +12,6 @@ from utils.misc import wait
 
 class A3(IAct):
     def __init__(self, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
-        self._config = Config()
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
@@ -43,8 +42,8 @@ class A3(IAct):
         wait(0.3)
         def stash_is_open_func():
             img = Screen().grab()
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=self._config.ui_roi["gold_btn_stash"]).valid
+            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
+            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found
         if not self._char.select_by_template("A3_STASH", stash_is_open_func, telekinesis=True):
             return False

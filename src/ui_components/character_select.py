@@ -76,7 +76,7 @@ class SelectCharacter():
         img = Screen().grab()
         res, m = SelectedCharacter.detect(self._template_finder, img)
         if m.valid:
-            x, y, w, h = Config.ui_roi["character_name_sub_roi"]
+            x, y, w, h = Config().ui_roi["character_name_sub_roi"]
             x, y = x + m.region[0], y + m.region[1]
             char_template = cut_roi(img, [x, y, w, h])
 
@@ -126,7 +126,7 @@ class SelectCharacter():
                 if scrolls_attempts > 0:
                     img = Screen().grab()
                 # TODO: can cleanup logic here, can we utilize a generic ScreenObject or use custom locator?
-                desired_char = self._template_finder.search(SelectedCharacter._last_char_template, img, roi = Config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
+                desired_char = self._template_finder.search(SelectedCharacter._last_char_template, img, roi = Config().ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
                 if desired_char.valid:
                     print(f"{m.region} {desired_char.center}")
                     if is_in_roi(m.region, desired_char.center) and scrolls_attempts == 0:
@@ -143,7 +143,7 @@ class SelectCharacter():
                 else:
                     Logger.debug("Highlighted profile found but saved character not in view, scroll")
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    center = roi_center(Config.ui_roi["character_select"])
+                    center = roi_center(Config().ui_roi["character_select"])
                     center = Screen().convert_screen_to_monitor(center)
                     mouse.move(*center)
                     wait(0.4, 0.6)

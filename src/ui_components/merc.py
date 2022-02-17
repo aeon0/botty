@@ -14,8 +14,7 @@ class MercIcon(ScreenObject):
         super().__init__(template_finder, match)
 
 def get_merc_health(img: np.ndarray) -> float:
-    config = Config()
-    health_rec = [config.ui_pos["merc_health_left"], config.ui_pos["merc_health_top"], config.ui_pos["merc_health_width"], 1]
+    health_rec = [Config().ui_pos["merc_health_left"], Config().ui_pos["merc_health_top"], Config().ui_pos["merc_health_width"], 1]
     merc_health_img = cut_roi(img, health_rec)
     merc_health_img = cv2.cvtColor(merc_health_img, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(merc_health_img, 5, 255, cv2.THRESH_BINARY)

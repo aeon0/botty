@@ -23,7 +23,6 @@ class Arcane:
         char: IChar,
         pickit: PickIt
     ):
-        self._config = Config()
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
@@ -92,7 +91,7 @@ class Arcane:
             found = self._find_summoner(data.jump_to_summoner)
             # Kill the summoner or trash mob
             self._char.kill_summoner()
-            if self._config.char["open_chests"]:
+            if Config().char["open_chests"]:
                 self._chest.open_up_chests()
             picked_up_items |= self._pickit.pick_up_items(self._char)
             if found:
@@ -121,7 +120,6 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     from bot import Bot
-    config = Config()
     game_stats = GameStats()
     bot = Bot(game_stats, False)
     bot._arcane._find_summoner([(500, 40)])

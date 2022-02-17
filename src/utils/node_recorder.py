@@ -13,7 +13,7 @@ import math
 
 
 class NodeRecorder:
-    def __init__(self, config: Config, run_name):
+    def __init__(self, run_name):
         if os.path.exists("generated"):
             for path in Path("generated").glob("**/*"):
                 if path.is_file():
@@ -26,8 +26,8 @@ class NodeRecorder:
         self._run_name = run_name
         self._offset = 100
         self._template_counter = 0
-        self._half_width = config.ui_pos["screen_width"] // 2
-        self._half_height = config.ui_pos["screen_height"] // 2
+        self._half_width = Config().ui_pos["screen_width"] // 2
+        self._half_height = Config().ui_pos["screen_height"] // 2
         self._curr_state = 0
         self._upper_left = None
         self._template_finder = TemplateFinder()
@@ -138,9 +138,8 @@ if __name__ == "__main__":
     print("Enter run name...")
     run_name = input()
 
-    config = Config()
 
-    recorder = NodeRecorder(config, run_name)
+    recorder = NodeRecorder(run_name)
     keyboard.hook(recorder.hook, suppress=True)
 
     while 1:

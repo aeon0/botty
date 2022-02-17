@@ -26,7 +26,7 @@ class BlizzSorc(Sorceress):
         self._pather.offset_node(501, (10, -33))
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["ice_blast"]:
             keyboard.send(self._skill_hotkeys["ice_blast"])
         for _ in range(5):
@@ -37,7 +37,7 @@ class BlizzSorc(Sorceress):
             mouse.press(button="left")
             wait(delay[0], delay[1])
             mouse.release(button="left")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _blizzard(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if not self._skill_hotkeys["blizzard"]:
@@ -54,9 +54,9 @@ class BlizzSorc(Sorceress):
             mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
-        pindle_pos_abs = Screen().convert_screen_to_abs(self._config.path["pindle_end"][0])
+        pindle_pos_abs = Screen().convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-        for _ in range(int(self._char_config["atk_len_pindle"])):
+        for _ in range(int(Config().char["atk_len_pindle"])):
             self._blizzard(cast_pos_abs, spray=11)
             self._ice_blast(cast_pos_abs, spray=11)
         # Move to items
@@ -211,7 +211,7 @@ class BlizzSorc(Sorceress):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_sequences = max(1, int(self._char_config["atk_len_nihlathak"]) - 1)
+        atk_sequences = max(1, int(Config().char["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
             nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], Screen().grab())
             if nihlathak_pos_abs is not None:
@@ -219,8 +219,8 @@ class BlizzSorc(Sorceress):
                 wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)
-                is_nihl = self._template_finder.search(["NIHL_BAR"], Screen().grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
-                nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], Screen().grab(), threshold=0.8, roi=self._config.ui_roi["enemy_info"]).valid
+                is_nihl = self._template_finder.search(["NIHL_BAR"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 if is_nihl:
                     Logger.info("Found him!")
                     if nihl_immune:
@@ -239,7 +239,7 @@ class BlizzSorc(Sorceress):
         cast_pos_abs = np.array([0, 0])
         pos_m = Screen().convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        for _ in range(int(self._char_config["atk_len_arc"])):
+        for _ in range(int(Config().char["atk_len_arc"])):
             self._blizzard(cast_pos_abs, spray=11)
             self._ice_blast(cast_pos_abs, spray=11)
         wait(self._cast_duration, self._cast_duration + 0.2)
@@ -256,9 +256,8 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    config = Config()
     t_finder = TemplateFinder()
     pather = Pather(t_finder)
     ui_manager = UiManager(t_finder)
-    char = BlizzSorc(config.blizz_sorc, config.char, t_finder, ui_manager, pather)
+    char = BlizzSorc(Config().blizz_sorc, Config().char, t_finder, ui_manager, pather)
     char.kill_council()

@@ -49,9 +49,7 @@ class AnyaShopper:
     4.) While being ingame, press resume_key (default F11) to start the shopping, and exit_key (default F12) to stop it.
     """
 
-    def __init__(self, config: Config):
-        self._config = config
-
+    def __init__(self):
         # Set look_for variables to False if you dont like your personal shopper to look for these
         # Obviously something need to be set to True, or your shopper will be very confused
         # For the trap claw scores use:
@@ -59,12 +57,12 @@ class AnyaShopper:
         # 9 if you want at least +2 assassin or two useful trap stats
         # 11 if you want at least +3 traps or +2 and a sentry bonus
         # Similar for melee claws but not really worth keeping any less that 11 here since you really want both +2 assassin and a useful other stat, feedback needed
-        self.look_for_plus_2_gloves = self._config.shop["shop_2_skills_ias_gloves"]
-        self.look_for_plus_3_gloves = self._config.shop["shop_3_skills_ias_gloves"]
-        self.look_for_trap_claws = self._config.shop["shop_trap_claws"]
-        self.trap_claw_min_score = self._config.shop["trap_min_score"]
-        self.look_for_melee_claws = self._config.shop["shop_melee_claws"]
-        self.melee_claw_min_score = self._config.shop["melee_min_score"]
+        self.look_for_plus_2_gloves = Config().shop["shop_2_skills_ias_gloves"]
+        self.look_for_plus_3_gloves = Config().shop["shop_3_skills_ias_gloves"]
+        self.look_for_trap_claws = Config().shop["shop_trap_claws"]
+        self.trap_claw_min_score = Config().shop["trap_min_score"]
+        self.look_for_melee_claws = Config().shop["shop_melee_claws"]
+        self.melee_claw_min_score = Config().shop["melee_min_score"]
 
 
         self._template_finder = TemplateFinder(["assets\\ui_templates\\view", "assets\\npc", "assets\\shop"], save_last_res=True)
@@ -76,11 +74,11 @@ class AnyaShopper:
         self.gloves_bought = 0
 
         # Claws config
-        self.roi_claw_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
-        self.roi_vendor = config.ui_roi["left_inventory"]
+        self.roi_claw_stats = [0, 0, Config().ui_pos["screen_width"] // 2, Config().ui_pos["screen_height"] - 100]
+        self.roi_vendor = Config().ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = Screen().convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = Screen().convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.c_x, self.c_y = Screen().convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.claws_evaluated = 0
         self.claws_bought = 0
 
@@ -105,7 +103,7 @@ class AnyaShopper:
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
-                roi=self._config.ui_roi["left_inventory"],
+                roi=Config().ui_roi["left_inventory"],
                 normalize_monitor=True,
             )
             if ias_glove.valid:
