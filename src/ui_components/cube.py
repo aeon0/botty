@@ -18,15 +18,15 @@ class CubeInventory(ScreenObject):
         self.hover_over_self()
         mouse.click("right")
         wait(0.1)
-        return CubeOpened.detect(self.screen, self.finder)
+        return CubeOpened.detect(self.finder)
 
 
 @Locator(ref=["CUBE_TRANSMUTE_BTN"], roi="cube_btn_roi", threshold=0.8)
 class CubeOpened(ScreenObject):
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
-        self._inventory = inspect_area(screen=screen, finder=template_finder, total_rows=4, total_columns=3, roi=Config.ui_roi["cube_area_roi"], known_items=[])
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
+        self._inventory = inspect_area(finder=template_finder, total_rows=4, total_columns=3, roi=Config().ui_roi["cube_area_roi"], known_items=[])
 
     def transmute(self) -> Self:
         self.hover_over_self()

@@ -28,9 +28,7 @@ class TemplateFinder:
     to find these assets within another image
     IMPORTANT: This method must be thread safe!
     """
-    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\ui_templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
-        self._screen = screen
-        self._config = Config()
+    def __init__(self, template_pathes: list[str] = ["assets\\templates", "assets\\ui_templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
         self._save_last_res = save_last_res
         if self._save_last_res:
             # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
@@ -146,8 +144,8 @@ class TemplateFinder:
                     ref_point = roi_center(rec)
 
                     if normalize_monitor:
-                        ref_point =  self._screen.convert_screen_to_monitor(ref_point)
-                        rec[0], rec[1] = self._screen.convert_screen_to_monitor((rec[0], rec[1]))
+                        ref_point =  Screen().convert_screen_to_monitor(ref_point)
+                        rec[0], rec[1] = Screen().convert_screen_to_monitor((rec[0], rec[1]))
                     if best_match:
                         scores[count] = max_val
                         ref_points[count] = ref_point
@@ -198,15 +196,15 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
-            img = self._screen.grab()
+            img = Screen().grab()
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
-            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
                     Logger.debug(f"Found Match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     return template_match
                 if time_out is not None and (time.time() - start) > time_out:
-                    if self._config.general["info_screenshots"] and take_ss:
+                    if Config().general["info_screenshots"] and take_ss:
                         cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     if take_ss:
                         Logger.debug(f"Could not find any of the above templates")
@@ -216,13 +214,12 @@ class TemplateFinder:
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
     from screen import Screen
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
+    template_finder = TemplateFinder()
     search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
 
     while 1:
         # img = cv2.imread("")
-        img = screen.grab()
+        img = Screen().grab()
         display_img = img.copy()
         start = time.time()
         for key in search_templates:

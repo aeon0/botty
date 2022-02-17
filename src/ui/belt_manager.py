@@ -15,9 +15,7 @@ from ui import UiManager
 
 
 class BeltManager:
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
-        self._screen = screen
+    def __init__(self, template_finder: TemplateFinder):
         self._template_finder = template_finder
         self._pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
         self._item_pot_map = {
@@ -49,13 +47,13 @@ class BeltManager:
             return "empty"
         score_list = []
         # rejuv
-        mask, _ = color_filter(img, self._config.colors["rejuv_potion"])
+        mask, _ = color_filter(img, Config().colors["rejuv_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # health
-        mask, _ = color_filter(img, self._config.colors["health_potion"])
+        mask, _ = color_filter(img, Config().colors["health_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # mana
-        mask, _ = color_filter(img, self._config.colors["mana_potion"])
+        mask, _ = color_filter(img, Config().colors["mana_potion"])
         score_list.append((float(np.sum(mask)) / mask.size) * (1/255.0))
         # find max score
         max_val = np.max(score_list)
@@ -68,25 +66,25 @@ class BeltManager:
 
     def _cut_potion_img(self, img: np.ndarray, column: int, row: int) -> np.ndarray:
         roi = [
-            self._config.ui_pos["potion1_x"] - (self._config.ui_pos["potion_width"] // 2) + column * self._config.ui_pos["potion_next"],
-            self._config.ui_pos["potion1_y"] - (self._config.ui_pos["potion_height"] // 2) - int(row * self._config.ui_pos["potion_next"] * 0.92),
-            self._config.ui_pos["potion_width"],
-            self._config.ui_pos["potion_height"]
+            Config().ui_pos["potion1_x"] - (Config().ui_pos["potion_width"] // 2) + column * Config().ui_pos["potion_next"],
+            Config().ui_pos["potion1_y"] - (Config().ui_pos["potion_height"] // 2) - int(row * Config().ui_pos["potion_next"] * 0.92),
+            Config().ui_pos["potion_width"],
+            Config().ui_pos["potion_height"]
         ]
         return cut_roi(img, roi)
 
     def drink_potion(self, potion_type: str, merc: bool = False, stats: List = []) -> bool:
-        img = self._screen.grab()
+        img = Screen().grab()
         for i in range(4):
             potion_img = self._cut_potion_img(img, i, 0)
             if self._potion_type(potion_img) == potion_type:
                 key = f"potion{i+1}"
                 if merc:
                     Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc. HP: {(stats[0]*100):.1f}%")
-                    keyboard.send(f"left shift + {self._config.char[key]}")
+                    keyboard.send(f"left shift + {Config().char[key]}")
                 else:
                     Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
-                    keyboard.send(self._config.char[key])
+                    keyboard.send(Config().char[key])
                 self._pot_needs[potion_type] = max(0, self._pot_needs[potion_type] + 1)
                 return True
         return False
@@ -107,19 +105,19 @@ class BeltManager:
         """
         self._pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
         rows_left = {
-            "rejuv": self._config.char["belt_rejuv_columns"],
-            "health": self._config.char["belt_hp_columns"],
-            "mana": self._config.char["belt_mp_columns"],
+            "rejuv": Config().char["belt_rejuv_columns"],
+            "health": Config().char["belt_hp_columns"],
+            "mana": Config().char["belt_mp_columns"],
         }
         # In case we are in danger that the mouse hovers the belt rows, move it to the center
-        screen_mouse_pos = self._screen.convert_monitor_to_screen(mouse.get_position())
-        if screen_mouse_pos[1] > self._config.ui_pos["screen_height"] * 0.72:
-            center_m = self._screen.convert_abs_to_monitor((-200, -120))
+        screen_mouse_pos = Screen().convert_monitor_to_screen(mouse.get_position())
+        if screen_mouse_pos[1] > Config().ui_pos["screen_height"] * 0.72:
+            center_m = Screen().convert_abs_to_monitor((-200, -120))
             mouse.move(*center_m, randomize=100)
-        keyboard.send(self._config.char["show_belt"])
+        keyboard.send(Config().char["show_belt"])
         wait(0.5)
         # first clean up columns that might be too much
-        img = self._screen.grab()
+        img = Screen().grab()
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
@@ -128,13 +126,13 @@ class BeltManager:
                     rows_left[potion_type] += 1
                     key = f"potion{column+1}"
                     for _ in range(5):
-                        keyboard.send(self._config.char[key])
+                        keyboard.send(Config().char[key])
                         wait(0.2, 0.3)
         # calc how many potions are needed
-        img = self._screen.grab()
+        img = Screen().grab()
         current_column = None
         for column in range(4):
-            for row in range(self._config.char["belt_rows"]):
+            for row in range(Config().char["belt_rows"]):
                 potion_type = self._potion_type(self._cut_potion_img(img, column, row))
                 if row == 0:
                     if potion_type != "empty":
@@ -143,48 +141,46 @@ class BeltManager:
                         for key in rows_left:
                             if rows_left[key] > 0:
                                 rows_left[key] -= 1
-                                self._pot_needs[key] += self._config.char["belt_rows"]
+                                self._pot_needs[key] += Config().char["belt_rows"]
                                 break
                         break
                 elif current_column is not None and potion_type == "empty":
                     self._pot_needs[current_column] += 1
         wait(0.2)
         Logger.debug(f"Will pickup: {self._pot_needs}")
-        keyboard.send(self._config.char["show_belt"])
+        keyboard.send(Config().char["show_belt"])
 
     def fill_up_belt_from_inventory(self, num_loot_columns: int):
         """
         Fill up your belt with pots from the inventory e.g. after death. It will open and close invetory by itself!
         :param num_loot_columns: Number of columns used for loot from left
         """
-        keyboard.send(self._config.char["inventory_screen"])
+        keyboard.send(Config().char["inventory_screen"])
         wait(0.7, 1.0)
-        img = self._screen.grab()
+        img = Screen().grab()
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
-            center_pos, slot_img = UiManager.get_slot_pos_and_img(self._config, img, column, row)
+            center_pos, slot_img = UiManager.get_slot_pos_and_img(img, column, row)
             found = self._template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
             if found:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
         for pos in pot_positions:
-            x, y = self._screen.convert_screen_to_monitor(pos)
+            x, y = Screen().convert_screen_to_monitor(pos)
             mouse.move(x, y, randomize=9, delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")
             wait(0.3, 0.4)
         keyboard.release("shift")
         wait(0.2, 0.25)
-        keyboard.send(self._config.char["inventory_screen"])
+        keyboard.send(Config().char["inventory_screen"])
         wait(0.5)
 
 
 if __name__ == "__main__":
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, template_finder)
-    belt_manager = BeltManager(screen, template_finder)
+    template_finder = TemplateFinder()
+    ui_manager = UiManager(template_finder)
+    belt_manager = BeltManager(template_finder)
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)

@@ -6,6 +6,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
+from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
 from typing import Tuple
@@ -14,13 +15,13 @@ import numpy as np
 
 
 class Trapsin(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Trapsin")
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, template_finder, ui_manager)
         self._pather = pather
 
     def pre_buff(self):
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._skill_hotkeys["fade"]:
             keyboard.send(self._skill_hotkeys["fade"])
@@ -39,25 +40,25 @@ class Trapsin(IChar):
             wait(self._cast_duration)
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = Screen().convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.press(button="left")
             wait(0.2, 0.3)
             mouse.release(button="left")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def _right_attack(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
         keyboard.send(self._skill_hotkeys["lightning_sentry"])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+        cast_pos_monitor = Screen().convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         def atk(num: int):
             for _ in range(num):
@@ -70,8 +71,8 @@ class Trapsin(IChar):
         atk(1)
 
     def kill_pindle(self) -> bool:
-        atk_len = max(1, int(self._char_config["atk_len_pindle"] / 2))
-        pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
+        atk_len = max(1, int(Config().char["atk_len_pindle"] / 2))
+        pindle_pos_abs = Screen().convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         for _ in range(atk_len):
             self._right_attack(cast_pos_abs, 11)
@@ -85,8 +86,8 @@ class Trapsin(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
-        atk_len = max(1, int(self._char_config["atk_len_eldritch"] / 2))
-        eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
+        atk_len = max(1, int(Config().char["atk_len_eldritch"] / 2))
+        eld_pos_abs = Screen().convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         for _ in range(atk_len):
             self._right_attack(cast_pos_abs, 90)
@@ -100,10 +101,10 @@ class Trapsin(IChar):
         return True
 
     def kill_shenk(self) -> bool:
-        atk_len = max(1, int(self._char_config["atk_len_shenk"] / 2))
-        shenk_pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
+        atk_len = max(1, int(Config().char["atk_len_shenk"] / 2))
+        shenk_pos_abs = self._pather.find_abs_node_pos(149, Screen().grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+            shenk_pos_abs = Screen().convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(atk_len):
             self._right_attack(cast_pos_abs, 90)
@@ -115,9 +116,9 @@ class Trapsin(IChar):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
-        atk_len = max(1, int(self._char_config["atk_len_nihlathak"] / 2))
+        atk_len = max(1, int(Config().char["atk_len_nihlathak"] / 2))
         for i in range(atk_len):
-            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], self._screen.grab())
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], Screen().grab())
             if nihlathak_pos_abs is None:
                 return False
             cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
@@ -127,7 +128,7 @@ class Trapsin(IChar):
             if i < atk_len - 1:
                 rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
                 tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
-                pos_m = self._screen.convert_abs_to_monitor(tele_pos_abs)
+                pos_m = Screen().convert_abs_to_monitor(tele_pos_abs)
                 self.pre_move()
                 self.move(pos_m)
         # Move to items
@@ -144,9 +145,7 @@ if __name__ == "__main__":
     from config import Config
     from char import Trapsin
     from ui import UiManager
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = Trapsin(config.trapsin, config.char, screen, t_finder, ui_manager, pather)
+    t_finder = TemplateFinder()
+    pather = Pather(t_finder)
+    ui_manager = UiManager(t_finder)
+    char = Trapsin(Config().trapsin, Config().char, t_finder, ui_manager, pather)

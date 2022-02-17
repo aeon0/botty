@@ -7,6 +7,7 @@ import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
 from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected, select_tp
+from ui_components.waypoint import WaypointLabel
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -21,17 +22,14 @@ from ocr import Ocr
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
 
-    def __init__(self, skill_hotkeys: Dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
-        self._char_config = Config().char
         self._template_finder = template_finder
         self._ui_manager = ui_manager
-        self._screen = screen
-        self._config = Config()
         self._last_tp = time.time()
         self._ocr = Ocr()
         # Add a bit to be on the save side
-        self._cast_duration = self._char_config["casting_frames"] * 0.04 + 0.01
+        self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
@@ -80,11 +78,12 @@ class IChar:
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search(ref="LABEL_WAYPOINT", roi=self._config.ui_roi["left_panel_label"], inp_img=self._screen.grab()).valid:
+            _, m = WaypointLabel.detect(self._template_finder)
+            if m.valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold, normalize_monitor=True)
+            template_match = self._template_finder.search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 mouse.move(*template_match.center)
@@ -100,16 +99,16 @@ class IChar:
 
     def skill_is_charged(self, img: np.ndarray = None) -> bool:
         if img is None:
-            img = self._screen.grab()
-        skill_img = cut_roi(img, self._config.ui_roi["skill_right"])
-        charge_mask, _ = color_filter(skill_img, self._config.colors["blue"])
+            img = Screen().grab()
+        skill_img = cut_roi(img, Config().ui_roi["skill_right"])
+        charge_mask, _ = color_filter(skill_img, Config().colors["blue"])
         if np.sum(charge_mask) > 0:
             return True
         return False
 
     def is_low_on_teleport_charges(self):
-        img = self._screen.grab()
-        charges_remaining = get_skill_charges(self._screen, self._config, self._ocr, img)
+        img = Screen().grab()
+        charges_remaining = get_skill_charges(self._ocr, img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -121,13 +120,13 @@ class IChar:
 
     def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi):
         x, y, w, h = skill_roi
-        x, y = self._screen.convert_screen_to_monitor((x, y))
+        x, y = Screen().convert_screen_to_monitor((x, y))
         mouse.move(x + w/2, y + h / 2)
         mouse.click("left")
         wait(0.3)
-        match = self._template_finder.search(skill_asset, self._screen.grab(), threshold=0.84, roi=expanded_skill_roi)
+        match = self._template_finder.search(skill_asset, Screen().grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.center)
+            x, y = Screen().convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             wait(0.3)
             keyboard.send(hotkey)
@@ -136,10 +135,10 @@ class IChar:
             wait(0.3)
 
     def remap_right_skill_hotkey(self, skill_asset, hotkey):
-        return self._remap_skill_hotkey(skill_asset, hotkey, self._config.ui_roi["skill_right"], self._config.ui_roi["skill_right_expanded"])
+        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return select_tp(self._skill_hotkeys["teleport"], self._template_finder, self._screen, self._config)
+        return select_tp(self._skill_hotkeys["teleport"], self._template_finder, Config())
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -147,58 +146,58 @@ class IChar:
             self.select_tp()
 
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
-        factor = self._config.advanced_options["pathing_delay_factor"]
+        factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
-            (force_tp or (is_right_skill_selected(self._template_finder, self._screen, self._config, ["TELE_ACTIVE"]) and \
-                is_right_skill_active(self._config, self._screen))):
+            (force_tp or (is_right_skill_selected(self._template_finder, ["TELE_ACTIVE"]) and \
+                is_right_skill_active(Config()))):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
             wait(self._cast_duration, self._cast_duration + 0.02)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-            pos_screen = self._screen.convert_monitor_to_screen(pos_monitor)
-            pos_abs = self._screen.convert_screen_to_abs(pos_screen)
+            pos_screen = Screen().convert_monitor_to_screen(pos_monitor)
+            pos_abs = Screen().convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
-            min_wd = max(10, self._config.ui_pos["min_walk_dist"])
-            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            min_wd = max(10, Config().ui_pos["min_walk_dist"])
+            max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-            x, y = self._screen.convert_abs_to_monitor(pos_abs)
+            x, y = Screen().convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             if force_move:
-                keyboard.send(self._config.char["force_move"])
+                keyboard.send(Config().char["force_move"])
             else:
                 mouse.click(button="left")
 
     def tp_town(self):
         # will check if tp is available and select the skill
-        if not has_tps(self._config, self._template_finder, self._screen):
+        if not has_tps(self._template_finder):
             return False
         mouse.click(button="right")
         roi_mouse_move = [
-            int(self._config.ui_pos["screen_width"] * 0.3),
+            int(Config().ui_pos["screen_width"] * 0.3),
             0,
-            int(self._config.ui_pos["screen_width"] * 0.4),
-            int(self._config.ui_pos["screen_height"] * 0.7)
+            int(Config().ui_pos["screen_width"] * 0.4),
+            int(Config().ui_pos["screen_height"] * 0.7)
         ]
-        pos_away = self._screen.convert_abs_to_monitor((-167, -30))
+        pos_away = Screen().convert_abs_to_monitor((-167, -30))
         wait(0.8, 1.3) # takes quite a while for tp to be visible
-        roi = self._config.ui_roi["tp_search"]
+        roi = Config().ui_roi["tp_search"]
         start = time.time()
         retry_count = 0
         while (time.time() - start) < 8:
             if time.time() - start > 3.7 and retry_count == 0:
                 retry_count += 1
                 Logger.debug("Move to another position and try to open tp again")
-                pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+                pos_m = Screen().convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
-                if has_tps(self._config, self._template_finder, self._screen):
+                if has_tps(self._template_finder):
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            img = self._screen.grab()
+            img = Screen().grab()
             template_match = self._template_finder.search(
                 "BLUE_PORTAL",
                 img,
@@ -216,34 +215,34 @@ class IChar:
                 if self._ui_manager.wait_for_loading_screen(2.0):
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
-            pos_screen = self._screen.convert_monitor_to_screen(mouse.get_position())
+            pos_screen = Screen().convert_monitor_to_screen(mouse.get_position())
             if is_in_roi(roi_mouse_move, pos_screen):
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):
         # Save current skill img
-        skill_before = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+        skill_before = cut_roi(Screen().grab(), Config().ui_roi["skill_right"])
         # Try to switch weapons and select bo until we find the skill on the right skill slot
         start = time.time()
         switch_sucess = False
         while time.time() - start < 4:
-            keyboard.send(self._char_config["weapon_switch"])
+            keyboard.send(Config().char["weapon_switch"])
             wait(0.3, 0.35)
-            keyboard.send(self._char_config["battle_command"])
+            keyboard.send(Config().char["battle_command"])
             wait(0.1, 0.19)
-            if is_right_skill_selected(self._template_finder, self._screen, self._config, ["BC", "BO"]):
+            if is_right_skill_selected(self._template_finder, ["BC", "BO"]):
                 switch_sucess = True
                 break
 
         if not switch_sucess:
             Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
-            self._char_config["cta_available"] = 0
+            Config().char["cta_available"] = 0
         else:
             # We switched succesfully, let's pre buff
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-            keyboard.send(self._char_config["battle_orders"])
+            keyboard.send(Config().char["battle_orders"])
             wait(0.1, 0.19)
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
@@ -251,9 +250,9 @@ class IChar:
         # Make sure the switch back to the original weapon is good
         start = time.time()
         while time.time() - start < 4:
-            keyboard.send(self._char_config["weapon_switch"])
+            keyboard.send(Config().char["weapon_switch"])
             wait(0.3, 0.35)
-            skill_after = cut_roi(self._screen.grab(), self._config.ui_roi["skill_right"])
+            skill_after = cut_roi(Screen().grab(), Config().ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
             if max_val > 0.9:
                 break
@@ -310,15 +309,12 @@ if __name__ == "__main__":
     from ocr import Ocr
 
     skill_hotkeys = {}
-    char_config = Config().char
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, template_finder)
-    config = Config()
+    template_finder = TemplateFinder()
+    ui_manager = UiManager(template_finder)
     ocr = Ocr()
 
-    i_char = IChar({}, screen, template_finder, ui_manager)
+    i_char = IChar({}, template_finder, ui_manager)
 
     while True:
-        print(i_char.get_skill_charges(screen.grab()))
+        print(i_char.get_skill_charges(Screen().grab()))
         wait(1)

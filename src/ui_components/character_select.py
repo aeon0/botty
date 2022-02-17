@@ -24,14 +24,14 @@ from ui_components import ScreenObject, Locator
 class OnlineStatus(ScreenObject):
     _online_character = None
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
 
     def online_active(self) -> bool:
         return self.match.name == "CHARACTER_STATE_ONLINE"
 
     @staticmethod
-    def select_online_tab(screen, region, center):
+    def select_online_tab(region, center):
         btn_width = center[0] - region[0]
         if OnlineStatus._online_character:
             Logger.debug(f"Selecting online tab")
@@ -39,7 +39,7 @@ class OnlineStatus(ScreenObject):
         else:
             Logger.debug(f"Selecting offline tab")
             x = region[0] + (3 * btn_width / 2)
-        pos = screen.convert_screen_to_monitor((x, center[1]))
+        pos = Screen().convert_screen_to_monitor((x, center[1]))
         # move cursor to appropriate tab and select
         mouse.move(*pos)
         wait(0.4, 0.6)
@@ -50,8 +50,8 @@ class OnlineStatus(ScreenObject):
 class SelectedCharacter(ScreenObject):
     _last_char_template = None
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
 
     @staticmethod
     def has_char_template_saved():
@@ -59,12 +59,11 @@ class SelectedCharacter(ScreenObject):
 
 
 class SelectCharacter():
-    def __init__(self, screen: Screen, template_finder: TemplateFinder) -> None:
-        self._screen = screen
+    def __init__(self, template_finder: TemplateFinder) -> None:
         self._template_finder = template_finder
 
     def save_char_online_status(self):
-        res, m = OnlineStatus.detect(self._screen, self._template_finder)
+        res, m = OnlineStatus.detect(self._template_finder)
         if m.valid:
             online_status = res.online_active()
             Logger.debug(f"Saved online status. Online={online_status}")
@@ -74,10 +73,10 @@ class SelectCharacter():
         OnlineStatus._online_character = online_status
 
     def save_char_template(self):
-        img = self._screen.grab()
-        res, m = SelectedCharacter.detect(self._screen, self._template_finder, img)
+        img = Screen().grab()
+        res, m = SelectedCharacter.detect(self._template_finder, img)
         if m.valid:
-            x, y, w, h = Config.ui_roi["character_name_sub_roi"]
+            x, y, w, h = Config().ui_roi["character_name_sub_roi"]
             x, y = x + m.region[0], y + m.region[1]
             char_template = cut_roi(img, [x, y, w, h])
 
@@ -103,21 +102,21 @@ class SelectCharacter():
 
     def select_char(self):
         if SelectedCharacter._last_char_template is not None:
-            img = self._screen.grab()
-            res, m = OnlineStatus.detect(self._screen, self._template_finder, img)
+            img = Screen().grab()
+            res, m = OnlineStatus.detect(self._template_finder, img)
             if m.valid:
                 if res.online_active() and (not OnlineStatus._online_character):
-                    OnlineStatus.select_online_tab(self._screen, m.region, m.center)
-                    img = self._screen.grab()
+                    OnlineStatus.select_online_tab(m.region, m.center)
+                    img = Screen().grab()
                 elif not res.online_active() and (OnlineStatus._online_character):
-                    OnlineStatus.select_online_tab(self._screen, m.region, m.center)
-                    img = self._screen.grab()
+                    OnlineStatus.select_online_tab(m.region, m.center)
+                    img = Screen().grab()
                 wait(1, 1.5)
             else:
                 Logger.error("select_char: Could not find online/offline tabs")
                 return
 
-            res, m = SelectedCharacter.detect(self._screen, self._template_finder, img)
+            res, m = SelectedCharacter.detect(self._template_finder, img)
             if not m.valid:
                 Logger.error("select_char: Could not find highlighted profile")
                 return
@@ -125,9 +124,9 @@ class SelectCharacter():
             scrolls_attempts = 0
             while scrolls_attempts < 2:
                 if scrolls_attempts > 0:
-                    img = self._screen.grab()
+                    img = Screen().grab()
                 # TODO: can cleanup logic here, can we utilize a generic ScreenObject or use custom locator?
-                desired_char = self._template_finder.search(SelectedCharacter._last_char_template, img, roi = Config.ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
+                desired_char = self._template_finder.search(SelectedCharacter._last_char_template, img, roi = Config().ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
                 if desired_char.valid:
                     print(f"{m.region} {desired_char.center}")
                     if is_in_roi(m.region, desired_char.center) and scrolls_attempts == 0:
@@ -135,7 +134,7 @@ class SelectCharacter():
                         return
                     else:
                         Logger.debug("Selecting saved character")
-                        pos = self._screen.convert_screen_to_monitor(desired_char.center)
+                        pos = Screen().convert_screen_to_monitor(desired_char.center)
                         mouse.move(*pos)
                         wait(0.4, 0.6)
                         mouse.click(button="left")
@@ -144,8 +143,8 @@ class SelectCharacter():
                 else:
                     Logger.debug("Highlighted profile found but saved character not in view, scroll")
                     # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
-                    center = roi_center(Config.ui_roi["character_select"])
-                    center = self._screen.convert_screen_to_monitor(center)
+                    center = roi_center(Config().ui_roi["character_select"])
+                    center = Screen().convert_screen_to_monitor(center)
                     mouse.move(*center)
                     wait(0.4, 0.6)
                     mouse.wheel(-14)

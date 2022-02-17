@@ -94,12 +94,10 @@ class Pather:
     nodes you can specify in which order this nodes should be traversed in self._paths.
     """
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
-        self._screen = screen
+    def __init__(self, template_finder: TemplateFinder):
         self._template_finder = template_finder
-        self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
-        self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
+        self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
+        self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -497,18 +495,18 @@ class Pather:
             raise ValueError(error_msg)
         char.pre_move()
         if type(key) == str:
-            path = self._config.path[key]
+            path = Config().path[key]
         else:
             path = key
         i = 0
         stuck_count = 0
         while i < len(path):
-            x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
+            x_m, y_m = Screen().convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = self._screen.grab()
+            t0 = Screen().grab()
             char.move((x_m, y_m))
-            t1 = self._screen.grab()
+            t1 = Screen().grab()
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -522,7 +520,7 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
         return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
@@ -546,18 +544,18 @@ class Pather:
         if f < 1.0:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if adjusted position is "inside globe"
-        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
+        screen_pos = Screen().convert_abs_to_screen(abs_pos)
+        if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
             # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
+            new_range_y_bottom = Screen().convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if clicking on merc img
-        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["merc_icon"], screen_pos):
-            width = self._config.ui_roi["merc_icon"][2]
-            height = self._config.ui_roi["merc_icon"][3]
-            w_abs, h_abs = self._screen.convert_screen_to_abs((width, height))
+        screen_pos = Screen().convert_abs_to_screen(abs_pos)
+        if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
+            width = Config().ui_roi["merc_icon"][2]
+            height = Config().ui_roi["merc_icon"][3]
+            w_abs, h_abs = Screen().convert_screen_to_abs((width, height))
             fw = abs(w_abs / float(abs_pos[0]))
             fh = abs(h_abs / float(abs_pos[1]))
             f = max(fw, fh)
@@ -571,12 +569,12 @@ class Pather:
             img,
             best_match=False,
             threshold=threshold,
-            roi=self._config.ui_roi["cut_skill_bar"],
+            roi=Config().ui_roi["cut_skill_bar"],
             use_grayscale=True
         )
         if template_match.valid:
             # Get reference position of template in abs coordinates
-            ref_pos_abs = self._screen.convert_screen_to_abs(template_match.center)
+            ref_pos_abs = Screen().convert_screen_to_abs(template_match.center)
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
@@ -633,7 +631,7 @@ class Pather:
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = self._screen.grab()
+                img = Screen().grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
                     _, m = WaypointLabel.detect(self._screen, self._template_finder)
@@ -647,7 +645,7 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if time_out > 3.1:
-                            if self._config.general["info_screenshots"]:
+                            if Config().general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
@@ -659,7 +657,7 @@ class Pather:
                         pos_abs = last_direction
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
-                    x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    x_m, y_m = Screen().convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
@@ -667,15 +665,15 @@ class Pather:
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
                     Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
-                    img = self._screen.grab()
-                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                    img = Screen().grab()
+                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=Config().ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
                         Logger.debug(f"Shrine found, activating it")
-                        x_m, y_m = self._screen.convert_abs_to_monitor((0, -130)) #above head
+                        x_m, y_m = Screen().convert_abs_to_monitor((0, -130)) #above head
                         mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
                         Logger.debug("Shrine not found.")
@@ -687,11 +685,11 @@ class Pather:
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
-                    if dist < self._config.ui_pos["reached_node_dist"]:
+                    if dist < Config().ui_pos["reached_node_dist"]:
                         continue_to_next_node = True
                     else:
                         # Move the char
-                        x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
+                        x_m, y_m = Screen().convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         last_move = time.time()
@@ -704,7 +702,7 @@ if __name__ == "__main__":
     # debug method to display all nodes
     def display_all_nodes(pather: Pather, filter: str = None):
         while 1:
-            img = pather._screen.grab()
+            img = Screen().grab()
             display_img = img.copy()
             template_map = {}
             template_scores = {}
@@ -722,15 +720,15 @@ if __name__ == "__main__":
                     if template_type in template_map:
                         ref_pos_screen = template_map[template_type]
                         # Get reference position of template in abs coordinates
-                        ref_pos_abs = pather._screen.convert_screen_to_abs(ref_pos_screen)
+                        ref_pos_abs = Screen().convert_screen_to_abs(ref_pos_screen)
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                         node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
-                        x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
+                        x, y = Screen().convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                        x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
+                        x, y = Screen().convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
@@ -744,10 +742,8 @@ if __name__ == "__main__":
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    t_finder = TemplateFinder()
+    pather = Pather(t_finder)
 
     #display_all_nodes(pather, "DIA_TRASH_")
 
@@ -761,8 +757,8 @@ if __name__ == "__main__":
     #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
     # print(code)
 
-    ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, screen, t_finder, ui_manager, pather, PickIt) #config.char,
+    ui_manager = UiManager(t_finder)
+    char = Hammerdin(Config().hammerdin, t_finder, ui_manager, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
 

@@ -41,8 +41,7 @@ class ItemFinder:
             "unique": [np.array([23, 80, 140]), np.array([23, 89, 216])],
             "runes": [np.array([21, 251, 190]), np.array([22, 255, 255])]
         }
-        config = Config()
-        self._items_to_pick = config.items
+        self._items_to_pick = Config().items
         self._folder_name = "items"
         self._min_score = 0.86
         # load all templates
@@ -55,7 +54,7 @@ class ItemFinder:
                 blacklist_item = item_name.startswith("bl__")
                 # these items will be searched for regardless of pickit setting (e.g. for runes to avoid mixup)
                 force_search = item_name.startswith("rune_")
-                if blacklist_item or ((item_name in config.items and config.items[item_name].pickit_type) or force_search):
+                if blacklist_item or ((item_name in Config().items and Config().items[item_name].pickit_type) or force_search):
                     data = cv2.imread(f"assets/{self._folder_name}/" + filename)
                     filtered_template = np.zeros(data.shape, np.uint8)
                     for key in self._template_color_ranges:
@@ -131,12 +130,10 @@ class ItemFinder:
 if __name__ == "__main__":
     from screen import Screen
     from config import Config
-    config = Config()
-    screen = Screen()
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
-        img = screen.grab().copy()
+        img = Screen().grab().copy()
         item_list = item_finder.search(img)
         for item in item_list:
             # print(item.name + " " + str(item.score))

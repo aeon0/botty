@@ -17,7 +17,6 @@ from ui_components.waypoint import Waypoint
 class Arcane:
     def __init__(
         self,
-        screen: Screen,
         template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
@@ -25,14 +24,13 @@ class Arcane:
         char: IChar,
         pickit: PickIt
     ):
-        self._config = Config()
         self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
-        self._chest = Chest(screen, self._char, self._template_finder, 'arcane')
+        self._chest = Chest(self._char, self._template_finder, 'arcane')
         self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
@@ -94,7 +92,7 @@ class Arcane:
             found = self._find_summoner(data.jump_to_summoner)
             # Kill the summoner or trash mob
             self._char.kill_summoner()
-            if self._config.char["open_chests"]:
+            if Config().char["open_chests"]:
                 self._chest.open_up_chests()
             picked_up_items |= self._pickit.pick_up_items(self._char)
             if found:
@@ -123,8 +121,6 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     from bot import Bot
-    config = Config()
-    screen = Screen()
     game_stats = GameStats()
-    bot = Bot(screen, game_stats, False)
+    bot = Bot(game_stats, False)
     bot._arcane._find_summoner([(500, 40)])
