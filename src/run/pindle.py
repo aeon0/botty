@@ -13,14 +13,12 @@ from ui_components.loading import wait_for_loading_screen
 class Pindle:
     def __init__(
         self,
-        template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
-        self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
@@ -43,7 +41,7 @@ class Pindle:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Pindle
-        if not self._template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

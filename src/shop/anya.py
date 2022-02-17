@@ -65,9 +65,8 @@ class AnyaShopper:
         self.melee_claw_min_score = Config().shop["melee_min_score"]
 
 
-        self._template_finder = TemplateFinder(["assets\\ui_templates\\view", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._messenger = Messenger()
-        self._npc_manager = NpcManager(self._template_finder)
+        self._npc_manager = NpcManager()
         self.run_count = 0
         self.start_time = time.time()
         self.ias_gloves_seen = 0
@@ -99,7 +98,7 @@ class AnyaShopper:
             img = Screen().grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove = self._template_finder.search(
+            ias_glove = TemplateFinder(True).search(
                 ref=load_template(asset_folder + "ias_gloves.png", 1.0),
                 inp_img=img,
                 threshold=0.96,
@@ -113,7 +112,7 @@ class AnyaShopper:
                 img = Screen().grab()
 
                 if self.look_for_plus_3_gloves is True:
-                    gg_gloves = self._template_finder.search(
+                    gg_gloves = TemplateFinder(True).search(
                         ref=load_template(
                             asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
@@ -130,7 +129,7 @@ class AnyaShopper:
 
                 else:
                     if self.look_for_plus_2_gloves is True:
-                        g_gloves = self._template_finder.search(
+                        g_gloves = TemplateFinder(True).search(
                             ref=load_template(
                                 asset_folder + "g_gloves.png", 1.0
                             ),
@@ -155,9 +154,9 @@ class AnyaShopper:
                 img = Screen().grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
                 for ck in claw_keys:
-                    template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
+                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
                     if template_match.valid:
-                        (y, x) = np.where(self._template_finder.last_res >= 0.6)
+                        (y, x) = np.where(TemplateFinder(True).last_res >= 0.6)
                         for (x, y) in zip(x, y):
                             new_pos = [x + self.rx + 16, y + self.ry + 50]
                             # check if pos already exists in claw_pos
@@ -177,22 +176,22 @@ class AnyaShopper:
                     img_stats = Screen().grab()
                     trap_score = 0
                     melee_score = 0
-                    if self._template_finder.search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
+                    if TemplateFinder(True).search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
                         trap_score += 12
-                    elif self._template_finder.search("TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    elif TemplateFinder(True).search("TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 8
 
-                    if self._template_finder.search("2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if TemplateFinder(True).search("2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 10
                         melee_score += 10
-                    if self._template_finder.search("TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if TemplateFinder(True).search("TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         melee_score += 6
-                    if self._template_finder.search("TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if TemplateFinder(True).search("TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 6
-                    if self._template_finder.search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if TemplateFinder(True).search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         melee_score += 2
                         trap_score += 1
-                    if self._template_finder.search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if TemplateFinder(True).search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 4
 
                     self.claws_evaluated += 1
@@ -237,7 +236,7 @@ class AnyaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        template_match = self._template_finder.search_and_wait(template_type, time_out=10, normalize_monitor=True)
+        template_match = TemplateFinder(True).search_and_wait(template_type, time_out=10, normalize_monitor=True)
         if template_match.valid:
             mouse.move(*template_match.center)
             wait(0.1, 0.2)

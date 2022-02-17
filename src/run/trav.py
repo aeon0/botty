@@ -14,14 +14,12 @@ from ui_components.waypoint import Waypoint
 class Trav:
     def __init__(
         self,
-        template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
-        self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
@@ -40,7 +38,7 @@ class Trav:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
-        if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

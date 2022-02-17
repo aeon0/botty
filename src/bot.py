@@ -36,7 +36,7 @@ from char.basic_ranged import Basic_Ranged
 
 from ui_components.main_menu import MainMenu
 from ui_components.character_select import SelectedCharacter, OnlineStatus, SelectCharacter
-from ui_components.ingame_menu import SaveAndExit
+from ui_components.ingame_menu import save_and_exit
 from ui_components.merc import MercIcon
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
@@ -49,47 +49,47 @@ from utils.dclone_ip import get_d2r_game_ip
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
-    def __init__(self, game_stats: GameStats, template_finder: TemplateFinder, pick_corpse: bool = False):
+    def __init__(self, game_stats: GameStats, pick_corpse: bool = False):
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._template_finder = template_finder
         self._item_finder = ItemFinder()
-        self._ui_manager = UiManager(self._template_finder, self._game_stats)
-        self._belt_manager = BeltManager(self._template_finder)
-        self._pather = Pather(self._template_finder)
+        self._ui_manager = UiManager(self._game_stats)
+        self._belt_manager = BeltManager()
+        self._pather = Pather()
         self._pickit = PickIt(self._item_finder, self._ui_manager, self._belt_manager)
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(Config().light_sorc, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = LightSorc(Config().light_sorc, self._ui_manager, self._pather)
         elif Config().char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._ui_manager, self._pather)
         elif Config().char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(Config().nova_sorc, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = NovaSorc(Config().nova_sorc, self._ui_manager, self._pather)
         elif Config().char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(Config().hammerdin, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
+            self._char: IChar = Hammerdin(Config().hammerdin, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif Config().char["type"] == "trapsin":
-            self._char: IChar = Trapsin(Config().trapsin, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Trapsin(Config().trapsin, self._ui_manager, self._pather)
         elif Config().char["type"] == "barbarian":
-            self._char: IChar = Barbarian(Config().barbarian, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Barbarian(Config().barbarian, self._ui_manager, self._pather)
         elif Config().char["type"] == "necro":
-            self._char: IChar = Necro(Config().necro, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Necro(Config().necro, self._ui_manager, self._pather)
         elif Config().char["type"] == "basic":
-            self._char: IChar = Basic(Config().basic, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic(Config().basic, self._ui_manager, self._pather)
         elif Config().char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(Config().basic_ranged, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Basic_Ranged(Config().basic_ranged, self._ui_manager, self._pather)
         else:
             Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
             os._exit(1)
 
         # Create Town Manager
-        npc_manager = NpcManager(self._template_finder)
-        a5 = A5(self._template_finder, self._pather, self._char, npc_manager)
-        a4 = A4(self._template_finder, self._pather, self._char, npc_manager)
-        a3 = A3(self._template_finder, self._pather, self._char, npc_manager)
-        a2 = A2(self._template_finder, self._pather, self._char, npc_manager)
-        a1 = A1(self._template_finder, self._pather, self._char, npc_manager)
-        self._town_manager = TownManager(self._template_finder, self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
+        npc_manager = NpcManager()
+        a5 = A5(self._pather, self._char, npc_manager)
+        a4 = A4(self._pather, self._char, npc_manager)
+        a3 = A3(self._pather, self._char, npc_manager)
+        a2 = A2(self._pather, self._char, npc_manager)
+        a1 = A1(self._pather, self._char, npc_manager)
+        self._town_manager = TownManager(self._ui_manager, self._item_finder, a1, a2, a3, a4, a5)
 
         # Create runs
         if Config().routes["run_shenk"] and not Config().routes["run_eldritch"]:
@@ -109,12 +109,12 @@ class Bot:
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._nihlathak = Nihlathak(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._arcane = Arcane(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._diablo = Diablo(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._belt_manager)
+        self._pindle = Pindle(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._shenk = ShenkEld(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._trav = Trav(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._belt_manager)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -149,7 +149,7 @@ class Bot:
             { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'initialization', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
-        self._transmute = Transmute(self._template_finder, self._game_stats, self._ui_manager)
+        self._transmute = Transmute(self._game_stats, self._ui_manager)
 
 
     def draw_graph(self):
@@ -217,13 +217,13 @@ class Bot:
             "select_character": Bot._MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
         })
-        match = self._template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
+        match = TemplateFinder().search_and_wait(list(transition_to_screens.keys()), best_match=True)
         self.trigger_or_stop(transition_to_screens[match.name])
 
     def on_select_character(self):
         if Config().general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
-            selector = SelectCharacter(self._template_finder)
+            selector = SelectCharacter()
             if SelectedCharacter.has_char_template_saved():
                 selector.select_char()
             else:
@@ -234,7 +234,7 @@ class Bot:
 
     def on_create_game(self):
         # Start a game from hero selection
-        res, m = MainMenu.wait_for(self._template_finder)
+        res, m = MainMenu.wait_for()
         if m.valid: res.start_game()
         else: return
         self.trigger_or_stop("start_from_town")
@@ -340,7 +340,7 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        _, m = MercIcon.detect(self._template_finder)
+        _, m = MercIcon.detect()
         if not m.valid and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
@@ -375,7 +375,7 @@ class Bot:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
         self._curr_loc = False
         self._pre_buffed = False
-        SaveAndExit(self._template_finder).save_and_exit(False)
+        save_and_exit(False)
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
@@ -392,7 +392,7 @@ class Bot:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
-        if has_tps(self._template_finder):
+        if has_tps():
             self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
 

@@ -3,7 +3,6 @@ import threading
 import time
 import cv2
 
-from template_finder import TemplateFinder
 from utils.auto_settings import check_settings
 from bot import Bot
 from config import Config
@@ -21,7 +20,6 @@ from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_vi
 class GameController:
     def __init__(self):
         self.is_running = False
-        self.template_finder = None
         self.health_monitor_thread = None
         self.health_manager = None
         self.death_manager = None
@@ -34,7 +32,7 @@ class GameController:
 
     def run_bot(self, pick_corpse: bool = False):
         # Start bot thread
-        self.bot = Bot(self.game_stats, self.template_finder, pick_corpse)
+        self.bot = Bot(self.game_stats, pick_corpse)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -88,10 +86,9 @@ class GameController:
                 if restart_game(Config().general["d2r_path"]):
                     self.game_stats.log_end_game(failed=max_game_length_reached)
                     if self.setup_screen():
-                        self.template_finder = TemplateFinder()
                         self.start_health_manager_thread()
                         self.start_death_manager_thread()
-                        self.game_recovery = GameRecovery(self.death_manager, self.template_finder)
+                        self.game_recovery = GameRecovery(self.death_manager)
                         return self.run_bot(True)
                 Logger.error("Could not restart the game. Quitting.")
                 messenger.send_message("Got stuck and could not restart the game. Quitting.")
@@ -109,10 +106,9 @@ class GameController:
             Logger.warning(f"{diff}")
         set_d2r_always_on_top()
         self.setup_screen()
-        self.template_finder = TemplateFinder()
         self.start_health_manager_thread()
         self.start_death_manager_thread()
-        self.game_recovery = GameRecovery(self.death_manager, self.template_finder)
+        self.game_recovery = GameRecovery(self.death_manager)
         self.game_stats = GameStats()
         self.start_game_controller_thread()
         self.is_running = True
@@ -132,14 +128,14 @@ class GameController:
 
     def start_health_manager_thread(self):
         # Run health monitor thread
-        self.health_manager = HealthManager(self.template_finder)
+        self.health_manager = HealthManager()
         self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
     def start_death_manager_thread(self):
         # Run death monitor thread
-        self.death_manager = DeathManager(self.template_finder)
+        self.death_manager = DeathManager()
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()

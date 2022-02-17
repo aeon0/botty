@@ -153,12 +153,11 @@ if __name__ == "__main__":
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
-    t_finder = TemplateFinder()
-    ui_manager = UiManager(t_finder)
-    belt_manager = BeltManager(t_finder)
+    ui_manager = UiManager()
+    belt_manager = BeltManager()
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
-    pather = Pather(t_finder)
+    pather = Pather()
     item_finder = ItemFinder()
-    char = Hammerdin(Config().hammerdin, Config().char, t_finder, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
     pickit = PickIt(item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))

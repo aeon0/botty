@@ -219,8 +219,8 @@ class BlizzSorc(Sorceress):
                 wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)
-                is_nihl = self._template_finder.search(["NIHL_BAR"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
-                nihl_immune = self._template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                is_nihl = TemplateFinder().search(["NIHL_BAR"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                nihl_immune = TemplateFinder().search(["COLD_IMMUNE","COLD_IMMUNES"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 if is_nihl:
                     Logger.info("Found him!")
                     if nihl_immune:
@@ -256,8 +256,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = BlizzSorc(Config().blizz_sorc, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = BlizzSorc(Config().blizz_sorc, Config().char, ui_manager, pather)
     char.kill_council()

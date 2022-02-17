@@ -15,9 +15,9 @@ import numpy as np
 
 
 class Trapsin(IChar):
-    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Trapsin")
-        super().__init__(skill_hotkeys, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, ui_manager)
         self._pather = pather
 
     def pre_buff(self):
@@ -145,7 +145,6 @@ if __name__ == "__main__":
     from config import Config
     from char import Trapsin
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = Trapsin(Config().trapsin, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = Trapsin(Config().trapsin, Config().char, ui_manager, pather)

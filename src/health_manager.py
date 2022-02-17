@@ -18,9 +18,8 @@ from ui_components.merc import get_merc_health, MercIcon
 from ui_components.player_bar import BarAnchor
 
 class HealthManager:
-    def __init__(self, template_finder: TemplateFinder):
-        self._template_finder = template_finder
-        self._ui_manager = UiManager(self._template_finder)
+    def __init__(self):
+        self._ui_manager = UiManager()
         self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
         self._did_chicken = False
@@ -73,7 +72,7 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        SaveAndExit(self._template_finder).save_and_exit(True)
+        save_and_exit(does_chicken=True)
         self._did_chicken = True
         self._pausing = True
 
@@ -88,7 +87,7 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = Screen().grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            _, m = BarAnchor.detect(self._template_finder, img)
+            _, m = BarAnchor.detect(img)
             if m.valid:
                 health_percentage = get_health(img)
                 mana_percentage = get_mana(img)
@@ -116,7 +115,7 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                _, m = MercIcon.detect(self._template_finder)
+                _, m = MercIcon.detect()
                 if m.valid:
                     merc_health_percentage = get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
@@ -138,9 +137,8 @@ if __name__ == "__main__":
     import keyboard
     import os
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
-    template_finder = TemplateFinder()
-    belt_manager = BeltManager(template_finder)
-    manager = HealthManager(template_finder)
+    belt_manager = BeltManager()
+    manager = HealthManager()
     manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")

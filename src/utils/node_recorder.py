@@ -30,8 +30,7 @@ class NodeRecorder:
         self._half_height = Config().ui_pos["screen_height"] // 2
         self._curr_state = 0
         self._upper_left = None
-        self._template_finder = TemplateFinder()
-        self._template_finder._templates = {}
+        TemplateFinder()._templates = {}
         self._pather_code_file = "generated/pather_generated.py"
         self.ref_points = {}
         self.nodes = {}
@@ -45,8 +44,8 @@ class NodeRecorder:
 
     def find_templates(self, img):
         ref_points = {}
-        for key in self._template_finder._templates:
-            found = self._template_finder.search(key, img, use_grayscale=False, threshold=0.77)
+        for key in TemplateFinder()._templates:
+            found = TemplateFinder().search(key, img, use_grayscale=False, threshold=0.77)
             if found.valid:
                 ref_points[key] = found.center
         return ref_points
@@ -78,7 +77,7 @@ class NodeRecorder:
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
                     template_img = load_template(template_path, 1.0, False)
-                    self._template_finder._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
+                    TemplateFinder()._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
             elif e.name == "f7":
                 self.ref_points = {}
             else:

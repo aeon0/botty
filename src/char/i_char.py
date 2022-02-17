@@ -25,7 +25,6 @@ class IChar:
 
     def __init__(self, skill_hotkeys: Dict, template_finder: TemplateFinder, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
-        self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._last_tp = time.time()
         self._ocr = Ocr()
@@ -79,12 +78,12 @@ class IChar:
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            _, m = WaypointLabel.detect(self._template_finder)
+            _, m = WaypointLabel.detect()
             if m.valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
+            template_match = TemplateFinder().search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 mouse.move(*template_match.center)
@@ -125,7 +124,7 @@ class IChar:
         mouse.move(x + w/2, y + h / 2)
         mouse.click("left")
         wait(0.3)
-        match = self._template_finder.search(skill_asset, Screen().grab(), threshold=0.84, roi=expanded_skill_roi)
+        match = TemplateFinder().search(skill_asset, Screen().grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
             x, y = Screen().convert_screen_to_monitor(match.center)
             mouse.move(x, y)
@@ -139,7 +138,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return select_tp(self._skill_hotkeys["teleport"], self._template_finder)
+        return select_tp(self._skill_hotkeys["teleport"])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -149,7 +148,7 @@ class IChar:
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
-            (force_tp or (is_right_skill_selected(self._template_finder, ["TELE_ACTIVE"]) and \
+            (force_tp or (is_right_skill_selected(["TELE_ACTIVE"]) and \
                 is_right_skill_active())):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
@@ -174,7 +173,7 @@ class IChar:
 
     def tp_town(self):
         # will check if tp is available and select the skill
-        if not has_tps(self._template_finder):
+        if not has_tps():
             return False
         mouse.click(button="right")
         roi_mouse_move = [
@@ -195,11 +194,11 @@ class IChar:
                 pos_m = Screen().convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
-                if has_tps(self._template_finder):
+                if has_tps():
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             img = Screen().grab()
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 "BLUE_PORTAL",
                 img,
                 threshold=0.66,
@@ -233,7 +232,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(Config().char["battle_command"])
             wait(0.1, 0.19)
-            if is_right_skill_selected(self._template_finder, ["BC", "BO"]):
+            if is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
 
@@ -311,11 +310,10 @@ if __name__ == "__main__":
     from ocr import Ocr
 
     skill_hotkeys = {}
-    template_finder = TemplateFinder()
-    ui_manager = UiManager(template_finder)
+    ui_manager = UiManager()
     ocr = Ocr()
 
-    i_char = IChar({}, template_finder, ui_manager)
+    i_char = IChar({}, ui_manager)
 
     while True:
         print(i_char.get_skill_charges(Screen().grab()))

@@ -47,9 +47,8 @@ class Transmute:
     def _wait():
         wait(0.2, 0.3)
 
-    def __init__(self, template_finder: TemplateFinder, game_stats: GameStats, ui_manager: UiManager) -> None:
+    def __init__(self, game_stats: GameStats, ui_manager: UiManager) -> None:
         self._game_stats = game_stats
-        self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._last_game = 0
 
@@ -73,7 +72,7 @@ class Transmute:
     def open_cube(self):
         self._ui_manager._move_to_stash_tab(0)
         screen = Screen().grab()
-        match = self._template_finder.search(
+        match = TemplateFinder().search(
             ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config().ui_roi["left_inventory"])
         if match.valid:
             x, y = Screen().convert_screen_to_monitor(match.center)
@@ -86,7 +85,7 @@ class Transmute:
 
     def transmute(self):
         screen = Screen().grab()
-        match = self._template_finder.search(
+        match = TemplateFinder().search(
             ["CUBE_TRANSMUTE_BTN"], screen, roi=Config().ui_roi["cube_btn_roi"])
         if match.valid:
             x, y = Screen().convert_screen_to_monitor(match.center)
@@ -125,7 +124,7 @@ class Transmute:
             slot_img = img[y_start:y_end, x_start:x_end]
             if not self._is_slot_empty(slot_img[+4:-4, +4:-4], treshold=36):
                 result.set_empty((column, row))
-            match = self._template_finder.search(
+            match = TemplateFinder().search(
                 known_items, slot_img, threshold=0.91, best_match=True)
 
             if match.valid:
@@ -186,7 +185,7 @@ class Transmute:
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
-        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20)
+        gold_btn = TemplateFinder().search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return

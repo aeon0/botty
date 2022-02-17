@@ -11,8 +11,7 @@ class TestPather:
         Logger.remove_file_logger()
 
         screen = ScreenMock()
-        template_finder = TemplateFinder()
-        self.pather = Pather(template_finder)
+        self.pather = Pather()
 
     @pytest.mark.parametrize("test_input, expected", [
         ((90, 90), True),

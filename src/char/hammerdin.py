@@ -16,9 +16,9 @@ from item.pickit import PickIt #for Diablo
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather, pickit: PickIt):
+    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather, pickit: PickIt):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         self._pickit = pickit #for Diablo
@@ -62,9 +62,7 @@ class Hammerdin(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not is_right_skill_selected(
-            self._template_finder,
-            ["VIGOR"])
+        should_cast_vigor = self._skill_hotkeys["vigor"] and not is_right_skill_selected(["VIGOR"])
         can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
@@ -1221,7 +1219,6 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = Hammerdin(Config().hammerdin, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)

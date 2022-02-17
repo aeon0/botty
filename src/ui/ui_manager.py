@@ -23,8 +23,7 @@ from game_stats import GameStats
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
 
-    def __init__(self, template_finder: TemplateFinder, game_stats: GameStats = None):
-        self._template_finder = template_finder
+    def __init__(self, game_stats: GameStats = None):
         self._messenger = Messenger()
         self._game_stats = game_stats
         self._gold_full = False
@@ -33,6 +32,33 @@ class UiManager():
             "items": 3 if Config().char["fill_shared_stash_first"] else 0,
             "gold": 0
         } #0: personal, 1: shared1, 2: shared2, 3: shared3
+
+    def use_wp(self, act: int, idx: int):
+        """
+        Use Waypoint. The menu must be opened when calling the function.
+        :param act: Index of the desired act starting at 1 [A1 = 1, A2 = 2, A3 = 3, ...]
+        :param idx: Index of the waypoint from top. Note that it start at 0!
+        """
+        str_to_idx_map = {"WP_A1_ACTIVE": 1, "WP_A2_ACTIVE": 2, "WP_A3_ACTIVE": 3, "WP_A4_ACTIVE": 4, "WP_A5_ACTIVE": 5}
+        template_match = TemplateFinder().search([*str_to_idx_map], Screen().grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["wp_act_roi"])
+        curr_active_act = str_to_idx_map[template_match.name] if template_match.valid else -1
+        if curr_active_act != act:
+            pos_act_btn = (Config().ui_pos["wp_act_i_btn_x"] + Config().ui_pos["wp_act_btn_width"] * (act - 1), Config().ui_pos["wp_act_i_btn_y"])
+            x, y = Screen().convert_screen_to_monitor(pos_act_btn)
+            mouse.move(x, y, randomize=8)
+            mouse.click(button="left")
+            wait(0.3, 0.4)
+        pos_wp_btn = (Config().ui_pos["wp_first_btn_x"], Config().ui_pos["wp_first_btn_y"] + Config().ui_pos["wp_btn_height"] * idx)
+        x, y = Screen().convert_screen_to_monitor(pos_wp_btn)
+        mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
+        wait(0.4, 0.5)
+        mouse.click(button="left")
+        # wait till loading screen is over
+        if self.wait_for_loading_screen(5):
+            while 1:
+                if not self.wait_for_loading_screen(0.2):
+                    return True
+        return False
 
     def is_overburdened(self) -> bool:
         """
@@ -135,7 +161,7 @@ class UiManager():
                         found_subprops=[]
                         for subprop in prop:
                             try:
-                                template_match = self._template_finder.search(subprop, img, threshold=0.95)
+                                template_match = TemplateFinder().search(subprop, img, threshold=0.95)
                             except:
                                 Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
                                 template_match = lambda: None; template_match.valid = True
@@ -153,7 +179,7 @@ class UiManager():
                             break
                     else:
                         try:
-                            template_match = self._template_finder.search(prop, img, threshold=0.95)
+                            template_match = TemplateFinder().search(prop, img, threshold=0.95)
                         except:
                             Logger.error(f"{x.name}: can't find template file for required {prop}, ignore just in case")
                             template_match = lambda: None; template_match.valid = True
@@ -177,7 +203,7 @@ class UiManager():
                 found_props=[]
                 for prop in exclude_props:
                     try:
-                        template_match = self._template_finder.search(prop, img, threshold=0.97)
+                        template_match = TemplateFinder().search(prop, img, threshold=0.97)
                     except:
                         Logger.error(f"{x.name}: can't find template file for exclusion {prop}, ignore just in case")
                         template_match = lambda: None; template_match.valid = False
@@ -204,7 +230,7 @@ class UiManager():
         :param stash_idx: idx of the stash starting at 0 (personal stash)
         """
         str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
-        template_match = self._template_finder.search([*str_to_idx_map], Screen().grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
+        template_match = TemplateFinder().search([*str_to_idx_map], Screen().grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
         curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
         if curr_active_stash != stash_idx:
             # select the start stash
@@ -227,7 +253,7 @@ class UiManager():
         x, y = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
         # Wait till gold btn is found
-        gold_btn = self._template_finder.search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
+        gold_btn = TemplateFinder().search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
@@ -235,7 +261,7 @@ class UiManager():
         if not gamble:
             # stash gold
             if Config().char["stash_gold"]:
-                inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+                inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
                 if inventory_no_gold.valid:
                     Logger.debug("Skipping gold stashing")
                 else:
@@ -251,7 +277,7 @@ class UiManager():
                     wait(1.0, 1.2)
                     # move cursor away from button to interfere with screen grab
                     mouse.move(-120, 0, absolute=False, randomize=15)
-                    inventory_no_gold = self._template_finder.search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+                    inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
                     if not inventory_no_gold.valid:
                         Logger.info("Stash tab is full of gold, selecting next stash tab.")
                         self._curr_stash["gold"] += 1
@@ -357,7 +383,7 @@ class UiManager():
     def transfer_shared_to_private_gold (self, count: int):
         for x in range (3):
             self._move_to_stash_tab (count)
-            stash_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", Screen().grab(), roi=Config().ui_roi["gold_btn_stash"], threshold=0.83)
+            stash_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", Screen().grab(), roi=Config().ui_roi["gold_btn_stash"], threshold=0.83)
             if stash_gold_btn.valid:
                 x,y = Screen().convert_screen_to_monitor(stash_gold_btn.center)
                 mouse.move(x, y, randomize=4)
@@ -369,7 +395,7 @@ class UiManager():
                 keyboard.send ("Enter")
                 wait (0.1, 0.15)
                 self._move_to_stash_tab (0)
-                inventory_gold_btn = self._template_finder.search("INVENTORY_GOLD_BTN", Screen().grab(), roi=Config().ui_roi["gold_btn"], threshold=0.83)
+                inventory_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", Screen().grab(), roi=Config().ui_roi["gold_btn"], threshold=0.83)
                 if inventory_gold_btn.valid:
                     x,y = Screen().convert_screen_to_monitor(inventory_gold_btn.center)
                     mouse.move(x, y, randomize=4)
@@ -407,7 +433,7 @@ class UiManager():
         Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
         :return: Bool if success
         """
-        repair_btn = self._template_finder.search_and_wait("REPAIR_BTN", roi=Config().ui_roi["repair_btn"], time_out=4, normalize_monitor=True)
+        repair_btn = TemplateFinder().search_and_wait("REPAIR_BTN", roi=Config().ui_roi["repair_btn"], time_out=4, normalize_monitor=True)
         if not repair_btn.valid:
             return False
         mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])
@@ -422,7 +448,7 @@ class UiManager():
         wait(0.1, 0.15)
         mouse.click(button="left")
         wait(0.5, 0.6)
-        tp_tome = self._template_finder.search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=Config().ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
+        tp_tome = TemplateFinder().search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=Config().ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
         keyboard.send('ctrl', do_release=False)
@@ -433,7 +459,7 @@ class UiManager():
         mouse.release(button="left")
         wait(0.5, 0.6)
         keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
+        tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
             return False
         keyboard.send('ctrl', do_release=False)
@@ -443,13 +469,13 @@ class UiManager():
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         # delay to make sure the tome has time to transfer to other inventory before closing window
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=Config().ui_roi["right_inventory"], time_out=3)
+        tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["right_inventory"], time_out=3)
         if not tp_tome.valid:
             return False
         return True
 
     def repair_needed(self) -> bool:
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             "REPAIR_NEEDED",
             Screen().grab(),
             roi=Config().ui_roi["repair_needed"],
@@ -470,7 +496,7 @@ class UiManager():
             ignore_columns = Config().char["num_loot_columns"]-1
         else:
             ignore_columns = Config().char["num_loot_columns"]-2
-        template_match = self._template_finder.search_and_wait("REFRESH", threshold=0.79, time_out=4)
+        template_match = TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4)
         if template_match.valid:
             #Gambling window is open. Starting to spent some coins
             while (gamble_on and gold):
@@ -479,22 +505,22 @@ class UiManager():
                     self.close_vendor_screen ()
                     break
                 for item in Config().char["gamble_items"]:
-                    template_match_item = self._template_finder.search (item.upper(), Screen().grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
+                    template_match_item = TemplateFinder().search (item.upper(), Screen().grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
                     while not template_match_item.valid:
                         #Refresh gambling screen
-                        template_match = self._template_finder.search ("REFRESH", Screen().grab(), normalize_monitor=True)
+                        template_match = TemplateFinder().search ("REFRESH", Screen().grab(), normalize_monitor=True)
                         if (template_match.valid):
                             mouse.move(*template_match.center, randomize=12, delay_factor=[1.0, 1.5])
                             wait(0.1, 0.15)
                             mouse.click(button="left")
                             wait(0.1, 0.15)
-                        template_match_item = self._template_finder.search (item.upper(), Screen().grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
+                        template_match_item = TemplateFinder().search (item.upper(), Screen().grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
                     #item found in gambling menu
                     mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="right")
                     wait(0.1, 0.15)
-                    template_match = self._template_finder.search ("no_gold".upper(), Screen().grab(), threshold= 0.90)
+                    template_match = TemplateFinder().search ("no_gold".upper(), Screen().grab(), threshold= 0.90)
                     #check if gold is av
                     if template_match.valid:
                         gold = False
@@ -529,7 +555,7 @@ class UiManager():
         keyboard.write('/nopickup',delay=.20)
         keyboard.send('enter')
         wait(0.1, 0.25)
-        no_pickup = self._template_finder.search_and_wait(["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"], roi=Config().ui_roi["no_pickup"], best_match=True, time_out=3)
+        no_pickup = TemplateFinder().search_and_wait(["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"], roi=Config().ui_roi["no_pickup"], best_match=True, time_out=3)
         if not no_pickup.valid:
             return False
         if no_pickup.name == "ITEM_PICKUP_DISABLED":
@@ -548,18 +574,18 @@ class UiManager():
         :param healing_pots: Number of healing pots to buy
         :param mana_pots: Number of mana pots to buy
         """
-        h_pot = self._template_finder.search_and_wait("SUPER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
+        h_pot = TemplateFinder().search_and_wait("SUPER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            h_pot = self._template_finder.search_and_wait("GREATER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
+            h_pot = TemplateFinder().search_and_wait("GREATER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
         if h_pot.valid:
             mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(healing_pots):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
 
-        m_pot = self._template_finder.search_and_wait("SUPER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
+        m_pot = TemplateFinder().search_and_wait("SUPER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-            m_pot = self._template_finder.search_and_wait("GREATER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
+            m_pot = TemplateFinder().search_and_wait("GREATER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
         if m_pot.valid:
             mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
             for _ in range(mana_pots):
@@ -576,7 +602,6 @@ if __name__ == "__main__":
     print("Start")
     from config import Config
     game_stats = GameStats()
-    template_finder = TemplateFinder()
     item_finder = ItemFinder()
-    ui_manager = UiManager(template_finder, game_stats)
-    ui_manager.gamble (item_finder)
+    ui_manager = UiManager(game_stats)
+    ui_manager.gamble()

@@ -15,8 +15,7 @@ from ui import UiManager
 
 
 class BeltManager:
-    def __init__(self, template_finder: TemplateFinder):
-        self._template_finder = template_finder
+    def __init__(self):
         self._pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
         self._item_pot_map = {
             "misc_rejuvenation_potion": "rejuv",
@@ -161,7 +160,7 @@ class BeltManager:
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = UiManager.get_slot_pos_and_img(img, column, row)
-            found = self._template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
+            found = TemplateFinder().search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
             if found:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
@@ -179,8 +178,7 @@ class BeltManager:
 
 if __name__ == "__main__":
     keyboard.wait("f11")
-    template_finder = TemplateFinder()
-    ui_manager = UiManager(template_finder)
-    belt_manager = BeltManager(template_finder)
+    ui_manager = UiManager()
+    belt_manager = BeltManager()
     belt_manager.update_pot_needs()
     print(belt_manager._pot_needs)

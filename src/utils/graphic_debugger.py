@@ -27,7 +27,6 @@ class GraphicDebuggerController:
 
     def __init__(self):
         self.item_finder = None
-        self.template_finder = None
         self.debugger_thread = None
         self.ui_thread = None
         self.app = None
@@ -41,7 +40,6 @@ class GraphicDebuggerController:
 
     def start(self):
         self.item_finder = ItemFinder()
-        self.template_finder = TemplateFinder()
         if Config().advanced_options['graphic_debugger_layer_creator']:
             self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
@@ -300,7 +298,7 @@ class GraphicDebuggerController:
                 # Show Town A5 template matches
                 scores = {}
                 for template_name in search_templates:
-                    template_match = self.template_finder.search(template_name, img, threshold=0.65)
+                    template_match = TemplateFinder().search(template_name, img, threshold=0.65)
                     if template_match.valid:
                         scores[template_match.name] = template_match.score
                         cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
@@ -331,7 +329,7 @@ class GraphicDebuggerController:
             # Show Town A5 template matches
             scores = {}
             for template_name in search_templates:
-                template_match = self.template_finder.search(template_name, img, threshold=0.65)
+                template_match = TemplateFinder().search(template_name, img, threshold=0.65)
                 if template_match.valid:
                     scores[template_match.name] = template_match.score
                     cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)

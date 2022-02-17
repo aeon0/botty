@@ -51,8 +51,7 @@ class DrognanShopper:
             os._exit(0)
         self.apply_pather_adjustment = Config().shop["apply_pather_adjustment"]
 
-        self._template_finder = TemplateFinder(["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
-        self._npc_manager = NpcManager(self._template_finder)
+        self._npc_manager = NpcManager()
         self.run_count = 0
         self.start_time = time.time()
 
@@ -93,9 +92,9 @@ class DrognanShopper:
                 img = Screen().grab().copy()
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
                 for ck in item_keys:
-                    template_match = self._template_finder.search(ck, img, roi=self.roi_vendor)
+                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
                     if template_match.valid:
-                        (y, x) = np.where(self._template_finder.last_res >= 0.6)
+                        (y, x) = np.where(TemplateFinder(True).last_res >= 0.6)
                         for (x, y) in zip(x, y):
                             new_pos = [x + self.rx + 16, y + self.ry + 50]
                             # check if pos already exists in item_pos
@@ -115,11 +114,11 @@ class DrognanShopper:
                     img_stats = Screen().grab()
 
                     # First check for +2 Paladin Skills. This weeds out most scepters right away.
-                    if self._template_finder.search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
+                    if TemplateFinder(True).search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
                         # Has 2 Pally skills, check blessed hammers next
-                        if self._template_finder.search("TO_BLESSED_HAMMERS", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                        if TemplateFinder(True).search("TO_BLESSED_HAMMERS", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
                             # Has 2 Pally skills AND Blessed Hammers, check Concentration next
-                            if self._template_finder.search("TO_CONCENTRATION", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                            if TemplateFinder(True).search("TO_CONCENTRATION", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
                                 # Has 2 Pally skills AND Blessed Hammers AND Concentration. We're good! Buy it!
                                 mouse.click(button="right")
                                 Logger.info(f"Item bought!")

@@ -51,7 +51,7 @@ class InventoryCollection:
 
 
 def inspect_area(
-    finder: TemplateFinder, total_rows, total_columns, roi, known_items
+    total_rows, total_columns, roi, known_items
 ) -> InventoryCollection:
     result = InventoryCollection()
     x, y, w, h = roi
@@ -66,7 +66,7 @@ def inspect_area(
             result.set_empty((column, row))
 
         if len(known_items) > 0:
-            match = finder.search(
+            match = TemplateFinder().search(
                 known_items, slot_img, threshold=0.91, best_match=True
             )
 

@@ -11,9 +11,8 @@ from utils.misc import wait
 
 
 class Chest:
-    def __init__(self, char: IChar, template_finder: TemplateFinder, template: str = None):
+    def __init__(self, char: IChar, template: str = None):
         self._char = char
-        self._template_finder = template_finder
         self._folder_name = "chests"
         # load all templates
         self._templates = []
@@ -29,7 +28,7 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < time_out:
-            template_match = self._template_finder.search(templates, Screen().grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
+            template_match = TemplateFinder().search(templates, Screen().grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:
@@ -39,13 +38,13 @@ class Chest:
                 # move mouse and check for label
                 mouse.move(*template_match.center, delay_factor=[0.4, 0.6])
                 wait(0.13, 0.16)
-                chest_label = self._template_finder.search("CHEST_LABEL", Screen().grab(), threshold=0.85)
+                chest_label = TemplateFinder().search("CHEST_LABEL", Screen().grab(), threshold=0.85)
                 if chest_label.valid:
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
                     self._char.pick_up_item(template_match.center, 'potion')
                     wait(0.13, 0.16)
-                    locked_chest = self._template_finder.search("LOCKED", Screen().grab(), threshold=0.85)
+                    locked_chest = TemplateFinder().search("LOCKED", Screen().grab(), threshold=0.85)
                     if locked_chest.valid:
                         templates.remove(template_match.name)
                         Logger.debug("No more keys, removing locked chest template")
@@ -67,9 +66,8 @@ if __name__ == "__main__":
     from pather import Pather
     from config import Config
     from ui import UiManager
-    template_finder = TemplateFinder()
-    pather = Pather(template_finder)
-    ui_manager = UiManager(template_finder)
-    char = Hammerdin(Config().hammerdin, Config().char, template_finder, ui_manager, pather)
-    chest = Chest(char, template_finder, 'arcane')
+    pather = Pather()
+    ui_manager = UiManager()
+    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
+    chest = Chest(char, 'arcane')
     chest.open_up_chests(threshold=0.8)
