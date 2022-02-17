@@ -19,14 +19,6 @@ from config import Config
 import keyboard
 from utils.misc import wait
 
-def repair_needed() -> bool:
-    template_match = TemplateFinder().search(
-        "REPAIR_NEEDED",
-        grab(),
-        roi=Config().ui_roi["repair_needed"],
-        use_grayscale=True)
-    return template_match.valid
-
 def enable_no_pickup() -> bool:
     """
     Checks the best match between enabled and disabled an retrys if already set.
