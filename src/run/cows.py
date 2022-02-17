@@ -55,6 +55,10 @@ class Cows:
         self._ui_manager.use_wp(1, 2)
         return Location.A1_STONY_FIELD_WP
 
+ 
+
+
+
     def _legdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
         while i < 6:
@@ -139,6 +143,7 @@ class Cows:
         stuck_count = 0
         super_stuck = 0
         keepernumber = 0
+        self._get_map()
         #lets start the search
         Logger.debug(str(corner_picker) + ": is our selected corner.")
         while not found:   
@@ -438,10 +443,13 @@ class Cows:
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         self._picked_up_items = False
         self.used_tps = 0   
+        pre, during_1, during_2, diffed = self._map_capture()
+        #self.map_diff(pre, during_1, during_2)
+        """
         if not self._stony_field(): return False
         if not self._tristram(): return False
         if not self._cows(): return False
-       
+        """
         return (Location.A1_COWS_END, self._picked_up_items)
 
 if __name__ == "__main__":
