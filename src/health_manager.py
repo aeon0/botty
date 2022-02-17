@@ -1,10 +1,10 @@
 from ui import UiManager
-from ui import BeltManager
 from pather import Location
 import cv2
 import time
 import keyboard
 from ui_components.globes import get_health, get_mana
+from ui_components.belt import drink_potion
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
@@ -19,7 +19,6 @@ from ui.screen_objects import ScreenObjects
 class HealthManager:
     def __init__(self):
         self._ui_manager = UiManager()
-        self._belt_manager = None # must be set with the belt manager form bot.py
         self._do_monitor = False
         self._did_chicken = False
         self._last_rejuv = time.time()
@@ -32,9 +31,6 @@ class HealthManager:
 
     def stop_monitor(self):
         self._do_monitor = False
-
-    def set_belt_manager(self, belt_manager: BeltManager):
-        self._belt_manager = belt_manager
 
     def set_callback(self, callback):
         self._callback = callback
@@ -95,14 +91,14 @@ class HealthManager:
                 last_drink = time.time() - self._last_rejuv
                 if (health_percentage < Config().char["take_rejuv_potion_health"] and last_drink > 1) or \
                    (mana_percentage < Config().char["take_rejuv_potion_mana"] and last_drink > 2):
-                    success_drink_rejuv = self._belt_manager.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
+                    success_drink_rejuv = drink_potion("rejuv", stats=[health_percentage, mana_percentage])
                     self._last_rejuv = time.time()
                 # in case no rejuv was used, check for chicken, health pot and mana pot usage
                 if not success_drink_rejuv:
                     # check health
                     last_drink = time.time() - self._last_health
                     if health_percentage < Config().char["take_health_potion"] and last_drink > 3.5:
-                        self._belt_manager.drink_potion("health", stats=[health_percentage, mana_percentage])
+                        drink_potion("health", stats=[health_percentage, mana_percentage])
                         self._last_health = time.time()
                     # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
                     elif health_percentage < Config().char["chicken"] and (time.time() - start) > 6:
@@ -111,7 +107,7 @@ class HealthManager:
                     # check mana
                     last_drink = time.time() - self._last_mana
                     if mana_percentage < Config().char["take_mana_potion"] and last_drink > 4:
-                        self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
+                        drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
                 match = detect_screen_object(ScreenObjects.MercIcon)
@@ -122,10 +118,10 @@ class HealthManager:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img)
                     if merc_health_percentage < Config().char["heal_rejuv_merc"] and last_drink > 4.0:
-                        self._belt_manager.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
+                        drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
                     elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
-                        self._belt_manager.drink_potion("health", merc=True, stats=[merc_health_percentage])
+                        drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
         Logger.debug("Stop health monitoring")
 
@@ -136,9 +132,7 @@ if __name__ == "__main__":
     import keyboard
     import os
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
-    belt_manager = BeltManager()
     manager = HealthManager()
-    manager.set_belt_manager(belt_manager)
     manager._pausing = False
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)

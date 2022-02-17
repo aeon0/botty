@@ -4,6 +4,7 @@ from template_finder import TemplateFinder
 from config import Config
 from screen import grab
 from ui.ui_manager import UiManager
+from ui_components.belt import update_pot_needs
 from utils.misc import color_filter, wait
 from logger import Logger
 import keyboard
@@ -310,11 +311,8 @@ if __name__ == "__main__":
     import os
     import keyboard
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    # keyboard.wait("f11")
+    keyboard.wait("f11")
     # npc_manager = NpcManager()
     # npc_manager.open_npc_menu(Npc.MALAH)
-    img = grab()
-    import cv2
-    cv2.imshow('img', img)
-    cv2.waitKey()
-    # npc_manager.press_npc_btn(Npc.ORMUS, "trade")
+    from ui_components.belt import update_pot_needs
+    update_pot_needs()
