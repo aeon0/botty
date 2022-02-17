@@ -1,8 +1,3 @@
-# DONE: f: has_char_template_saved(self):
-# DONE: f: save_char_template(self):
-# DONE: f: save_char_online_status(self):
-# DONE: f: select_online_tab(self, region: tuple[int, int, int, int] = None, center: tuple[int, int] = None):
-# DONE: f: select_char(self):
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, roi_center, wait, is_in_roi
 from config import Config

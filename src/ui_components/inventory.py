@@ -1,8 +1,4 @@
 # f: open/close inventory
-# f: _inventory_has_items(self, img, num_loot_columns: int, num_ignore_columns=0) -> bool:
-# f: _keep_item(self, item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
-# f: stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder, gamble = False):
-# f: should_stash(self, num_loot_columns: int):
 # - gear (not presently used)
 # - weapon switch (not presently used)
 # - slots
@@ -19,13 +15,26 @@ from utils.misc import wait
 import keyboard
 import cv2
 import time
-from ui.ui_manager import get_slot_pos_and_img, slot_has_item, inventory_has_items
+from ui_components.slots import get_slot_pos_and_img, slot_has_item
 import numpy as np
 from utils.custom_mouse import mouse
 import ui_components
 import os
 
 gambling_round = 1
+
+def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> bool:
+    """
+    Check if Inventory has any items
+    :param img: Img from screen.grab() with inventory open
+    :param num_loot_columns: Number of columns to check from left
+    :return: Bool if inventory still has items or not
+    """
+    for column, row in itertools.product(range(num_ignore_columns, num_loot_columns), range(4)):
+        _, slot_img = get_slot_pos_and_img(img, column, row)
+        if slot_has_item(slot_img):
+            return True
+    return False
 
 def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = False):
     """
