@@ -42,8 +42,6 @@ class GameRecovery:
             match = detect_screen_object(SCREEN_OBJECTS['SaveAndExit'])
             if match.valid:
                 save_and_exit(False)
-            else:
-                keyboard.send("esc")
             time.sleep(1)
         return False
 
