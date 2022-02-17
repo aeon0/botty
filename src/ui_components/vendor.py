@@ -17,6 +17,8 @@ from ui_components.inventory import inventory_has_items, get_slot_pos_and_img, s
 import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
+import cv2
+import time
 
 def close_vendor_screen():
     keyboard.send("esc")
@@ -145,3 +147,24 @@ def buy_pots(healing_pots: int = 0, mana_pots: int = 0):
         for _ in range(mana_pots):
             mouse.click(button="right")
             wait(0.9, 1.1)
+
+def sell_junk(num_loot_columns: int, item_finder: ItemFinder):
+    for column, row in itertools.product(range(num_loot_columns), range(4)):
+            img = Screen().grab()
+            slot_pos, slot_img = get_slot_pos_and_img(img, column, row)
+            if slot_has_item(slot_img):
+                x_m, y_m = Screen().convert_screen_to_monitor(slot_pos)
+                mouse.move(x_m, y_m)
+                wait(0.2)
+                hovered_item = Screen().grab()
+                should_keep_item = keep_item(item_finder, hovered_item)
+                if not should_keep_item:
+                    if Config().general["info_screenshots"]:
+                        cv2.imwrite("./info_screenshots/info_sold_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+                    keyboard.press("ctrl")
+                    wait(0.2, 0.4)
+                    mouse.press(button="left")
+                    wait(0.2, 0.4)
+                    keyboard.release("ctrl")
+    close_vendor_screen()
+    wait(0.2, 0.4)
