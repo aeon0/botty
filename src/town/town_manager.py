@@ -22,7 +22,6 @@ TOWN_MARKERS = [
 class TownManager:
 
     def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._config = Config()
         self._template_finder = template_finder
         self._ui_manager = ui_manager
         self._item_finder = item_finder
@@ -162,14 +161,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder, gamble)
+            self._ui_manager.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
+        self._ui_manager.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
@@ -206,13 +205,12 @@ if __name__ == "__main__":
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager
-    config = Config()
     template_finder = TemplateFinder()
     npc_manager = NpcManager(template_finder)
     pather = Pather(template_finder)
     ui_manager = UiManager(template_finder)
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, template_finder, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, template_finder, ui_manager, pather)
     a5 = A5(template_finder, pather, char, npc_manager)
     a4 = A4(template_finder, pather, char, npc_manager)
     a3 = A3(template_finder, pather, char, npc_manager)

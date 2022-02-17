@@ -52,12 +52,12 @@ class MainMenu(ScreenObject):
                 Logger.error("start_game: Active play button never appeared")
                 return False
 
-        difficulty=Config.general["difficulty"].upper()
+        difficulty=Config().general["difficulty"].upper()
         # TODO: need to revise logic here
         if difficulty == "NORMAL": Difficulty = Normal
         elif difficulty == "NIGHTMARE": Difficulty = Nightmare
         elif difficulty == "HELL": Difficulty = Hell
-        else: Logger.error(f"Invalid difficulty: {Config.general['difficulty']}")
+        else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
         start = time.time()
         while True:
             #look for difficulty select

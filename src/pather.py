@@ -95,10 +95,9 @@ class Pather:
     """
 
     def __init__(self, template_finder: TemplateFinder):
-        self._config = Config()
         self._template_finder = template_finder
-        self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
-        self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
+        self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
+        self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -496,7 +495,7 @@ class Pather:
             raise ValueError(error_msg)
         char.pre_move()
         if type(key) == str:
-            path = self._config.path[key]
+            path = Config().path[key]
         else:
             path = key
         i = 0
@@ -546,16 +545,16 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if adjusted position is "inside globe"
         screen_pos = Screen().convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
+        if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
             # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = Screen().convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
+            new_range_y_bottom = Screen().convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if clicking on merc img
         screen_pos = Screen().convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["merc_icon"], screen_pos):
-            width = self._config.ui_roi["merc_icon"][2]
-            height = self._config.ui_roi["merc_icon"][3]
+        if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
+            width = Config().ui_roi["merc_icon"][2]
+            height = Config().ui_roi["merc_icon"][3]
             w_abs, h_abs = Screen().convert_screen_to_abs((width, height))
             fw = abs(w_abs / float(abs_pos[0]))
             fh = abs(h_abs / float(abs_pos[1]))
@@ -570,7 +569,7 @@ class Pather:
             img,
             best_match=False,
             threshold=threshold,
-            roi=self._config.ui_roi["cut_skill_bar"],
+            roi=Config().ui_roi["cut_skill_bar"],
             use_grayscale=True
         )
         if template_match.valid:
@@ -646,7 +645,7 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if time_out > 3.1:
-                            if self._config.general["info_screenshots"]:
+                            if Config().general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
@@ -667,14 +666,14 @@ class Pather:
                 if (teleport_count + 1) % 30 == 0:
                     Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
                     img = Screen().grab()
-                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=self._config.ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=Config().ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
                         Logger.debug(f"Shrine found, activating it")
                         x_m, y_m = Screen().convert_abs_to_monitor((0, -130)) #above head
                         mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
                         Logger.debug("Shrine not found.")
@@ -686,7 +685,7 @@ class Pather:
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
-                    if dist < self._config.ui_pos["reached_node_dist"]:
+                    if dist < Config().ui_pos["reached_node_dist"]:
                         continue_to_next_node = True
                     else:
                         # Move the char
@@ -743,7 +742,6 @@ if __name__ == "__main__":
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
-    config = Config()
     t_finder = TemplateFinder()
     pather = Pather(t_finder)
 
@@ -760,7 +758,7 @@ if __name__ == "__main__":
     # print(code)
 
     ui_manager = UiManager(t_finder)
-    char = Hammerdin(config.hammerdin, t_finder, ui_manager, pather, PickIt) #config.char,
+    char = Hammerdin(Config().hammerdin, t_finder, ui_manager, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
 

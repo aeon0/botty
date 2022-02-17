@@ -7,6 +7,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
+from config import Config
 from utils.misc import wait, cut_roi
 import time
 from pather import Pather, Location
@@ -24,7 +25,7 @@ class Barbarian(IChar):
         #  keyboard.send(self._skill_hotkeys["concentration"])
         #  wait(0.05, 0.1)
         cry_frequency = min(0.2, self._skill_hotkeys["cry_frequency"])
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         wait(0.05, 0.1)
         if self._skill_hotkeys["war_cry"]:
             keyboard.send(self._skill_hotkeys["war_cry"])
@@ -36,7 +37,7 @@ class Barbarian(IChar):
             wait(cry_frequency, cry_frequency + 0.2)
             mouse.click(button="right")
         wait(0.01, 0.05)
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
     
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         if capabilities.can_teleport_natively:
@@ -56,11 +57,11 @@ class Barbarian(IChar):
         wait(1)
 
     def pre_buff(self):
-        keyboard.send(self._char_config["battle_command"])
+        keyboard.send(Config().char["battle_command"])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(self._char_config["battle_orders"])
+        keyboard.send(Config().char["battle_orders"])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
@@ -73,8 +74,8 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(self._template_finder, self._config, ["LEAP"])
-        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active(self._config)
+        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(self._template_finder, ["LEAP"])
+        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if  should_cast_leap and not can_teleport:
             keyboard.send(self._skill_hotkeys["leap"])
             wait(0.15, 0.25)
@@ -95,7 +96,7 @@ class Barbarian(IChar):
             #  wait(0.05, 0.15)
                 self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
-        self._cast_war_cry(self._char_config["atk_len_pindle"])
+        self._cast_war_cry(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._do_hork(4)
         return True
@@ -106,7 +107,7 @@ class Barbarian(IChar):
         else:
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
-        self._cast_war_cry(self._char_config["atk_len_eldritch"])
+        self._cast_war_cry(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
         self._do_hork(4)
         return True
@@ -114,14 +115,14 @@ class Barbarian(IChar):
     def kill_shenk(self):
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
-        self._cast_war_cry(self._char_config["atk_len_shenk"])
+        self._cast_war_cry(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
         self._do_hork(7)
         return True
 
     def kill_council(self) -> bool:
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        atk_len = self._char_config["atk_len_trav"]
+        atk_len = Config().char["atk_len_trav"]
         # Go inside and war cry a bit
         self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
         self._cast_war_cry(atk_len)
@@ -147,11 +148,11 @@ class Barbarian(IChar):
         # move mouse to center (leftover from hammerdin)
         pos_m = Screen().convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_war_cry(self._char_config["atk_len_nihlathak"] * 0.4)
+        self._cast_war_cry(Config().char["atk_len_nihlathak"] * 0.4)
         self._cast_war_cry(0.8)
-        self._move_and_attack((30, 15), self._char_config["atk_len_nihlathak"] * 0.3)
+        self._move_and_attack((30, 15), Config().char["atk_len_nihlathak"] * 0.3)
         self._cast_war_cry(0.8)
-        self._move_and_attack((-30, -15), self._char_config["atk_len_nihlathak"] * 0.4)
+        self._move_and_attack((-30, -15), Config().char["atk_len_nihlathak"] * 0.4)
         wait(0.1, 0.15)
         self._cast_war_cry(1.2)
         self._do_hork(5)
@@ -164,9 +165,8 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui.ui_manager import UiManager
-    config = Config()
     t_finder = TemplateFinder()
     pather = Pather(t_finder)
     ui_manager = UiManager(t_finder)
-    char = Barbarian(config.barbarian, config.char, t_finder, ui_manager, pather)
+    char = Barbarian(Config().barbarian, Config().char, t_finder, ui_manager, pather)
     char.kill_council()

@@ -12,7 +12,6 @@ from utils.misc import wait
 
 class Chest:
     def __init__(self, char: IChar, template_finder: TemplateFinder, template: str = None):
-        self._config = Config()
         self._char = char
         self._template_finder = template_finder
         self._folder_name = "chests"
@@ -30,7 +29,7 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < time_out:
-            template_match = self._template_finder.search(templates, Screen().grab(), roi=self._config.ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
+            template_match = self._template_finder.search(templates, Screen().grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:
@@ -68,10 +67,9 @@ if __name__ == "__main__":
     from pather import Pather
     from config import Config
     from ui import UiManager
-    config = Config()
     template_finder = TemplateFinder()
     pather = Pather(template_finder)
     ui_manager = UiManager(template_finder)
-    char = Hammerdin(config.hammerdin, config.char, template_finder, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, template_finder, ui_manager, pather)
     chest = Chest(char, template_finder, 'arcane')
     chest.open_up_chests(threshold=0.8)

@@ -6,6 +6,7 @@ from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import Screen
+from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
 from typing import Tuple, Union, List
@@ -152,7 +153,7 @@ class Necro(IChar):
 
     def _revive(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_revive"]:
                 keyboard.send(self._skill_hotkeys["raise_revive"])
@@ -177,11 +178,11 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _raise_skeleton(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_skeleton"]:
                 keyboard.send(self._skill_hotkeys["raise_skeleton"])
@@ -206,11 +207,11 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _raise_mage(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_mage"]:
                 keyboard.send(self._skill_hotkeys["raise_mage"])
@@ -235,12 +236,12 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def pre_buff(self):
         #only CTA if pre trav
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._shenk_dead==1:
             Logger.info("trav buff?")
@@ -285,7 +286,7 @@ class Necro(IChar):
 
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(10):
@@ -297,10 +298,10 @@ class Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _left_attack_single(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=6):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(cast_count):
@@ -312,7 +313,7 @@ class Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
@@ -327,7 +328,7 @@ class Necro(IChar):
         mouse.release(button="right")
 
     def _corpse_explosion(self, cast_pos_abs: Tuple[float, float], spray: int = 10,cast_count: int = 8):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
             if self._skill_hotkeys["corpse_explosion"]:
@@ -339,7 +340,7 @@ class Necro(IChar):
                 mouse.press(button="right")
                 wait(0.075, 0.1)
                 mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def _lerp(self,a: float,b: float, f:float):
@@ -347,7 +348,7 @@ class Necro(IChar):
 
     def _cast_circle(self, cast_dir: Tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         keyboard.send(self._skill_hotkeys[cast_spell])
         mouse.press(button="right")
 
@@ -363,13 +364,13 @@ class Necro(IChar):
 
                 #Logger.info("circle move")
         mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def kill_pindle(self) -> bool:
 
-        atk_len = max(2, int(self._char_config["atk_len_pindle"] / 2))
-        pindle_pos_abs = Screen().convert_screen_to_abs(self._config.path["pindle_end"][0])
+        atk_len = max(2, int(Config().char["atk_len_pindle"] / 2))
+        pindle_pos_abs = Screen().convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
 
         pc = [pindle_pos_abs[0] * 0.9, (pindle_pos_abs[1]-50) * 0.9]
@@ -464,8 +465,8 @@ class Necro(IChar):
 
     def kill_eldritch(self) -> bool:
         self._summon_stat()
-        atk_len = max(2, int(self._char_config["atk_len_eldritch"] / 2))
-        eld_pos_abs = Screen().convert_screen_to_abs(self._config.path["eldritch_end"][0])
+        atk_len = max(2, int(Config().char["atk_len_eldritch"] / 2))
+        eld_pos_abs = Screen().convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
 
 
@@ -536,14 +537,14 @@ class Necro(IChar):
 
         shenk_pos_abs = self._pather.find_abs_node_pos(149, Screen().grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = Screen().convert_screen_to_abs(self._config.path["shenk_end"][0])
+            shenk_pos_abs = Screen().convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         self.bone_armor()
 
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
         corpse_exp_pos = [200,80]
 
-        for _ in range(int(self._char_config["atk_len_shenk"])):
+        for _ in range(int(Config().char["atk_len_shenk"])):
             Logger.info('\033[96m'+ "shenk atk cycle" + '\033[0m')
             self._check_shenk_death()
             if(self._shenk_dead):
@@ -814,7 +815,7 @@ class Necro(IChar):
         corpse_exp_pos = cast_pos_abs
 
 
-        atk_len = self._char_config["atk_len_trav"]
+        atk_len = Config().char["atk_len_trav"]
 
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
         self._amp_dmg(cast_pos_abs, 11)
@@ -882,8 +883,7 @@ if __name__ == "__main__":
     from config import Config
     from char import Necro
     from ui import UiManager
-    config = Config()
     t_finder = TemplateFinder()
     pather = Pather(t_finder)
     ui_manager = UiManager(t_finder)
-    char = Necro(config.necro, config.char, t_finder, ui_manager, pather)
+    char = Necro(Config().necro, Config().char, t_finder, ui_manager, pather)

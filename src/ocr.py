@@ -267,7 +267,7 @@ if __name__ == "__main__":
     from screen import Screen
     ocr = Ocr()
     img = Screen().grab()
-    # img = cut_roi(img, Config.ui_roi["char_selection_top"])
+    # img = cut_roi(img, Config().ui_roi["char_selection_top"])
 
     Logger.debug("OCR result:")
     ocr_result = ocr.image_to_text(

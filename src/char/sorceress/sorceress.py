@@ -69,7 +69,7 @@ class Sorceress(IChar):
         return super().select_by_template(template_type, success_func, time_out, threshold)
 
     def pre_buff(self):
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._skill_hotkeys["energy_shield"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])

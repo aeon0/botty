@@ -26,7 +26,7 @@ class CubeOpened(ScreenObject):
 
     def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
         super().__init__(template_finder, match)
-        self._inventory = inspect_area(finder=template_finder, total_rows=4, total_columns=3, roi=Config.ui_roi["cube_area_roi"], known_items=[])
+        self._inventory = inspect_area(finder=template_finder, total_rows=4, total_columns=3, roi=Config().ui_roi["cube_area_roi"], known_items=[])
 
     def transmute(self) -> Self:
         self.hover_over_self()

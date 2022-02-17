@@ -40,17 +40,16 @@ class DrognanShopper:
     4.) While being ingame, press resume_key (default F11) to start the shopping, and exit_key (default F12) to stop it.
     """
 
-    def __init__(self, config: Config):
-        self._config = config
+    def __init__(self):
 
         # Set look_for variables to False if you dont like your personal shopper to look for these
         # Obviously something need to be set to True, or your shopper will be very confused
-        self.look_for_scepters = self._config.shop["shop_hammerdin_scepters"]
-        self.speed_factor = 1.0 + self._config.shop["speed_factor"]
+        self.look_for_scepters = Config().shop["shop_hammerdin_scepters"]
+        self.speed_factor = 1.0 + Config().shop["speed_factor"]
         if (self.speed_factor <= 0):
             Logger.error("Can not use a speed factor less than negative 1!! Please update shop.ini. Exiting.")
             os._exit(0)
-        self.apply_pather_adjustment = self._config.shop["apply_pather_adjustment"]
+        self.apply_pather_adjustment = Config().shop["apply_pather_adjustment"]
 
         self._template_finder = TemplateFinder(["assets\\templates", "assets\\npc", "assets\\shop"], save_last_res=True)
         self._npc_manager = NpcManager(self._template_finder)
@@ -58,11 +57,11 @@ class DrognanShopper:
         self.start_time = time.time()
 
         # items config
-        self.roi_shop_item_stats = [0, 0, config.ui_pos["screen_width"] // 2, config.ui_pos["screen_height"] - 100]
-        self.roi_vendor = config.ui_roi["left_inventory"]
+        self.roi_shop_item_stats = [0, 0, Config().ui_pos["screen_width"] // 2, Config().ui_pos["screen_height"] - 100]
+        self.roi_vendor = Config().ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
         self.sb_x, self.sb_y = Screen().convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = Screen().convert_screen_to_monitor((config.ui_pos["center_x"], config.ui_pos["center_y"]))
+        self.c_x, self.c_y = Screen().convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.items_evaluated = 0
         self.items_bought = 0
 
@@ -151,7 +150,7 @@ class DrognanShopper:
 
     # A variation of the move() function from pather.py
     def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
-        factor = self._config.advanced_options["pathing_delay_factor"]
+        factor = Config().advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = Screen().convert_monitor_to_screen(pos_monitor)
         pos_abs = Screen().convert_screen_to_abs(pos_screen)
@@ -159,8 +158,8 @@ class DrognanShopper:
         # This logic (from pather.py) sometimes negatively affects the shopper, so default is to skip this.
         if self.apply_pather_adjustment:
             dist = math.dist(pos_abs, (0, 0))
-            min_wd = self._config.ui_pos["min_walk_dist"]
-            max_wd = random.randint(int(self._config.ui_pos["max_walk_dist"] * 0.65), self._config.ui_pos["max_walk_dist"])
+            min_wd = Config().ui_pos["min_walk_dist"]
+            max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
 

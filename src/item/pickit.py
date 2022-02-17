@@ -18,7 +18,6 @@ class PickIt:
         self._item_finder = item_finder
         self._belt_manager = belt_manager
         self._ui_manager = ui_manager
-        self._config = Config()
         self._last_closest_item: Item = None
 
     def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
@@ -30,10 +29,10 @@ class PickIt:
         """
         found_nothing = 0
         found_items = False
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
-        if self._config.general["loot_screenshots"]:
+        if Config().general["loot_screenshots"]:
             img = Screen().grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
@@ -62,7 +61,7 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
-            if self._config.char["gold_trav_only"] and not is_at_trav:
+            if Config().char["gold_trav_only"] and not is_at_trav:
                 item_list = [x for x in item_list if "misc_gold" not in x.name]
 
             if len(item_list) == 0:
@@ -106,7 +105,7 @@ class PickIt:
                                 abs(self._last_closest_item.dist - closest_item.dist) < 20
 
                 x_m, y_m = Screen().convert_screen_to_monitor(closest_item.center)
-                if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
+                if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
@@ -138,7 +137,7 @@ class PickIt:
                     # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item
 
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         return found_items
 
 
@@ -154,13 +153,12 @@ if __name__ == "__main__":
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
-    config = Config()
     t_finder = TemplateFinder()
     ui_manager = UiManager(t_finder)
     belt_manager = BeltManager(t_finder)
     belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
     pather = Pather(t_finder)
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, t_finder, ui_manager, pather)
-    pickit = PickIt(tem_finder, ui_manager, belt_manager)
+    char = Hammerdin(Config().hammerdin, Config().char, t_finder, ui_manager, pather)
+    pickit = PickIt(item_finder, ui_manager, belt_manager)
     print(pickit.pick_up_items(char))
