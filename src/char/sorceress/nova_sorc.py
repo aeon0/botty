@@ -114,7 +114,6 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = NovaSorc(Config().nova_sorc, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = NovaSorc(Config().nova_sorc, Config().char, ui_manager, pather)

@@ -10,7 +10,7 @@ from utils.misc import wait
 
 
 class A1(IAct):
-    def __init__(self, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
@@ -35,16 +35,16 @@ class A1(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_SOUTH), self._char): return False
         wait(0.5, 0.7)
-        if not self._char._template_finder.search("A1_WP", Screen().grab()).valid:
+        if not TemplateFinder().search("A1_WP", Screen().grab()).valid:
             curr_loc = Location.A1_WP_SOUTH
             if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char): return False
             wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=Config().ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
+        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", Screen().grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
         return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = self._template_finder.search_and_wait(["A1_TOWN_7", "A1_TOWN_9"], time_out=20).valid
+        success = TemplateFinder().search_and_wait(["A1_TOWN_7", "A1_TOWN_9"], time_out=20).valid
         if not self._pather.traverse_nodes([Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN], self._char, force_move=True): return False
         if success:
             return Location.A1_KASHYA_CAIN
@@ -69,8 +69,8 @@ class A1(IAct):
         wait(0.5, 0.6)
         def stash_is_open_func():
             img = Screen().grab()
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
+            found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
+            found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found
         if not self._char.select_by_template(["A1_TOWN_0"], stash_is_open_func):
             return False

@@ -50,8 +50,5 @@ class PlayerBar():
 
 if __name__ == "__main__":
 
-    s = Screen()
-    t = TemplateFinder(s)
-
-    bar = PlayerBar(s)
+    bar = PlayerBar()
     exp = bar.get_experience()

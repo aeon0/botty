@@ -94,8 +94,7 @@ class Pather:
     nodes you can specify in which order this nodes should be traversed in self._paths.
     """
 
-    def __init__(self, template_finder: TemplateFinder):
-        self._template_finder = template_finder
+    def __init__(self):
         self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
         self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
@@ -564,7 +563,7 @@ class Pather:
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             [*node],
             img,
             best_match=False,
@@ -634,7 +633,7 @@ class Pather:
                 img = Screen().grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    _, m = WaypointLabel.detect(self._template_finder)
+                    _, m = WaypointLabel.detect()
                     if m.valid:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -666,7 +665,7 @@ class Pather:
                 if (teleport_count + 1) % 30 == 0:
                     Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
                     img = Screen().grab()
-                    if self._template_finder.search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=Config().ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
+                    if TemplateFinder().search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=Config().ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
                         Logger.debug(f"Shrine found, activating it")
                         x_m, y_m = Screen().convert_abs_to_monitor((0, -130)) #above head
@@ -706,9 +705,9 @@ if __name__ == "__main__":
             display_img = img.copy()
             template_map = {}
             template_scores = {}
-            for template_type in pather._template_finder._templates:
+            for template_type in TemplateFinder()._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
+                    template_match = TemplateFinder().search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.center
                         template_scores[template_type] = template_match.score
@@ -742,8 +741,7 @@ if __name__ == "__main__":
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
+    pather = Pather()
 
     #display_all_nodes(pather, "DIA_TRASH_")
 
@@ -757,8 +755,8 @@ if __name__ == "__main__":
     #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
     # print(code)
 
-    ui_manager = UiManager(t_finder)
-    char = Hammerdin(Config().hammerdin, t_finder, ui_manager, pather, PickIt) #Config().char,
+    ui_manager = UiManager()
+    char = Hammerdin(Config().hammerdin, ui_manager, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
 

@@ -1,6 +1,7 @@
 import cv2
 import threading
 from copy import deepcopy
+from item.item_finder import Template
 from screen import Screen
 from typing import Union
 from dataclasses import dataclass
@@ -28,28 +29,44 @@ class TemplateFinder:
     to find these assets within another image
     IMPORTANT: This method must be thread safe!
     """
-    def __init__(self, template_pathes: list[str] = ["assets\\templates", "assets\\ui_templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
-        self._save_last_res = save_last_res
-        if self._save_last_res:
-            # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
-            self.last_res = None
-        # load templates with their filename as key in the dict
-        pathes = []
-        for path in template_pathes:
-            pathes += list_files_in_folder(path)
-        self._templates = {}
-        for file_path in pathes:
-            file_name: str = os.path.basename(file_path)
-            if file_name.endswith('.png'):
-                key = file_name[:-4].upper()
-                template_img = load_template(file_path, 1.0, True)
-                mask = alpha_to_mask(template_img)
-                self._templates[key] = [
-                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
-                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
-                    1.0,
-                    mask
-                ]
+    TEMPLATE_PATHS = [
+        "assets\\templates",
+        "assets\\ui_templates",
+        "assets\\ui_templates\\view",
+        "assets\\npc",
+        "assets\\shop",
+        "assets\\item_properties",
+        "assets\\chests",
+        "assets\\gamble",
+        "assets\\items_inventory"
+    ]
+    _instance = None
+
+    def __new__(cls, save_last_res=False):
+        if cls._instance is None:
+            cls._instance = super(TemplateFinder, cls).__new__(cls)
+            cls._instance._save_last_res = save_last_res
+            if cls._instance._save_last_res:
+                # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
+                cls._instance.last_res = None
+            # load templates with their filename as key in the dict
+            pathes = []
+            for path in TemplateFinder.TEMPLATE_PATHS:
+                pathes += list_files_in_folder(path)
+            cls._instance._templates = {}
+            for file_path in pathes:
+                file_name: str = os.path.basename(file_path)
+                if file_name.lower().endswith('.png'):
+                    key = file_name[:-4].upper()
+                    template_img = load_template(file_path, 1.0, True)
+                    mask = alpha_to_mask(template_img)
+                    cls._instance._templates[key] = [
+                        cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
+                        cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
+                        1.0,
+                        mask
+                    ]
+        return cls._instance
 
     def get_template(self, key):
         return cv2.cvtColor(self._templates[key][0], cv2.COLOR_BGRA2BGR)
@@ -214,7 +231,6 @@ class TemplateFinder:
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
     from screen import Screen
-    template_finder = TemplateFinder()
     search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
 
     while 1:
@@ -223,7 +239,7 @@ if __name__ == "__main__":
         display_img = img.copy()
         start = time.time()
         for key in search_templates:
-            template_match = template_finder.search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
+            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
             if template_match.valid:
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)

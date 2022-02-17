@@ -42,9 +42,8 @@ def restart_game(d2_path = None):
         success = Screen().found_offsets
         wait(0.5, 1.0)
 
-    template_finder = TemplateFinder()
     
-    while not template_finder.search(Bot._MAIN_MENU_MARKERS, Screen().grab(), best_match=True).valid:
+    while not TemplateFinder().search(Bot._MAIN_MENU_MARKERS, Screen().grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
         attempts += 1

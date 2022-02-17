@@ -10,11 +10,10 @@ from utils.misc import wait
 
 
 class A5(IAct):
-    def __init__(self, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
-        self._template_finder = template_finder
 
     def get_wp_location(self) -> Location: return Location.A5_WP
     def can_heal(self) -> bool: return True
@@ -57,8 +56,8 @@ class A5(IAct):
         wait(0.5, 0.6)
         def stash_is_open_func():
             img = Screen().grab()
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
+            found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
+            found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found
         if not self._char.select_by_template(["A5_STASH", "A5_STASH_2"], stash_is_open_func, telekinesis=True):
             return False
@@ -73,11 +72,11 @@ class A5(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=Config().ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
+        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", Screen().grab()).valid
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = self._template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=20).valid
+        success = TemplateFinder().search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=20).valid
         if success:
             return Location.A5_TOWN_START
         return False

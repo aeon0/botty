@@ -24,9 +24,9 @@ class CubeInventory(ScreenObject):
 @Locator(ref=["CUBE_TRANSMUTE_BTN"], roi="cube_btn_roi", threshold=0.8)
 class CubeOpened(ScreenObject):
 
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
-        self._inventory = inspect_area(finder=template_finder, total_rows=4, total_columns=3, roi=Config().ui_roi["cube_area_roi"], known_items=[])
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
+        self._inventory = inspect_area(total_rows=4, total_columns=3, roi=Config().ui_roi["cube_area_roi"], known_items=[])
 
     def transmute(self) -> Self:
         self.hover_over_self()
@@ -43,9 +43,7 @@ class CubeOpened(ScreenObject):
 
 if __name__ == "__main__":
 
-    s = Screen()
-    t = TemplateFinder(s)
-    res, m = CubeInventory.detect(s, t)
+    res, m = CubeInventory.detect()
     if m.valid:
         cube, m = res.open()
         print(f'Empty: {cube.is_empty()}')

@@ -10,8 +10,7 @@ import time
 
 
 class DeathManager:
-    def __init__(self, template_finder: TemplateFinder):
-        self._template_finder = template_finder
+    def __init__(self):
         self._died = False
         self._do_monitor = False
         self._loop_delay = 1.0
@@ -42,7 +41,7 @@ class DeathManager:
 
     def handle_death_screen(self):
         img = Screen().grab()
-        template_match = self._template_finder.search("YOU_HAVE_DIED", img, threshold=0.9, roi=Config().ui_roi["death"])
+        template_match = TemplateFinder().search("YOU_HAVE_DIED", img, threshold=0.9, roi=Config().ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
             if Config().general["info_screenshots"]:
@@ -61,7 +60,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
+            if TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")

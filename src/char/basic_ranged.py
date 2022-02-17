@@ -16,9 +16,9 @@ from pather import Pather, Location
 
 
 class Basic_Ranged(IChar):
-    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Basic Ranged Character")
-        super().__init__(skill_hotkeys, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, ui_manager)
         self._pather = pather
         self._do_pre_move = True
 
@@ -198,6 +198,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
+    pather = Pather()
+    ui_manager = UiManager()

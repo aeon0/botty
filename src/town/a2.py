@@ -10,7 +10,7 @@ from utils.misc import wait
 
 
 class A2(IAct):
-    def __init__(self, template_finder: TemplateFinder, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
@@ -35,8 +35,8 @@ class A2(IAct):
         wait(0.3)
         def stash_is_open_func():
             img = Screen().grab()
-            found = self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
-            found |= self._template_finder.search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
+            found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
+            found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found
         if not self._char.select_by_template(["A2_STASH_LIGHT", "A2_STASH_DARK"], stash_is_open_func, telekinesis=True):
             return False
@@ -66,11 +66,11 @@ class A2(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=Config().ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
+        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", Screen().grab()).valid
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        template_match = self._template_finder.search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19"], time_out=20)
+        template_match = TemplateFinder().search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19"], time_out=20)
         if template_match.valid:
             self._pather.traverse_nodes((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
             return Location.A2_FARA_STASH

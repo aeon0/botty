@@ -36,28 +36,27 @@ class ScreenObject:
     def locator(cls) -> Locator:
         return cls._locator
 
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch, img: np.ndarray = None) -> None:
+    def __init__(self, match: TemplateMatch, img: np.ndarray = None) -> None:
         self.match = match
-        self.finder = template_finder
         self.img = img
 
     @classmethod
-    def detect(cls: Self, template_finder: TemplateFinder, img: np.ndarray = None) -> tuple[Self, TemplateMatch]:
+    def detect(cls: Self, img: np.ndarray = None) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
         roi = Config().ui_roi[loc.roi] if loc.roi else None
         img = Screen().grab() if img is None else img
-        match = template_finder.search(ref = loc.ref, inp_img = img, threshold = loc.threshold, roi = roi, best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
+        match = TemplateFinder().search(ref = loc.ref, inp_img = img, threshold = loc.threshold, roi = roi, best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
-            return cls(template_finder, match), match
+            return cls(match), match
         return None, match
 
     @classmethod
-    def wait_for(cls: Self, template_finder: TemplateFinder, time_out: int = None) -> tuple[Self, TemplateMatch]:
+    def wait_for(cls: Self, time_out: int = None) -> tuple[Self, TemplateMatch]:
         loc = cls.locator()
         time_out = time_out if time_out else loc.time_out
-        match = template_finder.search_and_wait(ref = loc.ref, time_out = time_out, threshold = loc.threshold, roi = Config().ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
+        match = TemplateFinder().search_and_wait(ref = loc.ref, time_out = time_out, threshold = loc.threshold, roi = Config().ui_roi[loc.roi], best_match = loc.best_match, use_grayscale = loc.use_grayscale, normalize_monitor = loc.normalize_monitor )
         if match.valid:
-            return cls(template_finder, match), match
+            return cls(match), match
         return None, match
 
     def hover_over_self(self) -> None:

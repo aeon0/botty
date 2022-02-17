@@ -19,10 +19,10 @@ import os
 from ui_components.loading import Loading
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
         os.system('color')
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
-        super().__init__(skill_hotkeys, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, ui_manager)
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])
@@ -56,7 +56,7 @@ class Necro(IChar):
         roi = [640,0,640,720]
         img = Screen().grab()
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
@@ -74,7 +74,7 @@ class Necro(IChar):
         img = Screen().grab()
         max_rev = 13
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['REV_BASE'],
             img,
             threshold=0.6,
@@ -88,7 +88,7 @@ class Necro(IChar):
 
         for count in range(1,max_rev):
             rev_num = "REV_"+str(count)
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 [rev_num],
                 img,
                 threshold=0.66,
@@ -103,7 +103,7 @@ class Necro(IChar):
         img = Screen().grab()
         max_skeles = 13
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['SKELE_BASE'],
             img,
             threshold=0.6,
@@ -117,7 +117,7 @@ class Necro(IChar):
 
         for count in range(1,max_skeles):
             skele_num = "SKELE_"+str(count)
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 [skele_num],
                 img,
                 threshold=0.66,
@@ -131,7 +131,7 @@ class Necro(IChar):
         roi = [15,14,400,45]
         img = Screen().grab()
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['CLAY'],
             img,
             threshold=0.6,
@@ -586,7 +586,7 @@ class Necro(IChar):
     def stairs_S(self):
         roi = [0,0,1280,720]
         img = Screen().grab()
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ["TRAV_S","TRAV_S_1"],
             img,
             threshold=0.4,
@@ -610,7 +610,7 @@ class Necro(IChar):
     def stairs_F(self):
         roi = [0,0,1280,720]
         img = Screen().grab()
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ["TRAV_F"],
             img,
             threshold=0.4,
@@ -635,7 +635,7 @@ class Necro(IChar):
     def stairs_W(self):
         roi = [0,0,1280,720]
         img = Screen().grab()
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ["TRAV_W","TRAV_W_1"],
             img,
             threshold=0.4,
@@ -664,7 +664,7 @@ class Necro(IChar):
         roi = [0,0,1280,720]
 
         img = Screen().grab()
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ["TRAV_18"],
             img,
             threshold=0.3,
@@ -705,7 +705,7 @@ class Necro(IChar):
             mouse.move(*target, randomize=6, delay_factor=[0.9, 1.1])
 
             img = Screen().grab()
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 ["TO_TRAV_0"],
                 img,
                 threshold=0.95,
@@ -883,7 +883,6 @@ if __name__ == "__main__":
     from config import Config
     from char import Necro
     from ui import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = Necro(Config().necro, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = Necro(Config().necro, Config().char, ui_manager, pather)

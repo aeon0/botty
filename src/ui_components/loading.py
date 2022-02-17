@@ -9,7 +9,7 @@
 import time
 import numpy as np
 
-from template_finder import TemplateFinder, TemplateMatch
+from template_finder import TemplateMatch
 from ui_components import ScreenObject, Locator
 from utils.misc import wait
 from screen import Screen
@@ -17,8 +17,8 @@ from config import Config
 
 @Locator(ref=["LOADING", "CREATING_GAME"], roi="difficulty_select", threshold=0.9)
 class Loading(ScreenObject):
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
 
 def check_for_black_screen() -> bool:
     img = Screen().grab()

@@ -7,8 +7,8 @@ import keyboard
 
 @Locator(ref=["SERVER_ISSUES"])
 class ServerError(ScreenObject):
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
 
     @staticmethod
     def handle_error() -> bool:

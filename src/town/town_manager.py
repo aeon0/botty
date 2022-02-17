@@ -21,8 +21,7 @@ TOWN_MARKERS = [
 
 class TownManager:
 
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._template_finder = template_finder
+    def __init__(self, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._ui_manager = ui_manager
         self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
@@ -53,7 +52,7 @@ class TownManager:
         :param time_out: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within time_out time
         """
-        template_match = self._template_finder.search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
+        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -205,16 +204,15 @@ if __name__ == "__main__":
     from pather import Pather
     from screen import Screen
     from npc_manager import NpcManager
-    template_finder = TemplateFinder()
-    npc_manager = NpcManager(template_finder)
-    pather = Pather(template_finder)
-    ui_manager = UiManager(template_finder)
+    npc_manager = NpcManager()
+    pather = Pather()
+    ui_manager = UiManager()
     item_finder = ItemFinder()
-    char = Hammerdin(Config().hammerdin, Config().char, template_finder, ui_manager, pather)
-    a5 = A5(template_finder, pather, char, npc_manager)
-    a4 = A4(template_finder, pather, char, npc_manager)
-    a3 = A3(template_finder, pather, char, npc_manager)
-    a2 = A2(template_finder, pather, char, npc_manager)
-    a1 = A1(template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, item_finder, a1, a2, a3, a4, a5)
+    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
+    a5 = A5(pather, char, npc_manager)
+    a4 = A4(pather, char, npc_manager)
+    a3 = A3(pather, char, npc_manager)
+    a2 = A2(pather, char, npc_manager)
+    a1 = A1(pather, char, npc_manager)
+    town_manager = TownManager(ui_manager, item_finder, a1, a2, a3, a4, a5)
     print(town_manager.open_wp(Location.A1_TOWN_START))

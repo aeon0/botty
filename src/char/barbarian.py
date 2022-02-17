@@ -14,9 +14,9 @@ from pather import Pather, Location
 
 
 class Barbarian(IChar):
-    def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
         Logger.info("Setting up Barbarian")
-        super().__init__(skill_hotkeys, template_finder, ui_manager)
+        super().__init__(skill_hotkeys, ui_manager)
         self._pather = pather
         self._do_pre_move = True
         # offset shenk final position further to the right and bottom
@@ -74,7 +74,7 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(self._template_finder, ["LEAP"])
+        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(["LEAP"])
         can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if  should_cast_leap and not can_teleport:
             keyboard.send(self._skill_hotkeys["leap"])
@@ -165,8 +165,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from ui.ui_manager import UiManager
-    t_finder = TemplateFinder()
-    pather = Pather(t_finder)
-    ui_manager = UiManager(t_finder)
-    char = Barbarian(Config().barbarian, Config().char, t_finder, ui_manager, pather)
+    pather = Pather()
+    ui_manager = UiManager()
+    char = Barbarian(Config().barbarian, Config().char, ui_manager, pather)
     char.kill_council()

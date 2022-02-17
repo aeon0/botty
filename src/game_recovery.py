@@ -14,10 +14,9 @@ from utils.custom_mouse import mouse
 
 
 class GameRecovery:
-    def __init__(self, death_manager: DeathManager, template_finder: TemplateFinder):
+    def __init__(self, death_manager: DeathManager):
         self._death_manager = death_manager
-        self._template_finder = template_finder
-        self._ui_manager = UiManager(self._template_finder)
+        self._ui_manager = UiManager()
 
     def go_to_hero_selection(self):
         set_d2r_always_on_top()
@@ -31,12 +30,11 @@ class GameRecovery:
             # make sure we are not on loading screen
             is_loading = check_for_black_screen()
             while is_loading:
-                _, m = Loading.detect(self._template_finder)
-                is_loading = m.valid
+                is_loading = TemplateFinder().search("LOADING", Screen().grab()).valid
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            _, m = MainMenu.detect(self._template_finder)
-            if m.valid:
+            found = TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid
+            if found:
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():
@@ -58,7 +56,6 @@ if __name__ == "__main__":
     import os
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    template_finder = TemplateFinder()
-    death_manager = DeathManager(template_finder)
-    game_recovery = GameRecovery(death_manager, template_finder)
+    death_manager = DeathManager()
+    game_recovery = GameRecovery(death_manager)
     print(game_recovery.go_to_hero_selection())
