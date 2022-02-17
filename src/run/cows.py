@@ -472,6 +472,13 @@ class Cows:
         mouse.click(button="right")
         self.used_tps += 1
         #return True
+        #enter portal
+        if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True):
+            # do a random tele jump and try again
+            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            self._char.move(pos_m, force_move=True)
+            if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): return False
+
         self._open_cow_portal()
 
     
