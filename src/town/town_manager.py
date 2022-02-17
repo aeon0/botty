@@ -84,7 +84,7 @@ class TownManager:
             return curr_loc
         # if not, move to the desired act via waypoint
         if not self._acts[curr_act].open_wp(curr_loc): return False
-        Waypoint(self._screen, self._template_finder).use_wp(act = act_idx, idx = 0)
+        Waypoint(self._template_finder).use_wp(act = act_idx, idx = 0)
         return self._acts[act].get_wp_location()
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:

@@ -15,7 +15,7 @@ import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
 from ui_components.merc import get_merc_health, MercIcon
-
+from ui_components.player_bar import BarAnchor
 
 class HealthManager:
     def __init__(self, template_finder: TemplateFinder):
@@ -88,8 +88,8 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = Screen().grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            ingame_template_match = self._template_finder.search("WINDOW_INGAME_OFFSET_REFERENCE", img, roi=Config().ui_roi["window_ingame_ref"], threshold=0.9)
-            if ingame_template_match.valid:
+            _, m = BarAnchor.detect(self._template_finder)
+            if m.valid:
                 health_percentage = get_health(img)
                 mana_percentage = get_mana(img)
                 # check rejuv

@@ -33,7 +33,7 @@ class ShenkEld:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._screen, self._template_finder).use_wp("Frigid Highlands"):
+        if Waypoint(self._template_finder).use_wp("Frigid Highlands"):
             return Location.A5_ELDRITCH_START
         return False
 

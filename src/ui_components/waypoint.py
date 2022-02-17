@@ -4,10 +4,12 @@
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
+from config import Config
 
 from screen import Screen
 from template_finder import TemplateFinder, TemplateMatch
 from ui_components import ScreenObject, Locator
+from ui_components.loading import wait_for_loading_screen
 
 _WAYPOINTS = {
     # Act 1
@@ -58,10 +60,10 @@ _WAYPOINTS = {
 
 @Locator(ref="LABEL_WAYPOINT", roi="left_panel_label", threshold=0.8)
 class WaypointLabel(ScreenObject):
-    def __init__(self, screen: Screen, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(screen, template_finder, match)
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
 
-@Locator(ref=["WP_A1_ACTIVE", "WP_A2_ACTIVE", "WP_A3_ACTIVE", "WP_A4_ACTIVE", "WP_A5_ACTIVE"], roi="left_panel_label", threshold=0.8, best_match=True)
+@Locator(ref=["WP_A1_ACTIVE", "WP_A2_ACTIVE", "WP_A3_ACTIVE", "WP_A4_ACTIVE", "WP_A5_ACTIVE"], roi="wp_act_roi", threshold=0.8, best_match=True)
 class WaypointTabs(ScreenObject):
     def get_active_act(self):
         if self.match.name == "WP_A1_ACTIVE": act = 1
@@ -74,8 +76,7 @@ class WaypointTabs(ScreenObject):
         return act
 
 class Waypoint():
-    def __init__(self, screen: Screen, template_finder: TemplateFinder) -> None:
-        self._screen = screen
+    def __init__(self, template_finder: TemplateFinder) -> None:
         self._template_finder = template_finder
 
     def use_wp(self, label: str = None, act: int = None, idx: int = None) -> bool:
@@ -88,26 +89,26 @@ class Waypoint():
             act = _WAYPOINTS[label][0]
             idx = _WAYPOINTS[label][1]
 
-        res, m = WaypointTabs.detect(self._screen, self._template_finder)
+        res, m = WaypointTabs.detect(self._template_finder)
         if m.valid:
             curr_active_act = res.get_active_act()
         else:
             Logger.error("Could not find waypoint tabs")
             return False
         if curr_active_act != act:
-            pos_act_btn = (self._config.ui_pos["wp_act_i_btn_x"] + self._config.ui_pos["wp_act_btn_width"] * (act - 1), self._config.ui_pos["wp_act_i_btn_y"])
-            x, y = self._screen.convert_screen_to_monitor(pos_act_btn)
+            pos_act_btn = (Config().ui_pos["wp_act_i_btn_x"] + Config().ui_pos["wp_act_btn_width"] * (act - 1), Config().ui_pos["wp_act_i_btn_y"])
+            x, y = Screen().convert_screen_to_monitor(pos_act_btn)
             mouse.move(x, y, randomize=8)
             mouse.click(button="left")
             wait(0.3, 0.4)
-        pos_wp_btn = (self._config.ui_pos["wp_first_btn_x"], self._config.ui_pos["wp_first_btn_y"] + self._config.ui_pos["wp_btn_height"] * idx)
-        x, y = self._screen.convert_screen_to_monitor(pos_wp_btn)
+        pos_wp_btn = (Config().ui_pos["wp_first_btn_x"], Config().ui_pos["wp_first_btn_y"] + Config().ui_pos["wp_btn_height"] * idx)
+        x, y = Screen().convert_screen_to_monitor(pos_wp_btn)
         mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
         wait(0.4, 0.5)
         mouse.click(button="left")
         # wait till loading screen is over
-        if self.wait_for_loading_screen(5):
+        if wait_for_loading_screen(5):
             while 1:
-                if not self.wait_for_loading_screen(0.2):
+                if not wait_for_loading_screen(0.2):
                     return True
         return False

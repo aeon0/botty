@@ -13,6 +13,7 @@ from screen import Screen
 import random
 
 from ui_components.waypoint import Waypoint
+from ui_components.loading import wait_for_loading_screen
 
 class Nihlathak:
     def __init__(
@@ -38,7 +39,7 @@ class Nihlathak:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._screen, self._template_finder).use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
+        if Waypoint(self._template_finder).use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
             return Location.A5_NIHLATHAK_START
         return False
 
@@ -54,7 +55,7 @@ class Nihlathak:
         # Depending on what template is found we do static pathing to the stairs on level1.
         # Its xpects that the static routes defined in game.ini are named: "ni1_a", "ni1_b", "ni1_c"
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
-        found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0) or \
+        found_loading_screen_func = lambda: wait_for_loading_screen(2.0) or \
             self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):

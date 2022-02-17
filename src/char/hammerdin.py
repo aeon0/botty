@@ -1114,7 +1114,7 @@ class Hammerdin(IChar):
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
                 Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -1150,7 +1150,7 @@ class Hammerdin(IChar):
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
-            #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):

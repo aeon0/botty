@@ -34,7 +34,7 @@ class Trav:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._screen, self._template_finder).use_wp("Travincal"):
+        if Waypoint(self._template_finder).use_wp("Travincal"):
             return Location.A3_TRAV_START
         return False
 

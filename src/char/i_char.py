@@ -11,6 +11,7 @@ from ui_components.waypoint import WaypointLabel
 
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
+from ui_components.loading import Loading
 
 from logger import Logger
 from config import Config
@@ -138,7 +139,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return select_tp(self._skill_hotkeys["teleport"], self._template_finder, Config())
+        return select_tp(self._skill_hotkeys["teleport"], self._template_finder)
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -149,7 +150,7 @@ class IChar:
         factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
             (force_tp or (is_right_skill_selected(self._template_finder, ["TELE_ACTIVE"]) and \
-                is_right_skill_active(Config()))):
+                is_right_skill_active())):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -212,7 +213,8 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                if self._ui_manager.wait_for_loading_screen(2.0):
+                _, m = Loading.wait_for(self._template_finder, 2)
+                if m.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = Screen().convert_monitor_to_screen(mouse.get_position())
