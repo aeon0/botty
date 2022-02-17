@@ -18,6 +18,8 @@ from screen import grab
 from config import Config
 import keyboard
 from utils.misc import wait
+from ui.ui_manager import wait_for_screen_object
+from ui.screen_objects import ScreenObjects
 
 def enable_no_pickup() -> bool:
     """
@@ -29,10 +31,10 @@ def enable_no_pickup() -> bool:
     keyboard.write('/nopickup',delay=.20)
     keyboard.send('enter')
     wait(0.1, 0.25)
-    no_pickup = TemplateFinder().search_and_wait(["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"], roi=Config().ui_roi["no_pickup"], best_match=True, time_out=3)
-    if not no_pickup.valid:
+    item_pickup_text = wait_for_screen_object(ScreenObjects.ItemPickupText, time_out=3)
+    if not item_pickup_text.valid:
         return False
-    if no_pickup.name == "ITEM_PICKUP_DISABLED":
+    if item_pickup_text.name == "ITEM_PICKUP_DISABLED":
         return True
     keyboard.send('enter')
     wait(0.1, 0.25)
