@@ -1,13 +1,16 @@
 # f: use_wp(self, act: int, idx: int):
 # - tabs (acts)
 # - waypoints (rows)
-from utils.custom_mouse import mouse
-from utils.misc import wait
-from logger import Logger
 import time
 import numpy as np
-from screen import convert_screen_to_monitor, grab
+import re
+
+from utils.custom_mouse import mouse
+from logger import Logger
 from config import Config
+from screen import convert_screen_to_monitor, grab
+from utils.misc import wait
+
 from ui_components.loading import wait_for_loading_screen
 from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
 
@@ -101,11 +104,10 @@ def wait_for_loading_screen(time_out):
     return False
 
 def get_active_act_from_match(match):
-    if match.name == "WP_A1_ACTIVE": act = 1
-    elif match.name == "WP_A2_ACTIVE": act = 2
-    elif match.name == "WP_A3_ACTIVE": act = 3
-    elif match.name == "WP_A4_ACTIVE": act = 4
-    elif match.name == "WP_A5_ACTIVE": act = 5
-    else:
+    try:
+        #ex:  match.name = "WP_A1_ACTIVE"
+        act = re.search('[1-5]', match.name)[0]
+    except:
+        Logger.error(f"get_active_act_from_match: Could not pair act to {match.name}")
         return None
     return act
