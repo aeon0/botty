@@ -81,10 +81,10 @@ def select_char():
         img = Screen().grab()
         match = detect_screen_object(SCREEN_OBJECTS['OnlineStatus'], img)
         if match.valid:
-            if online_active() and (not online_character):
+            if online_active(match) and (not online_character):
                 select_online_tab(match.region, match.center)
                 img = Screen().grab()
-            elif not online_active() and (online_character):
+            elif not online_active(match) and (online_character):
                 select_online_tab(match.region, match.center)
                 img = Screen().grab()
             wait(1, 1.5)
