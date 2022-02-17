@@ -199,6 +199,7 @@ class Config:
             "inventory_screen": Config._select_val("char", "inventory_screen"),
             "stand_still": Config._select_val("char", "stand_still"),
             "force_move": Config._select_val("char", "force_move"),
+            "minimap": Config._select_val("char", "minimap"),
             "num_loot_columns": int(Config._select_val("char", "num_loot_columns")),
             "take_health_potion": float(Config._select_val("char", "take_health_potion")),
             "take_mana_potion": float(Config._select_val("char", "take_mana_potion")),

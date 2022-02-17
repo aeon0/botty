@@ -56,14 +56,91 @@ class Cows:
         self._ui_manager.use_wp(1, 2)
         return Location.A1_STONY_FIELD_WP
 
+    #this function decides which corner to explore & hands over the x,y coordinate ranges
+    def _corner_roller(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
+            keepernumber = random.randint(1, 4)
+            if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
+                keepernumber = random.randint(1, 4) 
+                super_stuck = 0
+                stuck_count = 0
+            else:
+                corner_exclude = corner_picker
+                corner_picker = keepernumber
+                super_stuck = 0
+                stuck_count = 0
+                if corner_picker == 1:
+                    Logger.debug('\033[93m' + "Cornerpicker: Picked Corner 1 = top-left" + '\033[0m')
+                    #x1_m = -250
+                    #x2_m = -600
+                    #y1_m = -200
+                    #y2_m = -345
+                    self._scout(1, -250, -600, -200, -345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
+                elif corner_picker == 2:
+                    Logger.debug('\033[93m' + "Cornerpicker: Picked Corner 2 = top-right" + '\033[0m')
+                    self._scout(2, 250, 600, -200, -345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
+                elif corner_picker == 3:
+                    Logger.debug('\033[93m' + "Cornerpicker: Picked Corner 3 = bottom-right" + '\033[0m')
+                    self._scout(3, 485, 600, 200, 345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
+                elif corner_picker == 4:
+                    Logger.debug('\033[93m' + "Cornerpicker: Picked Corner 4 = bottom-left" + '\033[0m')
+                    self._scout(4, -485, -600, 200, 345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
+            #return corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber
+
+    
+    #thus function randomly teleports around until we either get stuck or find the exit we search for
+    def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
+        found = False
+        Logger.debug('\033[93m' + "Scout: Starting to explore map" + '\033[0m')
+        if not self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
+            keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+            keyboard.send(self._config.char["minimap"]) #turn on minimap
+            Logger.debug('\033[93m' + "Scout: Opening Minimap" + '\033[0m')
+
+        while not found:
+                found = self._template_finder.search_and_wait(["COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid
+                founder = self._template_finder.search_and_wait(["COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False)
+                foundname = founder.name
+                if founder.valid:
+                    pos_m = self._screen.convert_screen_to_monitor(founder.center)
+                    Logger.debug('\033[93m' + "Scout: founder is valid at position:" + str(pos_m) + '\033[0m')
+                
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                Logger.debug("Scout: " + str(score) + ": is our current score")
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                if score < .10:
+                    stuck_count += 1
+                    Logger.debug('\033[93m' + "Scout: We did not move, stuck count now: " + str(stuck_count) + '\033[0m')               
+                    if stuck_count >=2:
+                        Logger.debug('\033[93m' + "Scout: We still did not move, stuck count now: " + str(stuck_count) + ", calling stuck()" + '\033[0m')               
+                        self.stuck(corner_picker, x2_m, y2_m, stuck_count, super_stuck)                         
+                        if super_stuck >= 2:
+                            Logger.debug('\033[93m' + "Scout: We seem super stuck, super_stuck count now: " + str(super_stuck) + ", calling super_stuck()" + '\033[0m')
+                            self.super_stuck(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) 
+        if found == True:
+            Logger.debug('\033[93m' + "Scout: Found our Template " + str(foundname) + str(round(founder.score), 2) + ", trying to click the exit template, calling exitclicker()" + '\033[0m')
+            Logger.debug(founder.score)
+            self._exitclicker(pos_m)
+
+#Prefix: '\033[93m'+
+#Suffix: + '\033[0m'
+
+    # this function is called when we are stuck and teleports backwards to get us unstuck
     def stuck(self, corner_picker, x2_m, y2_m, stuck_count, super_stuck)-> bool:
             tele_math = random.randint(1, 3)
             if math.fmod(tele_math, 3) == 0:
-                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports SCOUT 1")
+                Logger.debug('\033[93m' + "Stuck: " + str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3, first x3 to: ("+str(x2_m)+","+str(y2_m)+")" + '\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
+                Logger.debug('\033[93m' + "Stuck: " + str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3, second x3 to: ("+str(x2_m)+","+str(y2_m)+")" + '\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m))
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
@@ -71,11 +148,12 @@ class Cows:
                 stuck_count += 1
                 super_stuck += 1
             else:
-                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports SCOUT 2")
+                Logger.debug('\033[93m' + "Stuck: " + str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3, first x3 to: ("+str(x2_m)+","+str(y2_m)+")" + '\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
+                Logger.debug('\033[93m' + "Stuck: " + str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3, second x3 to: ("+str(x2_m)+","+str(y2_m)+")" + '\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((x2_m, y2_m * -1))
                 self._char.move(pos_m, force_tp=True)
                 self._char.move(pos_m, force_tp=True)
@@ -83,11 +161,15 @@ class Cows:
                 stuck_count = 0
                 super_stuck += 1 
 
+
+    # this function is called when we cannot unstuck ourselves using stuck() and need to change directions
     def super_stuck(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
-        Logger.debug(str(corner_picker) + ": Seems we are super stuck,")
+        Logger.debug('\033[93m' + "Super_Stuck in Corner " + str(corner_picker) + '\033[0m')
         self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)
 
-    def exit_super_stuck(self, pos_m, stuck_count, super_stuck, roomfound)-> bool:
+
+    #this function is called when we get stuck whilst clicking the exit after our template was found
+    def exit_super_stuck(self, pos_m, stuck_count, super_stuck, closetoexit)-> bool:
         x, y = pos_m
         pos_m2 = x, y
         coordlog = x, y
@@ -97,56 +179,131 @@ class Cows:
         x, y = self._screen.convert_screen_to_abs(pos_m2)                        
         pos_m2 = x, y
         coordlog = x, y
-        Logger.debug(coordlog)
-        Logger.debug("SUPER STUCK CLICKER")
+        Logger.debug('\033[93m' + "Exit_Super_stuck: " + str(coordlog) + '\033[0m')
         if x < 0 and y < 0: # -, - Corner 1 Top Left
-            Logger.debug("SUPER STUCK IN CORNER 1")
+            Logger.debug('\033[93m' + "Exit_Super_stuck: Corner 1 Top Left" + '\033[0m')
             pos_m2 = self._screen.convert_abs_to_monitor((600, 350))
             self._char.move(pos_m2, force_tp=True)
             pos_m2 = self._screen.convert_abs_to_monitor((-20, -300))
             self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x > 0 and y < 0 and not roomfound: #corner 2
-            Logger.debug("STUCK IN corner 2")
+        if x > 0 and y < 0 and not closetoexit: #corner 2
+            Logger.debug('\033[93m' + "Exit_Super_stuck: Corner 2 Top Right" + '\033[0m')
             pos_m2 = self._screen.convert_abs_to_monitor((-600, 350))
             self._char.move(pos_m2, force_tp=True)
             pos_m2 = self._screen.convert_abs_to_monitor((20, -300))
             self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x > 0 and y > 0 and not roomfound: #corner 3
-            Logger.debug("stuck in corner 3")
+        if x > 0 and y > 0 and not closetoexit: #corner 3
+            Logger.debug('\033[93m' + "Exit_Super_stuck: Corner 3 Bottom Right" + '\033[0m')
             pos_m2 = self._screen.convert_abs_to_monitor((-600, -350))
             self._char.move(pos_m2, force_tp=True)
             pos_m2 = self._screen.convert_abs_to_monitor((-35, 250))
             self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x < 0 and y > 0 and not roomfound: #corner 4
-            Logger.debug("sutck in corner 4")
+        if x < 0 and y > 0 and not closetoexit: #corner 4
+            Logger.debug('\033[93m' + "Exit_Super_stuck: Corner 4 Bottom Left" + '\033[0m')
             pos_m2 = self._screen.convert_abs_to_monitor((600, -350))
             self._char.move(pos_m2, force_tp=True)
             pos_m2 = self._screen.convert_abs_to_monitor((-35, 250))
             self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        template_match = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
+        template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
         if template_match.valid: 
-            template_match = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
-            pos_m = self._screen.convert_screen_to_monitor(template_match.position)
+            template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
+            pos_m = self._screen.convert_screen_to_monitor(template_match.center)
             if self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.7, time_out=0.1, use_grayscale=False).valid:
                 keyboard.send(self._char._skill_hotkeys["teleport"])
                 keyboard.send(self._config.char["minimap"])
-                Logger.debug("EXIT CLICKER MATCH AND MAP MATCH /// MAP OFF")
+                Logger.debug('\033[93m' + "Exit_Super_Stuck: Found the template again, trying to click the exit with Minimap Off" + '\033[0m')
             stuck_count = 0
             super_stuck = 0
         elif template_match == False:
-            Logger.debug("NO MATCH NO POSITION2222222")                                      
+            Logger.debug('\033[93m' + "Exit_Super_Stuck: No match no Position" + '\033[0m')                                      
             stuck_count = 0
             super_stuck = 0
 
-    def exit_stuck(self, pos_m, stuck_count, super_stuck, roomfound)-> bool:
+    # This function makes us click on the purple exit tile to enter the next level
+    def _exitclicker(self, pos_m)-> bool:
+            Logger.debug('\033[93m' + "Exit_Clicker: Trying to click the Exit" + '\033[0m')
+            closetoexit = False
+            stuck_count = 0
+            super_stuck = 0
+            templates_scout = ["COW_STONY_FIELD_YELLOW"]
+            templates_mapcheck = ["MAP_CHECK"]
+            templates_exit = ["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"]
+            mapcheck = self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False)
+            template_match = self._template_finder.search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
+            if template_match.valid and mapcheck.valid:
+                pos_m = self._screen.convert_screen_to_monitor(template_match.center)
+                if self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
+                    Logger.debug('\033[93m' + "Exit_Clicker: Template Found, Minimap off" + '\033[0m')
+                    keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+                    keyboard.send(self._config.char["minimap"]) #turn on minimap
+            
+            while not closetoexit:    
+                closetoexit = self._template_finder.search_and_wait(templates_exit, best_match=True, threshold=0.7,  time_out=0.1, use_grayscale=False).valid
+                template_match = self._template_finder.search_and_wait([templates_scout], best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
+                if closetoexit == True or template_match == True:
+                    if self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
+                        keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+                        keyboard.send(self._config.char["minimap"]) #turn on minimap
+                        Logger.debug('\033[93m' + "Exit_Clicker: Template Found, Minimap off" + '\033[0m')
+                        if self._template_finder.search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False) == True:
+                            pos_m = self._screen.convert_screen_to_monitor(template_match.center)
+                            pos_m2 = (template_match.center)#SCREEN                    
+                t0 = self._screen.grab()
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                t1 = self._screen.grab()
+                # check difference between the two frames to determine if tele was good or not
+                diff = cv2.absdiff(t0, t1)
+                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
+                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
+                super_stuck = 0
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                self._char.move(pos_m, force_tp=True, force_move=True)
+                self._char.move(pos_m, force_tp=True, force_move=True)              
+                if score < .15 and not closetoexit:
+                    stuck_count += 1
+                    if stuck_count >= 2 and super_stuck < 2 and not closetoexit:
+                        super_stuck += 1
+                        self.exit_stuck(pos_m, stuck_count, super_stuck, closetoexit) 
+                    elif super_stuck >= 3 and not closetoexit:
+                        Logger.debug('\033[93m' + "Exit_Clicker: Super Stuck, super_stuck count: " + str(super_stuck) + '\033[0m')
+                        self.exit_super_stuck(pos_m, stuck_count, super_stuck, closetoexit)
+            Logger.debug('\033[93m' + "Exit_Clicker: Found Exit" + '\033[0m')
+            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
+            if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4):
+                # do a random tele jump and try again
+                Logger.debug('\033[93m' + "Exit_Clicker: Found Exit, but didnt click it" + '\033[0m')
+                pos_m = self._screen.convert_abs_to_monitor((315, -150))
+                self._char.move(pos_m, force_move=True)
+                if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4):
+                    self._char.move(pos_m, force_move=True)
+                    if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4):
+                        pos_m = self._screen.convert_abs_to_monitor((-315, -100))
+                        self._char.move(pos_m, force_move=True)
+                        Logger.debug('\033[93m' + "Exit_Clicker: Found Exit, but cannot click it" + '\033[0m')
+                        if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4):
+                            Logger.debug('\033[93m' + "Exit_Clicker: Found Exit, but didnt click it repeatedly, aborting run" + '\033[0m')
+                            return False
+            if not self._template_finder.search_and_wait(["BAAL_THRONE_START_0", "BAAL_THRONE_START_1", "BAAL_THRONE_START_2", "BAAL_THRONE_START_3"], threshold=0.8, time_out=.5).valid:
+                if not self._template_finder.search_and_wait(["BAAL_THRONE_START_0", "BAAL_THRONE_START_1", "BAAL_THRONE_START_2", "BAAL_THRONE_START_3"], threshold=0.8, time_out=1).valid:
+                    self._scout(4, -250, -600, 200, 345, 0, 0, 4, 2, 2, 4) # bottom - left
+            else:
+                #throne killd
+                keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+                keyboard.send(self._config.char["minimap"]) #turn on minimap
+                self._throne_room()
+
+
+    #this function helps us to unstuck ourselves, when we already found our exit tile, but got stuck entering the exit.
+    def exit_stuck(self, pos_m, stuck_count, super_stuck, closetoexit)-> bool:
         x, y = pos_m
         pos_m2 = x, y
         coordlog = x, y
@@ -159,8 +316,8 @@ class Cows:
         Logger.debug(coordlog)
         # x, y = self._screen.convert_abs_to_monitor((pos_m2))
         #########################
-        if x < 0 and y < 0 and not roomfound: # -, - Corner 1 Top Left
-            Logger.debug("corner one stuck")
+        if x < 0 and y < 0 and not closetoexit: # -, - Corner 1 Top Left
+            Logger.debug('\033[93m' + "corner one stuck" + '\033[0m')
             t0 = self._screen.grab()                      
             pos_m2 = self._screen.convert_abs_to_monitor((-600, -350))
             self._char.move(pos_m2, force_move=True)
@@ -175,8 +332,8 @@ class Cows:
                 self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x > 0 and y < 0 and not roomfound: #corner 2
-            Logger.debug("corner two stuck")
+        if x > 0 and y < 0 and not closetoexit: #corner 2
+            Logger.debug('\033[93m' + "corner two stuck" + '\033[0m')
             t0 = self._screen.grab()                      
             pos_m2 = self._screen.convert_abs_to_monitor((600, -350))
             self._char.move(pos_m2, force_move=True)
@@ -191,8 +348,8 @@ class Cows:
                 self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x > 0 and y > 0 and not roomfound: #corner 3
-            Logger.debug("corner three stuck")
+        if x > 0 and y > 0 and not closetoexit: #corner 3
+            Logger.debug('\033[93m' + "corner three stuck" + '\033[0m')
             t0 = self._screen.grab()                      
             pos_m2 = self._screen.convert_abs_to_monitor((600, 350))
             self._char.move(pos_m2, force_move=True)
@@ -207,8 +364,8 @@ class Cows:
                 self._char.move(pos_m2, force_tp=True)
             super_stuck += 1
             stuck_count = 0
-        if x < 0 and y > 0 and not roomfound: #corner 4
-            Logger.debug("corner four stuck")
+        if x < 0 and y > 0 and not closetoexit: #corner 4
+            Logger.debug('\033[93m' + "corner four stuck" + '\033[0m')
             t0 = self._screen.grab()                      
             pos_m2 = self._screen.convert_abs_to_monitor((-600, 350))
             self._char.move(pos_m2, force_move=True)
@@ -224,167 +381,7 @@ class Cows:
             super_stuck += 1
             stuck_count = 0
 
-    def _corner_roller(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
-            keepernumber = random.randint(1, 4)
-            if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
-                keepernumber = random.randint(1, 4) 
-                super_stuck = 0
-                stuck_count = 0
-            else:
-                corner_exclude = corner_picker
-                corner_picker = keepernumber
-                super_stuck = 0
-                stuck_count = 0
-                if corner_picker == 1:
-                    self._scout(1, -250, -600, -200, -345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
-                elif corner_picker == 2:
-                    self._scout(2, 250, 600, -200, -345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
-                elif corner_picker == 3:
-                    self._scout(3, 485, 600, 200, 345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
-                elif corner_picker == 4:
-                    self._scout(4, -485, -600, 200, 345, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
-
-    def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
-        found = False
-        Logger.debug("SCOUTING START")
-        if not self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
-            keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-            keyboard.send(self._config.char["minimap"]) #turn on minimap
-            Logger.debug("SCOUT /// MAP ON")
-        while not found:
-                found = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid
-                founder = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False)
-                foundname = founder.name
-                if founder.valid:
-                    pos_m = self._screen.convert_screen_to_monitor(founder.position)
-                # Logger.debug("EXIT CLICKER 1st FIND/// MAP OFF")
-                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
-                t0 = self._screen.grab()
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                t1 = self._screen.grab()
-                diff = cv2.absdiff(t0, t1)
-                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                Logger.debug(str(score) + ": is our current score")
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                if score < .10:
-                    stuck_count += 1               
-                    if stuck_count >=2:
-                        self.stuck(self, corner_picker, x2_m, y2_m, stuck_count, super_stuck)                         
-                        if super_stuck >= 2:
-                            self.super_stuck(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) 
-        if found == True:
-            Logger.debug("SCOUT EXITING oustside")
-            Logger.debug(foundname)
-            Logger.debug(founder.score)
-            self._exitclicker(pos_m)
-
-          
-      
-    # This function makes us click on the purple exit tile to enter the next level
-    def _exitclicker(self, pos_m)-> bool:
-            Logger.debug("EXITCLICKER")
-            roomfound = False
-            stuck_count = 0
-            super_stuck = 0
-            mapcheck = self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False)
-            template_match = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
-            if template_match.valid and mapcheck.valid:
-                pos_m = self._screen.convert_screen_to_monitor(template_match.position)
-                if self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
-                    Logger.debug("EXITCLICKER FOUND TEMPLATE TURNING MAP OFF!")
-                    keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-                    keyboard.send(self._config.char["minimap"]) #turn on minimap
-                    # Logger.debug("EXIT CLICKER 1st FIND/// MAP OFF")
-            while not roomfound:
-                roomfound = self._template_finder.search_and_wait(["BAAL_LVL2_4", "BAAL_LVL2_5", "BAAL_LVL2_EXIT", "BAALER2_0", "BAALER2_1"], best_match=True, threshold=0.7,  time_out=0.1, use_grayscale=False).valid
-                template_match = self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
-                if roomfound == True or template_match == True:
-                    if self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
-                        keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-                        keyboard.send(self._config.char["minimap"]) #turn on minimap
-                        Logger.debug("EXIT CLICKER MATCH AND MAP MATCH /// MAP OFF")
-                        if self._template_finder.search_and_wait(["RED_GOOP_PURPLE3", "RED_GOOP_PURPLE4", "RED_GOOP_PURPLE6"], best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False) == True:
-                            pos_m = self._screen.convert_screen_to_monitor(template_match.position)
-                            pos_m2 = (template_match.position)#SCREEN                    
-                t0 = self._screen.grab()
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                t1 = self._screen.grab()
-                # check difference between the two frames to determine if tele was good or not
-                diff = cv2.absdiff(t0, t1)
-                diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-                _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-                score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-                super_stuck = 0
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                self._char.move(pos_m, force_tp=True, force_move=True)
-                self._char.move(pos_m, force_tp=True, force_move=True)              
-                if score < .15 and not roomfound:
-                    stuck_count += 1
-                    if stuck_count >= 2 and super_stuck < 2 and not roomfound:
-                        super_stuck += 1
-                        self.exit_stuck(pos_m, stuck_count, super_stuck, roomfound) 
-                    elif super_stuck >= 3 and not roomfound:
-                        Logger.debug("SUPER DUPER STUCK")
-                        self.exit_super_stuck(pos_m, stuck_count, super_stuck, roomfound)
-            Logger.debug("FOUND EXIT")
-            found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
-            if not self._char.select_by_template(["BAAL_LVL2_EXIT", "BAALER2_0", "BAALER2_1"], found_loading_screen_func, threshold=0.7, time_out=4):
-                # do a random tele jump and try again
-                Logger.debug("FOUND EXIT BUT BROKE")
-                pos_m = self._screen.convert_abs_to_monitor((315, -150))
-                self._char.move(pos_m, force_move=True)
-                if not self._char.select_by_template(["BAAL_LVL2_EXIT", "BAALER2_0", "BAALER2_1"], found_loading_screen_func, threshold=0.7, time_out=4):
-                    self._char.move(pos_m, force_move=True)
-                    if not self._char.select_by_template(["BAAL_LVL2_EXIT", "BAALER2_0", "BAALER2_1"], found_loading_screen_func, threshold=0.7, time_out=4):
-                        pos_m = self._screen.convert_abs_to_monitor((-315, -100))
-                        self._char.move(pos_m, force_move=True)
-                        Logger.debug("CANT GET TO EXIT")
-                        if not self._char.select_by_template(["BAAL_LVL2_EXIT", "BAALER2_0", "BAALER2_1"], found_loading_screen_func, threshold=0.7, time_out=4):
-                            Logger.debug("ABANDON HOPE!!!")
-                            return False
-            if not self._template_finder.search_and_wait(["BAAL_THRONE_START_0", "BAAL_THRONE_START_1", "BAAL_THRONE_START_2", "BAAL_THRONE_START_3"], threshold=0.8, time_out=.5).valid:
-                if not self._template_finder.search_and_wait(["BAAL_THRONE_START_0", "BAAL_THRONE_START_1", "BAAL_THRONE_START_2", "BAAL_THRONE_START_3"], threshold=0.8, time_out=1).valid:
-                    self._scout(4, -250, -600, 200, 345, 0, 0, 4, 2, 2, 4) # bottom - left
-            else:
-                #throne killd
-                keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-                keyboard.send(self._config.char["minimap"]) #turn on minimap
-                self._throne_room()
-
-    """
-    def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
-        pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
-        t0 = self._screen.grab()
-        self._char.move(pos_m, force_tp=True, force_move=True)
-        t1 = self._screen.grab()
-        diff = cv2.absdiff(t0, t1)
-        diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-        _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-        score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-        Logger.debug(str(score) + ": is our current score")
-        if score < .10:
-            stuck_count += 1
-            if stuck_count >=2:
-                Logger.debug(str(corner_picker) + ": Seems we are stuck, let's go reverse 2 x 3 teleports")                
-                pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
-                while i < 2:
-                    self._char.move(pos_m, force_tp=True)
-                    i = i+1
-                super_stuck +=1
-            if super_stuck >= 2:
-                Logger.debug(str(corner_picker) + ": Seems we are still stuck, randomly chosing a different corner: SWAPPING AREA")
-                keepernumber = random.randint(1, 4)
-                if keepernumber == corner_exclude or keepernumber == corner_picker or keepernumber == exclude1 or keepernumber == exclude2:
-                    keepernumber = random.randint(1, 4) 
-                    super_stuck = 0
-                else:
-                    corner_exclude = corner_picker
-                    corner_picker = keepernumber
-                    super_stuck = 0
-                    Logger.debug(str(corner_picker) + ": is now our selected corner.")  
-    """
+    
     #this function checks for the leg in inventory, stash & cube.
     def _legcheck(self) -> bool:
         #open inventory, search for leg
@@ -392,6 +389,88 @@ class Cows:
                 #open cube, search for leg
         return True
 
+    
+    #this function gets the leg in tristram
+    def _tristram(self, do_pre_buff: bool) -> bool:
+        if do_pre_buff: self._char.pre_buff()   
+        logger.info("Entering Old Tristram to get the leg")
+        logger.info("Calibrating at Entrance TP")
+        if not self._pather.traverse_nodes([1000], self._char, time_out=5): return False
+        logger.info("Static Path to Corpse")
+        self._pather.traverse_nodes_fixed("cow_trist_tp_leg", self._char)
+        logger.info("Calibrating at Corpse")
+        if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
+        logger.info("Looting the leg the Corpse")
+        if not self._char.select_by_template(["COW_WIRT_CLOSED.PNG"], threshold=0.63, time_out=4):
+            # do a random tele jump and try again
+            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            self._char.move(pos_m, force_move=True)
+            #and recalibrate at wirt
+            if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
+            if not self._char.select_by_template(["COW_WIRT_CLOSED.PNG"], threshold=0.63, time_out=4):
+                return False
+        #self._legdance(["COW_WIRT_OPEN.PNG"],["COW_WIRT_CLOSED.PNG"],"Old-Tristram", [1001])
+        logger.info("Grabbing the leg")
+        self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        logger.info("Making TP to go home")
+        if not self._ui_manager.has_tps():
+            Logger.warning("Cows: Open TP failed. Aborting run.")
+            self.used_tps += 20
+            return False
+        mouse.click(button="right")
+        self.used_tps += 1
+        return True
+
+    
+    #this function opens the cow portal
+    def _open_cow_portal(self)-> bool:
+        #go to akara, buy a tome
+        #go to stash & cube leg & top
+        #enter portal
+        return True
+
+
+    # this function kills cows
+    def _cows(self) -> bool:
+        #train neuronal network to search for heads and feet of cows that are not dead as positive
+        #train it with images from dead cows and from empty cow levels as negative
+        #search for template head or feet, cast attack rotation & pickit, repeat until?
+        return True
+
+
+    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+        self._picked_up_items = False
+        self.used_tps = 0
+        stuck_count = 0
+        keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+        self._scout(1, -50, 50, -100, -350, stuck_count, 0, 4, 2, 2, 0) #tries to get to exit   
+        #pre, during_1, during_2, diffed = self._map_capture()
+        #self.map_diff(pre, during_1, during_2)
+        if not self.scout(): return False
+        """
+        if not self._stony_field(): return False
+        if not self._tristram(): return False
+        if not self._cows(): return False
+        """
+        return (Location.A1_COWS_END, self._picked_up_items)
+
+if __name__ == "__main__":
+    from screen import Screen
+    import keyboard
+    from game_stats import GameStats
+    import os
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+    from config import Config
+    from ui import UiManager
+    from bot import Bot
+    config = Config()
+    screen = Screen()
+    game_stats = GameStats()
+    bot = Bot(screen, game_stats, False)
+
+
+    ##### OLD CRAP ######
     """
     #this function explores the stony field & enters old tristram portal
     def _stony_field(self)-> bool:      #do_pre_buff: bool
@@ -669,76 +748,3 @@ class Cows:
             if not self._template_finder.search_and_wait(["COW_TRIST_0", "COW_TRIST_2", "COW_TRIST_3", "COW_TRIST_4"], threshold=0.65, time_out=20).valid:
                  return False
     """
-
-    def _tristram(self, do_pre_buff: bool) -> bool:
-        if do_pre_buff: self._char.pre_buff()   
-        logger.info("Entering Old Tristram to get the leg")
-        logger.info("Calibrating at Entrance TP")
-        if not self._pather.traverse_nodes([1000], self._char, time_out=5): return False
-        logger.info("Static Path to Corpse")
-        self._pather.traverse_nodes_fixed("cow_trist_tp_leg", self._char)
-        logger.info("Calibrating at Corpse")
-        if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
-        
-        logger.info("Looting the leg the Corpse")
-
-        if not self._char.select_by_template(["COW_WIRT_CLOSED.PNG"], threshold=0.63, time_out=4):
-            # do a random tele jump and try again
-            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
-            self._char.move(pos_m, force_move=True)
-            #and recalibrate at wirt
-            if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
-            if not self._char.select_by_template(["COW_WIRT_CLOSED.PNG"], threshold=0.63, time_out=4):
-                return False
-
-        #self._legdance(["COW_WIRT_OPEN.PNG"],["COW_WIRT_CLOSED.PNG"],"Old-Tristram", [1001])
-        logger.info("Grabbing the leg")
-        self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        logger.info("Making TP to go home")
-        if not self._ui_manager.has_tps():
-            Logger.warning("Cows: Open TP failed. Aborting run.")
-            self.used_tps += 20
-            return False
-        mouse.click(button="right")
-        self.used_tps += 1
-        return True
-
-
-    def _open_cow_portal(self)-> bool:
-        #go to akara, buy a tome
-        #go to stash & cube leg & top
-        #enter portal
-        return True
-
-
-    def _cows(self) -> bool:
-        #this is where the magic happens...
-        return True
-
-
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
-        self._picked_up_items = False
-        self.used_tps = 0   
-        pre, during_1, during_2, diffed = self._map_capture()
-        #self.map_diff(pre, during_1, during_2)
-        """
-        if not self._stony_field(): return False
-        if not self._tristram(): return False
-        if not self._cows(): return False
-        """
-        return (Location.A1_COWS_END, self._picked_up_items)
-
-if __name__ == "__main__":
-    from screen import Screen
-    import keyboard
-    from game_stats import GameStats
-    import os
-    keyboard.add_hotkey('f12', lambda: os._exit(1))
-    keyboard.wait("f11")
-    from config import Config
-    from ui import UiManager
-    from bot import Bot
-    config = Config()
-    screen = Screen()
-    game_stats = GameStats()
-    bot = Bot(screen, game_stats, False)
