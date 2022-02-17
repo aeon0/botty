@@ -42,23 +42,6 @@ class Cows:
         self.used_tps = 0
 
 
-    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
-        Logger.info("Run Secret Cow Level")
-        if not self._char.capabilities.can_teleport_natively:
-            raise ValueError("Cows requires teleport")
-        #CHECK IF THE LEG IS ALREADY IN THE STASH OR INVENTORY!
-            #if yes: open_cows()
-            #if no: stony_field()
-        logger.info("Legcheck")
-        #self._legcheck()
-        logger.info("Opening WP & moving to Stony Field")
-        if not self._town_manager.open_wp(start_loc):
-            return False
-        wait(0.4)
-        self._ui_manager.use_wp(1, 2)
-        return Location.A1_STONY_FIELD_WP
-
-    
     #thus function randomly teleports around until we either get stuck or find the exit we search for
     def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
         found = False
@@ -479,7 +462,7 @@ class Cows:
             pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): return False
-        return True
+        #return True
         
 
     
@@ -499,6 +482,22 @@ class Cows:
         #search for template head or feet, cast attack rotation & pickit, repeat until?
         return True
 
+    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
+        Logger.info("Run Secret Cow Level")
+        if not self._char.capabilities.can_teleport_natively:
+            raise ValueError("Cows requires teleport")
+        #CHECK IF THE LEG IS ALREADY IN THE STASH OR INVENTORY!
+            #if yes: open_cows()
+            #if no: stony_field()
+        logger.info("Legcheck")
+        #self._legcheck()
+        logger.info("Opening WP & moving to Stony Field")
+        if not self._town_manager.open_wp(start_loc):
+            return False
+        wait(0.4)
+        self._ui_manager.use_wp(1, 2)
+        return Location.A1_STONY_FIELD_WP
+        
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         if do_pre_buff: self._char.pre_buff()   
