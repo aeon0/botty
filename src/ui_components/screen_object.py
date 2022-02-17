@@ -12,6 +12,7 @@ from utils.misc import wait
 from logger import Logger
 import numpy as np
 import keyboard
+import cv2
 
 
 @dataclass

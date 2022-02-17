@@ -52,7 +52,6 @@ class Bot:
     def __init__(self, game_stats: GameStats, pick_corpse: bool = False):
         self._game_stats = game_stats
         self._messenger = Messenger()
-        self._template_finder = template_finder
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._game_stats)
         self._belt_manager = BeltManager()

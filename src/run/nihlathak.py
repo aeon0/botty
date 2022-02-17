@@ -12,8 +12,8 @@ from dataclasses import dataclass
 from screen import Screen
 import random
 
-from ui_components.waypoint import Waypoint
 from ui_components.loading import wait_for_loading_screen
+from ui_components.waypoint import use_wp
 
 class Nihlathak:
     def __init__(
@@ -37,7 +37,7 @@ class Nihlathak:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._template_finder).use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
+        if use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
             return Location.A5_NIHLATHAK_START
         return False
 

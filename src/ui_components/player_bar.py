@@ -19,8 +19,8 @@ from ocr import Ocr
 
 @Locator(ref="WINDOW_INGAME_REFERENCE", roi="window_ingame_ref", threshold=0.8)
 class BarAnchor(ScreenObject):
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
 
 class PlayerBar():
 

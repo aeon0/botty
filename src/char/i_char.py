@@ -23,7 +23,7 @@ from ocr import Ocr
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
 
-    def __init__(self, skill_hotkeys: Dict, template_finder: TemplateFinder, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict, ui_manager: UiManager):
         self._skill_hotkeys = skill_hotkeys
         self._ui_manager = ui_manager
         self._last_tp = time.time()
@@ -212,7 +212,7 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                _, m = Loading.wait_for(self._template_finder, 2)
+                _, m = Loading.wait_for(2)
                 if m.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
