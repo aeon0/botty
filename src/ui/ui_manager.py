@@ -13,8 +13,7 @@ from item import ItemFinder
 from template_finder import TemplateFinder, TemplateMatch
 from messages import Messenger
 from game_stats import GameStats
-
-SCREEN_OBJECTS = json.load(open('screen_objects.json'))
+from ui.screen_objects import ScreenObject, ScreenObjects
 
 class UiManager():
     """Everything that is clicking on some static 2D UI or is checking anything in regard to it should be placed here."""
@@ -22,7 +21,6 @@ class UiManager():
     def __init__(self, game_stats: GameStats = None):
         self._messenger = Messenger()
         self._game_stats = game_stats
-
 
 def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> bool:
     """
@@ -36,7 +34,6 @@ def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> boo
         if slot_has_item(slot_img):
             return True
     return False
-
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """
@@ -87,21 +84,17 @@ def is_overburdened() -> bool:
             return True
     return False
 
-def detect_screen_object(screen_object, img: np.ndarray = None) -> TemplateMatch:
-    roi = Config().ui_roi[screen_object['roi']] if 'roi' in screen_object else None
+def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
+    roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
     img = grab() if img is None else img
-    threshold = screen_object['threshold'] if 'threshold' in screen_object else 0.68
-    best_match = screen_object['bestMatch'] if 'bestMatch' in screen_object else False
-    use_grayscale = screen_object['use_grayscale'] if 'use_grayscale' in screen_object else False
-    normalize_monitor = screen_object['normalize_monitor'] if 'normalize_monitor' in screen_object else False
     match = TemplateFinder().search(
-        ref = screen_object['ref'],
+        ref = screen_object.ref,
         inp_img = img,
-        threshold = threshold,
+        threshold = screen_object.threshold,
         roi = roi,
-        best_match = best_match,
-        use_grayscale = use_grayscale,
-        normalize_monitor = normalize_monitor)
+        best_match = screen_object.best_match,
+        use_grayscale = screen_object.use_grayscale,
+        normalize_monitor = screen_object.normalize_monitor)
     if match.valid:
         return match
     return match
@@ -112,21 +105,17 @@ def select_screen_object_match(match: TemplateMatch) -> None:
     mouse.click("left")
     wait(0.05, 0.09)
 
-def wait_for_screen_object(screen_object, time_out: int = None) -> TemplateMatch:
-    roi = Config().ui_roi[screen_object['roi']] if 'roi' in screen_object else None
-    threshold = screen_object['threshold'] if 'threshold' in screen_object else 0.68
-    best_match = screen_object['bestMatch'] if 'bestMatch' in screen_object else False
-    use_grayscale = screen_object['use_grayscale'] if 'use_grayscale' in screen_object else False
-    normalize_monitor = screen_object['normalize_monitor'] if 'normalize_monitor' in screen_object else False
+def wait_for_screen_object(screen_object: ScreenObject, time_out: int = None) -> TemplateMatch:
+    roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
     time_out = time_out if time_out else 30
     match = TemplateFinder().search_and_wait(
-        ref = screen_object['ref'],
+        ref = screen_object.ref,
         time_out = time_out,
-        threshold = threshold,
+        threshold = screen_object.threshold,
         roi = roi,
-        best_match = best_match,
-        use_grayscale = use_grayscale,
-        normalize_monitor = normalize_monitor)
+        best_match = screen_object.best_match,
+        use_grayscale = screen_object.use_grayscale,
+        normalize_monitor = screen_object.normalize_monitor)
     if match.valid:
         return match
     return match

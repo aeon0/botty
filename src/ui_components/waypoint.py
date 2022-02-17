@@ -12,7 +12,8 @@ from screen import convert_screen_to_monitor, grab
 from utils.misc import wait
 
 from ui_components.loading import wait_for_loading_screen
-from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
+from ui.ui_manager import detect_screen_object
+from ui.screen_objects import ScreenObjects
 
 _WAYPOINTS = {
     # Act 1
@@ -70,7 +71,7 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
     if label:
         act = _WAYPOINTS[label][0]
         idx = _WAYPOINTS[label][1]
-    match = detect_screen_object(SCREEN_OBJECTS['WaypointTabs'])
+    match = detect_screen_object(ScreenObjects.WaypointTabs)
     if match.valid:
         curr_active_act = get_active_act_from_match(match)
     else:

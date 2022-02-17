@@ -16,7 +16,8 @@ from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, conve
 from template_finder import TemplateFinder
 from ui import UiManager
 from ocr import Ocr
-from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, detect_screen_object
+from ui.screen_objects import ScreenObjects
 
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
@@ -76,7 +77,7 @@ class IChar:
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            match = detect_screen_object(SCREEN_OBJECTS['WaypointLabel'])
+            match = detect_screen_object(ScreenObjects.WaypointLabel)
             if match.valid:
                 keyboard.send("esc")
         start = time.time()
@@ -210,7 +211,7 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                match = wait_for_screen_object(ScreenObjects.Loading, 2)
                 if match.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center

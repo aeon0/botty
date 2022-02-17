@@ -15,7 +15,8 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
 from template_finder import TemplateFinder
 from char import IChar
-from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, detect_screen_object
+from ui.screen_objects import ScreenObjects
 
 class Location:
     # A5 Town
@@ -630,7 +631,7 @@ class Pather:
                 img = grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
-                    match = detect_screen_object(SCREEN_OBJECTS['WaypointLabel'])
+                    match = detect_screen_object(ScreenObjects.WaypointLabel)
                     if match.valid:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")

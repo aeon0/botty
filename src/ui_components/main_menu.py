@@ -4,7 +4,8 @@ from config import Config
 from utils.misc import wait
 from logger import Logger
 from ui_components.error_screens import handle_error
-from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match
+from ui.screen_objects import ScreenObjects
 
 def start_game() -> bool:
     """
@@ -14,7 +15,7 @@ def start_game() -> bool:
     Logger.debug("Wait for Play button")
     start = time.time()
     while True:
-        m = detect_screen_object(SCREEN_OBJECTS['PlayBtn'])
+        m = detect_screen_object(ScreenObjects.PlayBtn)
         if m.valid:
             if play_active(m):
                 # found active play button
@@ -32,9 +33,9 @@ def start_game() -> bool:
             return False
     difficulty=Config().general["difficulty"].upper()
     # TODO: need to revise logic here
-    if difficulty == "NORMAL": Difficulty = SCREEN_OBJECTS['Normal']
-    elif difficulty == "NIGHTMARE": Difficulty = SCREEN_OBJECTS['Nightmare']
-    elif difficulty == "HELL": Difficulty = SCREEN_OBJECTS['Hell']
+    if difficulty == "NORMAL": Difficulty = ScreenObjects.Normal
+    elif difficulty == "NIGHTMARE": Difficulty = ScreenObjects.Nightmare
+    elif difficulty == "HELL": Difficulty = ScreenObjects.Hell
     else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
     start = time.time()
     while True:
@@ -44,14 +45,14 @@ def start_game() -> bool:
             select_screen_object_match(m)
             break
         #check for loading screen
-        m = detect_screen_object(SCREEN_OBJECTS['Loading'])
+        m = detect_screen_object(ScreenObjects.Loading)
         if m.valid:
             Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
             break
         else:
             wait(1,2)
         # check for server issue
-        m = detect_screen_object(SCREEN_OBJECTS['ServerError'])
+        m = detect_screen_object(ScreenObjects.ServerError)
         if m.valid:
             handle_error()
             return start_game()
