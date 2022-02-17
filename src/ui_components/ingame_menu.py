@@ -13,7 +13,7 @@ def save_and_exit(does_chicken: bool = False) -> bool:
     while (time.time() - start) < 15:
         match = detect_screen_object(SCREEN_OBJECTS['SaveAndExit'])
         if match.valid:
-            wait(0.3)
+            wait(0.05)
             select_screen_object_match(match)
             wait(0.05)
             select_screen_object_match(match)
