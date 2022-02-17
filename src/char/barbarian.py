@@ -6,7 +6,7 @@ from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
 from logger import Logger
-from screen import Screen
+from screen import convert_abs_to_monitor
 from config import Config
 from utils.misc import wait, cut_roi
 import time
@@ -48,7 +48,7 @@ class Barbarian(IChar):
         if self._skill_hotkeys["find_item"]:
             keyboard.send(self._skill_hotkeys["find_item"])
             wait(0.5, 0.15)
-        pos_m = Screen().convert_abs_to_monitor((0, -20))
+        pos_m = convert_abs_to_monitor((0, -20))
         mouse.move(*pos_m)
         wait(0.5, 0.15)
         mouse.press(button="right")
@@ -81,7 +81,7 @@ class Barbarian(IChar):
             wait(0.15, 0.25)
             
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = Screen().convert_abs_to_monitor(abs_move)
+        pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_war_cry(atk_len)
@@ -146,7 +146,7 @@ class Barbarian(IChar):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
-        pos_m = Screen().convert_abs_to_monitor((0, 0))
+        pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_war_cry(Config().char["atk_len_nihlathak"] * 0.4)
         self._cast_war_cry(0.8)

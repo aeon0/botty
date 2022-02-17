@@ -6,7 +6,7 @@ import math
 import keyboard
 import numpy as np
 
-from screen import Screen
+from screen import grab, convert_screen_to_monitor
 from config import Config
 from logger import Logger
 from npc_manager import NpcManager, Npc
@@ -31,7 +31,7 @@ def exit(run_obj):
 def wait_for_loading_screen(time_out):
     start = time.time()
     while time.time() - start < time_out:
-        img = Screen().grab()
+        img = grab()
         is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
         if is_loading_black_roi:
             return True
@@ -76,8 +76,8 @@ class AnyaShopper:
         self.roi_claw_stats = [0, 0, Config().ui_pos["screen_width"] // 2, Config().ui_pos["screen_height"] - 100]
         self.roi_vendor = Config().ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
-        self.sb_x, self.sb_y = Screen().convert_screen_to_monitor((180, 77))
-        self.c_x, self.c_y = Screen().convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
+        self.sb_x, self.sb_y = convert_screen_to_monitor((180, 77))
+        self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.claws_evaluated = 0
         self.claws_bought = 0
 
@@ -95,7 +95,7 @@ class AnyaShopper:
             self._npc_manager.open_npc_menu(Npc.ANYA)
             self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
-            img = Screen().grab()
+            img = grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
             ias_glove = TemplateFinder(True).search(
@@ -109,7 +109,7 @@ class AnyaShopper:
                 self.ias_gloves_seen += 1
                 mouse.move(*ias_glove.center)
                 time.sleep(0.1)
-                img = Screen().grab()
+                img = grab()
 
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = TemplateFinder(True).search(
@@ -151,7 +151,7 @@ class AnyaShopper:
                 wait(0.3, 0.4)
                 # Search for claws
                 claw_pos = []
-                img = Screen().grab().copy()
+                img = grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
                 for ck in claw_keys:
                     template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
@@ -170,10 +170,10 @@ class AnyaShopper:
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
-                    x_m, y_m = Screen().convert_screen_to_monitor(pos)
+                    x_m, y_m = convert_screen_to_monitor(pos)
                     mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
                     wait(0.5, 0.6)
-                    img_stats = Screen().grab()
+                    img_stats = grab()
                     trap_score = 0
                     melee_score = 0
                     if TemplateFinder(True).search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:

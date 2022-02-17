@@ -6,7 +6,7 @@ from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
 from pather import Location
-from screen import Screen
+from screen import convert_abs_to_monitor
 
 
 class NovaSorc(Sorceress):
@@ -29,7 +29,7 @@ class NovaSorc(Sorceress):
             mouse.release(button="right")
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = Screen().convert_abs_to_monitor(abs_move)
+        pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._nova(atk_len)
@@ -83,7 +83,7 @@ class NovaSorc(Sorceress):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center
-        pos_m = Screen().convert_abs_to_monitor((0, 0))
+        pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_static(0.6)
         self._nova(atk_len)
@@ -93,7 +93,7 @@ class NovaSorc(Sorceress):
 
     def kill_summoner(self) -> bool:
         # move mouse to below altar
-        pos_m = Screen().convert_abs_to_monitor((0, 20))
+        pos_m = convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         # Attack
         self._nova(Config().char["atk_len_arc"])
@@ -107,8 +107,6 @@ class NovaSorc(Sorceress):
 if __name__ == "__main__":
     import os
     import keyboard
-    from screen import Screen
-    from template_finder import TemplateFinder
     from pather import Pather
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")

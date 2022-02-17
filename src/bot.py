@@ -15,7 +15,7 @@ from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
 from config import Config
-from screen import Screen
+from screen import grab
 from template_finder import TemplateFinder
 from char import IChar
 from item import ItemFinder
@@ -284,7 +284,7 @@ class Bot:
         self._belt_manager.update_pot_needs()
 
         # Check if should need some healing
-        img = Screen().grab()
+        img = grab()
         buy_pots = self._belt_manager.should_buy_pots()
         if get_health(img) < 0.6 or get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
@@ -376,7 +376,7 @@ class Bot:
 
     def on_end_game(self, failed: bool = False):
         if Config().general["info_screenshots"] and failed:
-            cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+            cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         self._curr_loc = False
         self._pre_buffed = False
         save_and_exit(False)

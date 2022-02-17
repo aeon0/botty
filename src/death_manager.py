@@ -1,6 +1,6 @@
 from utils.misc import color_filter, cut_roi, wait
 from template_finder import TemplateFinder
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from config import Config
 from utils.custom_mouse import mouse
 import keyboard
@@ -35,12 +35,12 @@ class DeathManager:
     @staticmethod
     def pick_up_corpse():
         Logger.debug("Pick up corpse")
-        x, y = Screen().convert_screen_to_monitor((Config().ui_pos["corpse_x"], Config().ui_pos["corpse_y"]))
+        x, y = convert_screen_to_monitor((Config().ui_pos["corpse_x"], Config().ui_pos["corpse_y"]))
         mouse.move(x, y)
         mouse.click(button="left")
 
     def handle_death_screen(self):
-        img = Screen().grab()
+        img = grab()
         template_match = TemplateFinder().search("YOU_HAVE_DIED", img, threshold=0.9, roi=Config().ui_roi["death"])
         if template_match.valid:
             Logger.warning("You have died!")
@@ -60,7 +60,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
+            if TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")

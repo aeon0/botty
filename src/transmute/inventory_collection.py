@@ -5,7 +5,7 @@ from pipes import Template
 from typing_extensions import Self
 
 from config import Config
-from screen import Screen
+from screen import grab
 import cv2
 import numpy as np
 from template_finder import TemplateFinder
@@ -55,7 +55,7 @@ def inspect_area(
 ) -> InventoryCollection:
     result = InventoryCollection()
     x, y, w, h = roi
-    img = Screen().grab()[y : y + h, x : x + w]
+    img = grab()[y : y + h, x : x + w]
     slot_w = Config.ui_pos["slot_width"]
     slot_h = Config.ui_pos["slot_height"]
     for column, row in itertools.product(range(total_columns), range(total_rows)):

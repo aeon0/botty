@@ -7,11 +7,11 @@
 # - others?
 import time
 import numpy as np
-from screen import Screen
+from screen import grab
 from config import Config
 
 def check_for_black_screen() -> bool:
-    img = Screen().grab()
+    img = grab()
     return np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.5
 
 def wait_for_loading_screen(time_out: float = None) -> bool:

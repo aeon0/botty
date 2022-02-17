@@ -9,7 +9,7 @@ from town.town_manager import TownManager
 from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
-from screen import Screen
+from screen import convert_abs_to_monitor
 import random
 
 from ui_components.loading import wait_for_loading_screen
@@ -58,7 +58,7 @@ class Nihlathak:
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
             # do a random tele jump and try again
-            pos_m = Screen().convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
                 return False

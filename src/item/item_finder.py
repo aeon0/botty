@@ -128,12 +128,12 @@ class ItemFinder:
 
 # Testing: Throw some stuff on the ground see if it is found
 if __name__ == "__main__":
-    from screen import Screen
+    from screen import grab
     from config import Config
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
-        img = Screen().grab().copy()
+        img = grab().copy()
         item_list = item_finder.search(img)
         for item in item_list:
             # print(item.name + " " + str(item.score))

@@ -6,7 +6,6 @@ import re
 import csv
 import difflib
 from utils.misc import erode_to_black
-
 from logger import Logger
 from typing import List, Union
 from dataclasses import dataclass
@@ -264,9 +263,9 @@ if __name__ == "__main__":
     from utils.misc import cut_roi
     from config import Config
 
-    from screen import Screen
+    from screen import grab
     ocr = Ocr()
-    img = Screen().grab()
+    img = grab()
     # img = cut_roi(img, Config().ui_roi["char_selection_top"])
 
     Logger.debug("OCR result:")

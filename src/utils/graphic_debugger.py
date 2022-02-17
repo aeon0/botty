@@ -5,7 +5,7 @@ import numpy as np
 
 from utils import mttkinter
 from utils.misc import color_filter, kill_thread
-from screen import Screen
+from screen import grab
 from item import ItemFinder
 from config import Config
 import tkinter as tk
@@ -278,7 +278,7 @@ class GraphicDebuggerController:
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
-            img = Screen().grab()
+            img = grab()
             # Convert the BGR image to HSV image.
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
@@ -314,7 +314,7 @@ class GraphicDebuggerController:
     def run_old_debugger(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
-            img = Screen().grab()
+            img = grab()
             # Show item detections
             combined_img = np.zeros(img.shape, dtype="uint8")
             for key in Config().colors:

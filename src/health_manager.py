@@ -8,7 +8,7 @@ from ui_components.globes import get_health, get_mana
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
-from screen import Screen
+from screen import grab
 import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
@@ -83,7 +83,7 @@ class HealthManager:
             time.sleep(0.1)
             # Wait until the flag is reset by main.py
             if self._did_chicken or self._pausing: continue
-            img = Screen().grab()
+            img = grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
             match = detect_screen_object(SCREEN_OBJECTS['BarAnchor'], img)
             if match.valid:

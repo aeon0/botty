@@ -1,4 +1,4 @@
-from screen import Screen
+from screen import grab, convert_monitor_to_screen, convert_abs_to_screen
 import cv2
 from config import Config
 from template_finder import TemplateFinder
@@ -56,9 +56,9 @@ class NodeRecorder:
                 os._exit(1)
             self.ref_points = {}
             self.debug_node_pos = {}
-            img = Screen().grab()
+            img = grab()
             loc_monitor = mouse.get_position()
-            loc_screen = Screen().convert_monitor_to_screen(loc_monitor)
+            loc_screen = convert_monitor_to_screen(loc_monitor)
             if e.name == "f8" and self._curr_state == 0:
                 # create a tempalte
                 if self._upper_left is None:
@@ -100,11 +100,11 @@ class NodeRecorder:
                         if template_key in self.ref_points:
                             ref_pos_screen = self.ref_points[template_key]
                             # Get reference position of template in abs coordinates
-                            ref_pos_abs = Screen().convert_screen_to_abs(ref_pos_screen)
+                            ref_pos_abs = convert_screen_to_abs(ref_pos_screen)
                             # Calc the abs node position with the relative coordinates (relative to ref)
                             node_pos_rel = self.nodes[node_idx][template_key]
                             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                            node_screen_pos = Screen().convert_abs_to_screen(node_pos_abs)
+                            node_screen_pos = convert_abs_to_screen(node_pos_abs)
                             self.debug_node_pos[node_idx] = node_screen_pos
                             break
                     # if it was found try to add all other visible templates to it that are not already included
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     keyboard.hook(recorder.hook, suppress=True)
 
     while 1:
-        img = Screen().grab().copy()
+        img = grab().copy()
         try:
             for key in recorder.debug_node_pos:
                 cv2.circle(img, recorder.debug_node_pos[key], 8, (0, 0, 255), 4)

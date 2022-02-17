@@ -1,4 +1,4 @@
-from screen import Screen
+from screen import grab
 from template_finder import TemplateFinder
 from config import Config
 from death_manager import DeathManager
@@ -28,10 +28,10 @@ class GameRecovery:
             # make sure we are not on loading screen
             is_loading = check_for_black_screen()
             while is_loading:
-                is_loading = TemplateFinder().search("LOADING", Screen().grab()).valid
+                is_loading = TemplateFinder().search("LOADING", grab()).valid
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            found = TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid
+            found = TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], grab(), roi=Config().ui_roi["main_menu_top_left"]).valid
             if found:
                 return True
             # would have been too easy, maybe we have died?

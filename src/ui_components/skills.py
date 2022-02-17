@@ -22,7 +22,7 @@ import cv2
 import time
 import numpy as np
 from utils.misc import cut_roi, color_filter, wait
-from screen import Screen
+from screen import grab
 from config import Config
 from template_finder import TemplateFinder
 
@@ -32,7 +32,7 @@ def is_left_skill_selected(template_list: List[str]) -> bool:
     """
     skill_left_ui_roi = Config().ui_roi["skill_left"] 
     for template in template_list:
-        if TemplateFinder().search(template, Screen().grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
+        if TemplateFinder().search(template, grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
             return True
     return False
 
@@ -52,7 +52,7 @@ def has_tps() -> bool:
         if not template_match.valid:
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return template_match.valid
     else:
         return False
@@ -74,7 +74,7 @@ def is_right_skill_active() -> bool:
         Config().ui_pos["skill_width"],
         Config().ui_pos["skill_height"]
     ]
-    img = cut_roi(Screen().grab(), roi)
+    img = cut_roi(grab(), roi)
     avg = np.average(img)
     return avg > 75.0
 
@@ -84,13 +84,13 @@ def is_right_skill_selected(template_list: List[str]) -> bool:
     """
     skill_right_ui_roi = Config().ui_roi["skill_right"]
     for template in template_list:
-        if TemplateFinder().search(template, Screen().grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
+        if TemplateFinder().search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
             return True
     return False
 
 def get_skill_charges(ocr, img: np.ndarray = None):
     if img is None:
-        img = Screen().grab()
+        img = grab()
     x, y, w, h = Config().ui_roi["skill_right"]
     x = x - 1
     y = y + round(h/2)

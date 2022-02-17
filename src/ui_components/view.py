@@ -14,7 +14,7 @@
 # - red portal
 # - blue portal
 from template_finder import TemplateFinder
-from screen import Screen
+from screen import grab
 from config import Config
 import keyboard
 from utils.misc import wait
@@ -22,7 +22,7 @@ from utils.misc import wait
 def repair_needed() -> bool:
     template_match = TemplateFinder().search(
         "REPAIR_NEEDED",
-        Screen().grab(),
+        grab(),
         roi=Config().ui_roi["repair_needed"],
         use_grayscale=True)
     return template_match.valid

@@ -1,4 +1,4 @@
-from screen import Screen
+from screen import convert_monitor_to_screen
 from config import Config
 import mouse
 
@@ -8,7 +8,7 @@ if __name__ == "__main__":
     while 1:
         mouse.wait(button=mouse.RIGHT, target_types=mouse.DOWN)
         monitor_pos = mouse.get_position()
-        screen_pos = Screen().convert_monitor_to_screen(monitor_pos)
+        screen_pos = convert_monitor_to_screen(monitor_pos)
         pos_list.append(screen_pos)
         code = ""
         for pos in pos_list:

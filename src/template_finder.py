@@ -2,7 +2,7 @@ import cv2
 import threading
 from copy import deepcopy
 from item.item_finder import Template
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from typing import Union
 from dataclasses import dataclass
 import numpy as np
@@ -161,8 +161,8 @@ class TemplateFinder:
                     ref_point = roi_center(rec)
 
                     if normalize_monitor:
-                        ref_point =  Screen().convert_screen_to_monitor(ref_point)
-                        rec[0], rec[1] = Screen().convert_screen_to_monitor((rec[0], rec[1]))
+                        ref_point =  convert_screen_to_monitor(ref_point)
+                        rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
                     if best_match:
                         scores[count] = max_val
                         ref_points[count] = ref_point
@@ -213,7 +213,7 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
-            img = Screen().grab()
+            img = grab()
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
             is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
@@ -230,12 +230,11 @@ class TemplateFinder:
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
-    from screen import Screen
     search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
 
     while 1:
         # img = cv2.imread("")
-        img = Screen().grab()
+        img = grab()
         display_img = img.copy()
         start = time.time()
         for key in search_templates:

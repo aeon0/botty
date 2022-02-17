@@ -12,7 +12,7 @@ from utils.misc import wait # for stash/shrine tele cancel detection in traverse
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
-from screen import Screen
+from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
 from template_finder import TemplateFinder
 from char import IChar
 from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
@@ -497,12 +497,12 @@ class Pather:
         i = 0
         stuck_count = 0
         while i < len(path):
-            x_m, y_m = Screen().convert_screen_to_monitor(path[i])
+            x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = Screen().grab()
+            t0 = grab()
             char.move((x_m, y_m))
-            t1 = Screen().grab()
+            t1 = grab()
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -516,7 +516,7 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
@@ -540,18 +540,18 @@ class Pather:
         if f < 1.0:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if adjusted position is "inside globe"
-        screen_pos = Screen().convert_abs_to_screen(abs_pos)
+        screen_pos = convert_abs_to_screen(abs_pos)
         if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
             # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = Screen().convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
+            new_range_y_bottom = convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if clicking on merc img
-        screen_pos = Screen().convert_abs_to_screen(abs_pos)
+        screen_pos = convert_abs_to_screen(abs_pos)
         if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
             width = Config().ui_roi["merc_icon"][2]
             height = Config().ui_roi["merc_icon"][3]
-            w_abs, h_abs = Screen().convert_screen_to_abs((width, height))
+            w_abs, h_abs = convert_screen_to_abs((width, height))
             fw = abs(w_abs / float(abs_pos[0]))
             fh = abs(h_abs / float(abs_pos[1]))
             f = max(fw, fh)
@@ -570,7 +570,7 @@ class Pather:
         )
         if template_match.valid:
             # Get reference position of template in abs coordinates
-            ref_pos_abs = Screen().convert_screen_to_abs(template_match.center)
+            ref_pos_abs = convert_screen_to_abs(template_match.center)
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
@@ -627,7 +627,7 @@ class Pather:
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = Screen().grab()
+                img = grab()
                 # Handle timeout
                 if (time.time() - last_move) > time_out:
                     match = detect_screen_object(SCREEN_OBJECTS['WaypointLabel'])
@@ -653,7 +653,7 @@ class Pather:
                         pos_abs = last_direction
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
-                    x_m, y_m = Screen().convert_abs_to_monitor(pos_abs)
+                    x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
@@ -661,15 +661,15 @@ class Pather:
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
                     Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
-                    img = Screen().grab()
+                    img = grab()
                     if TemplateFinder().search(["SHRINE", "HIDDEN_STASH", "SKULL_PILE"], img, roi=Config().ui_roi["shrine_check"], threshold=0.8, best_match=True).valid:
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
-                        x_m, y_m = Screen().convert_abs_to_monitor((0, -130)) #above head
+                        x_m, y_m = convert_abs_to_monitor((0, -130)) #above head
                         mouse.move(x_m, y_m)
                         wait(0.1, 0.15)
                         mouse.click(button="left")
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
                     else:
                         Logger.debug("Shrine not found.")
@@ -685,7 +685,7 @@ class Pather:
                         continue_to_next_node = True
                     else:
                         # Move the char
-                        x_m, y_m = Screen().convert_abs_to_monitor(node_pos_abs)
+                        x_m, y_m = convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         last_move = time.time()
@@ -698,7 +698,7 @@ if __name__ == "__main__":
     # debug method to display all nodes
     def display_all_nodes(pather: Pather, filter: str = None):
         while 1:
-            img = Screen().grab()
+            img = grab()
             display_img = img.copy()
             template_map = {}
             template_scores = {}
@@ -716,15 +716,15 @@ if __name__ == "__main__":
                     if template_type in template_map:
                         ref_pos_screen = template_map[template_type]
                         # Get reference position of template in abs coordinates
-                        ref_pos_abs = Screen().convert_screen_to_abs(ref_pos_screen)
+                        ref_pos_abs = convert_screen_to_abs(ref_pos_screen)
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                         node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
-                        x, y = Screen().convert_abs_to_screen(node_pos_abs)
+                        x, y = convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                        x, y = Screen().convert_abs_to_screen(ref_pos_abs)
+                        x, y = convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)

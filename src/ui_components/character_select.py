@@ -6,7 +6,7 @@
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, roi_center, wait, is_in_roi
 from config import Config
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from template_finder import TemplateFinder
 from utils.misc import wait
 from logger import Logger
@@ -24,7 +24,7 @@ def select_online_tab(region, center):
     else:
         Logger.debug(f"Selecting offline tab")
         x = region[0] + (3 * btn_width / 2)
-    pos = Screen().convert_screen_to_monitor((x, center[1]))
+    pos = convert_screen_to_monitor((x, center[1]))
     # move cursor to appropriate tab and select
     mouse.move(*pos)
     wait(0.4, 0.6)
@@ -49,7 +49,7 @@ def online_active(match) -> bool:
     return match.name == "CHARACTER_STATE_ONLINE"
 
 def save_char_template():
-    img = Screen().grab()
+    img = grab()
     match = detect_screen_object(SCREEN_OBJECTS['SelectedCharacter'])
     if match.valid:
         x, y, w, h = Config().ui_roi["character_name_sub_roi"]
@@ -78,15 +78,15 @@ def save_char_template():
 
 def select_char():
     if last_char_template is not None:
-        img = Screen().grab()
+        img = grab()
         match = detect_screen_object(SCREEN_OBJECTS['OnlineStatus'], img)
         if match.valid:
             if online_active(match) and (not online_character):
                 select_online_tab(match.region, match.center)
-                img = Screen().grab()
+                img = grab()
             elif not online_active(match) and (online_character):
                 select_online_tab(match.region, match.center)
-                img = Screen().grab()
+                img = grab()
             wait(1, 1.5)
         else:
             Logger.error("select_char: Could not find online/offline tabs")
@@ -98,7 +98,7 @@ def select_char():
         scrolls_attempts = 0
         while scrolls_attempts < 2:
             if scrolls_attempts > 0:
-                img = Screen().grab()
+                img = grab()
             # TODO: can cleanup logic here, can we utilize a generic ScreenObject or use custom locator?
             desired_char = TemplateFinder().search(last_char_template, img, roi = Config().ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
             if desired_char.valid:
@@ -108,7 +108,7 @@ def select_char():
                     return
                 else:
                     Logger.debug("Selecting saved character")
-                    pos = Screen().convert_screen_to_monitor(desired_char.center)
+                    pos = convert_screen_to_monitor(desired_char.center)
                     mouse.move(*pos)
                     wait(0.4, 0.6)
                     mouse.click(button="left")
@@ -118,7 +118,7 @@ def select_char():
                 Logger.debug("Highlighted profile found but saved character not in view, scroll")
                 # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
                 center = roi_center(Config().ui_roi["character_select"])
-                center = Screen().convert_screen_to_monitor(center)
+                center = convert_screen_to_monitor(center)
                 mouse.move(*center)
                 wait(0.4, 0.6)
                 mouse.wheel(-14)

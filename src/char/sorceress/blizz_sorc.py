@@ -6,7 +6,7 @@ from utils.misc import wait, rotate_vec, unit_vector
 import random
 from pather import Location
 import numpy as np
-from screen import Screen
+from screen import convert_abs_to_monitor, grab
 
 class BlizzSorc(Sorceress):
     def __init__(self, *args, **kwargs):
@@ -32,7 +32,7 @@ class BlizzSorc(Sorceress):
         for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = Screen().convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.press(button="left")
             wait(delay[0], delay[1])
@@ -45,7 +45,7 @@ class BlizzSorc(Sorceress):
         keyboard.send(self._skill_hotkeys["blizzard"])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-        cast_pos_monitor = Screen().convert_abs_to_monitor((x, y))
+        cast_pos_monitor = convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         click_tries = random.randint(2, 4)
         for _ in range(click_tries):
@@ -54,7 +54,7 @@ class BlizzSorc(Sorceress):
             mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
-        pindle_pos_abs = Screen().convert_screen_to_abs(Config().path["pindle_end"][0])
+        pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_pindle"])):
             self._blizzard(cast_pos_abs, spray=11)
@@ -66,25 +66,25 @@ class BlizzSorc(Sorceress):
 
     def kill_eldritch(self) -> bool:
         #move up
-        pos_m = Screen().convert_abs_to_monitor((0, -175))
+        pos_m = convert_abs_to_monitor((0, -175))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((-50, -50), spray=10)
         self._cast_static()
         #move down
-        pos_m = Screen().convert_abs_to_monitor((0, 85))
+        pos_m = convert_abs_to_monitor((0, 85))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(0.70)
         self._blizzard((-170, -350), spray=10)
         self._cast_static()
         #move down
-        pos_m = Screen().convert_abs_to_monitor((0, 75))
+        pos_m = convert_abs_to_monitor((0, 75))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((100, -300), spray=10)
         self._cast_static()
-        pos_m = Screen().convert_abs_to_monitor((0, 55))
+        pos_m = convert_abs_to_monitor((0, 55))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(1.0)
@@ -95,7 +95,7 @@ class BlizzSorc(Sorceress):
         return True
 
     def kill_shenk(self) -> bool:
-        pos_m = Screen().convert_abs_to_monitor((100, 170))
+        pos_m = convert_abs_to_monitor((100, 170))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #lower left posistion
@@ -107,7 +107,7 @@ class BlizzSorc(Sorceress):
         self._cast_static()
         self._ice_blast((-300, 100), spray=60)
         self._blizzard((185, 200), spray=10)
-        pos_m = Screen().convert_abs_to_monitor((-10, 10))
+        pos_m = convert_abs_to_monitor((-10, 10))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_static()
@@ -115,7 +115,7 @@ class BlizzSorc(Sorceress):
         self._ice_blast((-20, 30), spray=60)
         wait(1.0)
         #teledance 2
-        pos_m = Screen().convert_abs_to_monitor((150, -240))
+        pos_m = convert_abs_to_monitor((150, -240))
         self.pre_move()
         self.move(pos_m, force_move=True)
         #teledance attack 2
@@ -141,12 +141,12 @@ class BlizzSorc(Sorceress):
         self._blizzard((-150, 10), spray=80)
         self._ice_blast((-300, 50), spray=40)
         # Tele back and attack
-        pos_m = Screen().convert_abs_to_monitor((-50, 200))
+        pos_m = convert_abs_to_monitor((-50, 200))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((-235, -230), spray=80)
         wait(1.0)
-        pos_m = Screen().convert_abs_to_monitor((-285, -320))
+        pos_m = convert_abs_to_monitor((-285, -320))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(0.5)
@@ -163,7 +163,7 @@ class BlizzSorc(Sorceress):
         # Move to bottom of stairs
         self.pre_move()
         for p in [(450, 100), (-190, 200)]:
-            pos_m = Screen().convert_abs_to_monitor(p)
+            pos_m = convert_abs_to_monitor(p)
             self.move(pos_m, force_move=True)
         self._pather.traverse_nodes([304], self, time_out=2.5, force_tp=True)
         # Attack to center of stairs
@@ -182,14 +182,14 @@ class BlizzSorc(Sorceress):
         self._blizzard((-175, 50), spray=10)
         wait(1.0)
         # Move back outside and attack
-        pos_m = Screen().convert_abs_to_monitor((-430, 230))
+        pos_m = convert_abs_to_monitor((-430, 230))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((-50, -150), spray=30)
         self._cast_static()
         wait(0.5)
         # Move back inside and attack
-        pos_m = Screen().convert_abs_to_monitor((150, -350))
+        pos_m = convert_abs_to_monitor((150, -350))
         self.pre_move()
         self.move(pos_m, force_move=True)
         # Attack sequence center
@@ -198,7 +198,7 @@ class BlizzSorc(Sorceress):
         self._blizzard((-150, 20), spray=30)
         wait(1.0)
         # Move inside
-        pos_m = Screen().convert_abs_to_monitor((100, -30))
+        pos_m = convert_abs_to_monitor((100, -30))
         self.pre_move()
         self.move(pos_m, force_move=True)
         # Attack sequence to center
@@ -213,14 +213,14 @@ class BlizzSorc(Sorceress):
         # Find nilhlatak position
         atk_sequences = max(1, int(Config().char["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
-            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], Screen().grab())
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], grab())
             if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0])
                 wait(0.8)
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.3)
-                is_nihl = TemplateFinder().search(["NIHL_BAR"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
-                nihl_immune = TemplateFinder().search(["COLD_IMMUNE","COLD_IMMUNES"], Screen().grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                is_nihl = TemplateFinder().search(["NIHL_BAR"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                nihl_immune = TemplateFinder().search(["COLD_IMMUNE","COLD_IMMUNES"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 if is_nihl:
                     Logger.info("Found him!")
                     if nihl_immune:
@@ -237,7 +237,7 @@ class BlizzSorc(Sorceress):
     def kill_summoner(self) -> bool:
         # Attack
         cast_pos_abs = np.array([0, 0])
-        pos_m = Screen().convert_abs_to_monitor((-20, 20))
+        pos_m = convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         for _ in range(int(Config().char["atk_len_arc"])):
             self._blizzard(cast_pos_abs, spray=11)
@@ -249,7 +249,6 @@ class BlizzSorc(Sorceress):
 if __name__ == "__main__":
     import os
     import keyboard
-    from screen import Screen
     from template_finder import TemplateFinder
     from pather import Pather
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))

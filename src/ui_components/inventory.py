@@ -11,7 +11,7 @@
 import itertools
 from item import ItemFinder
 from logger import Logger
-from screen import Screen
+from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
 import mouse
 from template_finder import TemplateFinder
 from config import Config
@@ -34,7 +34,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     """
     Logger.debug("Searching for inventory gold btn...")
     # Move cursor to center
-    x, y = Screen().convert_abs_to_monitor((0, 0))
+    x, y = convert_abs_to_monitor((0, 0))
     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
     # Wait till gold btn is found
     gold_btn = TemplateFinder().search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
@@ -45,7 +45,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     if not gamble:
         # stash gold
         if Config().char["stash_gold"]:
-            inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+            inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
@@ -61,12 +61,12 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 wait(1.0, 1.2)
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15)
-                inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", Screen().grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+                inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     ui_components.stash.curr_stash["gold"] += 1
                     if Config().general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                     if ui_components.stash.curr_stash["gold"] > 3:
                         #decide if gold pickup should be disabled or gambling is active
                         if Config().char["gamble_items"]:
@@ -87,16 +87,16 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
         ui_components.stash.transfer_shared_to_private_gold(gambling_round)
     # stash stuff
     move_to_stash_tab(ui_components.stash.curr_stash["items"])
-    center_m = Screen().convert_abs_to_monitor((0, 0))
+    center_m = convert_abs_to_monitor((0, 0))
     for column, row in itertools.product(range(num_loot_columns), range(4)):
-        img = Screen().grab()
+        img = grab()
         slot_pos, slot_img = get_slot_pos_and_img(img, column, row)
         if slot_has_item(slot_img):
-            x_m, y_m = Screen().convert_screen_to_monitor(slot_pos)
+            x_m, y_m = convert_screen_to_monitor(slot_pos)
             mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
             # check item again and discard it or stash it
             wait(1.2, 1.4)
-            hovered_item = Screen().grab()
+            hovered_item = grab()
             found_items = keep_item(item_finder, hovered_item)
             if len(found_items) > 0:
                 keyboard.send('ctrl', do_release=False)
@@ -109,7 +109,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 # To avoid logging multiple times the same item when stash tab is full
                 # check the _keep_item again. In case stash is full we will still find the same item
                 wait(0.3)
-                did_stash_test_img = Screen().grab()
+                did_stash_test_img = grab()
                 if len(keep_item(item_finder, did_stash_test_img, False)) > 0:
                     Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
                     break
@@ -120,9 +120,9 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 time.sleep(0.3)
                 curr_pos = mouse.get_position()
                 # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-                x, y = Screen().convert_abs_to_monitor((0, 0))
+                x, y = convert_abs_to_monitor((0, 0))
                 mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
-                item_check_img = Screen().grab()
+                item_check_img = grab()
                 mouse.move(*curr_pos, randomize=2)
                 wait(0.4, 0.6)
                 slot_pos, slot_img = get_slot_pos_and_img(item_check_img, column, row)
@@ -141,9 +141,9 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     Logger.debug("Check if stash is full")
     time.sleep(0.6)
     # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-    x, y = Screen().convert_abs_to_monitor((0, 0))
+    x, y = convert_abs_to_monitor((0, 0))
     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
-    img = Screen().grab()
+    img = grab()
     if inventory_has_items(img, num_loot_columns):
         Logger.info("Stash page is full, selecting next stash")
         if Config().general["info_screenshots"]:
@@ -269,14 +269,14 @@ def move_to_stash_tab(stash_idx: int):
     :param stash_idx: idx of the stash starting at 0 (personal stash)
     """
     str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
-    template_match = TemplateFinder().search([*str_to_idx_map], Screen().grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
+    template_match = TemplateFinder().search([*str_to_idx_map], grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
     curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
     if curr_active_stash != stash_idx:
         # select the start stash
         personal_stash_pos = (Config().ui_pos["stash_personal_btn_x"], Config().ui_pos["stash_personal_btn_y"])
         stash_btn_width = Config().ui_pos["stash_btn_width"]
         next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
-        x_m, y_m = Screen().convert_screen_to_monitor(next_stash_pos)
+        x_m, y_m = convert_screen_to_monitor(next_stash_pos)
         mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
         wait(0.2, 0.3)
         mouse.click(button="left")
@@ -290,7 +290,7 @@ def should_stash(num_loot_columns: int):
     wait(0.2, 0.3)
     keyboard.send(Config().char["inventory_screen"])
     wait(0.7, 1.0)
-    should_stash = inventory_has_items(Screen().grab(), num_loot_columns)
+    should_stash = inventory_has_items(grab(), num_loot_columns)
     keyboard.send(Config().char["inventory_screen"])
     wait(0.4, 0.6)
     return should_stash
