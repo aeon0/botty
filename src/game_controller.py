@@ -12,7 +12,7 @@ from game_stats import GameStats
 from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
-from screen import Screen
+from screen import grab, found_offsets
 from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
@@ -51,7 +51,7 @@ class GameController:
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {Config().general['name']}!")
                     if Config().general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                        cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 elif self.death_manager.died():
                     self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
@@ -78,7 +78,7 @@ class GameController:
             return self.run_bot(True)
         else:
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+                cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             if Config().general['restart_d2r_when_stuck']:
                 Logger.error("Could not recover from a max game length violation. Restarting the Game.")
                 if Config().general["custom_message_hook"]:
@@ -120,9 +120,9 @@ class GameController:
         if self.bot_thread: kill_thread(self.bot_thread)
         if self.game_controller_thread: kill_thread(self.game_controller_thread)
         self.is_running = False
-       
+
     def setup_screen(self):
-        if Screen().found_offsets:
+        if found_offsets:
             return True
         return False
 

@@ -2,7 +2,7 @@ import time
 import os
 from template_finder import TemplateFinder
 from config import Config
-from screen import Screen
+from screen import grab
 from ui.ui_manager import UiManager
 from utils.misc import color_filter, wait
 from logger import Logger
@@ -233,7 +233,7 @@ class NpcManager:
         start = time.time()
         attempts = 0
         while (time.time() - start) < 35:
-            img = Screen().grab()
+            img = grab()
             results = []
             for key in self._npcs[npc_key]["template_group"]:
                 if attempts == 0 and "roi" in self._npcs[npc_key] and (time.time() - start) < 6:
@@ -261,15 +261,15 @@ class NpcManager:
             for result in results:
                 mouse.move(*result["pos"], randomize=3, delay_factor=[0.3, 0.5])
                 wait(0.2, 0.3)
-                _, filtered_inp_w = color_filter(Screen().grab(), Config().colors["white"])
-                _, filtered_inp_g = color_filter(Screen().grab(), Config().colors["gold"])
+                _, filtered_inp_w = color_filter(grab(), Config().colors["white"])
+                _, filtered_inp_g = color_filter(grab(), Config().colors["gold"])
                 res_w = TemplateFinder().search(self._npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
                 res_g = TemplateFinder().search(self._npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
                 if res_w:
                     mouse.click(button="left")
                     attempts += 1
                     wait(0.7, 1.0)
-                    _, filtered_inp = color_filter(Screen().grab(), Config().colors["gold"])
+                    _, filtered_inp = color_filter(grab(), Config().colors["gold"])
                     res = TemplateFinder().search(self._npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
                     if res:
                         return True
@@ -278,7 +278,7 @@ class NpcManager:
         return False
 
     def press_npc_btn(self, npc_key: Npc, action_btn_key: str):
-        img = Screen().grab()
+        img = grab()
         _, filtered_inp_w = color_filter(img, Config().colors["white"])
         res = TemplateFinder().search(
             self._npcs[npc_key]["action_btns"][action_btn_key]["white"],
@@ -305,7 +305,7 @@ class NpcManager:
 
 # Testing: Stand close to Qual-Kehk or Malah and run
 if __name__ == "__main__":
-    from screen import Screen
+    from screen import grab
     from config import Config
     import os
     import keyboard
@@ -313,9 +313,8 @@ if __name__ == "__main__":
     # keyboard.wait("f11")
     # npc_manager = NpcManager()
     # npc_manager.open_npc_menu(Npc.MALAH)
-    ui_manager = UiManager()
-    from bot import Bot
-    from game_stats import GameStats
-    bot = Bot(GameStats(), True)
-    bot.on_end_game()
+    img = grab()
+    import cv2
+    cv2.imshow('img', img)
+    cv2.waitKey()
     # npc_manager.press_npc_btn(Npc.ORMUS, "trade")

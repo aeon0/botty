@@ -215,7 +215,6 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     from item import ItemFinder
     from pather import Pather
-    from screen import Screen
     from npc_manager import NpcManager
     npc_manager = NpcManager()
     pather = Pather()

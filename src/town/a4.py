@@ -1,6 +1,6 @@
 from char import IChar
 from town.i_act import IAct
-from screen import Screen
+from screen import grab
 from config import Config
 from npc_manager import NpcManager, Npc
 from pather import Pather, Location
@@ -35,7 +35,7 @@ class A4(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A4_WP), self._char): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", Screen().grab()).valid
+        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
         return self._char.select_by_template(["A4_WP", "A4_WP_2"], found_wp_func, threshold=0.62, telekinesis=False)
 
@@ -71,7 +71,7 @@ class A4(IAct):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
-            img = Screen().grab()
+            img = grab()
             found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
             found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found

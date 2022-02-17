@@ -10,7 +10,6 @@ from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
-from screen import Screen
 
 from ui_components.waypoint import use_wp
 
@@ -110,7 +109,6 @@ class Arcane:
 
 
 if __name__ == "__main__":
-    from screen import Screen
     import keyboard
     from game_stats import GameStats
     import os

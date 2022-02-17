@@ -6,7 +6,7 @@ from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
 from logger import Logger
-from screen import Screen
+from screen import convert_abs_to_monitor, grab
 from config import Config
 from utils.misc import wait
 import time
@@ -69,7 +69,7 @@ class Hammerdin(IChar):
             wait(0.15, 0.25)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = Screen().convert_abs_to_monitor(abs_move)
+        pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
@@ -143,7 +143,7 @@ class Hammerdin(IChar):
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
-        pos_m = Screen().convert_abs_to_monitor((0, 0))
+        pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_hammers(Config().char["atk_len_nihlathak"] * 0.4)
         self._cast_hammers(0.8, "redemption")
@@ -156,7 +156,7 @@ class Hammerdin(IChar):
 
     def kill_summoner(self) -> bool:
         # move mouse to below altar
-        pos_m = Screen().convert_abs_to_monitor((0, 20))
+        pos_m = convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         # Attack
         self._cast_hammers(Config().char["atk_len_arc"])
@@ -181,7 +181,7 @@ class Hammerdin(IChar):
         if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### APPROACH
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -202,7 +202,7 @@ class Hammerdin(IChar):
         elif location == "rof_01": #node 603 - outside CS in ROF
             ### APPROACH ###
             if not self._pather.traverse_nodes([603], self, time_out=3): return False #calibrate after static path
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             ### ATTACK ###
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -224,7 +224,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([604], self, time_out=3): return False  #threshold=0.8 (ex 601)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -242,7 +242,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -262,7 +262,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
             if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -286,7 +286,7 @@ class Hammerdin(IChar):
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -304,7 +304,7 @@ class Hammerdin(IChar):
         elif location == "entrance1_02": #node 673
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -323,7 +323,7 @@ class Hammerdin(IChar):
         elif location == "entrance1_03": #node 674
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -344,7 +344,7 @@ class Hammerdin(IChar):
         elif location == "entrance1_04": #node 676- Hall3
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -364,7 +364,7 @@ class Hammerdin(IChar):
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -385,7 +385,7 @@ class Hammerdin(IChar):
             wait (0.2, 0.5)
             if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -409,7 +409,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
             if not self._pather.traverse_nodes([605], self): return False#, time_out=3)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -434,7 +434,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
             if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -462,7 +462,7 @@ class Hammerdin(IChar):
         elif location == "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -480,7 +480,7 @@ class Hammerdin(IChar):
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -498,7 +498,7 @@ class Hammerdin(IChar):
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
             self._cast_hammers(0.75, "redemption")
@@ -525,7 +525,7 @@ class Hammerdin(IChar):
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -542,7 +542,7 @@ class Hammerdin(IChar):
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -569,7 +569,7 @@ class Hammerdin(IChar):
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -586,7 +586,7 @@ class Hammerdin(IChar):
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -608,7 +608,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([611], self): return False # , time_out=3):
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -629,7 +629,7 @@ class Hammerdin(IChar):
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -649,7 +649,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613], self): return False # , time_out=3):
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -700,7 +700,7 @@ class Hammerdin(IChar):
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -718,7 +718,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             # if not self._pather.traverse_nodes([623,624], self): return False #
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -863,7 +863,7 @@ class Hammerdin(IChar):
             wait(0.1,0.3)
             if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -886,7 +886,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -938,7 +938,7 @@ class Hammerdin(IChar):
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
             """
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -962,7 +962,7 @@ class Hammerdin(IChar):
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
             self._cast_hammers(Config().char["atk_len_diablo_infector"])
@@ -983,7 +983,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
             self._cast_hammers(0.75, "redemption")
@@ -1006,7 +1006,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([612], self): return False # , time_out=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
             self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1037,7 +1037,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([627, 622], self): return False # , time_out=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
             self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1088,7 +1088,7 @@ class Hammerdin(IChar):
             nodes3 = [632]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
@@ -1112,7 +1112,7 @@ class Hammerdin(IChar):
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
                 Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -1125,7 +1125,7 @@ class Hammerdin(IChar):
             nodes3 = [641]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
             self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
@@ -1148,7 +1148,7 @@ class Hammerdin(IChar):
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", Screen().grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , time_out=3):
@@ -1170,7 +1170,7 @@ class Hammerdin(IChar):
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
             ### ATTACK ###
-            pos_m = Screen().convert_abs_to_monitor((0, 0))
+            pos_m = convert_abs_to_monitor((0, 0))
             mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
             self._cast_hammers(Config().char["atk_len_diablo_infector"] * 0.4)
@@ -1197,7 +1197,7 @@ class Hammerdin(IChar):
     def kill_diablo(self) -> bool:
         ### APPROACH ###
         ### ATTACK ###
-        pos_m = Screen().convert_abs_to_monitor((0, 0))
+        pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         Logger.debug("Attacking Diablo at position 1/1")
         self._cast_hammers(Config().char["atk_len_diablo"])

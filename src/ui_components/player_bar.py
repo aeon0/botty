@@ -1,7 +1,7 @@
 # f: get_experience
 # - belt_row_1
 from config import Config
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi
 from logger import Logger
@@ -11,10 +11,10 @@ from ocr import Ocr
 def get_experience():
     # mouseover exp bar
     pos=(Config().ui_pos["xp_bar_x"], Config().ui_pos["xp_bar_y"])
-    x_m, y_m =  Screen().convert_screen_to_monitor(screen_coord = pos)
+    x_m, y_m =  convert_screen_to_monitor(screen_coord = pos)
     mouse.move(x_m, y_m, randomize = (80,1))
     # crop roi
-    img = Screen().grab()
+    img = grab()
     crop = cut_roi(img, Config().ui_roi["xp_bar_text"])
     ocr_result = Ocr().image_to_text(
         images = crop,

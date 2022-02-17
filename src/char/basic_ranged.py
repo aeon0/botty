@@ -6,7 +6,7 @@ from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
 from logger import Logger
-from screen import Screen
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from config import Config
 from utils.misc import wait, cut_roi
 import time
@@ -28,7 +28,7 @@ class Basic_Ranged(IChar):
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-            pos_m = Screen().convert_abs_to_monitor((x, y))
+            pos_m = convert_abs_to_monitor((x, y))
             mouse.move(*pos_m)
             mouse.click(button="left")
 
@@ -39,7 +39,7 @@ class Basic_Ranged(IChar):
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-            cast_pos_monitor = Screen().convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.click(button="right")
 
@@ -59,7 +59,7 @@ class Basic_Ranged(IChar):
 #bosses
 
     def kill_pindle(self) -> bool:
-        pindle_pos_abs = Screen().convert_screen_to_abs(Config().path["pindle_end"][0])
+        pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(Config().char["stand_still"], do_release=False)
@@ -78,7 +78,7 @@ class Basic_Ranged(IChar):
 
 
     def kill_eldritch(self) -> bool:
-        eld_pos_abs = Screen().convert_screen_to_abs(Config().path["eldritch_end"][0])
+        eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(Config().char["stand_still"], do_release=False)
@@ -96,9 +96,9 @@ class Basic_Ranged(IChar):
         return True
 
     def kill_shenk(self) -> bool:
-        shenk_pos_abs = self._pather.find_abs_node_pos(149, Screen().grab())
+        shenk_pos_abs = self._pather.find_abs_node_pos(149, grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = Screen().convert_screen_to_abs(Config().path["shenk_end"][0])
+            shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         start = time.time()
         keyboard.send(Config().char["stand_still"], do_release=False)
@@ -122,7 +122,7 @@ class Basic_Ranged(IChar):
         self._pather.offset_node(229, [250, 130])
         self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
         self._pather.offset_node(229, [-250, -130])
-        atk_pos_abs = self._pather.find_abs_node_pos(230, Screen().grab())
+        atk_pos_abs = self._pather.find_abs_node_pos(230, grab())
         if atk_pos_abs is None:
             Logger.debug("Could not find node [230]. Using static attack coordinates instead.")
             atk_pos_abs = [-300, -200]
@@ -136,10 +136,10 @@ class Basic_Ranged(IChar):
             else:
                 self._left_attack(cast_pos_abs, spray=11)
         # move a bit back
-        pos_m = Screen().convert_abs_to_monitor((160, 30))
+        pos_m = convert_abs_to_monitor((160, 30))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        atk_pos_abs = self._pather.find_abs_node_pos(229, Screen().grab())
+        atk_pos_abs = self._pather.find_abs_node_pos(229, grab())
         if atk_pos_abs is None:
             Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
             atk_pos_abs = [-200, -80]
@@ -158,8 +158,8 @@ class Basic_Ranged(IChar):
             else:
                 self._left_attack(cast_pos_abs, spray=11)
         # move a bit back
-        pos_m = Screen().convert_abs_to_monitor((100, 0))
-        cast_pos_abs = self._pather.find_abs_node_pos(229, Screen().grab())
+        pos_m = convert_abs_to_monitor((100, 0))
+        cast_pos_abs = self._pather.find_abs_node_pos(229, grab())
         if cast_pos_abs is not None:
             self.pre_move()
             self.move(pos_m, force_move=True)
@@ -173,7 +173,7 @@ class Basic_Ranged(IChar):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Find nilhlatak position
         atk_len = int(Config().char["atk_len_nihlathak"])
-        nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], Screen().grab())
+        nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], grab())
         if nihlathak_pos_abs is None:
             return False
         cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
@@ -191,7 +191,6 @@ class Basic_Ranged(IChar):
 if __name__ == "__main__":
     import os
     import keyboard
-    from screen import Screen
     from template_finder import TemplateFinder
     from pather import Pather
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))

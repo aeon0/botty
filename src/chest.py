@@ -3,7 +3,7 @@ import os
 
 from logger import Logger
 from template_finder import TemplateFinder
-from screen import Screen
+from screen import grab
 from char import IChar
 from config import Config
 from utils.custom_mouse import mouse
@@ -28,7 +28,7 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < time_out:
-            template_match = TemplateFinder().search(templates, Screen().grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
+            template_match = TemplateFinder().search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:
@@ -38,13 +38,13 @@ class Chest:
                 # move mouse and check for label
                 mouse.move(*template_match.center, delay_factor=[0.4, 0.6])
                 wait(0.13, 0.16)
-                chest_label = TemplateFinder().search("CHEST_LABEL", Screen().grab(), threshold=0.85)
+                chest_label = TemplateFinder().search("CHEST_LABEL", grab(), threshold=0.85)
                 if chest_label.valid:
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
                     self._char.pick_up_item(template_match.center, 'potion')
                     wait(0.13, 0.16)
-                    locked_chest = TemplateFinder().search("LOCKED", Screen().grab(), threshold=0.85)
+                    locked_chest = TemplateFinder().search("LOCKED", grab(), threshold=0.85)
                     if locked_chest.valid:
                         templates.remove(template_match.name)
                         Logger.debug("No more keys, removing locked chest template")
@@ -62,7 +62,6 @@ if __name__ == "__main__":
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
     from char.hammerdin import Hammerdin
-    from screen import Screen
     from pather import Pather
     from config import Config
     from ui import UiManager

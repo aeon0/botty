@@ -5,7 +5,7 @@ from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
 from item.item_finder import ItemFinder
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from ui.ui_manager import UiManager
 from utils.custom_mouse import mouse
 from utils.misc import wait
@@ -55,7 +55,7 @@ class Transmute:
         offset_y = (row+0.5)*slot_h
         offset_x = (column+0.5)*slot_w
         x, y, _, _ = roi
-        x, y = Screen().convert_screen_to_monitor(
+        x, y = convert_screen_to_monitor(
             (x + offset_x, y + offset_y))
         mouse.move(x, y)
         self._wait()
@@ -68,11 +68,11 @@ class Transmute:
 
     def open_cube(self):
         move_to_stash_tab(0)
-        screen = Screen().grab()
+        screen = grab()
         match = TemplateFinder().search(
             ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config().ui_roi["left_inventory"])
         if match.valid:
-            x, y = Screen().convert_screen_to_monitor(match.center)
+            x, y = convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("right")
@@ -81,11 +81,11 @@ class Transmute:
             Logger.error(f"Can't find cube: {match.score}")
 
     def transmute(self):
-        screen = Screen().grab()
+        screen = grab()
         match = TemplateFinder().search(
             ["CUBE_TRANSMUTE_BTN"], screen, roi=Config().ui_roi["cube_btn_roi"])
         if match.valid:
-            x, y = Screen().convert_screen_to_monitor(match.center)
+            x, y = convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             self._wait()
             mouse.click("left")
@@ -112,7 +112,7 @@ class Transmute:
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
         result = InventoryCollection()
         x, y, w, h = roi
-        img = Screen().grab()[y:y+h, x:x+w]
+        img = grab()[y:y+h, x:x+w]
         slot_w = Config().ui_pos["slot_width"]
         slot_h = Config().ui_pos["slot_height"]
         for column, row in itertools.product(range(total_columns), range(total_rows)):

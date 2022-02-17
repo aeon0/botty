@@ -1,6 +1,6 @@
 from char import IChar
 from town.i_act import IAct
-from screen import Screen
+from screen import grab
 from config import Config
 from npc_manager import NpcManager, Npc
 from pather import Pather, Location
@@ -55,7 +55,7 @@ class A5(IAct):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
-            img = Screen().grab()
+            img = grab()
             found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
             found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
             return found
@@ -72,7 +72,7 @@ class A5(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", Screen().grab()).valid
+        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", grab()).valid
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:

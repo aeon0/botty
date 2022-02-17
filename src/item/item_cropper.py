@@ -82,13 +82,13 @@ class ItemCropper:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import Screen
+    from screen import grab
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     cropper = ItemCropper()
 
     while 1:
-        img = Screen().grab().copy()
+        img = grab().copy()
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi

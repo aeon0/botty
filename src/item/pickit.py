@@ -6,7 +6,7 @@ from operator import itemgetter
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
-from screen import Screen
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
 from ui.ui_manager import UiManager, is_overburdened
 from ui import BeltManager
@@ -33,7 +33,7 @@ class PickIt:
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
         if Config().general["loot_screenshots"]:
-            img = Screen().grab()
+            img = grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
@@ -48,7 +48,7 @@ class PickIt:
                 time_out = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
-            img = Screen().grab()
+            img = grab()
             item_list = self._item_finder.search(img)
 
             # Check if we need to pick up certain pots more pots
@@ -71,7 +71,7 @@ class PickIt:
                     break
                 else:
                     # Maybe we need to move cursor to another position to avoid highlighting items
-                    pos_m = Screen().convert_abs_to_monitor((0, 0))
+                    pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
@@ -104,7 +104,7 @@ class PickIt:
                                 self._last_closest_item.name == closest_item.name and \
                                 abs(self._last_closest_item.dist - closest_item.dist) < 20
 
-                x_m, y_m = Screen().convert_screen_to_monitor(closest_item.center)
+                x_m, y_m = convert_screen_to_monitor(closest_item.center)
                 if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager

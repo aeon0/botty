@@ -4,7 +4,7 @@ from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
 from pather import Pather
-from screen import Screen
+from screen import grab
 from utils.misc import wait
 import time
 from typing import Tuple
@@ -51,7 +51,7 @@ class Sorceress(IChar):
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = TemplateFinder().search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
+            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 keyboard.send(self._skill_hotkeys["telekinesis"])
                 wait(0.1, 0.2)

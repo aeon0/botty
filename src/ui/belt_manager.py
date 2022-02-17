@@ -7,7 +7,7 @@ from utils.misc import cut_roi, wait, color_filter
 from utils.custom_mouse import mouse
 from logger import Logger
 from config import Config
-from screen import Screen
+from screen import grab, convert_monitor_to_screen, convert_screen_to_monitor
 from template_finder import TemplateFinder
 
 
@@ -70,7 +70,7 @@ class BeltManager:
         return cut_roi(img, roi)
 
     def drink_potion(self, potion_type: str, merc: bool = False, stats: List = []) -> bool:
-        img = Screen().grab()
+        img = grab()
         for i in range(4):
             potion_img = self._cut_potion_img(img, i, 0)
             if self._potion_type(potion_img) == potion_type:
@@ -106,14 +106,14 @@ class BeltManager:
             "mana": Config().char["belt_mp_columns"],
         }
         # In case we are in danger that the mouse hovers the belt rows, move it to the center
-        screen_mouse_pos = Screen().convert_monitor_to_screen(mouse.get_position())
+        screen_mouse_pos = convert_monitor_to_screen(mouse.get_position())
         if screen_mouse_pos[1] > Config().ui_pos["screen_height"] * 0.72:
-            center_m = Screen().convert_abs_to_monitor((-200, -120))
+            center_m = convert_abs_to_monitor((-200, -120))
             mouse.move(*center_m, randomize=100)
         keyboard.send(Config().char["show_belt"])
         wait(0.5)
         # first clean up columns that might be too much
-        img = Screen().grab()
+        img = grab()
         for column in range(4):
             potion_type = self._potion_type(self._cut_potion_img(img, column, 0))
             if potion_type != "empty":
@@ -125,7 +125,7 @@ class BeltManager:
                         keyboard.send(Config().char[key])
                         wait(0.2, 0.3)
         # calc how many potions are needed
-        img = Screen().grab()
+        img = grab()
         current_column = None
         for column in range(4):
             for row in range(Config().char["belt_rows"]):
@@ -153,7 +153,7 @@ class BeltManager:
         """
         keyboard.send(Config().char["inventory_screen"])
         wait(0.7, 1.0)
-        img = Screen().grab()
+        img = grab()
         pot_positions = []
         for column, row in itertools.product(range(num_loot_columns), range(4)):
             center_pos, slot_img = get_slot_pos_and_img(img, column, row)
@@ -162,7 +162,7 @@ class BeltManager:
                 pot_positions.append(center_pos)
         keyboard.press("shift")
         for pos in pot_positions:
-            x, y = Screen().convert_screen_to_monitor(pos)
+            x, y = convert_screen_to_monitor(pos)
             mouse.move(x, y, randomize=9, delay_factor=[1.0, 1.5])
             wait(0.2, 0.3)
             mouse.click(button="left")

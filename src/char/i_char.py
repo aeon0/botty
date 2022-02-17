@@ -12,7 +12,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
 from logger import Logger
 from config import Config
-from screen import Screen
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor
 from template_finder import TemplateFinder
 from ui import UiManager
 from ocr import Ocr
@@ -81,7 +81,7 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = TemplateFinder().search(template_type, Screen().grab(), threshold=threshold, normalize_monitor=True)
+            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 mouse.move(*template_match.center)
@@ -97,7 +97,7 @@ class IChar:
 
     def skill_is_charged(self, img: np.ndarray = None) -> bool:
         if img is None:
-            img = Screen().grab()
+            img = grab()
         skill_img = cut_roi(img, Config().ui_roi["skill_right"])
         charge_mask, _ = color_filter(skill_img, Config().colors["blue"])
         if np.sum(charge_mask) > 0:
@@ -105,7 +105,7 @@ class IChar:
         return False
 
     def is_low_on_teleport_charges(self):
-        img = Screen().grab()
+        img = grab()
         charges_remaining = get_skill_charges(self._ocr, img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
@@ -118,13 +118,13 @@ class IChar:
 
     def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi):
         x, y, w, h = skill_roi
-        x, y = Screen().convert_screen_to_monitor((x, y))
+        x, y = convert_screen_to_monitor((x, y))
         mouse.move(x + w/2, y + h / 2)
         mouse.click("left")
         wait(0.3)
-        match = TemplateFinder().search(skill_asset, Screen().grab(), threshold=0.84, roi=expanded_skill_roi)
+        match = TemplateFinder().search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = Screen().convert_screen_to_monitor(match.center)
+            x, y = convert_screen_to_monitor(match.center)
             mouse.move(x, y)
             wait(0.3)
             keyboard.send(hotkey)
@@ -154,14 +154,14 @@ class IChar:
             wait(self._cast_duration, self._cast_duration + 0.02)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-            pos_screen = Screen().convert_monitor_to_screen(pos_monitor)
-            pos_abs = Screen().convert_screen_to_abs(pos_screen)
+            pos_screen = convert_monitor_to_screen(pos_monitor)
+            pos_abs = convert_screen_to_abs(pos_screen)
             dist = math.dist(pos_abs, (0, 0))
             min_wd = max(10, Config().ui_pos["min_walk_dist"])
             max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
             adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
             pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-            x, y = Screen().convert_abs_to_monitor(pos_abs)
+            x, y = convert_abs_to_monitor(pos_abs)
             mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             if force_move:
@@ -180,7 +180,7 @@ class IChar:
             int(Config().ui_pos["screen_width"] * 0.4),
             int(Config().ui_pos["screen_height"] * 0.7)
         ]
-        pos_away = Screen().convert_abs_to_monitor((-167, -30))
+        pos_away = convert_abs_to_monitor((-167, -30))
         wait(0.8, 1.3) # takes quite a while for tp to be visible
         roi = Config().ui_roi["tp_search"]
         start = time.time()
@@ -189,13 +189,13 @@ class IChar:
             if time.time() - start > 3.7 and retry_count == 0:
                 retry_count += 1
                 Logger.debug("Move to another position and try to open tp again")
-                pos_m = Screen().convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+                pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
                 if has_tps():
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            img = Screen().grab()
+            img = grab()
             template_match = TemplateFinder().search(
                 "BLUE_PORTAL",
                 img,
@@ -214,14 +214,14 @@ class IChar:
                 if match.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
-            pos_screen = Screen().convert_monitor_to_screen(mouse.get_position())
+            pos_screen = convert_monitor_to_screen(mouse.get_position())
             if is_in_roi(roi_mouse_move, pos_screen):
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self):
         # Save current skill img
-        skill_before = cut_roi(Screen().grab(), Config().ui_roi["skill_right"])
+        skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
         # Try to switch weapons and select bo until we find the skill on the right skill slot
         start = time.time()
         switch_sucess = False
@@ -251,7 +251,7 @@ class IChar:
         while time.time() - start < 4:
             keyboard.send(Config().char["weapon_switch"])
             wait(0.3, 0.35)
-            skill_after = cut_roi(Screen().grab(), Config().ui_roi["skill_right"])
+            skill_after = cut_roi(grab(), Config().ui_roi["skill_right"])
             _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
             if max_val > 0.9:
                 break
@@ -314,5 +314,5 @@ if __name__ == "__main__":
     i_char = IChar({}, ui_manager)
 
     while True:
-        print(i_char.get_skill_charges(Screen().grab()))
+        print(i_char.get_skill_charges(grab()))
         wait(1)

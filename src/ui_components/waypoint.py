@@ -6,7 +6,7 @@ from utils.misc import wait
 from logger import Logger
 import time
 import numpy as np
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from config import Config
 from ui_components.loading import wait_for_loading_screen
 from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
@@ -75,12 +75,12 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
         return False
     if curr_active_act != act:
         pos_act_btn = (Config().ui_pos["wp_act_i_btn_x"] + Config().ui_pos["wp_act_btn_width"] * (act - 1), Config().ui_pos["wp_act_i_btn_y"])
-        x, y = Screen().convert_screen_to_monitor(pos_act_btn)
+        x, y = convert_screen_to_monitor(pos_act_btn)
         mouse.move(x, y, randomize=8)
         mouse.click(button="left")
         wait(0.3, 0.4)
     pos_wp_btn = (Config().ui_pos["wp_first_btn_x"], Config().ui_pos["wp_first_btn_y"] + Config().ui_pos["wp_btn_height"] * idx)
-    x, y = Screen().convert_screen_to_monitor(pos_wp_btn)
+    x, y = convert_screen_to_monitor(pos_wp_btn)
     mouse.move(x, y, randomize=[60, 9], delay_factor=[0.9, 1.4])
     wait(0.4, 0.5)
     mouse.click(button="left")
@@ -94,7 +94,7 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
 def wait_for_loading_screen(time_out):
     start = time.time()
     while time.time() - start < time_out:
-        img = Screen().grab()
+        img = grab()
         is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
         if is_loading_black_roi:
             return True

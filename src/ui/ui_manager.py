@@ -8,7 +8,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, color_filter
 from logger import Logger
 from config import Config
-from screen import Screen
+from screen import grab, convert_screen_to_monitor
 from item import ItemFinder
 from template_finder import TemplateFinder, TemplateMatch
 from messages import Messenger
@@ -76,7 +76,7 @@ def is_overburdened() -> bool:
     """
     :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.
     """
-    img = cut_roi(Screen().grab(), Config().ui_roi["is_overburdened"])
+    img = cut_roi(grab(), Config().ui_roi["is_overburdened"])
     _, filtered_img = color_filter(img, Config().colors["gold"])
     templates = [cv2.imread("assets/templates/inventory_full_msg_0.png"), cv2.imread("assets/templates/inventory_full_msg_1.png")]
     for template in templates:
@@ -89,7 +89,7 @@ def is_overburdened() -> bool:
 
 def detect_screen_object(screen_object, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object['roi']] if 'roi' in screen_object else None
-    img = Screen().grab() if img is None else img
+    img = grab() if img is None else img
     threshold = screen_object['threshold'] if 'threshold' in screen_object else 0.68
     best_match = screen_object['bestMatch'] if 'bestMatch' in screen_object else False
     use_grayscale = screen_object['use_grayscale'] if 'use_grayscale' in screen_object else False
@@ -107,7 +107,7 @@ def detect_screen_object(screen_object, img: np.ndarray = None) -> TemplateMatch
     return match
 
 def select_screen_object_match(match: TemplateMatch) -> None:
-    mouse.move(*Screen().convert_screen_to_monitor(match.center))
+    mouse.move(*convert_screen_to_monitor(match.center))
     wait(0.05, 0.09)
     mouse.click("left")
     wait(0.05, 0.09)
@@ -132,7 +132,7 @@ def wait_for_screen_object(screen_object, time_out: int = None) -> TemplateMatch
     return match
 
 def hover_over_screen_object_match(match) -> None:
-    mouse.move(*Screen().convert_screen_to_monitor(match.center))
+    mouse.move(*convert_screen_to_monitor(match.center))
     wait(0.2, 0.4)
 
 # Testing: Move to whatever ui to test and run
