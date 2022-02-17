@@ -1,7 +1,8 @@
 import time
 import keyboard
 from utils.misc import wait
-from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match
+from ui.screen_objects import ScreenObjects
 
 def save_and_exit(does_chicken: bool = False) -> bool:
     """
@@ -11,7 +12,7 @@ def save_and_exit(does_chicken: bool = False) -> bool:
     start = time.time()
     keyboard.send("esc")
     while (time.time() - start) < 15:
-        match = detect_screen_object(SCREEN_OBJECTS['SaveAndExit'])
+        match = detect_screen_object(ScreenObjects.SaveAndExit)
         if match.valid:
             wait(0.05)
             select_screen_object_match(match)
