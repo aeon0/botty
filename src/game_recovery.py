@@ -9,6 +9,7 @@ from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 from ui_components.ingame_menu import save_and_exit
 from ui_components.loading import check_for_black_screen
+from ui_components.view import handle_death_screen
 from utils.misc import set_d2r_always_on_top
 
 class GameRecovery:
@@ -35,7 +36,7 @@ class GameRecovery:
             if found:
                 return True
             # would have been too easy, maybe we have died?
-            if self._death_manager.handle_death_screen():
+            if handle_death_screen():
                 time.sleep(1)
                 continue
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn

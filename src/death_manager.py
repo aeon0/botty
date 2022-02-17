@@ -7,6 +7,7 @@ import keyboard
 import cv2
 from logger import Logger
 import time
+from ui_components.view import handle_death_screen
 
 
 class DeathManager:
@@ -39,35 +40,6 @@ class DeathManager:
         mouse.move(x, y)
         mouse.click(button="left")
 
-    def handle_death_screen(self):
-        img = grab()
-        template_match = TemplateFinder().search("YOU_HAVE_DIED", img, threshold=0.9, roi=Config().ui_roi["death"])
-        if template_match.valid:
-            Logger.warning("You have died!")
-            if Config().general["info_screenshots"]:
-                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
-                cv2.imwrite(self._last_death_screenshot, img)
-            # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
-            if self._callback is not None:
-                self._callback()
-                self._callback = None
-            # clean up key presses that might be pressed
-            keyboard.release(Config().char["stand_still"])
-            wait(0.1, 0.2)
-            keyboard.release(Config().char["show_items"])
-            wait(0.1, 0.2)
-            mouse.release(button="right")
-            wait(0.1, 0.2)
-            mouse.release(button="left")
-            time.sleep(1)
-            if TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
-                # in this case chicken executed and left the game, but we were still dead.
-                return True
-            keyboard.send("esc")
-            self._died = True
-            return True
-        return False
-
     def start_monitor(self):
         self._do_monitor = True
         self._died = False
@@ -77,7 +49,7 @@ class DeathManager:
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
             # Wait until the flag is reset by main.py
             if self._died: continue
-            self.handle_death_screen()
+            handle_death_screen()
         Logger.debug("Stop death monitoring")
 
 
