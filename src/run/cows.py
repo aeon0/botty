@@ -313,20 +313,30 @@ class Cows:
 
         if found == True:
             # We found our template on the minimap. Typically its not yet seen on the screen, so we therefore have to moveo 1-2 times towards the direction where the template was seen on the map & veryify with non-minimap templates that we arrived
-            roomfound = False
-            badroom = False
+            tristramfound = False
+            tristramnotfound = False
             template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_SINGLE", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, normalize_monitor = True)
-            if template_match.valid:
+            coldplains = self._template_finder.search_and_wait(["COW_COLD_PLAINS","COW_COLD_PLAINS_TRANSPARENT"], threshold=0.85, time_out=0.1, take_ss=False, use_grayscale=False, roi="entering_location_roi")
+            
+            if coldplains.valid:
+                Logger.debug("I somehow teleported to Cold Plains, I should go back to where I came from & change the corner")
+                pos_m = self._screen.convert_abs_to_monitor((x2_m * -1, y2_m * -1))
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                self._char.move(pos_m, force_tp=True)
+                super_stuck == 3
+
+            if template_match.valid and not coldplains.valid:
                 Logger.debug("I found the Portal to Old Tristram on the Minimap, switching Minimap off")
                 keyboard.send("tab")         
                 Logger.debug("Teleporting towards the coordiantes where I saw the template on the minimap to make sure we have the Portal visible in our current view")
                 self._char.move(template_match.center, force_tp=True)
                 self._char.move(template_match.center, force_tp=True)
 
-            # Let's confirm we are really in the room, or continue to teleport around
-            while not roomfound and not badroom:
+            # Let's confirm we are really in the proximity of Portal to Tristram, or continue to teleport around
+            while not tristramfound and not tristramnotfound:
                 Logger.debug("We should be close enough, trying to approach the portal by finding visual cues in its proximity") 
-                roomfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
+                tristramfound = self._template_finder.search_and_wait(["COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_2"], threshold=0.8, time_out=0.1, take_ss=False, use_grayscale=False).valid
                 template_match = self._template_finder.search_and_wait(["COW_STONY_FIELD_0_TRANSPARENT", "COW_STONY_FIELD_1_TRANSPARENT", "COW_STONY_FIELD_SINGLE", "COW_STONY_FIELD_YELLOW"], best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False)
                 if template_match.valid:
                     pos_m = self._screen.convert_screen_to_monitor(template_match.center)
@@ -368,7 +378,7 @@ class Cows:
                                 continue
         
         # OK, we found our location, lets just accesss the portal   
-        if roomfound == True:                        
+        if tristramfound == True:                        
             Logger.debug("I found the Portal to Old Tristram on the Minimap, switching Minimap off")
             keyboard.send("tab") 
 
