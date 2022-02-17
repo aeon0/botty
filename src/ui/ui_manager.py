@@ -134,27 +134,14 @@ class UiManager():
             templates = ["SAVE_AND_EXIT_NO_HIGHLIGHT","SAVE_AND_EXIT_HIGHLIGHT"]
             if not self._template_finder.search(templates, self._screen.grab(), roi=self._config.ui_roi["save_and_exit"], threshold=0.85).valid:
                 keyboard.send("esc")
-            wait(0.3)
             exit_btn_pos = (self._config.ui_pos["save_and_exit_x"], self._config.ui_pos["save_and_exit_y"])
             x_m, y_m = self._screen.convert_screen_to_monitor(exit_btn_pos)
-            # TODO: Add hardcoded coordinates to ini file
-            away_x_m, away_y_m = self._screen.convert_abs_to_monitor((-167, 0))
-            while self._template_finder.search_and_wait(templates, roi=self._config.ui_roi["save_and_exit"], time_out=1.5, take_ss=False).valid:
-                delay = [0.9, 1.1]
-                if does_chicken:
-                    delay = [0.3, 0.4]
-                mouse.move(x_m, y_m, randomize=[38, 7], delay_factor=delay)
-                wait(0.03, 0.06)
-                mouse.press(button="left")
-                wait(0.06, 0.1)
-                mouse.release(button="left")
-                if does_chicken:
-                    # lets just try again just in case
-                    wait(0.05, 0.08)
-                    # mouse.click(button="left")
-                wait(1.5, 2.0)
-                mouse.move(away_x_m, away_y_m, randomize=40, delay_factor=[0.6, 0.9])
-                wait(0.1, 0.5)
+            mouse.move(x_m, y_m)
+            wait(0.05)
+            mouse.click(button="left")
+            wait(0.05)
+            mouse.click(button="left")
+            wait(0.1, 0.5)
             return True
         return False
 
