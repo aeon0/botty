@@ -49,6 +49,8 @@ class Cows:
         #CHECK IF THE LEG IS ALREADY IN THE STASH OR INVENTORY!
             #if yes: open_cows()
             #if no: stony_field()
+        logger.info("Legcheck")
+        self._legcheck()
         logger.info("Opening WP & moving to Stony Field")
         if not self._town_manager.open_wp(start_loc):
             return False
@@ -408,7 +410,9 @@ class Cows:
         else:
             Logger.debug('\033[96m' + "Checking Inventory for Leg: not found" + '\033[0m')
             Logger.debug('\033[96m' + "Checking Stash for Leg" + '\033[0m')
-            self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4, telekinesis=True)
+            mouse.move(487,268)
+            wait(0.1, 0.15)
+            mouse.click(button="right")
             template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
             if template_match.valid: 
                 template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
@@ -417,6 +421,12 @@ class Cows:
             else:
                 Logger.debug('\033[96m' + "Checking Stash for Leg: not found" + '\033[0m')
                 Logger.debug('\033[96m' + "Checking Cube for Leg" + '\033[0m')
+                template_match = self._template_finder.search_and_wait(["HORADRIC_CUBE"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
+                #pos_m = self._screen.convert_screen_to_monitor(template_match.center)
+                pos_m = template_match.center
+                mouse.move(pos_m)
+                wait(0.1, 0.15)
+                mouse.click(button="right")
                 template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
                 if template_match.valid: 
                     template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
@@ -488,7 +498,6 @@ class Cows:
         self.used_tps = 0
         stuck_count = 0
         keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-        self._legcheck()
         self._scout(1, -50, 50, -150, -250, stuck_count, 0, 4, 2, 2, 0) #tries to get to exit   
         #pre, during_1, during_2, diffed = self._map_capture()
         #self.map_diff(pre, during_1, during_2)
