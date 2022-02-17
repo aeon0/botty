@@ -27,7 +27,7 @@ import os
 
 gambling_round = 1
 
-def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder, gamble = False):
+def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = False):
     """
     Stashing all items in inventory. Stash UI must be open when calling the function.
     :param num_loot_columns: Number of columns used for loot from left
@@ -281,7 +281,6 @@ def move_to_stash_tab(stash_idx: int):
         wait(0.2, 0.3)
         mouse.click(button="left")
         wait(0.3, 0.4)
-
 
 def should_stash(num_loot_columns: int):
     """
