@@ -5,7 +5,7 @@ from logger import Logger
 from typing import List
 import numpy as np
 from template_finder import TemplateFinder
-from ui_components.slots import get_slot_pos_and_img
+from ui_components.inventory import get_slot_pos_and_img
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait, color_filter
 from config import Config

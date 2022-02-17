@@ -13,8 +13,7 @@ import mouse
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from item import ItemFinder
-from ui_components.inventory import inventory_has_items, keep_item
-from ui_components.slots import get_slot_pos_and_img, slot_has_item
+from ui_components.inventory import inventory_has_items, keep_item, get_slot_pos_and_img, slot_has_item
 import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
