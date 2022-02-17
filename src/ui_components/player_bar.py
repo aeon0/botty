@@ -17,6 +17,11 @@ from ui_components import ScreenObject, Locator
 from config import Config
 from ocr import Ocr
 
+@Locator(ref="WINDOW_INGAME_REFERENCE", roi="window_ingame_ref", threshold=0.8)
+class BarAnchor(ScreenObject):
+    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
+        super().__init__(template_finder, match)
+
 class PlayerBar():
 
     def get_experience(self):

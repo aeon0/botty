@@ -15,7 +15,7 @@ from utils.custom_mouse import mouse
 from screen import Screen
 
 from ui_components.waypoint import Waypoint
-
+from ui_components.loading import wait_for_loading_screen
 
 class Diablo:
     def __init__(
@@ -48,7 +48,7 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        Waypoint(self._screen, self._template_finder).use_wp("River of Flame")
+        Waypoint(self._template_finder).use_wp("River of Flame")
         return Location.A4_DIABLO_WP
 
 
@@ -105,7 +105,7 @@ class Diablo:
                         mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                         wait(0.08, 0.15)
                         mouse.click(button="left")
-                        if self._ui_manager.wait_for_loading_screen(2.0):
+                        if wait_for_loading_screen(2.0):
                             Logger.debug(location + ": Waiting for loading screen...")
 
                         # Recalibrate at Pentagram and set up new TP to improve loop back to penta success

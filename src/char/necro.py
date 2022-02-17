@@ -16,6 +16,8 @@ import time
 from utils.misc import cut_roi, is_in_roi
 import os
 
+from ui_components.loading import Loading
+
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
         os.system('color')
@@ -679,7 +681,8 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                if self._ui_manager.wait_for_loading_screen(2.0):
+                _, m = Loading.wait_for(self._template_finder, 2)
+                if m.valid:
                     return True
                 else:
                     return False
@@ -692,8 +695,7 @@ class Necro(IChar):
         Logger.debug("leaving the durance...")
 
         roi = [0,0,1280,720]
-        sel = False
-        while sel is False:
+        while True:
             spray = 200
             target =[0,0]
             x = target[0] + (random.random() * 2*spray - spray)
@@ -720,12 +722,10 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    if self._ui_manager.wait_for_loading_screen(2.0):
-                        sel = True
+                    _, m = Loading.wait_for(self._template_finder, 2)
+                    if m.valid:
                         return True
-                    else:
-                        return False
-                        sel = False
+                    return False
 
 
     def kill_council(self) -> bool:

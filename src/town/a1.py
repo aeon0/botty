@@ -39,7 +39,7 @@ class A1(IAct):
             curr_loc = Location.A1_WP_SOUTH
             if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char): return False
             wait(0.5, 0.7)
-        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=self._config.ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
+        found_wp_func = lambda: self._template_finder.search(ref="LABEL_WAYPOINT", roi=Config().ui_roi["left_panel_label"], inp_img=Screen().grab()).valid
         # decreased threshold because we sometimes walk "over" it during pathing
         return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 

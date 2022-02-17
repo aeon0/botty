@@ -40,7 +40,7 @@ class Arcane:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._screen, self._template_finder).use_wp("Arcane Sanctuary"):
+        if Waypoint(self._template_finder).use_wp("Arcane Sanctuary"):
             return Location.A2_ARC_START
         return False
 
