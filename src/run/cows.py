@@ -50,7 +50,7 @@ class Cows:
             #if yes: open_cows()
             #if no: stony_field()
         logger.info("Legcheck")
-        self._legcheck()
+        #self._legcheck()
         logger.info("Opening WP & moving to Stony Field")
         if not self._town_manager.open_wp(start_loc):
             return False
@@ -410,8 +410,8 @@ class Cows:
         else:
             Logger.debug('\033[96m' + "Checking Inventory for Leg: not found" + '\033[0m')
             Logger.debug('\033[96m' + "Checking Stash for Leg" + '\033[0m')
-            mouse.move(487,268)
-            wait(0.1, 0.15)
+            pos_m = self._screen.convert_abs_to_monitor((160, 45))
+            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             mouse.click(button="right")
             template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
             if template_match.valid: 
