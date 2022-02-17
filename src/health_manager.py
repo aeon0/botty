@@ -13,7 +13,8 @@ import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
 from ui_components.merc import get_merc_health
-from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, detect_screen_object
+from ui.screen_objects import ScreenObjects
 
 class HealthManager:
     def __init__(self):
@@ -85,7 +86,7 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            match = detect_screen_object(SCREEN_OBJECTS['BarAnchor'], img)
+            match = detect_screen_object(ScreenObjects.BarAnchor, img)
             if match.valid:
                 health_percentage = get_health(img)
                 mana_percentage = get_mana(img)
@@ -113,7 +114,7 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                match = detect_screen_object(SCREEN_OBJECTS['MercIcon'])
+                match = detect_screen_object(ScreenObjects.MercIcon)
                 if match.valid:
                     merc_health_percentage = get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal

@@ -5,7 +5,7 @@ from template_finder import TemplateFinder
 from ui import UiManager
 from pather import Pather
 from logger import Logger
-from screen import grab, convert_abs_to_monitor
+from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
 from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
@@ -15,7 +15,8 @@ import numpy as np
 import time
 import os
 
-from ui.ui_manager import UiManager, SCREEN_OBJECTS
+from ui.ui_manager import wait_for_screen_object
+from ui.screen_objects import ScreenObjects
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
@@ -680,7 +681,7 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                match = wait_for_screen_object(ScreenObjects.Loading, 2)
                 if match.valid:
                     return True
                 else:
@@ -721,7 +722,7 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                    match = wait_for_screen_object(ScreenObjects.Loading, 2)
                     if match.valid:
                         return True
                     return False

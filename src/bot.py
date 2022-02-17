@@ -35,7 +35,8 @@ from char.basic_ranged import Basic_Ranged
 from ui_components.main_menu import start_game
 from ui_components.character_select import has_char_template_saved, select_char, save_char_template, save_char_online_status
 from ui_components.ingame_menu import save_and_exit
-from ui.ui_manager import UiManager, wait_for_screen_object, detect_screen_object, SCREEN_OBJECTS
+from ui.ui_manager import UiManager, wait_for_screen_object, detect_screen_object
+from ui.screen_objects import ScreenObjects
 from ui_components.view import repair_needed, enable_no_pickup
 from ui_components.stash import gambling_needed, set_gold_full
 from ui_components.vendor import gamble
@@ -229,12 +230,11 @@ class Bot:
             else:
                 save_char_online_status()
                 save_char_template()
-
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
         # Start a game from hero selection
-        m = wait_for_screen_object(SCREEN_OBJECTS['MainMenu'])
+        m = wait_for_screen_object(ScreenObjects.MainMenu)
         # res, m = MainMenu.wait_for()
         if m.valid: start_game()
         else: return
@@ -344,7 +344,7 @@ class Bot:
             wait(1.0)
 
         # Check if merc needs to be revived
-        match = detect_screen_object(SCREEN_OBJECTS['MercIcon'])
+        match = detect_screen_object(ScreenObjects.MercIcon)
         if not match.valid and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
