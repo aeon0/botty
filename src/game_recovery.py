@@ -5,13 +5,11 @@ from death_manager import DeathManager
 from ui import UiManager
 import time
 import keyboard
-from ui_components.ingame_menu import SaveAndExit
-from ui_components.loading import check_for_black_screen, Loading
-from ui_components.main_menu import MainMenu
-
+from ui.ui_manager import detect_screen_object, SCREEN_OBJECTS
+from ui_components.ingame_menu import save_and_exit
+from ui_components.loading import check_for_black_screen
 from utils.misc import set_d2r_always_on_top
 from utils.custom_mouse import mouse
-
 
 class GameRecovery:
     def __init__(self, death_manager: DeathManager):
@@ -41,9 +39,9 @@ class GameRecovery:
                 time.sleep(1)
                 continue
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
-            res, m = SaveAndExit.detect(self._template_finder)
-            if m.valid:
-                res.save_and_exit(False)
+            match = detect_screen_object(SCREEN_OBJECTS['SaveAndExit'])
+            if match.valid:
+                save_and_exit(False)
             else:
                 keyboard.send("esc")
             time.sleep(1)

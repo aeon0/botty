@@ -1,4 +1,3 @@
-from template_finder import TemplateFinder
 from ui import UiManager
 from ui import BeltManager
 from pather import Location
@@ -7,15 +6,14 @@ import time
 import keyboard
 from ui_components.globes import get_health, get_mana
 from utils.custom_mouse import mouse
-from utils.misc import cut_roi, color_filter, wait
+from utils.misc import wait
 from logger import Logger
 from screen import Screen
-import numpy as np
 import time
 from config import Config
-from ui_components.ingame_menu import SaveAndExit
-from ui_components.merc import get_merc_health, MercIcon
-from ui_components.player_bar import BarAnchor
+from ui_components.ingame_menu import save_and_exit
+from ui_components.merc import get_merc_health
+from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
 
 class HealthManager:
     def __init__(self):
@@ -87,8 +85,8 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = Screen().grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            _, m = BarAnchor.detect(img)
-            if m.valid:
+            match = detect_screen_object(SCREEN_OBJECTS['BarAnchor'], img)
+            if match.valid:
                 health_percentage = get_health(img)
                 mana_percentage = get_mana(img)
                 # check rejuv
@@ -115,8 +113,8 @@ class HealthManager:
                         self._belt_manager.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                _, m = MercIcon.detect()
-                if m.valid:
+                match = detect_screen_object(SCREEN_OBJECTS['MercIcon'])
+                if match.valid:
                     merc_health_percentage = get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < Config().char["merc_chicken"]:

@@ -8,7 +8,7 @@ from config import Config
 from logger import Logger
 from screen import Screen
 from item import ItemFinder, Item
-from ui import UiManager
+from ui.ui_manager import UiManager, is_overburdened
 from ui import BeltManager
 from char import IChar
 
@@ -118,7 +118,7 @@ class PickIt:
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.2)
 
-                    if self._ui_manager.is_overburdened():
+                    if is_overburdened():
                         found_items = True
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff

@@ -6,12 +6,10 @@ from utils.misc import wait
 from logger import Logger
 import time
 import numpy as np
-
 from screen import Screen
 from config import Config
-from template_finder import TemplateMatch
-from ui_components import ScreenObject, Locator
 from ui_components.loading import wait_for_loading_screen
+from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
 
 _WAYPOINTS = {
     # Act 1
@@ -60,23 +58,6 @@ _WAYPOINTS = {
     "Worldstone Keep Level 2": (5, 8)
 }
 
-@Locator(ref="LABEL_WAYPOINT", roi="left_panel_label", threshold=0.8)
-class WaypointLabel(ScreenObject):
-    def __init__(self, match: TemplateMatch) -> None:
-        super().__init__(match)
-
-@Locator(ref=["WP_A1_ACTIVE", "WP_A2_ACTIVE", "WP_A3_ACTIVE", "WP_A4_ACTIVE", "WP_A5_ACTIVE"], roi="wp_act_roi", threshold=0.8, best_match=True)
-class WaypointTabs(ScreenObject):
-    def get_active_act(self):
-        if self.match.name == "WP_A1_ACTIVE": act = 1
-        elif self.match.name == "WP_A2_ACTIVE": act = 2
-        elif self.match.name == "WP_A3_ACTIVE": act = 3
-        elif self.match.name == "WP_A4_ACTIVE": act = 4
-        elif self.match.name == "WP_A5_ACTIVE": act = 5
-        else:
-            return None
-        return act
-
 def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
     """
     Use Waypoint. The menu must be opened when calling the function.
@@ -86,10 +67,9 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
     if label:
         act = _WAYPOINTS[label][0]
         idx = _WAYPOINTS[label][1]
-
-    res, m = WaypointTabs.detect()
-    if m.valid:
-        curr_active_act = res.get_active_act()
+    match = detect_screen_object(SCREEN_OBJECTS['WaypointTabs'])
+    if match.valid:
+        curr_active_act = get_active_act_from_match(match)
     else:
         Logger.error("Could not find waypoint tabs")
         return False
@@ -119,3 +99,13 @@ def wait_for_loading_screen(time_out):
         if is_loading_black_roi:
             return True
     return False
+
+def get_active_act_from_match(match):
+    if match.name == "WP_A1_ACTIVE": act = 1
+    elif match.name == "WP_A2_ACTIVE": act = 2
+    elif match.name == "WP_A3_ACTIVE": act = 3
+    elif match.name == "WP_A4_ACTIVE": act = 4
+    elif match.name == "WP_A5_ACTIVE": act = 5
+    else:
+        return None
+    return act

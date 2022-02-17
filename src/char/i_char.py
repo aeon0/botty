@@ -6,19 +6,17 @@ import math
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
+from ui.ui_manager import wait_for_screen_object
 from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected, select_tp
-from ui_components.waypoint import WaypointLabel
-
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
-from ui_components.loading import Loading
-
 from logger import Logger
 from config import Config
 from screen import Screen
 from template_finder import TemplateFinder
 from ui import UiManager
 from ocr import Ocr
+from ui.ui_manager import UiManager, detect_screen_object, SCREEN_OBJECTS
 
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
@@ -78,8 +76,8 @@ class IChar:
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            _, m = WaypointLabel.detect()
-            if m.valid:
+            match = detect_screen_object(SCREEN_OBJECTS['WaypointLabel'])
+            if match.valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
@@ -212,8 +210,8 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                _, m = Loading.wait_for(2)
-                if m.valid:
+                match = wait_for_screen_object(SCREEN_OBJECTS['Loading'], 2)
+                if match.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = Screen().convert_monitor_to_screen(mouse.get_position())
