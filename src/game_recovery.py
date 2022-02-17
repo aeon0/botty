@@ -5,7 +5,9 @@ from death_manager import DeathManager
 from ui import UiManager
 import time
 import keyboard
-from ui_components.ingame_menu import save_and_exit
+from ui_components.ingame_menu import SaveAndExit
+from ui_components.loading import check_for_black_screen, Loading
+from ui_components.main_menu import MainMenu
 
 from utils.misc import set_d2r_always_on_top
 from utils.custom_mouse import mouse
@@ -27,22 +29,23 @@ class GameRecovery:
         start = time.time()
         while (time.time() - start) < 30:
             # make sure we are not on loading screen
-            is_loading = True
+            is_loading = check_for_black_screen()
             while is_loading:
-                is_loading = self._template_finder.search("LOADING", Screen().grab()).valid
+                _, m = Loading.detect(self._template_finder)
+                is_loading = m.valid
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            found = self._template_finder.search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], Screen().grab(), roi=Config().ui_roi["main_menu_top_left"]).valid
-            if found:
+            _, m = MainMenu.detect(self._template_finder)
+            if m.valid:
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():
                 time.sleep(1)
                 continue
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
-            template_match = self._template_finder.search(["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"], Screen().grab(), roi=Config().ui_roi["save_and_exit"], threshold=0.85)
-            if template_match.valid:
-                save_and_exit(self._template_finder, False)
+            res, m = SaveAndExit.detect(self._template_finder)
+            if m.valid:
+                res.save_and_exit(False)
             else:
                 keyboard.send("esc")
             time.sleep(1)
