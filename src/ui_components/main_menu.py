@@ -4,7 +4,7 @@ from config import Config
 from utils.misc import wait
 from logger import Logger
 from ui_components.error_screens import handle_error
-from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match
+from ui.ui_manager import detect_screen_object, select_screen_object_match
 from ui.screen_objects import ScreenObjects
 
 def start_game() -> bool:
@@ -61,7 +61,6 @@ def start_game() -> bool:
             Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
             return start_game()
     return True
-
 
 def play_active(match) -> bool:
     return match.name == "PLAY_BTN"

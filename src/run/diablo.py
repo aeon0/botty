@@ -9,13 +9,13 @@ from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager, A4
 from ui import UiManager
-from ui import BeltManager
+from ui_components.skills import has_tps
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from screen import grab
-
+from screen import convert_abs_to_monitor, grab
 from ui_components.loading import wait_for_loading_screen
 from ui_components.waypoint import use_wp
+from ui_components.belt import get_pot_needs, should_buy_pots
 
 
 class Diablo:
@@ -25,8 +25,7 @@ class Diablo:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt,
-        belt_manager: BeltManager
+        pickit: PickIt
     ):
         self._pather = pather
         self._town_manager = town_manager
@@ -34,7 +33,6 @@ class Diablo:
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
-        self._belt_manager = belt_manager
         self.used_tps = 0
         self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START
 
@@ -55,7 +53,7 @@ class Diablo:
     def _cs_town_visit(self, location:str) -> bool:
         # Do we want to go back to town and restock potions etc?
         if Config().char["cs_town_visits"]:
-            buy_pots = self._belt_manager.should_buy_pots()
+            buy_pots = should_buy_pots()
             if not buy_pots:
                 Logger.debug(location + ": Got enough pots, no need to go to town right now.")
             else:
@@ -81,7 +79,7 @@ class Diablo:
                         wait(1.0)
                     # Shop some pots
                     if self._curr_loc:
-                        pot_needs = self._belt_manager.get_pot_needs()
+                        pot_needs = get_pot_needs()
                         self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                     Logger.debug(location + ": Done in town, now going back to portal...")
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal

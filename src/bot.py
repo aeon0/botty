@@ -9,6 +9,7 @@ from copy import copy
 from typing import Union
 from collections import OrderedDict
 from transmute import Transmute
+from ui_components.belt import fill_up_belt_from_inventory, should_buy_pots, update_pot_needs, get_pot_needs
 from ui_components.globes import get_health, get_mana
 from ui_components.skills import has_tps
 from utils.misc import wait
@@ -20,7 +21,6 @@ from template_finder import TemplateFinder
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
-from ui import BeltManager
 from pather import Pather, Location
 from npc_manager import NpcManager
 from health_manager import HealthManager
@@ -57,9 +57,8 @@ class Bot:
         self._messenger = Messenger()
         self._item_finder = ItemFinder()
         self._ui_manager = UiManager(self._game_stats)
-        self._belt_manager = BeltManager()
         self._pather = Pather()
-        self._pickit = PickIt(self._item_finder, self._ui_manager, self._belt_manager)
+        self._pickit = PickIt(self._item_finder, self._ui_manager)
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:
@@ -116,7 +115,7 @@ class Bot:
         self._trav = Trav(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlathak = Nihlathak(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._arcane = Arcane(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._diablo = Diablo(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._belt_manager)
+        self._diablo = Diablo(self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -159,9 +158,6 @@ class Bot:
         from transitions.extensions import GraphMachine
         self.machine = GraphMachine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
         self.machine.get_graph().draw('my_state_diagram.png', prog='dot')
-
-    def get_belt_manager(self) -> BeltManager:
-        return self._belt_manager
 
     def get_curr_location(self):
         return self._curr_loc
@@ -273,7 +269,7 @@ class Bot:
             time.sleep(1.6)
             DeathManager.pick_up_corpse()
             wait(1.2, 1.5)
-            self._belt_manager.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+            fill_up_belt_from_inventory(Config().char["num_loot_columns"])
             wait(0.5)
             if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
                 keybind = self._char._skill_hotkeys["teleport"]
@@ -281,18 +277,18 @@ class Bot:
                 self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
-        self._belt_manager.update_pot_needs()
+        update_pot_needs()
 
         # Check if should need some healing
         img = grab()
-        buy_pots = self._belt_manager.should_buy_pots()
+        buy_pots = should_buy_pots()
         if get_health(img) < 0.6 or get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
-                pot_needs = self._belt_manager.get_pot_needs()
+                pot_needs = get_pot_needs()
                 self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                 wait(0.5, 0.8)
-                self._belt_manager.update_pot_needs()
+                update_pot_needs()
             else:
                 Logger.info("Healing at next possible Vendor")
                 self._curr_loc = self._town_manager.heal(self._curr_loc)
