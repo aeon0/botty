@@ -14,17 +14,15 @@ from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor
 from template_finder import TemplateFinder
-from ui import UiManager
 from ocr import Ocr
-from ui.ui_manager import UiManager, detect_screen_object
+from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
 
-    def __init__(self, skill_hotkeys: Dict, ui_manager: UiManager):
+    def __init__(self, skill_hotkeys: Dict):
         self._skill_hotkeys = skill_hotkeys
-        self._ui_manager = ui_manager
         self._last_tp = time.time()
         self._ocr = Ocr()
         # Add a bit to be on the save side
@@ -305,14 +303,12 @@ if __name__ == "__main__":
     from utils.misc import cut_roi
     from config import Config
     from template_finder import TemplateFinder
-    from ui import UiManager
     from ocr import Ocr
 
     skill_hotkeys = {}
-    ui_manager = UiManager()
     ocr = Ocr()
 
-    i_char = IChar({}, ui_manager)
+    i_char = IChar({})
 
     while True:
         print(i_char.get_skill_charges(grab()))

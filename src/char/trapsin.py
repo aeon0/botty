@@ -2,7 +2,6 @@ import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
@@ -15,9 +14,9 @@ import numpy as np
 
 
 class Trapsin(IChar):
-    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
         Logger.info("Setting up Trapsin")
-        super().__init__(skill_hotkeys, ui_manager)
+        super().__init__(skill_hotkeys)
         self._pather = pather
 
     def pre_buff(self):
@@ -144,7 +143,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from char import Trapsin
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()
-    char = Trapsin(Config().trapsin, Config().char, ui_manager, pather)
+    char = Trapsin(Config().trapsin, Config().char, pather)

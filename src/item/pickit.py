@@ -8,15 +8,13 @@ from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui.ui_manager import UiManager
 from ui_components.view import is_overburdened
 from char import IChar
 
 
 class PickIt:
-    def __init__(self, item_finder: ItemFinder, ui_manager: UiManager):
+    def __init__(self, item_finder: ItemFinder):
         self._item_finder = item_finder
-        self._ui_manager = ui_manager
         self._last_closest_item: Item = None
 
     def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
@@ -145,16 +143,14 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
-    ui_manager = UiManager()
     pather = Pather()
     item_finder = ItemFinder()
-    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
-    pickit = PickIt(item_finder, ui_manager)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
+    pickit = PickIt(item_finder)
     print(pickit.pick_up_items(char))

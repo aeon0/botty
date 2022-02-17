@@ -2,7 +2,6 @@ from screen import grab
 from template_finder import TemplateFinder
 from config import Config
 from death_manager import DeathManager
-from ui import UiManager
 import time
 import keyboard
 from ui.ui_manager import detect_screen_object
@@ -15,7 +14,6 @@ from utils.misc import set_d2r_always_on_top
 class GameRecovery:
     def __init__(self, death_manager: DeathManager):
         self._death_manager = death_manager
-        self._ui_manager = UiManager()
 
     def go_to_hero_selection(self):
         set_d2r_always_on_top()

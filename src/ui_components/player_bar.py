@@ -1,4 +1,3 @@
-# f: get_experience
 # - belt_row_1
 from config import Config
 from screen import convert_screen_to_monitor, grab

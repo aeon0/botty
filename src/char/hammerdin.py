@@ -3,7 +3,6 @@ from ui_components.skills import is_right_skill_active, is_right_skill_selected
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, grab
@@ -16,9 +15,9 @@ from item.pickit import PickIt #for Diablo
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather, pickit: PickIt):
+    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys, ui_manager)
+        super().__init__(skill_hotkeys)
         self._pather = pather
         self._do_pre_move = True
         self._pickit = pickit #for Diablo
@@ -1218,7 +1217,5 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()
-    char = Hammerdin(Config().hammerdin, Config().char, ui_manager, pather)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)

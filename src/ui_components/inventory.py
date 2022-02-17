@@ -19,8 +19,11 @@ import numpy as np
 from utils.custom_mouse import mouse
 import ui_components
 import os
+from ui_components.stash import move_to_stash_tab, gambling_round, gold_full
+from ui.ui_manager import messenger, game_stats
+from messages import Messenger
 
-gambling_round = 1
+messanger = Messenger()
 
 def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> bool:
     """
@@ -40,6 +43,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     Stashing all items in inventory. Stash UI must be open when calling the function.
     :param num_loot_columns: Number of columns used for loot from left
     """
+    global gold_full, messenger, game_stats
     Logger.debug("Searching for inventory gold btn...")
     # Move cursor to center
     x, y = convert_abs_to_monitor((0, 0))
@@ -78,7 +82,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                     if ui_components.stash.curr_stash["gold"] > 3:
                         #decide if gold pickup should be disabled or gambling is active
                         if Config().char["gamble_items"]:
-                            self._gold_full = True
+                            gold_full = True
                         else:
                             # turn off gold pickup
                             Config().turn_off_goldpickup()
@@ -86,11 +90,11 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                             msg = "All stash tabs and character are full of gold, turn of gold pickup"
                             Logger.info(msg)
                             if Config().general["custom_message_hook"]:
-                                self._messenger.send_message(msg=f"{Config().general['name']}: {msg}")
+                                messenger.send_message(msg=f"{Config().general['name']}: {msg}")
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
-                        return self.stash_all_items(num_loot_columns, item_finder)
+                        return stash_all_items(num_loot_columns, item_finder)
     else:
         ui_components.stash.transfer_shared_to_private_gold(gambling_round)
     # stash stuff
@@ -122,7 +126,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                     Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
                     break
                 else:
-                    self._game_stats.log_item_keep(found_items[0].name, Config().items[found_items[0].name].pickit_type == 2, hovered_item)
+                    game_stats.log_item_keep(found_items[0].name, Config().items[found_items[0].name].pickit_type == 2, hovered_item)
             else:
                 # make sure there is actually an item
                 time.sleep(0.3)
@@ -162,12 +166,12 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
         if (Config().char["fill_shared_stash_first"] and ui_components.stash.curr_stash["items"] < 0) or ui_components.stash.curr_stash["items"] > 3:
             Logger.error("All stash is full, quitting")
             if Config().general["custom_message_hook"]:
-                self._messenger.send_stash()
+                messenger.send_stash()
             os._exit(1)
         else:
             # move to next stash
             wait(0.5, 0.6)
-            return self.stash_all_items(num_loot_columns, item_finder)
+            return stash_all_items(num_loot_columns, item_finder)
 
     Logger.debug("Done stashing")
     wait(0.4, 0.5)
@@ -271,24 +275,6 @@ def keep_item(item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True)
                 Logger.debug(f"{x.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
             filtered_list.append(x)
     return filtered_list
-
-def move_to_stash_tab(stash_idx: int):
-    """Move to a specifc tab in the stash
-    :param stash_idx: idx of the stash starting at 0 (personal stash)
-    """
-    str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
-    template_match = TemplateFinder().search([*str_to_idx_map], grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
-    curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
-    if curr_active_stash != stash_idx:
-        # select the start stash
-        personal_stash_pos = (Config().ui_pos["stash_personal_btn_x"], Config().ui_pos["stash_personal_btn_y"])
-        stash_btn_width = Config().ui_pos["stash_btn_width"]
-        next_stash_pos = (personal_stash_pos[0] + stash_btn_width * stash_idx, personal_stash_pos[1])
-        x_m, y_m = convert_screen_to_monitor(next_stash_pos)
-        mouse.move(x_m, y_m, randomize=[30, 7], delay_factor=[1.0, 1.5])
-        wait(0.2, 0.3)
-        mouse.click(button="left")
-        wait(0.3, 0.4)
 
 def should_stash(num_loot_columns: int):
     """

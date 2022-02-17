@@ -2,7 +2,6 @@ import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
@@ -19,10 +18,10 @@ from ui.ui_manager import wait_for_screen_object
 from ui.screen_objects import ScreenObjects
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
         os.system('color')
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
-        super().__init__(skill_hotkeys, ui_manager)
+        super().__init__(skill_hotkeys)
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])
@@ -882,7 +881,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from char import Necro
-    from ui import UiManager
     pather = Pather()
-    ui_manager = UiManager()
-    char = Necro(Config().necro, Config().char, ui_manager, pather)
+    char = Necro(Config().necro, Config().char, pather)

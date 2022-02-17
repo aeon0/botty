@@ -15,7 +15,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
 from template_finder import TemplateFinder
 from char import IChar
-from ui.ui_manager import UiManager, detect_screen_object
+from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 
 class Location:
@@ -738,7 +738,6 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from ui import UiManager
     pather = Pather()
 
     #display_all_nodes(pather, "DIA_TRASH_")
@@ -753,8 +752,7 @@ if __name__ == "__main__":
     #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
     # print(code)
 
-    ui_manager = UiManager()
-    char = Hammerdin(Config().hammerdin, ui_manager, pather, PickIt) #Config().char,
+    char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
 

@@ -10,12 +10,12 @@ import time
 from typing import Tuple
 from pather import Pather
 from config import Config
-from ui.ui_manager import UiManager, detect_screen_object
+from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, ui_manager)
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
+        super().__init__(skill_hotkeys)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):

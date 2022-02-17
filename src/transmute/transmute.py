@@ -6,7 +6,6 @@ from .stash import Stash
 from .gem_picking import SimpleGemPicking
 from item.item_finder import ItemFinder
 from screen import convert_screen_to_monitor, grab
-from ui.ui_manager import UiManager
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from version import __version__
@@ -16,7 +15,8 @@ from template_finder import TemplateFinder
 import numpy as np
 import keyboard
 import cv2
-from ui_components.inventory import move_to_stash_tab, stash_all_items
+from ui_components.inventory import stash_all_items
+from ui_components.stash import move_to_stash_tab
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -44,9 +44,8 @@ class Transmute:
     def _wait():
         wait(0.2, 0.3)
 
-    def __init__(self, game_stats: GameStats, ui_manager: UiManager) -> None:
+    def __init__(self, game_stats: GameStats) -> None:
         self._game_stats = game_stats
-        self._ui_manager = ui_manager
         self._last_game = 0
 
     def pick_from_area(self, column, row, roi):

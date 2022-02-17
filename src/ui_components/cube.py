@@ -4,7 +4,7 @@ from transmute.inventory_collection import inspect_area
 from utils.custom_mouse import mouse
 from utils.misc import wait
 import keyboard
-from ui.ui_manager import UiManager, detect_screen_object, hover_over_screen_object_match
+from ui.ui_manager import detect_screen_object, hover_over_screen_object_match
 from ui.screen_objects import ScreenObjects
 
 inventory = inspect_area(total_rows=4, total_columns=3, roi=Config().ui_roi["cube_area_roi"], known_items=[])

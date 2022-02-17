@@ -3,7 +3,6 @@ import os
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui.ui_manager import UiManager
 from ui_components.belt import update_pot_needs
 from utils.misc import color_filter, wait
 from logger import Logger
@@ -310,9 +309,10 @@ if __name__ == "__main__":
     from config import Config
     import os
     import keyboard
+    from item.item_finder import ItemFinder
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     # npc_manager = NpcManager()
     # npc_manager.open_npc_menu(Npc.MALAH)
-    from ui_components.belt import update_pot_needs
-    update_pot_needs()
+    from ui_components.inventory import stash_all_items
+    stash_all_items(9, ItemFinder())

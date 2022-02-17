@@ -6,7 +6,6 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
@@ -18,13 +17,11 @@ class Arcane:
         self,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
         self._chest = Chest(self._char, 'arcane')
@@ -115,7 +112,6 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     from bot import Bot
     game_stats = GameStats()
     bot = Bot(game_stats, False)

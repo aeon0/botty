@@ -1,7 +1,7 @@
 import time
 import keyboard
 from utils.misc import wait
-from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match
+from ui.ui_manager import detect_screen_object, select_screen_object_match
 from ui.screen_objects import ScreenObjects
 
 def save_and_exit(does_chicken: bool = False) -> bool:
