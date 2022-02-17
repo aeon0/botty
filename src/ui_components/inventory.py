@@ -86,7 +86,7 @@ def stash_all_items(self, num_loot_columns: int, item_finder: ItemFinder, gamble
     else:
         ui_components.stash.transfer_shared_to_private_gold(gambling_round)
     # stash stuff
-    move_to_stash_tab(ui_comonents.stash.curr_stash["items"])
+    move_to_stash_tab(ui_components.stash.curr_stash["items"])
     center_m = Screen().convert_abs_to_monitor((0, 0))
     for column, row in itertools.product(range(num_loot_columns), range(4)):
         img = Screen().grab()
