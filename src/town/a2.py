@@ -14,7 +14,6 @@ class A2(IAct):
         self._pather = pather
         self._char = char
         self._npc_manager = npc_manager
-        self._template_finder = template_finder
 
     def get_wp_location(self) -> Location: return Location.A2_WP
     def can_stash(self) -> bool: return True

@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from chest import Chest
 from screen import Screen
 
-from ui_components.waypoint import Waypoint
+from ui_components.waypoint import use_wp
 
 class Arcane:
     def __init__(
@@ -38,7 +38,7 @@ class Arcane:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if Waypoint(self._template_finder).use_wp("Arcane Sanctuary"):
+        if use_wp("Arcane Sanctuary"):
             return Location.A2_ARC_START
         return False
 

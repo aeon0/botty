@@ -681,7 +681,7 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                _, m = Loading.wait_for(self._template_finder, 2)
+                _, m = Loading.wait_for(2)
                 if m.valid:
                     return True
                 else:
@@ -722,7 +722,7 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    _, m = Loading.wait_for(self._template_finder, 2)
+                    _, m = Loading.wait_for(2)
                     if m.valid:
                         return True
                     return False

@@ -24,8 +24,8 @@ from ui_components import ScreenObject, Locator
 class OnlineStatus(ScreenObject):
     _online_character = None
 
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
 
     def online_active(self) -> bool:
         return self.match.name == "CHARACTER_STATE_ONLINE"
@@ -50,8 +50,8 @@ class OnlineStatus(ScreenObject):
 class SelectedCharacter(ScreenObject):
     _last_char_template = None
 
-    def __init__(self, template_finder: TemplateFinder, match: TemplateMatch) -> None:
-        super().__init__(template_finder, match)
+    def __init__(self, match: TemplateMatch) -> None:
+        super().__init__(match)
 
     @staticmethod
     def has_char_template_saved():
