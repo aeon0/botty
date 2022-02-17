@@ -96,3 +96,7 @@ class ScreenObjects:
         roi="save_and_exit",
         threshold=0.85
     )
+    NeedRepair=ScreenObject(
+        ref="REPAIR_NEEDED",
+        roi="repair_needed"
+    )
