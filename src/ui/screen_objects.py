@@ -100,3 +100,8 @@ class ScreenObjects:
         ref="REPAIR_NEEDED",
         roi="repair_needed"
     )
+    ItemPickupText=ScreenObject(
+        ref=["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"],
+        roi="item_pickup_text",
+        best_match=True
+    )
