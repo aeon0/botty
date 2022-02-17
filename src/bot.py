@@ -236,7 +236,6 @@ class Bot:
         # Start a game from hero selection
         m = wait_for_screen_object(SCREEN_OBJECTS['MainMenu'])
         # res, m = MainMenu.wait_for()
-        Logger.debug('booyah')
         if m.valid: start_game()
         else: return
         self.trigger_or_stop("start_from_town")
