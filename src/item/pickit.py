@@ -8,7 +8,8 @@ from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui.ui_manager import UiManager, is_overburdened
+from ui.ui_manager import UiManager
+from ui_components.view import is_overburdened
 from char import IChar
 
 

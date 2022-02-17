@@ -69,21 +69,6 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > 16.0
 
-def is_overburdened() -> bool:
-    """
-    :return: Bool if the last pick up overburdened your char. Must be called right after picking up an item.
-    """
-    img = cut_roi(grab(), Config().ui_roi["is_overburdened"])
-    _, filtered_img = color_filter(img, Config().colors["gold"])
-    templates = [cv2.imread("assets/templates/inventory_full_msg_0.png"), cv2.imread("assets/templates/inventory_full_msg_1.png")]
-    for template in templates:
-        _, filtered_template = color_filter(template, Config().colors["gold"])
-        res = cv2.matchTemplate(filtered_img, filtered_template, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, _ = cv2.minMaxLoc(res)
-        if max_val > 0.8:
-            return True
-    return False
-
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
     img = grab() if img is None else img
