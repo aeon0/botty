@@ -1,4 +1,3 @@
-#	- cube transmute
 from config import Config
 from template_finder import TemplateMatch
 from transmute.inventory_collection import inspect_area

@@ -1,4 +1,3 @@
-# - server issues?
 from ui.ui_manager import UiManager, detect_screen_object, select_screen_object_match
 from ui.screen_objects import ScreenObjects
 from logger import Logger
