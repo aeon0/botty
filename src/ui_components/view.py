@@ -49,7 +49,7 @@ def enable_no_pickup() -> bool:
 def handle_death_screen():
     global last_death_screenshot
     img = grab()
-    template_match = detect_screen_object(ScreenObjects.YouHaveDied)
+    template_match = detect_screen_object(ScreenObjects.YouHaveDied, img)
     if template_match.valid:
         Logger.warning("You have died!")
         if Config().general["info_screenshots"]:
