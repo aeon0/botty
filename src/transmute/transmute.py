@@ -1,6 +1,7 @@
 import itertools
 from random import randint
 from config import Config
+from ui.ui_manager import detect_screen_object, wait_for_screen_object
 from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
@@ -17,6 +18,7 @@ import keyboard
 import cv2
 from ui_components.inventory import stash_all_items
 from ui_components.stash import move_to_stash_tab
+from ui.screen_objects import ScreenObjects
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -67,9 +69,7 @@ class Transmute:
 
     def open_cube(self):
         move_to_stash_tab(0)
-        screen = grab()
-        match = TemplateFinder().search(
-            ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config().ui_roi["left_inventory"])
+        match = detect_screen_object(ScreenObjects.CubeInventory)
         if match.valid:
             x, y = convert_screen_to_monitor(match.center)
             mouse.move(x, y)
@@ -80,9 +80,7 @@ class Transmute:
             Logger.error(f"Can't find cube: {match.score}")
 
     def transmute(self):
-        screen = grab()
-        match = TemplateFinder().search(
-            ["CUBE_TRANSMUTE_BTN"], screen, roi=Config().ui_roi["cube_btn_roi"])
+        match = detect_screen_object(ScreenObjects.CubeOpened)
         if match.valid:
             x, y = convert_screen_to_monitor(match.center)
             mouse.move(x, y)
@@ -181,7 +179,7 @@ class Transmute:
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
-        gold_btn = TemplateFinder().search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20)
+        gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return

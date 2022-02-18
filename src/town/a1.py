@@ -6,6 +6,8 @@ from npc_manager import NpcManager, Npc
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
+from ui.ui_manager import detect_screen_object
+from ui.screen_objects import ScreenObjects
 from utils.misc import wait
 
 
@@ -38,7 +40,7 @@ class A1(IAct):
             curr_loc = Location.A1_WP_SOUTH
             if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char): return False
             wait(0.5, 0.7)
-        found_wp_func = lambda: TemplateFinder().search("WAYPOINT_MENU", grab()).valid
+        found_wp_func = lambda: detect_screen_object(ScreenObjects.WaypointLabel).valid
         # decreased threshold because we sometimes walk "over" it during pathing
         return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 
@@ -68,8 +70,8 @@ class A1(IAct):
         wait(0.5, 0.6)
         def stash_is_open_func():
             img = grab()
-            found = TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn"]).valid
-            found |= TemplateFinder().search("INVENTORY_GOLD_BTN", img, roi=Config().ui_roi["gold_btn_stash"]).valid
+            found = detect_screen_object(ScreenObjects.GoldBtnInventory, img).valid
+            found |= detect_screen_object(ScreenObjects.GoldBtnStash, img).valid
             return found
         if not self._char.select_by_template(["A1_TOWN_0"], stash_is_open_func):
             return False

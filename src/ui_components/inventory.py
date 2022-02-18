@@ -20,7 +20,8 @@ from utils.custom_mouse import mouse
 import ui_components
 import os
 from ui_components.stash import move_to_stash_tab, gambling_round, gold_full
-from ui.ui_manager import messenger, game_stats
+from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object
+from ui.screen_objects import ScreenObjects
 from messages import Messenger
 
 messanger = Messenger()
@@ -49,7 +50,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     x, y = convert_abs_to_monitor((0, 0))
     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
     # Wait till gold btn is found
-    gold_btn = TemplateFinder().search_and_wait("INVENTORY_GOLD_BTN", roi=Config().ui_roi["gold_btn"], time_out=20, normalize_monitor=True)
+    gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)
     if not gold_btn.valid:
         Logger.error("Could not determine to be in stash menu. Continue...")
         return
@@ -57,7 +58,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     if not gamble:
         # stash gold
         if Config().char["stash_gold"]:
-            inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+            inventory_no_gold = detect_screen_object(ScreenObjects.GoldNone)
             if inventory_no_gold.valid:
                 Logger.debug("Skipping gold stashing")
             else:
@@ -73,7 +74,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 wait(1.0, 1.2)
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15)
-                inventory_no_gold = TemplateFinder().search("INVENTORY_NO_GOLD", grab(), roi=Config().ui_roi["inventory_gold"], threshold=0.83)
+                inventory_no_gold = detect_screen_object(ScreenObjects.GoldNone)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     ui_components.stash.curr_stash["gold"] += 1

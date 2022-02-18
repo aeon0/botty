@@ -1,3 +1,4 @@
+from turtle import Screen
 from typing import Dict, Tuple, Union, List, Callable
 import random
 import time
@@ -181,7 +182,6 @@ class IChar:
         ]
         pos_away = convert_abs_to_monitor((-167, -30))
         wait(0.8, 1.3) # takes quite a while for tp to be visible
-        roi = Config().ui_roi["tp_search"]
         start = time.time()
         retry_count = 0
         while (time.time() - start) < 8:
@@ -194,14 +194,7 @@ class IChar:
                 if has_tps():
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            img = grab()
-            template_match = TemplateFinder().search(
-                "BLUE_PORTAL",
-                img,
-                threshold=0.66,
-                roi=roi,
-                normalize_monitor=True
-            )
+            template_match = detect_screen_object(ScreenObjects.TownPortal)
             if template_match.valid:
                 pos = template_match.center
                 pos = (pos[0], pos[1] + 30)

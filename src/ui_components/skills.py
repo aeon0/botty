@@ -25,12 +25,14 @@ from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
 from template_finder import TemplateFinder
+from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object
 
 def is_left_skill_selected(template_list: List[str]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the left skill slot.
     """
-    skill_left_ui_roi = Config().ui_roi["skill_left"] 
+    skill_left_ui_roi = Config().ui_roi["skill_left"]
     for template in template_list:
         if TemplateFinder().search(template, grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
             return True
@@ -42,13 +44,7 @@ def has_tps() -> bool:
     """
     if Config().char["tp"]:
         keyboard.send(Config().char["tp"])
-        skill_right_ui_roi = Config().ui_roi["skill_right"]
-        template_match = TemplateFinder().search_and_wait(
-            ["TP_ACTIVE", "TP_INACTIVE"],
-            roi=skill_right_ui_roi,
-            best_match=True,
-            threshold=0.79,
-            time_out=4)
+        template_match = wait_for_screen_object(ScreenObjects.TownPortalSkill, time_out=4)
         if not template_match.valid:
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
