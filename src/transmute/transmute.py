@@ -16,8 +16,7 @@ from template_finder import TemplateFinder
 import numpy as np
 import keyboard
 import cv2
-from ui_components.inventory import stash_all_items
-from ui_components.stash import move_to_stash_tab
+from ui_components import inventory, stash
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -67,7 +66,7 @@ class Transmute:
         self._wait()
 
     def open_cube(self):
-        move_to_stash_tab(0)
+        stash.move_to_stash_tab(0)
         match = detect_screen_object(ScreenObjects.CubeInventory)
         if match.valid:
             x, y = convert_screen_to_monitor(match.center)
@@ -92,7 +91,7 @@ class Transmute:
         keyboard.send("esc")
 
     def stash_all_items(self):
-        stash_all_items(
+        inventory.stash_all_items(
             Config().char["num_loot_columns"], ItemFinder())
 
     def pick_from_cube_at(self, column, row):
@@ -102,7 +101,7 @@ class Transmute:
         return self.pick_from_area(column, row, Config().ui_roi["right_inventory"])
 
     def pick_from_stash_at(self, index, column, row):
-        move_to_stash_tab(index)
+        stash.move_to_stash_tab(index)
         return self.pick_from_area(column, row, Config().ui_roi["left_inventory"])
 
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
@@ -136,7 +135,7 @@ class Transmute:
     def inspect_stash(self) -> Stash:
         stash = Stash()
         for i in range(4):
-            move_to_stash_tab(i)
+            stash.move_to_stash_tab(i)
             wait(0.4, 0.5)
             tab = self.inspect_area(
                 10, 10, Config().ui_roi["left_inventory"], FLAWLESS_GEMS)
@@ -150,14 +149,14 @@ class Transmute:
             while flawless_gems.count_by(gem) > 0:
                 pick.append((randint(0, 3), *flawless_gems.pop(gem)))
         for tab, x, y in sorted(pick, key=lambda x: x[0]):
-            move_to_stash_tab(tab)
+            stash.move_to_stash_tab(tab)
             self.pick_from_inventory_at(x, y)
 
     def select_tab_with_enough_space(self, s: Stash) -> None:
         tabs_priority = Config()._transmute_config["stash_destination"]
         for tab in tabs_priority:
             if s.get_empty_on_tab(tab) > 0:
-                move_to_stash_tab(tab)
+                stash.move_to_stash_tab(tab)
                 break
 
     def put_back_all_gems(self, s: Stash) -> None:
@@ -201,10 +200,10 @@ class Transmute:
         self._last_game = self._game_stats._game_counter
         s = self.inspect_stash()
         algorithm = SimpleGemPicking(s)
-        inventory = self.inspect_inventory_area(FLAWLESS_GEMS)
+        inv = self.inspect_inventory_area(FLAWLESS_GEMS)
         is_cube_empty = None
         while True:
-            while inventory.count_empty() >= 3:
+            while inv.count_empty() >= 3:
                 next_batch = algorithm.next_batch()
                 is_cube_empty = self.check_cube_empty() if is_cube_empty is None else is_cube_empty
                 if not is_cube_empty:
@@ -215,13 +214,13 @@ class Transmute:
                     break
                 for tab, gem, x, y in next_batch:
                     self.pick_from_stash_at(tab, x, y)
-                inventory = self.inspect_inventory_area(FLAWLESS_GEMS)
-            if inventory.count() >= 3:
+                inv = self.inspect_inventory_area(FLAWLESS_GEMS)
+            if inv.count() >= 3:
                 self.open_cube()
-                for gem in inventory.all_items():
-                    while inventory.count_by(gem) > 0:
+                for gem in inv.all_items():
+                    while inv.count_by(gem) > 0:
                         for _ in range(3):
-                            next = inventory.pop(gem)
+                            next = inv.pop(gem)
                             self.pick_from_inventory_at(*next)
                         self.transmute()
                         self.pick_from_cube_at(2, 3)

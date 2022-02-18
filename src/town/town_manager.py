@@ -6,11 +6,8 @@ from pather import Location
 from logger import Logger
 from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
-import ui_components
 from utils.misc import wait
-from ui_components.waypoint import use_wp
-from ui_components.inventory import stash_all_items
-from ui_components.vendor import close_vendor_screen, repair_and_fill_up_tp, sell_junk
+from ui_components import waypoint, inventory, vendor
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -83,7 +80,7 @@ class TownManager:
             return curr_loc
         # if not, move to the desired act via waypoint
         if not self._acts[curr_act].open_wp(curr_loc): return False
-        use_wp(act = act_idx, idx = 0)
+        waypoint.use_wp(act = act_idx, idx = 0)
         return self._acts[act].get_wp_location()
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
@@ -102,9 +99,9 @@ class TownManager:
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
             if not new_loc: return False
-            ui_components.vendor.buy_pots(healing_pots, mana_pots)
+            vendor.buy_pots(healing_pots, mana_pots)
             wait(0.1, 0.2)
-            close_vendor_screen()
+            vendor.close_vendor_screen()
             return new_loc
         Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
         return curr_loc
@@ -160,14 +157,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
+            inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        stash_all_items(Config().char["num_loot_columns"], self._item_finder)
+        inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
@@ -177,17 +174,17 @@ class TownManager:
         if self._acts[curr_act].can_trade_and_repair():
             new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
             if not new_loc: return False
-            if repair_and_fill_up_tp():
+            if vendor.repair_and_fill_up_tp():
                 wait(0.1, 0.2)
-                close_vendor_screen()
+                vendor.close_vendor_screen()
                 return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
         if not new_loc: return False
-        if repair_and_fill_up_tp():
+        if vendor.repair_and_fill_up_tp():
             wait(0.1, 0.2)
-            close_vendor_screen()
+            vendor.close_vendor_screen()
             return new_loc
         return False
 
@@ -199,7 +196,7 @@ class TownManager:
             if not new_loc: return False
         new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
         wait(1.0)
-        sell_junk(Config().char["num_loot_columns"], self._item_finder)
+        vendor.sell_junk(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
 

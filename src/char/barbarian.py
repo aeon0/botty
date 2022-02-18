@@ -1,5 +1,5 @@
 import keyboard
-from ui_components.skills import is_left_skill_selected, is_right_skill_active
+from ui_components import skills
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
 from template_finder import TemplateFinder
@@ -7,7 +7,7 @@ from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor
 from config import Config
-from utils.misc import wait, cut_roi
+from utils.misc import wait
 import time
 from pather import Pather, Location
 
@@ -37,7 +37,7 @@ class Barbarian(IChar):
             mouse.click(button="right")
         wait(0.01, 0.05)
         keyboard.send(Config().char["stand_still"], do_press=False)
-    
+
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         if capabilities.can_teleport_natively:
             self._pather.offset_node(149, [120, 70])
@@ -73,12 +73,12 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not is_left_skill_selected(["LEAP"])
-        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
+        should_cast_leap = self._skill_hotkeys["leap"] and not skills.is_left_skill_selected(["LEAP"])
+        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
         if  should_cast_leap and not can_teleport:
             keyboard.send(self._skill_hotkeys["leap"])
             wait(0.15, 0.25)
-            
+
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()

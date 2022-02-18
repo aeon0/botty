@@ -8,7 +8,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from utils.misc import wait
 
-from ui_components.waypoint import use_wp
+from ui_components import waypoint
 
 class Trav:
     def __init__(
@@ -29,7 +29,7 @@ class Trav:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if use_wp("Travincal"):
+        if waypoint.use_wp("Travincal"):
             return Location.A3_TRAV_START
         return False
 

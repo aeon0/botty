@@ -10,8 +10,7 @@ from logger import Logger
 from config import Config
 from screen import convert_screen_to_monitor, grab
 from utils.misc import wait
-
-from ui_components.loading import wait_for_loading_screen
+from ui_components import loading
 from ui.ui_manager import detect_screen_object, ScreenObjects
 
 _WAYPOINTS = {
@@ -88,19 +87,10 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
     wait(0.4, 0.5)
     mouse.click(button="left")
     # wait till loading screen is over
-    if wait_for_loading_screen(5):
+    if loading.wait_for_loading_screen(5):
         while 1:
-            if not wait_for_loading_screen(0.2):
+            if not loading.wait_for_loading_screen(0.2):
                 return True
-    return False
-
-def wait_for_loading_screen(time_out):
-    start = time.time()
-    while time.time() - start < time_out:
-        img = grab()
-        is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
-        if is_loading_black_roi:
-            return True
     return False
 
 def get_active_act_from_match(match):
@@ -110,4 +100,4 @@ def get_active_act_from_match(match):
     except:
         Logger.error(f"get_active_act_from_match: Could not pair act to {match.name}")
         return None
-    return act
+    return int(act)

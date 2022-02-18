@@ -119,6 +119,63 @@ class ScreenObjects:
         roi="item_pickup_text",
         best_match=True
     )
+    ShrineArea=ScreenObject(
+        ref=["SHRINE", "HIDDEN_STASH", "SKULL_PILE"],
+        roi="shrine_check",
+        threshold=0.8
+    )
+    TownPortal=ScreenObject(
+        ref="BLUE_PORTAL",
+        threshold=0.66,
+        roi="tp_search",
+        normalize_monitor=True
+    )
+    TownPortalReduced=ScreenObject(
+        ref="BLUE_PORTAL",
+        threshold=0.66,
+        roi="reduce_to_center",
+        normalize_monitor=True
+    )
+    GoldBtnInventory=ScreenObject(
+        ref="INVENTORY_GOLD_BTN",
+        roi="gold_btn",
+        normalize_monitor=True,
+        use_grayscale=True
+    )
+    GoldBtnStash=ScreenObject(
+        ref="INVENTORY_GOLD_BTN",
+        roi="gold_btn_stash",
+        normalize_monitor=True,
+        use_grayscale=True
+    )
+    GoldNone=ScreenObject(
+        ref="INVENTORY_NO_GOLD",
+        roi="inventory_gold",
+        threshold=0.83,
+        use_grayscale=True
+    )
+    TownPortalSkill=ScreenObject(
+        ref=["TP_ACTIVE", "TP_INACTIVE"],
+        roi="skill_right",
+        best_match=True,
+        threshold=0.79
+    )
+    RepairBtn=ScreenObject(
+        ref="REPAIR_BTN",
+        roi="repair_btn",
+        normalize_monitor=True,
+        use_grayscale=True
+    )
+    YouHaveDied=ScreenObject(
+        ref="YOU_HAVE_DIED",
+        roi="death",
+        threshold=0.9
+    )
+    Overburdened=ScreenObject(
+        ref=["INVENTORY_FULL_MSG_0", "INVENTORY_FULL_MSG_1"],
+        roi="is_overburdened",
+        threshold=0.9
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -163,7 +220,7 @@ def hover_over_screen_object_match(match) -> None:
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
     import keyboard
-    from ui_components.vendor import gamble
+    from ui_components import vendor
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
@@ -171,4 +228,4 @@ if __name__ == "__main__":
     from config import Config
     game_stats = GameStats()
     item_finder = ItemFinder()
-    gamble()
+    vendor.gamble()

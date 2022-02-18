@@ -7,7 +7,7 @@ import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
 from ui.ui_manager import wait_for_screen_object
-from ui_components.skills import get_skill_charges, has_tps, is_right_skill_active, is_right_skill_selected, select_tp
+from ui_components import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
 from logger import Logger
@@ -104,7 +104,7 @@ class IChar:
 
     def is_low_on_teleport_charges(self):
         img = grab()
-        charges_remaining = get_skill_charges(self._ocr, img)
+        charges_remaining = skills.get_skill_charges(self._ocr, img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -134,7 +134,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return select_tp(self._skill_hotkeys["teleport"])
+        return skills.select_tp(self._skill_hotkeys["teleport"])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -144,8 +144,8 @@ class IChar:
     def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
-            (force_tp or (is_right_skill_selected(["TELE_ACTIVE"]) and \
-                is_right_skill_active())):
+            (force_tp or (skills.is_right_skill_selected(["TELE_ACTIVE"]) and \
+                skills.is_right_skill_active())):
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -169,7 +169,7 @@ class IChar:
 
     def tp_town(self):
         # will check if tp is available and select the skill
-        if not has_tps():
+        if not skills.has_tps():
             return False
         mouse.click(button="right")
         roi_mouse_move = [
@@ -189,7 +189,7 @@ class IChar:
                 pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
                 self.pre_move()
                 self.move(pos_m)
-                if has_tps():
+                if skills.has_tps():
                     mouse.click(button="right")
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             template_match = detect_screen_object(ScreenObjects.TownPortal)
@@ -220,7 +220,7 @@ class IChar:
             wait(0.3, 0.35)
             keyboard.send(Config().char["battle_command"])
             wait(0.1, 0.19)
-            if is_right_skill_selected(["BC", "BO"]):
+            if skills.is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
 
@@ -295,6 +295,7 @@ if __name__ == "__main__":
     from config import Config
     from template_finder import TemplateFinder
     from ocr import Ocr
+    from ui_components import skills
 
     skill_hotkeys = {}
     ocr = Ocr()
@@ -302,5 +303,5 @@ if __name__ == "__main__":
     i_char = IChar({})
 
     while True:
-        print(i_char.get_skill_charges(grab()))
+        print(skills.get_skill_charges(grab()))
         wait(1)

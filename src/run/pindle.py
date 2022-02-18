@@ -7,7 +7,7 @@ from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from utils.misc import wait
-from ui_components.loading import wait_for_loading_screen
+from ui_components import loading
 
 class Pindle:
     def __init__(
@@ -31,7 +31,7 @@ class Pindle:
         if not self._pather.traverse_nodes((loc, Location.A5_NIHLATHAK_PORTAL), self._char):
             return False
         wait(0.5, 0.6)
-        found_loading_screen_func = lambda: wait_for_loading_screen(2.0)
+        found_loading_screen_func = lambda: loading.wait_for_loading_screen(2.0)
         if not self._char.select_by_template("RED_PORTAL", found_loading_screen_func, telekinesis=False):
             return False
         return Location.A5_PINDLE_START

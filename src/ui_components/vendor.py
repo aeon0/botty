@@ -9,13 +9,13 @@ import mouse
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from item import ItemFinder
-from ui_components.inventory import inventory_has_items, keep_item, get_slot_pos_and_img, slot_has_item
 import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
 import cv2
 import time
 from ui.ui_manager import wait_for_screen_object, ScreenObjects
+from ui_components import inventory
 
 def close_vendor_screen():
     keyboard.send("esc")
@@ -77,7 +77,7 @@ def gamble(item_finder: ItemFinder):
     if template_match.valid:
         #Gambling window is open. Starting to spent some coins
         while (gamble_on and gold):
-            if (inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and inventory_has_items(grab(),2)):
+            if (inventory.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and inventory.inventory_has_items(grab(),2)):
                 gamble_on = False
                 close_vendor_screen ()
                 break
@@ -105,14 +105,14 @@ def gamble(item_finder: ItemFinder):
                     break
                 for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
                     img = grab()
-                    slot_pos, slot_img = get_slot_pos_and_img(img, column, row)
-                    if slot_has_item(slot_img):
+                    slot_pos, slot_img = inventory.get_slot_pos_and_img(img, column, row)
+                    if inventory.slot_has_item(slot_img):
                         x_m, y_m = convert_screen_to_monitor(slot_pos)
                         mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
                         # check item again and discard it or stash it
                         wait(1.2, 1.4)
                         hovered_item = grab()
-                        if not keep_item(item_finder, hovered_item):
+                        if not inventory.keep_item(item_finder, hovered_item):
                             keyboard.send('ctrl', do_release=False)
                             wait(0.1, 0.15)
                             mouse.click (button="left")
@@ -148,13 +148,13 @@ def buy_pots(healing_pots: int = 0, mana_pots: int = 0):
 def sell_junk(num_loot_columns: int, item_finder: ItemFinder):
     for column, row in itertools.product(range(num_loot_columns), range(4)):
             img = grab()
-            slot_pos, slot_img = get_slot_pos_and_img(img, column, row)
-            if slot_has_item(slot_img):
+            slot_pos, slot_img = inventory.get_slot_pos_and_img(img, column, row)
+            if inventory.slot_has_item(slot_img):
                 x_m, y_m = convert_screen_to_monitor(slot_pos)
                 mouse.move(x_m, y_m)
                 wait(0.2)
                 hovered_item = grab()
-                should_keep_item = keep_item(item_finder, hovered_item)
+                should_keep_item = inventory.keep_item(item_finder, hovered_item)
                 if not should_keep_item:
                     if Config().general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_sold_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
