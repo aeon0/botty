@@ -19,7 +19,7 @@ import mouse
 from logger import Logger
 from template_finder import TemplateFinder
 from utils.misc import color_filter, cut_roi, wait
-from ui.ui_manager import wait_for_screen_object, ScreenObjects
+from ui.ui_manager import wait_for_screen_object, ScreenObjects, detect_screen_object
 
 last_death_screenshot = None
 
@@ -64,7 +64,7 @@ def enable_no_pickup() -> bool:
 def handle_death_screen():
     global last_death_screenshot
     img = grab()
-    template_match = detect_screen_object(ScreenObjects.YouHaveDied)
+    template_match = detect_screen_object(ScreenObjects.YouHaveDied, img)
     if template_match.valid:
         Logger.warning("You have died!")
         if Config().general["info_screenshots"]:

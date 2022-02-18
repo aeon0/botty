@@ -119,6 +119,11 @@ class ScreenObjects:
         roi="item_pickup_text",
         best_match=True
     )
+    YouHaveDied=ScreenObject(
+        ref="YOU_HAVE_DIED",
+        roi="death",
+        threshold=0.8
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
