@@ -1,4 +1,3 @@
-from turtle import Screen
 from typing import Dict, Tuple, Union, List, Callable
 import random
 import time
