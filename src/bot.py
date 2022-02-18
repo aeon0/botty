@@ -33,8 +33,7 @@ from char.basic_ranged import Basic_Ranged
 from ui_components.main_menu import start_game
 from ui_components.character_select import has_char_template_saved, select_char, save_char_template, save_char_online_status
 from ui_components.ingame_menu import save_and_exit
-from ui.ui_manager import wait_for_screen_object, detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
 from ui_components.view import enable_no_pickup
 from ui_components.stash import gambling_needed, set_gold_full
 from ui_components.vendor import gamble

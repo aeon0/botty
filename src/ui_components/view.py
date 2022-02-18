@@ -19,8 +19,7 @@ import mouse
 from logger import Logger
 from template_finder import TemplateFinder
 from utils.misc import color_filter, cut_roi, wait
-from ui.ui_manager import wait_for_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, ScreenObjects
 
 last_death_screenshot = None
 

@@ -13,9 +13,7 @@ from pather import Location, Pather
 import numpy as np
 import time
 import os
-
-from ui.ui_manager import wait_for_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, ScreenObjects
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):

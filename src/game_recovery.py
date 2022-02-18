@@ -4,8 +4,7 @@ from config import Config
 from death_manager import DeathManager
 import time
 import keyboard
-from ui.ui_manager import detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, ScreenObjects
 from ui_components.ingame_menu import save_and_exit
 from ui_components.loading import check_for_black_screen
 from ui_components.view import handle_death_screen

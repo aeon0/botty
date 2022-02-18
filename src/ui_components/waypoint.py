@@ -12,8 +12,7 @@ from screen import convert_screen_to_monitor, grab
 from utils.misc import wait
 
 from ui_components.loading import wait_for_loading_screen
-from ui.ui_manager import detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 _WAYPOINTS = {
     # Act 1
