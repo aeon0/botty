@@ -188,18 +188,6 @@ class TownManager:
             return new_loc
         return False
 
-    def sell_junk(self, curr_loc: Location):
-        curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
-        if not self._acts[curr_act].can_trade_and_repair():
-            new_loc = self.go_to_act(5, curr_loc)
-            if not new_loc: return False
-        new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
-        wait(1.0)
-        vendor.sell_junk(Config().char["num_loot_columns"], self._item_finder)
-        return new_loc
-
-
 # Test: Move to desired location in d2r and run any town action you want to test from there
 if __name__ == "__main__":
     import keyboard
