@@ -89,6 +89,7 @@ class Location:
     A1_STONY_FIELD_WP = "a1_stony_field_wp"
     A1_OLD_TRISTRAM = "a1_old_tristram"
     A1_COW_LEVEL = "a1_cow_level"
+    A1_COW_END = "a1_cow_end"
 
 class Pather:
     """
@@ -436,7 +437,7 @@ class Pather:
             (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
             # A1 Town
             #spawned in where do we go?
-            (Location.A1_TOWN_START, Location.A1_STASH): [],
+            (Location.A1_TOWN_START, Location.A1_STASH): [701],
             (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [],
             (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
             (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
