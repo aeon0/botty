@@ -2,7 +2,7 @@ from char import IChar
 from town.i_act import IAct
 from screen import grab
 from config import Config
-from npc_manager import NpcManager, Npc
+from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
@@ -12,10 +12,9 @@ from ui.ui_manager import detect_screen_object
 
 
 class A3(IAct):
-    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar):
         self._pather = pather
         self._char = char
-        self._npc_manager = npc_manager
 
     def get_wp_location(self) -> Location: return Location.A3_STASH_WP
     def can_buy_pots(self) -> bool: return True
@@ -26,13 +25,13 @@ class A3(IAct):
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
-        self._npc_manager.open_npc_menu(Npc.ORMUS)
+        open_npc_menu(Npc.ORMUS)
         return Location.A3_ORMUS
 
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
-        if self._npc_manager.open_npc_menu(Npc.ORMUS):
-            self._npc_manager.press_npc_btn(Npc.ORMUS, "trade")
+        if open_npc_menu(Npc.ORMUS):
+            press_npc_btn(Npc.ORMUS, "trade")
             return Location.A3_ORMUS
         return False
 
@@ -64,7 +63,7 @@ class A3(IAct):
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char): return False
-        if self._npc_manager.open_npc_menu(Npc.CAIN):
-            self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
+        if open_npc_menu(Npc.CAIN):
+            press_npc_btn(Npc.CAIN, "identify")
             return Location.A3_STASH_WP
         return False

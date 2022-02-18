@@ -9,7 +9,7 @@ import numpy as np
 from screen import grab, convert_screen_to_monitor
 from config import Config
 from logger import Logger
-from npc_manager import NpcManager, Npc
+from npc_manager import Npc, open_npc_menu, press_npc_btn
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template
@@ -66,7 +66,6 @@ class AnyaShopper:
 
 
         self._messenger = Messenger()
-        self._npc_manager = NpcManager()
         self.run_count = 0
         self.start_time = time.time()
         self.ias_gloves_seen = 0
@@ -91,9 +90,8 @@ class AnyaShopper:
         asset_folder = "assets/shop/gloves/"
 
         while True:
-
-            self._npc_manager.open_npc_menu(Npc.ANYA)
-            self._npc_manager.press_npc_btn(Npc.ANYA, "trade")
+            open_npc_menu(Npc.ANYA)
+            press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
             img = grab()
 
