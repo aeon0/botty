@@ -16,8 +16,7 @@ from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor
 from template_finder import TemplateFinder
 from ocr import Ocr
-from ui.ui_manager import detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
