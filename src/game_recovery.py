@@ -1,5 +1,4 @@
 from screen import grab
-from template_finder import TemplateFinder
 from config import Config
 from death_manager import DeathManager
 import time
@@ -31,7 +30,7 @@ class GameRecovery:
             if found:
                 return True
             # would have been too easy, maybe we have died?
-            if view.handle_death_screen():
+            if self._death_manager.handle_death_screen():
                 time.sleep(1)
                 continue
             # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn

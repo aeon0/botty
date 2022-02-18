@@ -21,7 +21,6 @@ from template_finder import TemplateFinder
 from utils.misc import wait
 from ui.ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects
 
-last_death_screenshot = None
 
 def enable_no_pickup() -> bool:
     """
@@ -45,31 +44,6 @@ def enable_no_pickup() -> bool:
     keyboard.send('enter')
     wait(0.1, 0.25)
     return True
-
-def handle_death_screen():
-    global last_death_screenshot
-    img = grab()
-    template_match = detect_screen_object(ScreenObjects.YouHaveDied, img)
-    if template_match.valid:
-        Logger.warning("You have died!")
-        if Config().general["info_screenshots"]:
-            last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
-            cv2.imwrite(last_death_screenshot, img)
-        # clean up key presses that might be pressed
-        keyboard.release(Config().char["stand_still"])
-        wait(0.1, 0.2)
-        keyboard.release(Config().char["show_items"])
-        wait(0.1, 0.2)
-        mouse.release(button="right")
-        wait(0.1, 0.2)
-        mouse.release(button="left")
-        time.sleep(1)
-        if TemplateFinder().search(["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"], grab(), roi=Config().ui_roi["main_menu_top_left"]).valid:
-            # in this case chicken executed and left the game, but we were still dead.
-            return True
-        keyboard.send("esc")
-        return True
-    return False
 
 def save_and_exit(does_chicken: bool = False) -> bool:
     """
