@@ -20,8 +20,7 @@ from utils.custom_mouse import mouse
 import ui_components
 import os
 from ui_components.stash import move_to_stash_tab, gambling_round, gold_full
-from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
 from messages import Messenger
 
 messanger = Messenger()

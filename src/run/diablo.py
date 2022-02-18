@@ -16,8 +16,7 @@ from ui_components.loading import wait_for_loading_screen
 from ui_components.waypoint import use_wp
 from ui_components.belt import get_pot_needs, should_buy_pots
 from ui_components.inventory import should_stash
-from ui.screen_objects import ScreenObjects
-from ui.ui_manager import detect_screen_object
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 class Diablo:
     def __init__(

@@ -15,8 +15,7 @@ from logger import Logger
 from utils.custom_mouse import mouse
 import cv2
 import time
-from ui.ui_manager import wait_for_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, ScreenObjects
 
 def close_vendor_screen():
     keyboard.send("esc")

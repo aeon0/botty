@@ -7,8 +7,7 @@ import mouse
 import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from ui.screen_objects import ScreenObjects
-from ui.ui_manager import detect_screen_object
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 gambling_round = 1
 gold_full = False

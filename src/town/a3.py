@@ -7,8 +7,7 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui.screen_objects import ScreenObjects
-from ui.ui_manager import detect_screen_object
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 
 class A3(IAct):
