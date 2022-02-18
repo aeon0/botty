@@ -11,7 +11,7 @@ import numpy as np
 from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor, convert_screen_to_abs
 from config import Config
 from logger import Logger
-from npc_manager import NpcManager, Npc
+from npc_manager import Npc, open_npc_menu, press_npc_btn
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
 from utils.misc import wait
@@ -51,7 +51,6 @@ class DrognanShopper:
             os._exit(0)
         self.apply_pather_adjustment = Config().shop["apply_pather_adjustment"]
 
-        self._npc_manager = NpcManager()
         self.run_count = 0
         self.start_time = time.time()
 
@@ -74,8 +73,8 @@ class DrognanShopper:
         # This is the main shopping loop. It can be further generalized to more easily support new items,
         # But this is sufficient for now.
         while True:
-            self._npc_manager.open_npc_menu(Npc.DROGNAN)
-            self._npc_manager.press_npc_btn(Npc.DROGNAN, "trade")
+            open_npc_menu(Npc.DROGNAN)
+            press_npc_btn(Npc.DROGNAN, "trade")
             time.sleep(0.1)
             img = grab()
 

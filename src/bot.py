@@ -22,8 +22,6 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from pather import Pather, Location
-from npc_manager import NpcManager
-from health_manager import HealthManager
 from death_manager import DeathManager
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
@@ -83,12 +81,11 @@ class Bot:
             os._exit(1)
 
         # Create Town Manager
-        npc_manager = NpcManager()
-        a5 = A5(self._pather, self._char, npc_manager)
-        a4 = A4(self._pather, self._char, npc_manager)
-        a3 = A3(self._pather, self._char, npc_manager)
-        a2 = A2(self._pather, self._char, npc_manager)
-        a1 = A1(self._pather, self._char, npc_manager)
+        a5 = A5(self._pather, self._char)
+        a4 = A4(self._pather, self._char)
+        a3 = A3(self._pather, self._char)
+        a2 = A2(self._pather, self._char)
+        a1 = A1(self._pather, self._char)
         self._town_manager = TownManager(self._item_finder, a1, a2, a3, a4, a5)
 
         # Create runs

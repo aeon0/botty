@@ -2,7 +2,7 @@ from char import IChar
 from town.i_act import IAct
 from screen import grab
 from config import Config
-from npc_manager import NpcManager, Npc
+from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
@@ -10,10 +10,9 @@ from utils.misc import wait
 
 
 class A2(IAct):
-    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar):
         self._pather = pather
         self._char = char
-        self._npc_manager = npc_manager
 
     def get_wp_location(self) -> Location: return Location.A2_WP
     def can_stash(self) -> bool: return True
@@ -24,7 +23,7 @@ class A2(IAct):
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
-        if self._npc_manager.open_npc_menu(Npc.FARA):
+        if open_npc_menu(Npc.FARA):
             return Location.A2_FARA_STASH
         return False
 
@@ -43,22 +42,22 @@ class A2(IAct):
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
-        if self._npc_manager.open_npc_menu(Npc.CAIN):
-            self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
+        if open_npc_menu(Npc.CAIN):
+            press_npc_btn(Npc.CAIN, "identify")
             return Location.A2_FARA_STASH
         return False
 
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_LYSANDER), self._char, force_move=True): return False
-        if self._npc_manager.open_npc_menu(Npc.LYSANDER):
-            self._npc_manager.press_npc_btn(Npc.LYSANDER, "trade")
+        if open_npc_menu(Npc.LYSANDER):
+            press_npc_btn(Npc.LYSANDER, "trade")
             return Location.A2_LYSANDER
         return False
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return
-        if self._npc_manager.open_npc_menu(Npc.FARA):
-            self._npc_manager.press_npc_btn(Npc.FARA, "trade_repair")
+        if open_npc_menu(Npc.FARA):
+            press_npc_btn(Npc.FARA, "trade_repair")
             return Location.A2_FARA_STASH
         return False
 
