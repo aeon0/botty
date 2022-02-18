@@ -10,7 +10,7 @@ from typing import Union
 from collections import OrderedDict
 from transmute import Transmute
 from ui_components.belt import fill_up_belt_from_inventory, should_buy_pots, update_pot_needs, get_pot_needs
-from ui_components.globes import get_health, get_mana
+from ui_components.meters import get_health, get_mana
 from ui_components.skills import has_tps
 from utils.misc import wait
 from game_stats import GameStats

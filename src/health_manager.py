@@ -2,7 +2,7 @@ from pather import Location
 import cv2
 import time
 import keyboard
-from ui_components.globes import get_health, get_mana
+from ui_components.meters import get_health, get_mana, get_merc_health
 from ui_components.belt import drink_potion
 from utils.custom_mouse import mouse
 from utils.misc import wait
@@ -11,7 +11,6 @@ from screen import grab
 import time
 from config import Config
 from ui_components.ingame_menu import save_and_exit
-from ui_components.merc import get_merc_health
 from ui.ui_manager import detect_screen_object
 from ui.screen_objects import ScreenObjects
 
