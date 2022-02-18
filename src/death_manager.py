@@ -8,6 +8,7 @@ import cv2
 from logger import Logger
 import time
 from ui_components import view
+from ui.ui_manager import ScreenObjects, detect_screen_object
 
 
 class DeathManager:
@@ -40,6 +41,35 @@ class DeathManager:
         mouse.move(x, y)
         mouse.click(button="left")
 
+    def handle_death_screen(self):
+        img = grab()
+        template_match = detect_screen_object(ScreenObjects.YouHaveDied, img)
+        if template_match.valid:
+            Logger.warning("You have died!")
+            if Config().general["info_screenshots"]:
+                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+                cv2.imwrite(self._last_death_screenshot, img)
+            # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
+            if self._callback is not None:
+                self._callback()
+                self._callback = None
+            # clean up key presses that might be pressed
+            keyboard.release(Config().char["stand_still"])
+            wait(0.1, 0.2)
+            keyboard.release(Config().char["show_items"])
+            wait(0.1, 0.2)
+            mouse.release(button="right")
+            wait(0.1, 0.2)
+            mouse.release(button="left")
+            time.sleep(1)
+            if detect_screen_object(ScreenObjects.MainMenu).valid:
+                # in this case chicken executed and left the game, but we were still dead.
+                return True
+            keyboard.send("esc")
+            self._died = True
+            return True
+        return False
+
     def start_monitor(self):
         self._do_monitor = True
         self._died = False
@@ -49,9 +79,8 @@ class DeathManager:
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
             # Wait until the flag is reset by main.py
             if self._died: continue
-            view.handle_death_screen()
+            self.handle_death_screen()
         Logger.debug("Stop death monitoring")
-
 
 # Testing:
 if __name__ == "__main__":
