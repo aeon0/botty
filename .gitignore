@@ -16,6 +16,7 @@ botty_v*/
 custom.ini
 config/custom.ini
 config/custom.*.ini
+*info_log_parsed.txt
 *info_*.png
 .vscode
 .vs/
@@ -27,3 +28,4 @@ stats/
 .coverage
 htmlcov/
 coverage.xml
+utils/live-view/

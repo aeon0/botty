@@ -88,7 +88,7 @@ class Transmute:
     def transmute(self):
         screen = self._screen.grab()
         match = self._template_finder.search(
-            ["CUBE_TRANSMUTE_BTN"], screen, threshold=0.9, roi=Config.ui_roi["cube_btn_roi"])
+            ["CUBE_TRANSMUTE_BTN"], screen, roi=Config.ui_roi["cube_btn_roi"])
         if match.valid:
             x, y = self._screen.convert_screen_to_monitor(match.center)
             mouse.move(x, y)
@@ -182,7 +182,7 @@ class Transmute:
 
     def should_transmute(self) -> bool:
         every_x_game = Config._transmute_config["transmute_every_x_game"]
-        if every_x_game is None or every_x_game is "" or int(every_x_game) <= 0:
+        if every_x_game is None or every_x_game == "" or int(every_x_game) <= 0:
             return False
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
@@ -196,15 +196,29 @@ class Transmute:
             return None
         self._run_gem_transmutes()
 
+    def check_cube_empty(self) -> bool:
+        self.open_cube()
+        area = self.inspect_cube()
+        self.close_cube()
+        return area.count_empty() == 12
+
+    def inspect_cube(self)-> InventoryCollection:
+        return self.inspect_area(4, 3, roi=Config.ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
+
     def _run_gem_transmutes(self) -> None:
         Logger.info("Starting gem transmute")
         self._last_game = self._game_stats._game_counter
         s = self.inspect_stash()
         algorithm = SimpleGemPicking(s)
         inventory = self.inspect_inventory_area(FLAWLESS_GEMS)
+        is_cube_empty = None
         while True:
             while inventory.count_empty() >= 3:
                 next_batch = algorithm.next_batch()
+                is_cube_empty = self.check_cube_empty() if is_cube_empty is None else is_cube_empty
+                if not is_cube_empty:
+                    Logger.warning("Some items detected in the cube. Skipping transmute")
+                    break
                 if next_batch is None:
                     Logger.info("No more gems to cube")
                     break

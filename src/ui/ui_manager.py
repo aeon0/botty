@@ -416,18 +416,16 @@ class UiManager():
                             cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
                         if self._curr_stash["gold"] > 3:
                             #decide if gold pickup should be disabled or gambling is active
-                            if (self._config.char["gamble_items"]):
+                            if self._config.char["gamble_items"]:
                                 self._gold_full = True
                             else:
                                 # turn off gold pickup
-                                self._config.char["stash_gold"] = False
-                                self._config.items["misc_gold"].pickit_type = 0
-                                item_finder.update_items_to_pick(self._config)
+                                self._config.turn_off_goldpickup()
                                 # inform user about it
                                 msg = "All stash tabs and character are full of gold, turn of gold pickup"
                                 Logger.info(msg)
                                 if self._config.general["custom_message_hook"]:
-                                    self._messenger.send(msg=f"{self._config.general['name']}: {msg}")
+                                    self._messenger.send_message(msg=f"{self._config.general['name']}: {msg}")
                         else:
                             # move to next stash
                             wait(0.5, 0.6)

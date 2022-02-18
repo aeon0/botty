@@ -63,7 +63,7 @@ class Bot:
         elif self._config.char["type"] == "nova_sorc":
             self._char: IChar = NovaSorc(self._config.nova_sorc, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(self._config.hammerdin, self._screen, self._template_finder, self._ui_manager, self._pather)
+            self._char: IChar = Hammerdin(self._config.hammerdin, self._screen, self._template_finder, self._ui_manager, self._pather, self._pickit) #pickit added for diablo
         elif self._config.char["type"] == "trapsin":
             self._char: IChar = Trapsin(self._config.trapsin, self._screen, self._template_finder, self._ui_manager, self._pather)
         elif self._config.char["type"] == "barbarian":
@@ -112,9 +112,9 @@ class Bot:
         self._shenk = ShenkEld(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._trav = Trav(self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
         self._nihlathak = Nihlathak(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
-        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._arcane = Arcane(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)       
         self._cows = Cows(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit)
+        self._diablo = Diablo(self._screen, self._template_finder, self._pather, self._town_manager, self._ui_manager, self._char, self._pickit, self._belt_manager)
 
         # Create member variables
         self._pick_corpse = pick_corpse
@@ -125,9 +125,9 @@ class Bot:
         self._stopping = False
         self._pausing = False
         self._current_threads = []
-        self._no_stash_counter = 0
         self._ran_no_pickup = False
         self._char_selector = CharSelector(self._screen, self._template_finder)
+        self._previous_run_failed = False
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo', 'cows']
@@ -255,16 +255,17 @@ class Bot:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
 
         # Run /nopickup command to avoid picking up stuff on accident
-        if not self._ran_no_pickup:
+        if not self._ran_no_pickup and not self._game_stats._nopickup_active:
             self._ran_no_pickup = True
             if self._ui_manager.enable_no_pickup():
+                self._game_stats._nopickup_active = True
                 Logger.info("Activated /nopickup")
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        self._char.discover_capabilities(force=False)
+        self._char.discover_capabilities()
         # Handle picking up corpse in case of death
         if self._pick_corpse:
             self._pick_corpse = False
@@ -298,10 +299,11 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
+        routine_stash = False
+        if self._config.char["runs_per_stash"]:
+            routine_stash = self._game_stats._run_counter % self._config.char["runs_per_stash"] == 0
         force_stash = False
-        self._no_stash_counter += 1
-        if not self._picked_up_items and (self._no_stash_counter > 4 or self._pick_corpse):
-            self._no_stash_counter = 0
+        if not self._picked_up_items and (routine_stash or self._pick_corpse or self._previous_run_failed):
             force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
@@ -317,14 +319,13 @@ class Bot:
             keyboard.send("esc")
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
-            self._no_stash_counter = 0
             self._picked_up_items = False
             wait(1.0)
 
         # Check if we are out of tps or need repairing
         need_repair = self._ui_manager.repair_needed()
         need_routine_repair = False
-        if type(self._config.char["runs_per_repair"]) == int and self._config.char["runs_per_repair"] > 0:
+        if self._config.char["runs_per_repair"]:
             need_routine_repair = self._game_stats._run_counter % self._config.char["runs_per_repair"] == 0
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
         if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair or need_refill_teleport:
@@ -348,20 +349,19 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if gambling is needed
-        gambling = self._ui_manager.gambling_needed()
-        if gambling:
+        if self._ui_manager.gambling_needed() and self._config.char["gamble_items"]:
             for x in range (4):
                 self._curr_loc = self._town_manager.gamble(self._curr_loc)
                 self._ui_manager.gamble(self._item_finder)
                 if (x ==3):
-                    self._curr_loc = self._town_manager.stash (self._curr_loc)
+                    self._curr_loc = self._town_manager.stash(self._curr_loc)
                 else:
-                    self._curr_loc = self._town_manager.stash (self._curr_loc, gamble=gambling)
-
-            self._ui_manager.set__gold_full (False)
+                    self._curr_loc = self._town_manager.stash(self._curr_loc, gamble=True)
+            self._ui_manager.set__gold_full(False)
 
         # Start a new run
         started_run = False
+        self._previous_run_failed = False
         for key in self._do_runs:
             if self._do_runs[key]:
                 self.trigger_or_stop(key)
@@ -408,7 +408,7 @@ class Bot:
         # in case its the last run or the run was failed, end game, otherwise move to next run
         if self.is_last_run() or failed_run:
             if failed_run:
-                self._no_stash_counter = 10 # this will force a check if we should stash on next game
+                self._previous_run_failed = True
             self.trigger_or_stop("end_game", failed=failed_run)
         else:
             self.trigger_or_stop("end_run")
