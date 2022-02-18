@@ -46,7 +46,8 @@ class Cows:
     def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber)-> bool:
         found = False
         templates_scout = ["COW_STONY_FIELD_YELLOW"]
-        templates_avoid = ["COW_COLD_PLAINS", "COW_COLD_PLAINS_TRANSPARENT"]
+        templates_avoid = ["COW_COLD_PLAINS0"]
+
         Logger.debug('\033[93m' + "Scout: Starting to explore map" + '\033[0m')
         if not self._template_finder.search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
             keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
@@ -57,7 +58,7 @@ class Cows:
 
         while not found and not avoid:
                 found = self._template_finder.search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid
-                avoid = self._template_finder.search_and_wait(templates_avoid, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid
+                avoid = self._template_finder.search_and_wait(templates_avoid, best_match=False, threshold=0.8, time_out=0.1, use_grayscale=False).valid
                 founder = self._template_finder.search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False)
                 
                 if avoid:
@@ -68,7 +69,7 @@ class Cows:
                     pos_m = self._screen.convert_screen_to_monitor(founder.center)
                     Logger.debug('\033[93m' + "Scout: target template is at position:" + str(pos_m) + '\033[0m')
                     break
-                
+              
                 pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
@@ -78,6 +79,7 @@ class Cows:
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0)
                 Logger.debug("Scout: " + str(score) + ": is our current score")
+                pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 if score < .10:
                     stuck_count += 1
@@ -95,6 +97,9 @@ class Cows:
             Logger.debug('\033[93m' + "Scout: Found our Template, trying to click the exit template, calling exitclicker()" + '\033[0m')
             self._exitclicker(pos_m)
 
+    def _random_scout(self,x1_m, x2_m, y1_m, y2_m):
+            pos_m = self._screen.convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m)))
+            self._char.move(pos_m, force_tp=True, force_move=True)
 
     # this function is called when we are stuck and teleports backwards to get us unstuck
     def stuck(self, corner_picker, x2_m, y2_m, stuck_count, super_stuck)-> bool:
@@ -147,40 +152,45 @@ class Cows:
                 super_stuck = 0
                 stuck_count = 0
                 if corner_picker == 1:
-                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 1 = top-left" + '\033[0m')
-                    #x1_m = -250
-                    #x2_m = -600
-                    #y1_m = -200
-                    #y2_m = -345
-                    self._scout(1, -250, -600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
+                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 1 = top-left | left" + '\033[0m')
+                #x1_m = 325
+                #x2_m = -325
+                #y1_m = 225
+                #y2_m = -225
+                    #self._scout(1, -250, -600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
+                    #self._scout(1, 225, -325, 125, -225, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # random with tendency top - left
+                    self._scout(1, 0, -525, 25, -25, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # left
                 elif corner_picker == 2:
-                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 2 = top-right" + '\033[0m')
-                    self._scout(2, 250, 600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
+                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 2 = top-right | right" + '\033[0m')
+                    #self._scout(2, 250, 600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
+                    self._scout(2, 525, 0, 25, -25, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # right
                 elif corner_picker == 3:
-                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 3 = bottom-right" + '\033[0m')
-                    self._scout(3, 485, 600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
+                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 3 = bottom-right | top " + '\033[0m')
+                    #self._scout(3, 485, 600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
+                    self._scout(3, 50, -50, 0, -325, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top
                 elif corner_picker == 4:
-                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 4 = bottom-left" + '\033[0m')
-                    self._scout(4, -485, -600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
+                    Logger.debug('\033[92m' + "Cornerpicker: Picked Corner 4 = bottom-left | bottom" + '\033[0m')
+                    #self._scout(4, -485, -600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
+                    self._scout(4, 50, -50, 325, 0, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom
             #return corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber
 
    
     # This function makes us click on the purple exit tile to enter the next level
     def _exitclicker(self, pos_m)-> bool:
-            Logger.debug('\033[92m' + "Exit_Clicker: Trying to approach the Exit" + '\033[0m')
+            Logger.debug('\033[92m' + "Exit_Clicker: Step1: Trying to approach the Exit" + '\033[0m')
             closetoexit = False
             stuck_count = 0
             super_stuck = 0
             templates_scout = ["COW_STONY_FIELD_YELLOW"]
             templates_mapcheck = ["MAP_CHECK"]
             templates_exit = ["COW_STONY_FIELD_PORTAL_1", "COW_STONY_FIELD_PORTAL_0", "COW_STONY_FIELD_PORTAL_2"]
-            templates_nextlevel = ["COW_TRIST_0", "COW_TRIST_2", "COW_TRIST_3"]
+            templates_nextlevel = ["COW_TRIST_0", "COW_TRIST_2", "COW_TRIST_3", "COW_TRIST_4"]
             mapcheck = self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False)
             template_match = self._template_finder.search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
             if template_match.valid and mapcheck.valid:
                 pos_m = self._screen.convert_screen_to_monitor(template_match.center)
                 if self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
-                    Logger.debug('\033[92m' + "Exit_Clicker: Template Found, Minimap off" + '\033[0m')
+                    Logger.debug('\033[92m' + "Exit_Clicker: Step2: Minimap Scout Template Found, Minimap off" + '\033[0m')
                     keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                     keyboard.send(self._config.char["minimap"]) #turn on minimap
             
@@ -191,10 +201,11 @@ class Cows:
                     if self._template_finder.search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
                         keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                         keyboard.send(self._config.char["minimap"]) #turn on minimap
-                        Logger.debug('\033[92m' + "Exit_Clicker: Template Found, Minimap off" + '\033[0m')
+                        Logger.debug('\033[92m' + "Exit_Clicker: Step3a: Minimap off to identify Exit Templates" + '\033[0m')
                         if self._template_finder.search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False) == True:
                             pos_m = self._screen.convert_screen_to_monitor(template_match.center)
-                            pos_m2 = (template_match.center)#SCREEN                    
+                            pos_m = template_match.center                   
+                            Logger.debug('\033[92m' + "Exit_Clicker: Step3b (in while): Found Exit Template, clicking on it" + '\033[0m')
                 t0 = self._screen.grab()
                 self._char.move(pos_m, force_tp=True, force_move=True)
                 t1 = self._screen.grab()
@@ -215,11 +226,12 @@ class Cows:
                     elif super_stuck >= 3 and not closetoexit:
                         Logger.debug('\033[92m' + "Exit_Clicker: Super Stuck, super_stuck count: " + str(super_stuck) + '\033[0m')
                         self.exit_super_stuck(pos_m, stuck_count, super_stuck, closetoexit)
-            Logger.debug('\033[93m' + "Exit_Clicker: Found Exit" + '\033[0m')
+            
+            Logger.debug('\033[92m' + "Exit_Clicker: Step4a: Found Exit Template, clicking on it" + '\033[0m')
             found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0)
             if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4, telekinesis=True):
                 # do a random tele jump and try again
-                Logger.debug('\033[93m' + "Exit_Clicker: Found Exit, but didnt click it" + '\033[0m')
+                Logger.debug('\033[93m' + "Exit_Clicker: Step4b: Found Exit, but didn't manage to click it, moving left and right and top" + '\033[0m')
                 pos_m = self._screen.convert_abs_to_monitor((315, -150))
                 self._char.move(pos_m, force_move=True)
                 if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4, telekinesis=True):
@@ -227,16 +239,20 @@ class Cows:
                     if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4, telekinesis=True):
                         pos_m = self._screen.convert_abs_to_monitor((-315, -100))
                         self._char.move(pos_m, force_move=True)
-                        Logger.debug('\033[92m' + "Exit_Clicker: Found Exit, but cannot click it" + '\033[0m')
+                        Logger.debug('\033[92m' + "Exit_Clicker: Step4c: Found Exit, but cannot click it, retry" + '\033[0m')
                         if not self._char.select_by_template(templates_exit, found_loading_screen_func, threshold=0.7, time_out=4,telekinesis=True):
-                            Logger.debug('\033[92m' + "Exit_Clicker: Found Exit, but didnt click it repeatedly, aborting run" + '\033[0m')
+                            Logger.debug('\033[92m' + "Exit_Clicker: Step4d: Found Exit, but didn't manage to click it repeatedly, aborting run" + '\033[0m')
                             return False
+
             if not self._template_finder.search_and_wait(templates_nextlevel, threshold=0.8, time_out=.5).valid:
                 if not self._template_finder.search_and_wait(templates_nextlevel, threshold=0.8, time_out=1).valid:
+                    Logger.debug('\033[92m' + "Exit_Clicker: Step5: CANNOT confirm to be at the right new location, starting again to scout()" + '\033[0m')
                     self._scout(4, -250, -400, 200, 300, 0, 0, 4, 2, 2, 4) # bottom - left
             else:
+                Logger.debug('\033[92m' + "Exit_Clicker: Step5: Confirmed to be at the right new location, switching of minimap, stopping to scout()" + '\033[0m')
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                 keyboard.send(self._config.char["minimap"]) #turn on minimap
+                return True
             return True
             self._tristram()
 
@@ -444,8 +460,8 @@ class Cows:
             #and recalibrate at wirt
             if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
             if not self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4, telekinesis=True):
+                logger.info('\033[93m' + "Unable to interact with the wirt" + '\033[0m')
                 return False
-        #self._legdance(["COW_WIRT_OPEN.PNG"],["COW_WIRT_CLOSED"],"Old-Tristram", [1001])
         logger.info('\033[93m' + "Grabbing the leg" + '\033[0m')
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
         logger.info('\033[93m' + "Making TP to go home" + '\033[0m')
@@ -461,11 +477,10 @@ class Cows:
             # do a random tele jump and try again
             pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
-            if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): return False
+            if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): Logger.debug('\033[93m' + "Tristram: didnt make it through Portal :/" + '\033[0m')
         #return True
         
 
-    
     #this function opens the cow portal
     def _open_cow_portal(self)-> bool:
         #go to akara, buy a tome
@@ -505,9 +520,13 @@ class Cows:
         self.used_tps = 0
         stuck_count = 0
         keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-        self._scout(1, -50, 50, -150, -250, stuck_count, 0, 4, 2, 2, 0) #tries to get to exit   
+        start_time = time.time()
+        self._scout(1, -50, 50, -200, -300, stuck_count, 0, 4, 2, 2, 0) #scout top
         #pre, during_1, during_2, diffed = self._map_capture()
         #self.map_diff(pre, during_1, during_2)
+        scout_duration = (time.time() - start_time)
+        #time.strftime("%H:%M:%S", time.gmtime(scout_duration))
+        Logger.debug ("Battle: scouting took me " + str(round(scout_duration)) + " seconds")
         if not self._tristram(): return False
         if not self._open_cow_portal(): return False
         """
