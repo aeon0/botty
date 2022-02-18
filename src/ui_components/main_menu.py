@@ -3,7 +3,7 @@ import time
 from config import Config
 from utils.misc import wait
 from logger import Logger
-from ui_components.error_screens import handle_error
+from ui_components import error_screens
 from ui.ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
 
 def start_game() -> bool:
@@ -53,7 +53,7 @@ def start_game() -> bool:
         # check for server issue
         m = detect_screen_object(ScreenObjects.ServerError)
         if m.valid:
-            handle_error()
+            error_screens.handle_error()
             return start_game()
 
         if time.time() - start > 15:

@@ -8,15 +8,11 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager, A4
-from ui_components.skills import has_tps
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import convert_abs_to_monitor, grab
-from ui_components.loading import wait_for_loading_screen
-from ui_components.waypoint import use_wp
-from ui_components.belt import get_pot_needs, should_buy_pots
-from ui_components.inventory import should_stash
 from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_components import skills, loading, waypoint, belt, inventory
 
 class Diablo:
     def __init__(
@@ -43,7 +39,7 @@ class Diablo:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        use_wp("River of Flame")
+        waypoint.use_wp("River of Flame")
         return Location.A4_DIABLO_WP
 
 
@@ -51,7 +47,7 @@ class Diablo:
     def _cs_town_visit(self, location:str) -> bool:
         # Do we want to go back to town and restock potions etc?
         if Config().char["cs_town_visits"]:
-            buy_pots = should_buy_pots()
+            buy_pots = belt.should_buy_pots()
             if not buy_pots:
                 Logger.debug(location + ": Got enough pots, no need to go to town right now.")
             else:
@@ -61,7 +57,7 @@ class Diablo:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
                     # Check if we should stash while we are in town
                     force_stash = False
-                    force_stash = should_stash(Config().char["num_loot_columns"])
+                    force_stash = inventory.inventory.should_stash(Config().char["num_loot_columns"])
                     if force_stash:
                         if Config().char["id_items"]:
                             Logger.debug(location + ": Identifying items")
@@ -77,7 +73,7 @@ class Diablo:
                         wait(1.0)
                     # Shop some pots
                     if self._curr_loc:
-                        pot_needs = get_pot_needs()
+                        pot_needs = belt.get_pot_needs()
                         self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                     Logger.debug(location + ": Done in town, now going back to portal...")
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
@@ -92,7 +88,7 @@ class Diablo:
                         mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                         wait(0.08, 0.15)
                         mouse.click(button="left")
-                        if wait_for_loading_screen(2.0):
+                        if loading.wait_for_loading_screen(2.0):
                             Logger.debug(location + ": Waiting for loading screen...")
 
                         # Recalibrate at Pentagram and set up new TP to improve loop back to penta success
@@ -100,7 +96,7 @@ class Diablo:
                         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
                         Logger.debug("CS after town: Re-open TP")
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/TP_after_town" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                        if not has_tps():
+                        if not skills.has_tps():
                             Logger.warning("CS after Town: failed to open TP, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
                             self.used_tps += 20
                         mouse.click(button="right")
@@ -267,7 +263,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, threshold=0.80): return False
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
         Logger.debug("CS: OPEN TP")
-        if not has_tps():
+        if not skills.has_tps():
             Logger.warning("CS: failed to open TP, higher chance of failing runs from now on, you should buy new TPs!")
             self.used_tps += 20
         mouse.click(button="right")

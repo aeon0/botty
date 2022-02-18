@@ -1,5 +1,5 @@
 import keyboard
-from ui_components.skills import is_right_skill_active, is_right_skill_selected
+from ui_components import skills
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
 from template_finder import TemplateFinder
@@ -61,8 +61,8 @@ class Hammerdin(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not is_right_skill_selected(["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
+        should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
+        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)

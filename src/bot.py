@@ -9,9 +9,7 @@ from copy import copy
 from typing import Union
 from collections import OrderedDict
 from transmute import Transmute
-from ui_components.belt import fill_up_belt_from_inventory, should_buy_pots, update_pot_needs, get_pot_needs
-from ui_components.meters import get_health, get_mana
-from ui_components.skills import has_tps
+
 from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
@@ -30,14 +28,8 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_components.main_menu import start_game
-from ui_components.character_select import has_char_template_saved, select_char, save_char_template, save_char_online_status
-from ui_components.ingame_menu import save_and_exit
 from ui.ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
-from ui_components.view import enable_no_pickup
-from ui_components.stash import gambling_needed, set_gold_full
-from ui_components.vendor import gamble
-from ui_components.inventory import should_stash
+from ui_components import belt, meters, skills, inventory, vendor, stash, view, character_select, main_menu
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -216,18 +208,18 @@ class Bot:
     def on_select_character(self):
         if Config().general['restart_d2r_when_stuck']:
             # Make sure the correct char is selected
-            if has_char_template_saved():
-                select_char()
+            if character_select.has_char_template_saved():
+                character_select.select_char()
             else:
-                save_char_online_status()
-                save_char_template()
+                character_select.save_char_online_status()
+                character_select.save_char_template()
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
         # Start a game from hero selection
         m = wait_for_screen_object(ScreenObjects.MainMenu)
         # res, m = MainMenu.wait_for()
-        if m.valid: start_game()
+        if m.valid: main_menu.start_game()
         else: return
         self.trigger_or_stop("start_from_town")
 
@@ -249,7 +241,7 @@ class Bot:
         # Run /nopickup command to avoid picking up stuff on accident
         if not self._ran_no_pickup and not self._game_stats._nopickup_active:
             self._ran_no_pickup = True
-            if enable_no_pickup():
+            if view.enable_no_pickup():
                 self._game_stats._nopickup_active = True
                 Logger.info("Activated /nopickup")
             else:
@@ -264,7 +256,7 @@ class Bot:
             time.sleep(1.6)
             DeathManager.pick_up_corpse()
             wait(1.2, 1.5)
-            fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
             wait(0.5)
             if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
                 keybind = self._char._skill_hotkeys["teleport"]
@@ -272,18 +264,18 @@ class Bot:
                 self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
-        update_pot_needs()
+        belt.update_pot_needs()
 
         # Check if should need some healing
         img = grab()
-        buy_pots = should_buy_pots()
-        if get_health(img) < 0.6 or get_mana(img) < 0.2 or buy_pots:
+        buy_pots = belt.should_buy_pots()
+        if meters.get_health(img) < 0.6 or meters.get_mana(img) < 0.2 or buy_pots:
             if buy_pots:
                 Logger.info("Buy pots at next possible Vendor")
-                pot_needs = get_pot_needs()
+                pot_needs = belt.get_pot_needs()
                 self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                 wait(0.5, 0.8)
-                update_pot_needs()
+                belt.update_pot_needs()
             else:
                 Logger.info("Healing at next possible Vendor")
                 self._curr_loc = self._town_manager.heal(self._curr_loc)
@@ -296,7 +288,7 @@ class Bot:
             routine_stash = self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
         force_stash = False
         if not self._picked_up_items and (routine_stash or self._pick_corpse or self._previous_run_failed):
-            force_stash = should_stash(Config().char["num_loot_columns"])
+            force_stash = inventory.should_stash(Config().char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if Config().char["id_items"]:
@@ -344,15 +336,15 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if gambling is needed
-        if gambling_needed() and Config().char["gamble_items"]:
+        if stash.gambling_needed() and Config().char["gamble_items"]:
             for x in range (4):
                 self._curr_loc = self._town_manager.gamble(self._curr_loc)
-                gamble(self._item_finder)
+                vendor.gamble(self._item_finder)
                 if (x ==3):
                     self._curr_loc = self._town_manager.stash(self._curr_loc)
                 else:
                     self._curr_loc = self._town_manager.stash(self._curr_loc, gamble=True)
-            set_gold_full(False)
+            stash.set_gold_full(False)
 
         # Start a new run
         started_run = False
@@ -370,7 +362,7 @@ class Bot:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         self._curr_loc = False
         self._pre_buffed = False
-        save_and_exit(False)
+        view.save_and_exit(False)
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
@@ -387,7 +379,7 @@ class Bot:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
-        if has_tps():
+        if skills.has_tps():
             self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
 

@@ -2,13 +2,13 @@ import time
 import keyboard
 import cv2
 from operator import itemgetter
-from ui_components.belt import picked_up_pot, get_pot_needs
+from ui.ui_manager import ScreenObjects, detect_screen_object
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui_components.view import is_overburdened
+from ui_components import view, belt
 from char import IChar
 
 
@@ -49,7 +49,7 @@ class PickIt:
             item_list = self._item_finder.search(img)
 
             # Check if we need to pick up certain pots more pots
-            need_pots = get_pot_needs()
+            need_pots = belt.get_pot_needs()
             if need_pots["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if need_pots["health"] <= 0:
@@ -106,7 +106,7 @@ class PickIt:
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
-                        picked_up_pot(closest_item.name)
+                        belt.picked_up_pot(closest_item.name)
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
@@ -115,7 +115,7 @@ class PickIt:
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.2)
 
-                    if is_overburdened():
+                    if detect_screen_object(ScreenObjects.Overburdened).valid:
                         found_items = True
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff

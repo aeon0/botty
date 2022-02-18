@@ -7,7 +7,7 @@ from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from utils.misc import wait
-from ui_components.waypoint import use_wp
+from ui_components import waypoint
 
 class ShenkEld:
     def __init__(
@@ -28,7 +28,7 @@ class ShenkEld:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if use_wp("Frigid Highlands"):
+        if waypoint.use_wp("Frigid Highlands"):
             return Location.A5_ELDRITCH_START
         return False
 

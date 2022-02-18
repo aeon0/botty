@@ -5,7 +5,7 @@ from logger import Logger
 from typing import List
 import numpy as np
 from template_finder import TemplateFinder
-from ui_components.inventory import get_slot_pos_and_img
+from ui_components import inventory
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait, color_filter
 from config import Config
@@ -160,7 +160,7 @@ def fill_up_belt_from_inventory(num_loot_columns: int):
     img = grab()
     pot_positions = []
     for column, row in itertools.product(range(num_loot_columns), range(4)):
-        center_pos, slot_img = get_slot_pos_and_img(img, column, row)
+        center_pos, slot_img = inventory.get_slot_pos_and_img(img, column, row)
         found = TemplateFinder().search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
         if found:
             pot_positions.append(center_pos)

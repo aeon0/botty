@@ -7,7 +7,7 @@ import keyboard
 import cv2
 from logger import Logger
 import time
-from ui_components.view import handle_death_screen
+from ui_components import view
 
 
 class DeathManager:
@@ -49,7 +49,7 @@ class DeathManager:
             time.sleep(self._loop_delay) # no need to do this too frequent, when we died we are not in a hurry...
             # Wait until the flag is reset by main.py
             if self._died: continue
-            handle_death_screen()
+            view.handle_death_screen()
         Logger.debug("Stop death monitoring")
 
 

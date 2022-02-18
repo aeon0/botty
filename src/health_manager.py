@@ -2,15 +2,13 @@ from pather import Location
 import cv2
 import time
 import keyboard
-from ui_components.meters import get_health, get_mana, get_merc_health
-from ui_components.belt import drink_potion
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
 from screen import grab
 import time
 from config import Config
-from ui_components.ingame_menu import save_and_exit
+from ui_components import view, meters, belt
 from ui.ui_manager import detect_screen_object, ScreenObjects
 
 class HealthManager:
@@ -63,7 +61,7 @@ class HealthManager:
         wait(0.02, 0.05)
         mouse.release(button="right")
         time.sleep(0.01)
-        save_and_exit(does_chicken=True)
+        view.save_and_exit(does_chicken=True)
         self._did_chicken = True
         self._pausing = True
 
@@ -80,21 +78,21 @@ class HealthManager:
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
             match = detect_screen_object(ScreenObjects.BarAnchor, img)
             if match.valid:
-                health_percentage = get_health(img)
-                mana_percentage = get_mana(img)
+                health_percentage = meters.get_health(img)
+                mana_percentage = meters.get_mana(img)
                 # check rejuv
                 success_drink_rejuv = False
                 last_drink = time.time() - self._last_rejuv
                 if (health_percentage < Config().char["take_rejuv_potion_health"] and last_drink > 1) or \
                    (mana_percentage < Config().char["take_rejuv_potion_mana"] and last_drink > 2):
-                    success_drink_rejuv = drink_potion("rejuv", stats=[health_percentage, mana_percentage])
+                    success_drink_rejuv = belt.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
                     self._last_rejuv = time.time()
                 # in case no rejuv was used, check for chicken, health pot and mana pot usage
                 if not success_drink_rejuv:
                     # check health
                     last_drink = time.time() - self._last_health
                     if health_percentage < Config().char["take_health_potion"] and last_drink > 3.5:
-                        drink_potion("health", stats=[health_percentage, mana_percentage])
+                        belt.drink_potion("health", stats=[health_percentage, mana_percentage])
                         self._last_health = time.time()
                     # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
                     elif health_percentage < Config().char["chicken"] and (time.time() - start) > 6:
@@ -103,21 +101,21 @@ class HealthManager:
                     # check mana
                     last_drink = time.time() - self._last_mana
                     if mana_percentage < Config().char["take_mana_potion"] and last_drink > 4:
-                        drink_potion("mana", stats=[health_percentage, mana_percentage])
+                        belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
                 match = detect_screen_object(ScreenObjects.MercIcon)
                 if match.valid:
-                    merc_health_percentage = get_merc_health(img)
+                    merc_health_percentage = meters.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < Config().char["merc_chicken"]:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
                         self._do_chicken(img)
                     if merc_health_percentage < Config().char["heal_rejuv_merc"] and last_drink > 4.0:
-                        drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
+                        belt.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
                     elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
-                        drink_potion("health", merc=True, stats=[merc_health_percentage])
+                        belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
         Logger.debug("Stop health monitoring")
 

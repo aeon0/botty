@@ -17,9 +17,9 @@ import cv2
 import time
 import numpy as np
 from utils.custom_mouse import mouse
-import ui_components
 import os
-from ui_components.stash import move_to_stash_tab, gambling_round, gold_full
+from ui_components import stash
+from ui_components.stash import gold_full
 from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
 from messages import Messenger
 
@@ -62,7 +62,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
-                move_to_stash_tab(min(3, ui_components.stash.curr_stash["gold"]))
+                stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
                 mouse.move(*gold_btn.center, randomize=4)
                 wait(0.1, 0.15)
                 mouse.press(button="left")
@@ -76,10 +76,10 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 inventory_no_gold = detect_screen_object(ScreenObjects.GoldNone)
                 if not inventory_no_gold.valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
-                    ui_components.stash.curr_stash["gold"] += 1
+                    stash.curr_stash["gold"] += 1
                     if Config().general["info_screenshots"]:
                         cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                    if ui_components.stash.curr_stash["gold"] > 3:
+                    if stash.curr_stash["gold"] > 3:
                         #decide if gold pickup should be disabled or gambling is active
                         if Config().char["gamble_items"]:
                             gold_full = True
@@ -96,9 +96,9 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                         wait(0.5, 0.6)
                         return stash_all_items(num_loot_columns, item_finder)
     else:
-        ui_components.stash.transfer_shared_to_private_gold(gambling_round)
+        stash.transfer_shared_to_private_gold(stash.gambling_round)
     # stash stuff
-    move_to_stash_tab(ui_components.stash.curr_stash["items"])
+    stash.move_to_stash_tab(stash.curr_stash["items"])
     center_m = convert_abs_to_monitor((0, 0))
     for column, row in itertools.product(range(num_loot_columns), range(4)):
         img = grab()
@@ -162,8 +162,8 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
             cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
 
         # if filling shared stash first, we decrement from 3, otherwise increment
-        ui_components.stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
-        if (Config().char["fill_shared_stash_first"] and ui_components.stash.curr_stash["items"] < 0) or ui_components.stash.curr_stash["items"] > 3:
+        stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
+        if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
             Logger.error("All stash is full, quitting")
             if Config().general["custom_message_hook"]:
                 messenger.send_stash()
