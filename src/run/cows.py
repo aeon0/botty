@@ -420,80 +420,7 @@ class Cows:
             stuck_count = 0
             super_stuck = 0
 
-    #stolen from Transmute.py
-    def open_cube(self):
-        self._ui_manager._move_to_stash_tab(0)
-        screen = self._screen.grab()
-        match = self._template_finder.search(
-            ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["left_inventory"])
-        if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
-            wait(0.2)
-            mouse.click("right")
-            wait(0.2)
-        else:
-            Logger.error(f"Can't find cube: {match.score}")
-
-    #stolen from Transmute.py
-    def transmute(self):
-        screen = self._screen.grab()
-        match = self._template_finder.search(
-            ["CUBE_TRANSMUTE_BTN"], screen, roi=Config.ui_roi["cube_btn_roi"])
-        if match.valid:
-            x, y = self._screen.convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
-            wait(0.2)
-            mouse.click("left")
-            wait(0.2)
-
-    #stolen from Transmute.py
-    def close_cube(self):
-        wait(0.2)
-        keyboard.send("esc")
-
-    #this function checks for the leg in inventory, stash & cube.
-    def _legcheck(self) -> bool:
-        
-        #open inventory, search for leg
-        Logger.debug('\033[96m' + "Checking Inventory for Leg" + '\033[0m')  
-        keyboard.send(self._config.char["inventory_screen"])
-        legfound = template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid
-        wait(2)
-        keyboard.send(self._config.char["inventory_screen"])
-        
-        #we found the leg
-        if legfound: 
-            template_match = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False)
-            Logger.debug('\033[96m' + "Checking Inventory for Leg: found, calling open_cow_portal()" + '\033[0m')
-            return True
-        
-        #open stash, search for leg
-        else:
-            Logger.debug('\033[96m' + "Checking Inventory for Leg: not found" + '\033[0m')
-            Logger.debug('\033[96m' + "Checking Stash for Leg" + '\033[0m')
-            self._town_manager.open_stash("A1_TOWN_START")
-            wait(2)
-            if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                Logger.debug('\033[96m' + "Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
-                return True
-            
-            #open cube, search for leg
-            else:
-                Logger.debug('\033[96m' + "Checking Stash for Leg: not found" + '\033[0m')
-                Logger.debug('\033[96m' + "Checking Cube for Leg" + '\033[0m')
-                wait(2)
-                self.open_cube()
-                if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                    Logger.debug('\033[96m' + "Checking Cube for Leg: found" + '\033[0m')
-                    #should we take the leg out? or leave it in?
-                    return True
-                else:
-                    Logger.debug('\033[96m' + "Checking Cube for Leg: not found, need to get it in stony field" + '\033[0m')
-                    #i assume we leave the cube in the stash
-                    return False
-
-    
+       
     #this function gets the leg in tristram
     def _tristram(self) -> bool:
         #lets make sure our minimap is OFF
@@ -536,7 +463,83 @@ class Cows:
             if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): Logger.debug('\033[93m' + "Tristram: didnt make it through Portal :/" + '\033[0m')
             wait(1)
         return True
+
+
+    #stolen from Transmute.py
+    def open_cube(self):
+        self._ui_manager._move_to_stash_tab(0)
+        screen = self._screen.grab()
+        match = self._template_finder.search(
+            ["HORADRIC_CUBE"], screen, threshold=0.9, roi=Config.ui_roi["left_inventory"])
+        if match.valid:
+            x, y = self._screen.convert_screen_to_monitor(match.center)
+            mouse.move(x, y)
+            wait(0.2)
+            mouse.click("right")
+            wait(0.2)
+        else:
+            Logger.error(f"Can't find cube: {match.score}")
+
+
+    #stolen from Transmute.py
+    def transmute(self):
+        screen = self._screen.grab()
+        match = self._template_finder.search(
+            ["CUBE_TRANSMUTE_BTN"], screen, roi=Config.ui_roi["cube_btn_roi"])
+        if match.valid:
+            x, y = self._screen.convert_screen_to_monitor(match.center)
+            mouse.move(x, y)
+            wait(0.2)
+            mouse.click("left")
+            wait(0.2)
+
+
+    #stolen from Transmute.py
+    def close_cube(self):
+        wait(0.2)
+        keyboard.send("esc")
+
+
+    #this function checks for the leg in inventory, stash & cube.
+    def _legcheck(self) -> bool:
         
+        #open inventory, search for leg
+        Logger.debug('\033[96m' + "Checking Inventory for Leg" + '\033[0m')  
+        keyboard.send(self._config.char["inventory_screen"])
+        legfound = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid
+        wait(2)
+        keyboard.send(self._config.char["inventory_screen"])
+        
+        #we found the leg
+        if legfound: 
+            Logger.debug('\033[96m' + "Checking Inventory for Leg: found, calling open_cow_portal()" + '\033[0m')
+            return True
+        
+        #open stash, search for leg
+        else:
+            Logger.debug('\033[96m' + "Checking Inventory for Leg: not found" + '\033[0m')
+            Logger.debug('\033[96m' + "Checking Stash for Leg" + '\033[0m')
+            self._town_manager.stash()
+            wait(2)
+            if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
+                Logger.debug('\033[96m' + "Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
+                return True
+            
+            #open cube, search for leg
+            else:
+                Logger.debug('\033[96m' + "Checking Stash for Leg: not found" + '\033[0m')
+                Logger.debug('\033[96m' + "Checking Cube for Leg" + '\033[0m')
+                wait(2)
+                self.open_cube()
+                if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
+                    Logger.debug('\033[96m' + "Checking Cube for Leg: found" + '\033[0m')
+                    #should we take the leg out? or leave it in?
+                    return True
+                else:
+                    Logger.debug('\033[96m' + "Checking Cube for Leg: not found, need to get it in stony field" + '\033[0m')
+                    #i assume we leave the cube in the stash
+                    return False
+
 
     #this function opens the cow portal
     def _open_cow_portal(self)-> bool:
@@ -593,7 +596,7 @@ class Cows:
 
     # this function kills cows
     def _cows(self) -> bool:
-        #train neuronal network to search for heads and feet of cows that are not dead as positive
+        #train neuronal network to search for heads and feet of cows that are not dead as positive according to this tutorial: https://www.youtube.com/watch?v=XrCAvs9AePM&list=PL1m2M8LQlzfKtkKq2lK5xko4X-8EZzFPI&index=8
         #train it with images from dead cows and from empty cow levels as negative
         #search for template head or feet, cast attack rotation & pickit, repeat until?
         return True
