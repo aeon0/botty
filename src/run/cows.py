@@ -11,7 +11,8 @@ from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
-from town.town_manager import TownManager
+from town import TownManager, A1, town_manager #for buying tomes & interacting with Stash
+from npc_manager import NpcManager #for buying tomes
 from ui import UiManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
@@ -31,6 +32,7 @@ class Cows:
         ui_manager: UiManager,
         char: IChar,
         pickit: PickIt,
+        npc_manager = NpcManager
         #game_stats: GameStats #for Transmute
     ):
         self._config = Config()
@@ -39,6 +41,7 @@ class Cows:
         self._pather = pather
         self._town_manager = town_manager
         self._ui_manager = ui_manager
+        self._npc_manager = npc_manager
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
@@ -428,13 +431,20 @@ class Cows:
             keyboard.send(self._config.char["minimap"]) #turn off minimap
             Logger.debug('\033[95m' + "Old Tristram: Closing Minimap" + '\033[0m')
         
+        #Calibrate at WP
         logger.info('\033[95m' + "Old Tristram: Entering Old Tristram to get the leg" + '\033[0m')
         logger.info('\033[95m' + "Old Tristram: Calibrating at Entrance TP" + '\033[0m')
         if not self._pather.traverse_nodes([1000], self._char, time_out=5): return False
+        
+        #Static path to Wirt
         logger.info('\033[95m' + "Old Tristram: Static Path to Corpse" + '\033[0m')
         self._pather.traverse_nodes_fixed("cow_trist_tp_leg", self._char)
+        
+        #Calibrate at Wirt
         logger.info('\033[95m' + "Old Tristram: Calibrating at Corpse" + '\033[0m')
         if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
+        
+        #Loot Wirt
         logger.info('\033[95m' + "Old Tristram: Looting the leg the Corpse" + '\033[0m')
         if not self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4,telekinesis=True):
             # do a random tele jump and try again
@@ -445,8 +455,12 @@ class Cows:
             if not self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4, telekinesis=True):
                 logger.info('\033[95m' + "Old Tristram: Unable to interact with the wirt" + '\033[0m')
                 return False
+
+        #Loot Leg
         logger.info('\033[95m' + "Old Tristram: Grabbing the leg" + '\033[0m')
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
+        
+        #TP Home
         logger.info('\033[95m' + "Old Tristram: Making TP to go home" + '\033[0m')
         if not self._ui_manager.has_tps():
             Logger.warning('\033[95m' + "Old Tristram: Open TP failed. Aborting run." + '\033[0m')
@@ -454,8 +468,6 @@ class Cows:
             return False
         mouse.click(button="right")
         self.used_tps += 1
-        #return True
-        #enter portal
         if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True):
             # do a random tele jump and try again
             pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
@@ -504,7 +516,7 @@ class Cows:
     def _legcheck(self) -> bool:
         
         #open inventory, search for leg
-        Logger.debug('\033[96m' + "Checking Inventory for Leg" + '\033[0m')  
+        Logger.debug('\033[96m' + "Legcheck: Checking Inventory for Leg" + '\033[0m')  
         keyboard.send(self._config.char["inventory_screen"])
         legfound = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid
         wait(2)
@@ -517,26 +529,26 @@ class Cows:
         
         #open stash, search for leg
         else:
-            Logger.debug('\033[96m' + "Checking Inventory for Leg: not found" + '\033[0m')
-            Logger.debug('\033[96m' + "Checking Stash for Leg" + '\033[0m')
-            self._town_manager.stash()
+            Logger.debug('\033[96m' + "Legcheck: Checking Inventory for Leg: not found" + '\033[0m')
+            Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg" + '\033[0m')
+            self._town_manager.stash(Location.A1_TOWN_START)
             wait(2)
             if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                Logger.debug('\033[96m' + "Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
+                Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
                 return True
             
             #open cube, search for leg
             else:
-                Logger.debug('\033[96m' + "Checking Stash for Leg: not found" + '\033[0m')
-                Logger.debug('\033[96m' + "Checking Cube for Leg" + '\033[0m')
+                Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: not found" + '\033[0m')
+                Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg" + '\033[0m')
                 wait(2)
                 self.open_cube()
                 if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                    Logger.debug('\033[96m' + "Checking Cube for Leg: found" + '\033[0m')
+                    Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: found" + '\033[0m')
                     #should we take the leg out? or leave it in?
                     return True
                 else:
-                    Logger.debug('\033[96m' + "Checking Cube for Leg: not found, need to get it in stony field" + '\033[0m')
+                    Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: not found, need to get it in stony field" + '\033[0m')
                     #i assume we leave the cube in the stash
                     return False
 
@@ -547,12 +559,21 @@ class Cows:
         #go to stash, get cube & leg
         
         #go to Akara, get a Tome of TP
-        logger.info("Open_Cow_Portal: TP to Akara - buy Tome")
+        logger.info('\033[91m' + "Open_Cow_Portal: TP to Akara - buy Tome" + '\033[0m')
         #self._pather.traverse_nodes([708, 700,705,706,707], self._char) #Stash to Akara
-        if not self._pather.traverse_nodes((Location.A1_TOWN_TP, Location.A1_AKARA), self._char, force_move=True): return False
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-        if not tp_tome.valid:
-            return False
+        self._pather.traverse_nodes([700], self._char) #calibrate at a1_town_start
+        if not self._pather.traverse_nodes((Location.A1_TOWN_START, Location.A1_AKARA), self._char, force_move=True): return False #walk to Akara
+        
+        ############################################################
+        #  vvvvvv CTHU END, FROM HERE IT DOES NOT WORK YET vvvvvv  #
+        ############################################################
+
+        #open vendor menu
+        self._npc_manager._open_trade_menu(Location.A1_AKARA) #open Trade Menu
+
+        #check if there is a tome for sale & buy it
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True) 
+        if not tp_tome.valid: return False
         keyboard.send('ctrl', do_release=False)
         mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
@@ -561,10 +582,11 @@ class Cows:
         keyboard.send('ctrl', do_press=False)
         self._ui_manager.close_vendor_screen()
 
-        logger.info("Open_Cow_Portal: Akara to Stash - get Cube")
+        logger.info('\033[91m' + "Open_Cow_Portal: Akara to Stash - get Cube"+ '\033[0m')
         self._pather.traverse_nodes([707,706,705, 700, 701], self._char) #Akara to Stash
-        self._town_manager.open_stash()
-        Logger.info("Open_Cow_Portal: Opening Cube")
+        self._town_manager.stash(Location.A1_TOWN_START)
+
+        Logger.info('\033[91m' + "Open_Cow_Portal: Opening Cube"+ '\033[0m')
         self.open_cube()
         tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
         if not tp_tome.valid:
@@ -575,8 +597,8 @@ class Cows:
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
-        tp_tome = self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
-        if not tp_tome.valid:
+        #we might need to let botty learn where the leg is right now, it needs to be either in the inv & cube. if in inv, we move it to cube. if in stash, it has to go to inv.
+        if not self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True).valid:
             return False
         keyboard.send('ctrl', do_release=False)
         mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
@@ -584,7 +606,7 @@ class Cows:
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
-        logger.info("Open_Cow_Portal: Transmuting")
+        logger.info('\033[91m' + "Open_Cow_Portal: Transmuting"+ '\033[0m')
         self.transmute()
         self.close_cube()
 
