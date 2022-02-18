@@ -15,6 +15,8 @@ from logger import Logger
 from utils.custom_mouse import mouse
 import cv2
 import time
+from ui.ui_manager import wait_for_screen_object
+from ui.screen_objects import ScreenObjects
 
 def close_vendor_screen():
     keyboard.send("esc")
@@ -24,7 +26,7 @@ def repair_and_fill_up_tp() -> bool:
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
     :return: Bool if success
     """
-    repair_btn = TemplateFinder().search_and_wait("REPAIR_BTN", roi=Config().ui_roi["repair_btn"], time_out=4, normalize_monitor=True)
+    repair_btn = wait_for_screen_object(ScreenObjects.RepairBtn, time_out=4)
     if not repair_btn.valid:
         return False
     mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])

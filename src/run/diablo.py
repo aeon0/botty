@@ -16,7 +16,8 @@ from ui_components.loading import wait_for_loading_screen
 from ui_components.waypoint import use_wp
 from ui_components.belt import get_pot_needs, should_buy_pots
 from ui_components.inventory import should_stash
-
+from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object
 
 class Diablo:
     def __init__(
@@ -83,15 +84,7 @@ class Diablo:
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
                     if not self._pather.traverse_nodes([164, 163], self._char, time_out=2): return False
                     wait(0.22, 0.28)
-                    roi = Config().ui_roi["reduce_to_center"]
-                    img = grab()
-                    template_match = TemplateFinder().search(
-                        "BLUE_PORTAL",
-                        img,
-                        threshold=0.66,
-                        roi=roi,
-                        normalize_monitor=True
-                    )
+                    template_match = detect_screen_object(ScreenObjects.TownPortalReduced)
                     if template_match.valid:
                         pos = template_match.center
                         pos = (pos[0], pos[1] + 30)

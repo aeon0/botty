@@ -7,6 +7,8 @@ import mouse
 import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse
+from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object
 
 gambling_round = 1
 gold_full = False
@@ -18,10 +20,9 @@ curr_stash = {
 def transfer_shared_to_private_gold(count: int):
     for x in range (3):
         move_to_stash_tab(count)
-        stash_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", grab(), roi=Config().ui_roi["gold_btn_stash"], threshold=0.83)
+        stash_gold_btn = detect_screen_object(ScreenObjects.GoldBtnStash)
         if stash_gold_btn.valid:
-            x,y = convert_screen_to_monitor(stash_gold_btn.center)
-            mouse.move(x, y, randomize=4)
+            mouse.move(*stash_gold_btn.center, randomize=4)
             wait (0.4, 0.5)
             mouse.press(button="left")
             wait (0.1, 0.15)
@@ -30,10 +31,9 @@ def transfer_shared_to_private_gold(count: int):
             keyboard.send ("Enter")
             wait (0.1, 0.15)
             move_to_stash_tab(0)
-            inventory_gold_btn = TemplateFinder().search("INVENTORY_GOLD_BTN", grab(), roi=Config().ui_roi["gold_btn"], threshold=0.83)
+            inventory_gold_btn = detect_screen_object(ScreenObjects.GoldBtnInventory)
             if inventory_gold_btn.valid:
-                x,y = convert_screen_to_monitor(inventory_gold_btn.center)
-                mouse.move(x, y, randomize=4)
+                mouse.move(*inventory_gold_btn.center, randomize=4)
                 wait (0.4, 0.5)
                 mouse.press(button="left")
                 wait (0.1, 0.15)

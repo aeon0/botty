@@ -42,7 +42,7 @@ def restart_game(d2_path = None):
         success = found_offsets
         wait(0.5, 1.0)
 
-    
+
     while not TemplateFinder().search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
@@ -51,7 +51,7 @@ def restart_game(d2_path = None):
             return False
     return True
 
-# For testing 
+# For testing
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         result = restart_game(sys.argv[1])
