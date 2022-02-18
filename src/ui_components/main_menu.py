@@ -4,8 +4,7 @@ from config import Config
 from utils.misc import wait
 from logger import Logger
 from ui_components.error_screens import handle_error
-from ui.ui_manager import detect_screen_object, select_screen_object_match
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
 
 def start_game() -> bool:
     """

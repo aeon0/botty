@@ -1,8 +1,5 @@
-# f: is_overburdened(self) -> bool:
 # f: repair_needed(self) -> bool:
-# f: enable_no_pickup(self) -> bool:
 # f: wait_for_town_spawn
-# f: handle_death_screen
 # f: pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
 # - repair_needed
 # - ammo_low
@@ -22,8 +19,7 @@ import mouse
 from logger import Logger
 from template_finder import TemplateFinder
 from utils.misc import color_filter, cut_roi, wait
-from ui.ui_manager import detect_screen_object, wait_for_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, ScreenObjects
 
 last_death_screenshot = None
 

@@ -15,8 +15,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
 from template_finder import TemplateFinder
 from char import IChar
-from ui.ui_manager import detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 class Location:
     # A5 Town

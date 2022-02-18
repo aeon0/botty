@@ -2,7 +2,7 @@ from char import IChar
 from town.i_act import IAct
 from screen import grab
 from config import Config
-from npc_manager import NpcManager, Npc
+from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
@@ -12,10 +12,9 @@ from ui.ui_manager import detect_screen_object
 
 
 class A5(IAct):
-    def __init__(self, pather: Pather, char: IChar, npc_manager: NpcManager):
+    def __init__(self, pather: Pather, char: IChar):
         self._pather = pather
         self._char = char
-        self._npc_manager = npc_manager
 
     def get_wp_location(self) -> Location: return Location.A5_WP
     def can_heal(self) -> bool: return True
@@ -27,28 +26,28 @@ class A5(IAct):
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_MALAH), self._char, force_move=True): return False
-        if not self._npc_manager.open_npc_menu(Npc.MALAH): return False
+        if not open_npc_menu(Npc.MALAH): return False
         if not self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True): return False
         return Location.A5_TOWN_START
 
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_MALAH), self._char, force_move=True): return False
-        if self._npc_manager.open_npc_menu(Npc.MALAH):
-            self._npc_manager.press_npc_btn(Npc.MALAH, "trade")
+        if open_npc_menu(Npc.MALAH):
+            press_npc_btn(Npc.MALAH, "trade")
             return Location.A5_MALAH
         return False
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
-        if self._npc_manager.open_npc_menu(Npc.QUAL_KEHK):
-            self._npc_manager.press_npc_btn(Npc.QUAL_KEHK, "resurrect")
+        if open_npc_menu(Npc.QUAL_KEHK):
+            press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             return Location.A5_QUAL_KEHK
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
-        if self._npc_manager.open_npc_menu(Npc.CAIN):
-            self._npc_manager.press_npc_btn(Npc.CAIN, "identify")
+        if open_npc_menu(Npc.CAIN):
+            press_npc_btn(Npc.CAIN, "identify")
             return Location.A5_QUAL_KEHK
         return False
 
@@ -67,8 +66,8 @@ class A5(IAct):
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char): return False
-        self._npc_manager.open_npc_menu(Npc.LARZUK)
-        self._npc_manager.press_npc_btn(Npc.LARZUK, "trade_repair")
+        open_npc_menu(Npc.LARZUK)
+        press_npc_btn(Npc.LARZUK, "trade_repair")
         return Location.A5_LARZUK
 
     def open_wp(self, curr_loc: Location) -> bool:

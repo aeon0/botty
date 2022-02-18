@@ -22,8 +22,6 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from pather import Pather, Location
-from npc_manager import NpcManager
-from health_manager import HealthManager
 from death_manager import DeathManager
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
@@ -35,8 +33,7 @@ from char.basic_ranged import Basic_Ranged
 from ui_components.main_menu import start_game
 from ui_components.character_select import has_char_template_saved, select_char, save_char_template, save_char_online_status
 from ui_components.ingame_menu import save_and_exit
-from ui.ui_manager import wait_for_screen_object, detect_screen_object
-from ui.screen_objects import ScreenObjects
+from ui.ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
 from ui_components.view import enable_no_pickup
 from ui_components.stash import gambling_needed, set_gold_full
 from ui_components.vendor import gamble
@@ -83,12 +80,11 @@ class Bot:
             os._exit(1)
 
         # Create Town Manager
-        npc_manager = NpcManager()
-        a5 = A5(self._pather, self._char, npc_manager)
-        a4 = A4(self._pather, self._char, npc_manager)
-        a3 = A3(self._pather, self._char, npc_manager)
-        a2 = A2(self._pather, self._char, npc_manager)
-        a1 = A1(self._pather, self._char, npc_manager)
+        a5 = A5(self._pather, self._char)
+        a4 = A4(self._pather, self._char)
+        a3 = A3(self._pather, self._char)
+        a2 = A2(self._pather, self._char)
+        a1 = A1(self._pather, self._char)
         self._town_manager = TownManager(self._item_finder, a1, a2, a3, a4, a5)
 
         # Create runs

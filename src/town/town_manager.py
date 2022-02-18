@@ -213,15 +213,13 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     from item import ItemFinder
     from pather import Pather
-    from npc_manager import NpcManager
-    npc_manager = NpcManager()
     pather = Pather()
     item_finder = ItemFinder()
     char = Hammerdin(Config().hammerdin, Config().char, pather)
-    a5 = A5(pather, char, npc_manager)
-    a4 = A4(pather, char, npc_manager)
-    a3 = A3(pather, char, npc_manager)
-    a2 = A2(pather, char, npc_manager)
-    a1 = A1(pather, char, npc_manager)
+    a5 = A5(pather, char)
+    a4 = A4(pather, char)
+    a3 = A3(pather, char)
+    a2 = A2(pather, char)
+    a1 = A1(pather, char)
     town_manager = TownManager(item_finder, a1, a2, a3, a4, a5)
     print(town_manager.open_wp(Location.A1_TOWN_START))
