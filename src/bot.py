@@ -376,7 +376,7 @@ class Bot:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
-        if skills.has_tps():
+        if not skills.has_tps():
             self._tps_left = 0
         self.trigger_or_stop("end_game", failed=True)
 
