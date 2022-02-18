@@ -510,7 +510,7 @@ class Cows:
     def close_cube(self):
         wait(0.2)
         keyboard.send("esc")
-
+    
 
     #this function checks for the leg in inventory, stash & cube.
     def _legcheck(self) -> bool:
@@ -519,7 +519,7 @@ class Cows:
         Logger.debug('\033[96m' + "Legcheck: Checking Inventory for Leg" + '\033[0m')  
         keyboard.send(self._config.char["inventory_screen"])
         legfound = self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid
-        wait(2)
+        #wait(2)
         keyboard.send(self._config.char["inventory_screen"])
         
         #we found the leg
@@ -532,7 +532,7 @@ class Cows:
             Logger.debug('\033[96m' + "Legcheck: Checking Inventory for Leg: not found" + '\033[0m')
             Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg" + '\033[0m')
             self._town_manager.stash(Location.A1_TOWN_START)
-            wait(2)
+            #wait(2)
             if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
                 Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
                 return True
@@ -541,7 +541,7 @@ class Cows:
             else:
                 Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: not found" + '\033[0m')
                 Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg" + '\033[0m')
-                wait(2)
+                #wait(2)
                 self.open_cube()
                 if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
                     Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: found" + '\033[0m')
