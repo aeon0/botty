@@ -262,19 +262,19 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        self._char.discover_capabilities()
         # Handle picking up corpse in case of death
         if self._pick_corpse:
-            self._pick_corpse = False
             time.sleep(1.6)
             DeathManager.pick_up_corpse(self._screen)
             wait(1.2, 1.5)
             self._belt_manager.fill_up_belt_from_inventory(self._config.char["num_loot_columns"])
             wait(0.5)
-            if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+        self._char.discover_capabilities()
+        if self._pick_corpse and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
                 keybind = self._char._skill_hotkeys["teleport"]
                 Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
                 self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+        self._pick_corpse = False
 
         # Look at belt to figure out how many pots need to be picked up
         self._belt_manager.update_pot_needs()
