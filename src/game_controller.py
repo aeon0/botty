@@ -30,9 +30,9 @@ class GameController:
         self.bot_thread = None
         self.bot = None
 
-    def run_bot(self, pick_corpse: bool = False):
+    def run_bot(self):
         # Start bot thread
-        self.bot = Bot(self.game_stats, pick_corpse)
+        self.bot = Bot(self.game_stats)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -58,7 +58,7 @@ class GameController:
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
-                if max_consecutive_fails_reached: 
+                if max_consecutive_fails_reached:
                     msg = f"Consecutive fails {self.game_stats.get_consecutive_runs_failed()} >= Max {Config().general['max_consecutive_fails']}. Quitting botty."
                     Logger.error(msg)
                     if Config().general["custom_message_hook"]:
@@ -74,7 +74,7 @@ class GameController:
             self.death_manager.reset_death_flag()
             self.health_manager.reset_chicken_flag()
             self.game_stats.log_end_game(failed=max_game_length_reached)
-            return self.run_bot(True)
+            return self.run_bot()
         else:
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -88,7 +88,7 @@ class GameController:
                         self.start_health_manager_thread()
                         self.start_death_manager_thread()
                         self.game_recovery = GameRecovery(self.death_manager)
-                        return self.run_bot(True)
+                        return self.run_bot()
                 Logger.error("Could not restart the game. Quitting.")
                 messenger.send_message("Got stuck and could not restart the game. Quitting.")
             else:

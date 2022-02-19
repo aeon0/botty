@@ -505,7 +505,7 @@ if __name__ == "__main__":
     from config import Config
     from bot import Bot
     game_stats = GameStats()
-    bot = Bot(game_stats, False)
+    bot = Bot(game_stats)
 
     # Idea list:
     # Ghetto Mob detection: clear CS, take a screenshot w/o mobs at each attack point. template check on arrival at each node the regions where mobs can spawn. if no match: attack. if match: skip.

@@ -60,7 +60,8 @@ class ScreenObjects:
     )
     MainMenu=ScreenObject(
         ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"],
-        roi="main_menu_top_left"
+        roi="main_menu_top_left",
+        best_match=True
     )
     Loading=ScreenObject(
         ref=["LOADING", "CREATING_GAME"],
@@ -176,6 +177,11 @@ class ScreenObjects:
         roi="is_overburdened",
         threshold=0.9
     )
+    CorpseText=ScreenObject(
+        ref="CORPSE",
+        roi="corpse_text",
+        threshold=0.8
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -192,8 +198,8 @@ def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) ->
         return match
     return match
 
-def select_screen_object_match(match: TemplateMatch) -> None:
-    mouse.move(*convert_screen_to_monitor(match.center))
+def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, float] = (0.9, 1.1)) -> None:
+    mouse.move(*convert_screen_to_monitor(match.center), delay_factor=delay_factor)
     wait(0.05, 0.09)
     mouse.click("left")
     wait(0.05, 0.09)

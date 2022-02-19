@@ -41,7 +41,7 @@ from utils.dclone_ip import get_d2r_game_ip
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
-    def __init__(self, game_stats: GameStats, pick_corpse: bool = False):
+    def __init__(self, game_stats: GameStats):
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._item_finder = ItemFinder()
@@ -105,7 +105,7 @@ class Bot:
         self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
-        self._pick_corpse = pick_corpse
+        self._pick_corpse = False
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._tps_left = 10 # assume half full tp book
@@ -218,8 +218,11 @@ class Bot:
     def on_create_game(self):
         # Start a game from hero selection
         m = wait_for_screen_object(ScreenObjects.MainMenu)
-        # res, m = MainMenu.wait_for()
-        if m.valid: main_menu.start_game()
+        if m.valid:
+            if "DARK" in m.name:
+                keyboard.send("esc")
+            main_menu.start_game()
+            view.move_to_corpse()
         else: return
         self.trigger_or_stop("start_from_town")
 
@@ -249,19 +252,20 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
-        self._char.discover_capabilities()
         # Handle picking up corpse in case of death
+        self._pick_corpse = detect_screen_object(ScreenObjects.CorpseText).valid
         if self._pick_corpse:
-            self._pick_corpse = False
+            self._previous_run_failed = True
             time.sleep(1.6)
-            DeathManager.pick_up_corpse()
+            view.pickup_corpse()
             wait(1.2, 1.5)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
             wait(0.5)
-            if self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-                keybind = self._char._skill_hotkeys["teleport"]
-                Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-                self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+        self._char.discover_capabilities()
+        if self._pick_corpse and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+            keybind = self._char._skill_hotkeys["teleport"]
+            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
@@ -287,7 +291,7 @@ class Bot:
         if Config().char["runs_per_stash"]:
             routine_stash = self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
         force_stash = False
-        if not self._picked_up_items and (routine_stash or self._pick_corpse or self._previous_run_failed):
+        if not self._picked_up_items and (routine_stash or self._previous_run_failed):
             force_stash = inventory.should_stash(Config().char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
@@ -359,7 +363,7 @@ class Bot:
             cv2.imwrite("./info_screenshots/info_failed_game_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         self._curr_loc = False
         self._pre_buffed = False
-        view.save_and_exit(False)
+        view.save_and_exit()
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:

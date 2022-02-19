@@ -24,19 +24,22 @@ class GameRecovery:
             is_loading = loading.check_for_black_screen()
             while is_loading:
                 is_loading = detect_screen_object(ScreenObjects.Loading).valid
+                is_loading |= loading.check_for_black_screen()
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            found = detect_screen_object(ScreenObjects.MainMenu).valid
-            if found:
+            if detect_screen_object(ScreenObjects.MainMenu).valid:
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():
                 time.sleep(1)
                 continue
-            # we must be ingame, but maybe we are at vendor or on stash, press esc and look for save and exit btn
-            match = detect_screen_object(ScreenObjects.SaveAndExit)
-            if match.valid:
-                view.save_and_exit(False)
+            # check for save/exit button
+            if detect_screen_object(ScreenObjects.SaveAndExit).valid:
+                view.save_and_exit()
+                continue
+            # maybe we are in-game in stash/inventory, press escape
+            elif detect_screen_object(ScreenObjects.BarAnchor).valid:
+                keyboard.send("esc")
             time.sleep(1)
         return False
 

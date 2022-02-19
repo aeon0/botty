@@ -113,5 +113,5 @@ if __name__ == "__main__":
     from config import Config
     from bot import Bot
     game_stats = GameStats()
-    bot = Bot(game_stats, False)
+    bot = Bot(game_stats)
     bot._arcane._find_summoner([(500, 40)])
