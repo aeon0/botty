@@ -307,7 +307,7 @@ class Bot:
             wait(1.0)
 
         # Check if we are out of tps or need repairing
-        need_repair = detect_screen_object(SCREEN_OBJECTS['NeedRepair']).valid
+        need_repair = detect_screen_object(ScreenObjects.NeedRepair).valid
         need_routine_repair = False
         if Config().char["runs_per_repair"]:
             need_routine_repair = self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
