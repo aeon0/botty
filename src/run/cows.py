@@ -18,7 +18,7 @@ from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
 import numpy as np
-#from transmute import Transmute
+
 
 
 class Cows:
@@ -32,7 +32,7 @@ class Cows:
         char: IChar,
         pickit: PickIt,
         npc_manager: NpcManager,
-        #transmute: Transmute
+
 
     ):
         self._config = Config()
@@ -46,9 +46,7 @@ class Cows:
         self._pickit = pickit
         self._picked_up_items = False
         self.used_tps = 0
-        #self._transmute= transmute
-        #self._game_stats = game_stats
-        #self._transmuter = Transmute(self._screen, self._template_finder, self._game_stats, self._ui_manager) #for transmute
+
 
 
     #this function randomly teleports around until we either get stuck or find the exit we search for
@@ -65,6 +63,7 @@ class Cows:
             keyboard.send(self._config.char["minimap"]) #turn on minimap
             Logger.debug('\033[93m' + "Scout: Opening Minimap" + '\033[0m')
 
+        found = self._template_finder.search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid
         #so lets loop teleporting around until we find our templates
         while not found and not avoid:
                 found = self._template_finder.search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False).valid #boolean, if we found it
@@ -586,14 +585,6 @@ class Cows:
         #self._pather.traverse_nodes([708, 700,705,706,707], self._char) #Stash to Akara
         self._pather.traverse_nodes([700], self._char) #calibrate at a1_town_start
         if not self._pather.traverse_nodes((Location.A1_TOWN_START, Location.A1_AKARA), self._char, force_move=True): return False #walk to Akara
-        
-        ############################################################
-        #  vvvvvv CTHU END, FROM HERE IT DOES NOT WORK YET vvvvvv  #
-        ############################################################
-
-        
-        #open vendor menu
-        #wait(3) #giving you 3 sec to open manually the vendor menu
         self._npc_manager.open_npc_menu(Npc.AKARA)
         self._npc_manager.press_npc_btn(Npc.AKARA, "trade")
 
@@ -621,17 +612,18 @@ class Cows:
         keyboard.send('ctrl', do_release=False)
         mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
-        mouse.click(button="right")
+        mouse.click(button="left")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         #we might need to let botty learn where the leg is right now, it needs to be either in the inv & cube. if in inv, we move it to cube. if in stash, it has to go to inv.
-        if not self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True).valid:
+        legmove = self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
+        if not legmove.valid:
             Logger.info('\033[91m' + "Open_Cow_Portal: Did not find LEG to transmute, aborting run"+ '\033[0m')
             return False
         keyboard.send('ctrl', do_release=False)
-        mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
+        mouse.move(*legmove.center, randomize=8, delay_factor=[1.0, 1.5])
         wait(0.1, 0.15)
-        mouse.click(button="right")
+        mouse.click(button="left")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
         logger.info('\033[91m' + "Open_Cow_Portal: Transmuting"+ '\033[0m')
