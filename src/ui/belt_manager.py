@@ -120,20 +120,11 @@ class BeltManager:
         keyboard.send(self._config.char["show_belt"])
         wait(0.5)
         
-        # determine amount of belt rows
-        '''
-        figure out how to match the template image with the screen
-        for example. how is a waypoint taken
-        '''
+        # determine whether we have 3 or 4 belt rows based on the top border of the belt
         img = self._screen.grab()
-        template_match = self._template_finder.search("MISCHA_BORDER", img, best_match=True, roi=[715, 554, 186, 15], threshold=0.5, use_grayscale=True)
+        template_match = self._template_finder.search("BELT_UPPER_BORDER", img, best_match=True, roi=[715, 554, 186, 15], threshold=0.5, use_grayscale=True)
         if template_match.valid:
-            # print("Matched 4 rows")
             self.belt_rows = 4
-            print(f"My number of rows is: {self.belt_rows}")
-        else:
-            print(f"My number of rows is: {self.belt_rows}")
-        
         
         # first clean up columns that might be too much
         img = self._screen.grab()
