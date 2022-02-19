@@ -17,6 +17,7 @@ from ui import UiManager
 class BeltManager:
     def __init__(self, screen: Screen, template_finder: TemplateFinder):
         self._config = Config()
+        self.belt_rows = 3
         self._screen = screen
         self._template_finder = template_finder
         self._pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
@@ -118,6 +119,22 @@ class BeltManager:
             mouse.move(*center_m, randomize=100)
         keyboard.send(self._config.char["show_belt"])
         wait(0.5)
+        
+        # determine amount of belt rows
+        '''
+        figure out how to match the template image with the screen
+        for example. how is a waypoint taken
+        '''
+        img = self._screen.grab()
+        template_match = self._template_finder.search("MISCHA_BORDER", img, best_match=True, roi=[715, 554, 186, 15], threshold=0.5, use_grayscale=True)
+        if template_match.valid:
+            # print("Matched 4 rows")
+            self.belt_rows = 4
+            print(f"My number of rows is: {self.belt_rows}")
+        else:
+            print(f"My number of rows is: {self.belt_rows}")
+        
+        
         # first clean up columns that might be too much
         img = self._screen.grab()
         for column in range(4):
@@ -134,7 +151,7 @@ class BeltManager:
         img = self._screen.grab()
         current_column = None
         for column in range(4):
-            for row in range(self._config.char["belt_rows"]):
+            for row in range(self.belt_rows):
                 potion_type = self._potion_type(self._cut_potion_img(img, column, row))
                 if row == 0:
                     if potion_type != "empty":
@@ -143,7 +160,7 @@ class BeltManager:
                         for key in rows_left:
                             if rows_left[key] > 0:
                                 rows_left[key] -= 1
-                                self._pot_needs[key] += self._config.char["belt_rows"]
+                                self._pot_needs[key] += self.belt_rows
                                 break
                         break
                 elif current_column is not None and potion_type == "empty":
