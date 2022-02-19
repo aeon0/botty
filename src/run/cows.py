@@ -532,7 +532,7 @@ class Cows:
         else:
             Logger.debug('\033[96m' + "Legcheck: Checking Inventory for Leg: not found" + '\033[0m')
             Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg" + '\033[0m')
-            self._town_manager.stash(Location.A1_TOWN_START)
+            self._town_manager.open_stash(Location.A1_TOWN_START)
             #wait(2)
             if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
                 Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: found, moving it to inventory" + '\033[0m')
@@ -610,7 +610,7 @@ class Cows:
 
         logger.info('\033[91m' + "Open_Cow_Portal: Akara to Stash - get Cube"+ '\033[0m')
         self._pather.traverse_nodes([707,706,705, 700, 701], self._char) #Akara to Stash
-        self._town_manager.stash(Location.A1_TOWN_START) # this causes issues: using this function, she stashes the leg & drops the tome :D - At this stage we just want to open the stash and NOT put items into it.
+        self._town_manager.open_stash(Location.A1_TOWN_START) # this causes issues: using this function, she stashes the leg & drops the tome :D - At this stage we just want to open the stash and NOT put items into it.
 
         Logger.info('\033[91m' + "Open_Cow_Portal: Opening Cube"+ '\033[0m')
         self.open_cube()
