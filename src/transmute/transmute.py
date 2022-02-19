@@ -17,7 +17,7 @@ import numpy as np
 import keyboard
 import cv2
 from ui_components import inventory
-from ui_components.stash import stash
+from ui_components.stash import move_to_stash_tab
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
