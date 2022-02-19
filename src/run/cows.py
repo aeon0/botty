@@ -11,15 +11,14 @@ from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
-from town import TownManager, A1, town_manager #for buying tomes & interacting with Stash
-from npc_manager import NpcManager #for buying tomes
+from town import TownManager #for buying tomes & interacting with Stash
+from npc_manager import NpcManager, Npc #for buying tomes
 from ui import UiManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import Screen
-#from transmute import Transmute
-#from game_stats import GameStats
 import numpy as np
+#from transmute import Transmute
 
 
 class Cows:
@@ -32,8 +31,9 @@ class Cows:
         ui_manager: UiManager,
         char: IChar,
         pickit: PickIt,
-        npc_manager = NpcManager
-        #game_stats: GameStats #for Transmute
+        npc_manager: NpcManager,
+        #transmute: Transmute
+
     ):
         self._config = Config()
         self._screen = screen
@@ -46,6 +46,7 @@ class Cows:
         self._pickit = pickit
         self._picked_up_items = False
         self.used_tps = 0
+        #self._transmute= transmute
         #self._game_stats = game_stats
         #self._transmuter = Transmute(self._screen, self._template_finder, self._game_stats, self._ui_manager) #for transmute
 
@@ -534,7 +535,18 @@ class Cows:
             self._town_manager.stash(Location.A1_TOWN_START)
             #wait(2)
             if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: found, calling open_cow_portal()" + '\033[0m')
+                Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: found, moving it to inventory" + '\033[0m')
+                leg = self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True) 
+                if not leg.valid:
+                    Logger.debug('\033[96m' + "Legcheck: Failed to transfer Leg to Inventory, aborting run)" + '\033[0m')
+                    return False
+                keyboard.send('ctrl', do_release=False)
+                mouse.move(*leg.center, randomize=8, delay_factor=[1.0, 1.5])
+                wait(0.1, 0.15)
+                mouse.click(button="left")
+                wait(0.1, 0.15)
+                keyboard.send('ctrl', do_press=False)
+                Logger.debug('\033[96m' + "Legcheck: Transferred Leg to from Stash Inventory, calling open_cow_portal())" + '\033[0m')
                 return True
             
             #open cube, search for leg
@@ -542,15 +554,26 @@ class Cows:
                 Logger.debug('\033[96m' + "Legcheck: Checking Stash for Leg: not found" + '\033[0m')
                 Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg" + '\033[0m')
                 #wait(2)
-                self.open_cube()
+                self.open_cube() #self.transmute.open_cube()
                 if self._template_finder.search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.9,  time_out=0.5, use_grayscale=False).valid: 
-                    Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: found" + '\033[0m')
-                    #should we take the leg out? or leave it in?
+                    Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: found, moving it to inventory" + '\033[0m')
+                    leg = self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["cube_area_roi"], time_out=3, normalize_monitor=True) 
+                    if not leg.valid:
+                        Logger.debug('\033[96m' + "Legcheck: Failed to transfer Leg to Inventory, aborting run)" + '\033[0m')
+                        return False
+                    keyboard.send('ctrl', do_release=False)
+                    mouse.move(*leg.center, randomize=8, delay_factor=[1.0, 1.5])
+                    wait(0.1, 0.15)
+                    mouse.click(button="left")
+                    wait(0.1, 0.15)
+                    keyboard.send('ctrl', do_press=False)
+                    Logger.debug('\033[96m' + "Legcheck: Transferred Leg from Cube to Inventory, calling open_cow_portal())" + '\033[0m')
                     return True
                 else:
                     Logger.debug('\033[96m' + "Legcheck: Checking Cube for Leg: not found, need to get it in stony field" + '\033[0m')
                     #i assume we leave the cube in the stash
                     return False
+
 
 
     #this function opens the cow portal
@@ -568,8 +591,11 @@ class Cows:
         #  vvvvvv CTHU END, FROM HERE IT DOES NOT WORK YET vvvvvv  #
         ############################################################
 
+        
         #open vendor menu
-        self._npc_manager._open_trade_menu(Location.A1_AKARA) #open Trade Menu
+        #wait(3) #giving you 3 sec to open manually the vendor menu
+        self._npc_manager.open_npc_menu(Npc.AKARA)
+        self._npc_manager.press_npc_btn(Npc.AKARA, "trade")
 
         #check if there is a tome for sale & buy it
         tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["left_inventory"], time_out=3, normalize_monitor=True) 
@@ -584,12 +610,13 @@ class Cows:
 
         logger.info('\033[91m' + "Open_Cow_Portal: Akara to Stash - get Cube"+ '\033[0m')
         self._pather.traverse_nodes([707,706,705, 700, 701], self._char) #Akara to Stash
-        self._town_manager.stash(Location.A1_TOWN_START)
+        self._town_manager.stash(Location.A1_TOWN_START) # this causes issues: using this function, she stashes the leg & drops the tome :D - At this stage we just want to open the stash and NOT put items into it.
 
         Logger.info('\033[91m' + "Open_Cow_Portal: Opening Cube"+ '\033[0m')
         self.open_cube()
-        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
+        tp_tome = self._template_finder.search_and_wait("TP_TOME", roi=self._config.ui_roi["4loot_columns"], time_out=3, normalize_monitor=True) #we must search for the tome in our loot columns. I run with loot columns=4, so we take an ROI of 4x 40px = 160x160 from the left inventory.
         if not tp_tome.valid:
+            Logger.info('\033[91m' + "Open_Cow_Portal: Did not find TOME to transmute, aborting run"+ '\033[0m')
             return False
         keyboard.send('ctrl', do_release=False)
         mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
@@ -599,6 +626,7 @@ class Cows:
         keyboard.send('ctrl', do_press=False)
         #we might need to let botty learn where the leg is right now, it needs to be either in the inv & cube. if in inv, we move it to cube. if in stash, it has to go to inv.
         if not self._template_finder.search_and_wait("LEG_INVENTORY", roi=self._config.ui_roi["right_inventory"], time_out=3, normalize_monitor=True).valid:
+            Logger.info('\033[91m' + "Open_Cow_Portal: Did not find LEG to transmute, aborting run"+ '\033[0m')
             return False
         keyboard.send('ctrl', do_release=False)
         mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
@@ -609,15 +637,13 @@ class Cows:
         logger.info('\033[91m' + "Open_Cow_Portal: Transmuting"+ '\033[0m')
         self.transmute()
         self.close_cube()
-
-
-        #enter portal
-        if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], threshold=0.63, time_out=4,telekinesis=True): return False
         return True
 
 
     # this function kills cows
     def _cows(self) -> bool:
+        logger.info('\033[93m' + "Cows: Entering Portal"+ '\033[0m')
+        if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], threshold=0.63, time_out=4,telekinesis=True): return False
         #train neuronal network to search for heads and feet of cows that are not dead as positive according to this tutorial: https://www.youtube.com/watch?v=XrCAvs9AePM&list=PL1m2M8LQlzfKtkKq2lK5xko4X-8EZzFPI&index=8
         #train it with images from dead cows and from empty cow levels as negative
         #search for template head or feet, cast attack rotation & pickit, repeat until?
