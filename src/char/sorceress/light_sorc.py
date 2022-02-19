@@ -6,7 +6,8 @@ from utils.misc import wait, rotate_vec, unit_vector
 import random
 from pather import Location
 import numpy as np
-from screen import convert_abs_to_monitor, grab
+from screen import convert_abs_to_monitor, grab, convert_screen_to_abs
+from config import Config
 
 
 class LightSorc(Sorceress):
@@ -200,7 +201,7 @@ class LightSorc(Sorceress):
                 Logger.warning(f"Can't find Nihlathak next position at node {end_nodes[-1]}")
                 if nihlathak_pos_abs is not None:
                     Logger.warning(f"Using previous position for attack sequence")
-                    
+
             if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
                 self._chain_lightning(cast_pos_abs, delay, 90)
@@ -213,7 +214,7 @@ class LightSorc(Sorceress):
                     self.move(pos_m)
                 else:
                     self._lightning(cast_pos_abs, spray=60)
-            else:               
+            else:
                 Logger.warning(f"Casting static as the last position isn't known. Skipping attack sequence")
                 self._cast_static(duration=2)
 

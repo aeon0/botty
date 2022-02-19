@@ -1,12 +1,17 @@
+from dataclasses import dataclass
+from decimal import InvalidOperation
+from re import RegexFlag
 import time
 import random
 import ctypes
 import numpy as np
 from copy import deepcopy
 
+from pyparsing import Regex
+
 from logger import Logger
 import cv2
-from typing import List, Tuple
+from typing import List, Tuple, Union
 import os
 from math import cos, sin, dist
 import subprocess
@@ -20,15 +25,38 @@ import psutil
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
 
-def find_d2r_window() -> tuple[int, int]:
+@dataclass
+class WindowSpec:
+    title_regex: 'Union[str, None]' = None
+    process_name_regex: 'Union[str, None]' = None
+
+    def match(self, hwnd) -> bool:
+        result = True
+        if self.title_regex is not None:
+            result = result and Regex(self.title_regex).matches(GetWindowText(hwnd))
+        if self.process_name_regex is not None:
+            _, process_id = GetWindowThreadProcessId(hwnd)
+            result = result and Regex(self.process_name_regex).matches(psutil.Process(process_id).name())
+        if self.title_regex is None and self.process_name_regex is None:
+            result = False
+        return result
+
+specs = [
+    WindowSpec(title_regex="D2R1 on .+"),
+    WindowSpec(process_name_regex="D2R.exe")
+]
+
+def find_d2r_window(offset = (0, 0)) -> tuple[int, int]:
+    offset_x, offset_y = offset
     if os.name == 'nt':
         window_list = []
-        EnumWindows(lambda w, l: l.append((w, *GetWindowThreadProcessId(w))), window_list)
-        for (hwnd, _, process_id) in window_list:
-            if psutil.Process(process_id).name() == "D2R.exe":
-                left, top, right, bottom = GetClientRect(hwnd)
-                (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
-                return (left, top)
+        EnumWindows(lambda w, l: l.append(w), window_list)
+        for hwnd in window_list:
+            for spec in specs:
+                if spec.match(hwnd):
+                    left, top, right, bottom = GetClientRect(hwnd)
+                    (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
+                    return (left + offset_x, top + offset_y)
     return None
 
 def set_d2r_always_on_top():
@@ -187,3 +215,8 @@ def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
 
 def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
+
+
+if __name__ == "__main__":
+    print(find_d2r_window())
+    print(find_d2r_window())

@@ -7,6 +7,7 @@ from logger import Logger
 from utils.misc import wait
 from pather import Location
 from screen import convert_abs_to_monitor
+from config import Config
 
 
 class NovaSorc(Sorceress):
