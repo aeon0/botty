@@ -5,7 +5,7 @@ import time
 from logger import Logger
 from typing import Tuple
 from config import Config
-from utils.misc import find_d2r_window
+from utils.misc import WindowSpec, find_d2r_window
 import os
 
 
@@ -22,8 +22,12 @@ class Screen:
         # Find d2r screen offsets and monitor idx
         self.found_offsets = False
         position = None
-        Logger.debug("Using WinAPI to search for window under D2R.exe process")
-        position = find_d2r_window()
+        find_window = WindowSpec(
+            title_regex=Config.advanced_options["hwnd_window_title"],
+            process_name_regex=Config.advanced_options["hwnd_window_process"],            
+        )
+        Logger.debug(f"Using WinAPI to search for window: {find_window}")
+        position = find_d2r_window(find_window, offset=Config.advanced_options["window_client_area_offset"])
         if position is not None:
             self._set_window_position(*position)
         else:

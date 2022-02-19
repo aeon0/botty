@@ -96,7 +96,7 @@ class GameStats:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
-            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
+            Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
             self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
