@@ -49,32 +49,47 @@ def set_window_position(offset_x: int, offset_y: int):
     monitor_roi["left"] = offset_x
     monitor_roi["width"] = Config().ui_pos["screen_width"]
     monitor_roi["height"] = Config().ui_pos["screen_height"]
-    monitor_x_range = (monitor_roi["left"] + 10, monitor_roi["left"] + monitor_roi["width"] - 10)
-    monitor_y_range = (monitor_roi["top"] + 10, monitor_roi["top"] + monitor_roi["height"] - 10)
+    monitor_x_range = (
+        monitor_roi["left"] + 10, monitor_roi["left"] + monitor_roi["width"] - 10)
+    monitor_y_range = (
+        monitor_roi["top"] + 10, monitor_roi["top"] + monitor_roi["height"] - 10)
     found_offsets = True
+
 
 def grab() -> np.ndarray:
     global monitor_roi
     img = np.array(sct.grab(monitor_roi))
     return img[:, :, :3]
 
+
 def detect_window_position():
     global detect_window
     Logger.debug('Detect window thread started')
     while detect_window:
-        position = find_d2r_window(find_window, offset=Config().advanced_options["window_client_area_offset"])
+        position = find_d2r_window(find_window, offset=Config(
+        ).advanced_options["window_client_area_offset"])
         if position is not None:
             set_window_position(*position)
         wait(0.5)
     Logger.debug('Detect window thread stopped')
 
+
+detect_window_thread = None
+
+
 def start_detecting_window():
-    global detect_window
+    global detect_window, detect_window_thread
     detect_window = True
+    if detect_window_thread is None:
+        detect_window_thread = threading.Thread(target=detect_window_position)
+        detect_window_thread.start()
+
 
 def stop_detecting_window():
-    global detect_window
+    global detect_window, detect_window_thread
     detect_window = False
+    detect_window_thread.join()
+
 
 find_window = WindowSpec(
     title_regex=Config().advanced_options["hwnd_window_title"],
@@ -82,6 +97,3 @@ find_window = WindowSpec(
 )
 
 Logger.debug(f"Using WinAPI to search for window: {find_window}")
-
-detect_window_thread = threading.Thread(target=detect_window_position)
-detect_window_thread.start()

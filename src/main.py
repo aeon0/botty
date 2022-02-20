@@ -48,7 +48,7 @@ def main():
         GameController(),
         GraphicDebuggerController()
     )
-
+    screen.start_detecting_window()
     if Config().advanced_options["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif Config().advanced_options["logg_lvl"] == "debug":
