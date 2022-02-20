@@ -111,11 +111,6 @@ class Arcane:
             if not match_platform.valid:
                 self._pather.traverse_nodes([462], self._char, time_out=1.5, force_tp=True)
                 Logger.info("ARC CENTER NOT FOUND")
-            else:
-                Logger.info("ARC CENTER FOUND")
-                x_m, y_m = self._screen.convert_screen_to_monitor(match_platform.position)
-                self._char.pre_move()
-                self._char.move([x_m,y_m],False,True)
               
            
           
