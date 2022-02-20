@@ -1,5 +1,3 @@
-# - tabs (personal, shared, shared, shared)
-# - gold (different per tab)
 from template_finder import TemplateFinder
 from screen import grab, convert_screen_to_monitor
 from config import Config

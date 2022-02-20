@@ -1,9 +1,3 @@
-# - door
-# - blizz_splash
-# - connect_to_bnet
-# - queue
-# - black_screen
-# - others?
 import time
 import numpy as np
 from screen import grab

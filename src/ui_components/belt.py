@@ -1,5 +1,3 @@
-# f: open/close
-# f: inspect slots
 import itertools
 from logger import Logger
 from typing import List

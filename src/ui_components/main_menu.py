@@ -1,4 +1,3 @@
-# DONE - f:  start_game(self) -> bool:
 import time
 from config import Config
 from utils.misc import wait

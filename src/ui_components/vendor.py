@@ -1,7 +1,3 @@
-# - label (Stash vs Jamella)
-# - tabs (weapons, misc, etc.)
-# - btn_repair (if repair vendor)
-# - btn_refresh (if gamble vendor)
 import keyboard
 from template_finder import TemplateFinder
 from config import Config

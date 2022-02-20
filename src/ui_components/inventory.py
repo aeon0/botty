@@ -1,9 +1,3 @@
-# f: open/close inventory
-# - gear (not presently used)
-# - weapon switch (not presently used)
-# - slots
-# - gold
-# - btn_close (can be used to detect if panel is open)
 import itertools
 from item import ItemFinder
 from logger import Logger
