@@ -41,10 +41,8 @@ class WindowSpec:
             result = False
         return result
 
-
 def find_d2r_window(spec: WindowSpec, offset = (0, 0)) -> tuple[int, int]:
     offset_x, offset_y = offset
-
     if os.name == 'nt':
         window_list = []
         EnumWindows(lambda w, l: l.append(w), window_list)
@@ -213,8 +211,6 @@ def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
 
 
-if __name__ == "__main__":
-    spec1 = WindowSpec(title_regex="D2R1 on .+")
-    spec2 = WindowSpec(process_name_regex="D2R.exe")
-    print(find_d2r_window(spec1))
-    print(find_d2r_window(spec2))
+# if __name__ == "__main__":
+    # print(find_d2r_window())
+    # print(find_d2r_window())

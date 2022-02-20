@@ -1,20 +1,20 @@
 import keyboard
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Tuple, Union, List, Callable
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
-from screen import Screen
+from screen import grab
 from utils.misc import wait
 import time
 from typing import Tuple
 from pather import Pather
-
+from config import Config
+from ui.ui_manager import detect_screen_object, ScreenObjects
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
+        super().__init__(skill_hotkeys)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
@@ -47,11 +47,12 @@ class Sorceress(IChar):
             return super().select_by_template(template_type, success_func, time_out, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
+            match = detect_screen_object(ScreenObjects.WaypointLabel)
+            if match.valid:
                 keyboard.send("esc")
         start = time.time()
         while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold, normalize_monitor=True)
+            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 keyboard.send(self._skill_hotkeys["telekinesis"])
                 wait(0.1, 0.2)
@@ -67,7 +68,7 @@ class Sorceress(IChar):
         return super().select_by_template(template_type, success_func, time_out, threshold)
 
     def pre_buff(self):
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._skill_hotkeys["energy_shield"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])

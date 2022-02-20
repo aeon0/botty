@@ -6,30 +6,23 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui import UiManager
 from utils.misc import wait
 from dataclasses import dataclass
-from screen import Screen
+from screen import convert_abs_to_monitor
 import random
 
+from ui_components import loading, waypoint
 
 class Nihlathak:
     def __init__(
         self,
-        screen: Screen,
-        template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
-        self._config = Config()
-        self._screen = screen
-        self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
 
@@ -40,14 +33,14 @@ class Nihlathak:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if self._ui_manager.use_wp(5, 5): # use Halls of Pain Waypoint (5th in A5)
+        if waypoint.use_wp("Halls of Pain"): # use Halls of Pain Waypoint (5th in A5)
             return Location.A5_NIHLATHAK_START
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # TODO: We might need a second template for each option as merc might run into the template and we dont find it then
         # Let's check which layout ("NI1_A = bottom exit" , "NI1_B = large room", "NI1_C = small room")
-        template_match = self._template_finder.search_and_wait(["NI1_A", "NI1_B", "NI1_C"], threshold=0.65, time_out=20)
+        template_match = TemplateFinder().search_and_wait(["NI1_A", "NI1_B", "NI1_C"], threshold=0.65, time_out=20)
         if not template_match.valid:
             return False
         if do_pre_buff:
@@ -56,17 +49,17 @@ class Nihlathak:
         # Depending on what template is found we do static pathing to the stairs on level1.
         # Its xpects that the static routes defined in game.ini are named: "ni1_a", "ni1_b", "ni1_c"
         self._pather.traverse_nodes_fixed(template_match.name.lower(), self._char)
-        found_loading_screen_func = lambda: self._ui_manager.wait_for_loading_screen(2.0) or \
-            self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
+        found_loading_screen_func = lambda: loading.wait_for_loading_screen(2.0) or \
+            TemplateFinder().search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1"], threshold=0.8, time_out=0.5).valid
         # look for stairs
         if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
             # do a random tele jump and try again
-            pos_m = self._screen.convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+            pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["NI1_STAIRS", "NI1_STAIRS_2", "NI1_STAIRS_3", "NI1_STAIRS_4"], found_loading_screen_func, threshold=0.63, time_out=4):
                 return False
         # Wait until templates in lvl 2 entrance are found
-        if not self._template_finder.search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["NI2_SEARCH_0", "NI2_SEARCH_1", "NI2_SEARCH_2"], threshold=0.8, time_out=20).valid:
             return False
         wait(1.0) # wait to make sure the red writing is gone once we check for the eye
         @dataclass
@@ -89,7 +82,7 @@ class Nihlathak:
             # Move to spot where eye would be visible
             self._pather.traverse_nodes_fixed(data.circle_static_path_key, self._char)
             # Search for eye
-            template_match = self._template_finder.search_and_wait(data.template_name, threshold=0.7, best_match=True, time_out=3)
+            template_match = TemplateFinder().search_and_wait(data.template_name, threshold=0.7, best_match=True, time_out=3)
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
                 self._pather.traverse_nodes_fixed(data.destination_static_path_key, self._char)

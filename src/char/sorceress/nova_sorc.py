@@ -6,6 +6,8 @@ from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
 from pather import Location
+from screen import convert_abs_to_monitor
+from config import Config
 
 
 class NovaSorc(Sorceress):
@@ -28,7 +30,7 @@ class NovaSorc(Sorceress):
             mouse.release(button="right")
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = self._screen.convert_abs_to_monitor(abs_move)
+        pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._nova(atk_len)
@@ -36,24 +38,24 @@ class NovaSorc(Sorceress):
     def kill_pindle(self) -> bool:
         self._pather.traverse_nodes_fixed("pindle_end", self)
         self._cast_static(0.6)
-        self._nova(self._char_config["atk_len_pindle"])
+        self._nova(Config().char["atk_len_pindle"])
         return True
 
     def kill_eldritch(self) -> bool:
         self._pather.traverse_nodes_fixed([(675, 30)], self)
         self._cast_static(0.6)
-        self._nova(self._char_config["atk_len_eldritch"])
+        self._nova(Config().char["atk_len_eldritch"])
         return True
 
     def kill_shenk(self) -> bool:
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0)
         self._cast_static(0.6)
-        self._nova(self._char_config["atk_len_shenk"])
+        self._nova(Config().char["atk_len_shenk"])
         return True
 
     def kill_council(self) -> bool:
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
-        atk_len = self._char_config["atk_len_trav"] * 0.21
+        atk_len = Config().char["atk_len_trav"] * 0.21
         # change node to be further to the right
         offset_229 = np.array([200, 100])
         self._pather.offset_node(229, offset_229)
@@ -78,11 +80,11 @@ class NovaSorc(Sorceress):
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
-        atk_len = self._char_config["atk_len_nihlathak"] * 0.3
+        atk_len = Config().char["atk_len_nihlathak"] * 0.3
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
         # move mouse to center
-        pos_m = self._screen.convert_abs_to_monitor((0, 0))
+        pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_static(0.6)
         self._nova(atk_len)
@@ -92,30 +94,23 @@ class NovaSorc(Sorceress):
 
     def kill_summoner(self) -> bool:
         # move mouse to below altar
-        pos_m = self._screen.convert_abs_to_monitor((0, 20))
+        pos_m = convert_abs_to_monitor((0, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         # Attack
-        self._nova(self._char_config["atk_len_arc"])
+        self._nova(Config().char["atk_len_arc"])
         # Move a bit back and another round
-        self._move_and_attack((0, 80), self._char_config["atk_len_arc"] * 0.5)
+        self._move_and_attack((0, 80), Config().char["atk_len_arc"] * 0.5)
         wait(0.1, 0.15)
-        self._nova(self._char_config["atk_len_arc"] * 0.5)
+        self._nova(Config().char["atk_len_arc"] * 0.5)
         return True
 
 
 if __name__ == "__main__":
     import os
     import keyboard
-    from screen import Screen
-    from template_finder import TemplateFinder
     from pather import Pather
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = NovaSorc(config.nova_sorc, config.char, screen, t_finder, ui_manager, pather)
+    pather = Pather()
+    char = NovaSorc(Config().nova_sorc, Config().char, pather)

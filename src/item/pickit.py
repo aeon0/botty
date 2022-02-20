@@ -2,24 +2,19 @@ import time
 import keyboard
 import cv2
 from operator import itemgetter
-
+from ui.ui_manager import ScreenObjects, detect_screen_object
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
-from screen import Screen
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui import UiManager
-from ui import BeltManager
+from ui_components import view, belt
 from char import IChar
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
+    def __init__(self, item_finder: ItemFinder):
         self._item_finder = item_finder
-        self._screen = screen
-        self._belt_manager = belt_manager
-        self._ui_manager = ui_manager
-        self._config = Config()
         self._last_closest_item: Item = None
 
     def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
@@ -31,11 +26,11 @@ class PickIt:
         """
         found_nothing = 0
         found_items = False
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
-        if self._config.general["loot_screenshots"]:
-            img = self._screen.grab()
+        if Config().general["loot_screenshots"]:
+            img = grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
@@ -50,11 +45,11 @@ class PickIt:
                 time_out = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
-            img = self._screen.grab()
+            img = grab()
             item_list = self._item_finder.search(img)
 
             # Check if we need to pick up certain pots more pots
-            need_pots = self._belt_manager.get_pot_needs()
+            need_pots = belt.get_pot_needs()
             if need_pots["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if need_pots["health"] <= 0:
@@ -63,7 +58,7 @@ class PickIt:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
-            if self._config.char["gold_trav_only"] and not is_at_trav:
+            if Config().char["gold_trav_only"] and not is_at_trav:
                 item_list = [x for x in item_list if "misc_gold" not in x.name]
 
             if len(item_list) == 0:
@@ -73,7 +68,7 @@ class PickIt:
                     break
                 else:
                     # Maybe we need to move cursor to another position to avoid highlighting items
-                    pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                    pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
@@ -106,12 +101,12 @@ class PickIt:
                                 self._last_closest_item.name == closest_item.name and \
                                 abs(self._last_closest_item.dist - closest_item.dist) < 20
 
-                x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
-                if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
+                x_m, y_m = convert_screen_to_monitor(closest_item.center)
+                if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the belt manager
                     if "potion" in closest_item.name:
-                        self._belt_manager.picked_up_pot(closest_item.name)
+                        belt.picked_up_pot(closest_item.name)
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
@@ -120,7 +115,7 @@ class PickIt:
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.2)
 
-                    if self._ui_manager.is_overburdened():
+                    if detect_screen_object(ScreenObjects.Overburdened).valid:
                         found_items = True
                         Logger.warning("Inventory full, skipping pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff
@@ -139,7 +134,7 @@ class PickIt:
                     # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item
 
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         return found_items
 
 
@@ -148,21 +143,14 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, t_finder)
-    belt_manager = BeltManager(screen, t_finder)
-    belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
-    pather = Pather(screen, t_finder)
+    pather = Pather()
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
+    pickit = PickIt(item_finder)
     print(pickit.pick_up_items(char))

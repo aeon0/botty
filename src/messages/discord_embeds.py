@@ -11,13 +11,12 @@ from discord import Webhook, RequestsWebhookAdapter, Color, InvalidArgument
 
 class DiscordEmbeds(GenericApi):
     def __init__(self):
-        self._config = Config()
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
         try:
-            self._webhook = Webhook.from_url(self._config.general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
+            self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         except InvalidArgument:
-            Logger.warning(f"Your custom_message_hook URL {self._config.general['custom_message_hook']} is invalid, Discord updates will not be sent")
+            Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         imgName = item.replace('_', '-')
@@ -37,8 +36,8 @@ class DiscordEmbeds(GenericApi):
 
     def send_death(self, location, image_path):
         file = self._add_file(image_path, "death.png")
-        e = discord.Embed(title=f"{self._config.general['name']} has died at {location}", color=Color.dark_red())
-        e.title=(f"{self._config.general['name']} died")
+        e = discord.Embed(title=f"{Config().general['name']} has died at {location}", color=Color.dark_red())
+        e.title=(f"{Config().general['name']} died")
         e.description=(f"Died at {location}")
         e.set_thumbnail(url=f"{self._psnURL}33L5e3600.png")
         e.set_image(url="attachment://death.png")
@@ -46,31 +45,31 @@ class DiscordEmbeds(GenericApi):
 
     def send_chicken(self, location, image_path):
         file = self._add_file(image_path, "chicken.png")
-        e = discord.Embed(title=f"{self._config.general['name']} has chickened at {location}", color=Color.dark_grey())
-        e.title=(f"{self._config.general['name']} ran away")
+        e = discord.Embed(title=f"{Config().general['name']} has chickened at {location}", color=Color.dark_grey())
+        e.title=(f"{Config().general['name']} ran away")
         e.description=(f"chickened at {location}")
         e.set_thumbnail(url=f"{self._psnURL}39Ldf113b.png")
         e.set_image(url="attachment://chicken.png")
         self._send_embed(e, file)
 
     def send_stash(self):
-        e = discord.Embed(title=f"{self._config.general['name']} has a full stash!", color=Color.dark_grey())
-        e.title=(f"{self._config.general['name']} has a full stash!")
-        e.description=(f"{self._config.general['name']} has to quit. \n They cannot store anymore items!")
+        e = discord.Embed(title=f"{Config().general['name']} has a full stash!", color=Color.dark_grey())
+        e.title=(f"{Config().general['name']} has a full stash!")
+        e.description=(f"{Config().general['name']} has to quit. \n They cannot store anymore items!")
         e.set_thumbnail(url=f"{self._psnURL}35L63a9df.png")
         self._send_embed(e)
 
     def send_gold(self):
-        e = discord.Embed(title=f"{self._config.general['name']} is rich!", color=Color.dark_grey())
-        e.title=(f"{self._config.general['name']} is Rich!")
-        e.description=(f"{self._config.general['name']} can't store any more money!\n turning off gold pickup.")
+        e = discord.Embed(title=f"{Config().general['name']} is rich!", color=Color.dark_grey())
+        e.title=(f"{Config().general['name']} is Rich!")
+        e.description=(f"{Config().general['name']} can't store any more money!\n turning off gold pickup.")
         e.set_thumbnail(url=f"{self._psnURL}6L341955.png")
         self._send_embed(e)
 
     def send_message(self, msg: str):
-        msg = f"{self._config.general['name']}: {msg}"
+        msg = f"{Config().general['name']}: {msg}"
         e = discord.Embed(title=f"Update:", description=f"```{msg}```", color=Color.dark_teal())
-        if not self._config.general['discord_status_condensed']:
+        if not Config().general['discord_status_condensed']:
             e.set_thumbnail(url=f"{self._psnURL}36L4a4994.png")
         self._send_embed(e)
 
@@ -78,7 +77,7 @@ class DiscordEmbeds(GenericApi):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
         e.timestamp=datetime.datetime.now(datetime.timezone.utc)
         try:
-            self._webhook.send(embed=e, file=file, username=self._config.general['name'])
+            self._webhook.send(embed=e, file=file, username=Config().general['name'])
         except BaseException as err:
             Logger.error("Error sending Discord embed: " + err)
 

@@ -30,3 +30,4 @@ dependencies:
     - discord.py
     - parse
     - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
+    - typing_extensions

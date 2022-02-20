@@ -2,24 +2,24 @@ import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
 from logger import Logger
-from screen import Screen
+from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
+from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple, Union, List
+from typing import Tuple
 from pather import Location, Pather
 import numpy as np
 import time
-from utils.misc import cut_roi, is_in_roi
 import os
+from ui.ui_manager import wait_for_screen_object, ScreenObjects
 
 class Necro(IChar):
-    def __init__(self, skill_hotkeys: dict, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
         os.system('color')
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
-        super().__init__(skill_hotkeys, screen, template_finder, ui_manager)
+        super().__init__(skill_hotkeys)
         self._pather = pather
         #custom necro pathing for pindle
         self._pather.adapt_path((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), [100,101])
@@ -51,9 +51,9 @@ class Necro(IChar):
         ''' make sure shenk is dead checking for fireballs so we can exit combat sooner '''
 
         roi = [640,0,640,720]
-        img = self._screen.grab()
+        img = grab()
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
@@ -68,10 +68,10 @@ class Necro(IChar):
 
     def _count_revives(self):
         roi = [15,14,400,45]
-        img = self._screen.grab()
+        img = grab()
         max_rev = 13
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['REV_BASE'],
             img,
             threshold=0.6,
@@ -85,7 +85,7 @@ class Necro(IChar):
 
         for count in range(1,max_rev):
             rev_num = "REV_"+str(count)
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 [rev_num],
                 img,
                 threshold=0.66,
@@ -97,10 +97,10 @@ class Necro(IChar):
 
     def _count_skeletons(self):
         roi = [15,14,400,45]
-        img = self._screen.grab()
+        img = grab()
         max_skeles = 13
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['SKELE_BASE'],
             img,
             threshold=0.6,
@@ -114,7 +114,7 @@ class Necro(IChar):
 
         for count in range(1,max_skeles):
             skele_num = "SKELE_"+str(count)
-            template_match = self._template_finder.search(
+            template_match = TemplateFinder().search(
                 [skele_num],
                 img,
                 threshold=0.66,
@@ -126,9 +126,9 @@ class Necro(IChar):
 
     def _count_gol(self):
         roi = [15,14,400,45]
-        img = self._screen.grab()
+        img = grab()
 
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             ['CLAY'],
             img,
             threshold=0.6,
@@ -152,14 +152,14 @@ class Necro(IChar):
 
     def _revive(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_revive"]:
                 keyboard.send(self._skill_hotkeys["raise_revive"])
                 #Logger.info("revive -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
 
             nx = cast_pos_monitor[0]
             ny = cast_pos_monitor[1]
@@ -177,18 +177,18 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _raise_skeleton(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_skeleton"]:
                 keyboard.send(self._skill_hotkeys["raise_skeleton"])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
 
             nx = cast_pos_monitor[0]
             ny = cast_pos_monitor[1]
@@ -206,18 +206,18 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _raise_mage(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
             if self._skill_hotkeys["raise_mage"]:
                 keyboard.send(self._skill_hotkeys["raise_mage"])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
 
             nx = cast_pos_monitor[0]
             ny = cast_pos_monitor[1]
@@ -235,12 +235,12 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def pre_buff(self):
         #only CTA if pre trav
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._shenk_dead==1:
             Logger.info("trav buff?")
@@ -285,34 +285,34 @@ class Necro(IChar):
 
 
     def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(10):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.press(button="left")
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _left_attack_single(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=6):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(cast_count):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.press(button="left")
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
@@ -320,26 +320,26 @@ class Necro(IChar):
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+        cast_pos_monitor = convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
         mouse.release(button="right")
 
     def _corpse_explosion(self, cast_pos_abs: Tuple[float, float], spray: int = 10,cast_count: int = 8):
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
             if self._skill_hotkeys["corpse_explosion"]:
                 keyboard.send(self._skill_hotkeys["corpse_explosion"])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-                cast_pos_monitor = self._screen.convert_abs_to_monitor((x, y))
+                cast_pos_monitor = convert_abs_to_monitor((x, y))
                 mouse.move(*cast_pos_monitor)
                 mouse.press(button="right")
                 wait(0.075, 0.1)
                 mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def _lerp(self,a: float,b: float, f:float):
@@ -347,7 +347,7 @@ class Necro(IChar):
 
     def _cast_circle(self, cast_dir: Tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
-        keyboard.send(self._char_config["stand_still"], do_release=False)
+        keyboard.send(Config().char["stand_still"], do_release=False)
         keyboard.send(self._skill_hotkeys[cast_spell])
         mouse.press(button="right")
 
@@ -357,19 +357,19 @@ class Necro(IChar):
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
                 circle_pos_screen = self._pather._adjust_abs_range_to_screen((target*120.0*float(j+1.0))*offset)
-                circle_pos_monitor = self._screen.convert_abs_to_monitor(circle_pos_screen)
+                circle_pos_monitor = convert_abs_to_monitor(circle_pos_screen)
                 mouse.move(*circle_pos_monitor,delay_factor=[0.3*delay, .6*delay])
 
 
                 #Logger.info("circle move")
         mouse.release(button="right")
-        keyboard.send(self._char_config["stand_still"], do_press=False)
+        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def kill_pindle(self) -> bool:
 
-        atk_len = max(2, int(self._char_config["atk_len_pindle"] / 2))
-        pindle_pos_abs = self._screen.convert_screen_to_abs(self._config.path["pindle_end"][0])
+        atk_len = max(2, int(Config().char["atk_len_pindle"] / 2))
+        pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
 
         pc = [pindle_pos_abs[0] * 0.9, (pindle_pos_abs[1]-50) * 0.9]
@@ -404,14 +404,14 @@ class Necro(IChar):
         wait(self._cast_duration, self._cast_duration +.2)
 
         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, -150))
+        pos_m = convert_abs_to_monitor((0, -150))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
         self._bone_armor()
 
         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, 150))
+        pos_m = convert_abs_to_monitor((0, 150))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
@@ -440,11 +440,11 @@ class Necro(IChar):
                 rot_deg+=7
 
             # wiggle to unstick merc
-            pos_m = self._screen.convert_abs_to_monitor((0, -150))
+            pos_m = convert_abs_to_monitor((0, -150))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
-            pos_m = self._screen.convert_abs_to_monitor((0, 150))
+            pos_m = convert_abs_to_monitor((0, 150))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
@@ -464,15 +464,15 @@ class Necro(IChar):
 
     def kill_eldritch(self) -> bool:
         self._summon_stat()
-        atk_len = max(2, int(self._char_config["atk_len_eldritch"] / 2))
-        eld_pos_abs = self._screen.convert_screen_to_abs(self._config.path["eldritch_end"][0])
+        atk_len = max(2, int(Config().char["atk_len_eldritch"] / 2))
+        eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
 
 
         self.bone_armor()
 
         # move a bit back
-        pos_m = self._screen.convert_abs_to_monitor((0, 50))
+        pos_m = convert_abs_to_monitor((0, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
 
@@ -514,7 +514,7 @@ class Necro(IChar):
                 self._revive([0,-10],180,cast_count=2)
         self._summon_stat()
         # move a bit back
-        pos_m = self._screen.convert_abs_to_monitor((0, -350))
+        pos_m = convert_abs_to_monitor((0, -350))
         self.pre_move()
         self.move(pos_m, force_move=True)
 
@@ -534,16 +534,16 @@ class Necro(IChar):
         #continue to shenk fight
         self._pather.traverse_nodes(([ 146, 147, 148]), self, time_out=1.4, force_tp=True)
 
-        shenk_pos_abs = self._pather.find_abs_node_pos(149, self._screen.grab())
+        shenk_pos_abs = self._pather.find_abs_node_pos(149, grab())
         if shenk_pos_abs is None:
-            shenk_pos_abs = self._screen.convert_screen_to_abs(self._config.path["shenk_end"][0])
+            shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         self.bone_armor()
 
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
         corpse_exp_pos = [200,80]
 
-        for _ in range(int(self._char_config["atk_len_shenk"])):
+        for _ in range(int(Config().char["atk_len_shenk"])):
             Logger.info('\033[96m'+ "shenk atk cycle" + '\033[0m')
             self._check_shenk_death()
             if(self._shenk_dead):
@@ -582,8 +582,8 @@ class Necro(IChar):
 
     def stairs_S(self):
         roi = [0,0,1280,720]
-        img = self._screen.grab()
-        template_match = self._template_finder.search(
+        img = grab()
+        template_match = TemplateFinder().search(
             ["TRAV_S","TRAV_S_1"],
             img,
             threshold=0.4,
@@ -606,8 +606,8 @@ class Necro(IChar):
 
     def stairs_F(self):
         roi = [0,0,1280,720]
-        img = self._screen.grab()
-        template_match = self._template_finder.search(
+        img = grab()
+        template_match = TemplateFinder().search(
             ["TRAV_F"],
             img,
             threshold=0.4,
@@ -631,8 +631,8 @@ class Necro(IChar):
 
     def stairs_W(self):
         roi = [0,0,1280,720]
-        img = self._screen.grab()
-        template_match = self._template_finder.search(
+        img = grab()
+        template_match = TemplateFinder().search(
             ["TRAV_W","TRAV_W_1"],
             img,
             threshold=0.4,
@@ -660,8 +660,8 @@ class Necro(IChar):
 
         roi = [0,0,1280,720]
 
-        img = self._screen.grab()
-        template_match = self._template_finder.search(
+        img = grab()
+        template_match = TemplateFinder().search(
             ["TRAV_18"],
             img,
             threshold=0.3,
@@ -678,7 +678,8 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                if self._ui_manager.wait_for_loading_screen(2.0):
+                match = wait_for_screen_object(ScreenObjects.Loading, 2)
+                if match.valid:
                     return True
                 else:
                     return False
@@ -691,18 +692,17 @@ class Necro(IChar):
         Logger.debug("leaving the durance...")
 
         roi = [0,0,1280,720]
-        sel = False
-        while sel is False:
+        while True:
             spray = 200
             target =[0,0]
             x = target[0] + (random.random() * 2*spray - spray)
             y = target[1] + (random.random() * 2*spray - spray)
-            target = self._screen.convert_abs_to_monitor((x, y))
+            target = convert_abs_to_monitor((x, y))
 
             mouse.move(*target, randomize=6, delay_factor=[0.9, 1.1])
 
-            img = self._screen.grab()
-            template_match = self._template_finder.search(
+            img = grab()
+            template_match = TemplateFinder().search(
                 ["TO_TRAV_0"],
                 img,
                 threshold=0.95,
@@ -719,12 +719,10 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    if self._ui_manager.wait_for_loading_screen(2.0):
-                        sel = True
+                    match = wait_for_screen_object(ScreenObjects.Loading, 2)
+                    if match.valid:
                         return True
-                    else:
-                        return False
-                        sel = False
+                    return False
 
 
     def kill_council(self) -> bool:
@@ -735,32 +733,32 @@ class Necro(IChar):
     #this is gross but the skeletons I think cause pathing issues
         while result is False:
             #struggle to find a way, prob a skeleton confusing the way
-            pos_m = self._screen.convert_abs_to_monitor((20, 20))
+            pos_m = convert_abs_to_monitor((20, 20))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
 
-            pos_m = self._screen.convert_abs_to_monitor((-20, -20))
+            pos_m = convert_abs_to_monitor((-20, -20))
             self.pre_move()
             self.move(pos_m, force_move=True)
             wait(self._cast_duration, self._cast_duration +.1)
 
-            if self._pather.find_abs_node_pos(904, self._screen.grab()):
+            if self._pather.find_abs_node_pos(904, grab()):
                 #try again
                 result = self._pather.traverse_nodes((904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
-            elif self._pather.find_abs_node_pos(905, self._screen.grab()):
+            elif self._pather.find_abs_node_pos(905, grab()):
                 #try again
                 result = self._pather.traverse_nodes((905,906,226,228,300), self, force_move=True,time_out = 2.5)
-            elif self._pather.find_abs_node_pos(906, self._screen.grab()):
+            elif self._pather.find_abs_node_pos(906, grab()):
                 #try again
                 result = self._pather.traverse_nodes((906,226,228,300), self, force_move=True,time_out = 2.5)
-            elif self._pather.find_abs_node_pos(226, self._screen.grab()):
+            elif self._pather.find_abs_node_pos(226, grab()):
                 #try again
                 result = self._pather.traverse_nodes((226,228,300), self, force_move=True,time_out = 2.5)
-            elif self._pather.find_abs_node_pos(901, self._screen.grab()):
+            elif self._pather.find_abs_node_pos(901, grab()):
                 #try again
                 result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
-            elif self._pather.find_abs_node_pos(902, self._screen.grab()):
+            elif self._pather.find_abs_node_pos(902, grab()):
                 #try again
                 result = self._pather.traverse_nodes((902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
 
@@ -790,20 +788,20 @@ class Necro(IChar):
 
 
          # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((-20, -150))
+        pos_m = convert_abs_to_monitor((-20, -150))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.2)
 
 
         # move up a bit
-        pos_m = self._screen.convert_abs_to_monitor((-20, -40))
+        pos_m = convert_abs_to_monitor((-20, -40))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
 
 
-        atk_pos_abs = self._pather.find_abs_node_pos(229, self._screen.grab())
+        atk_pos_abs = self._pather.find_abs_node_pos(229, grab())
         if atk_pos_abs is None:
             Logger.debug("Could not find node [229]. Using static attack coordinates instead.")
             atk_pos_abs = [-300, -40]
@@ -814,7 +812,7 @@ class Necro(IChar):
         corpse_exp_pos = cast_pos_abs
 
 
-        atk_len = self._char_config["atk_len_trav"]
+        atk_len = Config().char["atk_len_trav"]
 
         self._left_attack_single(cast_pos_abs, 11, cast_count=4)
         self._amp_dmg(cast_pos_abs, 11)
@@ -827,7 +825,7 @@ class Necro(IChar):
 
 
          # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, 50))
+        pos_m = convert_abs_to_monitor((0, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
@@ -835,7 +833,7 @@ class Necro(IChar):
         #self._pather.traverse_nodes([229], self)
 
         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, -50))
+        pos_m = convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
 
@@ -845,13 +843,13 @@ class Necro(IChar):
         self._corpse_explosion(corpse_exp_pos, 80, cast_count=12)
 
         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, 50))
+        pos_m = convert_abs_to_monitor((0, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
 
         # wiggle to unstick merc....
-        pos_m = self._screen.convert_abs_to_monitor((0, -50))
+        pos_m = convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration +.1)
@@ -881,10 +879,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
     from char import Necro
-    from ui import UiManager
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
-    ui_manager = UiManager(screen, t_finder)
-    char = Necro(config.necro, config.char, screen, t_finder, ui_manager, pather)
+    pather = Pather()
+    char = Necro(Config().necro, Config().char, pather)
