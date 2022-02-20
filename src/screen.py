@@ -68,6 +68,10 @@ def detect_window_position():
         wait(0.5)
     Logger.debug('Detect window thread stopped')
 
+def start_detecting_window():
+    global detect_window
+    detect_window = True
+
 def stop_detecting_window():
     global detect_window
     detect_window = False

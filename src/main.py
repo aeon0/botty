@@ -4,7 +4,7 @@ import os
 from beautifultable import BeautifulTable
 import logging
 import traceback
-
+import screen
 from version import __version__
 from config import Config
 from logger import Logger
@@ -22,11 +22,12 @@ class Controllers():
 def start_or_pause_bot(controllers: Controllers):
     if controllers.game.is_running:
         controllers.game.toggle_pause_bot()
+        screen.stop_detecting_window()
     else:
-
         # Kill any other controllers and start botty
         controllers.debugger.stop()
         controllers.game.start()
+        screen.start_detecting_window()
 
 def start_or_stop_graphic_debugger(controllers: Controllers):
     if controllers.debugger.is_running:
@@ -38,7 +39,6 @@ def start_or_stop_graphic_debugger(controllers: Controllers):
 
 def on_exit():
     Logger.info(f'Force Exit')
-    import screen
     screen.stop_detecting_window()
     restore_d2r_window_visibility()
     os._exit(1)
