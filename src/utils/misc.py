@@ -41,22 +41,16 @@ class WindowSpec:
             result = False
         return result
 
-specs = [
-    WindowSpec(title_regex="D2R1 on .+"),
-    WindowSpec(process_name_regex="D2R.exe")
-]
-
-def find_d2r_window(offset = (0, 0)) -> tuple[int, int]:
+def find_d2r_window(spec: WindowSpec, offset = (0, 0)) -> tuple[int, int]:
     offset_x, offset_y = offset
     if os.name == 'nt':
         window_list = []
         EnumWindows(lambda w, l: l.append(w), window_list)
         for hwnd in window_list:
-            for spec in specs:
-                if spec.match(hwnd):
-                    left, top, right, bottom = GetClientRect(hwnd)
-                    (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
-                    return (left + offset_x, top + offset_y)
+            if spec.match(hwnd):
+                left, top, right, bottom = GetClientRect(hwnd)
+                (left, top), (right, bottom) = ClientToScreen(hwnd, (left, top)), ClientToScreen(hwnd, (right, bottom))
+                return (left + offset_x, top + offset_y)
     return None
 
 def set_d2r_always_on_top():
@@ -217,6 +211,6 @@ def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
 
 
-if __name__ == "__main__":
-    print(find_d2r_window())
-    print(find_d2r_window())
+# if __name__ == "__main__":
+    # print(find_d2r_window())
+    # print(find_d2r_window())

@@ -9,6 +9,9 @@ from logger import Logger
 config_lock = threading.Lock()
 
 
+def _default_iff(value, iff, default = None):
+    return default if value == iff else value
+
 @dataclass
 class ItemProps:
     pickit_type: int = 0
@@ -311,6 +314,9 @@ class Config:
             "restore_settings_from_backup_key": self._select_val("advanced_options", "restore_settings_from_backup_key"),
             "settings_backup_key": self._select_val("advanced_options", "settings_backup_key"),
             "graphic_debugger_key": self._select_val("advanced_options", "graphic_debugger_key"),
+            "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
+            "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
+            "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(",")))
         }
 
         self.items = {}

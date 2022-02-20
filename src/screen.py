@@ -4,7 +4,7 @@ import cv2
 import time
 from logger import Logger
 from typing import Tuple
-from utils.misc import find_d2r_window
+from utils.misc import WindowSpec, find_d2r_window
 import os
 from config import Config
 
@@ -54,7 +54,12 @@ def grab() -> np.ndarray:
     img = np.array(sct.grab(monitor_roi))
     return img[:, :, :3]
 
-position = find_d2r_window()
+find_window = WindowSpec(
+    title_regex=Config().advanced_options["hwnd_window_title"],
+    process_name_regex=Config().advanced_options["hwnd_window_process"],
+)
+Logger.debug(f"Using WinAPI to search for window: {find_window}")
+position = find_d2r_window(find_window, offset=Config().advanced_options["window_client_area_offset"])
 if position is not None:
     set_window_position(*position)
 
