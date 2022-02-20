@@ -127,11 +127,11 @@ class Arcane:
                     if force_stash:
                         if self._config.char["id_items"]:
                             self._curr_loc = self._town_manager.identify(self._curr_loc)
-                            if not self._curr_loc:
-                                return self.trigger_or_stop("end_game", failed=True)
+                        #    if not self._curr_loc:
+                        #        return self.trigger_or_stop("end_game", failed=True)
                         self._curr_loc = self._town_manager.stash(self._curr_loc)
-                        if not self._curr_loc:
-                            return self.trigger_or_stop("end_game", failed=True)
+                        #if not self._curr_loc:
+                        #    return self.trigger_or_stop("end_game", failed=True)
                         self._no_stash_counter = 0
                         self._picked_up_items = False
                         wait(1.0)
@@ -144,11 +144,11 @@ class Arcane:
                 if buy_pots:
                     curr_loc = self._town_manager.buy_pots(curr_loc, pot_needs["health"], pot_needs["mana"])
                     wait(0.5, 0.8)
-                    if not curr_loc:
-                        Logger.debug("Can't buy pots -> I should be in Lysander -> quit run")
-                        curr_loc = Location.A2_LYSANDER
-                        return False
+                    Logger.debug("Can't buy pots -> I should be in Lysander -> quit run")
+                    curr_loc = Location.A2_LYSANDER
+                    return True
                 if not self.approach(curr_loc):
+                    if not self._pather.traverse_nodes([403, 404], self._char, time_out=2): return False
                     return False
             else:
                 return (curr_loc, picked_up_items)
