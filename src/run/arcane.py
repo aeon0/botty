@@ -7,6 +7,7 @@ from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from ui import UiManager
+from ui import BeltManager
 from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
@@ -22,7 +23,8 @@ class Arcane:
         town_manager: TownManager,
         ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        belt_manager: BeltManager
     ):
         self._config = Config()
         self._template_finder = template_finder
