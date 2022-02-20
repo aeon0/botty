@@ -228,7 +228,7 @@ class Config:
             "fill_shared_stash_first": bool(int(Config._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(Config._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(Config._select_val("char", "cta_available"))),
-            "arcane_run_all_corners": bool(int(self._select_val("char", "arcane_run_all_corners"))),
+            "arcane_run_all_corners": bool(int(Config._select_val("char", "arcane_run_all_corners"))),
             "weapon_switch": Config._select_val("char", "weapon_switch"),
             "battle_orders": Config._select_val("char", "battle_orders"),
             "battle_command": Config._select_val("char", "battle_command"),
