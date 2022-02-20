@@ -4,7 +4,7 @@ import cv2
 import time
 from logger import Logger
 from typing import Tuple
-from utils.misc import WindowSpec, find_d2r_window
+from utils.misc import WindowSpec, find_d2r_window, wait
 import os
 from config import Config
 import threading
@@ -65,6 +65,7 @@ def detect_window_position():
         position = find_d2r_window(find_window, offset=Config().advanced_options["window_client_area_offset"])
         if position is not None:
             set_window_position(*position)
+        wait(0.5)
     Logger.debug('Detect window thread stopped')
 
 def stop_detecting_window():
