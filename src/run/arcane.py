@@ -80,25 +80,50 @@ class Arcane:
         ]
 
         picked_up_items = False
+        curr_loc = False
         self.used_tps = 0
 
         for i, data in enumerate(path_arr):
             if do_pre_buff:
                 self._char.pre_buff()
-
+           
             # calibrating at start and moving towards the end of the arm
             self._pather.traverse_nodes([data.calib_node_start], self._char, force_tp=True)
             if not self._pather.traverse_nodes_fixed(data.static_path_forward, self._char):
                 return False
             found = self._find_summoner(data.jump_to_summoner)
-            # Kill the summoner or trash mob
+            # Kill the summoner or trash 
             self._char.kill_summoner()
-            if self._config.char["open_chests"]:
-                self._chest.open_up_chests()
-            picked_up_items |= self._pickit.pick_up_items(self._char)
             if found:
-                return (Location.A2_ARC_END, picked_up_items)
-            elif i < len(path_arr) - 1:
+                Logger.info("Summoner Found")
+                if not self._config.char["arcane_run_all_corners"]:
+                    if self._config.char["open_chests"]:
+                        self._chest.open_up_chests(13,0.75)
+                    picked_up_items |= self._pickit.pick_up_items(self._char)
+                    return (Location.A2_ARC_END, picked_up_items)
+            else:
+                Logger.info("Summoner NOT Found")
+                
+            templates_platform = ["ARC_CENTER_3"]
+            match_platform = self._template_finder.search_and_wait(templates_platform, threshold=0.50, time_out=2, use_grayscale=True, take_ss=False)
+            if not match_platform.valid:
+                self._pather.traverse_nodes([462], self._char, time_out=1.5, force_tp=True)
+                Logger.info("ARC CENTER NOT FOUND")
+            else:
+                Logger.info("ARC CENTER FOUND")
+                x_m, y_m = self._screen.convert_screen_to_monitor(match_platform.position)
+                self._char.pre_move()
+                self._char.move([x_m,y_m],False,True)
+              
+           
+          
+
+            if self._config.char["open_chests"]:
+                self._chest.open_up_chests(13,0.75)
+        
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+           
+            if i < len(path_arr) - 1:
                 # Open TP and return back to town, walk to wp and start over
                 if not self._char.tp_town():
                     Logger.warning("TP to town failed, cancel run")
@@ -107,9 +132,34 @@ class Arcane:
                 self.used_tps += 1
                 if not self._town_manager.wait_for_tp(Location.A2_TP):
                     return False
-                if not self.approach(Location.A2_FARA_STASH):
+           
+                curr_loc = Location.A2_FARA_STASH
+          
+                if picked_up_items or self._ui_manager.should_stash(self._config.char["num_loot_columns"]):
+                    Logger.debug("Need to Stash")
+                    curr_loc = self._town_manager.stash(curr_loc)
+                    if not curr_loc:
+                        curr_loc = Location.A2_FARA_STASH
+                    else:
+                        picked_up_items = False
+                
+                buy_pots = self._belt_manager.should_buy_pots()
+                pot_needs = self._belt_manager.get_pot_needs()
+            
+
+                if buy_pots:
+                    curr_loc = self._town_manager.buy_pots(curr_loc, pot_needs["health"], pot_needs["mana"])
+                    wait(0.5, 0.8)
+                    if not curr_loc:
+                        Logger.debug("Can't buy pots -> I should be in Lysander -> quit run")
+                        curr_loc = Location.A2_LYSANDER
+                        return False
+
+           
+                if not self.approach(curr_loc):
                     return False
-        return False
+            else:
+                return (curr_loc, picked_up_items)
 
 
 if __name__ == "__main__":
