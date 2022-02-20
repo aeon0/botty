@@ -38,6 +38,8 @@ def start_or_stop_graphic_debugger(controllers: Controllers):
 
 def on_exit():
     Logger.info(f'Force Exit')
+    import screen
+    screen.stop_detecting_window()
     restore_d2r_window_visibility()
     os._exit(1)
 

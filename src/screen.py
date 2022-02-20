@@ -7,12 +7,14 @@ from typing import Tuple
 from utils.misc import WindowSpec, find_d2r_window
 import os
 from config import Config
+import threading
 
 sct = mss()
 monitor_roi = sct.monitors[0]
 found_offsets = False
 monitor_x_range = None
 monitor_y_range = None
+detect_window = True
 
 def convert_monitor_to_screen(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
     global monitor_roi
@@ -39,8 +41,10 @@ def convert_abs_to_monitor(abs_coord: Tuple[float, float]) -> Tuple[float, float
     return monitor_coord
 
 def set_window_position(offset_x: int, offset_y: int):
-    Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
     global monitor_roi, monitor_x_range, monitor_y_range, found_offsets
+    if monitor_roi["top"] == offset_y and monitor_roi["left"] == offset_x:
+        return
+    Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
     monitor_roi["top"] = offset_y
     monitor_roi["left"] = offset_x
     monitor_roi["width"] = Config().ui_pos["screen_width"]
@@ -54,11 +58,25 @@ def grab() -> np.ndarray:
     img = np.array(sct.grab(monitor_roi))
     return img[:, :, :3]
 
+def detect_window_position():
+    global detect_window
+    Logger.debug('Detect window thread started')
+    while detect_window:
+        position = find_d2r_window(find_window, offset=Config().advanced_options["window_client_area_offset"])
+        if position is not None:
+            set_window_position(*position)
+    Logger.debug('Detect window thread stopped')
+
+def stop_detecting_window():
+    global detect_window
+    detect_window = False
+
 find_window = WindowSpec(
     title_regex=Config().advanced_options["hwnd_window_title"],
     process_name_regex=Config().advanced_options["hwnd_window_process"],
 )
+
 Logger.debug(f"Using WinAPI to search for window: {find_window}")
-position = find_d2r_window(find_window, offset=Config().advanced_options["window_client_area_offset"])
-if position is not None:
-    set_window_position(*position)
+
+detect_window_thread = threading.Thread(target=detect_window_position)
+detect_window_thread.start()
