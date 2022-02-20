@@ -33,8 +33,8 @@ class ScreenObject:
 
 class ScreenObjects:
     BarAnchor = ScreenObject(
-        ref="WINDOW_INGAME_REFERENCE",
-        roi="window_ingame_ref",
+        ref="GAMEBAR_ANCHOR",
+        roi="gamebar_anchor",
         threshold=0.8
     )
     WaypointLabel=ScreenObject(
@@ -117,7 +117,7 @@ class ScreenObjects:
     )
     ItemPickupText=ScreenObject(
         ref=["ITEM_PICKUP_ENABLED","ITEM_PICKUP_DISABLED"],
-        roi="item_pickup_text",
+        roi="chat_line_1",
         best_match=True
     )
     ShrineArea=ScreenObject(
@@ -174,7 +174,7 @@ class ScreenObjects:
     )
     Overburdened=ScreenObject(
         ref=["INVENTORY_FULL_MSG_0", "INVENTORY_FULL_MSG_1"],
-        roi="is_overburdened",
+        roi="chat_line_1",
         threshold=0.9
     )
     CorpseText=ScreenObject(

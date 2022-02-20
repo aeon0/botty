@@ -217,7 +217,7 @@ class AnyaShopper:
 
     def reset_shop(self):
         while 1:
-            success = self.select_by_template("RED_PORTAL")
+            success = self.select_by_template("A5_RED_PORTAL")
             success &= wait_for_loading_screen(2)
             if success:
                 break
@@ -225,7 +225,7 @@ class AnyaShopper:
                 mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
         time.sleep(2.5)
         while 1:
-            success = self.select_by_template("RED_PORTAL")
+            success = self.select_by_template("A5_RED_PORTAL")
             success &= wait_for_loading_screen(2)
             if success:
                 break

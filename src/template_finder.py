@@ -31,8 +31,6 @@ class TemplateFinder:
     """
     TEMPLATE_PATHS = [
         "assets\\templates",
-        "assets\\ui_templates",
-        "assets\\ui_templates\\view",
         "assets\\npc",
         "assets\\shop",
         "assets\\item_properties",
