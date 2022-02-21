@@ -96,6 +96,12 @@ class ItemCropper:
         return item_clusters
 
     def crop_item_descr(self, inp_img: np.ndarray, all_results: bool = False, inventory_side: str = "right") -> ItemText:
+        """
+        Crops visible item description boxes / tooltips
+        :inp_img: image from hover over item of interest.
+        :param all_results: whether to return all possible results (True) or the first result (False)
+        :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
+        """
         results=[]
         black_mask, _ = color_filter(inp_img, Config().colors["black"])
         contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -117,8 +123,8 @@ class ItemCropper:
             box2 = Config().ui_roi[f"{inventory_side}_inventory"]
             overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+28+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
             if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
-                # TODO: add ROI for footer again
-                found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8).valid
+                footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
+                found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
                 if found_footer:
                     ocr_result = None
                     if Config().advanced_options["use_ocr"]:
