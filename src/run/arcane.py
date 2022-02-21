@@ -110,6 +110,9 @@ class Arcane:
             if self._config.char["open_chests"]:
                 self._chest.open_up_chests(13,0.75)
             picked_up_items |= self._pickit.pick_up_items(self._char)
+            wait(1.0)
+            self._chest.open_up_chests(13,0.75)
+            picked_up_items |= self._pickit.pick_up_items(self._char)
             if i < len(path_arr) - 1:
                 # Open TP and return back to town, walk to wp and start over
                 if not self._char.tp_town():
@@ -138,15 +141,12 @@ class Arcane:
                     if not curr_loc:
                         curr_loc = Location.A2_FARA_STASH
                     else:
-                        picked_up_items = False
-                buy_pots = self._belt_manager.should_buy_pots()
-                pot_needs = self._belt_manager.get_pot_needs()
-                if buy_pots:
-                    curr_loc = self._town_manager.buy_pots(curr_loc, pot_needs["health"], pot_needs["mana"])
-                    wait(0.5, 0.8)
-                    Logger.debug("Can't buy pots -> I should be in Lysander -> quit run")
-                    curr_loc = Location.A2_LYSANDER
-                    return True
+                        #picked_up_items = False
+                #buy_pots = self._belt_manager.should_buy_pots()
+                #pot_needs = self._belt_manager.get_pot_needs()
+                        if self._curr_loc:
+                            pot_needs = self._belt_manager.get_pot_needs()
+                    self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                 if not self.approach(curr_loc):
                     if not self._pather.traverse_nodes([403, 404], self._char, time_out=2): return False
                     return False
