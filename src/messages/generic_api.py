@@ -9,15 +9,15 @@ class GenericApi:
     def send_item(self, item: str, image:  np.ndarray, location: str):
         msg = f"Found {item} at {location}"
         self._send(msg)
-        
+
     def send_death(self, location: str, image_path: str = None):
         msg = f"You have died at {location}"
         self._send(msg)
-        
+
     def send_chicken(self, location: str, image_path: str = None):
         msg = f"You have chickened at {location}"
         self._send(msg)
-        
+
     def send_gold(self):
         msg = f"All stash tabs and character are full of gold, turn of gold pickup"
         self._send(msg)
@@ -31,7 +31,7 @@ class GenericApi:
 
     def _send(self, msg: str):
         msg = f"{Config().general['name']}: {msg}"
-        
+
         url = Config().general['custom_message_hook']
         if not url:
             return

@@ -16,7 +16,8 @@ class DiscordEmbeds(GenericApi):
         try:
             self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
         except InvalidArgument:
-            Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
+            if Config().general["custom_message_hook"]:
+                Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         imgName = item.replace('_', '-')
@@ -96,7 +97,7 @@ class DiscordEmbeds(GenericApi):
             return Color.blue()
 
     def _add_file(self, image_path, image_name):
-        try: 
+        try:
             return discord.File(image_path, filename=image_name)
         except:
             traceback.print_exc()
