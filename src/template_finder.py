@@ -176,7 +176,7 @@ class TemplateFinder:
 
     def search_and_wait(
         self,
-        ref: Union[str, list[str]],
+        ref: Union[str, list[str]], #this is the needle image, the reference to found
         roi: list[float] = None,
         time_out: float = None,
         threshold: float = 0.68,
@@ -185,6 +185,7 @@ class TemplateFinder:
         take_ss: bool = True,
         use_grayscale: bool = False,
         suppress_debug: bool = False,
+        filterimage:str = None, #added for cows.py to allow to apply filters to the haystack image (the one in which a reference should be found in) BEFORE using search_and_wait. By default None, in this case a screenshot is taken.
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
@@ -198,7 +199,10 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
-            img = self._screen.grab()
+            if filterimage is not None:
+                img = filterimage
+            else:
+                img = self._screen.grab()
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
             is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
@@ -211,6 +215,156 @@ class TemplateFinder:
                     if take_ss:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match
+
+    #Changes Brightness and Contrast
+    def bright_contrast(self, img, brightness=255, contrast=127):
+        """
+        Helper function to change brightness and contrast
+        :param img: The image to which filters should be applied
+        :param brightness: adjust Brightness of the picture [Default: 255, Integer 0 - 255]
+        :param contrast: adjust Contrast of the picture [Default: 127, Integer 0 - 254]
+        Returns variables cal
+        """        
+        brightness = int((brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
+        contrast = int((contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
+        
+        if brightness != 0:
+            if brightness > 0:
+                shadow = brightness
+                max = 255
+            else:
+                shadow = 0
+                max = 255 + brightness
+            al_pha = (max - shadow) / 255
+            ga_mma = shadow
+            cal = cv2.addWeighted(img, al_pha, img, 0, ga_mma)
+        else:
+            cal = img
+
+        if contrast != 0:
+            alpha = float(131 * (contrast + 127)) / (127 * (131 - contrast))
+            gamma = 127 * (1 - alpha)
+            cal = cv2.addWeighted(cal, alpha, cal, 0, gamma)
+        return cal
+
+    #Applies filters to an image
+    def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
+            """
+            Helper function that will apply HSV filters
+            :param img: The image to which filters should be applied
+            :param mask_char: apply a black rectangle to mask your char (e.g. filter out Set-Item glow effect or auras)  [Default: False, Bool]
+            :param hud_mask: removes the HUD from the returned image  [Default: True, Bool]
+            :param info_ss: Save an image of the applied filters in folder INFO_SCREENSHOTS  [Default: False, Bool]
+            :param erode: erode (thin lines) in the picture [Default: None, Integer, no filter: 0,  0 - 36]
+            :param dilate: dilate (thicken lines) in the picture [Default: None, Integer, no filter: 0, 0 - 36]
+            :param blur: blur the picture [Default: None, no filter: 0, Integer, 0 - 30] 
+            :param lh: cut-off Hue BELOW this value [Default: None, no filter: 0, Integer 0 - 255]
+            :param ls: cut-off Saturation BELOW this value [Default: None, no filter: 0,  Integer 0 - 255]
+            :param lv: cut-off Value BELOW this value [Default: None, no filter: 0, Integer 0 - 255]
+            :param uh: cut-off Hue ABOVE this value [Default: None, no filter: 255, Integer 0 - 255]
+            :param us: cut-off Saturation ABOVE this value [Default: None, no filter: 255, Integer 0 - 255]
+            :param uv: cut-off Value ABOVE this value [Default: None, no filter: 255, Integer 0 - 255]
+            :param bright: adjust Brightness of the picture [Default: None, no filter: 255, Integer 0 - 255]
+            :param contrast: adjust Contrast of the picture [Default: None, no filter: 127, Integer 0 - 254]
+            :param thresh: adjust Threshold of the picture [Default: None, no filter: 0, Integer 0 - 255]
+            :param invert: Invert the picture [Default: None, no filter: 0, Integer 0 - 1]
+            Returns variables filterimage and threshz
+            """
+            self.image = img
+            if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
+
+            if mask_hud: 
+                _hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
+                self.image = cv2.bitwise_and(self.image, self.image, mask=_hud_mask)
+            
+            if mask_char: 
+                self.image = cv2.rectangle(self.image, (600,250), (700,400), (0,0,0), -1) # black out character by drawing a black box above him (e.g. ignore set glow)
+            
+            if erode:
+                kernel = np.ones((erode, erode), 'uint8')
+                self.image = cv2.erode(self.image, kernel, None, iterations=1)
+            
+            if dilate:
+                kernel = np.ones((dilate, dilate), 'uint8')
+                self.image = cv2.dilate(self.image, kernel, iterations=1)
+
+            if blur:
+                self.image = cv2.blur(self.image, (blur, blur))
+            
+            if bright or contrast:
+                self.image = self.bright_contrast(self.image, bright, contrast)
+            
+            if lh or ls or lv or uh or us or uv:
+                lower = np.array([lh, ls, lv])
+                upper = np.array([uh, us, uv])
+                self.hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+                cont_mask = cv2.inRange(self.hsv, lower, upper)
+                self.image = cv2.bitwise_and(self.image, self.image, mask=cont_mask)
+        
+            if thresh:
+                self.image = cv2.threshold(self.image, thresh, 255, cv2.THRESH_BINARY)[1]
+            
+            threshz = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+            
+            if thresh:
+                _, threshz = cv2.threshold(threshz, thresh, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+            
+            if invert:
+                self.image = 255 - self.image
+            
+            filterimage = self.image
+            if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
+            return filterimage, threshz
+
+    # add rectangles and crosses
+    def add_markers(self, img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
+        """
+        Helper function that will add rectangles and crosshairs to allow object detection
+        :param img: The image to which filters should be applied
+        :param threshz: The image that had the threshold adjusted (obtained from apply_filter())
+        :param rect_min_size: Minimum size for the rectangle to be drawn [Default: 20, Integer]
+        :param rect_max_size: Minimum size for the rectangle to be drawn [Default: 50, Integer]
+        :param line_color: Color of the rectangle line [Default: (0, 255, 0)]
+        :param line_type: Type of Line of the rectangle [Default: cv2.LINE_4]
+        :param marker: Add Marker to center of rectangles [Default: False, Bool]
+        :param marker_color: Color for the Marker [Default: (0, 255, 255)]
+        :param marker_type: Type for the Marker [Default: cv2.MARKER_CROSS]
+        Returns variables img (containing markers)
+        """
+        self.image = img
+        #add rectangles
+        n_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(threshz)
+        ######### PLAY AROUND WITH THE RECTANGLE SIZE TO ENSURE THE RIGHT THINGS ARE MARKED
+        #rect_min_size = 5 #15 self.settings['rect_min']
+        #rect_max_size = 7 #25 self.settings['rect_max']
+        
+        for i in range(1, n_labels):
+            if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
+                # print(stats[i, cv2.CC_STAT_AREA])
+                x = stats[i, cv2.CC_STAT_LEFT]
+                y = stats[i, cv2.CC_STAT_TOP]
+                w = stats[i, cv2.CC_STAT_WIDTH]
+                h = stats[i, cv2.CC_STAT_HEIGHT]
+                #cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), line_color, line_type, thickness=1)
+                #cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), (0, 255, 0), thickness=1)
+                cv2.rectangle(self.image, (x, y), (x + w, y + h), (0, 255, 0), thickness=1)
+                
+                #draw crosshairs on center of rectangle.
+                #if marker:
+                line_color = (0, 255, 0)
+                line_type = cv2.LINE_4
+                marker_color = (255, 0, 255)
+                marker_type = cv2.MARKER_CROSS
+                center_x = x + int(w/2)
+                center_y = y + int(h/2)
+                #cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=25, thickness=2)
+                cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
+                
+        self.frame_markup = self.image.copy()
+        img = self.image
+        if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        
+        return img
 
 
 # Testing: Have whatever you want to find on the screen

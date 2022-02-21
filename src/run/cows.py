@@ -1,4 +1,5 @@
 from asyncio.log import logger
+import imp
 import cv2
 import time
 import random
@@ -501,6 +502,7 @@ class Cows:
             self._char.move(pos_m, force_move=True)
             if not self._char.select_by_template(["BLUE_PORTAL"], threshold=0.7, time_out=4,telekinesis=True): Logger.info('\033[93m' + "Tristram: didnt make it through Portal :/" + '\033[0m')
             wait(1)
+            #we need to return location!
         return True
 
 
@@ -604,9 +606,6 @@ class Cows:
 
     #this function opens the cow portal
     def _open_cow_portal(self)-> bool:
-        
-        #go to stash, get cube & leg
-        
         #go to Akara, get a Tome of TP
         logger.info('\033[91m' + "Open_Cow_Portal: TP to Akara - buy Tome" + '\033[0m')
         #self._pather.traverse_nodes([708, 700,705,706,707], self._char) #Stash to Akara
@@ -628,7 +627,7 @@ class Cows:
 
         logger.info('\033[91m' + "Open_Cow_Portal: Akara to Stash - get Cube"+ '\033[0m')
         self._pather.traverse_nodes([707,706,705, 700, 701], self._char) #Akara to Stash
-        self._town_manager.open_stash(Location.A1_TOWN_START) # this causes issues: using this function, she stashes the leg & drops the tome :D - At this stage we just want to open the stash and NOT put items into it.
+        self._town_manager.open_stash(Location.A1_TOWN_START)
 
         Logger.info('\033[91m' + "Open_Cow_Portal: Opening Cube"+ '\033[0m')
         self.open_cube()
@@ -659,143 +658,6 @@ class Cows:
         return True
 
 
-    #image manipulation testing for COWS
-    def bright_contrast(self, img, brightness=255, contrast=127):
-            brightness = int((brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
-            contrast = int((contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
-            if brightness != 0:
-                if brightness > 0:
-                    shadow = brightness
-                    max = 255
-                else:
-                    shadow = 0
-                    max = 255 + brightness
-                al_pha = (max - shadow) / 255
-                ga_mma = shadow
-                cal = cv2.addWeighted(img, al_pha, img, 0, ga_mma)
-            else:
-                cal = img
-
-            if contrast != 0:
-                alpha = float(131 * (contrast + 127)) / (127 * (131 - contrast))
-                gamma = 127 * (1 - alpha)
-                cal = cv2.addWeighted(cal, alpha, cal, 0, gamma)
-            return cal
-    
-    #image manipulation testing for COWS
-    def apply_filter(self, img, mask_char:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
-        _hud_mask = cv2.imread(f"./hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        self.image = img
-        self.image = cv2.bitwise_and(self.image, self.image, mask=_hud_mask)
-        if mask_char:
-            # black out character by drawing a black box above him (e.g. ignore set glow)
-            self.image = cv2.rectangle(self.image, (600,250), (700,400), (0,0,0), -1)
-        if erode:
-            kernel = np.ones((erode, erode), 'uint8')
-            self.image = cv2.erode(self.image, kernel, None, iterations=1)
-        
-        if dilate:
-            kernel = np.ones((dilate, dilate), 'uint8')
-            self.image = cv2.dilate(self.image, kernel, iterations=1)
-
-        if blur:
-            self.image = cv2.blur(self.image, (blur, blur))
-        
-        self.image = self.bright_contrast(self.image, bright, contrast)
-        
-        lower = np.array([lh, ls, lv])
-        upper = np.array([uh, us, uv])
-
-        self.hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
-        cont_mask = cv2.inRange(self.hsv, lower, upper)
-        self.image = cv2.bitwise_and(self.image, self.image, mask=cont_mask)
-        
-        if thresh:
-            self.image = cv2.threshold(self.image, thresh, 255, cv2.THRESH_BINARY)[1]
-        threshz = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-        if thresh:
-            _, threshz = cv2.threshold(threshz, thresh, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        if invert:
-            self.image = 255 - self.image
-        self.image = img
-        cv2.imwrite(f"./info_screenshots/cows_filtered_infunction" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
-        return img, threshz
-
-    #image manipulation testing for COWS
-    def add_markers(self, img, threshz, rect_min_size:int, rect_max_size:int, marker:bool, marker_color=(255, 255, 0), marker_type=cv2.MARKER_CROSS, line_color=(0, 255,0), line_type=cv2.LINE_4):
-        self.image = img
-        #add rectangles
-        n_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(threshz)
-        ######### PLAY AROUND WITH THE RECTANGLE SIZE TO ENSURE THE RIGHT THINGS ARE MARKED
-        #rect_min_size = 5 #15 self.settings['rect_min']
-        #rect_max_size = 7 #25 self.settings['rect_max']
-        
-        for i in range(1, n_labels):
-            if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
-                # print(stats[i, cv2.CC_STAT_AREA])
-                x = stats[i, cv2.CC_STAT_LEFT]
-                y = stats[i, cv2.CC_STAT_TOP]
-                w = stats[i, cv2.CC_STAT_WIDTH]
-                h = stats[i, cv2.CC_STAT_HEIGHT]
-                cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), (0, 255, 0), thickness=1)
-                if marker:
-                    #draw crossharis on center of rectangle.
-                    #line_color = (0, 255, 0)
-                    #line_type = cv2.LINE_4
-                    #marker_color = (255, 255, 0)
-                    #marker_type = cv2.MARKER_CROSS
-                    center_x = x + int(w/2)
-                    center_y = y + int(h/2)
-                    cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=25, thickness=2)
-                
-        self.frame_markup = self.image.copy()
-        img = self.image
-        cv2.imwrite(f"./info_screenshots/cows_markered_infunction" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
-        return img
-
-    #obtain the distance to the nearest marker found. we would use it to take decisions if we should bounce-off it or not
-    def targets_ordered_by_distance(self, targets):
-        IGNORE_RADIUS = 50
-        # our character is always in the center of the screen
-        my_pos = (0,0) #self._screen.convert_abs_to_monitor((0, 0))
-        # searched "python order points by distance from point"
-        # simply uses the pythagorean theorem
-        # https://stackoverflow.com/a/30636138/4655368
-        def pythagorean_distance(pos):
-            return math.sqrt((pos[0] - my_pos[0])**2 + (pos[1] - my_pos[1])**2)
-        targets.sort(key=pythagorean_distance)
-
-        # print(my_pos)
-        # print(targets)
-        # for t in targets:
-        #    print(pythagorean_distance(t))
-
-        # ignore targets at are too close to our character (within 130 pixels) to avoid 
-        # re-clicking a deposit we just mined
-        targets = [t for t in targets if pythagorean_distance(t) > self.IGNORE_RADIUS]
-
-        return targets
-
-    #to bring us backwards to the previous positions - not yet customized for botty
-    def click_backtrack(self):
-        # pop the top item off the clicked points stack. this will be the click that
-        # brought us to our current location.
-        last_click = self.click_history.pop()
-        # to undo this click, we must mirror it across the center point. so if our
-        # character is at the middle of the screen at ex. (100, 100), and our last
-        # click was at (120, 120), then to undo this we must now click at (80, 80).
-        # our character is always in the center of the screen
-        my_pos = (self.window_w / 2, self.window_h / 2)
-        mirrored_click_x = my_pos[0] - (last_click[0] - my_pos[0])
-        mirrored_click_y = my_pos[1] - (last_click[1] - my_pos[1])
-        # convert this screenshot position to a screen position
-        screen_x, screen_y = self.get_screen_position((mirrored_click_x, mirrored_click_y))
-        print('Backtracking to x:{} y:{}'.format(screen_x, screen_y))
-        mouse.move(x=screen_x, y=screen_y)
-        # short pause to let the mouse movement complete
-        wait(0.500)
-        mouse.click("right")
-
     # this function kills cows
     def _cows(self) -> bool:
         logger.info('\033[93m' + "Cows: Entering Portal"+ '\033[0m')
@@ -804,6 +666,7 @@ class Cows:
         #train it with images from dead cows and from empty cow levels as negative
         #search for template head or feet, cast attack rotation & pickit, repeat until?
         return True
+    
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Secret Cow Level")
@@ -828,6 +691,11 @@ class Cows:
     
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+        #walls          {"erode": 0, "dilate": 0, "blur": 0, "lh": 000, "ls": 0, "lv": 24, "uh": 35, "us": 13, "uv": 30, "bright": 17, "contrast": 116, "invert": 0, "thresh": 25}
+        #path           {"erode": 0, "dilate": 4, "blur": 4, "lh": 015, "ls": 255, "lv": 255, "uh": 255, "us": 255, "uv": 255, "bright": 255, "contrast": 224, "invert": 0, "thresh": 85}
+        #path2          {"erode": 0, "dilate": 5, "blur": 2, "lh": 007, "ls": 225, "lv": 225, "uh": 80, "us": 255, "uv": 250, "bright": 219, "contrast": 224, "invert": 0, "thresh": 115}
+        #yellow portal  {"erode": 0, "dilate": 0, "blur": 0, "lh": 000, "ls": 255, "lv": 0, "uh": 83, "us": 255, "uv": 255, "bright": 210, "contrast": 165, "invert": 0, "thresh": 236}
+        #cave exit      {"erode": 0, "dilate": 3, "blur": 0, "lh": 118, "ls": 0, "lv": 135, "uh": 245, "us": 255, "uv": 255, "bright": 165, "contrast": 197, "invert": 0, "thresh": 85}
         """
         if do_pre_buff: self._char.pre_buff()   
         """
@@ -835,87 +703,24 @@ class Cows:
         self.used_tps = 0
         start_time = time.time()
         stuck_count = 0
-        
-        #########################################################################################################
-        # APPLY FILTERS # need to transfer the code in a function, the one above does not work yet :(
-        wait(1)
-        keyboard.send(self._config.char["minimap"]) #turn on minimap       
-        self.image = self._screen.grab()        
-        
-        #HUD removal
-        _hud_mask = cv2.imread(f"d:/documents/GitHub/botty-diablo/assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        self.image = cv2.bitwise_and(self.image, self.image, mask=_hud_mask)
 
-        #brighten image
-        self.image = self._screen.grab() 
-        self.image = self.bright_contrast(self.image, 17, 116)
-        #HSV filtering
-        lower = np.array([0, 0, 0])
-        upper = np.array([35, 13, 30])
-        self.hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
-        cont_mask = cv2.inRange(self.hsv, lower, upper)
-        self.image = cv2.bitwise_and(self.image, self.image, mask=cont_mask)
-        #Threshold
-        self.image = cv2.threshold(self.image, 25, 255, cv2.THRESH_BINARY)[1]
-        threshz = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-        _, threshz = cv2.threshold(threshz, 25, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        img = self.image
-        #write screenshot to debug
-        cv2.imwrite(f"./info_screenshots/cows_fil_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        #########################################################################################################
-        # ADD REACTANGLES & MARKERS # need to transfer the code in a function, the one above does not work yet :(
-        self.image = img
-        marker = True
-        n_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(threshz)
-        rect_min_size = 5 #15 self.settings['rect_min']
-        rect_max_size = 7 #25 self.settings['rect_max']
-        
-        targets = []
+        keyboard.send(self._config.char["minimap"]) #turn on minimap
+        self.image = self._screen.grab()
 
-        for i in range(1, n_labels):
-        # for i in range(1, 5):
-            if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
-                # print(stats[i, cv2.CC_STAT_AREA])
-                x = stats[i, cv2.CC_STAT_LEFT]
-                y = stats[i, cv2.CC_STAT_TOP]
-                w = stats[i, cv2.CC_STAT_WIDTH]
-                h = stats[i, cv2.CC_STAT_HEIGHT]
-                #cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), (0, 255, 0), thickness=0)
-                if marker:
-                    #draw crossharis on center of rectangle.
-                    line_color = (0, 255, 0)
-                    line_type = cv2.LINE_4
-                    marker_color = (255, 255, 0)
-                    marker_type = cv2.MARKER_CROSS
-                    center_x = x + int(w/2)
-                    center_y = y + int(h/2)
-                    cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=10, thickness=1)
-                    target = [center_x, center_y]
-                
-        self.frame_markup = self.image.copy()
-        
-        #HUD removal
-        _hud_mask = cv2.imread(f"d:/documents/GitHub/botty-diablo/assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        self.image = cv2.bitwise_and(self.image, self.image, mask=_hud_mask)
-        img = self.image
-        cv2.imwrite(f"./info_screenshots/cows_fil_mar" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)     
-        
-        #########################################################################################################
-        #img, threshz = self.apply_filter(img, mask_char=False, erode=0, dilate=0, blur=0, lh=0, ls=0, lv=24, uh=35, us=13, uv=30, bright=17, contrast=116, thresh=25, invert=0)
-        #cv2.imwrite(f"./info_screenshots/cows_filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        #img = self.add_markers(img, threshz, rect_min_size=5, rect_max_size=5, marker=True, marker_color=(0, 255, 255), marker_type=cv2.MARKER_CROSS, line_color=(0, 255,0), line_type=cv2.LINE_4)
-        #cv2.imwrite(f"./info_screenshots/cows_filtered_marker" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        print("took screenshots with filters")
-        print("Done with Screenshots")
+        filterimage, threshz = self._template_finder.apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=0, blur=0, lh=0, ls=0, lv=24, uh=35, us=13, uv=30, bright=17, contrast=116, thresh=25, invert=0) # add HSV filter for walls
+        filterimage = self._template_finder.add_markers(filterimage, threshz, info_ss=True, rect_min_size=3, rect_max_size=5, marker=True) # add markers
+
         template = "COW_WALL_MARKER"
         wall = False
-        input = self.image
-        while not wall:
-            print("No Wall Found")            
-            wall = self._template_finder.search_and_wait_filtered(input, template, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, roi=Config.ui_roi["wallcheck_topright"], take_ss=False).valid 
+        while wall is not True:        
+            wallpic = self._template_finder.search_and_wait(template, best_match=False, threshold=0.8, time_out=0.1, use_grayscale=False, take_ss=True, filterimage=filterimage, roi=Config.ui_roi["wallcheck_topright"])
+            cv2.imwrite(f"./info_screenshots/info_wallcheck" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
+            wall = wallpic.valid
+            cv2.imshow("Wall", template)
+            cv2.imshow("Filter", filterimage)
+            print("No Wall Found")    
         print("Found Wall in Topright ROI")
-        #########################################################################################################
-        return False
+    
         # find old tristram portal in stony field
         found = False
         keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
@@ -952,11 +757,62 @@ if __name__ == "__main__":
     from config import Config
     from ui import UiManager
     from bot import Bot
+    from town import TownManager
+    from npc_manager import NpcManager
+    from template_finder import TemplateFinder
     config = Config()
     screen = Screen()
     game_stats = GameStats()
-    bot = Bot(screen, game_stats, False)
+    npcmanager = NpcManager
+    templatefinder = TemplateFinder
+    bot = Bot(screen, game_stats, templatefinder, False)
 
-    #pre, during_1, during_2, diffed = self._map_capture()
-    #self.map_diff(pre, during_1, during_2)
-    print("hello")
+"""
+import imp
+import cv2
+import time
+import random
+import keyboard
+import math
+from char.i_char import IChar
+from config import Config
+from logger import Logger
+from pather import Location, Pather
+from typing import Union
+from item.pickit import PickIt
+from template_finder import TemplateFinder
+from town import TownManager, A1, A2, A3, A4, A5 #for buying tomes & interacting with Stash
+from npc_manager import NpcManager, Npc #for buying tomes
+from ui import UiManager
+from utils.misc import wait
+from utils.custom_mouse import mouse
+from screen import Screen
+import numpy as np
+
+
+class Cows:
+    def __init__(
+        self,
+        screen: Screen,
+        template_finder: TemplateFinder,
+        pather: Pather,
+        town_manager: TownManager,
+        ui_manager: UiManager,
+        char: IChar,
+        pickit: PickIt,
+        npc_manager: NpcManager,
+
+
+    ):
+        self._config = Config()
+        self._screen = screen
+        self._template_finder = template_finder
+        self._pather = pather
+        self._town_manager = town_manager
+        self._ui_manager = ui_manager
+        self._npc_manager = npc_manager
+        self._char = char
+        self._pickit = pickit
+        self._picked_up_items = False
+        self.used_tps = 0
+        """
