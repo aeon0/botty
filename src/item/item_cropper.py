@@ -4,10 +4,10 @@ from dataclasses import dataclass
 import time
 
 from utils.misc import color_filter, erode_to_black
+from template_finder import TemplateFinder
 from ocr import Ocr, OcrResult
 from config import Config
 from logger import Logger
-from template_finder import TemplateFinder
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
@@ -90,14 +90,14 @@ class ItemCropper:
         # print(debug_str)
         if Config().advanced_options["use_ocr"]:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
-            results = self._ocr.images_to_text(cluster_images, ocr_language="engd2r_inv_th_fast")
+            results = self._ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, all_results: bool = False) -> ItemText:
+    def crop_item_descr(self, inp_img: np.ndarray, all_results: bool = False, inventory_side: str = "right") -> ItemText:
         results=[]
-        black_mask, _ = color_filter(inp_img, self._config.colors["black"])
+        black_mask, _ = color_filter(inp_img, Config().colors["black"])
         contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
         for cntr in contours:
@@ -110,19 +110,19 @@ class ItemCropper:
             contains_orange = False
             if not contains_white:
                 #check for orange (like key of destruction, etc.)
-                orange_mask, _ = color_filter(cropped_item, self._config.colors["orange"])
+                orange_mask, _ = color_filter(cropped_item, Config().colors["orange"])
                 contains_orange = np.min(orange_mask) > 0
             expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
             expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
-            box2 = self._config.ui_roi["inventory"]
+            box2 = Config().ui_roi[f"{inventory_side}_inventory"]
             overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+28+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
             if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
                 # TODO: add ROI for footer again
-                found_footer = self._template_finder.search(["TO_TOOLTIP"], inp_img, threshold=0.8).valid
+                found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8).valid
                 if found_footer:
                     ocr_result = None
                     if Config().advanced_options["use_ocr"]:
-                        ocr_result = self._ocr.images_to_text(cropped_item, multiline=True)[0]
+                        ocr_result = self._ocr.image_to_text(cropped_item, psm=6)[0]
                     results.append(ItemText(
                         color = "black",
                         roi = [x, y, w, h],

@@ -1,7 +1,6 @@
 import cv2
 import threading
 from copy import deepcopy
-from item.item_finder import Template
 from screen import convert_screen_to_monitor, grab
 from typing import Union
 from dataclasses import dataclass
