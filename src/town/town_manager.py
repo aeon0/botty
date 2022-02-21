@@ -5,9 +5,9 @@ from config import Config
 from pather import Location
 from logger import Logger
 from transmute import Transmute
-from ui import UiManager
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
+from ui_components import waypoint, inventory, vendor
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -19,10 +19,7 @@ TOWN_MARKERS = [
 
 class TownManager:
 
-    def __init__(self, template_finder: TemplateFinder, ui_manager: UiManager, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._config = Config()
-        self._template_finder = template_finder
-        self._ui_manager = ui_manager
+    def __init__(self, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._item_finder = item_finder
         self._acts: dict[Location, IAct] = {
             Location.A1_TOWN_START: a1,
@@ -52,7 +49,7 @@ class TownManager:
         :param time_out: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within time_out time
         """
-        template_match = self._template_finder.search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
+        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -83,7 +80,7 @@ class TownManager:
             return curr_loc
         # if not, move to the desired act via waypoint
         if not self._acts[curr_act].open_wp(curr_loc): return False
-        self._ui_manager.use_wp(act_idx, 0)
+        waypoint.use_wp(act = act_idx, idx = 0)
         return self._acts[act].get_wp_location()
 
     def heal(self, curr_loc: Location) -> Union[Location, bool]:
@@ -102,9 +99,9 @@ class TownManager:
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
             if not new_loc: return False
-            self._ui_manager.buy_pots(healing_pots, mana_pots)
+            vendor.buy_pots(healing_pots, mana_pots)
             wait(0.1, 0.2)
-            self._ui_manager.close_vendor_screen()
+            vendor.close_vendor_screen()
             return new_loc
         Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
         return curr_loc
@@ -160,14 +157,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder, gamble)
+            inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        self._ui_manager.stash_all_items(self._config.char["num_loot_columns"], self._item_finder)
+        inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
@@ -177,20 +174,19 @@ class TownManager:
         if self._acts[curr_act].can_trade_and_repair():
             new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
             if not new_loc: return False
-            if self._ui_manager.repair_and_fill_up_tp():
+            if vendor.repair_and_fill_up_tp():
                 wait(0.1, 0.2)
-                self._ui_manager.close_vendor_screen()
+                vendor.close_vendor_screen()
                 return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
         if not new_loc: return False
-        if self._ui_manager.repair_and_fill_up_tp():
+        if vendor.repair_and_fill_up_tp():
             wait(0.1, 0.2)
-            self._ui_manager.close_vendor_screen()
+            vendor.close_vendor_screen()
             return new_loc
         return False
-
 
 # Test: Move to desired location in d2r and run any town action you want to test from there
 if __name__ == "__main__":
@@ -202,20 +198,13 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     from item import ItemFinder
     from pather import Pather
-    from screen import Screen
-    from npc_manager import NpcManager
-    config = Config()
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    npc_manager = NpcManager(screen, template_finder)
-    pather = Pather(screen, template_finder)
-    ui_manager = UiManager(screen, template_finder)
+    pather = Pather()
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, screen, template_finder, ui_manager, pather)
-    a5 = A5(screen, template_finder, pather, char, npc_manager)
-    a4 = A4(screen, template_finder, pather, char, npc_manager)
-    a3 = A3(screen, template_finder, pather, char, npc_manager)
-    a2 = A2(screen, template_finder, pather, char, npc_manager)
-    a1 = A1(screen, template_finder, pather, char, npc_manager)
-    town_manager = TownManager(template_finder, ui_manager, item_finder, a1, a2, a3, a4, a5)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
+    a5 = A5(pather, char)
+    a4 = A4(pather, char)
+    a3 = A3(pather, char)
+    a2 = A2(pather, char)
+    a1 = A1(pather, char)
+    town_manager = TownManager(item_finder, a1, a2, a3, a4, a5)
     print(town_manager.open_wp(Location.A1_TOWN_START))
