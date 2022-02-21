@@ -5,8 +5,6 @@ import json
 import requests
 
 class GenericApi:
-    def __init__(self):
-        self._config = Config()
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
         msg = f"Found {item} at {location}"
@@ -32,17 +30,17 @@ class GenericApi:
         self._send(msg)
 
     def _send(self, msg: str):
-        msg = f"{self._config.general['name']}: {msg}"
+        msg = f"{Config().general['name']}: {msg}"
         
-        url = self._config.general['custom_message_hook']
+        url = Config().general['custom_message_hook']
         if not url:
             return
 
         headers = {}
-        if self._config.advanced_options['message_headers']:
-            headers = json.loads(self._config.advanced_options['message_headers'])
+        if Config().advanced_options['message_headers']:
+            headers = json.loads(Config().advanced_options['message_headers'])
 
-        data = json.loads(self._config.advanced_options['message_body_template'].format(msg=msg), strict=False)
+        data = json.loads(Config().advanced_options['message_body_template'].format(msg=msg), strict=False)
 
         try:
             requests.post(url, headers=headers, json=data)

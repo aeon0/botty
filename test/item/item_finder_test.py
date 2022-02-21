@@ -11,13 +11,12 @@ class TestItemFinder:
         Logger.init()
         Logger.remove_file_logger()
 
-        config = Config()
-        config.items["misc_flawless_amethyst"] = ItemProps(pickit_type=1)
-        config.items["uniq_armor_ormus_robes"] = ItemProps(pickit_type=1)
-        config.items["rune_26_vex"] = ItemProps(pickit_type=1)
-        config.items["misc_super_healing_potion"] = ItemProps(pickit_type=1)
-        config.items["magic_small_charm"] = ItemProps(pickit_type=1)
-        config.items["rare_stag_bow"] = ItemProps(pickit_type=1)
+        Config().items["misc_flawless_amethyst"] = ItemProps(pickit_type=1)
+        Config().items["uniq_armor_ormus_robes"] = ItemProps(pickit_type=1)
+        Config().items["rune_26_vex"] = ItemProps(pickit_type=1)
+        Config().items["misc_super_healing_potion"] = ItemProps(pickit_type=1)
+        Config().items["magic_small_charm"] = ItemProps(pickit_type=1)
+        Config().items["rare_stag_bow"] = ItemProps(pickit_type=1)
         self.item_finder = ItemFinder()
 
     @pytest.mark.parametrize("img_path, expected", [

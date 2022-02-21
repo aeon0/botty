@@ -13,7 +13,6 @@ from version import __version__
 
 class GameStats:
     def __init__(self):
-        self._config = Config()
         self._messenger = Messenger()
         self._start_time = time.time()
         self._timer = None
@@ -77,7 +76,7 @@ class GameStats:
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
+            if Config().general["discord_status_count"] and self._game_counter % Config().general["discord_status_count"] == 0:
                 # every discord_status_count game send a message update about current status
                 self._send_status_update()
         self._game_counter += 1
@@ -96,7 +95,7 @@ class GameStats:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
-            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
+            Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
             self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
@@ -146,7 +145,7 @@ class GameStats:
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
 
         table.rows.append([
-            "T" if self._config.general['discord_status_condensed'] else "Total",
+            "T" if Config().general['discord_status_condensed'] else "Total",
             self._location_stats["totals"]["items"],
             self._location_stats["totals"]["chickens"],
             self._location_stats["totals"]["deaths"],
@@ -154,7 +153,7 @@ class GameStats:
             self._location_stats["totals"]["failed_runs"]
         ])
 
-        if self._config.general['discord_status_condensed']:
+        if Config().general['discord_status_condensed']:
             table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
         else:
             table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]

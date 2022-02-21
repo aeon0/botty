@@ -8,56 +8,46 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager, A4
-from ui import UiManager
-from ui import BeltManager
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from screen import Screen
-
+from screen import convert_abs_to_monitor, grab
+from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_components import skills, loading, waypoint, belt, inventory
 
 class Diablo:
     def __init__(
         self,
-        screen: Screen,
-        template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
-        pickit: PickIt,
-        belt_manager: BeltManager
+        pickit: PickIt
     ):
-        self._config = Config()
-        self._screen = screen
-        self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
         self._picked_up_items = False
-        self._belt_manager = belt_manager
         self.used_tps = 0
         self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
 
         Logger.info("Run Diablo")
-        Logger.debug("settings for trash =" + str(self._config.char["kill_cs_trash"]))
+        Logger.debug("settings for trash =" + str(Config().char["kill_cs_trash"]))
         if not self._char.capabilities.can_teleport_natively:
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        self._ui_manager.use_wp(4, 2)
+        waypoint.use_wp("River of Flame")
         return Location.A4_DIABLO_WP
 
 
     # BUY POTS & STASH WHEN AT PENTAGRAM
     def _cs_town_visit(self, location:str) -> bool:
         # Do we want to go back to town and restock potions etc?
-        if self._config.char["cs_town_visits"]:
-            buy_pots = self._belt_manager.should_buy_pots()
+        if Config().char["cs_town_visits"]:
+            buy_pots = belt.should_buy_pots()
             if not buy_pots:
                 Logger.debug(location + ": Got enough pots, no need to go to town right now.")
             else:
@@ -67,9 +57,9 @@ class Diablo:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
                     # Check if we should stash while we are in town
                     force_stash = False
-                    force_stash = self._ui_manager.should_stash(self._config.char["num_loot_columns"])
+                    force_stash = inventory.inventory.should_stash(Config().char["num_loot_columns"])
                     if force_stash:
-                        if self._config.char["id_items"]:
+                        if Config().char["id_items"]:
                             Logger.debug(location + ": Identifying items")
                             self._curr_loc = self._town_manager.identify(self._curr_loc)
                             if not self._curr_loc:
@@ -83,21 +73,13 @@ class Diablo:
                         wait(1.0)
                     # Shop some pots
                     if self._curr_loc:
-                        pot_needs = self._belt_manager.get_pot_needs()
+                        pot_needs = belt.get_pot_needs()
                         self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
                     Logger.debug(location + ": Done in town, now going back to portal...")
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
                     if not self._pather.traverse_nodes([164, 163], self._char, time_out=2): return False
                     wait(0.22, 0.28)
-                    roi = self._config.ui_roi["reduce_to_center"]
-                    img = self._screen.grab()
-                    template_match = self._template_finder.search(
-                        ["BLUE_PORTAL","BLUE_PORTAL_2"],
-                        img,
-                        threshold=0.66,
-                        roi=roi,
-                        normalize_monitor=True
-                    )
+                    template_match = detect_screen_object(ScreenObjects.TownPortalReduced)
                     if template_match.valid:
                         pos = template_match.center
                         pos = (pos[0], pos[1] + 30)
@@ -106,15 +88,15 @@ class Diablo:
                         mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                         wait(0.08, 0.15)
                         mouse.click(button="left")
-                        if self._ui_manager.wait_for_loading_screen(2.0):
+                        if loading.wait_for_loading_screen(2.0):
                             Logger.debug(location + ": Waiting for loading screen...")
 
                         # Recalibrate at Pentagram and set up new TP to improve loop back to penta success
                         if not self._pather.traverse_nodes([602], self._char, threshold=0.80): return False
                         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
                         Logger.debug("CS after town: Re-open TP")
-                        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/TP_after_town" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
-                        if not self._ui_manager.has_tps():
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/TP_after_town" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if not skills.has_tps():
                             Logger.warning("CS after Town: failed to open TP, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
                             self.used_tps += 20
                         mouse.click(button="right")
@@ -130,13 +112,13 @@ class Diablo:
             Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, time_out=0.1, telekinesis=True)
             wait(i*0.5)
-            found = self._template_finder.search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(seal_opentemplates, threshold=0.75, time_out=0.1, best_match=True, take_ss=False).valid
             if found:
                 Logger.debug(seal_layout +": is open - "+'\033[92m'+" open"+'\033[0m')
                 break
             else:
                 Logger.debug(seal_layout +": is closed - "+'\033[91m'+" closed"+'\033[0m')
-                pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                pos_m = convert_abs_to_monitor((0, 0))
                 mouse.move(*pos_m, randomize=[90, 160])
                 wait(0.3)
                 if i >= 1:
@@ -147,10 +129,10 @@ class Diablo:
                     if not self._pather.traverse_nodes(seal_node, self._char): return False
                 else:
                     direction = 1 if i % 2 == 0 else -1
-                    x_m, y_m = self._screen.convert_abs_to_monitor([50 * direction, direction])
+                    x_m, y_m = convert_abs_to_monitor([50 * direction, direction])
                     self._char.move((x_m, y_m), force_move=True)
                 i += 1
-        if self._config.general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/info_failed_seal_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if Config().general["info_screenshots"] and not found: cv2.imwrite(f"./info_screenshots/info_failed_seal_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return found
 
 
@@ -160,10 +142,10 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             return False
         return True
 
@@ -178,13 +160,13 @@ class Diablo:
 
         if not self._pather.traverse_nodes([605], self._char): return False
         templates = ["DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_51","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"]
-        if self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
+        if TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
             Logger.debug("CS Trash (A): Layout_check step 1/2: Layout A templates found")
             templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"]
-            if not self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.5, best_match=True, take_ss=False).valid:
+            if not TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.5, best_match=True, take_ss=False).valid:
                 Logger.debug("CS Trash (A): Layout_check step 2/2: Layout B templates NOT found - "+'\033[95m'+"all fine, proceeding with Layout A"+'\033[0m')
                 entrance1_layout = "CS Trash (A):"
-                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 Logger.debug(entrance1_layout + " clearing second hall (1/3) location: entrance1_01")
                 self._char.kill_cs_trash("entrance1_01")
                 Logger.debug(entrance1_layout + " clearing second hall (2/3) location: entrance1_02")
@@ -196,16 +178,16 @@ class Diablo:
                 return True
             else:
                 Logger.warning("CS Trash (A): Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_entrance_a_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_entrance_a_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 return True
 
         else:
             Logger.debug("CS Trash (B): Layout_check step 1/2: Layout A templates NOT found")
             templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"]
-            if  self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
+            if  TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=False, take_ss=False).valid:
                 Logger.debug("CS Trash (B): Layout_check step 2/2: Layout B templates found - "+'\033[96m'+"all fine, proceeding with Layout B"+'\033[0m')
                 entrance2_layout = "CS Trash (B):"
-                #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 Logger.debug(entrance2_layout + " clearing second hall (1/3) - location: entrance2_01")
                 self._char.kill_cs_trash("entrance2_01")
                 Logger.debug(entrance2_layout + " clearing second hall (2/3) - location: entrance2_02")
@@ -217,7 +199,7 @@ class Diablo:
                 return True
             else:
                 Logger.warning("CS Trash (B): Layout_check failed to determine the right Layout, "+'\033[91m'+"trying to loop to pentagram to save the run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_entrance_b_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_entrance_b_failed_layoutcheck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 return True
 
     #GET FROM WP TO PENTAGRAM (clear_trash=0)
@@ -231,11 +213,11 @@ class Diablo:
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_pent_loop_no_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_pent_loop_no_trash_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             return False
         return True
 
@@ -252,11 +234,11 @@ class Diablo:
         templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = self._template_finder.search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_cs_entrance_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             return False
         Logger.debug("Kill trash at location: rof_02")
         self._char.kill_cs_trash("rof_02")
@@ -268,10 +250,10 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
             if not found: self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_diablo_wp_pentagram_loop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_diablo_wp_pentagram_loop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             return False
         return True
 
@@ -281,7 +263,7 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char, threshold=0.80): return False
         self._pather.traverse_nodes_fixed("dia_pent_rudijump", self._char)
         Logger.debug("CS: OPEN TP")
-        if not self._ui_manager.has_tps():
+        if not skills.has_tps():
             Logger.warning("CS: failed to open TP, higher chance of failing runs from now on, you should buy new TPs!")
             self.used_tps += 20
         mouse.click(button="right")
@@ -305,10 +287,10 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = self._template_finder.search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
             if not found: self._pather.traverse_nodes_fixed(loop_path, self._char)
         if not found:
-            if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             return False
         if not self._pather.traverse_nodes([602], self._char, time_out=2): return False
         Logger.info("CS TRASH: " + str(seal) + " calibrated at PENTAGRAM")
@@ -321,7 +303,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_trash_a", self._char)
         Logger.debug("CS TRASH: A Pent to LC")
         self._char.kill_cs_trash("trash_a")
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_A_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         Logger.info("CS TRASH: A looping to PENTAGRAM")
         if not self._loop_pentagram("dia_a1l_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char): return False
@@ -330,21 +312,21 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_trash_b", self._char)
         Logger.debug("CS TRASH: B Pent to LC")
         self._char.kill_cs_trash("trash_b")
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_B_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         Logger.info("CS TRASH: B looping to PENTAGRAM")
         if not self._loop_pentagram("dia_b1s_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("CS TRASH: B calibrated at PENTAGRAM")
-        
+
         self._pather.traverse_nodes_fixed("dia_trash_c", self._char)
         Logger.debug("CS TRASH: C Pent to LC")
         self._char.kill_cs_trash("trash_c")
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_Trash_C_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         Logger.info("CS TRASH: C looping to PENTAGRAM")
         if not self._loop_pentagram("dia_c1f_home_loop"): return False
         if not self._pather.traverse_nodes([602], self._char): return False
         Logger.info("CS TRASH: C calibrated at PENTAGRAM")
-    
+
 
     #CHECK SEAL LAYOUT
     def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]):
@@ -385,16 +367,16 @@ class Diablo:
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         if not calibration_node == None:
             if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_LC_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_LC_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         #check1 using primary templates
-        if not self._template_finder.search_and_wait(templates_primary, threshold =threshold_primary, time_out=0.1, best_match=True, take_ss=False).valid:
+        if not TemplateFinder().search_and_wait(templates_primary, threshold =threshold_primary, time_out=0.1, best_match=True, take_ss=False).valid:
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
             #cross-check for confirmation
             if not confirmation_node == None:
                 if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
-            if not self._template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, time_out=0.1, best_match=True, take_ss=False).valid:
+            if not TemplateFinder().search_and_wait(templates_confirmation, threshold=threshold_confirmation, time_out=0.1, best_match=True, take_ss=False).valid:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 return False
             else:
                 Logger.debug(f"{seal_layout1}: Layout_check step 2/2 - templates found for "f"{seal_layout1} - "+'\033[93m'+"all fine, proceeding with "f"{seal_layout1}"+'\033[0m')
@@ -404,19 +386,19 @@ class Diablo:
             #cross-check for confirmation
             if not confirmation_node2 == None:
                 if not self._pather.traverse_nodes(confirmation_node2, self._char, threshold=calibration_threshold,): return False
-            if not self._template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, time_out=0.1, best_match=True, take_ss=False).valid:
+            if not TemplateFinder().search_and_wait(templates_confirmation, threshold=threshold_confirmation2, time_out=0.1, best_match=True, take_ss=False).valid:
                 Logger.debug(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[94m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
                 if not self._seal(*params_seal2): return False
             else:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
-                if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 return False
         return True
 
 
 #CLEAR SEAL
     def _seal(self, seal_layout:str, node_seal1:str, node_seal2:str, node_calibrate_to_pent:str, static_pent:str, static_loop_pent:str, node_calibrate_at_pent:str, seal1_opentemplates:list[str], seal1_closedtemplates:list[str], seal2_opentemplates:list[str], seal2_closedtemplates:list[str], ) -> bool:
-        #if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         Logger.debug(seal_layout +": Starting to clear Seal")
         ### CLEAR TRASH ###
         Logger.debug(seal_layout + "_01: Kill trash")
@@ -467,8 +449,8 @@ class Diablo:
         if do_pre_buff: self._char.pre_buff()
 
         #Clear Trash in CS
-        
-        if self._config.char["kill_cs_trash"]:
+
+        if Config().char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
         else:
             if not self._river_of_flames(): return False
@@ -477,31 +459,31 @@ class Diablo:
         if not self._cs_pentagram(): return False
 
         """ NEW APPROACH ONLY HAS 50% SUCCESS RATE
-        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78): return False
-        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85): return False #high threshold needed to avoid chasing 607 ghosts
-        #if self._config.char["kill_cs_trash"]: if not self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78): return False
+        #if Config().char["kill_cs_trash"]: if not self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78): return False
+        #if Config().char["kill_cs_trash"]: if not self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85): return False #high threshold needed to avoid chasing 607 ghosts
+        #if Config().char["kill_cs_trash"]: if not self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78): return False
         """
         #OLD APPROACH HAS 80% SUCCESS RATE
-        if self._config.char["kill_cs_trash"]: self._trash_seals()
-        
+        if Config().char["kill_cs_trash"]: self._trash_seals()
+
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
-        if self._config.char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
+        if Config().char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
         if not self._pather.traverse_nodes([602], self._char): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("A")
-        if self._config.char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
+        if Config().char["cs_town_visits"]: self._cs_town_visit("A")
+        if Config().char["kill_cs_trash"] and do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("A", "Vizier", "dia_a_layout", "layoutcheck_a", [610620], 0.81 , None, ["DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6"], ["DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5"]): return False
-        
+
         # Maintenance at Pentagram after Trash & clear Seal B: DeSeis (to the top)
         self._char.kill_cs_trash("pent_before_b")
         if not self._pather.traverse_nodes([602] , self._char): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("B")
+        if Config().char["cs_town_visits"]: self._cs_town_visit("B")
         if do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("B", "De Seis", "dia_b_layout_bold", "layoutcheck_b", None, 0.78, [647], ["DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK4", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK5", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK6", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK7", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK8"],["DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9"]): return False
 
         # Maintenance at Pentagram after Trash & clear Seal C: Infector (to the right)
         self._char.kill_cs_trash("pent_before_c")
         if not self._pather.traverse_nodes([602], self._char): return False
-        if self._config.char["cs_town_visits"]: self._cs_town_visit("C")
+        if Config().char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
 
@@ -509,25 +491,21 @@ class Diablo:
         Logger.debug("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo()
-        if self._config.general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_dia_kill_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         self._picked_up_items = self._pickit.pick_up_items(char=self._char)
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
 
 if __name__ == "__main__":
-    from screen import Screen
     import keyboard
     from game_stats import GameStats
     import os
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     from config import Config
-    from ui import UiManager
     from bot import Bot
-    config = Config()
-    screen = Screen()
     game_stats = GameStats()
-    bot = Bot(screen, game_stats, False)
+    bot = Bot(game_stats)
 
     # Idea list:
     # Ghetto Mob detection: clear CS, take a screenshot w/o mobs at each attack point. template check on arrival at each node the regions where mobs can spawn. if no match: attack. if match: skip.
@@ -536,7 +514,7 @@ if __name__ == "__main__":
     # Efficiency overview.
     # Clear Trash Entrance Layout A: 91 % efficiency
     # Clear Trash Entrance Layout B: 80 % efficiency
-    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain | new issue, if merc kills mobs at edge of screen & 
+    # Clear Trash between Pentagram & Seals: XX% efficiency <- measure gain | new issue, if merc kills mobs at edge of screen &
     # Clear Seals: 98% efficiency. Root Cause: templates covered by corpses or getting lost when tele back to pentagram. Fix: Optimize templates used at nodes.
     # LC A failing -> add template of seal to the calibration node. in case she overshoots to the seal, it will rubber-band her back to LC node.
     # Kill Dia with Trash: >70%

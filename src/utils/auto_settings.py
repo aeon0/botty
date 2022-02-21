@@ -14,8 +14,7 @@ def get_d2r_folder() -> str:
     :param config: the general config possibly containing 'saved_games_folder'
     :return: the D2r folder full path
     """
-    config = Config()
-    d2_saved_games = config.general["saved_games_folder"]
+    d2_saved_games = Config().general["saved_games_folder"]
     if not d2_saved_games:
         # assign default value for en-us Windows users
         d2_saved_games = f"C:\\Users\\{os.getlogin()}\\Saved Games\\Diablo II Resurrected"

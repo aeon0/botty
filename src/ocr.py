@@ -6,7 +6,6 @@ import re
 import csv
 import difflib
 from utils.misc import erode_to_black
-
 from logger import Logger
 from typing import List, Union
 from dataclasses import dataclass
@@ -115,10 +114,10 @@ class Ocr:
                 processed_img = image
                 if scale:
                     processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-                if crop_pad:
-                    processed_img = self._crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
+                if crop_pad:
+                    processed_img = self._crop_pad(processed_img)
                 image_is_binary = (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool
                 if image_is_binary:
                     if threshold:
@@ -264,11 +263,10 @@ if __name__ == "__main__":
     from utils.misc import cut_roi
     from config import Config
 
-    from screen import Screen
-    screen = Screen()
+    from screen import grab
     ocr = Ocr()
-    img = screen.grab()
-    # img = cut_roi(img, Config.ui_roi["char_selection_top"])
+    img = grab()
+    # img = cut_roi(img, Config().ui_roi["char_selection_top"])
 
     Logger.debug("OCR result:")
     ocr_result = ocr.image_to_text(

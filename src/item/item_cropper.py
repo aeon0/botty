@@ -15,8 +15,6 @@ class ItemText:
 
 class ItemCropper:
     def __init__(self):
-        self._config = Config()
-
         self._gaus_filter = (19, 1)
         self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
@@ -31,7 +29,7 @@ class ItemCropper:
         if img.shape[0] == self._hud_mask.shape[0] and img.shape[1] == self._hud_mask.shape[1]:
             img = cv2.bitwise_and(img, img, mask=self._hud_mask)
         # In order to not filter out highlighted items, change their color to black
-        highlight_mask = color_filter(img, self._config.colors["item_highlight"])[0]
+        highlight_mask = color_filter(img, Config().colors["item_highlight"])[0]
         img[highlight_mask > 0] = (0, 0, 0)
         img = erode_to_black(img, black_thresh)
         return img
@@ -45,7 +43,7 @@ class ItemCropper:
         start = time.time()
         item_clusters = []
         for key in self._item_colors:
-            _, filtered_img = color_filter(cleaned_img, self._config.colors[key])
+            _, filtered_img = color_filter(cleaned_img, Config().colors[key])
             filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
             blured_img = np.clip(cv2.GaussianBlur(filtered_img_gray, self._gaus_filter, cv2.BORDER_DEFAULT), 0, 255)
             contours = cv2.findContours(blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -66,7 +64,7 @@ class ItemCropper:
                     # double-check item color
                     color_averages=[]
                     for key2 in self._item_colors:
-                        _, extracted_img = color_filter(cropped_item, self._config.colors[key2])
+                        _, extracted_img = color_filter(cropped_item, Config().colors[key2])
                         extr_avg = np.average(cv2.cvtColor(extracted_img, cv2.COLOR_BGR2GRAY))
                         color_averages.append(extr_avg)
                     max_idx = color_averages.index(max(color_averages))
@@ -84,14 +82,13 @@ class ItemCropper:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import Screen
+    from screen import grab
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
-    screen = Screen()
     cropper = ItemCropper()
 
     while 1:
-        img = screen.grab().copy()
+        img = grab().copy()
         res = cropper.crop(img)
         for cluster in res:
             x, y, w, h = cluster.roi

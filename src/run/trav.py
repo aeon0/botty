@@ -6,25 +6,20 @@ from typing import Union
 from item.pickit import PickIt
 from template_finder import TemplateFinder
 from town.town_manager import TownManager
-from ui import UiManager
 from utils.misc import wait
 
+from ui_components import waypoint
 
 class Trav:
     def __init__(
         self,
-        template_finder: TemplateFinder,
         pather: Pather,
         town_manager: TownManager,
-        ui_manager: UiManager,
         char: IChar,
         pickit: PickIt
     ):
-        self._config = Config()
-        self._template_finder = template_finder
         self._pather = pather
         self._town_manager = town_manager
-        self._ui_manager = ui_manager
         self._char = char
         self._pickit = pickit
 
@@ -34,13 +29,13 @@ class Trav:
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
-        if self._ui_manager.use_wp(3, 7):
+        if waypoint.use_wp("Travincal"):
             return Location.A3_TRAV_START
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Council
-        if not self._template_finder.search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, time_out=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

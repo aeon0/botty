@@ -4,9 +4,9 @@ Pixelbot for Diablo 2 Resurrected. This project is for informational and educati
 
 [**Download here**](https://github.com/aeon0/botty/releases) and got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
-## Getting started & Prequists
-- D2r needs to be in English Language,
-- Botty currently works with 720p D2r window (will be adjusted automatically on auto settings)
+## Getting started & Prerequisites
+- D2R needs to be in English Language,
+- Botty currently works with 720p D2R window (will be adjusted automatically on auto settings)
 
 ### 1) Graphics and Gameplay Settings
 
@@ -15,11 +15,11 @@ All settings will automatically be set when you execute `main.exe` and press the
 
 ### 2) Supported builds
 
-Check the documentation for **param.ini** further down. Different Sorc builds, Hammardin, Barb, Trapsin are already implemented to different extents. It is quite straightforward to implement new classes. Give it a go if you like!
+Check the documentation for **params.ini** further down. Different Sorc builds, Hammerdin, Barb, Trapsin are already implemented to different extents. It is quite straightforward to implement new classes. Give it a go if you like!
 
 ### 3) Start Location
 
-Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in any of Act 3, 4 or 5 in the respective difficulty you set in the **param.ini** once the bot starts the game.
+Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in any of Act 3, 4 or 5 in the respective difficulty you set in the **params.ini** once the bot starts the game.
 
 ### 4) Start Botty
 
@@ -34,12 +34,12 @@ To check if you graphic settings are good and if the bot would pick up items the
 
 Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
 
-## param.ini
+## params.ini
 
-All botty configuration files are located in the __config__ folder. To ease the switch to new botty versions, you can also overwrite any of the .ini fields in a **custom.ini** file. When a new version of botty is released you just copy the file to the new version without having to port all your **param.ini** changes to the new version. Example:
+All botty configuration files are located in the __config__ folder. To ease the switch to new botty versions, you can also overwrite any of the .ini fields in a **custom.ini** file. When a new version of botty is released you just copy the file to the new version without having to port all your **params.ini** changes to the new version. Example:
 
 ```ini
-; custom.ini - overwrites 3 params in the param.ini
+; custom.ini - overwrites 3 params in the params.ini
 [general]
 name=MyCustomName
 
@@ -58,7 +58,7 @@ run_shenk=0
 | randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
-| discord_status_count     | Number of games between discord status messges being sent. Leave empty for no status reports.
+| discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
 | discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
 | info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
 | loot_screenshots         | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
@@ -95,7 +95,7 @@ run_shenk=0
 | potion4            | Hotkey to take potion in slot 4 |
 | cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff |
 | weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
-| battle_order       | Hotkey for battle order from cta (only needed if cta_available=1) |
+| battle_order       | Hotkey for battle orders from cta (only needed if cta_available=1) |
 | battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
