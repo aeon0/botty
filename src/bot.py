@@ -106,7 +106,7 @@ class Bot:
         self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit)
         self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit)
         self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
-        self._cows = Cows(self._pather, self._town_manager, self._char, self._pickit, npc_manager)
+        self._cows = Cows(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
         self._pick_corpse = False
@@ -464,7 +464,7 @@ class Bot:
     def on_run_cows(self):
         res = False
         self._do_runs["run_cows"] = False
-        self._game_stats.update_location("Cows" if self._config.general['discord_status_condensed'] else "Cow Level")
+        self._game_stats.update_location("Cows" if Config().general['discord_status_condensed'] else "Cow Level")
         self._curr_loc = self._cows.approach(self._curr_loc)
         if self._curr_loc:
             res = self._cows.battle(not self._pre_buffed)

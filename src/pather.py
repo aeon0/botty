@@ -734,7 +734,7 @@ if __name__ == "__main__":
                         x, y = convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -746,7 +746,7 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     pather = Pather()
 
-    #display_all_nodes(pather, "COW_")
+    display_all_nodes(pather, "A1_TOWN_")
 
 
     # # changing node pos and generating new code
