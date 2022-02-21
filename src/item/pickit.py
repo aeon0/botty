@@ -40,6 +40,8 @@ class PickIt:
         curr_item_to_pick: Item = None
         same_item_timer = None
         did_force_move = False
+        done_ocr=False
+
         while not time_out:
             if (time.time() - start) > 28:
                 time_out = True
@@ -47,6 +49,22 @@ class PickIt:
                 break
             img = grab()
             item_list = self._item_finder.search(img)
+
+            if Config().advanced_options["use_ocr"]:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                for cnt, item in enumerate(item_list):
+                    for cnt2, x in enumerate(item.ocr_result['word_confidences']):
+                        found_low_confidence = False
+                        if x <= 88:
+                            try:
+                                Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
+                                found_low_confidence = True
+                            except: pass
+                        if found_low_confidence and Config().general["loot_screenshots"]:
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
+                            with open(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.gt.txt", 'w') as f:
+                                f.write(item.ocr_result['text'])
 
             # Check if we need to pick up certain pots more pots
             need_pots = belt.get_pot_needs()
@@ -110,6 +128,10 @@ class PickIt:
                     # no need to stash potions, scrolls, or gold
                     if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
                         found_items = True
+                        if done_ocr == False and Config().advanced_options["use_ocr"]:
+                            for item in item_list:
+                                Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
+                            done_ocr = True
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
                     if not char.capabilities.can_teleport_natively:
