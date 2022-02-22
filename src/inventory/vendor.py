@@ -1,7 +1,6 @@
 import keyboard
 from template_finder import TemplateFinder
 from config import Config
-import mouse
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from item import ItemFinder

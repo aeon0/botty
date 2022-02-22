@@ -1,7 +1,6 @@
 from template_finder import TemplateFinder
 from screen import grab, convert_screen_to_monitor
 from config import Config
-import mouse
 import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse

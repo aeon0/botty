@@ -1,24 +1,7 @@
-import itertools
-from item import ItemFinder
-from logger import Logger
-from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
-import mouse
 from template_finder import TemplateFinder
 from config import Config
-from utils.misc import wait
-import keyboard
 import cv2
-import time
 import numpy as np
-from utils.custom_mouse import mouse
-import os
-from ui import stash
-from ui.stash import gold_full
-from ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
-from messages import Messenger
-from item import ItemCropper
-
-messanger = Messenger()
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """

@@ -2,21 +2,23 @@ import itertools
 from item import ItemFinder
 from logger import Logger
 from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
-import mouse
-from template_finder import TemplateFinder
-from config import Config
-from utils.misc import wait
 import keyboard
 import cv2
 import time
 import numpy as np
-from utils.custom_mouse import mouse
 import os
+
+from template_finder import TemplateFinder
+from config import Config
+from utils.misc import wait
+from utils.custom_mouse import mouse
 from inventory import stash, common
 from inventory.stash import gold_full
 from ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
-from messages import Messenger
 from item import ItemCropper
+from messages import Messenger
+
+messenger = Messenger()
 
 def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> bool:
     """
