@@ -16,6 +16,7 @@ from ui_components import stash
 from ui_components.stash import gold_full
 from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
 from messages import Messenger
+from item import ItemCropper
 
 messanger = Messenger()
 
@@ -180,6 +181,28 @@ def keep_item(item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True)
     """
     wait(0.2, 0.3)
     _, w, _ = img.shape
+
+    if Config().advanced_options["use_ocr"]:
+        item_box = ItemCropper().crop_item_descr(inp_img=img)
+        if item_box:
+            item_box = item_box[0]
+            Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+            for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+                Logger.debug(f"OCR LINE{i}: {line}")
+            if Config().general["loot_screenshots"]:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                found_low_confidence = False
+                for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                    if x <= 88:
+                        try:
+                            Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                            found_low_confidence = True
+                        except: pass
+                if found_low_confidence:
+                    cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
+                    cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
+
+
     img = img[:, (w//2):,:]
     original_list = item_finder.search(img)
     filtered_list = []

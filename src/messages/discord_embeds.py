@@ -18,7 +18,7 @@ class DiscordEmbeds(GenericApi):
         except InvalidArgument:
             Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
-    def send_item(self, item: str, image:  np.ndarray, location: str):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
@@ -32,6 +32,7 @@ class DiscordEmbeds(GenericApi):
         )
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
+        e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
@@ -96,7 +97,7 @@ class DiscordEmbeds(GenericApi):
             return Color.blue()
 
     def _add_file(self, image_path, image_name):
-        try: 
+        try:
             return discord.File(image_path, filename=image_name)
         except:
             traceback.print_exc()
