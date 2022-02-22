@@ -10,6 +10,9 @@ from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
 from ui_components import waypoint
+from ui_components.inventory import should_stash
+import ui_components.inventory as inventory
+import ui_components.belt as belt
 
 class Arcane:
     def __init__(
@@ -25,6 +28,7 @@ class Arcane:
         self._pickit = pickit
         self._chest = Chest(self._char, 'arcane')
         self.used_tps = 0
+        self._curr_loc: Union[bool, Location] = Location.A2_TOWN_START
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
         Logger.info("Run Arcane")
@@ -56,6 +60,7 @@ class Arcane:
             self._pather.traverse_nodes([462], self._char, time_out=1.3, force_tp=True)
         return False
 
+
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         picked_up_items = False
         @dataclass
@@ -85,23 +90,58 @@ class Arcane:
             found = self._find_summoner(data.jump_to_summoner)
             # Kill the summoner or trash mob
             self._char.kill_summoner()
-            if Config().char["open_chests"]:
-                self._chest.open_up_chests()
-            picked_up_items |= self._pickit.pick_up_items(self._char)
+            Logger.info("Summoner Found")
+            if not Config().char["arcane_run_all_corners"]:
+                    if Config().char["open_chests"]:
+                        self._chest.open_up_chests(13,0.75)
+                    picked_up_items |= self._pickit.pick_up_items(self._char)
+                    return (Location.A2_ARC_END, picked_up_items)
+            else:
+                Logger.info("Summoner NOT Found")
+            templates_platform = ["ARC_CENTER_3"]
+            found = TemplateFinder().search_and_wait(templates_platform, threshold=0.75, time_out=0.1, best_match=True, take_ss=False).valid
             if found:
-                return (Location.A2_ARC_END, picked_up_items)
-            elif i < len(path_arr) - 1:
+                self._pather.traverse_nodes([462], self._char, time_out=1.5, force_tp=True)
+                Logger.info("ARC CENTER NOT FOUND")
                 # Open TP and return back to town, walk to wp and start over
+            if Config().char["open_chests"]:
+                picked_up_items |= self._pickit.pick_up_items(self._char)
+            wait(1.0)
+            self._chest.open_up_chests(13,0.75)
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+            if i < len(path_arr) - 1:
                 if not self._char.tp_town():
                     Logger.warning("TP to town failed, cancel run")
-                    self.used_tps += 20
-                    return False
-                self.used_tps += 1
+                    self.used_tps += 1
                 if not self._town_manager.wait_for_tp(Location.A2_TP):
                     return False
-                if not self.approach(Location.A2_FARA_STASH):
-                    return False
-        return False
+                curr_loc = Location.A2_FARA_STASH
+                if picked_up_items or inventory.should_stash(Config().char["num_loot_columns"]):
+                    Logger.debug("Need to Stash")
+                    force_stash = False
+                    force_stash = inventory.should_stash(Config().char["num_loot_columns"])
+                    if force_stash:
+                        if Config().char["id_items"]:
+                            self._curr_loc = self._town_manager.identify(self._curr_loc)
+                            if not self._curr_loc:
+                        #        return self.trigger_or_stop("end_game", failed=True)
+                                self._curr_loc = self._town_manager.stash(self._curr_loc)
+                        if not self._curr_loc:
+                        #    return self.trigger_or_stop("end_game", failed=True)
+                            self._no_stash_counter = 0
+                        self._picked_up_items = False
+                        wait(1.0)
+                    if not curr_loc:
+                        curr_loc = Location.A2_FARA_STASH
+                    else:
+                        picked_up_items = False
+                        if self._curr_loc:
+                            pot_needs = belt.get_pot_needs()
+                    self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
+                if not self.approach(curr_loc):
+                    if not self._pather.traverse_nodes([403, 404], self._char, time_out=2): return False                    
+                    else:
+                        return (curr_loc, picked_up_items)
 
 
 if __name__ == "__main__":
