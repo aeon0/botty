@@ -17,6 +17,7 @@ class DiscordEmbeds(GenericApi):
             try:
                 self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
             except InvalidArgument:
+                self._webhook = None
                 Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
@@ -78,9 +79,9 @@ class DiscordEmbeds(GenericApi):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
         e.timestamp=datetime.datetime.now(datetime.timezone.utc)
         try:
-            self._webhook.send(embed=e, file=file, username=Config().general['name'])
+            if self._webhook: self._webhook.send(embed=e, file=file, username=Config().general['name'])
         except BaseException as err:
-            Logger.error("Error sending Discord embed: " + err)
+            Logger.error(f"Error sending Discord embed: {err}")
 
     def _get_Item_Color(self, item):
         if "magic_" in item:
