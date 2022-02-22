@@ -318,7 +318,8 @@ class Config:
             "graphic_debugger_key": self._select_val("advanced_options", "graphic_debugger_key"),
             "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
-            "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(",")))
+            "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
+            "use_ocr": bool(int(self._select_val("advanced_options", "use_ocr"))),
         }
 
         self.items = {}

@@ -9,6 +9,8 @@ import math
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
+from template_finder import TemplateFinder
+from ocr import OcrResult
 
 
 @dataclass
@@ -24,6 +26,8 @@ class Item:
     score: float = -1.0
     dist: float = -1.0
     roi: list[int] = None
+    color: str = None
+    ocr_result: OcrResult = None
     def __getitem__(self, key):
         return super().__getattribute__(key)
 
@@ -119,6 +123,8 @@ class ItemFinder:
                                         item.roi = [max_loc[0] + x, max_loc[1] + y, template.data.shape[1], template.data.shape[0]]
                                         center_abs = (item.center[0] - (inp_img.shape[1] // 2), item.center[1] - (inp_img.shape[0] // 2))
                                         item.dist = math.dist(center_abs, (0, 0))
+                                        item.ocr_result = cluster.ocr_result
+                                        item.color = cluster.color
             if item is not None and self._items_to_pick[item.name].pickit_type:
                 item_list.append(item)
         elapsed = time.time() - start
@@ -130,6 +136,7 @@ class ItemFinder:
 if __name__ == "__main__":
     from screen import grab
     from config import Config
+
     item_finder = ItemFinder()
     while 1:
         # img = cv2.imread("")
@@ -139,7 +146,7 @@ if __name__ == "__main__":
             # print(item.name + " " + str(item.score))
             cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
             cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
-            # cv2.putText(img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, item.ocr_result["text"], item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
         # img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow('test', img)
         cv2.waitKey(1)

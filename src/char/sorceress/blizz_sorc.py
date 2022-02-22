@@ -8,6 +8,7 @@ from pather import Location
 import numpy as np
 from screen import convert_abs_to_monitor, grab, convert_screen_to_abs
 from config import Config
+from template_finder import TemplateFinder
 
 class BlizzSorc(Sorceress):
     def __init__(self, *args, **kwargs):
