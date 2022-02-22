@@ -50,13 +50,13 @@ class Bot:
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(Config().light_sorc, self._pather)
+            self._char: IChar = LightSorc(Config().light_sorc, self._pather, self._pickit) #pickit added for diablo & cows
         elif Config().char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
+            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather, self._pickit) #pickit added for diablo & cows
         elif Config().char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
+            self._char: IChar = NovaSorc(Config().nova_sorc, self._pather, self._pickit) #pickit added for diablo & cows
         elif Config().char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
+            self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo & cows
         elif Config().char["type"] == "trapsin":
             self._char: IChar = Trapsin(Config().trapsin, self._pather)
         elif Config().char["type"] == "barbarian":

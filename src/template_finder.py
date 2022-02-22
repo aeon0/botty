@@ -414,7 +414,7 @@ class TemplateFinder:
                 # screen
                 target_pos = targets[target_i]
                 screen_x, screen_y = convert_abs_to_monitor(target_pos)
-                print('Nearest Target found at x:{} y:{}'.format(screen_x, screen_y))
+                #print('Nearest Target found at x:{} y:{}'.format(screen_x, screen_y))
                 target_i += 1
 
             return target_pos
@@ -429,8 +429,8 @@ class TemplateFinder:
         #print("Debug get_targets_ordered_by_distance")
         #print("mypos" + str(my_pos))
         #print(targets)
-        for t in targets:
-           print(int(pythagorean_distance(t)))
+        #for t in targets:
+           #print(int(pythagorean_distance(t)))
 
         # ignore targets at are too close to our character (within 130 pixels) to avoid 
         # re-clicking a deposit we just mined

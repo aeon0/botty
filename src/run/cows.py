@@ -649,7 +649,7 @@ class Cows:
         #train neuronal network to search for heads and feet of cows that are not dead as positive according to this tutorial: https://www.youtube.com/watch?v=XrCAvs9AePM&list=PL1m2M8LQlzfKtkKq2lK5xko4X-8EZzFPI&index=8
         #train it with images from dead cows and from empty cow levels as negative
         #search for template head or feet, cast attack rotation & pickit, repeat until?
-        pos_m = convert_abs_to_monitor((0, -150))
+        pos_m = convert_abs_to_monitor((0, -400))
         self._char.move(pos_m, force_tp=True)
         self._char.move(pos_m, force_tp=True)
         start_time = time.time()
@@ -661,9 +661,9 @@ class Cows:
             pos_marker = []
             pos_rectangle = []
             filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=75, rect_max_size=200, marker=True)
-            order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 50)
-            pos_m = convert_abs_to_monitor(order[1]) #nearest marker
-            print("Found cow at: " + str(pos_m))
+            order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
+            pos_m = convert_screen_to_abs(order[1]) #nearest marker
+            print("Found cow at: " + str(pos_m) + " attacking now!")
             self._char.kill_cows(pos_m)
     
 

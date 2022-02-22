@@ -14,7 +14,7 @@ from ui.ui_manager import detect_screen_object, ScreenObjects
 from item.pickit import PickIt #for Cows
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
+    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt): #pickit for cows
         super().__init__(skill_hotkeys)
         self._pather = pather
         self._pickit = pickit #for Cows

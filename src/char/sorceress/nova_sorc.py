@@ -8,6 +8,7 @@ from utils.misc import wait
 from pather import Location
 from screen import convert_abs_to_monitor
 from config import Config
+from item.pickit import PickIt #for Cows
 
 
 class NovaSorc(Sorceress):
@@ -105,7 +106,7 @@ class NovaSorc(Sorceress):
         return True
 
     def kill_cows(self, pos_m:tuple[int, int]) -> bool:
-        atk_len = 1 #Config().char["atk_len_cows"] * 0.3            
+        atk_len = 0.3 #Config().char["atk_len_cows"] * 0.3            
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_static(0.6)
         self._nova(atk_len)
