@@ -228,7 +228,16 @@ class TemplateFinder:
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
-    search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+    import keyboard
+    import os
+    from screen import start_detecting_window
+    start_detecting_window()
+    from template_finder import TemplateFinder
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
+
+    search_templates = ["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"]
 
     while 1:
         # img = cv2.imread("")
@@ -238,6 +247,7 @@ if __name__ == "__main__":
         for key in search_templates:
             template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
             if template_match.valid:
+                x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
