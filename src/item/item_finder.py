@@ -9,7 +9,7 @@ import math
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
-from template_finder import TemplateFinder
+#from template_finder import TemplateFinder
 from ocr import OcrResult
 
 

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import time
 
 from utils.misc import color_filter, erode_to_black
-from template_finder import TemplateFinder
+#from template_finder import TemplateFinder
 from ocr import Ocr, OcrResult
 from config import Config
 from logger import Logger
