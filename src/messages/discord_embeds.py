@@ -13,10 +13,10 @@ class DiscordEmbeds(GenericApi):
     def __init__(self):
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
-        try:
-            self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
-        except InvalidArgument:
-            if Config().general["custom_message_hook"]:
+        if Config().general["custom_message_hook"]:
+            try:
+                self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
+            except InvalidArgument:
                 Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
     def send_item(self, item: str, image:  np.ndarray, location: str):
