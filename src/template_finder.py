@@ -1,8 +1,10 @@
 import cv2
 import threading
 from copy import deepcopy
+
+from cv2 import rectangle
 from item.item_finder import Template
-from screen import convert_screen_to_monitor, grab
+from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor  #for object detection (cows)
 from typing import Union
 from dataclasses import dataclass
 import numpy as np
@@ -10,7 +12,10 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, wait
+import keyboard #for map diff (cows)
+from math import sqrt #for object detection (cows)+
+from vision import Vision #for object detection
 
 template_finder_lock = threading.Lock()
 
@@ -230,7 +235,7 @@ class TemplateFinder:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match
 
-    #Changes Brightness and Contrast
+    #Changes Brightness and Contrast - adapted from Nathan's Live-view
     def bright_contrast(self, img, brightness=255, contrast=127):
         """
         Helper function to change brightness and contrast
@@ -261,7 +266,7 @@ class TemplateFinder:
             cal = cv2.addWeighted(cal, alpha, cal, 0, gamma)
         return cal
 
-    #Applies filters to an image
+    #Applies filters to an image - adapted from Nathan's Live-view
     def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
             """
             Helper function that will apply HSV filters
@@ -330,7 +335,7 @@ class TemplateFinder:
             if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
             return filterimage, threshz
 
-    # add rectangles and crosses
+    # add rectangles and crosses - adapted from Nathan's Live-View
     def add_markers(self, img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
         """
         Helper function that will add rectangles and crosshairs to allow object detection
@@ -343,7 +348,7 @@ class TemplateFinder:
         :param marker: Add Marker to center of rectangles [Default: False, Bool]
         :param marker_color: Color for the Marker [Default: (0, 255, 255)]
         :param marker_type: Type for the Marker [Default: cv2.MARKER_CROSS]
-        Returns variables img (containing markers)
+        Returns variables img (containing markers) & rectangles (x,y,w,h for each) & marker (x,y for eah)
         """
         self.image = img
         #add rectangles
@@ -351,7 +356,9 @@ class TemplateFinder:
         ######### PLAY AROUND WITH THE RECTANGLE SIZE TO ENSURE THE RIGHT THINGS ARE MARKED
         #rect_min_size = 5 #15 self.settings['rect_min']
         #rect_max_size = 7 #25 self.settings['rect_max']
-        
+        pos_rectangles = []
+        pos_marker = []
+
         for i in range(1, n_labels):
             if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
                 # print(stats[i, cv2.CC_STAT_AREA])
@@ -362,7 +369,13 @@ class TemplateFinder:
                 #cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), line_color, line_type, thickness=1)
                 #cv2.rectangle(self.image, (x, y), (x + w+5, y + h+5), (0, 255, 0), thickness=1)
                 cv2.rectangle(self.image, (x, y), (x + w, y + h), (0, 255, 0), thickness=1)
+
+                rect = [int(x), int(y), int(w), int(h)]
+                pos_rectangles.append(rect)
+
                 
+                #HERE, I NEED TO MAKE A LIST OF POINTS AND APPEND THEM TO ACCESS THOSE LATER ON
+
                 #draw crosshairs on center of rectangle.
                 #if marker:
                 line_color = (0, 255, 0)
@@ -374,12 +387,163 @@ class TemplateFinder:
                 #cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=25, thickness=2)
                 cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
                 
+                mark = [int(center_x), int(center_y)]
+                pos_marker.append(mark)
+
         self.frame_markup = self.image.copy()
         img = self.image
         if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
         
-        return img
+        return img, pos_rectangles, pos_marker
 
+    # adapted from BEN Open CV Bot Tutorial #9
+    def click_next_target(self):
+            # 1. order targets by distance from center
+            # loop:
+            #   2. hover over the nearest target
+            #   3. confirm that it's limestone via the tooltip
+            #   4. if it's not, check the next target
+            # endloop
+            # 5. if no target was found return false
+            # 6. click on the found target and return true
+            
+            targets = self.get_targets_ordered_by_distance(self.targets)
+            target_i = 0
+            while target_i < len(targets):
+                # load up the next target in the list and convert those coordinates
+                # that are relative to the game screenshot to a position on our
+                # screen
+                target_pos = targets[target_i]
+                screen_x, screen_y = convert_abs_to_monitor(target_pos)
+                print('Nearest Target found at x:{} y:{}'.format(screen_x, screen_y))
+                target_i += 1
+
+            return target_pos
+
+    def get_targets_ordered_by_distance(self, targets, ignore_radius:int=0):
+        # our character is always in the center of the screen
+        my_pos = (1280/2, 720/2) #center of the screen
+        # searched "python order points by distance from point", simply uses the pythagorean theorem: https://stackoverflow.com/a/30636138/4655368
+        def pythagorean_distance(pos):
+            return sqrt((pos[0] - my_pos[0])**2 + (pos[1] - my_pos[1])**2)
+        targets.sort(key=pythagorean_distance)
+        #print("Debug get_targets_ordered_by_distance")
+        #print("mypos" + str(my_pos))
+        #print(targets)
+        for t in targets:
+           print(int(pythagorean_distance(t)))
+
+        # ignore targets at are too close to our character (within 130 pixels) to avoid 
+        # re-clicking a deposit we just mined
+        targets = [t for t in targets if pythagorean_distance(t) > ignore_radius]
+
+        return targets #a sorted arry of all targets, nearest to farest away
+
+
+
+    #Adapted from EriCKC
+    def map_capture(self):
+        """Gets 3 captures of the map:
+            1. Before map displayed
+            2. Map displayed (tab pressed)
+            3. Map displayed a few frames later (tab still pressed)
+        Tab is then depressed. The purpose for the third grab is to filter out any animations, later.
+        Returns pre, during_1, during_2
+        """
+        # Before map is shown
+        pre = np.array(grab())
+        pre = cv2.cvtColor(pre, cv2.COLOR_BGRA2BGR)
+        keyboard.send(Config().char["minimap"]) #turn on minimap
+        wait(.075)
+
+        # Map is shown
+        during_1 = np.array(grab())
+        during_1 = cv2.cvtColor(during_1, cv2.COLOR_BGRA2BGR)
+        wait(.075)
+
+        # Map is still there, but we can tell if any carvers/flames are underneath fucking up the diff
+        during_2 = np.array(grab())
+        during_2 = cv2.cvtColor(during_2, cv2.COLOR_BGRA2BGR)
+        keyboard.send(Config().char["minimap"]) #turn on minimap
+
+        # Debug showing captures
+        #cv2.imshow('pre', pre)
+        #cv2.waitKey(0)
+        #cv2.imshow('during 1', during_1)
+        #cv2.waitKey(0)
+        #cv2.imshow('during 2', during_2)
+        #kaulcv2.waitKey(0)
+        return pre, during_1, during_2
+
+    #Adapted from EriCKC
+    def map_diff(self, pre, during_1, during_2, is_start=False, show_current_location=True, threshold=0.11):
+        """Takes the 3 stages of map capture and outputs a final diff, removing carvers and adding our own markers"""
+        # image without map
+        pre = cv2.cvtColor(pre, cv2.COLOR_BGR2GRAY)
+        # images displaying the map, clean up some things from this display so it's less cluttered
+        original_during_1 = during_1.copy()
+
+        # during_1 = _mask_image(during_1, (0x20, 0x84, 0xF6))  # player marker
+        # during_1 = _mask_image(during_1, (0x44, 0x70, 0x74))  # merc marker
+        # during_1 = _mask_image(during_1, (0xff, 0xff, 0xff))  # npc marker
+
+        # TODO: HSV it up..
+        #   1. White (i.e. npc) is HSV (0, 1, 75%) through (0, 0, 100)
+        #   2. Blue on minimap (i.e. you) is HSV (210, 85%, 85%) through (215, 87%, 99%)
+        #   3. Greenish on minimap (i.e. merc) is HSV (180, 40%, 40%) through (190, 42%, 42%)
+        during_1 = cv2.cvtColor(during_1, cv2.COLOR_BGR2HSV)
+        # during_1 = _remove_range(during_1, (0, 0, .75 * 255), (0, 25, 255))  # white npcs
+        # during_1 = _remove_range(during_1, (210, .85 * 255, .85 * 255), (215, .90 * 255, 255))  # blue, current player marker
+        # during_1 = _remove_range(during_1, (180, .4 * 255, .4 * 255), (190, .42 * 255, .42 * 255))  # green mercs
+        masks_to_remove = [
+            cv2.inRange(during_1, (0, 0, .75 * 255), (0, 25, 255)),  # white npcs
+            # cv2.inRange(during_1, (200, .80 * 255, .85 * 255), (215, .95 * 255, 255)),  # blue, current player marker
+            cv2.inRange(during_1, (105, int(.85 * 255), int(.8 * 255)), (110, int(.90 * 255), int(1 * 255))),  # blue, current player marker
+            # (185,41,45) .. (183,37,41) .. (184,40,39)
+            cv2.inRange(during_1, (90, int(.35 * 255), int(.35 * 255)), (95, int(.45 * 255), int(.50 * 255))),  # green mercs
+
+            # TODO: Yellow warps ??? Red portal ?? remove it, but re-add it colored as warp?
+        ]
+        # Debug showing masked things being removed
+        # cv2.imshow('mask', during_1)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        during_1 = cv2.cvtColor(during_1, cv2.COLOR_HSV2BGR)  # convert it to bgr which lets us convert to gray..
+        during_1 = cv2.cvtColor(during_1, cv2.COLOR_BGR2GRAY)
+        # during_2 = cv2.cvtColor(during_2, cv2.COLOR_BGR2GRAY)
+        # Get diff of original pre-map image vs both map snapshots, combine the artifacts from both snapshots
+        absdiff_1 = cv2.absdiff(pre, during_1)
+        # _, thresholded_1 = cv2.threshold(absdiff_1, int(threshold * 255), 255, cv2.THRESH_BINARY)
+        # absdiff_2 = cv2.absdiff(pre, during_2)
+        # _, thresholded_2 = cv2.threshold(absdiff_2, int(threshold * 255), 255, cv2.THRESH_BINARY)
+        # diffed = cv2.bitwise_and(thresholded_1, thresholded_2)
+        # diffed = thresholded_1
+        diffed = absdiff_1
+
+        # Debug showing masked things being removed
+        # cv2.imshow('diffed', diffed)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        # earlier we masked some things from the minimap, remove them now post-diff
+        for mask_locations in masks_to_remove:
+            img_mask = cv2.blur(mask_locations, (2, 2))
+            _, img_mask = cv2.threshold(img_mask, int(0.1 * 255), 255, cv2.THRESH_BINARY)
+
+            diffed = cv2.bitwise_and(diffed, diffed, mask=255 - img_mask)
+        diffed = cv2.cvtColor(diffed, cv2.COLOR_GRAY2BGR)
+
+        # Debug showing diff before adding circles
+        #cv2.imshow('absdiff_1', absdiff_1)
+        #cv2.waitKey(0)
+        #cv2.imshow('absdiff_2', absdiff_2)
+        #cv2.waitKey(0)
+        #cv2.imshow('diffed', diffed)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
+        cv2.imwrite(f"./info_screenshots/info_diffed" + time.strftime("%Y%m%d_%H%M%S") + ".png", diffed)
+        return diffed
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
