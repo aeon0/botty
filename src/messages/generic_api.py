@@ -45,4 +45,4 @@ class GenericApi:
         try:
             requests.post(url, headers=headers, json=data)
         except BaseException as err:
-            Logger.error("Error sending generic message: " + err)
+            Logger.error(f"Error sending generic message: {err}")
