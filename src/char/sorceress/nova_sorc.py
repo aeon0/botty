@@ -104,14 +104,14 @@ class NovaSorc(Sorceress):
         self._nova(Config().char["atk_len_arc"] * 0.5)
         return True
 
-    def kill_cows(self) -> bool:
-        atk_len = Config().char["atk_len_cows"] * 0.3            
-        pos_m = convert_abs_to_monitor((0, 0))
+    def kill_cows(self, pos_m:tuple[int, int]) -> bool:
+        atk_len = 1 #Config().char["atk_len_cows"] * 0.3            
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         self._cast_static(0.6)
         self._nova(atk_len)
         self._move_and_attack((50, 25), atk_len)
         self._move_and_attack((-70, -35), atk_len)
+        self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
 
 if __name__ == "__main__":

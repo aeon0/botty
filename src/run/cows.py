@@ -45,11 +45,11 @@ class Cows:
         
         templates_scout = ["COW_STONY_FIELD_YELLOW"] #the template we scout for on the minimap, either an exit (purple) or portal (yellow)
         templates_avoid = ["COW_COLD_PLAINS0"] #in case our scout can bring us to other locations, we add the "Entering ..." message here, so we know when we accidently leave the area
-        avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False).valid # boolean of avoid template
+        avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, suppress_debug=True).valid # boolean of avoid template
 
         #lets make sure our minimap is on
         Logger.info('\033[93m' + "Scout: Starting to explore map" + '\033[0m')
-        if not TemplateFinder().search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False, take_ss=False).valid: #check if the minimap is already on
+        if not TemplateFinder().search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False, take_ss=False, suppress_debug=True).valid: #check if the minimap is already on
             keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
             keyboard.send(Config().char["minimap"]) #turn on minimap
             Logger.info('\033[93m' + "Scout: Opening Minimap" + '\033[0m')
@@ -653,10 +653,18 @@ class Cows:
         self._char.move(pos_m, force_tp=True)
         self._char.move(pos_m, force_tp=True)
         start_time = time.time()
-        scout_duration = (time.time() - start_time)
-        while scout_duration < 60:
-            while TemplateFinder().search_and_wait("COW_MARKER", threshold=0.5, time_out=1, normalize_monitor=True, take_ss=False).valid:
-                self._char.kill_cows()
+        cow_duration = (time.time() - start_time)
+
+        while cow_duration < 60:
+            self.image = grab()
+            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=8, lh=0, ls=5, lv=0, uh=16, us=44, uv=76, bright=230, contrast=130, thresh=5, invert=0) # add HSV filter for cows
+            pos_marker = []
+            pos_rectangle = []
+            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=75, rect_max_size=200, marker=True)
+            order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 50)
+            pos_m = convert_abs_to_monitor(order[1]) #nearest marker
+            print("Found cow at: " + str(pos_m))
+            self._char.kill_cows(pos_m)
     
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
@@ -730,11 +738,12 @@ class Cows:
             #print ("---------------------------------")
             #print (order)
             #print ("---------------------------------")
-            print ("moving to nearest marker")
+            #print ("moving to nearest marker")
             pos_m = convert_abs_to_monitor(order[1])
             self._char.move(pos_m, force_move=True)
-            print ("---------------------------------")
+            #print ("---------------------------------")
 
+            """
             #teleport towards marker
             test = True
             while test:
@@ -751,7 +760,7 @@ class Cows:
                     order = TemplateFinder().get_targets_ordered_by_distance(targets, 50)
                     print ("moving away")
                     test = True
-
+            """
 
             """
             template = "COW_WALL_MARKER"
