@@ -227,6 +227,7 @@ class Config:
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
             "fill_shared_stash_first": bool(int(self._select_val("char", "fill_shared_stash_first"))),
+            "arcane_run_all_corners": bool(int(self._select_val("char", "arcane_run_all_corners"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
