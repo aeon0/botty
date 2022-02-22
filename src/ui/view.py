@@ -8,7 +8,7 @@ import numpy as np
 from logger import Logger
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui.ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects
+from ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects
 from screen import convert_screen_to_monitor
 
 def enable_no_pickup() -> bool:

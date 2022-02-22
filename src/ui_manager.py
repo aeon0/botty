@@ -226,7 +226,7 @@ def hover_over_screen_object_match(match) -> None:
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
     import keyboard
-    from ui_components import vendor
+    from ui import vendor
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")

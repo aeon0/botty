@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from screen import convert_abs_to_monitor
 import random
 
-from ui_components import loading, waypoint
+from ui import loading, waypoint
 
 class Nihlathak:
     def __init__(

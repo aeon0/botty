@@ -1,7 +1,7 @@
 import itertools
 from random import randint
 from config import Config
-from ui.ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
 from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
@@ -16,8 +16,8 @@ from template_finder import TemplateFinder
 import numpy as np
 import keyboard
 import cv2
-from ui_components import inventory
-from ui_components.stash import move_to_stash_tab
+from inventory import player
+from inventory.stash import move_to_stash_tab
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -92,7 +92,7 @@ class Transmute:
         keyboard.send("esc")
 
     def stash_all_items(self):
-        inventory.stash_all_items(
+        player.stash_all_items(
             Config().char["num_loot_columns"], ItemFinder())
 
     def pick_from_cube_at(self, column, row):

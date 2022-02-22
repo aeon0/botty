@@ -6,8 +6,8 @@ import math
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui.ui_manager import wait_for_screen_object
-from ui_components import skills
+from ui_manager import wait_for_screen_object
+from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
 from logger import Logger
@@ -15,7 +15,7 @@ from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor
 from template_finder import TemplateFinder
 from ocr import Ocr
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
     _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
@@ -295,7 +295,7 @@ if __name__ == "__main__":
     from config import Config
     from template_finder import TemplateFinder
     from ocr import Ocr
-    from ui_components import skills
+    from ui import skills
 
     skill_hotkeys = {}
     ocr = Ocr()

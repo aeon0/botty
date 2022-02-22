@@ -7,7 +7,8 @@ from logger import Logger
 from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
-from ui_components import waypoint, inventory, vendor
+from ui import waypoint
+from inventory import vendor, player
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -157,14 +158,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
+            player.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
+        player.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:

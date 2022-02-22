@@ -8,8 +8,8 @@ from logger import Logger
 from screen import grab
 import time
 from config import Config
-from ui_components import view, meters, belt
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui import view, meters, belt
+from ui_manager import detect_screen_object, ScreenObjects
 
 class HealthManager:
     def __init__(self):
