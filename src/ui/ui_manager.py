@@ -177,9 +177,9 @@ class ScreenObjects:
         roi="chat_line_1",
         threshold=0.9
     )
-    CorpseText=ScreenObject(
-        ref="CORPSE",
-        roi="corpse_text",
+    Corpse=ScreenObject(
+        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
+        roi="corpse",
         threshold=0.8
     )
 
