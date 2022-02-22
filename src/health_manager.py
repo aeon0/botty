@@ -1,3 +1,4 @@
+from inventory import belt
 from pather import Location
 import cv2
 import time
@@ -8,7 +9,7 @@ from logger import Logger
 from screen import grab
 import time
 from config import Config
-from ui import view, meters, belt
+from ui import view, meters
 from ui_manager import detect_screen_object, ScreenObjects
 
 class HealthManager:

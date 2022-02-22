@@ -30,7 +30,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
 from ui import meters, skills, view, character_select, main_menu
-from inventory import player, vendor, stash, belt, common
+from inventory import player, vendor, stash, belt
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager

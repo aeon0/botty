@@ -1,4 +1,5 @@
 import time
+from inventory import belt
 import keyboard
 import cv2
 from operator import itemgetter
@@ -8,7 +9,6 @@ from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui import view, belt
 from char import IChar
 
 
