@@ -310,5 +310,5 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     # open_npc_menu(Npc.MALAH)
-    from inventory import player
-    player.stash_all_items(9, ItemFinder())
+    from inventory import personal
+    personal.stash_all_items(9, ItemFinder())

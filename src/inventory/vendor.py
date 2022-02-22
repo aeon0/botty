@@ -8,7 +8,7 @@ import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import wait_for_screen_object, ScreenObjects
-from inventory import common, player
+from inventory import common, personal
 
 def close_vendor_screen():
     keyboard.send("esc")
@@ -70,7 +70,7 @@ def gamble(item_finder: ItemFinder):
     if template_match.valid:
         #Gambling window is open. Starting to spent some coins
         while (gamble_on and gold):
-            if (player.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and player.inventory_has_items(grab(),2)):
+            if (personal.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and personal.inventory_has_items(grab(),2)):
                 gamble_on = False
                 close_vendor_screen ()
                 break
@@ -105,7 +105,7 @@ def gamble(item_finder: ItemFinder):
                         # check item again and discard it or stash it
                         wait(1.2, 1.4)
                         hovered_item = grab()
-                        if not player.keep_item(item_finder, hovered_item):
+                        if not personal.keep_item(item_finder, hovered_item):
                             keyboard.send('ctrl', do_release=False)
                             wait(0.1, 0.15)
                             mouse.click (button="left")
