@@ -258,7 +258,7 @@ class Bot:
 
     def on_maintenance(self):
         # Handle picking up corpse in case of death
-        self._pick_corpse = detect_screen_object(ScreenObjects.CorpseText).valid
+        self._pick_corpse = detect_screen_object(ScreenObjects.Corpse).valid
         if self._pick_corpse:
             self._previous_run_failed = True
             time.sleep(1.6)
