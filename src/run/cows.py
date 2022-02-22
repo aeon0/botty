@@ -638,7 +638,12 @@ class Cows:
         keyboard.send('ctrl', do_press=False)
         Logger.info('\033[91m' + "Open_Cow_Portal: Transmuting"+ '\033[0m')
         self.transmute()
-        self.close_cube()
+        wait(0.2, 0.3)
+        self.close_cube() #cube
+        wait(0.2, 0.3)
+        self.close_cube() #stash
+        wait(0.2, 0.3)
+        keyboard.send(Config().char["inventory_screen"]) 
         return True
 
 
@@ -652,15 +657,21 @@ class Cows:
         pos_m = convert_abs_to_monitor((0, -400))
         self._char.move(pos_m, force_tp=True)
         self._char.move(pos_m, force_tp=True)
+        wait(1)
         start_time = time.time()
         cow_duration = (time.time() - start_time)
 
         while cow_duration < 60:
+            
+            #if mobfound, attack, else scout. also we could use a param for holy freeze or conviction for changing the filter depending on merc type
             self.image = grab()
-            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=8, lh=0, ls=5, lv=0, uh=16, us=44, uv=76, bright=230, contrast=130, thresh=5, invert=0) # add HSV filter for cows
+            cv2.imwrite(f"./info_screenshots/info_cows_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
+            #conviction
+            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows
             pos_marker = []
             pos_rectangle = []
-            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=75, rect_max_size=200, marker=True)
+            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=50, rect_max_size=100, marker=True)
+            cv2.imwrite(f"./info_screenshots/info_cows_filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
             order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
             pos_m = convert_screen_to_abs(order[1]) #nearest marker
             print("Found cow at: " + str(pos_m) + " attacking now!")
