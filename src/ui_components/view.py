@@ -34,41 +34,19 @@ def enable_no_pickup() -> bool:
     wait(0.1, 0.25)
     return True
 
-def check_save_exit(img: np.ndarray = None):
-    img = grab() if img is None else img
-    return detect_screen_object(ScreenObjects.SaveAndExit, img)
-
-def open_save_exit():
-    keyboard.send("esc")
-    wait(0.1)
-    return check_save_exit()
-
-def click_save_exit(match):
-    select_screen_object_match(match, delay_factor=(0.1, 0.3))
-    wait(0.1)
-    return not check_save_exit()
-
-def save_and_exit(img: np.ndarray = None) -> bool:
+def save_and_exit() -> bool:
     """
     Performes save and exit action from within game
     :return: Bool if action was successful
     """
-    # see if save/exit already on screen
-    exit_button = check_save_exit(img)
-    if not exit_button.valid:
-        # if not on screen, open
-        if not (exit_button := open_save_exit()):
+    start=time.time()
+    while not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
+        keyboard.send("esc")
+        wait(0.1)
+        if time.time() - start > 5:
             return False
-    # if clicked and the save/exit screen is no longer visible
-    if click_save_exit(exit_button):
-        return True
-    # try one more time
-    else:
-        wait(0.6, 1)
-        if click_save_exit(exit_button):
-            return True
-    wait(1, 2)
-    return not check_save_exit()
+    select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
+    return True
 
 def pickup_corpse():
     Logger.info("Pickup corpse")
