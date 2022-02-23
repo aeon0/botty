@@ -63,14 +63,14 @@ def return_to_play() -> bool:
     substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()
     start=time.time()
-    # if "DARK" in detect_screen_object(ScreenObjects.InGame, img).name:
     while 1:
         need_escape = False
         if "DARK" in detect_screen_object(ScreenObjects.InGame, img).name:
             need_escape = True
         if not need_escape:
             for substring in substrings:
-                need_escape = any(substring in string for string in list_visible_objects(img))
+                if (need_escape := any(substring in string for string in list_visible_objects(img))):
+                    break
         if need_escape:
             keyboard.send("esc")
             wait(0.1)
