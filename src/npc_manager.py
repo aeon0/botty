@@ -166,8 +166,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("GAMBLE_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [337, 188, (733-337), (622-188)],
-        "poses": [[422, 398], [425, 513], [586, 494], [656, 372], [563, 348]],
         "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3", "JAMELLA_DRAWING"]
     },
     Npc.HALBU: {
@@ -179,8 +177,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [319, 128, (840-319), (403-128)],
-        "poses": [[443, 280], [523, 220], [599, 294], [738, 263]],
         "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
     },
     Npc.AKARA: {
