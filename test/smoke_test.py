@@ -17,5 +17,4 @@ class TestSmoke:
     def test_smoke(self):
         screen = ScreenMock()
         game_stats = GameStats()
-        template_finder = TemplateFinder(screen)
-        bot = Bot(screen, game_stats, template_finder)
+        bot = Bot(game_stats)

@@ -4,9 +4,9 @@ Pixelbot for Diablo 2 Resurrected. This project is for informational and educati
 
 [**Download here**](https://github.com/aeon0/botty/releases) and got to have a [**Discord**](https://discord.gg/Jf3J8cuXWg) nowadays I guess :man_shrugging:
 
-## Getting started & Prequists
-- D2r needs to be in English Language,
-- Botty currently works with 720p D2r window (will be adjusted automatically on auto settings)
+## Getting started & Prerequisites
+- D2R needs to be in English Language,
+- Botty currently works with 720p D2R window (will be adjusted automatically on auto settings)
 
 ### 1) Graphics and Gameplay Settings
 
@@ -15,11 +15,11 @@ All settings will automatically be set when you execute `main.exe` and press the
 
 ### 2) Supported builds
 
-Check the documentation for **param.ini** further down. Different Sorc builds, Hammardin, Barb, Trapsin are already implemented to different extents. It is quite straightforward to implement new classes. Give it a go if you like!
+Check the documentation for **params.ini** further down. Different Sorc builds, Hammerdin, Barb, Trapsin are already implemented to different extents. It is quite straightforward to implement new classes. Give it a go if you like!
 
 ### 3) Start Location
 
-Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in any of Act 3, 4 or 5 in the respective difficulty you set in the **param.ini** once the bot starts the game.
+Open up D2R and wait till you are at the hero selection screen. Make sure the char you running with is selected and will be in any of Act 3, 4 or 5 in the respective difficulty you set in the **params.ini** once the bot starts the game.
 
 ### 4) Start Botty
 
@@ -34,12 +34,12 @@ To check if you graphic settings are good and if the bot would pick up items the
 
 Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
 
-## param.ini
+## params.ini
 
-All botty configuration files are located in the __config__ folder. To ease the switch to new botty versions, you can also overwrite any of the .ini fields in a **custom.ini** file. When a new version of botty is released you just copy the file to the new version without having to port all your **param.ini** changes to the new version. Example:
+All botty configuration files are located in the __config__ folder. To ease the switch to new botty versions, you can also overwrite any of the .ini fields in a **custom.ini** file. When a new version of botty is released you just copy the file to the new version without having to port all your **params.ini** changes to the new version. Example:
 
 ```ini
-; custom.ini - overwrites 3 params in the param.ini
+; custom.ini - overwrites 3 params in the params.ini
 [general]
 name=MyCustomName
 
@@ -58,7 +58,7 @@ run_shenk=0
 | randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
-| discord_status_count     | Number of games between discord status messges being sent. Leave empty for no status reports.
+| discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
 | discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
 | info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
 | loot_screenshots         | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
@@ -74,7 +74,7 @@ run_shenk=0
 | run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
 | run_nihlathak | Run Nihlathak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 | run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
-| run_diablo   | Run Diablo (just the Boss, not the trashmobs) in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| run_diablo   | Run Diablo in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
@@ -94,7 +94,7 @@ run_shenk=0
 | potion4            | Hotkey to take potion in slot 4 |
 | cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff |
 | weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
-| battle_order       | Hotkey for battle order from cta (only needed if cta_available=1) |
+| battle_order       | Hotkey for battle orders from cta (only needed if cta_available=1) |
 | battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
@@ -110,7 +110,8 @@ run_shenk=0
 | atk_len_diablo_deseis   | Attack length for hdin or number of attack sequences when fighting Sealboss B "Lord De Seis" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
-| cs_clear_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram and Seals A, B, C are cleared (NOT YET IMPLEMENTED). If 0, the run starts at Pentagram and just kills Sealbosses & Diablo |
+| kill_cs_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
+| cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
@@ -123,7 +124,8 @@ run_shenk=0
 | belt_hp_columns    | Number of belt columns for healing potions |
 | belt_mp_columns    | Number of belt columns for mana potions |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
-| runs_per_repair    | 0: Will only repair when needed, 1+: Will repair after # of runs set here |
+| runs_per_stash    | 0: Will only stash after intentional item pickup, 1+: Will force stash after # of runs set here (recommend at least 4 in case of accidental pickups) |
+| runs_per_repair    | 0: Will only repair when needed, 1+: Will force repair after # of runs set here |
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
@@ -175,6 +177,8 @@ run_shenk=0
 | shadow_warrior | Optional Hotkey for Shadow Warrior                                                  |
 | lightning_sentry | Required Hotkey for Lightning Sentry                                              |
 | death_sentry   | Required Hotkey for Death Sentry                                                    |
+| cloak_of_shadows| Optional Hotkey for Cloak of Shadows                                                |
+|  mind_blast    | Optional Hotkey for Mind Blast                                                      |
 
 | [barbarian]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |

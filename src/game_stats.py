@@ -13,7 +13,6 @@ from version import __version__
 
 class GameStats:
     def __init__(self):
-        self._config = Config()
         self._messenger = Messenger()
         self._start_time = time.time()
         self._timer = None
@@ -31,6 +30,7 @@ class GameStats:
         self._location_stats = {}
         self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
+        self._nopickup_active = False
 
     def update_location(self, loc: str):
         if self._location != loc:
@@ -41,7 +41,7 @@ class GameStats:
         if self._location not in self._location_stats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
-    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray):
+    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = None):
         Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
@@ -49,7 +49,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send_item(item_name, img, self._location)
+            self._messenger.send_item(item_name, img, self._location, ocr_text)
 
     def log_death(self, img: str):
         self._death_counter += 1
@@ -76,7 +76,7 @@ class GameStats:
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            if self._config.general["discord_status_count"] and self._game_counter % self._config.general["discord_status_count"] == 0:
+            if Config().general["discord_status_count"] and self._game_counter % Config().general["discord_status_count"] == 0:
                 # every discord_status_count game send a message update about current status
                 self._send_status_update()
         self._game_counter += 1
@@ -95,7 +95,7 @@ class GameStats:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
-            Logger.warning(f"End failed game: Elpased time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
+            Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
             self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
@@ -145,7 +145,7 @@ class GameStats:
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
 
         table.rows.append([
-            "T" if self._config.general['discord_status_condensed'] else "Total",
+            "T" if Config().general['discord_status_condensed'] else "Total",
             self._location_stats["totals"]["items"],
             self._location_stats["totals"]["chickens"],
             self._location_stats["totals"]["deaths"],
@@ -153,7 +153,7 @@ class GameStats:
             self._location_stats["totals"]["failed_runs"]
         ])
 
-        if self._config.general['discord_status_condensed']:
+        if Config().general['discord_status_condensed']:
             table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
         else:
             table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]

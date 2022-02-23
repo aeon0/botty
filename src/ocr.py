@@ -1,3 +1,4 @@
+from concurrent.futures import process
 from fileinput import close
 from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
@@ -6,7 +7,6 @@ import re
 import csv
 import difflib
 from utils.misc import erode_to_black
-
 from logger import Logger
 from typing import List, Union
 from dataclasses import dataclass
@@ -115,15 +115,14 @@ class Ocr:
                 processed_img = image
                 if scale:
                     processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
-                if crop_pad:
-                    processed_img = self._crop_pad(processed_img)
                 if erode:
                     processed_img = erode_to_black(processed_img)
+                if crop_pad:
+                    processed_img = self._crop_pad(processed_img)
                 image_is_binary = (image.shape[2] if len(image.shape) == 3 else 1) == 1 and image.dtype == bool
-                if image_is_binary:
-                    if threshold:
-                        processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
-                        processed_img = cv2.threshold(processed_img, threshold, 255, cv2.THRESH_BINARY)[1]
+                if not image_is_binary and threshold:
+                    processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
+                    processed_img = cv2.threshold(processed_img, threshold, 255, cv2.THRESH_BINARY)[1]
                 if invert:
                     if threshold or image_is_binary:
                         processed_img = cv2.bitwise_not(processed_img)
@@ -240,6 +239,24 @@ class Ocr:
                 continue
             break
 
+        # case: a solitary S; e.g., " 1 TO S DEFENSE"
+        cnt=0
+        while True:
+            cnt += 1
+            if cnt >30:
+                Logger.error(f"Error ' S ' -> ' 5 ' on {ocr_output}")
+                break
+            if " S " in text:
+                text = text.replace(" S ", " 5 ")
+                continue
+            elif ' I\n'  in text:
+                text = text.replace(' S\n', ' 5\n')
+                continue
+            elif '\nI '  in text:
+                text = text.replace('\nS ', '\n5 ')
+                continue
+            break
+
         # case: consecutive I's; e.g., "DEFENSE: II"
         repeat=False
         cnt=0
@@ -264,11 +281,10 @@ if __name__ == "__main__":
     from utils.misc import cut_roi
     from config import Config
 
-    from screen import Screen
-    screen = Screen()
+    from screen import grab
     ocr = Ocr()
-    img = screen.grab()
-    # img = cut_roi(img, Config.ui_roi["char_selection_top"])
+    img = grab()
+    # img = cut_roi(img, Config().ui_roi["char_selection_top"])
 
     Logger.debug("OCR result:")
     ocr_result = ocr.image_to_text(

@@ -6,7 +6,7 @@ dependencies:
   - pywin32
   - pip
   - leptonica
-  - tesseract
+  - tesseract>=5.0.1
   - pkg-config
   - pip:
     - pyinstaller
@@ -29,4 +29,5 @@ dependencies:
     - pillow
     - discord.py
     - parse
-    - tesserocr
+    - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
+    - typing_extensions
