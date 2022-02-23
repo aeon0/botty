@@ -294,6 +294,7 @@ class Bot:
         if not self._picked_up_items and (routine_stash or self._previous_run_failed):
             force_stash = inventory.should_stash(Config().char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
+        self._picked_up_items = True
         if self._picked_up_items or force_stash:
             if Config().char["id_items"]:
                 Logger.info("Identifying items")
