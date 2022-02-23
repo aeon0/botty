@@ -8,7 +8,7 @@ import numpy as np
 from logger import Logger
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui.ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects
+from ui.ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
 from screen import convert_screen_to_monitor
 
 def enable_no_pickup() -> bool:
@@ -58,3 +58,35 @@ def pickup_corpse():
 def move_to_corpse():
     pos = convert_screen_to_monitor((Config().ui_pos["corpse_x"], Config().ui_pos["corpse_y"]))
     mouse.move(*pos)
+
+def return_to_play() -> bool:
+    substrings = ["NPC", "Panel", "SaveAndExit"]
+    img=grab()
+    start=time.time()
+    while 1:
+        need_escape = False
+        if "DARK" in detect_screen_object(ScreenObjects.InGame, img).name:
+            need_escape = True
+        if not need_escape:
+            for substring in substrings:
+                if (need_escape := any(substring in string for string in list_visible_objects(img))):
+                    break
+        if need_escape:
+            keyboard.send("esc")
+            wait(0.1)
+            img=grab()
+        else:
+            break
+        if time.time() - start > 10:
+            return False
+
+if __name__ == "__main__":
+    import keyboard
+    import os
+    from screen import start_detecting_window
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
+    while 1:
+        return_to_play()
