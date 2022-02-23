@@ -38,7 +38,7 @@ class GameRecovery:
                 view.save_and_exit()
                 continue
             # maybe we are in-game in stash/inventory, press escape
-            elif detect_screen_object(ScreenObjects.BarAnchor).valid:
+            elif detect_screen_object(ScreenObjects.InGame).valid:
                 keyboard.send("esc")
             time.sleep(1)
         return False
