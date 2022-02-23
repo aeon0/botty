@@ -116,8 +116,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [333, 104, (682-333), (343-104)],
-        "poses": [[406, 188], [550, 243], [620, 174]],
         "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
     },
     Npc.DROGNAN: {
