@@ -13,7 +13,6 @@ import numpy as np
 from utils.custom_mouse import mouse
 import os
 from ui_components import stash
-from ui_components.stash import gold_full
 from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
 from messages import Messenger
 from item import ItemCropper
@@ -38,7 +37,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     Stashing all items in inventory. Stash UI must be open when calling the function.
     :param num_loot_columns: Number of columns used for loot from left
     """
-    global gold_full, messenger, game_stats
+    global messenger, game_stats
     Logger.debug("Searching for inventory gold btn...")
     # Move cursor to center
     x, y = convert_abs_to_monitor((0, 0))
@@ -77,7 +76,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                     if stash.curr_stash["gold"] > 3:
                         #decide if gold pickup should be disabled or gambling is active
                         if Config().char["gamble_items"]:
-                            gold_full = True
+                            stash.gold_full = True
                         else:
                             # turn off gold pickup
                             Config().turn_off_goldpickup()
