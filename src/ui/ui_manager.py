@@ -283,8 +283,6 @@ def hover_over_screen_object_match(match) -> None:
 def list_visible_objects(img: np.ndarray = None) -> list:
     img = grab() if img is None else img
     visible=[]
-    # splash screens (blizz, d2 logo)
-    # loading CSS d2 logo bottom right corner
     for pair in [a for a in vars(ScreenObjects).items() if not a[0].startswith('__') and a[1] is not None]:
         if (match := detect_screen_object(pair[1], img)).valid:
             # visible.append(match)
