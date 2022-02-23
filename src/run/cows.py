@@ -15,7 +15,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager, A1
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor, convert_monitor_to_screen, convert_screen_to_abs
+from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_screen
 from ui.ui_manager import detect_screen_object, ScreenObjects
 from ui_components import skills, loading, waypoint, belt, inventory
 
@@ -42,43 +42,36 @@ class Cows:
 
     #this function randomly teleports around until we either get stuck or find the exit we search for
     def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)-> bool:
-        
         templates_scout = ["COW_STONY_FIELD_YELLOW"] #the template we scout for on the minimap, either an exit (purple) or portal (yellow)
         templates_avoid = ["COW_COLD_PLAINS0"] #in case our scout can bring us to other locations, we add the "Entering ..." message here, so we know when we accidently leave the area
         avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, suppress_debug=True).valid # boolean of avoid template
-
         #lets make sure our minimap is on
         Logger.info('\033[93m' + "Scout: Starting to explore map" + '\033[0m')
         if not TemplateFinder().search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False, take_ss=False, suppress_debug=True).valid: #check if the minimap is already on
             keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
             keyboard.send(Config().char["minimap"]) #turn on minimap
             Logger.info('\033[93m' + "Scout: Opening Minimap" + '\033[0m')
-
         found = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False, take_ss=False).valid
         #so lets loop teleporting around until we find our templates
         while not found and not avoid:
                 found = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False, take_ss=False).valid #boolean, if we found it
-                founder = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False, take_ss=False) #template
-                avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, take_ss=False).valid #have to repeat it from above, so its defined in the loop
-
+                founder = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False, take_ss=False, suppress_debug=True) #template
+                avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, take_ss=False, suppress_debug=True).valid #have to repeat it from above, so its defined in the loop
                 #we check if we exited our scouting location and take measures if this is the case
                 if avoid:
                     Logger.info('\033[93m' + "Scout: Ended up in Cold Plains, stopping to move" + '\033[0m')
                     #we might have to teleport backwards 3 times & change corners.
                     return False
-
                 # we break the loop if the template is found & return its x, y position to pos_m
                 if founder.valid:
                     pos_m = convert_screen_to_monitor(founder.center)
                     Logger.info('\033[93m' + "Scout: target template is at position:" + str(pos_m) + '\033[0m')
                     break
-              
                 #teleporting part
                 pos_m = convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m))) # randomize our position
                 t0 = grab() # take screenshot before teleport
                 self._char.move(pos_m, force_tp=True, force_move=True) # first of two teleports to randomized position
                 t1 = grab() # take screenshot after teleport
-
                 # check by making a diff of the screenshots, if we moved between the teleports
                 diff = cv2.absdiff(t0, t1)
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -87,7 +80,6 @@ class Cows:
                 Logger.debug("Scout: " + str(score) + ": is our current score")
                 pos_m = convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m))) # randomize our position
                 self._char.move(pos_m, force_tp=True, force_move=True) # second of two teleports to randomized position
-                
                 #if we didnt move, we need to unstuck ourselves
                 if score < .10:
                     #lets change scouting direction:
@@ -107,10 +99,12 @@ class Cows:
                         Logger.info('\033[93m' + "Scout: We seem super stuck, super_stuck count now: " + str(super_stuck) + ", calling super_stuck() to change direction" + '\033[0m')
                         self.super_stuck(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) 
                     """
-        
         #we found our template and should leave the scout() function.
         if found == True:
-            Logger.info('\033[93m' + "Scout: Found our Template, trying to click the exit template, calling exitclicker()" + '\033[0m')
+            Logger.info('\033[93m' + "Scout (found TRUE): Found our Template, trying to click the exit template, calling exitclicker()" + '\033[0m')
+            found = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9, time_out=0.1, use_grayscale=False, take_ss=False).valid #boolean, if we found it
+            pos_m = convert_screen_to_monitor(founder.center)
+            Logger.info('\033[93m' + "Scout (found TRUE): target template is at position:" + str(pos_m) + '\033[0m')
             self._exitclicker(pos_m)
             return True
 
@@ -188,34 +182,16 @@ class Cows:
                     self._scout(4, 0, -0, 225, 150, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottom
                 elif corner_picker == 5:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 5 = top right" + '\033[0m')
-                    y1_m == -280
-                    y2_m == -280
-                    x1_m == -220
-                    x2_m == -220
-                    self._scout(5, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topright
+                    self._scout(5, 280, 278, -220, -218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topright
                 elif corner_picker == 6:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 6 = top left " + '\033[0m')
-                    y1_m == -280
-                    y2_m == -280
-                    x1_m == 220
-                    x2_m == 220
-                    self._scout(6, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topleft
+                    self._scout(6, -280, -278, -220, -218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topleft
                 elif corner_picker == 7:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 7 = bottom right" + '\033[0m')
-                    y1_m == 280
-                    y2_m == 280
-                    x1_m == -220
-                    x2_m == -220
-                    self._scout(7, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomright
+                    self._scout(7, 280, 278, 220, 218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomright
                 elif corner_picker == 8:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 8 = bottom left" + '\033[0m')
-                    y1_m == 280
-                    y2_m == 280
-                    x1_m == 220
-                    x2_m == 220
-                    self._scout(8, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomleft
-                
-
+                    self._scout(8, -280, -278, 220, 218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomleft    
             #return corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber
 
    
@@ -294,9 +270,10 @@ class Cows:
                     self._scout(4, -250, -400, 200, 300, 0, 0, 4, 2, 2, 4, False) # bottom - left
             else:
                 Logger.info('\033[92m' + "Exit_Clicker: Step5: Confirmed to be at the right new location, switching off minimap, stopping to scout()" + '\033[0m')
-                wait(2)
+                wait(1)
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-                keyboard.send(Config().char["minimap"]) #turn on minimap
+                keyboard.send(Config().char["minimap"]) #turn off minimap
+                wait(1)
             return True
             #self._tristram()
 
@@ -447,20 +424,16 @@ class Cows:
         if TemplateFinder().search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False, take_ss=False).valid: #check if the minimap is already on
             keyboard.send(Config().char["minimap"]) #turn off minimap
             Logger.info('\033[95m' + "Old Tristram: Closing Minimap" + '\033[0m')
-        
         #Calibrate at WP
         Logger.info('\033[95m' + "Old Tristram: Entering Old Tristram to get the leg" + '\033[0m')
         Logger.info('\033[95m' + "Old Tristram: Calibrating at Entrance TP" + '\033[0m')
         if not self._pather.traverse_nodes([1000], self._char, time_out=5): return False
-        
         #Static path to Wirt
         Logger.info('\033[95m' + "Old Tristram: Static Path to Corpse" + '\033[0m')
         self._pather.traverse_nodes_fixed("cow_trist_tp_leg", self._char)
-        
         #Calibrate at Wirt
         Logger.info('\033[95m' + "Old Tristram: Calibrating at Corpse" + '\033[0m')
         if not self._pather.traverse_nodes([1001], self._char, time_out=5): return False
-        
         #Loot Wirt
         Logger.info('\033[95m' + "Old Tristram: Looting the leg the Corpse" + '\033[0m')
         if not self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4,telekinesis=True):
@@ -472,11 +445,12 @@ class Cows:
             if not self._char.select_by_template(["COW_WIRT_CLOSED"], threshold=0.63, time_out=4, telekinesis=True):
                 Logger.info('\033[95m' + "Old Tristram: Unable to interact with the wirt" + '\033[0m')
                 return False
-
         #Loot Leg
         Logger.info('\033[95m' + "Old Tristram: Grabbing the leg" + '\033[0m')
+        self._picked_up_items |= self._pickit.pick_up_items(self._char) #grab the leg
+        pos_m = convert_abs_to_monitor((0, 0))
+        self._char.kill_cows(pos_m) #clear some trash to make sure, we can access the TP w/o getting interrupted
         self._picked_up_items |= self._pickit.pick_up_items(self._char)
-        
         #TP Home
         Logger.info('\033[95m' + "Old Tristram: Making TP to go home" + '\033[0m')
         if not skills.has_tps():
@@ -498,19 +472,15 @@ class Cows:
 
     #this function checks for the leg in inventory, stash & cube.
     def _legcheck(self) -> bool:
-        
         #open inventory, search for leg
         Logger.info('\033[96m' + "Legcheck: Checking Inventory for Leg" + '\033[0m')  
         keyboard.send(Config().char["inventory_screen"]) 
         legfound = TemplateFinder().search_and_wait(["LEG_INVENTORY"], best_match=True, threshold=0.8,  time_out=0.5, use_grayscale=False, take_ss=False).valid
-        #wait(2)
         keyboard.send(Config().char["inventory_screen"])
-        
         #we found the leg
         if legfound: 
             Logger.info('\033[96m' + "Checking Inventory for Leg: found, calling open_cow_portal()" + '\033[0m')
             return True
-        
         #open stash, search for leg
         else:
             Logger.info('\033[96m' + "Legcheck: Checking Inventory for Leg: not found" + '\033[0m')
@@ -531,7 +501,6 @@ class Cows:
                 keyboard.send('ctrl', do_press=False)
                 Logger.info('\033[96m' + "Legcheck: Transferred Leg to from Stash Inventory, calling open_cow_portal())" + '\033[0m')
                 return True
-            
             #open cube, search for leg
             else:
                 Logger.info('\033[96m' + "Legcheck: Checking Stash for Leg: not found" + '\033[0m')
@@ -578,10 +547,6 @@ class Cows:
             mouse.click("left")
             wait(0.2, 0.3)
 
-    def close_cube(self):
-        wait(0.2, 0.3)
-        keyboard.send("esc")
-
 
     #this function opens the cow portal
     def _open_cow_portal(self)-> bool:
@@ -590,7 +555,6 @@ class Cows:
         if not self._pather.traverse_nodes((Location.A1_KASHYA_CAIN, Location.A1_AKARA), self._char, force_move=True): return False #walk to Akara
         npc_manager.open_npc_menu(Npc.AKARA)
         npc_manager.press_npc_btn(Npc.AKARA, "trade")
-
         #check if there is a tome for sale & buy it
         tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True, take_ss=False) 
         if not tp_tome.valid: return False
@@ -600,15 +564,12 @@ class Cows:
         mouse.click(button="right")
         wait(0.1, 0.15)
         keyboard.send('ctrl', do_press=False)
-        self.close_cube() #close vendor menu
-
+        keyboard.send("esc") #close vendor menu
         Logger.info('\033[91m' + "Open_Cow_Portal: Akara to Stash - get Cube"+ '\033[0m')
         if not self._pather.traverse_nodes((Location.A1_AKARA, Location.A1_STASH), self._char, force_move=True): return False #walk to Akara #Akara to Stash
-        
         #moving to the LEFT of the stash so the Cow Portal does not block the Stash
         pos_m2 = convert_abs_to_monitor((-150, 0))
         self._char.move(pos_m2, force_tp=True)
-        
         if not self._town_manager.open_stash(Location.A1_TOWN_START):
             Logger.info('\033[91m' + "Open_Cow_Portal: Stash not open, trying again after waiting a bit"+ '\033[0m')
             wait(0.5)
@@ -639,44 +600,63 @@ class Cows:
         Logger.info('\033[91m' + "Open_Cow_Portal: Transmuting"+ '\033[0m')
         self.transmute()
         wait(0.2, 0.3)
-        self.close_cube() #cube
+        keyboard.send("esc") #cube
         wait(0.2, 0.3)
-        self.close_cube() #stash
-        wait(0.2, 0.3)
-        keyboard.send(Config().char["inventory_screen"]) 
+        keyboard.send("esc") #stash & inv
         return True
 
 
     # this function kills cows
     def _cows(self) -> bool:
         Logger.info('\033[93m' + "Cows: Entering Portal"+ '\033[0m')
+        wait(0.5)
         if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], threshold=0.5, time_out=1, telekinesis=True): return False
         #train neuronal network to search for heads and feet of cows that are not dead as positive according to this tutorial: https://www.youtube.com/watch?v=XrCAvs9AePM&list=PL1m2M8LQlzfKtkKq2lK5xko4X-8EZzFPI&index=8
         #train it with images from dead cows and from empty cow levels as negative
         #search for template head or feet, cast attack rotation & pickit, repeat until?
-        pos_m = convert_abs_to_monitor((0, -400))
-        self._char.move(pos_m, force_tp=True)
-        self._char.move(pos_m, force_tp=True)
-        wait(1)
         start_time = time.time()
         cow_duration = (time.time() - start_time)
-
-        while cow_duration < 60:
-            
+        keyboard.send(Config().char["minimap"]) #turn off minimap
+        print("Minimap on, moving up")
+        pos_m0 = (0,-400)
+        pos_m = convert_abs_to_monitor(pos_m0)
+        self._char.move(pos_m, force_tp=True)
+        wait(0.25)
+        self._char.move(pos_m, force_tp=True)
+        wait(0.25)
+        self._char.move(pos_m, force_tp=True)
+        wait(0.25)
+        while cow_duration < 120:            
             #if mobfound, attack, else scout. also we could use a param for holy freeze or conviction for changing the filter depending on merc type
             self.image = grab()
             cv2.imwrite(f"./info_screenshots/info_cows_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
-            #conviction
-            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows
+            #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows #conviction
+            #holy freeze
+            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=0, blur=5, lh=95, ls=109, lv=21, uh=123, us=255, uv=255, bright=255, contrast=128, thresh=117, invert=0) # add HSV filter for cows #holy freeze
             pos_marker = []
             pos_rectangle = []
-            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=50, rect_max_size=100, marker=True)
+            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=100, rect_max_size=200, marker=True)
             cv2.imwrite(f"./info_screenshots/info_cows_filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
             order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
-            pos_m = convert_screen_to_abs(order[1]) #nearest marker
-            print("Found cow at: " + str(pos_m) + " attacking now!")
-            self._char.kill_cows(pos_m)
-    
+            if not order:
+                x_m = random.randint(-600, 600)
+                y_m = random.randint(-350, 300)
+                pos_m = convert_abs_to_monitor((x_m, y_m))
+                self._char.move(pos_m, force_tp=True)
+                keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+                cow_duration = round(cow_duration, 0)
+                Logger.info('\033[93m' + "Scouting for cows for " + str(cow_duration) +" seconds, moving to " + str(pos_m) + '\033[0m')
+            else:
+                pos_m = convert_screen_to_abs(order[0]) #nearest marker
+                pos_m = convert_abs_to_monitor(pos_m)
+                print('\033[92m' + "Found cow at: " + str(pos_m) + " attacking now!" + '\033[0m')
+                #cv2.imwrite(f"./info_screenshots/info_cowfound_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
+                #cv2.imwrite(f"./info_screenshots/info_cowfound_marker_" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
+                keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
+                self._char.move(pos_m, force_tp=True)
+                self._char.kill_cows(pos_m)
+            cow_duration = (time.time() - start_time)
+        Logger.info("Completed Cow Level")
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Secret Cow Level")
@@ -750,7 +730,7 @@ class Cows:
             #print (order)
             #print ("---------------------------------")
             #print ("moving to nearest marker")
-            pos_m = convert_abs_to_monitor(order[1])
+            pos_m = convert_abs_to_monitor(order[0])
             self._char.move(pos_m, force_move=True)
             #print ("---------------------------------")
 
