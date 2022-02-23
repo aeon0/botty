@@ -41,7 +41,7 @@ class Cows:
         
 
     #TAKE A SCREENSHOT, CHECK FOR MARKERS, RETURN TRUE IF FOUND
-    def _marker_check(self, ignore_radius:int=5)-> bool:
+    def _marker_check(self, ignore_radius:int=5, debug:bool=False)-> bool:
         self.image = grab()
         #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, invert=0, thresh=0) # add HSV filter for walls (few  markers)
         filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=4, blur=0, lh=0, ls=0, lv=95, uh=25, us=28, uv=125, bright=170, contrast=125, invert=0, thresh=98) # add HSV filter for walls (many markers)
@@ -49,13 +49,13 @@ class Cows:
         pos_rectangle = []  #define variables as empty array
         filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
         if not pos_marker:
-            print ("No Marker found")
+            if debug: Logger.debug("No Marker found")
             return False
         nearest_marker = TemplateFinder().get_targets_ordered_by_distance(pos_marker, ignore_radius) # returns the distance of the closest marker.
         if nearest_marker[0]:
-            print (nearest_marker[0])
+            if debug: Logger.debug (nearest_marker[0])
             pos_m = convert_abs_to_monitor(nearest_marker[0])
-            Logger.info (f'\033[91m' + "Marker found at: ("+str(pos_m[0])+","+str(pos_m[1])+")" + '\033[0m')
+            if debug: Logger.debug (f'\033[91m' + "Marker found at: ("+str(pos_m[0])+","+str(pos_m[1])+")" + '\033[0m')
             #mouse.move(pos_m[0], pos_m[1])
         #wait(5)
         return True
@@ -99,17 +99,17 @@ class Cows:
                 diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                 _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
                 score = (float(np.sum(mask)) / mask.size) * (1/255.0) #score to check how much difference there is between screenshots (high = movement, low = stuck)
-                Logger.debug("Scout: " + str(score) + ": is our current score")
+                #Logger.debug("Scout: " + str(score) + ": is our current score")
                 pos_m = convert_abs_to_monitor((random.uniform(x1_m, x2_m), random.uniform(y1_m, y2_m))) # randomize our position
                 self._char.move(pos_m, force_tp=True, force_move=True) # second of two teleports to randomized position
                 ######## WALLCHECK #########
                 #check if a wall is close by
-                marker_check = self._marker_check(50) # maybe we should give a bool to the scout() function call if walls should be checked.
-                #if we didnt move, we need to unstuck ourselves
-                if score < .10 or marker_check:
-                    #lets change scouting direction:
-                    if marker_check: Logger.info('\033[93m' + "Scout: Markercheck: " + str(marker_check) + " " + str(corner_picker) + '\033[0m')
-                    Logger.info('\033[93m' + "Scout: score was too low, we seem stuck, changing direction from corner: " + str(corner_picker) + '\033[0m')
+                marker_check = self._marker_check(5) # maybe we should give a bool to the scout() function call if walls should be checked.
+                if marker_check or score < .10:
+                #lets change scouting direction:
+                    score = round(score,2)
+                    Logger.info('\033[93m' + "Scout: score was too low ("+str(score)+"or a Marker for a Wall was found close-by (marker_check="+str(marker_check)+"), we seem stuck, changing direction from corner: " + str(corner_picker) + '\033[0m')
+                    corner_exclude = corner_picker
                     self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
                     """
                     stuck_count += 1
@@ -241,7 +241,7 @@ class Cows:
                 if TemplateFinder().search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
                     Logger.info('\033[92m' + "Exit_Clicker: Step2: Minimap Scout Template Found, Minimap off" + '\033[0m')
                     keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
-                    keyboard.send(Config().char["minimap"]) #turn on minimap
+                    keyboard.send(Config().char["minimap"]) #turn off minimap
             
             while not closetoexit:    
                 closetoexit = TemplateFinder().search_and_wait(templates_exit, best_match=True, threshold=0.7,  time_out=0.1, use_grayscale=False).valid
@@ -640,6 +640,7 @@ class Cows:
         Logger.info('\033[93m' + "Cows: Entering Portal"+ '\033[0m')
         wait(0.5)
         if not self._char.select_by_template(["COW_STONY_FIELD_PORTAL_1"], threshold=0.5, time_out=1, telekinesis=True): return False
+        return True
 
     def _cull_cows(self) -> bool:
         #train neuronal network to search for heads and feet of cows that are not dead as positive according to this tutorial: https://www.youtube.com/watch?v=XrCAvs9AePM&list=PL1m2M8LQlzfKtkKq2lK5xko4X-8EZzFPI&index=8
@@ -648,15 +649,14 @@ class Cows:
         start_time = time.time()
         cow_duration = (time.time() - start_time)
         keyboard.send(Config().char["minimap"]) #turn off minimap
-        print("Minimap on, moving up")
+        Logger.info("Minimap on, moving up 1")
         pos_m0 = (0,-400)
         pos_m = convert_abs_to_monitor(pos_m0)
         self._char.move(pos_m, force_tp=True)
-        wait(0.25)
+        Logger.info("Minimap on, moving up 2")
         self._char.move(pos_m, force_tp=True)
-        wait(0.25)
+        Logger.info("Minimap on, moving up 3")
         self._char.move(pos_m, force_tp=True)
-        wait(0.25)
         while cow_duration < 360: #we farm cows for this amount of seconds            
             #if mobfound, attack, else scout. also we could use a param for holy freeze or conviction for changing the filter depending on merc type
             self.image = grab()
@@ -678,7 +678,11 @@ class Cows:
                 if not marker_check: #if no wall, teleport where you wanted to go
                     self._char.move(pos_m, force_tp=True)
                 else: #if wall is found, teleport in the opposite direction
-                    pos_m = tuple(pos_m[0]*-1,pos_m[1]*-1)
+                    pos_m = convert_monitor_to_screen(pos_m)
+                    pos_m = convert_screen_to_abs(pos_m)
+                    x_m = pos_m[0] * -1
+                    y_m = pos_m[1] * -1
+                    pos_m = convert_abs_to_monitor((x_m, y_m))
                     self._char.move(pos_m, force_tp=True)
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                 cow_duration = round(cow_duration, 0)
@@ -686,7 +690,7 @@ class Cows:
             else:
                 pos_m = convert_screen_to_abs(order[0]) #nearest marker
                 pos_m = convert_abs_to_monitor(pos_m)
-                print('\033[92m' + "Found cow at: " + str(pos_m) + " attacking now!" + '\033[0m')
+                Logger.debug('\033[92m' + "Found cow at: " + str(pos_m) + " attacking now!" + '\033[0m')
                 #cv2.imwrite(f"./info_screenshots/info_cowfound_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
                 #cv2.imwrite(f"./info_screenshots/info_cowfound_marker_" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
@@ -694,6 +698,7 @@ class Cows:
                 self._char.kill_cows(pos_m)
             cow_duration = (time.time() - start_time)
         Logger.info("Completed Cow Level")
+        return True
 
     """
     def wallbouncer(self, bounce:bool=False, bounce_range:int=100, ignore_radius:int=50):
