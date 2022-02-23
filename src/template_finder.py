@@ -419,6 +419,10 @@ class TemplateFinder:
 
             return target_pos
 
+    def pythagorean_distance(pos_x, pos_y):
+            my_pos = (1280/2, 720/2) #center of the screen
+            return sqrt((pos_x - my_pos[0])**2 + (pos_y - my_pos[1])**2)
+
     def get_targets_ordered_by_distance(self, targets, ignore_radius:int=0):
         # our character is always in the center of the screen
         my_pos = (1280/2, 720/2) #center of the screen

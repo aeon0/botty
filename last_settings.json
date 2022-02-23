@@ -1,1 +1,1 @@
-{"erode": 0, "dilate": 0, "blur": 5, "lh": 95, "ls": 109, "lv": 21, "uh": 123, "us": 255, "uv": 255, "bright": 255, "contrast": 128, "invert": 0, "thresh": 117}
+{"erode": 0, "dilate": 4, "blur": 0, "lh": 0, "ls": 0, "lv": 95, "uh": 25, "us": 28, "uv": 125, "bright": 170, "contrast": 125, "invert": 0, "thresh": 98}
