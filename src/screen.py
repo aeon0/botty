@@ -18,24 +18,39 @@ detect_window = True
 
 def convert_monitor_to_screen(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
     global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_monitor_to_screen: empty coordinates passed")
+        return None
     return (screen_coord[0] - monitor_roi["left"], screen_coord[1] - monitor_roi["top"])
 
 def convert_screen_to_monitor(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
     global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_screen_to_monitor: empty coordinates passed")
+        return None
     x = screen_coord[0] + monitor_roi["left"]
     y = screen_coord[1] + monitor_roi["top"]
     return (np.clip(x, *monitor_x_range), np.clip(y, *monitor_y_range))
 
 def convert_abs_to_screen(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
     global monitor_roi
+    if abs_coord is None:
+        Logger.error("convert_screen_to_monitor: empty coordinates passed")
+        return None
     # abs has it's center on char which is the center of the screen
     return ((monitor_roi["width"] // 2) + abs_coord[0], (monitor_roi["height"] // 2) + abs_coord[1])
 
 def convert_screen_to_abs(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
     global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_screen_to_abs: empty coordinates passed")
+        return None
     return (screen_coord[0] - (monitor_roi["width"] // 2), screen_coord[1] - (monitor_roi["height"] // 2))
 
 def convert_abs_to_monitor(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
+    if abs_coord is None:
+        Logger.error("convert_abs_to_monitor: empty coordinates passed")
+        return None
     screen_coord = convert_abs_to_screen(abs_coord)
     monitor_coord = convert_screen_to_monitor(screen_coord)
     return monitor_coord
