@@ -3,6 +3,7 @@ import os
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
+from ui.ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import color_filter, wait
 from logger import Logger
 import keyboard
@@ -276,6 +277,10 @@ def open_npc_menu(npc_key: Npc) -> bool:
 def press_npc_btn(npc_key: Npc, action_btn_key: str):
     global npcs
     img = grab()
+    while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
+        keyboard.send("esc")
+        wait(0.2)
+        img = grab()
     _, filtered_inp_w = color_filter(img, Config().colors["white"])
     res = TemplateFinder().search(
         npcs[npc_key]["action_btns"][action_btn_key]["white"],

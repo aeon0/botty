@@ -1,12 +1,12 @@
 import keyboard
 import os
 import numpy as np
+import time
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
 from config import Config
 from screen import grab, convert_screen_to_monitor
-from item import ItemFinder
 from template_finder import TemplateFinder, TemplateMatch
 from dataclasses import dataclass
 from messages import Messenger
@@ -32,66 +32,79 @@ class ScreenObject:
         return cls
 
 class ScreenObjects:
-    BarAnchor = ScreenObject(
-        ref="GAMEBAR_ANCHOR",
+    InGame = ScreenObject(
+        ref=["GAMEBAR_ANCHOR", "GAMEBAR_ANCHOR_DARK"],
         roi="gamebar_anchor",
-        threshold=0.8
+        threshold=0.8,
+        best_match=True,
+        use_grayscale=True
     )
     WaypointLabel=ScreenObject(
         ref="LABEL_WAYPOINT",
-        roi="left_panel_label",
-        threshold=0.8
+        roi="left_panel_header",
+        threshold=0.8,
+        use_grayscale=True
     )
     WaypointTabs=ScreenObject(
         ref=["WP_A1_ACTIVE", "WP_A2_ACTIVE", "WP_A3_ACTIVE", "WP_A4_ACTIVE", "WP_A5_ACTIVE"],
         roi="wp_act_roi",
         threshold=0.8,
-        best_match=True
+        best_match=True,
+        use_grayscale=True
     )
     MercIcon=ScreenObject(
         ref=["MERC_A2", "MERC_A1", "MERC_A5", "MERC_A3"],
         roi="merc_icon",
-        threshold=0.9
+        threshold=0.9,
+        use_grayscale=True
     )
     PlayBtn=ScreenObject(
         ref=["PLAY_BTN", "PLAY_BTN_GRAY"],
         roi="play_btn",
-        best_match=True
+        best_match=True,
+        use_grayscale=True
     )
     MainMenu=ScreenObject(
         ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"],
         roi="main_menu_top_left",
-        best_match=True
+        best_match=True,
+        use_grayscale=True
     )
     Loading=ScreenObject(
         ref=["LOADING", "CREATING_GAME"],
         roi="difficulty_select",
-        threshold=0.9
+        threshold=0.9,
+        use_grayscale=True
     )
     Normal=ScreenObject(
         ref=["NORMAL_BTN"],
         roi="difficulty_select",
-        threshold=0.9
+        threshold=0.9,
+        use_grayscale=True
     )
     Nightmare=ScreenObject(
         ref=["NIGHTMARE_BTN"],
         roi="difficulty_select",
-        threshold=0.9
+        threshold=0.9,
+        use_grayscale=True
     )
     Hell=ScreenObject(
         ref=["HELL_BTN"],
         roi="difficulty_select",
-        threshold=0.9
+        threshold=0.9,
+        use_grayscale=True
     )
     CubeInventory=ScreenObject(
         ref=["HORADRIC_CUBE"],
         roi="left_inventory",
-        threshold=0.8
+        threshold=0.8,
+        use_grayscale=True
     )
     CubeOpened=ScreenObject(
         ref=["CUBE_TRANSMUTE_BTN"],
         roi="cube_btn_roi",
-        threshold=0.8
+        threshold=0.8,
+        use_grayscale=True
     )
     OnlineStatus=ScreenObject(
         ref=["CHARACTER_STATE_ONLINE", "CHARACTER_STATE_OFFLINE"],
@@ -127,27 +140,30 @@ class ScreenObjects:
     )
     TownPortal=ScreenObject(
         ref="BLUE_PORTAL",
-        threshold=0.66,
+        threshold=0.8,
         roi="tp_search",
         normalize_monitor=True
     )
     TownPortalReduced=ScreenObject(
         ref="BLUE_PORTAL",
-        threshold=0.66,
+        threshold=0.8,
         roi="reduce_to_center",
         normalize_monitor=True
     )
     GoldBtnInventory=ScreenObject(
         ref="INVENTORY_GOLD_BTN",
         roi="gold_btn",
-        normalize_monitor=True,
-        use_grayscale=True
+        normalize_monitor=True
     )
     GoldBtnStash=ScreenObject(
         ref="INVENTORY_GOLD_BTN",
         roi="gold_btn_stash",
-        normalize_monitor=True,
-        use_grayscale=True
+        normalize_monitor=True
+    )
+    GoldBtnVendor=ScreenObject(
+        ref="VENDOR_GOLD",
+        roi="gold_btn_stash",
+        normalize_monitor=True
     )
     GoldNone=ScreenObject(
         ref="INVENTORY_NO_GOLD",
@@ -181,6 +197,46 @@ class ScreenObjects:
         ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
         roi="corpse",
         threshold=0.8
+    )
+    BeltExpandable=ScreenObject(
+        ref="BELT_EXPANDABLE",
+        roi="gamebar_belt_expandable",
+        threshold=0.8
+    )
+    NPCMenu=ScreenObject(
+        ref=["TALK", "CANCEL"],
+        threshold=0.8,
+        use_grayscale=True
+    )
+    ChatIcon=ScreenObject(
+        ref="CHAT_ICON",
+        roi="chat_icon",
+        threshold=0.8,
+        use_grayscale=True
+    )
+    LeftPanel=ScreenObject(
+        ref="CLOSE_PANEL",
+        roi="left_panel_header",
+        threshold=0.8,
+        use_grayscale=True
+    )
+    RightPanel=ScreenObject(
+        ref="CLOSE_PANEL",
+        roi="right_panel_header",
+        threshold=0.8,
+        use_grayscale=True
+    )
+    NPCDialogue=ScreenObject(
+        ref="NPC_DIALOGUE",
+        roi="npc_dialogue",
+        threshold=0.8,
+        use_grayscale=True
+    )
+    SkillsExpanded=ScreenObject(
+        ref="BIND_SKILL",
+        roi="bind_skill",
+        threshold=0.8,
+        use_grayscale=True
     )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
@@ -223,15 +279,24 @@ def hover_over_screen_object_match(match) -> None:
     mouse.move(*convert_screen_to_monitor(match.center))
     wait(0.2, 0.4)
 
+def list_visible_objects(img: np.ndarray = None) -> list:
+    img = grab() if img is None else img
+    visible=[]
+    for pair in [a for a in vars(ScreenObjects).items() if not a[0].startswith('__') and a[1] is not None]:
+        if (match := detect_screen_object(pair[1], img)).valid:
+            # visible.append(match)
+            visible.append(pair[0])
+    return visible
+
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
     import keyboard
-    from ui import vendor
+    from screen import start_detecting_window
+    start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
-    print("Start")
     from config import Config
-    game_stats = GameStats()
-    item_finder = ItemFinder()
-    vendor.gamble()
+    while 1:
+        print(list_visible_objects())
+        time.sleep(1)
