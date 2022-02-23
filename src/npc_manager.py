@@ -3,7 +3,7 @@ import os
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import color_filter, wait
 from logger import Logger
 import keyboard
