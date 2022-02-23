@@ -43,16 +43,18 @@ class Cows:
     #TAKE A SCREENSHOT, CHECK FOR MARKERS, RETURN TRUE IF FOUND
     def _marker_check(self, ignore_radius:int=5, debug:bool=False)-> bool:
         self.image = grab()
-        #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, invert=0, thresh=0) # add HSV filter for walls (few  markers)
-        filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=4, blur=0, lh=0, ls=0, lv=95, uh=25, us=28, uv=125, bright=170, contrast=125, invert=0, thresh=98) # add HSV filter for walls (many markers)
+        #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, invert=0, thresh=0) # add HSV filter for walls (few  markers)
+        filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=4, blur=0, lh=0, ls=0, lv=95, uh=25, us=28, uv=125, bright=170, contrast=125, invert=0, thresh=98) # add HSV filter for walls (many markers)
         pos_marker = [] #define variables as empty array
         pos_rectangle = []  #define variables as empty array
-        filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
+        filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=False, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
         if not pos_marker:
             if debug: Logger.debug("No Marker found")
             return False
         nearest_marker = TemplateFinder().get_targets_ordered_by_distance(pos_marker, ignore_radius) # returns the distance of the closest marker.
-        if nearest_marker[0]:
+        if not nearest_marker[0]:
+            if debug: Logger.debug("No nearest Marker found")
+        else:
             if debug: Logger.debug (nearest_marker[0])
             pos_m = convert_abs_to_monitor(nearest_marker[0])
             if debug: Logger.debug (f'\033[91m' + "Marker found at: ("+str(pos_m[0])+","+str(pos_m[1])+")" + '\033[0m')
@@ -661,12 +663,12 @@ class Cows:
             #if mobfound, attack, else scout. also we could use a param for holy freeze or conviction for changing the filter depending on merc type
             self.image = grab()
             cv2.imwrite(f"./info_screenshots/info_cows_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
-            #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows #conviction
+            #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows #conviction
             #holy freeze
-            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=True, erode=0, dilate=0, blur=5, lh=95, ls=109, lv=21, uh=123, us=255, uv=255, bright=255, contrast=128, thresh=117, invert=0) # add HSV filter for cows #holy freeze
+            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=0, blur=5, lh=95, ls=109, lv=21, uh=123, us=255, uv=255, bright=255, contrast=128, thresh=117, invert=0) # add HSV filter for cows #holy freeze
             pos_marker = []
             pos_rectangle = []
-            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=100, rect_max_size=200, marker=True)
+            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True)
             cv2.imwrite(f"./info_screenshots/info_cows_filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
             order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
             if not order:
@@ -710,10 +712,10 @@ class Cows:
             keyboard.send(Config().char["minimap"]) #turn on minimap
             #maybe we should only grab a region around the char?
             self.image = grab()
-            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=True, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for walls (few walls & markers)
+            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for walls (few walls & markers)
             pos_marker = [] #define variables as empty array
             pos_rectangle = []  #define variables as empty array
-            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=True, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
+            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=False, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
             pos_marker = TemplateFinder().get_targets_ordered_by_distance(pos_marker, ignore_radius=ignore_radius) # returns the distance of the closest marker.
             pos_x, pos_y = pos_marker[0]
             print(pos_marker)
