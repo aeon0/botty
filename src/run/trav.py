@@ -8,7 +8,7 @@ from template_finder import TemplateFinder
 from town.town_manager import TownManager
 from utils.misc import wait
 
-from ui_components import waypoint
+from ui import waypoint
 
 class Trav:
     def __init__(

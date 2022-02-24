@@ -7,7 +7,7 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 
 class A2(IAct):
     def __init__(self, pather: Pather, char: IChar):

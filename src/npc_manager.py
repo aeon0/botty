@@ -1,12 +1,13 @@
 import time
 import os
+import numpy as np
+import keyboard
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import color_filter, wait
 from logger import Logger
-import keyboard
 from utils.custom_mouse import mouse
 from math import sqrt
 
@@ -117,8 +118,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [333, 104, (682-333), (343-104)],
-        "poses": [[406, 188], [550, 243], [620, 174]],
         "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
     },
     Npc.DROGNAN: {
@@ -167,8 +166,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("GAMBLE_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [337, 188, (733-337), (622-188)],
-        "poses": [[422, 398], [425, 513], [586, 494], [656, 372], [563, 348]],
         "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3", "JAMELLA_DRAWING"]
     },
     Npc.HALBU: {
@@ -180,8 +177,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [319, 128, (840-319), (403-128)],
-        "poses": [[443, 280], [523, 220], [599, 294], [738, 263]],
         "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
     },
     Npc.AKARA: {
@@ -223,6 +218,14 @@ npcs = {
     }
 }
 
+
+def escape_dialogue(img) -> np.ndarray:
+    while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
+        keyboard.send("esc")
+        wait(0.2)
+        img = grab()
+    return img
+
 def open_npc_menu(npc_key: Npc) -> bool:
     global npcs
     roi = Config().ui_roi["cut_skill_bar"]
@@ -258,8 +261,10 @@ def open_npc_menu(npc_key: Npc) -> bool:
         for result in results:
             mouse.move(*result["pos"], randomize=3, delay_factor=[0.3, 0.5])
             wait(0.2, 0.3)
-            _, filtered_inp_w = color_filter(grab(), Config().colors["white"])
-            _, filtered_inp_g = color_filter(grab(), Config().colors["gold"])
+            img = grab()
+            img = escape_dialogue(img)
+            _, filtered_inp_w = color_filter(img, Config().colors["white"])
+            _, filtered_inp_g = color_filter(img, Config().colors["gold"])
             res_w = TemplateFinder().search(npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
             res_g = TemplateFinder().search(npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
             if res_w:
@@ -277,10 +282,7 @@ def open_npc_menu(npc_key: Npc) -> bool:
 def press_npc_btn(npc_key: Npc, action_btn_key: str):
     global npcs
     img = grab()
-    while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
-        keyboard.send("esc")
-        wait(0.2)
-        img = grab()
+    img = escape_dialogue(img)
     _, filtered_inp_w = color_filter(img, Config().colors["white"])
     res = TemplateFinder().search(
         npcs[npc_key]["action_btns"][action_btn_key]["white"],
@@ -315,5 +317,5 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     # open_npc_menu(Npc.MALAH)
-    from ui_components import inventory
-    inventory.stash_all_items(9, ItemFinder())
+    from inventory import personal
+    personal.stash_all_items(9, ItemFinder())

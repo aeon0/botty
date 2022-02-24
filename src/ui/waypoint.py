@@ -7,8 +7,8 @@ from logger import Logger
 from config import Config
 from screen import convert_screen_to_monitor, grab
 from utils.misc import wait
-from ui_components import loading
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui import loading
+from ui_manager import detect_screen_object, ScreenObjects
 
 _WAYPOINTS = {
     # Act 1

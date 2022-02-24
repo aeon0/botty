@@ -2,8 +2,8 @@ import time
 from config import Config
 from utils.misc import wait
 from logger import Logger
-from ui_components import error_screens
-from ui.ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
+from ui import error_screens
+from ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
 
 def start_game() -> bool:
     """

@@ -1,14 +1,11 @@
 import time
-import cv2
 from screen import grab
 from config import Config
 import keyboard
 from utils.custom_mouse import mouse
-import numpy as np
 from logger import Logger
-from template_finder import TemplateFinder
 from utils.misc import wait
-from ui.ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
+from ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
 from screen import convert_screen_to_monitor
 
 def enable_no_pickup() -> bool:
@@ -73,7 +70,7 @@ def return_to_play() -> bool:
                     break
         if need_escape:
             keyboard.send("esc")
-            wait(0.1)
+            wait(0.2)
             img=grab()
         else:
             break
