@@ -7,7 +7,8 @@ from logger import Logger
 from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
-from ui_components import waypoint, inventory, vendor
+from ui import waypoint, view
+from inventory import personal, vendor
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -121,10 +122,14 @@ class TownManager:
         if curr_act is None: return False
         # check if we can Identify in current act
         if self._acts[curr_act].can_identify():
-            return self._acts[curr_act].identify(curr_loc)
+            success = self._acts[curr_act].identify(curr_loc)
+            view.return_to_play()
+            return success
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
-        return self._acts[Location.A5_TOWN_START].identify(new_loc)
+        success = self._acts[Location.A5_TOWN_START].identify(new_loc)
+        view.return_to_play()
+        return success
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
@@ -157,14 +162,14 @@ class TownManager:
             new_loc = self._acts[curr_act].open_stash(curr_loc)
             if not new_loc: return False
             wait(1.0)
-            inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
+            personal.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
             return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
         if not new_loc: return False
         wait(1.0)
-        inventory.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
+        personal.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
         return new_loc
 
     def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
@@ -192,6 +197,8 @@ class TownManager:
 if __name__ == "__main__":
     import keyboard
     import os
+    from screen import start_detecting_window
+    start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
@@ -207,4 +214,4 @@ if __name__ == "__main__":
     a2 = A2(pather, char)
     a1 = A1(pather, char)
     town_manager = TownManager(item_finder, a1, a2, a3, a4, a5)
-    print(town_manager.open_wp(Location.A1_TOWN_START))
+    print(town_manager.identify(Location.A3_TOWN_START))
