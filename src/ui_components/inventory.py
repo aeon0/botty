@@ -13,6 +13,7 @@ import numpy as np
 from utils.custom_mouse import mouse
 import os
 from ui_components import stash
+from ui_components.stash import set_gold_full
 from ui.ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
 from messages import Messenger
 from item import ItemCropper
@@ -76,7 +77,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                     if stash.curr_stash["gold"] > 3:
                         #decide if gold pickup should be disabled or gambling is active
                         if Config().char["gamble_items"]:
-                            stash.gold_full = True
+                            set_gold_full(True)
                         else:
                             # turn off gold pickup
                             Config().turn_off_goldpickup()
