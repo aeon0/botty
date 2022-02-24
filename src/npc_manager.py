@@ -3,7 +3,7 @@ import os
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import color_filter, wait
 from logger import Logger
 import keyboard
@@ -315,5 +315,5 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
     # open_npc_menu(Npc.MALAH)
-    from ui_components import inventory
-    inventory.stash_all_items(9, ItemFinder())
+    from inventory import personal
+    personal.stash_all_items(9, ItemFinder())

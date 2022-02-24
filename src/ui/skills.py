@@ -8,7 +8,7 @@ from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
 from template_finder import TemplateFinder
-from ui.ui_manager import wait_for_screen_object, ScreenObjects
+from ui_manager import wait_for_screen_object, ScreenObjects
 
 def is_left_skill_selected(template_list: List[str]) -> bool:
     """

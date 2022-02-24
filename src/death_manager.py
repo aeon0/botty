@@ -7,8 +7,8 @@ import keyboard
 import cv2
 from logger import Logger
 import time
-from ui_components import view
-from ui.ui_manager import ScreenObjects, detect_screen_object
+from ui import view
+from ui_manager import ScreenObjects, detect_screen_object
 
 
 class DeathManager:

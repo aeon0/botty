@@ -7,7 +7,6 @@ from utils.misc import wait
 from logger import Logger
 from config import Config
 from screen import grab, convert_screen_to_monitor
-from item import ItemFinder
 from template_finder import TemplateFinder, TemplateMatch
 from dataclasses import dataclass
 from messages import Messenger

@@ -11,8 +11,9 @@ from town.town_manager import TownManager, A4
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import convert_abs_to_monitor, grab
-from ui.ui_manager import detect_screen_object, ScreenObjects
-from ui_components import skills, loading, waypoint, belt, inventory
+from ui_manager import detect_screen_object, ScreenObjects
+from ui import skills, loading, waypoint
+from inventory import belt, personal
 
 class Diablo:
     def __init__(
@@ -57,7 +58,7 @@ class Diablo:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
                     # Check if we should stash while we are in town
                     force_stash = False
-                    force_stash = inventory.inventory.should_stash(Config().char["num_loot_columns"])
+                    force_stash = personal.should_stash(Config().char["num_loot_columns"])
                     if force_stash:
                         if Config().char["id_items"]:
                             Logger.debug(location + ": Identifying items")
