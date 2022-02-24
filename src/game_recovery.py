@@ -3,8 +3,8 @@ from config import Config
 from death_manager import DeathManager
 import time
 import keyboard
-from ui.ui_manager import detect_screen_object, ScreenObjects
-from ui_components import view, loading
+from ui_manager import detect_screen_object, ScreenObjects
+from ui import view, loading
 from utils.misc import set_d2r_always_on_top
 
 class GameRecovery:

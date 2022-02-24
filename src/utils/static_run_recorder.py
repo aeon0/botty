@@ -1,7 +1,5 @@
 from screen import convert_monitor_to_screen
-from config import Config
 import mouse
-
 
 if __name__ == "__main__":
     pos_list = []

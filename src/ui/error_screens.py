@@ -1,4 +1,4 @@
-from ui.ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
+from ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
 from logger import Logger
 from utils.misc import wait
 import keyboard

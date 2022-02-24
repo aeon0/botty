@@ -1,14 +1,14 @@
 import time
+from inventory import belt
 import keyboard
 import cv2
 from operator import itemgetter
-from ui.ui_manager import ScreenObjects, detect_screen_object
+from ui_manager import ScreenObjects, detect_screen_object
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui_components import view, belt
 from char import IChar
 
 

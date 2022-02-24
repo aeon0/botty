@@ -1,5 +1,5 @@
 import keyboard
-from ui_components import skills
+from ui import skills
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder

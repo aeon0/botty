@@ -9,7 +9,7 @@ from town.town_manager import TownManager
 from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
-from ui_components import waypoint
+from ui import waypoint
 
 class Arcane:
     def __init__(
