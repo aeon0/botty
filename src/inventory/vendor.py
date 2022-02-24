@@ -1,6 +1,7 @@
 import keyboard
 from template_finder import TemplateFinder
 from config import Config
+import numpy as np
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from item import ItemFinder
@@ -9,9 +10,6 @@ from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import wait_for_screen_object, ScreenObjects
 from inventory import common, personal
-
-def close_vendor_screen():
-    keyboard.send("esc")
 
 def repair_and_fill_up_tp() -> bool:
     """
@@ -70,9 +68,10 @@ def gamble(item_finder: ItemFinder):
     if template_match.valid:
         #Gambling window is open. Starting to spent some coins
         while (gamble_on and gold):
-            if (personal.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and personal.inventory_has_items(grab(),2)):
+            img=grab()
+            if (personal.inventory_has_items(img, ignore_columns) and personal.inventory_has_items(img, 2)):
                 gamble_on = False
-                close_vendor_screen ()
+                common.close()
                 break
             for item in Config().char["gamble_items"]:
                 template_match_item = TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
@@ -94,7 +93,7 @@ def gamble(item_finder: ItemFinder):
                 #check if gold is av
                 if template_match.valid:
                     gold = False
-                    close_vendor_screen()
+                    common.close()
                     break
                 for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
                     img = grab()
@@ -115,25 +114,33 @@ def gamble(item_finder: ItemFinder):
     else:
         Logger.warning("gambling failed")
 
-def buy_pots(healing_pots: int = 0, mana_pots: int = 0):
+def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shift_click: bool = False) -> bool:
     """
-    Buy pots from vendors. Vendor inventory needs to be open!
-    :param healing_pots: Number of healing pots to buy
-    :param mana_pots: Number of mana pots to buy
+    Buy desired item from vendors. Vendor inventory needs to be open!
+    :param template_name: Name of template for desired item to buy; e.g., SUPER_MANA_POTION
+    :param quantity: How many of the item to buy
+    :param img: Precaptured image of opened vendor inventory
+    :param shift_click: whether to hold shift and right click to buy full stack
+    returns bool for success/failure
     """
-    h_pot = TemplateFinder().search_and_wait("SUPER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-        h_pot = TemplateFinder().search_and_wait("GREATER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if h_pot.valid:
-        mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
-        for _ in range(healing_pots):
+    if img is None:
+        img = grab()
+    if (desired_item := TemplateFinder().search(template_name, inp_img=img, roi=Config().ui_roi["vendor_stash"], normalize_monitor=True)).valid:
+        mouse.move(*desired_item.center, randomize=8, delay_factor=[1.0, 1.5])
+        if shift_click:
+            keyboard.send('shift', do_release=False)
+            wait(0.5, 0.8)
             mouse.click(button="right")
-            wait(0.9, 1.1)
-    m_pot = TemplateFinder().search_and_wait("SUPER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
-    if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-        m_pot = TemplateFinder().search_and_wait("GREATER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
-    if m_pot.valid:
-        mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
-        for _ in range(mana_pots):
-            mouse.click(button="right")
-            wait(0.9, 1.1)
+            wait(0.4, 0.6)
+            keyboard.send('shift', do_release=True)
+            return True
+        if quantity:
+            for _ in range(quantity):
+                mouse.click(button="right")
+                wait(0.9, 1.1)
+            return True
+        else:
+            Logger.error("buy_item: Quantity not specified")
+            return False
+    Logger.error(f"buy_item: Desired item {template_name} not found")
+    return False

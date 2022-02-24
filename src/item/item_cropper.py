@@ -17,6 +17,7 @@ class ItemText:
     data: np.ndarray = None
     ocr_result: OcrResult = None
     clean_img: np.ndarray = None
+    valid: bool = False
     def __getitem__(self, key):
         return super().__getattribute__(key)
 
@@ -95,14 +96,13 @@ class ItemCropper:
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, all_results: bool = False, inventory_side: str = "right") -> ItemText:
+    def crop_item_descr(self, inp_img: np.ndarray, inventory_side: str = "right") -> ItemText:
         """
         Crops visible item description boxes / tooltips
         :inp_img: image from hover over item of interest.
-        :param all_results: whether to return all possible results (True) or the first result (False)
         :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
         """
-        results=[]
+        result = ItemText()
         black_mask, _ = color_filter(inp_img, Config().colors["black"])
         contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
@@ -129,15 +129,13 @@ class ItemCropper:
                     ocr_result = None
                     if Config().advanced_options["use_ocr"]:
                         ocr_result = self._ocr.image_to_text(cropped_item, psm=6)[0]
-                    results.append(ItemText(
-                        color = "black",
-                        roi = [x, y, w, h],
-                        data = cropped_item,
-                        ocr_result = ocr_result
-                    ))
-                    if not all_results:
-                        break
-        return results
+                    result.color = "black"
+                    result.roi = [x, y, w, h]
+                    result.data = cropped_item
+                    result.ocr_result = ocr_result
+                    result.valid = True
+                    break
+        return result
 
 if __name__ == "__main__":
     import keyboard
@@ -150,11 +148,10 @@ if __name__ == "__main__":
 
     while 1:
         img = grab().copy()
-        results = cropper.crop_item_descr(img, all_results=True, ocr=False)
-        for res in results:
-            if res["color"]:
-                x, y, w, h = res.roi
-                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-                Logger.debug(f"{res.ocr_result['text']}")
+        res = cropper.crop_item_descr(img, all_results=True, ocr=False)
+        if res["color"]:
+            x, y, w, h = res.roi
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+            Logger.debug(f"{res.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)

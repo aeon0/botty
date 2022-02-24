@@ -30,7 +30,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
 from ui import meters, skills, view, character_select, main_menu
-from inventory import personal, vendor, stash, belt
+from inventory import personal, vendor, stash, belt, common, consumables
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -109,7 +109,8 @@ class Bot:
         self._pick_corpse = False
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
-        self._tps_left = 10 # assume half full tp book
+        self._use_id_tome = True
+        self._use_keys = True
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -270,6 +271,44 @@ class Bot:
 
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
+
+        # Inspect inventory
+        items = None
+        if self._picked_up_items or ((self._game_stats._run_counter - 1) % 4 == 0) or self._prev_run_failed:
+            img = personal.open()
+            # Update TP, ID, key needs
+            if self._game_stats._game_counter == 1:
+                self._use_id_tome = common.tome_state(img, 'id')[0] is not None
+                self._use_keys = detect_screen_object(ScreenObjects.Key, img).valid
+            if (self._game_stats._run_counter - 1) % 4 == 0 or self._prev_run_failed:
+                consumables.update_tome_key_needs(img, item_type = 'tp')
+                if self._use_id_tome:
+                    id_state = common.tome_state(img, 'id')[0]
+                    if id_state == "empty":
+                        consumables.set_needs("id", 20)
+                    else:
+                        consumables.update_tome_key_needs(img, item_type = 'id')
+                if self._use_keys:
+                    # if keys run out then refilling will be unreliable :(
+                    self._use_keys = consumables.update_tome_key_needs(img, item_type = 'key')
+            # Check inventory items
+            if personal.inventory_has_items(img):
+                items = personal.inspect_items(img)
+            else:
+                common.close()
+        Logger.debug(f"Needs: {consumables.get_needs()}")
+        if items:
+            # if there are still items that need identifying, go to cain to identify them
+            if any([item.need_id for item in items]):
+                Logger.info("ID items at cain")
+                self._curr_loc = self._town_manager.identify(self._curr_loc)
+                if not self._curr_loc:
+                    return self.trigger_or_stop("end_game", failed=True)
+                # recheck inventory
+                items = personal.inspect_items()
+        keep_items = any([item.keep for item in items]) if items else None
+        sell_items = any([item.sell for item in items]) if items else None
+        # LEFT OFF HERE
 
         # Check if should need some healing
         img = grab()

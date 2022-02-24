@@ -1,5 +1,3 @@
-from concurrent.futures import process
-from fileinput import close
 from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2

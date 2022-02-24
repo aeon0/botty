@@ -1,0 +1,136 @@
+from config import Config
+import cv2
+import numpy as np
+import keyboard
+import time
+import parse
+from utils.custom_mouse import mouse
+from template_finder import TemplateFinder
+from ui_manager import detect_screen_object, ScreenObjects
+from inventory import personal, common
+from utils.misc import wait
+from screen import grab, convert_screen_to_monitor
+from dataclasses import dataclass
+from logger import Logger
+from item import ItemCropper
+
+@dataclass
+class Consumables:
+   tp: int = 0
+   id: int = 0
+   rejuv: int = 0
+   health: int = 0
+   mana: int = 0
+   key: int = 0
+
+_consumable_needs = Consumables()
+_item_consumables_map = {
+    "misc_rejuvenation_potion": "rejuv",
+    "misc_full_rejuvenation_potion": "rejuv",
+    "misc_super_healing_potion": "health",
+    "misc_greater_healing_potion": "health",
+    "misc_super_mana_potion": "mana",
+    "misc_greater_mana_potion": "mana",
+    "misc_scroll_tp": "tp",
+    "misc_scroll_id": "id",
+    "misc_key": "key"
+}
+_pot_rows = {
+    "rejuv": Config().char["belt_rejuv_columns"],
+    "health": Config().char["belt_hp_columns"],
+    "mana": Config().char["belt_mp_columns"],
+}
+
+def get_needs():
+    return _consumable_needs
+
+def set_needs(consumable_type: str, quantity: int):
+    consumable = reduce_name(consumable_type)
+    _consumable_needs[consumable] = quantity
+
+def increment(consumable_type: str = None, quantity: int = 1):
+    """
+    Adjust the _consumable_needs of a specific consumable
+    :param consumable_type: Name of item in pickit or in consumable_map
+    :param quantity: Increase the need (+int) or decrease the need (-int)
+    """
+    consumable = reduce_name(consumable_type)
+    _consumable_needs[consumable] = max(0, _consumable_needs[reduce_name(consumable)] + quantity)
+
+def reduce_name(consumable_type: str):
+    if consumable_type in _item_consumables_map:
+        consumable_type = _item_consumables_map[consumable_type]
+    elif consumable_type in _item_consumables_map.values():
+        pass
+    else:
+        Logger.warning(f"adjust_consumable_need: unknown item: {consumable_type}")
+    return consumable_type
+
+def conv_need_to_remaining(item_name: str = None) -> int:
+    if item_name is None:
+        Logger.error("conv_need_to_remaining: param item_name is required")
+        return -1
+    if item_name.lower() in ["health", "mana", "rejuv"]:
+        return _pot_rows[item_name] * Config().char["belt_rows"] - _consumable_needs[item_name]
+    elif item_name.lower() in ['tp', 'id']:
+        return 20 - _consumable_needs[item_name]
+    elif item_name.lower() == "key":
+        return 12 - _consumable_needs[item_name]
+    else:
+        Logger.error(f"conv_need_to_remaining: error with item_name={item_name}")
+        return -1
+
+def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int = None) -> bool:
+    if item_name is None:
+        Logger.error("should_buy: param item_name is required")
+        return False
+    if min_needed:
+        return _consumable_needs[item_name] >= min_needed
+    elif min_remaining:
+        return conv_need_to_remaining(item_name) <= min_remaining
+    else:
+        Logger.error("should_buy: need to specify min_remaining or min_needed")
+    return False
+
+def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool:
+    img = personal.open(img)
+    if item_type.lower() in ["tp", "id"]:
+        match = TemplateFinder().search(
+            [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
+            img,
+            roi = personal.specific_inventory_roi("reserved"),
+            best_match = True,
+            normalize_monitor=True
+            )
+        if match.valid:
+            if match.name == f"{item_type.upper()}_TOME_RED":
+                set_needs(item_type, 0)
+                return True
+            # else the tome exists and is not empty, continue
+        else:
+            Logger.debug(f"update_tome_key_needs: could not find {item_type}")
+            return False
+    elif item_type.lower() in ["key"]:
+        match = TemplateFinder().search("INV_KEY", img, roi = personal.specific_inventory_roi("reserved"))
+        if not match.valid:
+            return False
+    else:
+        Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
+        return False
+    mouse.move(*match.center, randomize=4, delay_factor=[0.5, 0.7])
+    wait(0.2, 0.2)
+    hovered_item = grab()
+    # get the item description box
+    item_box = ItemCropper().crop_item_descr(hovered_item, model="engd2r_inv_th_fast")
+    if item_box.valid:
+        result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
+        if item_type.lower() in ["tp", "id"]:
+            set_needs(item_type, 20 - result)
+        if item_type.lower() == "key":
+            set_needs(item_type, 12 - result)
+    else:
+        Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}")
+        if Config().general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+        return False
+    return True

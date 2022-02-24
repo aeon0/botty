@@ -8,7 +8,7 @@ from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 from ui import waypoint, view
-from inventory import personal, vendor
+from inventory import personal, vendor, common
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -102,7 +102,7 @@ class TownManager:
             if not new_loc: return False
             vendor.buy_pots(healing_pots, mana_pots)
             wait(0.1, 0.2)
-            vendor.close_vendor_screen()
+            common.close()
             return new_loc
         Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
         return curr_loc
@@ -181,7 +181,7 @@ class TownManager:
             if not new_loc: return False
             if vendor.repair_and_fill_up_tp():
                 wait(0.1, 0.2)
-                vendor.close_vendor_screen()
+                common.close()
                 return new_loc
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
@@ -189,7 +189,7 @@ class TownManager:
         if not new_loc: return False
         if vendor.repair_and_fill_up_tp():
             wait(0.1, 0.2)
-            vendor.close_vendor_screen()
+            common.close()
             return new_loc
         return False
 

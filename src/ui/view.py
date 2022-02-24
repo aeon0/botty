@@ -76,6 +76,7 @@ def return_to_play() -> bool:
             break
         if time.time() - start > 10:
             return False
+    return True
 
 if __name__ == "__main__":
     import keyboard

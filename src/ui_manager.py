@@ -6,7 +6,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
 from config import Config
-from screen import grab, convert_screen_to_monitor
+from screen import grab, convert_screen_to_monitor, convert_abs_to_monitor
 from template_finder import TemplateFinder, TemplateMatch
 from dataclasses import dataclass
 from messages import Messenger
@@ -238,6 +238,16 @@ class ScreenObjects:
         threshold=0.8,
         use_grayscale=True
     )
+    Unidentified=ScreenObject(
+        ref="UNIDENTIFIED",
+        threshold=0.8
+    )
+    Key=ScreenObject(
+        ref="INV_KEY",
+        roi="right_panel",
+        threshold=0.8,
+        normalize_monitor=True
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -287,6 +297,13 @@ def list_visible_objects(img: np.ndarray = None) -> list:
             # visible.append(match)
             visible.append(pair[0])
     return visible
+
+def center_mouse(delay_factor: list = None):
+    center_m = convert_abs_to_monitor((0, 0))
+    if delay_factor:
+        mouse.move(*center_m, randomize=20, delay_factor = delay_factor)
+    else:
+        mouse.move(*center_m, randomize=20)
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":

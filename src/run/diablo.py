@@ -58,7 +58,7 @@ class Diablo:
                     self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
                     # Check if we should stash while we are in town
                     force_stash = False
-                    force_stash = personal.should_stash(Config().char["num_loot_columns"])
+                    force_stash = personal.should_stash()
                     if force_stash:
                         if Config().char["id_items"]:
                             Logger.debug(location + ": Identifying items")

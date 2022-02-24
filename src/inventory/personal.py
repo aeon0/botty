@@ -10,23 +10,25 @@ import os
 
 from template_finder import TemplateFinder
 from config import Config
-from utils.misc import wait
+from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common
-from ui_manager import detect_screen_object, messenger, game_stats, wait_for_screen_object, ScreenObjects
+from ui import view
+from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects, center_mouse
+from game_stats import game_stats
 from item import ItemCropper
 from messages import Messenger
 
 messenger = Messenger()
 
-def inventory_has_items(img, num_loot_columns: int, num_ignore_columns=0) -> bool:
+def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> bool:
     """
     Check if Inventory has any items
     :param img: Img from screen.grab() with inventory open
-    :param num_loot_columns: Number of columns to check from left
     :return: Bool if inventory still has items or not
     """
-    for column, row in itertools.product(range(num_ignore_columns, num_loot_columns), range(4)):
+    img = open(img)
+    for column, row in itertools.product(range(num_ignore_columns, Config().char["num_loot_columns"]), range(4)):
         _, slot_img = common.get_slot_pos_and_img(img, column, row)
         if common.slot_has_item(slot_img):
             return True
@@ -150,7 +152,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
     x, y = convert_abs_to_monitor((0, 0))
     mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
     img = grab()
-    if inventory_has_items(img, num_loot_columns):
+    if inventory_has_items(img):
         Logger.info("Stash page is full, selecting next stash")
         if Config().general["info_screenshots"]:
             cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
@@ -183,8 +185,7 @@ def keep_item(item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True)
 
     if Config().advanced_options["use_ocr"]:
         item_box = ItemCropper().crop_item_descr(inp_img=img)
-        if item_box:
-            item_box = item_box[0]
+        if item_box.valid:
             Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
             for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
                 Logger.debug(f"OCR LINE{i}: {line}")
@@ -292,15 +293,163 @@ def keep_item(item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True)
             filtered_list.append(x)
     return filtered_list
 
-def should_stash(num_loot_columns: int):
+def should_stash() -> bool:
     """
     Check if there are items that need to be stashed in the inventory
-    :param num_loot_columns: Number of columns used for loot from left
     """
     wait(0.2, 0.3)
     keyboard.send(Config().char["inventory_screen"])
     wait(0.7, 1.0)
-    should_stash = inventory_has_items(grab(), num_loot_columns)
+    should_stash = inventory_has_items()
     keyboard.send(Config().char["inventory_screen"])
     wait(0.4, 0.6)
     return should_stash
+
+def specific_inventory_roi(desired: str = "reserved"):
+    #roi spec: left, top, W, H
+    roi = Config().ui_roi["inventory"].copy()
+    open_width = Config().ui_pos["slot_width"] * Config().char["num_loot_columns"]
+    if desired == "reserved":
+        roi[0]=roi[0] + open_width
+        roi[2]=roi[2] - open_width
+    elif desired == "open":
+        roi[2]=open_width
+    else:
+        Logger.error(f"set_inventory_rois: unsupported desired={desired}")
+        return None
+    return roi
+
+def open(img: np.ndarray = None) -> np.ndarray:
+    img = grab() if img is None else img
+    if not detect_screen_object(ScreenObjects.RightPanel, img).valid:
+        keyboard.send(Config().char["inventory_screen"])
+        if not wait_for_screen_object(ScreenObjects.RightPanel, 1).valid:
+            if not view.return_to_play():
+                return None
+            keyboard.send(Config().char["inventory_screen"])
+            if not wait_for_screen_object(ScreenObjects.RightPanel, 1).valid:
+                return None
+        img = grab()
+    return img
+
+def inspect_items(img: np.ndarray = None) -> bool:
+    """
+    Iterate over all picked items in inventory--ID items and decide which to stash
+    :param img: Image in which the item is searched (item details should be visible)
+    """
+    img = open(img)
+    slots = []
+    # check which slots have items
+    for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
+        slot_pos, slot_img = common.get_slot_pos_and_img(Config(), img, column, row)
+        if common.slot_has_item(slot_img):
+            slots.append([slot_pos, row, column])
+    boxes = []
+    # iterate over slots with items
+    item_rois = []
+    for count, slot in enumerate(slots):
+        failed = False
+        # ignore this slot if it lies within in a previous item's ROI
+        for item_roi in item_rois:
+            if is_in_roi(item_roi, slot[0]):
+                continue
+        img = grab()
+        x_m, y_m = convert_screen_to_monitor(slot[0])
+        delay = [0.2, 0.3] if count else [1, 1.3]
+        mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
+        wait(0.3, 0.5)
+        hovered_item = grab()
+        # get the item description box
+        item_box = ItemCropper().crop_item_descr(hovered_item)
+        if item_box.valid:
+            # determine the item's ROI in inventory
+            cnt=0
+            while True:
+                pre = mask_by_roi(img, specific_inventory_roi("open"))
+                post = mask_by_roi(hovered_item, specific_inventory_roi("open"))
+                # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
+                if not np.array_equal(pre, post):
+                    break
+                Logger.debug(f"_inspect_items: pre=post, try again. slot {slot[0]}")
+                center_mouse()
+                img = grab()
+                mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
+                wait(0.3, 0.5)
+                hovered_item = grab()
+                cnt += 1
+                if cnt >= 2:
+                    Logger.error(f"_inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
+                    break
+            extend_roi = item_box.roi[:]
+            extend_roi[3] = extend_roi[3] + 30
+            item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
+            if item_roi:
+                item_rois.append(item_roi)
+            # determine whether the item can be sold
+            sell = Config().char["sell_junk"] and not (item_box.ocr_result.text.lower() in ["key of ", "essense of", "wirt's", "jade figurine"])
+            # attempt to identify item
+            need_id = False
+            if Config().char["id_items"]:
+                if (is_unidentified := detect_screen_object(ScreenObjects.Unidentified, item_box.data)).valid:
+                    need_id = True
+                    center_mouse()
+                    tome_state, tome_pos = common.tome_state(img, tome_type = "id", roi = specific_inventory_roi("reserved"))
+                if is_unidentified and tome_state is not None and tome_state == "ok":
+                    common.id_item_with_tome([x_m, y_m], tome_pos)
+                    need_id = False
+                    # recapture box after ID
+                    mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
+                    wait(0.2, 0.3)
+                    hovered_item = grab()
+                    item_box = ItemCropper().crop_item_descr(hovered_item)
+            if item_box.valid:
+                if Config.advanced_options["use_ocr"]:
+                    Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+                    for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+                        Logger.debug(f"OCR LINE{i}: {line}")
+                    if Config().general["loot_screenshots"]:
+                        timestamp = time.strftime("%Y%m%d_%H%M%S")
+                        found_low_confidence = False
+                        for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                            if x <= 88:
+                                try:
+                                    Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                                    found_low_confidence = True
+                                except: pass
+                        if found_low_confidence:
+                            cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
+                            cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
+
+                # decide whether to keep item
+                keep = (result := keep_item(ItemFinder(), item_box)) is not None
+                if keep: sell = False
+
+                box = common.BoxInfo(
+                    img = item_box.data,
+                    pos = (x_m, y_m),
+                    column = slot[2],
+                    row = slot[1],
+                    need_id = need_id,
+                    sell = sell,
+                    keep = keep
+                )
+                if keep and not need_id:
+                    game_stats.log_item_keep(result.name, Config().items[result.name].pickit_type == 2, item_box.data, result.ocr_result.text)
+                if keep or sell or need_id:
+                    # save item info
+                    boxes.append(box)
+                else:
+                    # if item isn't going to be sold or kept, drop it
+                    Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
+                    common.transfer_items([box], action = "drop")
+                wait(0.3, 0.5)
+            else:
+                failed = True
+        else:
+            failed = True
+        if failed:
+            Logger.error(f"item_cropper failed for slot_pos: {slot[0]}")
+            if Config().general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+    common.close()
+    return boxes
