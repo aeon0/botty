@@ -227,7 +227,6 @@ npcs = {
 
 def escape_dialogue(img) -> np.ndarray:
     while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
-        print("b")
         keyboard.send("esc")
         wait(0.2)
         img = grab()
