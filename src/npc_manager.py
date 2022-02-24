@@ -118,8 +118,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [333, 104, (682-333), (343-104)],
-        "poses": [[406, 188], [550, 243], [620, 174]],
         "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
     },
     Npc.DROGNAN: {
@@ -168,8 +166,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("GAMBLE_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [337, 188, (733-337), (622-188)],
-        "poses": [[422, 398], [425, 513], [586, 494], [656, 372], [563, 348]],
         "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3", "JAMELLA_DRAWING"]
     },
     Npc.HALBU: {
@@ -181,8 +177,6 @@ npcs = {
                 "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
-        "roi": [319, 128, (840-319), (403-128)],
-        "poses": [[443, 280], [523, 220], [599, 294], [738, 263]],
         "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
     },
     Npc.AKARA: {
