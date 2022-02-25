@@ -68,7 +68,7 @@ def close(img: np.ndarray = None) -> np.ndarray:
                 return None
     return img
 
-def calc_item_roi(self, img_pre, img_post):
+def calc_item_roi(img_pre, img_post):
     try:
         diff = cv2.absdiff(img_pre, img_post)
         gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)

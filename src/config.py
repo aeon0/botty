@@ -249,6 +249,7 @@ class Config:
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self._config["sorceress"])

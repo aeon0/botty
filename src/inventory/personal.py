@@ -1,5 +1,6 @@
 import itertools
 from item import ItemFinder
+from item.item_cropper import ItemText
 from logger import Logger
 from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
 import keyboard
@@ -120,7 +121,7 @@ def stash_all_items(gamble: bool = False, items: list = None):
     common.close()
     return items
 
-def keep_item(img: np.ndarray, do_logging: bool = True) -> bool:
+def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
     """
     Check if an item should be kept, the item should be hovered and in own inventory when function is called
     :param img: Image in which the item is searched (item details should be visible)
@@ -128,7 +129,8 @@ def keep_item(img: np.ndarray, do_logging: bool = True) -> bool:
     :return: Bool if item should be kept
     """
     wait(0.2, 0.3)
-    _, w, _ = img.shape
+    ymax = 50 if item_box.data.shape[0] < 50 else item_box.data.shape[0]
+    img = item_box.data[0:ymax,:]
 
     if Config().advanced_options["use_ocr"]:
         item_box = ItemCropper().crop_item_descr(inp_img=img)
@@ -285,7 +287,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
     slots = []
     # check which slots have items
     for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
-        slot_pos, slot_img = common.get_slot_pos_and_img(Config(), img, column, row)
+        slot_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
         if common.slot_has_item(slot_img):
             slots.append([slot_pos, row, column])
     boxes = []
@@ -347,7 +349,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
                     hovered_item = grab()
                     item_box = ItemCropper().crop_item_descr(hovered_item)
             if item_box.valid:
-                if Config.advanced_options["use_ocr"]:
+                if Config().advanced_options["use_ocr"]:
                     Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
                     for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
                         Logger.debug(f"OCR LINE{i}: {line}")
