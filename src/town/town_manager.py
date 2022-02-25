@@ -20,8 +20,7 @@ TOWN_MARKERS = [
 
 class TownManager:
 
-    def __init__(self, item_finder: ItemFinder, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
-        self._item_finder = item_finder
+    def __init__(self, a1: A1, a2: A2, a3: A3, a4: A4, a5: A5):
         self._acts: dict[Location, IAct] = {
             Location.A1_TOWN_START: a1,
             Location.A2_TOWN_START: a2,
@@ -93,19 +92,63 @@ class TownManager:
         Logger.warning(f"Could not heal in {curr_act}. Continue without healing")
         return curr_loc
 
-    def buy_pots(self, curr_loc: Location, healing_pots: int = 0, mana_pots: int = 0) -> Union[Location, bool]:
+    def buy_consumables(self, curr_loc: Location, items: list = None, needs: dict = {}):
         curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
+        if curr_act is None: return False, items
         # check if we can buy pots in current act
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
-            if not new_loc: return False
-            vendor.buy_pots(healing_pots, mana_pots)
-            wait(0.1, 0.2)
+            if not new_loc: return False, items
+            # Buy HP pots
+            if needs["health"] > 0:
+                can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
+                if vendor.buy_item(template_name = "SUPER_HEALING_POTION", quantity = needs["health"], shift_click = can_shift_click):
+                    needs["health"] = 0
+                else:
+                    if vendor.buy_item(template_name="GREATER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                        needs["health"] = 0
+                    else:
+                        Logger.error("buy_consumables: Error purchasing health potions")
+                        return False, items
+            # Buy mana pots
+            if needs["mana"] > 0:
+                can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
+                if vendor.buy_item(template_name="SUPER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                    needs["mana"] = 0
+                else:
+                    if vendor.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                        needs["mana"] = 0
+                    else:
+                        Logger.error("buy_consumables: Error purchasing mana potions")
+                        return False, items
+            # Buy TP scrolls
+            if needs["tp"] > 0:
+                if vendor.buy_item(template_name="INV_SCROLL_TP", shift_click = True):
+                    needs["tp"] = 0
+                else:
+                    Logger.error("buy_consumables: Error purchasing teleport scrolls")
+                    return False, items
+            # Buy ID scrolls
+            if needs["id"] > 0:
+                if vendor.buy_item(template_name="INV_SCROLL_ID", shift_click = True):
+                    needs["id"] = 0
+                else:
+                    Logger.error("buy_consumables: Error purchasing ID scrolls")
+                    return False, items
+            # Buy keys
+            if needs["key"] > 0:
+                if vendor.buy_item(template_name="INV_KEY", shift_click = True):
+                    needs["key"] = 0
+                else:
+                    Logger.error("buy_consumables: Error purchasing keys")
+                    return False, items
+            # Sell items, if any
+            if items:
+                items = common.transfer_items(items, action = "sell", close = False)
             common.close()
-            return new_loc
-        Logger.warning(f"Could not buy pots in {curr_act}. Continue without buy pots")
-        return curr_loc
+            return new_loc, items
+        Logger.warning(f"Could not buy consumables in {curr_act}. Continue without buy pots")
+        return curr_loc, items
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
@@ -154,44 +197,48 @@ class TownManager:
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].gamble(new_loc)
 
-    def stash(self, curr_loc: Location, gamble=False) -> Union[Location, bool]:
+    def stash(self, curr_loc: Location, gamble=False, items: list = None) -> tuple(Union[Location, bool], Union[list, bool]):
         curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
+        if curr_act is None: return False, False
         # check if we can stash in current act
         if self._acts[curr_act].can_stash():
             new_loc = self._acts[curr_act].open_stash(curr_loc)
-            if not new_loc: return False
+            if not new_loc: return False, False
             wait(1.0)
-            personal.stash_all_items(Config().char["num_loot_columns"], self._item_finder, gamble)
-            return new_loc
+            items = personal.stash_all_items(gamble, items)
+            return new_loc, items
         new_loc = self.go_to_act(5, curr_loc)
-        if not new_loc: return False
+        if not new_loc: return False, False
         new_loc = self._acts[Location.A5_TOWN_START].open_stash(new_loc)
-        if not new_loc: return False
+        if not new_loc: return False, False
         wait(1.0)
-        personal.stash_all_items(Config().char["num_loot_columns"], self._item_finder)
-        return new_loc
+        items = personal.stash_all_items(items = items)
+        return new_loc, items
 
-    def repair_and_fill_tps(self, curr_loc: Location) -> Union[Location, bool]:
+    def repair(self, curr_loc: Location, items: list = None) -> tuple(Union[Location, bool], Union[list, bool]):
         curr_act = TownManager.get_act_from_location(curr_loc)
-        if curr_act is None: return False
+        if curr_act is None: return False, False
         # check if we can rapair in current act
         if self._acts[curr_act].can_trade_and_repair():
             new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
-            if not new_loc: return False
-            if vendor.repair_and_fill_up_tp():
+            if not new_loc: return False, False
+            if items:
+                items = common.transfer_items(items, "sell")
+            if vendor.repair():
                 wait(0.1, 0.2)
                 common.close()
-                return new_loc
+                return new_loc, items
         new_loc = self.go_to_act(5, curr_loc)
-        if not new_loc: return False
+        if not new_loc: return False, False
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
-        if not new_loc: return False
-        if vendor.repair_and_fill_up_tp():
+        if not new_loc: return False, False
+        if items:
+            items = common.transfer_items(items, "sell")
+        if vendor.repair():
             wait(0.1, 0.2)
             common.close()
-            return new_loc
-        return False
+            return new_loc, items
+        return False, False
 
 # Test: Move to desired location in d2r and run any town action you want to test from there
 if __name__ == "__main__":
@@ -206,12 +253,11 @@ if __name__ == "__main__":
     from item import ItemFinder
     from pather import Pather
     pather = Pather()
-    item_finder = ItemFinder()
     char = Hammerdin(Config().hammerdin, Config().char, pather)
     a5 = A5(pather, char)
     a4 = A4(pather, char)
     a3 = A3(pather, char)
     a2 = A2(pather, char)
     a1 = A1(pather, char)
-    town_manager = TownManager(item_finder, a1, a2, a3, a4, a5)
+    town_manager = TownManager(a1, a2, a3, a4, a5)
     print(town_manager.identify(Location.A3_TOWN_START))

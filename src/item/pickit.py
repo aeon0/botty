@@ -10,6 +10,7 @@ from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
 from char import IChar
+from inventory import consumables
 
 
 class PickIt:
@@ -67,14 +68,20 @@ class PickIt:
                                 f.write(item.ocr_result['text'])
                 done_ocr = True
 
-            # Check if we need to pick up certain pots more pots
-            need_pots = belt.get_pot_needs()
-            if need_pots["mana"] <= 0:
+            # Check if we need to pick up any consumables
+            needs = self._consumables_manager.get_needs()
+            if needs["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
-            if need_pots["health"] <= 0:
+            if needs["health"] <= 0:
                 item_list = [x for x in item_list if "healing_potion" not in x.name]
-            if need_pots["rejuv"] <= 0:
+            if needs["rejuv"] <= 0:
                 item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+            if needs["tp"] <= 0:
+                item_list = [x for x in item_list if "scroll_tp" not in x.name]
+            if needs["id"] <= 0:
+                item_list = [x for x in item_list if "scroll_id" not in x.name]
+            if needs["key"] <= 0:
+                item_list = [x for x in item_list if "misc_key" != x.name]
 
             # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
             if Config().char["gold_trav_only"] and not is_at_trav:
@@ -123,11 +130,11 @@ class PickIt:
                 x_m, y_m = convert_screen_to_monitor(closest_item.center)
                 if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
-                    # if potion is picked up, record it in the belt manager
-                    if "potion" in closest_item.name:
-                        belt.picked_up_pot(closest_item.name)
-                    # no need to stash potions, scrolls, or gold
-                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
+                    # if potion is picked up, record it in the consumables manager
+                    if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name) or ("misc_key" == closest_item.name):
+                        consumables.increment_need(closest_item.name, -1)
+                    # no need to stash potions, scrolls, gold, keys
+                    if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
                         if Config().advanced_options["use_ocr"]:
                             for item in item_list:

@@ -11,7 +11,7 @@ from utils.custom_mouse import mouse
 from ui_manager import wait_for_screen_object, ScreenObjects
 from inventory import common, personal
 
-def repair_and_fill_up_tp() -> bool:
+def repair() -> bool:
     """
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
     :return: Bool if success
@@ -31,36 +31,12 @@ def repair_and_fill_up_tp() -> bool:
     wait(0.1, 0.15)
     mouse.click(button="left")
     wait(0.5, 0.6)
-    tp_tome = TemplateFinder().search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=Config().ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
-    if not tp_tome.valid:
-        return False
-    keyboard.send('ctrl', do_release=False)
-    mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.press(button="left")
-    wait(0.25, 0.35)
-    mouse.release(button="left")
-    wait(0.5, 0.6)
-    keyboard.send('ctrl', do_press=False)
-    tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if not tp_tome.valid:
-        return False
-    keyboard.send('ctrl', do_release=False)
-    mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.click(button="right")
-    wait(0.1, 0.15)
-    keyboard.send('ctrl', do_press=False)
-    # delay to make sure the tome has time to transfer to other inventory before closing window
-    tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["right_inventory"], time_out=3)
-    if not tp_tome.valid:
-        return False
     return True
 
-def gamble(item_finder: ItemFinder):
+def gamble():
     gold = True
     gamble_on = True
-    if Config().char["num_loot_columns"]%2==0:
+    if Config().char["num_loot_columns"] % 2 == 0:
         ignore_columns = Config().char["num_loot_columns"]-1
     else:
         ignore_columns = Config().char["num_loot_columns"]-2
@@ -104,7 +80,7 @@ def gamble(item_finder: ItemFinder):
                         # check item again and discard it or stash it
                         wait(1.2, 1.4)
                         hovered_item = grab()
-                        if not personal.keep_item(item_finder, hovered_item):
+                        if not personal.keep_item(hovered_item):
                             keyboard.send('ctrl', do_release=False)
                             wait(0.1, 0.15)
                             mouse.click (button="left")

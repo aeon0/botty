@@ -5,7 +5,6 @@ from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjec
 from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
-from item.item_finder import ItemFinder
 from screen import convert_screen_to_monitor, grab
 from utils.custom_mouse import mouse
 from utils.misc import wait
@@ -92,8 +91,7 @@ class Transmute:
         keyboard.send("esc")
 
     def stash_all_items(self):
-        personal.stash_all_items(
-            Config().char["num_loot_columns"], ItemFinder())
+        personal.stash_all_items()
 
     def pick_from_cube_at(self, column, row):
         return self.pick_from_area(column, row, Config().ui_roi["cube_area_roi"])
@@ -178,7 +176,7 @@ class Transmute:
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
-        gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)
+        gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnStash, time_out = 20)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return

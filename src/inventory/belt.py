@@ -4,6 +4,7 @@ from typing import List
 import numpy as np
 from template_finder import TemplateFinder
 from inventory import common, consumables
+from inventory.consumables import item_consumables_map
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait, color_filter
 from config import Config
@@ -63,26 +64,11 @@ def drink_potion(potion_type: str, merc: bool = False, stats: List = []) -> bool
             else:
                 Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
                 keyboard.send(Config().char[key])
-            consumables.increment(potion_type, 1)
+            consumables.increment_need(potion_type, 1)
             return True
     return False
 
-def picked_up_pot(item_name: str):
-    """Adjust the _pot_needs when a specific pot was picked up by the pickit
-    :param item_name: Name of the item as it is in the pickit
-    """
-    global pot_needs, item_pot_map
-    if item_name in item_pot_map:
-        pot_needs[item_pot_map[item_name]] = max(0, pot_needs[item_pot_map[item_name]] - 1)
-    else:
-        Logger.warning(f"BeltManager does not know about item: {item_name}")
-
-def update_pot_needs() -> List[int]:
-    """
-    Check how many pots are needed
-    :return: [need_rejuv_pots, need_health_pots, need_mana_pots]
-    """
-    global pot_needs
+def update_pot_needs():
     pot_needs = {"rejuv": 0, "health": 0, "mana": 0}
     rows_left = {
         "rejuv": Config().char["belt_rejuv_columns"],

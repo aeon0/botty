@@ -20,6 +20,7 @@ from item import ItemCropper
 from messages import Messenger
 
 messenger = Messenger()
+item_finder = ItemFinder()
 
 def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> bool:
     """
@@ -34,27 +35,24 @@ def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> 
             return True
     return False
 
-def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = False):
+def stash_all_items(gamble: bool = False, items: list = None):
     """
     Stashing all items in inventory. Stash UI must be open when calling the function.
-    :param num_loot_columns: Number of columns used for loot from left
     """
     global messenger, game_stats
     Logger.debug("Searching for inventory gold btn...")
-    # Move cursor to center
-    x, y = convert_abs_to_monitor((0, 0))
-    mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
+    center_mouse()
     # Wait till gold btn is found
-    gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)
-    if not gold_btn.valid:
+    if not (gold_btn := wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)).valid:
         Logger.error("Could not determine to be in stash menu. Continue...")
         return
     Logger.debug("Found inventory gold btn")
-    if not gamble:
+    if gamble:
+        stash.transfer_shared_to_private_gold(stash.gambling_round)
+    else:
         # stash gold
         if Config().char["stash_gold"]:
-            inventory_no_gold = detect_screen_object(ScreenObjects.GoldNone)
-            if inventory_no_gold.valid:
+            if detect_screen_object(ScreenObjects.GoldNone).valid:
                 Logger.debug("Skipping gold stashing")
             else:
                 Logger.debug("Stashing gold")
@@ -69,8 +67,7 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                 wait(1.0, 1.2)
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15)
-                inventory_no_gold = detect_screen_object(ScreenObjects.GoldNone)
-                if not inventory_no_gold.valid:
+                if not detect_screen_object(ScreenObjects.GoldNone).valid:
                     Logger.info("Stash tab is full of gold, selecting next stash tab.")
                     stash.curr_stash["gold"] += 1
                     if Config().general["info_screenshots"]:
@@ -90,92 +87,42 @@ def stash_all_items(num_loot_columns: int, item_finder: ItemFinder, gamble = Fal
                     else:
                         # move to next stash
                         wait(0.5, 0.6)
-                        return stash_all_items(num_loot_columns, item_finder)
-    else:
-        stash.transfer_shared_to_private_gold(stash.gambling_round)
-    # stash stuff
+                        return stash_all_items(items=items)
+    # check if stash tab is completely full (no empty slots)
     stash.move_to_stash_tab(stash.curr_stash["items"])
-    center_m = convert_abs_to_monitor((0, 0))
-    for column, row in itertools.product(range(num_loot_columns), range(4)):
+    while stash.curr_stash["items"] <= 3:
         img = grab()
-        slot_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
-        if common.slot_has_item(slot_img):
-            x_m, y_m = convert_screen_to_monitor(slot_pos)
-            mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
-            # check item again and discard it or stash it
-            wait(1.2, 1.4)
-            hovered_item = grab()
-            found_items = keep_item(item_finder, hovered_item)
-            if len(found_items) > 0:
-                keyboard.send('ctrl', do_release=False)
-                wait(0.2, 0.25)
-                mouse.press(button="left")
-                wait(0.2, 0.25)
-                mouse.release(button="left")
-                wait(0.2, 0.25)
-                keyboard.send('ctrl', do_press=False)
-                # To avoid logging multiple times the same item when stash tab is full
-                # check the _keep_item again. In case stash is full we will still find the same item
-                wait(0.3)
-                did_stash_test_img = grab()
-                if len(keep_item(item_finder, did_stash_test_img, False)) > 0:
-                    Logger.debug("Wanted to stash item, but its still in inventory. Assumes full stash. Move to next.")
-                    break
-                else:
-                    game_stats.log_item_keep(found_items[0].name, Config().items[found_items[0].name].pickit_type == 2, hovered_item)
-            else:
-                # make sure there is actually an item
-                time.sleep(0.3)
-                curr_pos = mouse.get_position()
-                # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-                x, y = convert_abs_to_monitor((0, 0))
-                mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
-                item_check_img = grab()
-                mouse.move(*curr_pos, randomize=2)
-                wait(0.4, 0.6)
-                slot_pos, slot_img = common.get_slot_pos_and_img(item_check_img, column, row)
-                if common.slot_has_item(slot_img):
-                    if Config().general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_discard_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
-                    mouse.press(button="left")
-                    wait(0.2, 0.4)
-                    mouse.release(button="left")
-                    mouse.move(*center_m, randomize=20)
-                    wait(0.2, 0.3)
-                    mouse.press(button="left")
-                    wait(0.2, 0.3)
-                    mouse.release(button="left")
-                    wait(0.5, 0.5)
-    Logger.debug("Check if stash is full")
-    time.sleep(0.6)
-    # move mouse away from inventory, for some reason it was sometimes included in the grabed img
-    x, y = convert_abs_to_monitor((0, 0))
-    mouse.move(x, y, randomize=[40, 200], delay_factor=[1.0, 1.5])
-    img = grab()
-    if inventory_has_items(img):
-        Logger.info("Stash page is full, selecting next stash")
-        if Config().general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-
-        # if filling shared stash first, we decrement from 3, otherwise increment
-        stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
-        if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
-            Logger.error("All stash is full, quitting")
-            if Config().general["custom_message_hook"]:
-                messenger.send_stash()
-            os._exit(1)
+        if detect_screen_object(ScreenObjects.EmptyStashSlot, img).valid:
+            break
         else:
-            # move to next stash
-            wait(0.5, 0.6)
-            return stash_all_items(num_loot_columns, item_finder)
-
+            Logger.info(f"Stash tab completely full, advance to next")
+            if Config().general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+            stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
+            if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
+                stash.stash_full()
+            stash.move_to_stash_tab(stash.curr_stash["items"])
+    # stash stuff
+    while True:
+        items = common.transfer_items(items, "stash")
+        if items and any([item.keep for item in items]):
+            # could not stash all items, stash tab is likely full
+            Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
+            if Config().general["info_screenshots"]:
+                cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+            stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
+            if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
+                stash.stash_full()
+            stash.move_to_stash_tab(stash.curr_stash["items"])
+        else:
+            break
     Logger.debug("Done stashing")
-    wait(0.4, 0.5)
+    common.close()
+    return items
 
-def keep_item(item_finder: ItemFinder, img: np.ndarray, do_logging: bool = True) -> bool:
+def keep_item(img: np.ndarray, do_logging: bool = True) -> bool:
     """
     Check if an item should be kept, the item should be hovered and in own inventory when function is called
-    :param item_finder: ItemFinder to check if item is in pickit
     :param img: Image in which the item is searched (item details should be visible)
     :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
     :return: Bool if item should be kept
@@ -297,12 +244,9 @@ def should_stash() -> bool:
     """
     Check if there are items that need to be stashed in the inventory
     """
-    wait(0.2, 0.3)
-    keyboard.send(Config().char["inventory_screen"])
-    wait(0.7, 1.0)
+    open()
     should_stash = inventory_has_items()
-    keyboard.send(Config().char["inventory_screen"])
-    wait(0.4, 0.6)
+    common.close()
     return should_stash
 
 def specific_inventory_roi(desired: str = "reserved"):
@@ -421,7 +365,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
                             cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
                 # decide whether to keep item
-                keep = (result := keep_item(ItemFinder(), item_box)) is not None
+                keep = (result := keep_item(item_box)) is not None
                 if keep: sell = False
 
                 box = common.BoxInfo(

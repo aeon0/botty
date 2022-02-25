@@ -16,15 +16,17 @@ from item import ItemCropper
 
 @dataclass
 class Consumables:
-   tp: int = 0
-   id: int = 0
-   rejuv: int = 0
-   health: int = 0
-   mana: int = 0
-   key: int = 0
+    tp: int = 0
+    id: int = 0
+    rejuv: int = 0
+    health: int = 0
+    mana: int = 0
+    key: int = 0
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
 
-_consumable_needs = Consumables()
-_item_consumables_map = {
+consumable_needs = Consumables()
+item_consumables_map = {
     "misc_rejuvenation_potion": "rejuv",
     "misc_full_rejuvenation_potion": "rejuv",
     "misc_super_healing_potion": "health",
@@ -35,57 +37,66 @@ _item_consumables_map = {
     "misc_scroll_id": "id",
     "misc_key": "key"
 }
-_pot_rows = {
+pot_cols = {
     "rejuv": Config().char["belt_rejuv_columns"],
     "health": Config().char["belt_hp_columns"],
     "mana": Config().char["belt_mp_columns"],
 }
 
-def get_needs():
-    return _consumable_needs
+def get_needs(consumable_type: str = None):
+    global consumable_needs
+    if consumable_type:
+        consumable = reduce_name(consumable_type)
+        return consumable_needs[consumable]
+    return consumable_needs
 
 def set_needs(consumable_type: str, quantity: int):
+    global consumable_needs
     consumable = reduce_name(consumable_type)
-    _consumable_needs[consumable] = quantity
+    consumable_needs[consumable] = quantity
 
-def increment(consumable_type: str = None, quantity: int = 1):
+def increment_need(consumable_type: str = None, quantity: int = 1):
     """
-    Adjust the _consumable_needs of a specific consumable
+    Adjust the consumable_needs of a specific consumable
     :param consumable_type: Name of item in pickit or in consumable_map
     :param quantity: Increase the need (+int) or decrease the need (-int)
     """
+    global consumable_needs
     consumable = reduce_name(consumable_type)
-    _consumable_needs[consumable] = max(0, _consumable_needs[reduce_name(consumable)] + quantity)
+    consumable_needs[consumable] = max(0, consumable_needs[reduce_name(consumable)] + quantity)
 
 def reduce_name(consumable_type: str):
-    if consumable_type in _item_consumables_map:
-        consumable_type = _item_consumables_map[consumable_type]
-    elif consumable_type in _item_consumables_map.values():
+    global item_consumables_map
+    if consumable_type in item_consumables_map:
+        consumable_type = item_consumables_map[consumable_type]
+    elif consumable_type in item_consumables_map.values():
         pass
     else:
         Logger.warning(f"adjust_consumable_need: unknown item: {consumable_type}")
     return consumable_type
 
 def conv_need_to_remaining(item_name: str = None) -> int:
+    global consumable_needs, pot_cols
     if item_name is None:
         Logger.error("conv_need_to_remaining: param item_name is required")
         return -1
     if item_name.lower() in ["health", "mana", "rejuv"]:
-        return _pot_rows[item_name] * Config().char["belt_rows"] - _consumable_needs[item_name]
+        return pot_cols[item_name] * Config().char["belt_rows"] - consumable_needs[item_name]
     elif item_name.lower() in ['tp', 'id']:
-        return 20 - _consumable_needs[item_name]
+        return 20 - consumable_needs[item_name]
     elif item_name.lower() == "key":
-        return 12 - _consumable_needs[item_name]
+        return 12 - consumable_needs[item_name]
     else:
         Logger.error(f"conv_need_to_remaining: error with item_name={item_name}")
         return -1
 
 def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int = None) -> bool:
+    global consumable_needs
     if item_name is None:
         Logger.error("should_buy: param item_name is required")
         return False
     if min_needed:
-        return _consumable_needs[item_name] >= min_needed
+        return consumable_needs[item_name] >= min_needed
     elif min_remaining:
         return conv_need_to_remaining(item_name) <= min_remaining
     else:
