@@ -355,13 +355,15 @@ class Bot:
         need_repair = detect_screen_object(ScreenObjects.NeedRepair).valid
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
-        if need_repair or need_routine_repair or need_refill_teleport:
+        if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")
             elif need_routine_repair:
                 Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={Config().char['runs_per_repair']}")
             elif need_refill_teleport:
                 Logger.info("Teleport charges ran out. Need to repair")
+            elif sell_items:
+                Logger.info("Selling items at repair vendor")
             self._curr_loc, result_items = self._town_manager.repair(self._curr_loc, items)
             if self._curr_loc:
                 items = result_items
