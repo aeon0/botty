@@ -6,7 +6,6 @@ import keyboard
 import cv2
 import time
 import numpy as np
-import os
 
 from template_finder import TemplateFinder
 from config import Config
@@ -15,12 +14,13 @@ from utils.custom_mouse import mouse
 from inventory import stash, common
 from ui import view
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects, center_mouse
-from game_stats import game_stats
+from game_stats import GameStats
 from item import ItemCropper
 from messages import Messenger
 
 messenger = Messenger()
 item_finder = ItemFinder()
+game_stats = GameStats()
 
 def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> bool:
     """

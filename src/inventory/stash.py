@@ -7,7 +7,6 @@ from utils.misc import wait
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, ScreenObjects
 from logger import Logger
-from utils.restart import kill_game
 
 gambling_round = 1
 gold_full = False
@@ -56,7 +55,9 @@ def stash_full(self):
     Logger.error("All stash is full, quitting")
     if self._config.general["custom_message_hook"]:
         self._messenger.send_stash()
-    kill_game()
+    while process_exists("D2R.exe"):
+        os.system("taskkill /f /im  D2R.exe")
+        wait(1.0, 1.5)
     os._exit(0)
 
 def move_to_stash_tab(stash_idx: int):

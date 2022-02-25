@@ -197,7 +197,7 @@ class TownManager:
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].gamble(new_loc)
 
-    def stash(self, curr_loc: Location, gamble=False, items: list = None) -> tuple(Union[Location, bool], Union[list, bool]):
+    def stash(self, curr_loc: Location, gamble=False, items: list = None):
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False, False
         # check if we can stash in current act
@@ -215,7 +215,7 @@ class TownManager:
         items = personal.stash_all_items(items = items)
         return new_loc, items
 
-    def repair(self, curr_loc: Location, items: list = None) -> tuple(Union[Location, bool], Union[list, bool]):
+    def repair(self, curr_loc: Location, items: list = None):
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False, False
         # check if we can rapair in current act
