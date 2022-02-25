@@ -69,7 +69,7 @@ class PickIt:
                 done_ocr = True
 
             # Check if we need to pick up any consumables
-            needs = self._consumables_manager.get_needs()
+            needs = consumables.get_needs()
             if needs["mana"] <= 0:
                 item_list = [x for x in item_list if "mana_potion" not in x.name]
             if needs["health"] <= 0:

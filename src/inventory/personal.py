@@ -251,7 +251,7 @@ def should_stash() -> bool:
 
 def specific_inventory_roi(desired: str = "reserved"):
     #roi spec: left, top, W, H
-    roi = Config().ui_roi["inventory"].copy()
+    roi = Config().ui_roi["right_inventory"].copy()
     open_width = Config().ui_pos["slot_width"] * Config().char["num_loot_columns"]
     if desired == "reserved":
         roi[0]=roi[0] + open_width

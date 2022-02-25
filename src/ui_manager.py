@@ -244,7 +244,6 @@ class ScreenObjects:
     )
     Key=ScreenObject(
         ref="INV_KEY",
-        roi="right_panel",
         threshold=0.8,
         normalize_monitor=True
     )

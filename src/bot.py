@@ -274,13 +274,13 @@ class Bot:
 
         # Inspect inventory
         items = None
-        if self._picked_up_items or ((self._game_stats._run_counter - 1) % 4 == 0) or self._prev_run_failed:
+        if self._picked_up_items or ((self._game_stats._run_counter - 1) % 4 == 0) or self._previous_run_failed:
             img = personal.open()
             # Update TP, ID, key needs
             if self._game_stats._game_counter == 1:
                 self._use_id_tome = common.tome_state(img, 'id')[0] is not None
                 self._use_keys = detect_screen_object(ScreenObjects.Key, img).valid
-            if (self._game_stats._run_counter - 1) % 4 == 0 or self._prev_run_failed:
+            if (self._game_stats._run_counter - 1) % 4 == 0 or self._previous_run_failed:
                 consumables.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
                     id_state = common.tome_state(img, 'id')[0]
@@ -335,7 +335,7 @@ class Bot:
             return self.trigger_or_stop("end_game", failed=True)
 
         # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
-        need_stash = keep_items
+        need_stash = bool(keep_items)
         if Config().char["runs_per_stash"]:
             need_stash |= self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
         if need_stash:

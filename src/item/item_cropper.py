@@ -96,11 +96,13 @@ class ItemCropper:
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, inventory_side: str = "right") -> ItemText:
+    def crop_item_descr(self, inp_img: np.ndarray, inventory_side: str = "right", model = "engd2r_inv_th") -> ItemText:
         """
         Crops visible item description boxes / tooltips
         :inp_img: image from hover over item of interest.
         :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
+        :model: which ocr model to use
+        returns cropped item tooltip box
         """
         result = ItemText()
         black_mask, _ = color_filter(inp_img, Config().colors["black"])
@@ -128,7 +130,7 @@ class ItemCropper:
                 if found_footer:
                     ocr_result = None
                     if Config().advanced_options["use_ocr"]:
-                        ocr_result = self._ocr.image_to_text(cropped_item, psm=6)[0]
+                        ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
                     result.color = "black"
                     result.roi = [x, y, w, h]
                     result.data = cropped_item
@@ -140,15 +142,17 @@ class ItemCropper:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import grab
+    from screen import grab, start_detecting_window
     from template_finder import TemplateFinder
+
+    start_detecting_window()
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     cropper = ItemCropper()
 
     while 1:
         img = grab().copy()
-        res = cropper.crop_item_descr(img, all_results=True, ocr=False)
+        res = cropper.crop_item_descr(img, model="engd2r_inv_th_fast")
         if res["color"]:
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)

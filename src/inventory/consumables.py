@@ -24,6 +24,8 @@ class Consumables:
     key: int = 0
     def __getitem__(self, key):
         return super().__getattribute__(key)
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
 
 consumable_needs = Consumables()
 item_consumables_map = {
@@ -122,7 +124,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
             Logger.debug(f"update_tome_key_needs: could not find {item_type}")
             return False
     elif item_type.lower() in ["key"]:
-        match = TemplateFinder().search("INV_KEY", img, roi = personal.specific_inventory_roi("reserved"))
+        match = TemplateFinder().search("INV_KEY", img, roi = personal.specific_inventory_roi("reserved"), normalize_monitor = True)
         if not match.valid:
             return False
     else:
