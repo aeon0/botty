@@ -9,6 +9,8 @@ from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import wait_for_screen_object, ScreenObjects
 from inventory import common, personal
+import cv2
+import time
 
 def close_vendor_screen():
     keyboard.send("esc")
