@@ -9,6 +9,7 @@ from shop.drognan import DrognanShopper
 from config import Config
 from logger import Logger
 from version import __version__
+from screen import start_detecting_window, stop_detecting_window
 
 
 def main():
@@ -44,8 +45,11 @@ def main():
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end
     try:
+        start_detecting_window()
+        time.sleep(2)
         main()
     except:
         traceback.print_exc()
     print("Press Enter to exit ...")
     input()
+    stop_detecting_window()
