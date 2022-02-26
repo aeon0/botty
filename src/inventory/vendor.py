@@ -80,7 +80,8 @@ def gamble():
                         # check item again and discard it or stash it
                         wait(1.2, 1.4)
                         hovered_item = grab()
-                        if not personal.keep_item(hovered_item):
+                        found_item = ItemFinder().search(hovered_item)[0]
+                        if not personal.keep_item(hovered_item, found_item):
                             keyboard.send('ctrl', do_release=False)
                             wait(0.1, 0.15)
                             mouse.click (button="left")

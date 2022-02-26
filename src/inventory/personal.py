@@ -1,5 +1,5 @@
 import itertools
-from item import ItemFinder
+from item import ItemFinder, Item
 from item.item_cropper import ItemText
 from logger import Logger
 from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
@@ -120,7 +120,7 @@ def stash_all_items(gamble: bool = False, items: list = None):
     Logger.debug("Done stashing")
     return items
 
-def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
+def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bool = True) -> bool:
     """
     Check if an item should be kept, the item should be hovered and in own inventory when function is called
     :param img: Image in which the item is searched (item details should be visible)
@@ -149,24 +149,19 @@ def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
                 cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
                 cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
-    try:
-        found_item = item_finder.search(img)[0]
-    except:
-        Logger.debug(f"item_finder returned None or error for {item_box.ocr_result.text.split()[0]}")
-        if Config().general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/failed_found_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        return None
-
     if any(x in found_item.name for x in ["potion", "misc_scroll"]) or found_item.name == "misc_key" or (Config().items[found_item.name].pickit_type == 0):
         return False
     setattr(found_item, "ocr_result", item_box["ocr_result"])
 
-    #Disable include params for uniq, rare, magical if ident is disabled in params.ini
+    include_props = Config().items[found_item.name].include
+    exclude_props = Config().items[found_item.name].exclude
+
     if (
-        (not Config().char["id_items"]
-        and any(
-            item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"]
-        ))
+        #Disable include/exclude params for uniq, rare, magical if ident is disabled in params.ini
+        (
+            not Config().char["id_items"]
+            and any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
+        )
         # items that are checked to be kept should all be identified unless an error occurred or user preferred unidentified
         or detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid
     ):
@@ -176,7 +171,7 @@ def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
     if not (include_props or exclude_props):
         if do_logging:
             Logger.debug(f"{found_item.name}: Stashing")
-        return found_item
+        return True
     include = True
     include_logic_type = Config().items[found_item.name].include_type
     if include_props:
@@ -246,7 +241,7 @@ def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
     if include and not exclude:
         if do_logging:
             Logger.debug(f"{found_item.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-        return found_item
+        return True
     return False
 
 def should_stash() -> bool:
@@ -323,7 +318,6 @@ def inspect_items(img: np.ndarray = None) -> bool:
                 cv2.imwrite("./info_screenshots/" + time.strftime("%Y%m%d_%H%M%S") + "_post.png", post)
                 # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
                 if not np.array_equal(pre, post):
-                    print("break")
                     break
                 Logger.debug(f"inspect_items: pre=post, try again. slot {slot[0]}")
                 center_mouse()
@@ -341,13 +335,22 @@ def inspect_items(img: np.ndarray = None) -> bool:
             if item_roi:
                 item_rois.append(item_roi)
             # determine whether the item can be sold
-            sell = Config().char["sell_junk"] and not (item_box.ocr_result.text.lower() in ["key of ", "essense of", "wirt's", "jade figurine"])
+            sell = Config().char["sell_junk"] and not any(substring in item_box.ocr_result.text.splitlines()[0].lower() for substring in ["key of ", "essense of", "wirt's", "jade figurine"])
+            # check and see if item exists in pickit
+            try:
+                found_item = item_finder.search(item_box.data)[0]
+            except:
+                Logger.debug(f"inspect_items: item_finder returned None or error for {item_box.ocr_result.text.splitlines()[0]}, likely an accidental pick")
+                Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
+                found_item = False
             # attempt to identify item
             need_id = False
-            if Config().char["id_items"]:
-                found_item = item_finder.search(item_box.data)[0]
+            if Config().char["id_items"] and found_item:
                 # if this item has no include or exclude properties, leave it unidentified
-                if not (Config().items[found_item.name].include or Config().items[found_item.name].exclude):
+                implied_no_id = not (Config().items[found_item.name].include and Config().items[found_item.name].exclude)
+                if implied_no_id:
+                    need_id = False
+                else:
                     if (is_unidentified := detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid):
                         need_id = True
                         center_mouse()
@@ -360,6 +363,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
                         wait(0.2, 0.3)
                         hovered_item = grab()
                         item_box = ItemCropper().crop_item_descr(hovered_item)
+
             if item_box.valid:
                 Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
                 for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
@@ -378,7 +382,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
                 # decide whether to keep item
-                keep = bool(result := keep_item(item_box))
+                keep = keep_item(item_box, found_item) if found_item else False
                 if keep: sell = need_id = False
 
                 box = common.BoxInfo(
@@ -391,7 +395,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
                     keep = keep
                 )
                 if keep and not need_id:
-                    game_stats.log_item_keep(result.name, Config().items[result.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
+                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
                 if keep or sell or need_id:
                     # save item info
                     boxes.append(box)
