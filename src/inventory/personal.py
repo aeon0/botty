@@ -347,7 +347,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
             need_id = False
             if Config().char["id_items"] and found_item:
                 # if this item has no include or exclude properties, leave it unidentified
-                implied_no_id = not (Config().items[found_item.name].include and Config().items[found_item.name].exclude)
+                implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
                 if implied_no_id:
                     need_id = False
                 else:

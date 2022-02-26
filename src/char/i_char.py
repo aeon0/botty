@@ -192,6 +192,7 @@ class IChar:
                 self.move(pos_m)
                 if skills.has_tps():
                     mouse.click(button="right")
+                    consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             template_match = detect_screen_object(ScreenObjects.TownPortal)
             if template_match.valid:
@@ -203,7 +204,6 @@ class IChar:
                 mouse.click(button="left")
                 match = wait_for_screen_object(ScreenObjects.Loading, 2)
                 if match.valid:
-                    consumables.increment_need("tp", 1)
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = convert_monitor_to_screen(mouse.get_position())
