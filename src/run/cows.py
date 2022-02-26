@@ -1,4 +1,7 @@
+from asyncio.format_helpers import _format_callback_source
+from pickle import PickleError
 import random
+from cv2 import LINE_4
 import keyboard
 import math
 import numpy as np
@@ -41,10 +44,18 @@ class Cows:
         
 
     #TAKE A SCREENSHOT, CHECK FOR MARKERS, RETURN TRUE IF FOUND
-    def _marker_check(self, ignore_radius:int=5, debug:bool=False)-> bool:
-        self.image = grab()
-        #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, invert=0, thresh=0) # add HSV filter for walls (few  markers)
-        filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=4, blur=0, lh=0, ls=0, lv=95, uh=25, us=28, uv=125, bright=170, contrast=125, invert=0, thresh=98) # add HSV filter for walls (many markers)
+    def _marker_check(self, ignore_radius:int=5, debug:bool=False, roi: list[float] = None,)-> bool:
+       
+        img = grab()
+       
+        if roi is None:
+            # if no roi is provided roi = full img
+            roi = [0, 0, img.shape[1], img.shape[0]]
+        rx, ry, rw, rh = roi
+        img = img[ry:ry + rh, rx:rx + rw]
+
+        #filterimage, threshz = TemplateFinder().apply_filter(img, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, invert=0, thresh=0) # add HSV filter for walls (few  markers)
+        filterimage, threshz = TemplateFinder().apply_filter(img, mask_char=False, mask_hud=False, info_ss=False, erode=0, dilate=4, blur=0, lh=0, ls=0, lv=95, uh=25, us=28, uv=125, bright=170, contrast=125, invert=0, thresh=98) # add HSV filter for walls (many markers)
         pos_marker = [] #define variables as empty array
         pos_rectangle = []  #define variables as empty array
         filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=False, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
@@ -57,18 +68,26 @@ class Cows:
         else:
             if debug: Logger.debug (nearest_marker[0])
             pos_m = convert_abs_to_monitor(nearest_marker[0])
-            if debug: Logger.debug (f'\033[91m' + "Marker found at: ("+str(pos_m[0])+","+str(pos_m[1])+")" + '\033[0m')
-            #mouse.move(pos_m[0], pos_m[1])
+            pt1 = nearest_marker[0]
+            check_directions = convert_screen_to_abs(pt1)
+            x, y = check_directions
+            if debug: 
+                Logger.debug (f'\033[91m' + "Marker found at: ("+str(pos_m[0])+","+str(pos_m[1])+")" + '\033[0m')
+                pt2 = (640,360)
+                x1, y1 = nearest_marker[0]
+                pt1 = (int(x1),int(y1))
+                img = np.ascontiguousarray(img)
+                cv2.arrowedLine(img, pt1, pt2, line_type=LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
+                cv2.imwrite(f"./info_screenshots/info_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
         #wait(5)
-        return True
-
+        return True , x , y
 
 
     #this function randomly teleports around until we either get stuck or find the exit we search for
     def _scout(self, corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)-> bool:
         templates_scout = ["COW_STONY_FIELD_YELLOW"] #the template we scout for on the minimap, either an exit (purple) or portal (yellow)
         templates_avoid = ["COW_COLD_PLAINS0"] #in case our scout can bring us to other locations, we add the "Entering ..." message here, so we know when we accidently leave the area
-        avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, suppress_debug=True).valid # boolean of avoid template
+        avoid = TemplateFinder().search_and_wait(templates_avoid, best_match=True, threshold=0.8, time_out=0.1, use_grayscale=False, suppress_debug=True, take_ss=False).valid # boolean of avoid template
         #lets make sure our minimap is on
         Logger.info('\033[93m' + "Scout: Starting to explore map" + '\033[0m')
         if not TemplateFinder().search_and_wait(["MAP_CHECK"], best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False, take_ss=False, suppress_debug=True).valid: #check if the minimap is already on
@@ -84,8 +103,25 @@ class Cows:
                 #we check if we exited our scouting location and take measures if this is the case
                 if avoid:
                     Logger.info('\033[93m' + "Scout: Ended up in Cold Plains, stopping to move" + '\033[0m')
+                    if corner_picker == 8:
+                        corner_picker = corner_exclude
+                        exclude1 = corner_picker - 1
+                        exclude2 = 1
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    elif corner_picker == 1:
+                        corner_picker = corner_exclude
+                        exclude1 = 8
+                        exclude2 = corner_picker - 1
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    else:
+                        corner_picker = corner_exclude
+                        exclude1 = corner_picker - 1
+                        exclude2 = corner_picker + 1
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
                     #we might have to teleport backwards 3 times & change corners.
-                    return False
+                    found=False
+                    avoid=False
+                    return avoid, found
                 # we break the loop if the template is found & return its x, y position to pos_m
                 if founder.valid:
                     pos_m = convert_screen_to_monitor(founder.center)
@@ -106,13 +142,75 @@ class Cows:
                 self._char.move(pos_m, force_tp=True, force_move=True) # second of two teleports to randomized position
                 ######## WALLCHECK #########
                 #check if a wall is close by
-                marker_check = self._marker_check(5) # maybe we should give a bool to the scout() function call if walls should be checked.
+                marker_check, x, y = self._marker_check(15, debug=True, roi=Config().ui_roi["wallcheck_roi"])
                 if marker_check or score < .10:
                 #lets change scouting direction:
                     score = round(score,2)
-                    Logger.info('\033[93m' + "Scout: score was too low ("+str(score)+"or a Marker for a Wall was found close-by (marker_check="+str(marker_check)+"), we seem stuck, changing direction from corner: " + str(corner_picker) + '\033[0m')
-                    corner_exclude = corner_picker
-                    self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    Logger.info('\033[93m' + "Scout: score was too low ("+str(score)+" or a Marker for a Wall was found close-by (marker_check="+str(marker_check)+"), we seem stuck, changing direction from corner: " + str(corner_picker) + '\033[0m')
+                    #print(x)
+                    #print(y)
+                    """
+                    if x < 0 and y < 0: # marker found: left top | pick: 2r, 4b, 7br, 5tr, 8bl  ex: 1l, 3t, 6tl,
+                        pick_list = [2,4,7,5,8]
+                        exclude_list = [1,3,6]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x < 0 and y > 0: # marker found: left bottom | pick: 2r, 3t, 7br, 5tr, 6tl,  ex: 1l, 4b, 8bl
+                        pick_list = [2,3,7,5,6]
+                        exclude_list = [1,4,8]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x > 0 and y < 0: # marker found: right top | pick: 1l, 4b, 8bl, 5tr  ex: 5tr, 2r, 3t,
+                        pick_list = [1,4,6,7, 8]
+                        exclude_list = [2,3,5]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x > 0 and y > 0: # marker found: right bottom | pick: 1l, 3t, 8bl, 5tr  ex: 2r,7br,4b
+                        pick_list = [1,3,5,6,8]
+                        exclude_list = [2,3,5]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    """
+                    #new order, clockwise, top starting as 1
+                    if x < 0 and y < 0: # marker found: left top (8)
+                        pick_list = [2,3,4,5,6]
+                        exclude_list = [7,8,1]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at Top Left ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x < 0 and y > 0: # marker found: left bottom (6)
+                        pick_list = [8,1,2,3,4]
+                        exclude_list = [5,6,7]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at Bottom Left ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x > 0 and y < 0: # marker found: right top (2)
+                        pick_list = [4,5,6,7,8]
+                        exclude_list = [1,2,3]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at Top Right ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    if x > 0 and y > 0: # marker found: right bottom (4)
+                        pick_list = [1,2,6,7,8]
+                        exclude_list = [3,4,5]
+                        corner_picker = random.choice(pick_list)
+                        corner_exclude = random.choice(exclude_list)
+                        Logger.info('\033[92m' + "Scout: Marker at Bottom Right ("+str(x)+","+str(y)+"), picking corner: " +str(corner_picker)+", excluding corner: "+str(corner_exclude) + '\033[0m')
+                        self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
+                    #this exlude & picker has to be based on the x,y coordinate direction.
+                    #corner_exclude = corner_picker
+                    #self._corner_roller(corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found)
                     """
                     stuck_count += 1
                     Logger.info('\033[93m' + "Scout: We did not move, stuck count now: " + str(stuck_count) + '\033[0m')               
@@ -192,24 +290,20 @@ class Cows:
                 corner_picker = keepernumber
                 super_stuck = 0
                 stuck_count = 0
+                """
                 if corner_picker == 1:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 1 = left" + '\033[0m')
-                    #self._scout(1, -250, -600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) #top - left
-                    #self._scout(1, 225, -325, 125, -225, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # random with tendency top - left
                     self._scout(1, -250, -525, 0, -0, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # left
                 elif corner_picker == 2:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 2 = right" + '\033[0m')
-                    #self._scout(2, 250, 600, -200, -300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # top - right
                     self._scout(2, 525, 250, 0, -0, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # right
                 elif corner_picker == 3:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 3 = top " + '\033[0m')
-                    #self._scout(3, 485, 600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - right
                     self._scout(3, 0, -0, -250, -325, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # top
                 elif corner_picker == 4:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 4 = bottom" + '\033[0m')
-                    #self._scout(4, -485, -600, 200, 300, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber) # bottom - left
                     self._scout(4, 0, -0, 225, 150, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottom
-                """ commenting: maybe having less corners & wall detection speeds up things.
+                # commenting: maybe having less corners & wall detection speeds up things.
                 elif corner_picker == 5:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 5 = top right" + '\033[0m')
                     self._scout(5, 280, 278, -220, -218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topright
@@ -223,6 +317,31 @@ class Cows:
                     Logger.info('\033[92m' + "Cornerpicker: Picked Corner 8 = bottom left" + '\033[0m')
                     self._scout(8, -280, -278, 220, 218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomleft    
                 """
+                #new order, clockwise, top starting as 1
+                if corner_picker == 1:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 1 = top " + '\033[0m')
+                    self._scout(3, 0, -0, -250, -325, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # top
+                elif corner_picker == 2:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 2 = top right" + '\033[0m')
+                    self._scout(5, 280, 278, -220, -218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topright
+                elif corner_picker == 3:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 3 = right" + '\033[0m')
+                    self._scout(2, 525, 250, 0, -0, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # right
+                elif corner_picker == 4:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 4 = bottom right" + '\033[0m')
+                    self._scout(7, 280, 278, 220, 218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomright
+                elif corner_picker == 5:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 5 = bottom" + '\033[0m')
+                    self._scout(4, 0, -0, 225, 150, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottom
+                elif corner_picker == 6:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 6 = bottom left" + '\033[0m')
+                    self._scout(8, -280, -278, 220, 218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # bottomleft    
+                elif corner_picker == 7:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 7 = left" + '\033[0m')
+                    self._scout(1, -250, -525, 0, -0, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # left
+                elif corner_picker == 8:
+                    Logger.info('\033[92m' + "Cornerpicker: Picked Corner 8 = top left " + '\033[0m')
+                    self._scout(6, -280, -278, -220, -218, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber, found) # topleft
             #return corner_picker, x1_m, x2_m, y1_m, y2_m, stuck_count, super_stuck, corner_exclude, exclude1, exclude2, keepernumber
 
    
@@ -246,14 +365,14 @@ class Cows:
                     keyboard.send(Config().char["minimap"]) #turn off minimap
             
             while not closetoexit:    
-                closetoexit = TemplateFinder().search_and_wait(templates_exit, best_match=True, threshold=0.7,  time_out=0.1, use_grayscale=False).valid
+                closetoexit = TemplateFinder().search_and_wait(templates_exit, best_match=True, threshold=0.7,  time_out=0.1, use_grayscale=False, take_ss=False).valid
                 template_match = TemplateFinder().search_and_wait(templates_scout, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False)
                 if closetoexit == True or template_match == True:
                     if TemplateFinder().search_and_wait(templates_mapcheck, best_match=True, threshold=0.5, time_out=0.1, use_grayscale=False).valid:
                         keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                         keyboard.send(Config().char["minimap"]) #turn on minimap
                         Logger.info('\033[92m' + "Exit_Clicker: Step3a: Minimap off to identify Exit Templates" + '\033[0m')
-                        if TemplateFinder().search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False) == True:
+                        if TemplateFinder().search_and_wait(templates_exit, best_match=True, threshold=0.9,  time_out=0.1, use_grayscale=False, take_ss=False) == True:
                             pos_m = convert_screen_to_monitor(template_match.center)
                             pos_m = template_match.center                   
                             Logger.info('\033[92m' + "Exit_Clicker: Step3b (in while): Found Exit Template, clicking on it" + '\033[0m')
@@ -604,6 +723,7 @@ class Cows:
         if not self._town_manager.open_stash(Location.A1_TOWN_START):
             Logger.info('\033[91m' + "Open_Cow_Portal: Stash not open, trying again after waiting a bit"+ '\033[0m')
             wait(0.5)
+            if not self._pather.traverse_nodes([700], self._char, force_move=True): return False #walk to Town Center
             self._town_manager.open_stash(Location.A1_TOWN_START)
         Logger.info('\033[91m' + "Open_Cow_Portal: Opening Cube"+ '\033[0m')
         self.open_cube()
@@ -662,6 +782,7 @@ class Cows:
         while cow_duration < 360: #we farm cows for this amount of seconds            
             #if mobfound, attack, else scout. also we could use a param for holy freeze or conviction for changing the filter depending on merc type
             self.image = grab()
+            input = self.image
             cv2.imwrite(f"./info_screenshots/info_cows_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
             #filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for cows #conviction
             #holy freeze
@@ -673,19 +794,37 @@ class Cows:
             order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
             if not order:
                 x_m = random.randint(-600, 600)
-                y_m = random.randint(-350, 300)
+                y_m = random.randint(-350, 270)
                 pos_m = convert_abs_to_monitor((x_m, y_m))
                 #check for walls
-                marker_check = self._marker_check(50)
+                marker_check, x, y = self._marker_check(15, debug=True)
                 if not marker_check: #if no wall, teleport where you wanted to go
                     self._char.move(pos_m, force_tp=True)
-                else: #if wall is found, teleport in the opposite direction
-                    pos_m = convert_monitor_to_screen(pos_m)
-                    pos_m = convert_screen_to_abs(pos_m)
-                    x_m = pos_m[0] * -1
-                    y_m = pos_m[1] * -1
-                    pos_m = convert_abs_to_monitor((x_m, y_m))
-                    self._char.move(pos_m, force_tp=True)
+                else:
+                    if x < 0 and y < 0: # marker found: left top (8)
+                        Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Top and Left" + '\033[0m')
+                        x_m = random.randint(0, 525)
+                        y_m = random.randint(0, 270)
+                        pos_m = convert_abs_to_monitor((x_m, y_m))
+                        self._char.move(pos_m, force_tp=True)
+                    if x < 0 and y > 0: # marker found: left bottom (6)
+                        Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Bottom and Left" + '\033[0m')
+                        x_m = random.randint(0, 525)
+                        y_m = random.randint(0, -270)
+                        pos_m = convert_abs_to_monitor((x_m, y_m))
+                        self._char.move(pos_m, force_tp=True)
+                    if x > 0 and y < 0: # marker found: right top (2)
+                        Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Top and Right" + '\033[0m')
+                        x_m = random.randint(0, -525)
+                        y_m = random.randint(0, 270)
+                        pos_m = convert_abs_to_monitor((x_m, y_m))
+                        self._char.move(pos_m, force_tp=True)
+                    if x > 0 and y > 0: # marker found: right bottom (4)
+                        Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Bottom and Right" + '\033[0m')
+                        x_m = random.randint(0, -525)
+                        y_m = random.randint(0, -270)
+                        pos_m = convert_abs_to_monitor((x_m, y_m))
+                        self._char.move(pos_m, force_tp=True)                   
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                 cow_duration = round(cow_duration, 0)
                 Logger.info('\033[93m' + "Scouting for cows for " + str(cow_duration) +" seconds, moving to " + str(pos_m) + '\033[0m')
@@ -693,53 +832,21 @@ class Cows:
                 pos_m = convert_screen_to_abs(order[0]) #nearest marker
                 pos_m = convert_abs_to_monitor(pos_m)
                 Logger.debug('\033[92m' + "Found cow at: " + str(pos_m) + " attacking now!" + '\033[0m')
+                pt2 = (640,360)
+                x1, y1 = order[0]
+                pt1 = (int(x1),int(y1))
+                input = np.ascontiguousarray(input)
+                cv2.arrowedLine(input, pt2, pt1, line_type=LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
+                cv2.imwrite(f"./info_screenshots/info_cow_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", input)
                 #cv2.imwrite(f"./info_screenshots/info_cowfound_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
                 #cv2.imwrite(f"./info_screenshots/info_cowfound_marker_" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
                 self._char.move(pos_m, force_tp=True)
                 self._char.kill_cows(pos_m)
             cow_duration = (time.time() - start_time)
+            #if cow_duration => 120: do self pre buff (renew CTA)
         Logger.info("Completed Cow Level")
         return True
-
-    """
-    def wallbouncer(self, bounce:bool=False, bounce_range:int=100, ignore_radius:int=50):
-        while not bounce:
-            x_m = random.randint(-600, 600)
-            y_m = random.randint(-350, 300)
-            pos_m = convert_abs_to_monitor((x_m, y_m))
-            self._char.move(pos_m, force_tp=True)
-            keyboard.send(Config().char["minimap"]) #turn on minimap
-            #maybe we should only grab a region around the char?
-            self.image = grab()
-            filterimage, threshz = TemplateFinder().apply_filter(self.image, mask_char=False, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=3, lh=35, ls=0, lv=0, uh=88, us=255, uv=255, bright=255, contrast=254, thresh=0, invert=0) # add HSV filter for walls (few walls & markers)
-            pos_marker = [] #define variables as empty array
-            pos_rectangle = []  #define variables as empty array
-            filterimage, pos_rectangle, pos_marker = TemplateFinder().add_markers(filterimage, threshz, info_ss=False, rect_min_size=40, rect_max_size=50, marker=True) # add markers to our filtered image & return the x,y coordinates for each marker and x,y,w,h for each rectangle
-            pos_marker = TemplateFinder().get_targets_ordered_by_distance(pos_marker, ignore_radius=ignore_radius) # returns the distance of the closest marker.
-            pos_x, pos_y = pos_marker[0]
-            print(pos_marker)
-            print(pos_x)
-            print(pos_y)
-            if pos_marker:
-                distance = TemplateFinder().pythagorean_distance(pos_x, pos_y)
-                if distance < bounce_range: # taking a screenshot and checking for markers in proximity gives a positive result
-                    print("I found a wall at " +  str(pos_marker[0]) + " and it is " + str(distance) + " Pixels away from me: I should bounce - moving my mouse to the point where I found the nearest marker, to show you")
-                    bounce = True
-                    pos_m = distance * -1
-                    pos_m = convert_abs_to_monitor(distance[0])
-                    mouse.move(pos_m[0], pos_m[1])
-                    wait(3)
-                    #self._char.move((pos_m[0], pos_m[1]), force_move=True)
-                    #return bounce 
-                else:
-                    print("I did not find a wall. No need to bounce")
-                    bounce = False
-                    pos_m = convert_abs_to_monitor(distance[0])
-                    self._char.move(pos_m, force_move=True)
-                    #return bounce
-    """
-
 
     def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
         Logger.info("Run Secret Cow Level")

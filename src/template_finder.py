@@ -333,6 +333,44 @@ class TemplateFinder:
             filterimage = self.image
             if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.image)
             return filterimage, threshz
+    """
+    def add_rectangles(self, img:str, threshz:str, rect_min_size:int=30, rect_max_size:int=50, info_ss:bool=False, color:str="green", thickness:int=1, lineType:str="LINE_4"):
+        colors = {'blue': (255, 0, 0), 'green': (0, 255, 0), 'red': (0, 0, 255), 'yellow': (0, 255, 255), 'magenta': (255, 0, 255), 'cyan': (255, 255, 0), 'white': (255, 255, 255), 'black': (0, 0, 0), 'gray': (125, 125, 125), 'rand': np.random.randint(0, high=256, size=(3,)).tolist(), 'dark_gray': (50, 50, 50), 'light_gray': (220, 220, 220)}
+        n_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(threshz)
+        pos_rectangles = []
+        for i in range(1, n_labels):
+            if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
+                # print(stats[i, cv2.CC_STAT_AREA])
+                x = stats[i, cv2.CC_STAT_LEFT]
+                y = stats[i, cv2.CC_STAT_TOP]
+                w = stats[i, cv2.CC_STAT_WIDTH]
+                h = stats[i, cv2.CC_STAT_HEIGHT]
+                cv2.rectangle(img, (x, y), (x + w, y + h), color=colors[color], thickness=thickness, lineType=lineType)
+                rect = [int(x), int(y), int(w), int(h)]
+                pos_rectangles.append(rect)
+        if info_ss: cv2.imwrite(f"./info_screenshots/info_add_rectangles" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        return img, pos_rectangles
+
+    def add_marker(self, img:str, pos_rectangles, info_ss:bool=False, color:str="magenta", marker_type:str="MARKER_CROSS", thickness:int=1, lineType:str="LINE_4"):
+        colors = {'blue': (255, 0, 0), 'green': (0, 255, 0), 'red': (0, 0, 255), 'yellow': (0, 255, 255), 'magenta': (255, 0, 255), 'cyan': (255, 255, 0), 'white': (255, 255, 255), 'black': (0, 0, 0), 'gray': (125, 125, 125), 'rand': np.random.randint(0, high=256, size=(3,)).tolist(), 'dark_gray': (50, 50, 50), 'light_gray': (220, 220, 220)}
+        pos_marker = []
+        for (x, y, w, h) in pos_rectangles:
+            center_x = x + int(w/2)
+            center_y = y + int(h/2)
+            pos_rectangles.append((center_x, center_y))
+            cv2.drawMarker(img, (x, y), markerType=marker_type, color=colors[color], thickness=thickness, line_type=lineType)
+        if info_ss: cv2.imwrite(f"./info_screenshots/info_add_marker" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        return img, pos_marker
+    
+    def add_arrowedLine(self, img:str, pt1, pt2, info_ss:bool=False, thickness:int=1, lineType:str="LINE_4", tipLength:float=0.1):
+        colors = {'blue': (255, 0, 0), 'green': (0, 255, 0), 'red': (0, 0, 255), 'yellow': (0, 255, 255), 'magenta': (255, 0, 255), 'cyan': (255, 255, 0), 'white': (255, 255, 255), 'black': (0, 0, 0), 'gray': (125, 125, 125), 'rand': np.random.randint(0, high=256, size=(3,)).tolist(), 'dark_gray': (50, 50, 50), 'light_gray': (220, 220, 220)}
+        #for (center_x, center_y) in pos_marker:
+        #    pt1 = pos_origin
+        #    pt2 = (center_x, center_y)
+        cv2.line(img, pt1, pt2, thickness=thickness, tipLength=tipLength, line_type=lineType)
+        if info_ss: cv2.imwrite(f"./info_screenshots/info_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+        return img
+    """
 
     # add rectangles and crosses - adapted from Nathan's Live-View
     def add_markers(self, img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
@@ -372,22 +410,19 @@ class TemplateFinder:
                 rect = [int(x), int(y), int(w), int(h)]
                 pos_rectangles.append(rect)
 
-                
-                #HERE, I NEED TO MAKE A LIST OF POINTS AND APPEND THEM TO ACCESS THOSE LATER ON
-
                 #draw crosshairs on center of rectangle.
-                #if marker:
-                line_color = (0, 255, 0)
-                line_type = cv2.LINE_4
-                marker_color = (255, 0, 255)
-                marker_type = cv2.MARKER_CROSS
-                center_x = x + int(w/2)
-                center_y = y + int(h/2)
-                #cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=25, thickness=2)
-                cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
-                
-                mark = [int(center_x), int(center_y)]
-                pos_marker.append(mark)
+                if marker:
+                    line_color = (0, 255, 0)
+                    line_type = cv2.LINE_4
+                    marker_color = (255, 0, 255)
+                    marker_type = cv2.MARKER_CROSS
+                    center_x = x + int(w/2)
+                    center_y = y + int(h/2)
+                    #cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=25, thickness=2)
+                    cv2.drawMarker(self.image, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
+                    
+                    mark = [int(center_x), int(center_y)]
+                    pos_marker.append(mark)
 
         self.frame_markup = self.image.copy()
         img = self.image
