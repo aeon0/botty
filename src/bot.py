@@ -274,7 +274,11 @@ class Bot:
 
         # Inspect inventory
         items = None
-        if self._picked_up_items or ((self._game_stats._run_counter - 1) % 4 == 0) or self._previous_run_failed:
+
+        need_inspect = self._picked_up_items or self._previous_run_failed
+        if Config().char["runs_per_stash"]:
+            need_inspect |= (self._game_stats._run_counter - 1) % Config().char["runs_per_stash"] == 0
+        if need_inspect:
             img = personal.open()
             # Update TP, ID, key needs
             if self._game_stats._game_counter == 1:
@@ -293,6 +297,7 @@ class Bot:
                     self._use_keys = consumables.update_tome_key_needs(img, item_type = 'key')
             # Check inventory items
             if personal.inventory_has_items(img):
+                Logger.debug("Inspecting inventory items")
                 items = personal.inspect_items(img)
             else:
                 common.close()
@@ -334,12 +339,8 @@ class Bot:
         if not self._curr_loc:
             return self.trigger_or_stop("end_game", failed=True)
 
-        # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
-        need_stash = bool(keep_items)
-        if Config().char["runs_per_stash"]:
-            need_stash |= self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
-        if need_stash:
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
+        if keep_items:
             if personal.should_stash():
                 Logger.info("Stashing items")
                 self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)

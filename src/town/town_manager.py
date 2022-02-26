@@ -101,7 +101,7 @@ class TownManager:
             if not new_loc: return False, items
             # Buy HP pots
             if needs["health"] > 0:
-                can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
+                can_shift_click = not sum([ x > 0 for x in [needs["health"], needs["mana"], needs["rejuv"]]]) > 1
                 if vendor.buy_item(template_name = "SUPER_HEALING_POTION", quantity = needs["health"], shift_click = can_shift_click):
                     needs["health"] = 0
                 else:
@@ -112,11 +112,11 @@ class TownManager:
                         return False, items
             # Buy mana pots
             if needs["mana"] > 0:
-                can_shift_click = False if sum([ needs[x] > 0 for x in list(needs)[0:3]]) > 1 else True
-                if vendor.buy_item(template_name="SUPER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                can_shift_click = not sum([ x > 0 for x in [needs["health"], needs["mana"], needs["rejuv"]]]) > 1
+                if vendor.buy_item(template_name="SUPER_MANA_POTION", quantity=needs["mana"], shift_click = can_shift_click):
                     needs["mana"] = 0
                 else:
-                    if vendor.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["health"], shift_click = can_shift_click):
+                    if vendor.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["mana"], shift_click = can_shift_click):
                         needs["mana"] = 0
                     else:
                         Logger.error("buy_consumables: Error purchasing mana potions")
