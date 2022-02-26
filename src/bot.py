@@ -28,8 +28,9 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui.ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
-from ui_components import belt, meters, skills, inventory, vendor, stash, view, character_select, main_menu
+from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
+from ui import meters, skills, view, character_select, main_menu
+from inventory import personal, vendor, stash, belt
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo, Cows
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -297,7 +298,7 @@ class Bot:
             routine_stash = self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
         force_stash = False
         if not self._picked_up_items and (routine_stash or self._previous_run_failed):
-            force_stash = inventory.should_stash(Config().char["num_loot_columns"])
+            force_stash = personal.should_stash(Config().char["num_loot_columns"])
         # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
         if self._picked_up_items or force_stash:
             if Config().char["id_items"]:

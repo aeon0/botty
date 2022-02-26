@@ -63,14 +63,11 @@ class AnyaShopper:
         self.trap_claw_min_score = Config().shop["trap_min_score"]
         self.look_for_melee_claws = Config().shop["shop_melee_claws"]
         self.melee_claw_min_score = Config().shop["melee_min_score"]
-
-
         self._messenger = Messenger()
         self.run_count = 0
         self.start_time = time.time()
         self.ias_gloves_seen = 0
         self.gloves_bought = 0
-
         # Claws config
         self.roi_claw_stats = [0, 0, Config().ui_pos["screen_width"] // 2, Config().ui_pos["screen_height"] - 100]
         self.roi_vendor = Config().ui_roi["left_inventory"]
@@ -154,17 +151,7 @@ class AnyaShopper:
                 for ck in claw_keys:
                     template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
                     if template_match.valid:
-                        (y, x) = np.where(TemplateFinder(True).last_res >= 0.6)
-                        for (x, y) in zip(x, y):
-                            new_pos = [x + self.rx + 16, y + self.ry + 50]
-                            # check if pos already exists in claw_pos
-                            exists_already = False
-                            for pos in claw_pos:
-                                dist = math.dist(new_pos, pos)
-                                if dist < 10:
-                                    exists_already = True
-                            if not exists_already:
-                                claw_pos.append(new_pos)
+                        claw_pos.append(template_match.center)
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)

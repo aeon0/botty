@@ -1,17 +1,14 @@
 import keyboard
 from template_finder import TemplateFinder
 from config import Config
-import mouse
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from item import ItemFinder
 import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
-import cv2
-import time
-from ui.ui_manager import wait_for_screen_object, ScreenObjects
-from ui_components import inventory
+from ui_manager import wait_for_screen_object, ScreenObjects
+from inventory import common, personal
 
 def close_vendor_screen():
     keyboard.send("esc")
@@ -73,7 +70,7 @@ def gamble(item_finder: ItemFinder):
     if template_match.valid:
         #Gambling window is open. Starting to spent some coins
         while (gamble_on and gold):
-            if (inventory.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and inventory.inventory_has_items(grab(),2)):
+            if (personal.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and personal.inventory_has_items(grab(),2)):
                 gamble_on = False
                 close_vendor_screen ()
                 break
@@ -101,14 +98,14 @@ def gamble(item_finder: ItemFinder):
                     break
                 for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
                     img = grab()
-                    slot_pos, slot_img = inventory.get_slot_pos_and_img(img, column, row)
-                    if inventory.slot_has_item(slot_img):
+                    slot_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
+                    if common.slot_has_item(slot_img):
                         x_m, y_m = convert_screen_to_monitor(slot_pos)
                         mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
                         # check item again and discard it or stash it
                         wait(1.2, 1.4)
                         hovered_item = grab()
-                        if not inventory.keep_item(item_finder, hovered_item):
+                        if not personal.keep_item(item_finder, hovered_item):
                             keyboard.send('ctrl', do_release=False)
                             wait(0.1, 0.15)
                             mouse.click (button="left")

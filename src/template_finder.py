@@ -40,7 +40,6 @@ class TemplateFinder:
         "assets\\item_properties",
         "assets\\chests",
         "assets\\gamble",
-        "assets\\items_inventory"
     ]
     _instance = None
 

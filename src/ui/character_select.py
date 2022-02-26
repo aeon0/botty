@@ -6,7 +6,7 @@ from template_finder import TemplateFinder
 from utils.misc import wait
 from logger import Logger
 from ocr import Ocr
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 
 last_char_template = None
 online_character = None

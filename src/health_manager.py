@@ -1,3 +1,4 @@
+from inventory import belt
 from pather import Location
 import cv2
 import time
@@ -8,8 +9,8 @@ from logger import Logger
 from screen import grab
 import time
 from config import Config
-from ui_components import view, meters, belt
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui import view, meters
+from ui_manager import detect_screen_object, ScreenObjects
 
 class HealthManager:
     def __init__(self):
@@ -76,7 +77,7 @@ class HealthManager:
             if self._did_chicken or self._pausing: continue
             img = grab()
             # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            match = detect_screen_object(ScreenObjects.BarAnchor, img)
+            match = detect_screen_object(ScreenObjects.InGame, img)
             if match.valid:
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)

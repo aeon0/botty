@@ -1,11 +1,10 @@
 from template_finder import TemplateFinder
 from screen import grab, convert_screen_to_monitor
 from config import Config
-import mouse
 import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from ui.ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects
 
 gambling_round = 1
 gold_full = False
@@ -15,7 +14,7 @@ curr_stash = {
 }
 
 def transfer_shared_to_private_gold(count: int):
-    for x in range (3):
+    for _ in range (3):
         move_to_stash_tab(count)
         stash_gold_btn = detect_screen_object(ScreenObjects.GoldBtnStash)
         if stash_gold_btn.valid:
