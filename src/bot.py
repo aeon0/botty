@@ -314,9 +314,9 @@ class Bot:
         need_refill = (
             consumables.should_buy("health", min_needed = 3) or
             consumables.should_buy("mana", min_needed = 3) or
-            (self._use_keys and consumables.should_buy("key", min_remaining = 2)) or
-            consumables.should_buy("tp", min_remaining = 2) or
-            consumables.should_buy("id", min_remaining = 2)
+            (self._use_keys and consumables.should_buy("key", min_remaining = 4)) or
+            consumables.should_buy("tp", min_remaining = 3) or
+            consumables.should_buy("id", min_remaining = 3)
         )
         if need_refill:
             Logger.info("Buy pots/keys/scrolls at next possible Vendor")
