@@ -51,7 +51,7 @@ class PickIt:
             img = grab()
             item_list = self._item_finder.search(img)
 
-            if Config().advanced_options["use_ocr"] and not done_ocr:
+            if Config().advanced_options["ocr_during_pickit"] and not done_ocr:
                 timestamp = time.strftime("%Y%m%d_%H%M%S")
                 for cnt, item in enumerate(item_list):
                     for cnt2, x in enumerate(item.ocr_result['word_confidences']):
@@ -136,7 +136,7 @@ class PickIt:
                     # no need to stash potions, scrolls, gold, keys
                     if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
-                        if Config().advanced_options["use_ocr"]:
+                        if Config().advanced_options["ocr_during_pickit"]:
                             for item in item_list:
                                 Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
 

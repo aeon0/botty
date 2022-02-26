@@ -89,7 +89,7 @@ class ItemCropper:
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
-        if Config().advanced_options["use_ocr"]:
+        if Config().advanced_options["ocr_during_pickit"]:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
             results = self._ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
             for count, cluster in enumerate(item_clusters):
@@ -128,9 +128,7 @@ class ItemCropper:
                 footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
                 found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
                 if found_footer:
-                    ocr_result = None
-                    if Config().advanced_options["use_ocr"]:
-                        ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
+                    ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
                     result.color = "black"
                     result.roi = [x, y, w, h]
                     result.data = cropped_item

@@ -131,24 +131,23 @@ def keep_item(item_box: ItemText = None, do_logging: bool = True) -> bool:
     ymax = 50 if item_box.data.shape[0] < 50 else item_box.data.shape[0]
     img = item_box.data[0:ymax,:]
 
-    if Config().advanced_options["use_ocr"]:
-        item_box = ItemCropper().crop_item_descr(inp_img=img)
-        if item_box.valid:
-            Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-            for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-                Logger.debug(f"OCR LINE{i}: {line}")
-            if Config().general["loot_screenshots"]:
-                timestamp = time.strftime("%Y%m%d_%H%M%S")
-                found_low_confidence = False
-                for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
-                    if x <= 88:
-                        try:
-                            Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
-                            found_low_confidence = True
-                        except: pass
-                if found_low_confidence:
-                    cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
-                    cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
+    item_box = ItemCropper().crop_item_descr(inp_img=img)
+    if item_box.valid:
+        Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+        for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+            Logger.debug(f"OCR LINE{i}: {line}")
+        if Config().general["loot_screenshots"]:
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            found_low_confidence = False
+            for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                if x <= 88:
+                    try:
+                        Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                        found_low_confidence = True
+                    except: pass
+            if found_low_confidence:
+                cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
+                cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
     try:
         found_item = item_finder.search(img)[0]
@@ -362,22 +361,21 @@ def inspect_items(img: np.ndarray = None) -> bool:
                         hovered_item = grab()
                         item_box = ItemCropper().crop_item_descr(hovered_item)
             if item_box.valid:
-                if Config().advanced_options["use_ocr"]:
-                    Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-                    for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-                        Logger.debug(f"OCR LINE{i}: {line}")
-                    if Config().general["loot_screenshots"]:
-                        timestamp = time.strftime("%Y%m%d_%H%M%S")
-                        found_low_confidence = False
-                        for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
-                            if x <= 88:
-                                try:
-                                    Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
-                                    found_low_confidence = True
-                                except: pass
-                        if found_low_confidence:
-                            cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
-                            cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
+                Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+                for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+                    Logger.debug(f"OCR LINE{i}: {line}")
+                if Config().general["loot_screenshots"]:
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    found_low_confidence = False
+                    for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                        if x <= 88:
+                            try:
+                                Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                                found_low_confidence = True
+                            except: pass
+                    if found_low_confidence:
+                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
+                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
                 # decide whether to keep item
                 keep = bool(result := keep_item(item_box))

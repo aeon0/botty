@@ -3,6 +3,7 @@ import random
 import time
 import cv2
 import math
+from inventory import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
@@ -12,7 +13,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
 from logger import Logger
 from config import Config
-from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
 from template_finder import TemplateFinder
 from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
@@ -202,6 +203,7 @@ class IChar:
                 mouse.click(button="left")
                 match = wait_for_screen_object(ScreenObjects.Loading, 2)
                 if match.valid:
+                    consumables.increment_need("tp", 1)
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = convert_monitor_to_screen(mouse.get_position())

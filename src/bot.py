@@ -426,7 +426,6 @@ class Bot:
             self._pre_buffed = True
         success = self._char.tp_town()
         if success:
-            consumables.increment_need("tp", 1)
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 return self.trigger_or_stop("maintenance")
@@ -493,8 +492,6 @@ class Bot:
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             res = self._arcane.battle(not self._pre_buffed)
-        x = consumables.get_needs("tp")
-        consumables.set_needs("tp", x + self._arcane.used_tps)
         self._ending_run_helper(res)
 
     def on_run_diablo(self):
@@ -504,5 +501,4 @@ class Bot:
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             res = self._diablo.battle(not self._pre_buffed)
-        consumables.increment_need("tp", 1) # we use one tp at pentagram for calibration
         self._ending_run_helper(res)
