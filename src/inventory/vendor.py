@@ -101,7 +101,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
     """
     if img is None:
         img = grab()
-    if (desired_item := TemplateFinder().search(template_name, inp_img=img, roi=Config().ui_roi["vendor_stash"], normalize_monitor=True)).valid:
+    if (desired_item := TemplateFinder().search(template_name, inp_img=img, roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
         mouse.move(*desired_item.center, randomize=8, delay_factor=[1.0, 1.5])
         if shift_click:
             keyboard.send('shift', do_release=False)

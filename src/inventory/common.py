@@ -88,7 +88,7 @@ def calc_item_roi(img_pre, img_post):
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()
-    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True, normalize_monitor  =True)).valid:
+    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True, normalize_monitor = True)).valid:
         if tome_found.name == f"{tome_type.upper()}_TOME":
             state = "ok"
         else:
