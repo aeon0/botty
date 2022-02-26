@@ -8,7 +8,7 @@ from typing import Dict, Tuple, Union, List, Callable
 import keyboard
 import numpy as np
 
-from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor, convert_screen_to_abs
+from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor, convert_screen_to_abs, convert_monitor_to_screen
 from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
@@ -93,17 +93,7 @@ class DrognanShopper:
                 for ck in item_keys:
                     template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
                     if template_match.valid:
-                        (y, x) = np.where(TemplateFinder(True).last_res >= 0.6)
-                        for (x, y) in zip(x, y):
-                            new_pos = [x + self.rx + 16, y + self.ry + 50]
-                            # check if pos already exists in item_pos
-                            exists_already = False
-                            for pos in item_pos:
-                                dist = math.dist(new_pos, pos)
-                                if dist < 10:
-                                    exists_already = True
-                            if not exists_already:
-                                item_pos.append(new_pos)
+                        item_pos.append(template_match.center)
 
                 # check out each item
                 for pos in item_pos:
@@ -126,7 +116,7 @@ class DrognanShopper:
 
                     self.items_evaluated += 1
 
-            keyboard.send("space")
+            keyboard.send("esc")
 
             # Done with this shopping round
             self.reset_shop()
