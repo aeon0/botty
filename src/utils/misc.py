@@ -36,7 +36,8 @@ class WindowSpec:
             result = result and Regex(self.title_regex).matches(GetWindowText(hwnd))
         if self.process_name_regex is not None:
             _, process_id = GetWindowThreadProcessId(hwnd)
-            result = result and Regex(self.process_name_regex).matches(psutil.Process(process_id).name())
+            if process_id > 0:
+                result = result and Regex(self.process_name_regex).matches(psutil.Process(process_id).name())
         if self.title_regex is None and self.process_name_regex is None:
             result = False
         return result
