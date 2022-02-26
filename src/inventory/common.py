@@ -7,7 +7,7 @@ from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import detect_screen_object, ScreenObjects, center_mouse
 from utils.misc import wait, trim_black, color_filter
-from inventory import personal
+from inventory import consumables, personal
 from ui import view
 from screen import grab
 from dataclasses import dataclass
@@ -102,10 +102,11 @@ def id_item_with_tome(item_location: list, id_tome_location: list):
     mouse.move(id_tome_location[0], id_tome_location[1], randomize=4, delay_factor=[0.4, 0.8])
     wait(0.2, 0.4)
     mouse.click(button="right")
-    wait(0.2, 0.4)
+    wait(0.1)
     mouse.move(item_location[0], item_location[1], randomize=4, delay_factor=[0.4, 0.8])
-    wait(0.2, 0.4)
+    wait(0.1)
     mouse.click(button="left")
+    consumables.increment_need("id", 1)
     wait(0.2, 0.4)
 
 def transfer_items(items: list, action: str = "drop") -> list:
