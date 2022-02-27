@@ -388,7 +388,6 @@ class Poison_Necro(IChar):
 
 
     def kill_pindle(self) -> bool:
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, force_tp=True)
         pos_m = screen.convert_abs_to_monitor((0, 30))
         self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
@@ -396,7 +395,10 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
+        pos_m = screen.convert_abs_to_monitor((50, 0))
+        self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=1.1,offset=1.8)
+        self.poison_nova(3.0)
         return True
 
     def kill_eldritch(self) -> bool:
