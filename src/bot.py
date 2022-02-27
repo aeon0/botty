@@ -81,7 +81,7 @@ class Bot:
         a3 = A3(self._pather, self._char)
         a2 = A2(self._pather, self._char)
         a1 = A1(self._pather, self._char)
-        self._town_manager = TownManager(a1, a2, a3, a4, a5)
+        self._town_manager = TownManager(self._item_finder, a1, a2, a3, a4, a5)
 
         # Create runs
         if Config().routes["run_shenk"] and not Config().routes["run_eldritch"]:
