@@ -166,6 +166,24 @@ class IChar:
                 keyboard.send(Config().char["force_move"])
             else:
                 mouse.click(button="left")
+                
+    def walk(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+        factor = Config().advanced_options["pathing_delay_factor"]
+            # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
+        pos_screen = convert_monitor_to_screen(pos_monitor)
+        pos_abs = convert_screen_to_abs(pos_screen)
+        dist = math.dist(pos_abs, (0, 0))
+        min_wd = max(10, Config().ui_pos["min_walk_dist"])
+        max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
+        adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
+        pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
+        x, y = convert_abs_to_monitor(pos_abs)
+        mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
+        wait(0.012, 0.02)
+        if force_move:
+            keyboard.send(Config().char["force_move"])
+        else:
+            mouse.click(button="left")                
 
     def tp_town(self):
         # will check if tp is available and select the skill
