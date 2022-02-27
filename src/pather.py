@@ -421,8 +421,8 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # A2 Town
-            (Location.A2_TOWN_START, Location.A2_WP): [400, 409, 410, 412, 404],
-            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 409, 410, 414, 418, 417],
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 401, 402, 403, 414, 418, 417],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
             (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
