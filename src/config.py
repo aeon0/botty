@@ -49,6 +49,7 @@ class Config:
     hammerdin = {}
     trapsin = {}
     barbarian = {}
+    poison_necro = {}
     necro = {}
     basic = {}
     basic_ranged = {}
@@ -301,6 +302,11 @@ class Config:
         self.necro = self._config["necro"]
         if "necro" in self._custom:
             self.necro.update(self._custom["necro"])
+            
+        # PNecro config
+        self.poison_necro = self._config["poison_necro"]
+        if "poison_necro" in self._custom:
+            self.necro.update(self._custom["poison_necro"])            
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
