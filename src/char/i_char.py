@@ -29,15 +29,23 @@ class IChar:
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
-        if self._skill_hotkeys["teleport"]:
-            if self.select_tp():
-                if self.skill_is_charged():
-                    return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-                else:
-                    return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
-            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+        override = Config().advanced_options["override_capabilities"];
+        if override is None:
+            if self._skill_hotkeys["teleport"]:
+                if self.select_tp():
+                    if self.skill_is_charged():
+                        return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+                    else:
+                        return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
+                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+            else:
+                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
         else:
-            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
+            Logger.debug(f"override_capabilities is set to {override}")
+            return CharacterCapabilities(
+                can_teleport_natively="can_teleport_natively" in override,
+                can_teleport_with_charges="can_teleport_with_charges" in override
+            )
 
     def discover_capabilities(self, force = False):
         if IChar._CrossGameCapabilities is None or force:
