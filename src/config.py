@@ -50,6 +50,7 @@ class Config:
     trapsin = {}
     barbarian = {}
     necro = {}
+    poison_necro = {}
     basic = {}
     basic_ranged = {}
 
@@ -249,6 +250,7 @@ class Config:
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self._config["sorceress"])
@@ -302,6 +304,11 @@ class Config:
         if "necro" in self._custom:
             self.necro.update(self._custom["necro"])
 
+        # PNecro config
+        self.poison_necro = self._config["poison_necro"]
+        if "poison_necro" in self._custom:
+            self.necro.update(self._custom["poison_necro"])            
+
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
@@ -317,7 +324,7 @@ class Config:
             "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
-            "use_ocr": bool(int(self._select_val("advanced_options", "use_ocr"))),
+            "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
         }
 
         self.items = {}
