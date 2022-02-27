@@ -274,7 +274,6 @@ class Bot:
 
         # Inspect inventory
         items = None
-
         need_inspect = self._picked_up_items or self._previous_run_failed
         if Config().char["runs_per_stash"]:
             need_inspect |= (self._game_stats._run_counter - 1) % Config().char["runs_per_stash"] == 0
