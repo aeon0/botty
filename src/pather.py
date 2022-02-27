@@ -740,10 +740,10 @@ if __name__ == "__main__":
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         wrt_origin = (-ref_pos_abs[0], -ref_pos_abs[1])
-                        print(f'"{template_type}": {wrt_origin}')
+                        # print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
-            if round(time.time() - start) % 3 == 0:
-                cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
+            # if round(time.time() - start) % 3 == 0:
+            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
