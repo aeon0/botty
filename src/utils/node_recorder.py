@@ -136,7 +136,8 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: print('Force Exit (f12)') or os._exit(1))
     print("Enter run name...")
     run_name = input()
-
+    from screen import stop_detecting_window, start_detecting_window
+    start_detecting_window()
 
     recorder = NodeRecorder(run_name)
     keyboard.hook(recorder.hook, suppress=True)
@@ -155,3 +156,5 @@ if __name__ == "__main__":
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("vis", img)
         cv2.waitKey(1)
+
+    stop_detecting_window()

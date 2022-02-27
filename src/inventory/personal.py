@@ -313,9 +313,7 @@ def inspect_items(img: np.ndarray = None) -> bool:
             cnt=0
             while True:
                 pre = mask_by_roi(img, specific_inventory_roi("open"))
-                cv2.imwrite("./info_screenshots/" + time.strftime("%Y%m%d_%H%M%S") + "_pre.png", pre)
                 post = mask_by_roi(hovered_item, specific_inventory_roi("open"))
-                cv2.imwrite("./info_screenshots/" + time.strftime("%Y%m%d_%H%M%S") + "_post.png", post)
                 # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
                 if not np.array_equal(pre, post):
                     break

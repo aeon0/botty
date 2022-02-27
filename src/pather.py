@@ -12,7 +12,7 @@ from utils.misc import wait # for stash/shrine tele cancel detection in traverse
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
-from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
+from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 from template_finder import TemplateFinder
 from char import IChar
 from ui_manager import detect_screen_object, ScreenObjects
@@ -183,6 +183,7 @@ class Pather:
             405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
             406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
             408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
+            409: {"A2_TOWN_21": (-42, -167), "A2_TOWN_23": (-320, -46)},
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -694,7 +695,9 @@ class Pather:
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
     # debug method to display all nodes
+
     def display_all_nodes(pather: Pather, filter: str = None):
+        start=time.time()
         while 1:
             img = grab()
             display_img = img.copy()
@@ -727,31 +730,20 @@ if __name__ == "__main__":
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
+            if time.time() - start % 5 == 0:
+                cv2.imwrite(f"./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.waitKey(1)
 
     import keyboard
+    from screen import start_detecting_window, stop_detecting_window
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
+    start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     pather = Pather()
 
-    #display_all_nodes(pather, "DIA_TRASH_")
+    display_all_nodes(pather, "A2_")
 
-    # # changing node pos and generating new code
-    # code = ""
-    # node_idx = 226
-    # offset = [0, 0]
-    # for k in pather._nodes[node_idx]:
-    #     pather._nodes[node_idx][k][0] += offset[0]
-    #     pather._nodes[node_idx][k][1] += offset[1]
-    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
-    # print(code)
-
-    char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
-    char.discover_capabilities()
-
-
-    #pather.traverse_nodes([602], char)
-    #pather.traverse_nodes_fixed("dia_trash_c", char)
+    stop_detecting_window()
