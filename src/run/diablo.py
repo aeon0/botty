@@ -143,7 +143,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
             if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -214,7 +214,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
@@ -235,7 +235,7 @@ class Diablo:
         templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.8, time_out=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
         if not found:
@@ -251,7 +251,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False).valid
+            found = TemplateFinder().search_and_wait(templates, threshold=0.83, time_out=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
             if not found: self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
             if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_diablo_wp_pentagram_loop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
