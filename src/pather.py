@@ -55,6 +55,7 @@ class Location:
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
     A2_LYSANDER = "a2_lysander"
+    A2_DROGNAN = "a2_drognan"
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -183,7 +184,17 @@ class Pather:
             405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
             406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
             408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
-            409: {"A2_TOWN_21": (-42, -167), "A2_TOWN_23": (-320, -46)},
+            409: {'A2_TOWN_2': (-98, -173), 'A2_TOWN_3': (-276, -108), 'A2_TOWN_5': (-206, 297)},
+            410: {'A2_TOWN_5': (-187, -19), 'A2_TOWN_7': (-342, 42)},
+            411: {'A2_TOWN_24': (87, 252), 'A2_TOWN_8': (-459, -54), 'A2_TOWN_5': (82, -348), 'A2_TOWN_7': (-74, 285)},
+            412: {'A2_TOWN_11': (-284, -68), 'A2_TOWN_15': (219, 207), 'A2_TOWN_24': (318, 2)},
+            413: {'A2_TOWN_11': (44, -134), 'A2_TOWN_12': (-297, 8), 'A2_TOWN_13': (32, 274)},
+            414: {'A2_TOWN_12': (29, -174), 'A2_TOWN_13': (358, 92), 'A2_TOWN_17': (-510, -218)},
+            415: {'A2_TOWN_17': (278, -74), 'A2_TOWN_25': (-448, 54)},
+            416: {'A2_TOWN_19': (-64, -195), 'A2_TOWN_22': (-492, 44), 'A2_TOWN_25': (-83, 218)},
+            417: {'A2_TOWN_21': (-178, -123), 'A2_TOWN_23': (-458, -2), 'A2_TOWN_26': (267, 26)},
+            418: {'A2_TOWN_21': (-254, 28), 'A2_TOWN_23': (-534, 149), 'A2_TOWN_26': (190, 177)},
+            #410: {"A2_TOWN_14": (), "A2_TOWN_12": ()},
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -410,18 +421,25 @@ class Pather:
             (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
             (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
             # A2 Town
-            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 409, 410, 412, 404],
+            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 409, 410, 414, 418, 417],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
             (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
             (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
+            (Location.A2_FARA_STASH, Location.A2_DROGNAN): [415, 418, 417],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
             (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
+            (Location.A2_TP, Location.A2_DROGNAN): [408, 416, 415, 418, 417],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
             (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_WP, Location.A2_DROGNAN): [414, 418, 417],
+            (Location.A2_DROGNAN, Location.A2_WP): [417, 418, 414],
+            (Location.A2_DROGNAN, Location.A2_FARA_STASH): [417, 418, 415],
             (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
             (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
             (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
+
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [],
@@ -697,7 +715,6 @@ if __name__ == "__main__":
     # debug method to display all nodes
 
     def display_all_nodes(pather: Pather, filter: str = None):
-        start=time.time()
         while 1:
             img = grab()
             display_img = img.copy()
@@ -730,12 +747,10 @@ if __name__ == "__main__":
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             cv2.imshow("debug", display_img)
-            if time.time() - start % 5 == 0:
-                cv2.imwrite(f"./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.waitKey(1)
 
     import keyboard
-    from screen import start_detecting_window, stop_detecting_window
+    from screen import start_detecting_window, stop_detecting_window, grab
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
     start_detecting_window()
@@ -744,6 +759,6 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     pather = Pather()
 
-    display_all_nodes(pather, "A2_")
+    display_all_nodes(pather, "A2_TOWN")
 
     stop_detecting_window()
