@@ -77,10 +77,10 @@ def reduce_name(consumable_type: str):
         Logger.warning(f"adjust_consumable_need: unknown item: {consumable_type}")
     return consumable_type
 
-def conv_need_to_remaining(item_name: str = None) -> int:
+def get_remaining(item_name: str = None) -> int:
     global consumable_needs, pot_cols
     if item_name is None:
-        Logger.error("conv_need_to_remaining: param item_name is required")
+        Logger.error("get_remaining: param item_name is required")
         return -1
     if item_name.lower() in ["health", "mana", "rejuv"]:
         return pot_cols[item_name] * Config().char["belt_rows"] - consumable_needs[item_name]
@@ -89,7 +89,7 @@ def conv_need_to_remaining(item_name: str = None) -> int:
     elif item_name.lower() == "key":
         return 12 - consumable_needs[item_name]
     else:
-        Logger.error(f"conv_need_to_remaining: error with item_name={item_name}")
+        Logger.error(f"get_remaining: error with item_name={item_name}")
         return -1
 
 def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int = None) -> bool:
@@ -100,7 +100,7 @@ def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int
     if min_needed:
         return consumable_needs[item_name] >= min_needed
     elif min_remaining:
-        return conv_need_to_remaining(item_name) <= min_remaining
+        return get_remaining(item_name) <= min_remaining
     else:
         Logger.error("should_buy: need to specify min_remaining or min_needed")
     return False

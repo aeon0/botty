@@ -144,7 +144,7 @@ class TownManager:
                     return False, items
             # Sell items, if any
             if items:
-                items = common.transfer_items(items, action = "sell", close = False)
+                items = common.transfer_items(items, action = "sell")
             common.close()
             return new_loc, items
         Logger.warning(f"Could not buy consumables in {curr_act}. Continue without buy pots")
