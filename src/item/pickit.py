@@ -131,10 +131,9 @@ class PickIt:
                 if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
                     # if potion is picked up, record it in the consumables manager
-                    if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name):
+                    if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name) or ("misc_key" == closest_item.name):
+                        # note: key pickup appears to be random between 1 and 5, but set here at minimum of 1 for now
                         consumables.increment_need(closest_item.name, -1)
-                    if ("misc_key" == closest_item.name):
-                        consumables.increment_need(closest_item.name, -2) # random?
                     # no need to stash potions, scrolls, gold, keys
                     if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
                         found_items = True
