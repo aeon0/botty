@@ -173,6 +173,7 @@ class IChar:
         if not skills.has_tps():
             return False
         mouse.click(button="right")
+        consumables.increment_need("tp", 1)
         roi_mouse_move = [
             int(Config().ui_pos["screen_width"] * 0.3),
             0,
