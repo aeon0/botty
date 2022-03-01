@@ -138,15 +138,15 @@ def transfer_items(items: list, action: str = "drop") -> list:
             wait(0.2, 0.4)
         for item in filtered:
             attempts = 0
-            while True:
+            while attempts < 2:
+                # move to item position and left click
                 mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
                 wait(0.2, 0.4)
-                if Config().general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/info" + action + "_item_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 mouse.press(button="left")
                 wait(0.2, 0.4)
                 mouse.release(button="left")
                 wait(0.2, 0.4)
+                # if dropping, drag item to middle if vendor/stash is open
                 if action == "drop" and left_panel_open:
                     center_mouse()
                     wait(0.2, 0.3)
@@ -156,17 +156,19 @@ def transfer_items(items: list, action: str = "drop") -> list:
                     wait(0.2, 0.3)
                 # check if item is still there
                 slot_img = get_slot_pos_and_img(grab(), item.column, item.row)[1]
-                if slot_has_item(slot_img):
-                    attempts += 1
-                else:
+                if not slot_has_item(slot_img):
+                    # remove character from list if it was successfully transferred
                     # items.remove(item) # causes ValueError sometimes
                     for cnt, o_item in enumerate(items):
                         if o_item.pos == item.pos:
                             items.pop(cnt)
                             break
                     break
+                else:
+                    # item is still there, try again
+                    attempts += 1
                 if attempts > 1:
-                    break
+                    Logger.error(f"transfer_items: could not stash in position {item.pos}")
         if (action == "drop" and not left_panel_open) or action in ["sell", "stash"]:
             keyboard.send('ctrl', do_press=False)
         wait(0.1)
