@@ -157,8 +157,7 @@ def transfer_items(items: list, action: str = "drop") -> list:
                 # check if item is still there
                 slot_img = get_slot_pos_and_img(grab(), item.column, item.row)[1]
                 if not slot_has_item(slot_img):
-                    # remove character from list if it was successfully transferred
-                    # items.remove(item) # causes ValueError sometimes
+                    # item successfully transferred, delete from list
                     for cnt, o_item in enumerate(items):
                         if o_item.pos == item.pos:
                             items.pop(cnt)
