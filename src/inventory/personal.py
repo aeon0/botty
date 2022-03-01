@@ -280,13 +280,14 @@ def open(img: np.ndarray = None) -> np.ndarray:
         img = grab()
     return img
 
-def inspect_items(img: np.ndarray = None):
+def inspect_items(inp_img: np.ndarray = None):
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
     """
     center_mouse()
-    img = open(img)
+    img = open(inp_img)
+    vendor_open = detect_screen_object(ScreenObjects.GoldBtnVendor, inp_img).valid
     slots = []
     # check which slots have items
     for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
@@ -398,9 +399,13 @@ def inspect_items(img: np.ndarray = None):
                     # save item info
                     boxes.append(box)
                 else:
-                    # if item isn't going to be sold or kept, drop it
-                    Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
-                    common.transfer_items([box], action = "drop")
+                    # if item isn't going to be kept (or sold if vendor window not open), trash it
+                    if vendor_open:
+                        Logger.debug(f"Selling {item_box.ocr_result.text.splitlines()[1]}")
+                        common.transfer_items([box], action = "sell")
+                    else:
+                        Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
+                        common.transfer_items([box], action = "drop")
                 wait(0.3, 0.5)
             else:
                 failed = True
