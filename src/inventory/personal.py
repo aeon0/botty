@@ -280,7 +280,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
         img = grab()
     return img
 
-def inspect_items(img: np.ndarray = None) -> bool:
+def inspect_items(img: np.ndarray = None):
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)

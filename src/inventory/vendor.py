@@ -4,8 +4,6 @@ from config import Config
 import numpy as np
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
-from item import ItemFinder
-import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import wait_for_screen_object, ScreenObjects
@@ -65,28 +63,15 @@ def gamble():
                 wait(0.1, 0.15)
                 mouse.click(button="right")
                 wait(0.1, 0.15)
-                template_match = TemplateFinder().search ("no_gold".upper(), grab(), threshold= 0.90)
+                img=grab()
+                template_match = TemplateFinder().search ("no_gold".upper(), inp_img=img, threshold= 0.90)
                 #check if gold is av
                 if template_match.valid:
                     gold = False
                     common.close()
                     break
-                for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
-                    img = grab()
-                    slot_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
-                    if common.slot_has_item(slot_img):
-                        x_m, y_m = convert_screen_to_monitor(slot_pos)
-                        mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
-                        # check item again and discard it or stash it
-                        wait(1.2, 1.4)
-                        hovered_item = grab()
-                        found_item = ItemFinder().search(hovered_item)[0]
-                        if not personal.keep_item(hovered_item, found_item):
-                            keyboard.send('ctrl', do_release=False)
-                            wait(0.1, 0.15)
-                            mouse.click (button="left")
-                            wait(0.1, 0.15)
-                            keyboard.send('ctrl', do_press=False)
+                if personal.inventory_has_items(img):
+                    personal.inspect_items(img)
         #Stashing needed
     else:
         Logger.warning("gambling failed")
