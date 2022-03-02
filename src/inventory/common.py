@@ -22,6 +22,10 @@ class BoxInfo:
     need_id: bool = False
     sell: bool = False
     keep: bool = False
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """

@@ -71,7 +71,7 @@ def gamble():
                     common.close()
                     break
                 if personal.inventory_has_items(img):
-                    personal.inspect_items(img)
+                    personal.inspect_items(img, close_window=False)
         #Stashing needed
     else:
         Logger.warning("gambling failed")

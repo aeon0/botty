@@ -22,6 +22,7 @@ from messages import Messenger
 messenger = Messenger()
 item_finder = ItemFinder()
 game_stats = GameStats()
+nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
 
 def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> bool:
     """
@@ -280,7 +281,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
         img = grab()
     return img
 
-def inspect_items(inp_img: np.ndarray = None):
+def inspect_items(inp_img: np.ndarray = None, close_window: bool = True):
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
@@ -328,19 +329,21 @@ def inspect_items(inp_img: np.ndarray = None):
                 if cnt >= 2:
                     Logger.error(f"inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
                     break
+            item_name = item_box.ocr_result.text.splitlines()[0] if not vendor_open else item_box.ocr_result.text.splitlines()[1]
             extend_roi = item_box.roi[:]
             extend_roi[3] = extend_roi[3] + 30
             item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
             if item_roi:
                 item_rois.append(item_roi)
             # determine whether the item can be sold
-            sell = Config().char["sell_junk"] and not any(substring in item_box.ocr_result.text.splitlines()[0].lower() for substring in ["key of ", "essense of", "wirt's", "jade figurine"])
+            item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
+            sell = Config().char["sell_junk"] and item_can_be_traded
             # check and see if item exists in pickit
             try:
                 found_item = item_finder.search(item_box.data)[0]
             except:
-                Logger.debug(f"inspect_items: item_finder returned None or error for {item_box.ocr_result.text.splitlines()[0]}, likely an accidental pick")
-                Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
+                Logger.debug(f"inspect_items: item_finder returned None or error for {item_name}, likely an accidental pick")
+                Logger.debug(f"Dropping {item_name}")
                 found_item = False
             # attempt to identify item
             need_id = False
@@ -395,17 +398,18 @@ def inspect_items(inp_img: np.ndarray = None):
                 )
                 if keep and not need_id:
                     game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
-                if keep or sell or need_id:
+                if not keep and vendor_open and item_can_be_traded:
+                    # sell if not keeping item, vendor is open, and item type can be traded
+                    Logger.debug(f"Selling {item_name}")
+                    box.sell = True
+                    common.transfer_items([box], action = "sell")
+                elif keep or sell or need_id:
                     # save item info
                     boxes.append(box)
                 else:
                     # if item isn't going to be kept (or sold if vendor window not open), trash it
-                    if vendor_open:
-                        Logger.debug(f"Selling {item_box.ocr_result.text.splitlines()[1]}")
-                        common.transfer_items([box], action = "sell")
-                    else:
-                        Logger.debug(f"Dropping {item_box.ocr_result.text.splitlines()[0]}")
-                        common.transfer_items([box], action = "drop")
+                    Logger.debug(f"Dropping {item_name}")
+                    common.transfer_items([box], action = "drop")
                 wait(0.3, 0.5)
             else:
                 failed = True
@@ -415,5 +419,6 @@ def inspect_items(inp_img: np.ndarray = None):
             Logger.error(f"item_cropper failed for slot_pos: {slot[0]}")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
-    common.close()
+    if close_window:
+        common.close()
     return boxes
