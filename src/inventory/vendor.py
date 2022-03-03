@@ -2,12 +2,15 @@ import keyboard
 from template_finder import TemplateFinder
 from config import Config
 import numpy as np
-from utils.misc import wait
+from utils.misc import cut_roi, wait
 from screen import convert_screen_to_monitor, grab
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
-from inventory import personal, stash
+from inventory import personal, stash, common
+from ocr import Ocr
+import cv2
+import time
 
 def repair() -> bool:
     """
@@ -32,10 +35,9 @@ def repair() -> bool:
     return True
 
 def gamble():
-    gold_remains = True
     if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
-        while gold_remains:
+        while stash.get_gold_full():
             img=grab()
             for item in Config().char["gamble_items"]:
                 # while desired gamble item is not on screen, refresh
@@ -58,11 +60,17 @@ def gamble():
                         Logger.debug("Found desired item, go to stash")
                         return items
                 # if there is no more gold in inventory, make this the last iteration
-                gold_remains = not detect_screen_object(ScreenObjects.GoldNone, img).valid
-                if not gold_remains:
-                    stash.set_gold_full(False)
+                img = grab()
+                gold_in_stash = common.read_gold(img, "vendor")
+                Logger.debug(f"Stash gold remaining: {gold_in_stash}")
+                gold_in_inventory = common.read_gold(img, "inventory")
+                Logger.debug(f"Inventory gold remaining: {gold_in_inventory}")
+                inv_gold_remains = not detect_screen_object(ScreenObjects.GoldNone, img).valid
+                if not inv_gold_remains:
+                    if gold_in_stash < 250000:
+                        stash.set_gold_full(False)
 
-        Logger.debug("No gold remains, finish gambling")
+        Logger.debug(f"Finish gambling")
         return None
     else:
         Logger.warning("gamble: gamble vendor window not detected")

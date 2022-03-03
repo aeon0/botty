@@ -6,12 +6,14 @@ import time
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import detect_screen_object, ScreenObjects, center_mouse
-from utils.misc import wait, trim_black, color_filter
+from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables, personal
 from ui import view
 from screen import grab
 from dataclasses import dataclass
 from logger import Logger
+from ocr import Ocr
+
 
 @dataclass
 class BoxInfo:
@@ -176,3 +178,42 @@ def transfer_items(items: list, action: str = "drop") -> list:
             keyboard.send('ctrl', do_press=False)
         wait(0.1)
     return items
+
+def read_gold(img: np.ndarray = None, type: str = "inventory"):
+    if type not in ["vendor", "inventory", "stash"]:
+        Logger.error(f"read_gold: type {type} not supported")
+        return False
+    img = img if img is not None else grab()
+    img = cut_roi(img, Config().ui_roi[f"{type}_gold_digits"])
+    img = np.pad(img, pad_width=[(4, 4),(4, 4),(0, 0)], mode='constant')
+    ocr_result = Ocr().image_to_text(
+        images = img,
+        model = "engd2r_inv_th",
+        psm = 7,
+        scale = 1.0,
+        crop_pad = False,
+        erode = False,
+        invert = False,
+        threshold = 0,
+        digits_only = False,
+        fix_regexps = True,
+        check_known_errors = False,
+        check_wordlist = False,
+    )[0]
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    cv2.imwrite(f"./info_screenshots/gold_{type}_{timestamp}_pre.png", ocr_result.original_img)
+    cv2.imwrite(f"./info_screenshots/gold_{type}_{timestamp}_post.png", ocr_result.processed_img)
+    return int(ocr_result.text)
+
+if __name__ == "__main__":
+    import os
+    import keyboard
+    from config import Config
+    from screen import start_detecting_window, stop_detecting_window
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+
+    img = grab()
+    print(read_gold(img, "stash"))
+    stop_detecting_window()

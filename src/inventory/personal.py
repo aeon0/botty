@@ -54,22 +54,28 @@ def stash_all_items(items: list = None):
     Logger.debug("Found inventory gold btn")
     # stash gold
     if Config().char["stash_gold"]:
-        if detect_screen_object(ScreenObjects.GoldNone).valid:
+        img = grab()
+        if detect_screen_object(ScreenObjects.GoldNone, img).valid:
             Logger.debug("Skipping gold stashing")
         else:
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
-            mouse.move(*gold_btn.center, randomize=4)
-            wait(0.1, 0.15)
-            mouse.press(button="left")
-            wait(0.25, 0.35)
-            mouse.release(button="left")
-            wait(0.4, 0.6)
-            keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-            wait(1.0, 1.2)
-            # move cursor away from button to interfere with screen grab
-            mouse.move(-120, 0, absolute=False, randomize=15)
-            if not detect_screen_object(ScreenObjects.GoldNone).valid:
+            try:
+                stash_full_of_gold = common.read_gold(img, "stash") == 2500000
+            except:
+                # sometimes OCR fails, try old method
+                mouse.move(*gold_btn.center, randomize=4)
+                wait(0.1, 0.15)
+                mouse.press(button="left")
+                wait(0.25, 0.35)
+                mouse.release(button="left")
+                wait(0.4, 0.6)
+                keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+                wait(1.0, 1.2)
+                # move cursor away from button to interfere with screen grab
+                mouse.move(-120, 0, absolute=False, randomize=15)
+                stash_full_of_gold = not detect_screen_object(ScreenObjects.GoldNone).valid
+            if stash_full_of_gold:
                 Logger.info("Stash tab is full of gold, selecting next stash tab.")
                 stash.curr_stash["gold"] += 1
                 if Config().general["info_screenshots"]:
