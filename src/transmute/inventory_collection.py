@@ -1,8 +1,10 @@
 from collections import defaultdict
+from dataclasses import dataclass, field
+from re import L
+from typing import ClassVar, Union
+
 from functools import reduce
 import itertools
-from pipes import Template
-from typing_extensions import Self
 
 from config import Config
 from screen import grab
@@ -15,6 +17,64 @@ def _is_slot_empty(img, treshold=16.0):
     slot_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > treshold
+
+
+@dataclass
+class InventoryItem:
+    _ItemCounter: ClassVar[int] = 0
+    id: int = field(init=False)
+    type: str
+    size: "tuple[int, int]"
+    # can add more properties later
+
+    def __post_init__(self):
+        InventoryItem._ItemCounter += 1
+        self.id = InventoryItem._ItemCounter
+
+
+class InventoryCollection2:
+    # Internal state of this class is represented by a virtual grid rows x columns and items mapped to that grid
+    # We track ids of the items against the grid but also keep a reverse index from id to Item and to it's position
+
+    def __init__(self, rows, columns) -> None:
+        self._grid = np.ndarray((rows, columns), int)
+        self._grid.fill(-1)
+        self._items_by_type = defaultdict(list)
+        self._items = dict()
+
+    def append(self, item: InventoryItem, placement: "tuple[int, int, int, int]"):
+        row_min, row_max, col_min, col_max = placement
+        self._grid[row_min:row_max, col_min:col_max].fill(item.id)
+        self._items_by_type[item.type].append(item)
+        self._items[item.id] = item
+
+    def append_one_cell(self, item: InventoryItem, row: int, col: int):
+        self.append(item, (row, row + 1, col, col + 1))
+
+    def _remove_from_grid(self, item: InventoryItem):
+        self._grid = np.where(self._grid == item.id, -1, self._grid)
+
+    def pop_by_type(self, type: str) -> InventoryItem:
+        item: InventoryItem = self._items_by_type[type].pop()
+        self._remove_from_grid(item)
+        self._items.pop(item.id)
+        return item
+
+    def pop_item(self, item: InventoryItem):
+        self._items_by_type[item.type].remove(item)
+        self._items.pop(item.id)
+        self._remove_from_grid(item)
+
+    def get_item_at(self, row: int, col: int) -> "Union[None, InventoryItem]":
+        item_id = self._grid[row, col]
+        if item_id >= 0:
+            return self._items[item_id]
+        return None
+
+    def get_item_count(self, type=None):
+        if type is None:
+            return len(self._items)
+        return len(self._items_by_type[type])
 
 
 class InventoryCollection:
@@ -50,9 +110,7 @@ class InventoryCollection:
         return filter(lambda key: len(self._all_items[key]) > 0, self._all_items.keys())
 
 
-def inspect_area(
-    total_rows, total_columns, roi, known_items
-) -> InventoryCollection:
+def inspect_area(total_rows, total_columns, roi, known_items) -> InventoryCollection:
     result = InventoryCollection()
     x, y, w, h = roi
     img = grab()[y : y + h, x : x + w]
