@@ -380,22 +380,16 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
-        # Check if gambling is needed
-        if stash.gambling_needed() and Config().char["gamble_items"]:
-            for x in range (4):
-                self._curr_loc = self._town_manager.gamble(self._curr_loc)
-                vendor.gamble()
-                items = None
-                if personal.inventory_has_items(img):
-                    items = personal.inspect_items(img)
-                    common.close()
-                    if (x ==3):
-                        self._curr_loc, _ = self._town_manager.stash(self._curr_loc, items = items)
-                    else:
-                        self._curr_loc, _ = self._town_manager.stash(self._curr_loc, gamble=True, items = items)
-                    if not self._curr_loc:
-                        return self.trigger_or_stop("end_game", failed=True)
-            stash.set_gold_full(False)
+        # Gamble if needed
+        while stash.get_gold_full() and Config().char["gamble_items"]:
+            Logger.debug("Head to gamble")
+            self._curr_loc = self._town_manager.gamble(self._curr_loc)
+            items = vendor.gamble()
+            if items:
+                self._curr_loc, _ = self._town_manager.stash(self._curr_loc, items = items)
+                common.close()
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
 
         # Start a new run
         started_run = False

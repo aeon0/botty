@@ -6,8 +6,8 @@ from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import wait_for_screen_object, ScreenObjects
-from inventory import common, personal
+from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
+from inventory import personal, stash
 
 def repair() -> bool:
     """
@@ -32,49 +32,41 @@ def repair() -> bool:
     return True
 
 def gamble():
-    gold = True
-    gamble_on = True
-    if Config().char["num_loot_columns"] % 2 == 0:
-        ignore_columns = Config().char["num_loot_columns"]-1
-    else:
-        ignore_columns = Config().char["num_loot_columns"]-2
-    template_match = TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4)
-    if template_match.valid:
+    gold_remains = True
+    if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
-        while (gamble_on and gold):
+        while gold_remains:
             img=grab()
-            if (personal.inventory_has_items(img, ignore_columns) and personal.inventory_has_items(img, 2)):
-                gamble_on = False
-                common.close()
-                break
             for item in Config().char["gamble_items"]:
-                template_match_item = TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
-                while not template_match_item.valid:
-                    #Refresh gambling screen
-                    template_match = TemplateFinder().search ("REFRESH", grab(), normalize_monitor=True)
-                    if (template_match.valid):
-                        mouse.move(*template_match.center, randomize=12, delay_factor=[1.0, 1.5])
-                        wait(0.1, 0.15)
-                        mouse.click(button="left")
-                        wait(0.1, 0.15)
-                    template_match_item = TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
-                #item found in gambling menu
-                mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
+                # while desired gamble item is not on screen, refresh
+                while not (desired_item := TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
+                    mouse.move(*refresh_btn.center, randomize=12, delay_factor=[1.0, 1.5])
+                    wait(0.1, 0.15)
+                    mouse.click(button="left")
+                    wait(0.1, 0.15)
+                # desired item found
+                mouse.move(*desired_item.center, randomize=12, delay_factor=[1.0, 1.5])
                 wait(0.1, 0.15)
                 mouse.click(button="right")
                 wait(0.1, 0.15)
                 img=grab()
-                template_match = TemplateFinder().search ("no_gold".upper(), inp_img=img, threshold= 0.90)
-                #check if gold is av
-                if template_match.valid:
-                    gold = False
-                    common.close()
-                    break
+                # if there is a desired item, end function and go to stash
                 if personal.inventory_has_items(img):
-                    personal.inspect_items(img, close_window=False)
-        #Stashing needed
+                    # specifically in gambling scenario, all items returned from inspect_items, which sells/drops unwanted items, are to be kept
+                    items = personal.inspect_items(img, close_window=False)
+                    if items:
+                        Logger.debug("Found desired item, go to stash")
+                        return items
+                # if there is no more gold in inventory, make this the last iteration
+                gold_remains = not detect_screen_object(ScreenObjects.GoldNone, img).valid
+                if not gold_remains:
+                    stash.set_gold_full(False)
+
+        Logger.debug("No gold remains, finish gambling")
+        return None
     else:
-        Logger.warning("gambling failed")
+        Logger.warning("gamble: gamble vendor window not detected")
+        return False
 
 def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shift_click: bool = False) -> bool:
     """

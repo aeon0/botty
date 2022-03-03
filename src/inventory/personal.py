@@ -37,11 +37,14 @@ def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> 
             return True
     return False
 
-def stash_all_items(gamble: bool = False, items: list = None):
+def stash_all_items(items: list = None):
     """
     Stashing all items in inventory. Stash UI must be open when calling the function.
     """
     global messenger, game_stats
+    if items is None:
+        Logger.debug("No items to stash, skip")
+        return False
     center_mouse()
     # Wait till gold btn is found
     Logger.debug("Searching for inventory gold btn...")
@@ -49,47 +52,37 @@ def stash_all_items(gamble: bool = False, items: list = None):
         Logger.error("Could not determine to be in stash menu. Continue...")
         return
     Logger.debug("Found inventory gold btn")
-    if gamble:
-        stash.transfer_shared_to_private_gold(stash.gambling_round)
-    else:
-        # stash gold
-        if Config().char["stash_gold"]:
-            if detect_screen_object(ScreenObjects.GoldNone).valid:
-                Logger.debug("Skipping gold stashing")
-            else:
-                Logger.debug("Stashing gold")
-                stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
-                mouse.move(*gold_btn.center, randomize=4)
-                wait(0.1, 0.15)
-                mouse.press(button="left")
-                wait(0.25, 0.35)
-                mouse.release(button="left")
-                wait(0.4, 0.6)
-                keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-                wait(1.0, 1.2)
-                # move cursor away from button to interfere with screen grab
-                mouse.move(-120, 0, absolute=False, randomize=15)
-                if not detect_screen_object(ScreenObjects.GoldNone).valid:
-                    Logger.info("Stash tab is full of gold, selecting next stash tab.")
-                    stash.curr_stash["gold"] += 1
-                    if Config().general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                    if stash.curr_stash["gold"] > 3:
-                        #decide if gold pickup should be disabled or gambling is active
-                        if Config().char["gamble_items"]:
-                            stash.set_gold_full(True)
-                        else:
-                            # turn off gold pickup
-                            Config().turn_off_goldpickup()
-                            # inform user about it
-                            msg = "All stash tabs and character are full of gold, turn of gold pickup"
-                            Logger.info(msg)
-                            if Config().general["custom_message_hook"]:
-                                messenger.send_message(msg=f"{Config().general['name']}: {msg}")
-                    else:
-                        # move to next stash
-                        wait(0.5, 0.6)
-                        return stash_all_items(items=items)
+    # stash gold
+    if Config().char["stash_gold"]:
+        if detect_screen_object(ScreenObjects.GoldNone).valid:
+            Logger.debug("Skipping gold stashing")
+        else:
+            Logger.debug("Stashing gold")
+            stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
+            mouse.move(*gold_btn.center, randomize=4)
+            wait(0.1, 0.15)
+            mouse.press(button="left")
+            wait(0.25, 0.35)
+            mouse.release(button="left")
+            wait(0.4, 0.6)
+            keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+            wait(1.0, 1.2)
+            # move cursor away from button to interfere with screen grab
+            mouse.move(-120, 0, absolute=False, randomize=15)
+            if not detect_screen_object(ScreenObjects.GoldNone).valid:
+                Logger.info("Stash tab is full of gold, selecting next stash tab.")
+                stash.curr_stash["gold"] += 1
+                if Config().general["info_screenshots"]:
+                    cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                if stash.curr_stash["gold"] > 3:
+                    #decide if gold pickup should be disabled or gambling is active
+                    stash.set_gold_full(True)
+                    # turn off gold pickup
+                    Config().turn_off_goldpickup()
+                else:
+                    # move to next stash
+                    wait(0.5, 0.6)
+                    return stash_all_items(items=items)
     # check if stash tab is completely full (no empty slots)
     stash.move_to_stash_tab(stash.curr_stash["items"])
     while stash.curr_stash["items"] <= 3:
@@ -99,7 +92,7 @@ def stash_all_items(gamble: bool = False, items: list = None):
         else:
             Logger.info(f"Stash tab completely full, advance to next")
             if Config().general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
             if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
                 stash.stash_full()
@@ -396,14 +389,17 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True):
                     sell = sell,
                     keep = keep
                 )
-                if keep and not need_id:
-                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
-                if not keep and vendor_open and item_can_be_traded:
-                    # sell if not keeping item, vendor is open, and item type can be traded
+                # sell if not keeping item, vendor is open, and item type can be traded
+                if not (keep or need_id) and vendor_open and item_can_be_traded:
                     Logger.debug(f"Selling {item_name}")
                     box.sell = True
                     common.transfer_items([box], action = "sell")
-                elif keep or sell or need_id:
+                    continue
+                # if item is to be kept and is already ID'd or doesn't need ID, log and stash
+                if keep and not need_id:
+                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
+                # if item is to be kept or still needs to be sold or identified, append to list
+                if keep or sell or need_id:
                     # save item info
                     boxes.append(box)
                 else:

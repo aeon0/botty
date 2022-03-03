@@ -148,9 +148,16 @@ class Config:
         return item_props
 
     def turn_off_goldpickup(self):
+        Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
         with config_lock:
             self.char["stash_gold"] = False
             self.items["misc_gold"].pickit_type = 0
+
+    def turn_on_goldpickup(self):
+        Logger.info("All stash tabs and character are no longer full of gold, turn gold pickup back on")
+        with config_lock:
+            self.char["stash_gold"] = True
+            self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
         Logger.info("Loading Config Data")

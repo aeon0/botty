@@ -2,63 +2,34 @@ from template_finder import TemplateFinder
 from screen import grab, convert_screen_to_monitor
 from config import Config
 import os
-import keyboard
 from utils.misc import wait
 from utils.custom_mouse import mouse
-from ui_manager import detect_screen_object, ScreenObjects
 from logger import Logger
 
-gambling_round = 1
 gold_full = False
 curr_stash = {
     "items": 3 if Config().char["fill_shared_stash_first"] else 0,
     "gold": 0
 }
 
-def transfer_shared_to_private_gold(count: int):
-    for _ in range (3):
-        move_to_stash_tab(count)
-        stash_gold_btn = detect_screen_object(ScreenObjects.GoldBtnStash)
-        if stash_gold_btn.valid:
-            mouse.move(*stash_gold_btn.center, randomize=4)
-            wait (0.4, 0.5)
-            mouse.press(button="left")
-            wait (0.1, 0.15)
-            mouse.release(button="left")
-            wait (0.1, 0.15)
-            keyboard.send ("Enter")
-            wait (0.1, 0.15)
-            move_to_stash_tab(0)
-            inventory_gold_btn = detect_screen_object(ScreenObjects.GoldBtnInventory)
-            if inventory_gold_btn.valid:
-                mouse.move(*inventory_gold_btn.center, randomize=4)
-                wait (0.4, 0.5)
-                mouse.press(button="left")
-                wait (0.1, 0.15)
-                mouse.release(button="left")
-                wait (0.1, 0.15)
-                keyboard.send ("Enter")
-                wait (0.1, 0.15)
-    global gambling_round
-    gambling_round += 1
-
-def gambling_needed() -> bool:
+def get_gold_full() -> bool:
     global gold_full
     return gold_full
 
 def set_gold_full (bool: bool):
     global gold_full
     gold_full = bool
-    global gambling_round
-    gambling_round = 1
+    if bool:
+        Config().turn_off_goldpickup
+    else:
+        Config().turn_on_goldpickup
 
 def stash_full(self):
     Logger.error("All stash is full, quitting")
     if self._config.general["custom_message_hook"]:
         self._messenger.send_stash()
-    while process_exists("D2R.exe"):
-        os.system("taskkill /f /im  D2R.exe")
-        wait(1.0, 1.5)
+    os.system("taskkill /f /im  D2R.exe")
+    wait(1.0, 1.5)
     os._exit(0)
 
 def move_to_stash_tab(stash_idx: int):
