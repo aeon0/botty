@@ -12,6 +12,8 @@ from ocr import Ocr
 import cv2
 import time
 
+gold_in_stash=2500000
+
 def repair() -> bool:
     """
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
@@ -35,6 +37,7 @@ def repair() -> bool:
     return True
 
 def gamble():
+    global gold_in_stash
     if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
         while stash.get_gold_full():
@@ -50,21 +53,36 @@ def gamble():
                 mouse.move(*desired_item.center, randomize=12, delay_factor=[1.0, 1.5])
                 wait(0.1, 0.15)
                 mouse.click(button="right")
-                wait(0.1, 0.15)
-                # if the last digit or two is no longer visible in stash, assume lower stash gold and set last iteration
+                wait(0.3, 0.5)
                 img=grab()
-                gold_cutout = cut_roi(img, Config().ui_roi["vendor_gold_digits"])
-                gold_mask, _ = color_filter(gold_cutout, Config().colors["gold_numbers"])
-                if not np.sum(gold_mask) > 0:
+                # make sure the "not enough gold" message doesn't exist
+                if detect_screen_object(ScreenObjects.OutOfGold, img).valid:
+                    Logger.debug(f"Out of gold, stop gambling")
                     stash.set_gold_full(False)
-                # if there is a desired item, end function and go to stash
+                    common.close()
+                    return None
+                # check whether there is still gold in inventory prior to item sellback
+                if detect_screen_object(ScreenObjects.GoldNone, img).valid:
+                    # if there's was no gold left in inventory, check how much gold is in stash in vendor window
+                    prev_gold_in_stash = gold_in_stash
+                    try:
+                        # attempt to read stash gold with OCR
+                        gold_in_stash = common.read_gold(img, "vendor")
+                    except:
+                        # if OCR failed, assume 188000 drop
+                        gold_in_stash = prev_gold_in_stash - 188000
+                # inspect purchased item
                 if personal.inventory_has_items(img):
-                    # specifically in gambling scenario, all items returned from inspect_items, which sells/drops unwanted items, are to be kept
                     items = personal.inspect_items(img, close_window=False)
                     if items:
+                        # specifically in gambling scenario, all items returned from inspect_items, which sells/drops unwanted items, are to be kept
+                        # if there is a desired item, end function and go to stash
                         Logger.debug("Found desired item, go to stash")
                         common.close()
                         return items
+                # stop gambling at 700k
+                if gold_in_stash < 700000:
+                    stash.set_gold_full(False)
         Logger.debug(f"Finish gambling")
         return None
     else:

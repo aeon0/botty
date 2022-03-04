@@ -186,17 +186,17 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
         return False
     img = img if img is not None else grab()
     img = cut_roi(img, Config().ui_roi[f"{type}_gold_digits"])
-    _, img = color_filter(img, Config().colors["gold_numbers"])
+    # _, img = color_filter(img, Config().colors["gold_numbers"])
     img = np.pad(img, pad_width=[(8, 8),(8, 8),(0, 0)], mode='constant')
     ocr_result = Ocr().image_to_text(
         images = img,
         model = "engd2r_inv_th_fast",
-        psm = 7,
-        scale = 1,
+        psm = 13,
+        scale = 1.2,
         crop_pad = False,
         erode = False,
         invert = False,
-        threshold = 0,
+        threshold = 76,
         digits_only = True,
         fix_regexps = False,
         check_known_errors = False,
