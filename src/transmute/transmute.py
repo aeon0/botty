@@ -2,7 +2,7 @@ import itertools
 from random import randint
 from config import Config
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
-from .inventory_collection import InventoryCollection
+from .inventory_collection import InventoryCollection, inspect_area
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
 from item.item_finder import ItemFinder
@@ -20,23 +20,23 @@ from inventory import personal
 from inventory.stash import move_to_stash_tab
 
 FLAWLESS_GEMS = [
-    "INVENTORY_TOPAZ_FLAWLESS",
-    "INVENTORY_AMETHYST_FLAWLESS",
-    "INVENTORY_SAPPHIRE_FLAWLESS",
-    "INVENTORY_DIAMOND_FLAWLESS",
-    "INVENTORY_RUBY_FLAWLESS",
-    "INVENTORY_EMERALD_FLAWLESS",
-    "INVENTORY_SKULL_FLAWLESS"
+    "FLAWLESS_TOPAZ",
+    "FLAWLESS_AMETHYST",
+    "FLAWLESS_SAPPHIRE",
+    "FLAWLESS_DIAMOND",
+    "FLAWLESS_RUBY",
+    "FLAWLESS_EMERALD",
+    "FLAWLESS_SKULL"
 ]
 
 PERFECT_GEMS = [
-    "INVENTORY_TOPAZ_PERFECT",
-    "INVENTORY_AMETHYST_PERFECT",
-    "INVENTORY_SAPPHIRE_PERFECT",
-    "INVENTORY_DIAMOND_PERFECT",
-    "INVENTORY_RUBY_PERFECT",
-    "INVENTORY_EMERALD_PERFECT",
-    "INVENTORY_SKULL_PERFECT"
+    "PERFECT_TOPAZ",
+    "PERFECT_AMETHYST",
+    "PERFECT_SAPPHIRE",
+    "PERFECT_DIAMOND",
+    "PERFECT_RUBY",
+    "PERFECT_EMERALD",
+    "PERFECT_SKULL"
 ]
 
 
@@ -105,40 +105,20 @@ class Transmute:
         move_to_stash_tab(index)
         return self.pick_from_area(column, row, Config().ui_roi["left_inventory"])
 
-    def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
-        result = InventoryCollection()
-        x, y, w, h = roi
-        img = grab()[y:y+h, x:x+w]
-        slot_w = Config().ui_pos["slot_width"]
-        slot_h = Config().ui_pos["slot_height"]
-        for column, row in itertools.product(range(total_columns), range(total_rows)):
-            y_start, y_end = row*slot_h, slot_h*(row+1)
-            x_start, x_end = column*slot_w, slot_w*(column+1)
-            slot_img = img[y_start:y_end, x_start:x_end]
-            if not self._is_slot_empty(slot_img[+4:-4, +4:-4], treshold=36):
-                result.set_empty((column, row))
-            match = TemplateFinder().search(
-                known_items, slot_img, threshold=0.91, best_match=True)
-
-            if match.valid:
-                result.append(match.name, (column, row))
-
-        return result
-
     def _is_slot_empty(self, img, treshold=16.0):
         slot_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         avg_brightness = np.average(slot_img[:, :, 2])
         return avg_brightness > treshold
 
     def inspect_inventory_area(self, known_items) -> InventoryCollection:
-        return self.inspect_area(4, Config().char["num_loot_columns"], Config().ui_roi["right_inventory"], known_items)
+        return inspect_area(4, Config().char["num_loot_columns"], Config().ui_roi["right_inventory"], known_items)
 
     def inspect_stash(self) -> Stash:
         stash = Stash()
         for i in range(4):
             move_to_stash_tab(i)
             wait(0.4, 0.5)
-            tab = self.inspect_area(
+            tab = inspect_area(
                 10, 10, Config().ui_roi["left_inventory"], FLAWLESS_GEMS)
             stash.add_tab(i, tab)
         return stash
@@ -146,9 +126,10 @@ class Transmute:
     def put_back_to_stash_randomly(self) -> None:
         flawless_gems = self.inspect_inventory_area(FLAWLESS_GEMS)
         pick = []
-        for gem in flawless_gems.all_items():
-            while flawless_gems.count_by(gem) > 0:
-                pick.append((randint(0, 3), *flawless_gems.pop(gem)))
+        for gem in flawless_gems.get_types():
+            while flawless_gems.get_item_count(type=gem) > 0:
+                row,_,col,_ = flawless_gems.pop_by_type(gem)
+                pick.append((randint(0, 3), col, row))
         for tab, x, y in sorted(pick, key=lambda x: x[0]):
             move_to_stash_tab(tab)
             self.pick_from_inventory_at(x, y)
@@ -166,10 +147,11 @@ class Transmute:
         perfect_gems = self.inspect_inventory_area(
             PERFECT_GEMS + FLAWLESS_GEMS)
 
-        for gem in perfect_gems.all_items():
-            while perfect_gems.count_by(gem) > 0:
+        for gem in perfect_gems.get_types():
+            while perfect_gems.get_item_count(type=gem) > 0:
                 self.select_tab_with_enough_space(s)
-                self.pick_from_inventory_at(*perfect_gems.pop(gem))
+                row, _, col, _ = perfect_gems.pop_by_type(gem)
+                self.pick_from_inventory_at(col, row)
 
     def should_transmute(self) -> bool:
         every_x_game = Config()._transmute_config["transmute_every_x_game"]
@@ -191,10 +173,10 @@ class Transmute:
         self.open_cube()
         area = self.inspect_cube()
         self.close_cube()
-        return area.count_empty() == 12
+        return area.get_empty_count() == 12
 
     def inspect_cube(self)-> InventoryCollection:
-        return self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
+        return inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
 
     def _run_gem_transmutes(self) -> None:
         Logger.info("Starting gem transmute")
@@ -204,7 +186,7 @@ class Transmute:
         inv = self.inspect_inventory_area(FLAWLESS_GEMS)
         is_cube_empty = None
         while True:
-            while inv.count_empty() >= 3:
+            while inv.get_empty_count() >= 3:
                 next_batch = algorithm.next_batch()
                 is_cube_empty = self.check_cube_empty() if is_cube_empty is None else is_cube_empty
                 if not is_cube_empty:
@@ -213,16 +195,16 @@ class Transmute:
                 if next_batch is None:
                     Logger.info("No more gems to cube")
                     break
-                for tab, gem, x, y in next_batch:
+                for tab, gem, y, x in next_batch:
                     self.pick_from_stash_at(tab, x, y)
                 inv = self.inspect_inventory_area(FLAWLESS_GEMS)
-            if inv.count() >= 3:
+            if inv.get_item_count() >= 3:
                 self.open_cube()
-                for gem in inv.all_items():
-                    while inv.count_by(gem) > 0:
+                for gem in inv.get_types():
+                    while inv.get_item_count(type=gem) > 0:
                         for _ in range(3):
-                            next = inv.pop(gem)
-                            self.pick_from_inventory_at(*next)
+                            row, _, col, _ = inv.pop_by_type(gem)
+                            self.pick_from_inventory_at(col, row)
                         self.transmute()
                         self.pick_from_cube_at(2, 3)
                 self.close_cube()
