@@ -109,7 +109,6 @@ class TownManager:
                         needs["health"] = 0
                     else:
                         Logger.error("buy_consumables: Error purchasing health potions")
-                        return False, items
             # Buy mana pots
             if needs["mana"] > 0:
                 can_shift_click = not sum([ x > 0 for x in [needs["health"], needs["mana"], needs["rejuv"]]]) > 1
@@ -120,34 +119,30 @@ class TownManager:
                         needs["mana"] = 0
                     else:
                         Logger.error("buy_consumables: Error purchasing mana potions")
-                        return False, items
             # Buy TP scrolls
             if needs["tp"] > 0:
                 if vendor.buy_item(template_name="INV_SCROLL_TP", shift_click = True):
                     needs["tp"] = 0
                 else:
                     Logger.error("buy_consumables: Error purchasing teleport scrolls")
-                    return False, items
             # Buy ID scrolls
             if needs["id"] > 0:
                 if vendor.buy_item(template_name="INV_SCROLL_ID", shift_click = True):
                     needs["id"] = 0
                 else:
                     Logger.error("buy_consumables: Error purchasing ID scrolls")
-                    return False, items
             # Buy keys
             if needs["key"] > 0:
                 if vendor.buy_item(template_name="INV_KEY", shift_click = True):
                     needs["key"] = 0
                 else:
                     Logger.error("buy_consumables: Error purchasing keys")
-                    return False, items
             # Sell items, if any
             if items:
                 items = common.transfer_items(items, action = "sell")
             common.close()
             return new_loc, items
-        Logger.warning(f"Could not buy consumables in {curr_act}. Continue without buy pots")
+        Logger.warning(f"Could not buy consumables in {curr_act}. Continue.")
         return curr_loc, items
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
