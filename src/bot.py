@@ -337,18 +337,17 @@ class Bot:
         if not self._curr_loc:
             return self.trigger_or_stop("end_game", failed=True)
 
-        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
+        # Stash stuff
         if keep_items:
-            if personal.should_stash():
-                Logger.info("Stashing items")
-                self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
-                Logger.info("Running transmutes")
-                self._transmute.run_transmutes(force=False)
-                common.close()
-                if not self._curr_loc:
-                    return self.trigger_or_stop("end_game", failed=True)
-                self._picked_up_items = False
-                wait(1.0)
+            Logger.info("Stashing items")
+            self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
+            Logger.info("Running transmutes")
+            self._transmute.run_transmutes(force=False)
+            common.close()
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
+            self._picked_up_items = False
+            wait(1.0)
 
         # Check if we are out of tps or need repairing
         need_repair = detect_screen_object(ScreenObjects.NeedRepair).valid
@@ -380,7 +379,7 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Gamble if needed
-        while stash.get_gold_full() and Config().char["gamble_items"]:
+        while vendor.get_gamble_status() and Config().char["gamble_items"]:
             Logger.debug("Head to gamble")
             self._curr_loc = self._town_manager.gamble(self._curr_loc)
             items = vendor.gamble()

@@ -154,10 +154,12 @@ class Config:
             self.items["misc_gold"].pickit_type = 0
 
     def turn_on_goldpickup(self):
-        if self.parse_item_config_string("misc_gold").pickit_type > 0:
-            Logger.info("All stash tabs and character are no longer full of gold, turn gold pickup back on")
+        Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
+        self.char["stash_gold"] = True
+        # if gold pickup in pickit config was originally on but turned off, turn back on
+        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
+            Logger.info("Turn gold pickup back on")
             with config_lock:
-                self.char["stash_gold"] = True
                 self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):

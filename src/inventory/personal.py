@@ -12,7 +12,7 @@ from template_finder import TemplateFinder
 from config import Config
 from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
-from inventory import stash, common
+from inventory import stash, common, vendor
 from ui import view
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects, center_mouse
 from game_stats import GameStats
@@ -24,17 +24,23 @@ item_finder = ItemFinder()
 game_stats = GameStats()
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
 
-def inventory_has_items(img: np.ndarray = None, num_ignore_columns: int = 0) -> bool:
+def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
     """
     Check if Inventory has any items
     :param img: Img from screen.grab() with inventory open
     :return: Bool if inventory still has items or not
     """
     img = open(img)
-    for column, row in itertools.product(range(num_ignore_columns, Config().char["num_loot_columns"]), range(4)):
+    items=False
+    for column, row in itertools.product(range(0, Config().char["num_loot_columns"]), range(4)):
         _, slot_img = common.get_slot_pos_and_img(img, column, row)
         if common.slot_has_item(slot_img):
-            return True
+            items=True
+            break
+    if close_window:
+        common.close()
+    if items:
+        return True
     return False
 
 def stash_all_items(items: list = None):
@@ -83,7 +89,7 @@ def stash_all_items(items: list = None):
                     cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 if stash.curr_stash["gold"] > 3:
                     #decide if gold pickup should be disabled or gambling is active
-                    stash.set_gold_full(True)
+                    vendor.set_gamble_status(True)
                     # turn off gold pickup
                     Config().turn_off_goldpickup()
                 else:
@@ -244,15 +250,6 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
             Logger.debug(f"{found_item.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
         return True
     return False
-
-def should_stash() -> bool:
-    """
-    Check if there are items that need to be stashed in the inventory
-    """
-    open()
-    should_stash = inventory_has_items()
-    common.close()
-    return should_stash
 
 def specific_inventory_roi(desired: str = "reserved"):
     #roi spec: left, top, W, H
