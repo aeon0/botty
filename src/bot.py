@@ -297,9 +297,8 @@ class Bot:
             # Check inventory items
             if personal.inventory_has_items(img):
                 Logger.debug("Inspecting inventory items")
-                items = personal.inspect_items(img)
-            else:
-                common.close()
+                items = personal.inspect_items(img, close_window=False)
+            common.close()
         Logger.debug(f"Needs: {consumables.get_needs()}")
         if items:
             # if there are still items that need identifying, go to cain to identify them

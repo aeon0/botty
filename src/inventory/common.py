@@ -179,31 +179,32 @@ def transfer_items(items: list, action: str = "drop") -> list:
         wait(0.1)
     return items
 
+# use with caution--unreliable
 def read_gold(img: np.ndarray = None, type: str = "inventory"):
     if type not in ["vendor", "inventory", "stash"]:
         Logger.error(f"read_gold: type {type} not supported")
         return False
     img = img if img is not None else grab()
     img = cut_roi(img, Config().ui_roi[f"{type}_gold_digits"])
-    img = np.pad(img, pad_width=[(4, 4),(4, 4),(0, 0)], mode='constant')
+    _, img = color_filter(img, Config().colors["gold_numbers"])
+    img = np.pad(img, pad_width=[(8, 8),(8, 8),(0, 0)], mode='constant')
     ocr_result = Ocr().image_to_text(
         images = img,
-        model = "engd2r_inv_th",
+        model = "engd2r_inv_th_fast",
         psm = 7,
-        scale = 1.0,
+        scale = 1,
         crop_pad = False,
         erode = False,
         invert = False,
         threshold = 0,
-        digits_only = False,
-        fix_regexps = True,
+        digits_only = True,
+        fix_regexps = False,
         check_known_errors = False,
         check_wordlist = False,
     )[0]
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
-    cv2.imwrite(f"./info_screenshots/gold_{type}_{timestamp}_pre.png", ocr_result.original_img)
-    cv2.imwrite(f"./info_screenshots/gold_{type}_{timestamp}_post.png", ocr_result.processed_img)
-    return int(ocr_result.text)
+    number=int(ocr_result.text.strip())
+    Logger.debug(f"{type.upper()} gold: {number}")
+    return number
 
 if __name__ == "__main__":
     import os
@@ -215,5 +216,5 @@ if __name__ == "__main__":
     keyboard.wait("f11")
 
     img = grab()
-    print(read_gold(img, "stash"))
+    print(read_gold(img, "inventory"))
     stop_detecting_window()

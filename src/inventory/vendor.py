@@ -2,7 +2,7 @@ import keyboard
 from template_finder import TemplateFinder
 from config import Config
 import numpy as np
-from utils.misc import cut_roi, wait
+from utils.misc import cut_roi, wait, color_filter
 from screen import convert_screen_to_monitor, grab
 from logger import Logger
 from utils.custom_mouse import mouse
@@ -51,25 +51,20 @@ def gamble():
                 wait(0.1, 0.15)
                 mouse.click(button="right")
                 wait(0.1, 0.15)
+                # if the last digit or two is no longer visible in stash, assume lower stash gold and set last iteration
                 img=grab()
+                gold_cutout = cut_roi(img, Config().ui_roi["vendor_gold_digits"])
+                gold_mask, _ = color_filter(gold_cutout, Config().colors["gold_numbers"])
+                if not np.sum(gold_mask) > 0:
+                    stash.set_gold_full(False)
                 # if there is a desired item, end function and go to stash
                 if personal.inventory_has_items(img):
                     # specifically in gambling scenario, all items returned from inspect_items, which sells/drops unwanted items, are to be kept
                     items = personal.inspect_items(img, close_window=False)
                     if items:
                         Logger.debug("Found desired item, go to stash")
+                        common.close()
                         return items
-                # if there is no more gold in inventory, make this the last iteration
-                img = grab()
-                gold_in_stash = common.read_gold(img, "vendor")
-                Logger.debug(f"Stash gold remaining: {gold_in_stash}")
-                gold_in_inventory = common.read_gold(img, "inventory")
-                Logger.debug(f"Inventory gold remaining: {gold_in_inventory}")
-                inv_gold_remains = not detect_screen_object(ScreenObjects.GoldNone, img).valid
-                if not inv_gold_remains:
-                    if gold_in_stash < 250000:
-                        stash.set_gold_full(False)
-
         Logger.debug(f"Finish gambling")
         return None
     else:

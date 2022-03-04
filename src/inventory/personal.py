@@ -61,9 +61,10 @@ def stash_all_items(items: list = None):
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
             try:
+                # Try to read gold count with OCR
                 stash_full_of_gold = common.read_gold(img, "stash") == 2500000
             except:
-                # sometimes OCR fails, try old method
+                # If gold read by OCR fails, fallback to old method
                 mouse.move(*gold_btn.center, randomize=4)
                 wait(0.1, 0.15)
                 mouse.press(button="left")
@@ -71,7 +72,7 @@ def stash_all_items(items: list = None):
                 mouse.release(button="left")
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-                wait(1.0, 1.2)
+                wait(0.4, 0.6)
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15)
                 stash_full_of_gold = not detect_screen_object(ScreenObjects.GoldNone).valid
