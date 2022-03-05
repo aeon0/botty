@@ -1,5 +1,3 @@
-from asyncio.format_helpers import _format_callback_source
-from pickle import PickleError
 import random
 from cv2 import LINE_4
 import keyboard
@@ -19,8 +17,8 @@ from town.town_manager import TownManager, A1
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_screen
-from ui.ui_manager import detect_screen_object, ScreenObjects
-from ui_components import skills, loading, waypoint, belt, inventory
+from ui import skills, loading, waypoint
+from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
 
 import npc_manager
 from npc_manager import Npc, open_npc_menu, press_npc_btn
@@ -774,6 +772,7 @@ class Cows:
         Logger.info("Minimap on, moving up 1")
         pos_m0 = (0,-400)
         pos_m = convert_abs_to_monitor(pos_m0)
+        keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport
         self._char.move(pos_m, force_tp=True)
         Logger.info("Minimap on, moving up 2")
         self._char.move(pos_m, force_tp=True)
@@ -793,8 +792,8 @@ class Cows:
             cv2.imwrite(f"./info_screenshots/info_cows_filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
             order = TemplateFinder().get_targets_ordered_by_distance(pos_marker, 150)
             if not order:
-                x_m = random.randint(-600, 600)
-                y_m = random.randint(-350, 270)
+                x_m = random(-600, 600)
+                y_m = random(-350, 270)
                 pos_m = convert_abs_to_monitor((x_m, y_m))
                 #check for walls
                 marker_check, x, y = self._marker_check(15, debug=True)
@@ -803,26 +802,26 @@ class Cows:
                 else:
                     if x < 0 and y < 0: # marker found: left top (8)
                         Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Top and Left" + '\033[0m')
-                        x_m = random.randint(0, 525)
-                        y_m = random.randint(0, 270)
+                        x_m = random(0, 525)
+                        y_m = random(0, 270)
                         pos_m = convert_abs_to_monitor((x_m, y_m))
                         self._char.move(pos_m, force_tp=True)
                     if x < 0 and y > 0: # marker found: left bottom (6)
                         Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Bottom and Left" + '\033[0m')
-                        x_m = random.randint(0, 525)
-                        y_m = random.randint(0, -270)
+                        x_m = random(0, 525)
+                        y_m = random(0, -270)
                         pos_m = convert_abs_to_monitor((x_m, y_m))
                         self._char.move(pos_m, force_tp=True)
                     if x > 0 and y < 0: # marker found: right top (2)
                         Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Top and Right" + '\033[0m')
-                        x_m = random.randint(0, -525)
-                        y_m = random.randint(0, 270)
+                        x_m = random(0, -525)
+                        y_m = random(0, 270)
                         pos_m = convert_abs_to_monitor((x_m, y_m))
                         self._char.move(pos_m, force_tp=True)
                     if x > 0 and y > 0: # marker found: right bottom (4)
                         Logger.info('\033[92m' + "Cull_cows: Found Wall at ("+str(x)+","+str(y)+"), - Therefore now avoiding Bottom and Right" + '\033[0m')
-                        x_m = random.randint(0, -525)
-                        y_m = random.randint(0, -270)
+                        x_m = random(0, -525)
+                        y_m = random(0, -270)
                         pos_m = convert_abs_to_monitor((x_m, y_m))
                         self._char.move(pos_m, force_tp=True)                   
                 keyboard.send(self._char._skill_hotkeys["teleport"]) #switch active skill to teleport

@@ -13,11 +13,9 @@ from config import Config
 from ui_manager import detect_screen_object, ScreenObjects
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt): #pickit for cows
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._pickit = pickit #for Cows
-        self._picked_up_items = False #for Cows
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
