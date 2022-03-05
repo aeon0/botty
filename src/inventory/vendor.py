@@ -1,3 +1,4 @@
+from math import floor
 import keyboard
 from template_finder import TemplateFinder
 from config import Config
@@ -54,8 +55,8 @@ def repair() -> bool:
 def gamble():
     if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
-        max_gamble_count = 10
-        while get_gamble_status() and get_gamble_count() <= max_gamble_count:
+        max_gamble_count = floor(2000000/188000) # leave about 500k gold and assume buying coronets at ~188k
+        while get_gamble_status() and get_gamble_count() < max_gamble_count:
             img=grab()
             for item in Config().char["gamble_items"]:
                 # while desired gamble item is not on screen, refresh
@@ -68,7 +69,7 @@ def gamble():
                 mouse.move(*desired_item.center, randomize=12, delay_factor=[1.0, 1.5])
                 wait(0.1, 0.15)
                 mouse.click(button="right")
-                wait(0.3, 0.5)
+                wait(0.4, 0.6)
                 img=grab()
                 # make sure the "not enough gold" message doesn't exist
                 if detect_screen_object(ScreenObjects.NotEnoughGold, img).valid:
@@ -76,11 +77,9 @@ def gamble():
                     keyboard.send("esc")
                     set_gamble_status(False)
                     break
-                # if there's was no gold left in player inventory, start counting gambles
-                if detect_screen_object(ScreenObjects.GoldNone, img).valid:
-                    new_count = get_gamble_count()+1
-                    Logger.debug(f"Gamble purchase #{new_count}")
-                    set_gamble_count(new_count)
+                new_count = get_gamble_count()+1
+                Logger.debug(f"Gamble purchase {new_count}/{max_gamble_count}")
+                set_gamble_count(new_count)
                 # inspect purchased item
                 if personal.inventory_has_items(img):
                     items = personal.inspect_items(img, close_window=False)
@@ -90,7 +89,7 @@ def gamble():
                         Logger.debug("Found desired item, go to stash")
                         common.close()
                         return items
-                if get_gamble_count() <= max_gamble_count:
+                if new_count >= max_gamble_count:
                     break
         Logger.debug(f"Finish gambling")
         set_gamble_status(False)
