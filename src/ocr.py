@@ -1,5 +1,3 @@
-from concurrent.futures import process
-from fileinput import close
 from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2
@@ -114,7 +112,7 @@ class Ocr:
             for image in images:
                 processed_img = image
                 if scale:
-                    processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+                    processed_img = cv2.resize(processed_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
                 if erode:
                     processed_img = erode_to_black(processed_img)
                 if crop_pad:
@@ -132,6 +130,7 @@ class Ocr:
                 if digits_only:
                     api.SetVariable("tessedit_char_blacklist", ".,!?@#$%&*()<>_-+=/:;'\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
                     api.SetVariable("tessedit_char_whitelist", "0123456789")
+                    api.SetVariable("classify_bln_numeric_mode", "1")
                 original_text = api.GetUTF8Text()
                 text = original_text
                 # replace newlines if image is a single line

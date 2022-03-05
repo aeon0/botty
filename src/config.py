@@ -155,9 +155,19 @@ class Config:
         return item_props
 
     def turn_off_goldpickup(self):
+        Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
         with config_lock:
             self.char["stash_gold"] = False
             self.items["misc_gold"].pickit_type = 0
+
+    def turn_on_goldpickup(self):
+        Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
+        self.char["stash_gold"] = True
+        # if gold pickup in pickit config was originally on but turned off, turn back on
+        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
+            Logger.info("Turn gold pickup back on")
+            with config_lock:
+                self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
         Logger.info("Loading Config Data")
@@ -256,6 +266,7 @@ class Config:
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self._config["sorceress"])
@@ -324,7 +335,7 @@ class Config:
             "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
-            "use_ocr": bool(int(self._select_val("advanced_options", "use_ocr"))),
+            "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 

@@ -9,6 +9,7 @@ from screen import grab
 from config import Config
 from template_finder import TemplateFinder
 from ui_manager import wait_for_screen_object, ScreenObjects
+from inventory import consumables
 
 def is_left_skill_selected(template_list: List[str]) -> bool:
     """

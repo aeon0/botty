@@ -1,19 +1,40 @@
+from math import floor
 import keyboard
 from template_finder import TemplateFinder
 from config import Config
+import numpy as np
 from utils.misc import wait
 from screen import convert_screen_to_monitor, grab
-from item import ItemFinder
-import itertools
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import wait_for_screen_object, ScreenObjects
-from inventory import common, personal
+from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
+from inventory import personal, stash, common
 
-def close_vendor_screen():
-    keyboard.send("esc")
+gamble_count = 0
+gamble_status = False
 
-def repair_and_fill_up_tp() -> bool:
+def get_gamble_count() -> int:
+    global gamble_count
+    return gamble_count
+
+def set_gamble_count(count: int = 0):
+    global gamble_count
+    gamble_count = count
+
+def get_gamble_status() -> bool:
+    global gamble_status
+    return gamble_status
+
+def set_gamble_status (bool: bool):
+    global gamble_status, gold_in_stash
+    gamble_status = bool
+    if gamble_status:
+        set_gamble_count(0)
+        Config().turn_off_goldpickup()
+    else:
+        Config().turn_on_goldpickup()
+
+def repair() -> bool:
     """
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
     :return: Bool if success
@@ -25,115 +46,95 @@ def repair_and_fill_up_tp() -> bool:
     wait(0.1, 0.15)
     mouse.click(button="left")
     wait(0.1, 0.15)
-    x, y = convert_screen_to_monitor((Config().ui_pos["vendor_misc_x"], Config().ui_pos["vendor_misc_y"]))
-    mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.click(button="left")
-    # another click to dismiss popup message in case you have not enough gold to repair, preventing tome not being bought back
-    wait(0.1, 0.15)
-    mouse.click(button="left")
-    wait(0.5, 0.6)
-    tp_tome = TemplateFinder().search_and_wait(["TP_TOME", "TP_TOME_RED"], roi=Config().ui_roi["right_inventory"], time_out=3, normalize_monitor=True)
-    if not tp_tome.valid:
-        return False
-    keyboard.send('ctrl', do_release=False)
-    mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.press(button="left")
-    wait(0.25, 0.35)
-    mouse.release(button="left")
-    wait(0.5, 0.6)
-    keyboard.send('ctrl', do_press=False)
-    tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if not tp_tome.valid:
-        return False
-    keyboard.send('ctrl', do_release=False)
-    mouse.move(*tp_tome.center, randomize=8, delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.click(button="right")
-    wait(0.1, 0.15)
-    keyboard.send('ctrl', do_press=False)
-    # delay to make sure the tome has time to transfer to other inventory before closing window
-    tp_tome = TemplateFinder().search_and_wait("TP_TOME", roi=Config().ui_roi["right_inventory"], time_out=3)
-    if not tp_tome.valid:
+    if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+        Logger.warning("Couldn't repair--out of gold. Continue.")
+        keyboard.send("esc")
         return False
     return True
 
-def gamble(item_finder: ItemFinder):
-    gold = True
-    gamble_on = True
-    if Config().char["num_loot_columns"]%2==0:
-        ignore_columns = Config().char["num_loot_columns"]-1
-    else:
-        ignore_columns = Config().char["num_loot_columns"]-2
-    template_match = TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4)
-    if template_match.valid:
+def gamble():
+    if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
-        while (gamble_on and gold):
-            if (personal.inventory_has_items(grab(), Config().char["num_loot_columns"], ignore_columns) and personal.inventory_has_items(grab(),2)):
-                gamble_on = False
-                close_vendor_screen ()
-                break
+        max_gamble_count = floor(2000000/188000) # leave about 500k gold and assume buying coronets at ~188k
+        while get_gamble_status() and get_gamble_count() < max_gamble_count:
+            img=grab()
             for item in Config().char["gamble_items"]:
-                template_match_item = TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
-                while not template_match_item.valid:
-                    #Refresh gambling screen
-                    template_match = TemplateFinder().search ("REFRESH", grab(), normalize_monitor=True)
-                    if (template_match.valid):
-                        mouse.move(*template_match.center, randomize=12, delay_factor=[1.0, 1.5])
-                        wait(0.1, 0.15)
-                        mouse.click(button="left")
-                        wait(0.1, 0.15)
-                    template_match_item = TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)
-                #item found in gambling menu
-                mouse.move(*template_match_item.center, randomize=12, delay_factor=[1.0, 1.5])
+                # while desired gamble item is not on screen, refresh
+                while not (desired_item := TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
+                    mouse.move(*refresh_btn.center, randomize=12, delay_factor=[1.0, 1.5])
+                    wait(0.1, 0.15)
+                    mouse.click(button="left")
+                    wait(0.1, 0.15)
+                # desired item found, purchase it
+                mouse.move(*desired_item.center, randomize=12, delay_factor=[1.0, 1.5])
                 wait(0.1, 0.15)
                 mouse.click(button="right")
-                wait(0.1, 0.15)
-                template_match = TemplateFinder().search ("no_gold".upper(), grab(), threshold= 0.90)
-                #check if gold is av
-                if template_match.valid:
-                    gold = False
-                    close_vendor_screen()
+                wait(0.4, 0.6)
+                img=grab()
+                # make sure the "not enough gold" message doesn't exist
+                if detect_screen_object(ScreenObjects.NotEnoughGold, img).valid:
+                    Logger.warning(f"Out of gold, stop gambling")
+                    keyboard.send("esc")
+                    set_gamble_status(False)
                     break
-                for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
-                    img = grab()
-                    slot_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
-                    if common.slot_has_item(slot_img):
-                        x_m, y_m = convert_screen_to_monitor(slot_pos)
-                        mouse.move(x_m, y_m, randomize=10, delay_factor=[1.0, 1.3])
-                        # check item again and discard it or stash it
-                        wait(1.2, 1.4)
-                        hovered_item = grab()
-                        if not personal.keep_item(item_finder, hovered_item):
-                            keyboard.send('ctrl', do_release=False)
-                            wait(0.1, 0.15)
-                            mouse.click (button="left")
-                            wait(0.1, 0.15)
-                            keyboard.send('ctrl', do_press=False)
-        #Stashing needed
+                new_count = get_gamble_count()+1
+                Logger.debug(f"Gamble purchase {new_count}/{max_gamble_count}")
+                set_gamble_count(new_count)
+                # inspect purchased item
+                if personal.inventory_has_items(img):
+                    items = personal.inspect_items(img, close_window=False)
+                    if items:
+                        # specifically in gambling scenario, all items returned from inspect_items, which sells/drops unwanted items, are to be kept
+                        # if there is a desired item, end function and go to stash
+                        Logger.debug("Found desired item, go to stash")
+                        common.close()
+                        return items
+                if new_count >= max_gamble_count:
+                    break
+        Logger.debug(f"Finish gambling")
+        set_gamble_status(False)
+        common.close()
+        return None
     else:
-        Logger.warning("gambling failed")
+        Logger.warning("gamble: gamble vendor window not detected")
+        return False
 
-def buy_pots(healing_pots: int = 0, mana_pots: int = 0):
+def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shift_click: bool = False) -> bool:
     """
-    Buy pots from vendors. Vendor inventory needs to be open!
-    :param healing_pots: Number of healing pots to buy
-    :param mana_pots: Number of mana pots to buy
+    Buy desired item from vendors. Vendor inventory needs to be open!
+    :param template_name: Name of template for desired item to buy; e.g., SUPER_MANA_POTION
+    :param quantity: How many of the item to buy
+    :param img: Precaptured image of opened vendor inventory
+    :param shift_click: whether to hold shift and right click to buy full stack
+    returns bool for success/failure
     """
-    h_pot = TemplateFinder().search_and_wait("SUPER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if h_pot.valid is False:  # If not available in shop, try to shop next best potion.
-        h_pot = TemplateFinder().search_and_wait("GREATER_HEALING_POTION", roi=Config().ui_roi["left_inventory"], time_out=3, normalize_monitor=True)
-    if h_pot.valid:
-        mouse.move(*h_pot.center, randomize=8, delay_factor=[1.0, 1.5])
-        for _ in range(healing_pots):
+    if img is None:
+        img = grab()
+    if (desired_item := TemplateFinder().search(template_name, inp_img=img, roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
+        mouse.move(*desired_item.center, randomize=8, delay_factor=[1.0, 1.5])
+        if shift_click:
+            keyboard.send('shift', do_release=False)
+            wait(0.5, 0.8)
             mouse.click(button="right")
-            wait(0.9, 1.1)
-    m_pot = TemplateFinder().search_and_wait("SUPER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
-    if m_pot.valid is False:  # If not available in shop, try to shop next best potion.
-        m_pot = TemplateFinder().search_and_wait("GREATER_MANA_POTION", roi=Config().ui_roi["left_inventory"], time_out=3,normalize_monitor=True)
-    if m_pot.valid:
-        mouse.move(*m_pot.center, randomize=8, delay_factor=[1.0, 1.5])
-        for _ in range(mana_pots):
-            mouse.click(button="right")
-            wait(0.9, 1.1)
+            wait(0.4, 0.6)
+            if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+                Logger.warning(f"Out of gold, could not purchase {template_name}")
+                keyboard.send("esc")
+                return False
+            keyboard.send('shift', do_release=True)
+            return True
+        if quantity:
+            for _ in range(quantity):
+                mouse.click(button="right")
+                wait(0.9, 1.1)
+                if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+                    Logger.warning(f"Out of gold, could not purchase {template_name}")
+                    keyboard.send("esc")
+                    return False
+            return True
+        else:
+            Logger.error("buy_item: Quantity not specified")
+            return False
+
+    Logger.error(f"buy_item: Desired item {template_name} not found")
+    return False

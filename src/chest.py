@@ -8,6 +8,7 @@ from char import IChar
 from config import Config
 from utils.custom_mouse import mouse
 from utils.misc import wait
+from inventory import consumables
 
 
 class Chest:
@@ -38,14 +39,17 @@ class Chest:
                 # move mouse and check for label
                 mouse.move(*template_match.center, delay_factor=[0.4, 0.6])
                 wait(0.13, 0.16)
-                chest_label = TemplateFinder().search("CHEST_LABEL", grab(), threshold=0.85)
+                chest_label_img = grab()
+                chest_label = TemplateFinder().search("CHEST_LABEL", chest_label_img, threshold=0.85)
+                is_locked = TemplateFinder().search("LOCKED", chest_label_img, threshold=0.85).valid
                 if chest_label.valid:
+                    if is_locked:
+                        consumables.increment_need("key", 1)
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
                     self._char.pick_up_item(template_match.center, 'potion')
                     wait(0.13, 0.16)
-                    locked_chest = TemplateFinder().search("LOCKED", grab(), threshold=0.85)
-                    if locked_chest.valid:
+                    if TemplateFinder().search("LOCKED", grab(), threshold=0.85).valid:
                         templates.remove(template_match.name)
                         Logger.debug("No more keys, removing locked chest template")
                         continue

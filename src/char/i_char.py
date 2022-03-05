@@ -3,6 +3,7 @@ import random
 import time
 import cv2
 import math
+from inventory import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
@@ -180,6 +181,7 @@ class IChar:
         if not skills.has_tps():
             return False
         mouse.click(button="right")
+        consumables.increment_need("tp", 1)
         roi_mouse_move = [
             int(Config().ui_pos["screen_width"] * 0.3),
             0,
@@ -199,6 +201,7 @@ class IChar:
                 self.move(pos_m)
                 if skills.has_tps():
                     mouse.click(button="right")
+                    consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             template_match = detect_screen_object(ScreenObjects.TownPortal)
             if template_match.valid:
