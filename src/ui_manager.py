@@ -252,9 +252,9 @@ class ScreenObjects:
         roi="left_inventory",
         threshold=0.8
     )
-    OutOfGold=ScreenObject(
-        ref="OUT_OF_GOLD",
-        threshold=0.8
+    NotEnoughGold=ScreenObject(
+        ref="NOT_ENOUGH_GOLD",
+        threshold=0.9
     )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:

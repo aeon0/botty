@@ -37,8 +37,8 @@ def repair() -> bool:
     wait(0.1, 0.15)
     mouse.click(button="left")
     wait(0.1, 0.15)
-    if detect_screen_object(ScreenObjects.OutOfGold):
-        Logger.debug("Couldn't repair--out of gold. Continue.")
+    if detect_screen_object(ScreenObjects.NotEnoughGold):
+        Logger.warning("Couldn't repair--out of gold. Continue.")
         return False
     return True
 
@@ -62,8 +62,8 @@ def gamble():
                 wait(0.3, 0.5)
                 img=grab()
                 # make sure the "not enough gold" message doesn't exist
-                if detect_screen_object(ScreenObjects.OutOfGold, img).valid:
-                    Logger.debug(f"Out of gold, stop gambling")
+                if detect_screen_object(ScreenObjects.NotEnoughGold, img).valid:
+                    Logger.warning(f"Out of gold, stop gambling")
                     set_gamble_status(False)
                     break
                 # if there's was no gold left in player inventory, check how much gold is in stash in vendor window
@@ -116,8 +116,8 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             wait(0.5, 0.8)
             mouse.click(button="right")
             wait(0.4, 0.6)
-            if detect_screen_object(ScreenObjects.OutOfGold):
-                Logger.debug(f"Out of gold, could not purchase {template_name}")
+            if detect_screen_object(ScreenObjects.NotEnoughGold):
+                Logger.warning(f"Out of gold, could not purchase {template_name}")
                 return False
             keyboard.send('shift', do_release=True)
             return True
@@ -125,8 +125,8 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             for _ in range(quantity):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
-                if detect_screen_object(ScreenObjects.OutOfGold):
-                    Logger.debug(f"Out of gold, could not purchase {template_name}")
+                if detect_screen_object(ScreenObjects.NotEnoughGold):
+                    Logger.warning(f"Out of gold, could not purchase {template_name}")
                     return False
             return True
         else:

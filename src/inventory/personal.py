@@ -78,7 +78,7 @@ def stash_all_items(items: list = None):
                 mouse.release(button="left")
                 wait(0.4, 0.6)
                 keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-                wait(0.4, 0.6)
+                wait(1.3, 1.6)
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15)
                 stash_full_of_gold = not detect_screen_object(ScreenObjects.GoldNone).valid

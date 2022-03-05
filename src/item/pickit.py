@@ -130,17 +130,16 @@ class PickIt:
                 x_m, y_m = convert_screen_to_monitor(closest_item.center)
                 if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
-                    # if potion is picked up, record it in the consumables manager
-                    if ("potion" in closest_item.name) or ("misc_scroll" in closest_item.name) or ("misc_key" == closest_item.name):
+                    # no need to stash potions, scrolls, gold, keys
+                    if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_key" != closest_item.name):
+                        if ("misc_gold" != closest_item.name):
+                            found_items = True
+                            if Config().advanced_options["ocr_during_pickit"]:
+                                for item in item_list:
+                                    Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
+                    else:
                         # note: key pickup appears to be random between 1 and 5, but set here at minimum of 1 for now
                         consumables.increment_need(closest_item.name, -1)
-                    # no need to stash potions, scrolls, gold, keys
-                    if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_gold" not in closest_item.name) and ("misc_key" != closest_item.name):
-                        found_items = True
-                        if Config().advanced_options["ocr_during_pickit"]:
-                            for item in item_list:
-                                Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
-
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
                     if not char.capabilities.can_teleport_natively:
