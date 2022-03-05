@@ -78,7 +78,7 @@ def gamble():
                     try: read_gold = common.read_gold(img, "vendor")
                     except: read_gold = 0
                     # if OCR failed or result is out of expected range, assume 188000 drop (~max cost of coronet)
-                    if read_gold and read_gold < 2500000 and (last_gold - read_gold) > 188000:
+                    if read_gold and read_gold < 2500000 and (last_gold - read_gold) < 1000000:
                         stash.set_gold_in_stash(read_gold)
                     else:
                         Logger.debug("OCR failed to read stash/vendor gold")
