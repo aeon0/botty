@@ -66,33 +66,40 @@ class BlizzSorc(Sorceress):
         self._pather.traverse_nodes_fixed("pindle_end", self)
         return True
 
-    def kill_eldritch(self) -> bool:
+def kill_eldritch(self) -> bool:
         #move up
         pos_m = convert_abs_to_monitor((0, -175))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((-50, -50), spray=10)
         self._cast_static()
+        wait(0.75)        
         #move down
         pos_m = convert_abs_to_monitor((0, 85))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        wait(0.70)
         self._blizzard((-170, -350), spray=10)
         self._cast_static()
         #move down
+        wait(0.75)
         pos_m = convert_abs_to_monitor((0, 75))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._blizzard((100, -300), spray=10)
         self._cast_static()
+        wait(0.75)
         pos_m = convert_abs_to_monitor((0, 55))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        wait(1.0)
         self._blizzard((-50, -130), spray=10)
         self._cast_static()
         wait(3.0)
+        pos_m = convert_abs_to_monitor((0, -100))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._blizzard((-50, -130), spray=10)
+        self._cast_static()
+        wait(1.75)
         self._pather.traverse_nodes_fixed("eldritch_end", self)
         return True
 
