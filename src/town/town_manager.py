@@ -6,7 +6,7 @@ from logger import Logger
 from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 from ui import waypoint, view
-from inventory import personal, vendor, common
+from inventory import consumables, personal, vendor, common
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",
@@ -90,7 +90,7 @@ class TownManager:
         Logger.warning(f"Could not heal in {curr_act}. Continue without healing")
         return curr_loc
 
-    def buy_consumables(self, curr_loc: Location, items: list = None, needs: dict = {}):
+    def buy_consumables(self, curr_loc: Location, items: list = None):
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False, items
         # check if we can buy pots in current act
@@ -98,41 +98,41 @@ class TownManager:
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
             if not new_loc: return False, items
             # Buy HP pots
-            if needs["health"] > 0:
-                can_shift_click = not sum([ x > 0 for x in [needs["health"], needs["mana"], needs["rejuv"]]]) > 1
-                if vendor.buy_item(template_name = "SUPER_HEALING_POTION", quantity = needs["health"], shift_click = can_shift_click):
-                    needs["health"] = 0
+            if consumables.get_needs("health") > 0:
+                can_shift_click = not sum([ x > 0 for x in [consumables.get_needs("health"), consumables.get_needs("mana"), consumables.get_needs("rejuv")]]) > 1
+                if vendor.buy_item(template_name = "SUPER_HEALING_POTION", quantity = consumables.get_needs("health"), shift_click = can_shift_click):
+                    consumables.set_needs("health", 0)
                 else:
-                    if vendor.buy_item(template_name="GREATER_HEALING_POTION", quantity=needs["health"], shift_click = can_shift_click):
-                        needs["health"] = 0
+                    if vendor.buy_item(template_name="GREATER_HEALING_POTION", quantity = consumables.get_needs("health"), shift_click = can_shift_click):
+                        consumables.set_needs("health", 0)
                     else:
                         Logger.error("buy_consumables: Error purchasing health potions")
             # Buy mana pots
-            if needs["mana"] > 0:
-                can_shift_click = not sum([ x > 0 for x in [needs["health"], needs["mana"], needs["rejuv"]]]) > 1
-                if vendor.buy_item(template_name="SUPER_MANA_POTION", quantity=needs["mana"], shift_click = can_shift_click):
-                    needs["mana"] = 0
+            if consumables.get_needs("mana") > 0:
+                can_shift_click = not sum([ x > 0 for x in [consumables.get_needs("health"), consumables.get_needs("mana"), consumables.get_needs("rejuv")]]) > 1
+                if vendor.buy_item(template_name="SUPER_MANA_POTION", quantity = consumables.get_needs("mana"), shift_click = can_shift_click):
+                    consumables.set_needs("mana", 0)
                 else:
-                    if vendor.buy_item(template_name="GREATER_MANA_POTION", quantity=needs["mana"], shift_click = can_shift_click):
-                        needs["mana"] = 0
+                    if vendor.buy_item(template_name="GREATER_MANA_POTION", quantity = consumables.get_needs("mana"), shift_click = can_shift_click):
+                        consumables.set_needs("mana", 0)
                     else:
                         Logger.error("buy_consumables: Error purchasing mana potions")
             # Buy TP scrolls
-            if needs["tp"] > 0:
+            if consumables.get_needs("tp") > 0:
                 if vendor.buy_item(template_name="INV_SCROLL_TP", shift_click = True):
-                    needs["tp"] = 0
+                    consumables.set_needs("tp", 0)
                 else:
                     Logger.error("buy_consumables: Error purchasing teleport scrolls")
             # Buy ID scrolls
-            if needs["id"] > 0:
+            if consumables.get_needs("id") > 0:
                 if vendor.buy_item(template_name="INV_SCROLL_ID", shift_click = True):
-                    needs["id"] = 0
+                    consumables.set_needs("id", 0)
                 else:
                     Logger.error("buy_consumables: Error purchasing ID scrolls")
             # Buy keys
-            if needs["key"] > 0:
+            if consumables.get_needs("key") > 0:
                 if vendor.buy_item(template_name="INV_KEY", shift_click = True):
-                    needs["key"] = 0
+                    consumables.set_needs("key", 0)
                 else:
                     Logger.error("buy_consumables: Error purchasing keys")
             # Sell items, if any

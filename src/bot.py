@@ -20,7 +20,6 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from pather import Pather, Location
-from death_manager import DeathManager
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
@@ -30,7 +29,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
 from ui import meters, skills, view, character_select, main_menu
-from inventory import personal, vendor, stash, belt, common, consumables
+from inventory import personal, vendor, belt, common, consumables
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -323,12 +322,10 @@ class Bot:
         )
         if need_refill:
             Logger.info("Buy pots/keys/scrolls at next possible Vendor")
-            self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items, needs = consumables.get_needs())
+            self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items)
             if self._curr_loc:
                 items = result_items
                 sell_items = any([item.sell for item in items]) if items else None
-                for x in ["health", "mana", "key", "tp", "id"]:
-                    consumables.set_needs(x, 0)
                 Logger.debug(f"Needs: {consumables.get_needs()}")
             wait(0.5, 0.8)
         elif meters.get_health(img) < 0.6 or meters.get_mana(img) < 0.2:

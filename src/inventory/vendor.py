@@ -37,8 +37,9 @@ def repair() -> bool:
     wait(0.1, 0.15)
     mouse.click(button="left")
     wait(0.1, 0.15)
-    if detect_screen_object(ScreenObjects.NotEnoughGold):
+    if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
         Logger.warning("Couldn't repair--out of gold. Continue.")
+        keyboard.send("esc")
         return False
     return True
 
@@ -64,6 +65,7 @@ def gamble():
                 # make sure the "not enough gold" message doesn't exist
                 if detect_screen_object(ScreenObjects.NotEnoughGold, img).valid:
                     Logger.warning(f"Out of gold, stop gambling")
+                    keyboard.send("esc")
                     set_gamble_status(False)
                     break
                 # if there's was no gold left in player inventory, check how much gold is in stash in vendor window
@@ -116,8 +118,9 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             wait(0.5, 0.8)
             mouse.click(button="right")
             wait(0.4, 0.6)
-            if detect_screen_object(ScreenObjects.NotEnoughGold):
+            if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
                 Logger.warning(f"Out of gold, could not purchase {template_name}")
+                keyboard.send("esc")
                 return False
             keyboard.send('shift', do_release=True)
             return True
@@ -125,8 +128,9 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             for _ in range(quantity):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
-                if detect_screen_object(ScreenObjects.NotEnoughGold):
+                if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
                     Logger.warning(f"Out of gold, could not purchase {template_name}")
+                    keyboard.send("esc")
                     return False
             return True
         else:

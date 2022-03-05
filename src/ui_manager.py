@@ -26,6 +26,7 @@ class ScreenObject:
     normalize_monitor: bool = False
     best_match: bool = False
     use_grayscale: bool = False
+    color_match: list[np.array] = None
 
     def __call__(self, cls):
         cls._screen_object = self
@@ -186,7 +187,9 @@ class ScreenObjects:
     YouHaveDied=ScreenObject(
         ref="YOU_HAVE_DIED",
         roi="death",
-        threshold=0.9
+        threshold=0.9,
+        color_match=Config().colors["red"],
+        use_grayscale=True
     )
     Overburdened=ScreenObject(
         ref=["INVENTORY_FULL_MSG_0", "INVENTORY_FULL_MSG_1"],
@@ -250,11 +253,13 @@ class ScreenObjects:
     EmptyStashSlot=ScreenObject(
         ref="STASH_EMPTY_SLOT",
         roi="left_inventory",
-        threshold=0.8
+        threshold=0.8,
     )
     NotEnoughGold=ScreenObject(
         ref="NOT_ENOUGH_GOLD",
-        threshold=0.9
+        threshold=0.9,
+        color_match=Config().colors["red"],
+        use_grayscale=True
     )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
