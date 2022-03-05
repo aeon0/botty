@@ -9,8 +9,16 @@ from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
 from inventory import personal, stash, common
 
-
+gamble_count = 0
 gamble_status = False
+
+def get_gamble_count() -> int:
+    global gamble_count
+    return gamble_count
+
+def set_gamble_count(count: int = 0):
+    global gamble_count
+    gamble_count = count
 
 def get_gamble_status() -> bool:
     global gamble_status
@@ -20,7 +28,7 @@ def set_gamble_status (bool: bool):
     global gamble_status, gold_in_stash
     gamble_status = bool
     if gamble_status:
-        stash.set_gold_in_stash(2500000)
+        set_gamble_count(0)
         Config().turn_off_goldpickup()
     else:
         Config().turn_on_goldpickup()
@@ -46,8 +54,8 @@ def repair() -> bool:
 def gamble():
     if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
-        reserve_stash_gold = 500000
-        while get_gamble_status() and stash.get_gold_in_stash() > reserve_stash_gold:
+        max_gamble_count = 10
+        while get_gamble_status() and get_gamble_count() <= max_gamble_count:
             img=grab()
             for item in Config().char["gamble_items"]:
                 # while desired gamble item is not on screen, refresh
@@ -68,19 +76,11 @@ def gamble():
                     keyboard.send("esc")
                     set_gamble_status(False)
                     break
-                # if there's was no gold left in player inventory, check how much gold is in stash in vendor window
+                # if there's was no gold left in player inventory, start counting gambles
                 if detect_screen_object(ScreenObjects.GoldNone, img).valid:
-                    last_gold = stash.get_gold_in_stash()
-                    # attempt to read stash gold with OCR
-                    try: read_gold = common.read_gold(img, "vendor")
-                    except: read_gold = 0
-                    # make sure read_gold is within ballpark...
-                    if read_gold and read_gold < 2500000 and (last_gold - read_gold) < 1000000:
-                        stash.set_gold_in_stash(read_gold)
-                    else:
-                        # if OCR failed or result is out of expected range, assume 188000 drop (~max cost of coronet)
-                        Logger.debug("OCR failed to read stash/vendor gold")
-                        stash.set_gold_in_stash(last_gold - 188000)
+                    new_count = get_gamble_count()+1
+                    Logger.debug(f"Gamble purchase #{new_count}")
+                    set_gamble_count(new_count)
                 # inspect purchased item
                 if personal.inventory_has_items(img):
                     items = personal.inspect_items(img, close_window=False)
@@ -90,7 +90,7 @@ def gamble():
                         Logger.debug("Found desired item, go to stash")
                         common.close()
                         return items
-                if stash.get_gold_in_stash() < reserve_stash_gold:
+                if get_gamble_count() <= max_gamble_count:
                     break
         Logger.debug(f"Finish gambling")
         set_gamble_status(False)

@@ -90,8 +90,6 @@ def stash_all_items(items: list = None):
                 if stash.curr_stash["gold"] > 3:
                     #decide if gold pickup should be disabled or gambling is active
                     vendor.set_gamble_status(True)
-                    # turn off gold pickup
-                    Config().turn_off_goldpickup()
                 else:
                     # move to next stash
                     wait(0.5, 0.6)

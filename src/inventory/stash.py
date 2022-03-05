@@ -6,20 +6,10 @@ from utils.misc import wait
 from utils.custom_mouse import mouse
 from logger import Logger
 
-gold_in_stash=2500000
 curr_stash = {
     "items": 3 if Config().char["fill_shared_stash_first"] else 0,
     "gold": 0
 }
-
-def get_gold_in_stash():
-    global gold_in_stash
-    return gold_in_stash
-
-def set_gold_in_stash(amount: int):
-    global gold_in_stash
-    gold_in_stash = amount
-
 
 def stash_full(self):
     Logger.error("All stash is full, quitting")
