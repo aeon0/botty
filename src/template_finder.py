@@ -87,7 +87,7 @@ class TemplateFinder:
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param use_grayscale: Use grayscale template matching for speed up
         :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
-        :return: Returns a TempalteMatch object with a valid flag
+        :return: Returns a TemplateMatch object with a valid flag
         """
         if roi is None:
             # if no roi is provided roi = full inp_img
@@ -97,28 +97,24 @@ class TemplateFinder:
 
         templates_gray = None
         if type(ref) == str:
-            templates = [self._templates[ref][0]]
-            if color_match:
+            if not color_match:
+                templates = [self._templates[ref][0]]
+                templates_gray = [self._templates[ref][1]]
+            else:
                 templates = [color_filter(self._templates[ref][0], color_match)[1]]
-            if use_grayscale:
-                if color_match:
-                    templates = [cv2.cvtColor(templates[0], cv2.COLOR_BGR2GRAY)]
-                else:
-                    templates_gray = [self._templates[ref][1]]
+                templates_gray = [cv2.cvtColor(templates[0], cv2.COLOR_BGR2GRAY)]
             scales = [self._templates[ref][2]]
             masks = [self._templates[ref][3]]
             names = [ref]
             best_match = False
         elif type(ref) == list:
             if type(ref[0]) == str:
-                templates = [self._templates[i][0] for i in ref]
-                if color_match:
+                if not color_match:
+                    templates = [self._templates[i][0] for i in ref]
+                    templates_gray = [self._templates[i][1] for i in ref]
+                else:
                     templates = [color_filter(self._templates[i][0], color_match)[1] for i in ref]
-                if use_grayscale:
-                    if color_match:
-                        templates = [cv2.cvtColor(templates[i], cv2.COLOR_BGR2GRAY) for i in ref]
-                    else:
-                        templates_gray = [self._templates[i][1] for i in ref]
+                    templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
                 scales = [self._templates[i][2] for i in ref]
                 masks = [self._templates[i][3] for i in ref]
                 names = ref
@@ -127,8 +123,7 @@ class TemplateFinder:
                     templates = ref
                 else:
                     templates = [color_filter(i, color_match)[1] for i in ref]
-                if use_grayscale:
-                    templates_gray = [cv2.cvtColor(templates[i], cv2.COLOR_BGR2GRAY) for i in templates]
+                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
                 scales =  [1.0] * len(ref)
                 masks = [None] * len(ref)
         else:
@@ -136,8 +131,7 @@ class TemplateFinder:
                 templates = [ref]
             else:
                 templates = [color_filter(ref, color_match)[1]]
-            if use_grayscale:
-                templates_gray = [cv2.cvtColor(templates[i], cv2.COLOR_BGR2GRAY) for i in templates]
+            templates_gray = [cv2.cvtColor(templates[0], cv2.COLOR_BGR2GRAY)]
             scales = [1.0]
             masks = [None]
             best_match = False
