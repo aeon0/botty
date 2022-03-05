@@ -50,21 +50,21 @@ run_shenk=0
 
 | [general]                | Descriptions              |
 | --------------------     | --------------------------|
-| name                     | Name used in terminal and discord messages |
-| custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default  |
-| logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line |
-| max_game_length_s        | Botty will attempt to stop whatever its doing and try to restart a new game. Note if this fails, botty will attempt to shut down D2R and Bnet     |
-| max_consecutive_fails    | Botty will stop making games if the number of consecutive fails reaches this max value     |
-| randomize_runs           | 0: the order will be as seen in the params.ini. 1: the order will be random |
-| difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty |
-| message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images).
+| name                     | Name used in terminal and discord messages. |
+| custom_message_hook      | Add your own message hook here to get messages about drops and botty status updates, discord webhook is default. |
+| logger_lvl               | Can be any of [info, debug] and determines how much output you see on the command line. |
+| max_game_length_s        | Max game length in seconds. Botty will attempt to stop whatever it's doing and try to restart a new game at specified interval. If this fails, botty will attempt to shut down D2R and Bnet. |
+| max_consecutive_fails    | Botty will stop making games if the number of consecutive fails reaches this max value. |
+| randomize_runs           | Randomize the order of `[routes]` specified in `params.ini`. |
+| difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty. |
+| message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images). |
 | discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
 | discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
-| info_screenshots         | If 1, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while |
-| loot_screenshots         | If 1, the bot takes a screenshot with timestamp everytime he presses show_items button and saves it to loot_screenshots folder. Remember to clear them once in a while... |
-| saved_games_folder       | Optional folder path of Diablo 2 : Ressurrected saved games that will be used to overwrite when running the "auto settings" |
-| d2r_path                 | Optional path to find the d2r.exe, if not set will be default to "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe" when attempting to restart |
-| restart_d2r_when_stuck   | Set to `1` and botty will attempt to restart d2r in the case that botty is unable to recover its state (e.g: game crash) |
+| info_screenshots         | If `1`, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while. |
+| loot_screenshots         | If `1`, the bot takes a screenshot with timestamp everytime he presses `show_items` button and saves it to `loot_screenshots` folder. Remember to clear them once in a while... |
+| saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |
+| d2r_path                 | [Optional] Path to `d2r.exe`. If not set, it will default to `C:\Program Files (x86)\Diablo II Resurrected\D2R.exe` when attempting to restart. |
+| restart_d2r_when_stuck   | Set to `1` and botty will attempt to restart d2r in the case that botty is unable to recover its state (e.g: game crash). |
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |

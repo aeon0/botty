@@ -1,4 +1,5 @@
 import configparser
+import string
 import threading
 import numpy as np
 import os
@@ -63,6 +64,12 @@ class Config:
                     cls._instance.data_loaded = True
                     cls._instance.load_data()
         return cls._instance
+
+    def _select_optional(self, section: string, key: string, default = None):
+        try:
+            return self._select_val(section=section, key=key)
+        except:
+            return default
 
     def _select_val(self, section: str, key: str = None):
         if section in self._custom and key in self._custom[section]:
@@ -329,6 +336,7 @@ class Config:
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
+            "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
         self.items = {}
