@@ -37,14 +37,9 @@ def repair() -> bool:
     wait(0.1, 0.15)
     mouse.click(button="left")
     wait(0.1, 0.15)
-    x, y = convert_screen_to_monitor((Config().ui_pos["vendor_misc_x"], Config().ui_pos["vendor_misc_y"]))
-    mouse.move(x, y, randomize=[20, 6], delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.click(button="left")
-    # another click to dismiss popup message in case you have not enough gold to repair, preventing tome not being bought back
-    wait(0.1, 0.15)
-    mouse.click(button="left")
-    wait(0.5, 0.6)
+    if detect_screen_object(ScreenObjects.OutOfGold):
+        Logger.debug("Couldn't repair--out of gold. Continue.")
+        return False
     return True
 
 def gamble():
@@ -77,10 +72,11 @@ def gamble():
                     # attempt to read stash gold with OCR
                     try: read_gold = common.read_gold(img, "vendor")
                     except: read_gold = 0
-                    # if OCR failed or result is out of expected range, assume 188000 drop (~max cost of coronet)
+                    # make sure read_gold is within ballpark...
                     if read_gold and read_gold < 2500000 and (last_gold - read_gold) < 1000000:
                         stash.set_gold_in_stash(read_gold)
                     else:
+                        # if OCR failed or result is out of expected range, assume 188000 drop (~max cost of coronet)
                         Logger.debug("OCR failed to read stash/vendor gold")
                         stash.set_gold_in_stash(last_gold - 188000)
                 # inspect purchased item
@@ -120,15 +116,22 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             wait(0.5, 0.8)
             mouse.click(button="right")
             wait(0.4, 0.6)
+            if detect_screen_object(ScreenObjects.OutOfGold):
+                Logger.debug(f"Out of gold, could not purchase {template_name}")
+                return False
             keyboard.send('shift', do_release=True)
             return True
         if quantity:
             for _ in range(quantity):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
+                if detect_screen_object(ScreenObjects.OutOfGold):
+                    Logger.debug(f"Out of gold, could not purchase {template_name}")
+                    return False
             return True
         else:
             Logger.error("buy_item: Quantity not specified")
             return False
+
     Logger.error(f"buy_item: Desired item {template_name} not found")
     return False

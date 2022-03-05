@@ -6,6 +6,7 @@ from pather import Location
 from logger import Logger
 from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
+from ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import wait
 from ui import waypoint, view
 from inventory import personal, vendor, common
@@ -182,7 +183,7 @@ class TownManager:
         if not new_loc: return False
         return new_loc
 
-    def gamble (self, curr_loc: Location) -> Union[Location, bool]:
+    def gamble(self, curr_loc: Location) -> Union[Location, bool]:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can Identify in current act
@@ -219,21 +220,20 @@ class TownManager:
             if not new_loc: return False, False
             if items:
                 items = common.transfer_items(items, "sell")
-            if vendor.repair():
-                wait(0.1, 0.2)
-                common.close()
-                return new_loc, items
+            vendor.repair()
+            wait(0.1, 0.2)
+            common.close()
+            return new_loc, items
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False, False
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
         if not new_loc: return False, False
         if items:
             items = common.transfer_items(items, "sell")
-        if vendor.repair():
-            wait(0.1, 0.2)
-            common.close()
-            return new_loc, items
-        return False, False
+        vendor.repair()
+        wait(0.1, 0.2)
+        common.close()
+        return new_loc, items
 
 # Test: Move to desired location in d2r and run any town action you want to test from there
 if __name__ == "__main__":

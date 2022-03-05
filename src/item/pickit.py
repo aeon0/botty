@@ -100,7 +100,7 @@ class PickIt:
             else:
                 found_nothing = 0
                 item_list.sort(key=itemgetter('dist'))
-                closest_item = next((obj for obj in item_list if "misc_gold" not in obj["name"]), None)
+                closest_item = next((obj for obj in item_list if not any(map(obj["name"].__contains__, ["misc_gold", "misc_scroll", "misc_key"]))), None)
                 if not closest_item:
                     closest_item = item_list[0]
 
