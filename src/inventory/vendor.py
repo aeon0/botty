@@ -137,3 +137,20 @@ def buy_pots(healing_pots: int = 0, mana_pots: int = 0):
         for _ in range(mana_pots):
             mouse.click(button="right")
             wait(0.9, 1.1)
+
+# Testing
+if __name__ == "__main__":
+    import keyboard
+    import os
+    from screen import start_detecting_window, stop_detecting_window
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    print("Go to D2R window and press f11 to start game")
+    keyboard.wait("f11")
+    from config import Config
+    from template_finder import TemplateFinder
+
+    while True:
+        img = grab()
+        if (result := TemplateFinder().search("NOT_ENOUGH_GOLD", img, color_match=Config().colors["red"])).valid:
+            print(f"match: {result.score}")

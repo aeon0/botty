@@ -9,10 +9,9 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
 
 template_finder_lock = threading.Lock()
-
 
 @dataclass
 class TemplateMatch:
@@ -76,6 +75,7 @@ class TemplateFinder:
         normalize_monitor: bool = False,
         best_match: bool = False,
         use_grayscale: bool = False,
+        color_match: list = False,
     ) -> TemplateMatch:
         """
         Search for a template in an image
@@ -86,6 +86,7 @@ class TemplateFinder:
         :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param use_grayscale: Use grayscale template matching for speed up
+        :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
         :return: Returns a TempalteMatch object with a valid flag
         """
         if roi is None:
@@ -99,6 +100,8 @@ class TemplateFinder:
             templates = [self._templates[ref][0]]
             if use_grayscale:
                 templates_gray = [self._templates[ref][1]]
+            elif color_match:
+                templates = [color_filter(self._templates[ref][0], color_match)[1]]
             scales = [self._templates[ref][2]]
             masks = [self._templates[ref][3]]
             names = [ref]
@@ -108,16 +111,24 @@ class TemplateFinder:
                 templates = [self._templates[i][0] for i in ref]
                 if use_grayscale:
                     templates_gray = [self._templates[i][1] for i in ref]
+                elif color_match:
+                    templates = [color_filter(self._templates[i][0], color_match)[1] for i in ref]
                 scales = [self._templates[i][2] for i in ref]
                 masks = [self._templates[i][3] for i in ref]
                 names = ref
             else:
-                templates = ref
+                if not color_match:
+                    templates = ref
+                else:
+                    templates = color_filter(ref, color_match)[1]
                 templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
                 scales =  [1.0] * len(ref)
                 masks = [None] * len(ref)
         else:
-            templates = [ref]
+            if not color_match:
+                templates = [ref]
+            else:
+                templates = [color_filter(ref, color_match)[1]]
             if use_grayscale:
                 templates_gray = [cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY)]
             scales = [1.0]
@@ -127,6 +138,9 @@ class TemplateFinder:
         scores = [0] * len(templates)
         ref_points = [(0, 0)] * len(templates)
         recs = [[0, 0, 0, 0]] * len(templates)
+
+        if color_match:
+            inp_img = color_filter(inp_img, color_match)[1]
 
         for count, template in enumerate(templates):
             template_match = TemplateMatch()
@@ -196,6 +210,7 @@ class TemplateFinder:
         take_ss: bool = True,
         use_grayscale: bool = False,
         suppress_debug: bool = False,
+        color_match: list = False,
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
@@ -210,7 +225,7 @@ class TemplateFinder:
         start = time.time()
         while 1:
             img = grab()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor, color_match=color_match)
             is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
