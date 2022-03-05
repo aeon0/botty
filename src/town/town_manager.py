@@ -1,12 +1,9 @@
 from typing import Union
-from item import ItemFinder
 from template_finder import TemplateFinder
 from config import Config
 from pather import Location
 from logger import Logger
-from transmute import Transmute
 from town import IAct, A1, A2, A3, A4, A5
-from ui_manager import detect_screen_object, ScreenObjects
 from utils.misc import wait
 from ui import waypoint, view
 from inventory import personal, vendor, common
@@ -245,7 +242,6 @@ if __name__ == "__main__":
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
     from char.hammerdin import Hammerdin
-    from item import ItemFinder
     from pather import Pather
     pather = Pather()
     char = Hammerdin(Config().hammerdin, Config().char, pather)
