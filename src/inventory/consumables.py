@@ -117,7 +117,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
             )
         if match.valid:
             if match.name == f"{item_type.upper()}_TOME_RED":
-                set_needs(item_type, 0)
+                set_needs(item_type, 20)
                 return True
             # else the tome exists and is not empty, continue
         else:

@@ -285,11 +285,7 @@ class Bot:
             if (self._game_stats._run_counter - 1) % 4 == 0 or self._previous_run_failed:
                 consumables.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
-                    id_state = common.tome_state(img, 'id')[0]
-                    if id_state == "empty":
-                        consumables.set_needs("id", 20)
-                    else:
-                        consumables.update_tome_key_needs(img, item_type = 'id')
+                    consumables.update_tome_key_needs(img, item_type = 'id')
                 if self._use_keys:
                     # if keys run out then refilling will be unreliable :(
                     self._use_keys = consumables.update_tome_key_needs(img, item_type = 'key')
@@ -320,8 +316,8 @@ class Bot:
             consumables.should_buy("tp", min_remaining = 3) or
             consumables.should_buy("id", min_remaining = 3)
         )
-        if need_refill:
-            Logger.info("Buy pots/keys/scrolls at next possible Vendor")
+        if need_refill or sell_items:
+            Logger.info("Buy consumables and/or sell items")
             self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items)
             if self._curr_loc:
                 items = result_items

@@ -243,7 +243,8 @@ class ScreenObjects:
     )
     Unidentified=ScreenObject(
         ref="UNIDENTIFIED",
-        threshold=0.8
+        threshold=0.8,
+        color_match=Config().colors["red"]
     )
     Key=ScreenObject(
         ref="INV_KEY",
