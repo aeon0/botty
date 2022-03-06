@@ -317,10 +317,7 @@ class Bot:
             consumables.should_buy("id", min_remaining = 3)
         )
         if need_refill or sell_items:
-            msg=""
-            if need_refill: msg = "Buy consumibles. "
-            if sell_items: msg += "Sell items."
-            Logger.info(msg)
+            Logger.info("Buy consumables and/or sell items")
             self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items)
             if self._curr_loc:
                 items = result_items
