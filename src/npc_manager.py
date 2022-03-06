@@ -5,7 +5,7 @@ import keyboard
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, center_mouse
 from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
@@ -301,7 +301,7 @@ def press_npc_btn(npc_key: Npc, action_btn_key: str):
         mouse.move(*res.center, randomize=3, delay_factor=[1.0, 1.5])
         wait(0.2, 0.4)
         mouse.click(button="left")
-        wait(0.3, 0.4)
+        center_mouse()
     else:
         Logger.error(f"Could not find {action_btn_key} btn. Should not happen! Continue...")
         keyboard.send("esc")

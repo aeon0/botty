@@ -292,7 +292,7 @@ class Bot:
             # Check inventory items
             if personal.inventory_has_items(img):
                 Logger.debug("Inspecting inventory items")
-                items = personal.inspect_items(img, close_window=False)
+                items = personal.inspect_items(img, close_window=False, game_stats=self._game_stats)
             common.close()
         Logger.debug(f"Needs: {consumables.get_needs()}")
         if items:
@@ -303,7 +303,7 @@ class Bot:
                 if not self._curr_loc:
                     return self.trigger_or_stop("end_game", failed=True)
                 # recheck inventory
-                items = personal.inspect_items()
+                items = personal.inspect_items(game_stats=self._game_stats)
         keep_items = any([item.keep for item in items]) if items else None
         sell_items = any([item.sell for item in items]) if items else None
 
