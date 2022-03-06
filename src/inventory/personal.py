@@ -136,24 +136,6 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
     ymax = 50 if item_box.data.shape[0] < 50 else item_box.data.shape[0]
     img = item_box.data[0:ymax,:]
 
-    item_box = ItemCropper().crop_item_descr(inp_img=img)
-    if item_box.valid:
-        Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-        for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-            Logger.debug(f"OCR LINE{i}: {line}")
-        if Config().general["loot_screenshots"]:
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
-            found_low_confidence = False
-            for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
-                if x <= 88:
-                    try:
-                        Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
-                        found_low_confidence = True
-                    except: pass
-            if found_low_confidence:
-                cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
-                cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
-
     if any(x in found_item.name for x in ["potion", "misc_scroll"]) or found_item.name == "misc_key" or (Config().items[found_item.name].pickit_type == 0):
         return False
     setattr(found_item, "ocr_result", item_box["ocr_result"])
@@ -345,9 +327,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True):
             if Config().char["id_items"] and found_item:
                 # if this item has no include or exclude properties, leave it unidentified
                 implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
-                if implied_no_id:
-                    need_id = False
-                else:
+                implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
+                if not implied_no_id:
                     if (is_unidentified := detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid):
                         need_id = True
                         center_mouse()
@@ -379,8 +360,11 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True):
                         cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
 
                 # decide whether to keep item
-                keep = keep_item(item_box, found_item) if found_item else False
-                if keep: sell = need_id = False
+                keep = False
+                if not need_id:
+                    keep = keep_item(item_box, found_item) if found_item else False
+                if keep:
+                    sell = need_id = False
 
                 box = common.BoxInfo(
                     img = item_box.data,
