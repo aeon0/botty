@@ -12,7 +12,7 @@ curr_stash = {
     "gold": 0
 }
 
-def stash_full(self):
+def stash_full():
     Logger.error("All stash is full, quitting")
     if Config().general["custom_message_hook"]:
         Messenger().send_stash()
