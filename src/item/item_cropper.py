@@ -112,7 +112,7 @@ class ItemCropper:
             x, y, w, h = cv2.boundingRect(cntr)
             cropped_item = inp_img[y:y+h, x:x+w]
             avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-            mostly_dark = True if 0 < avg < 20 else False
+            mostly_dark = True if 0 < avg < 25 else False
             contains_black = True if np.min(cropped_item) < 14 else False
             contains_white = True if np.max(cropped_item) > 250 else False
             contains_orange = False
