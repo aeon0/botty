@@ -103,7 +103,7 @@ class HealthManager:
                         belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                if detect_screen_object(ScreenObjects.MercIcon).valid:
+                if detect_screen_object(ScreenObjects.MercIcon, img).valid:
                     merc_health_percentage = meters.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < Config().char["merc_chicken"]:
@@ -115,6 +115,9 @@ class HealthManager:
                     elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
                         belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
+                if detect_screen_object(ScreenObjects.QuestSkillBtn, img).valid:
+                    Logger.warning(f"Skill, stats, or quest button appeared--quit to avoid accidental allocations.")
+                    self._do_chicken(img)
         Logger.debug("Stop health monitoring")
 
 
