@@ -4,11 +4,11 @@ from template_finder import TemplateFinder
 from config import Config
 import numpy as np
 from utils.misc import wait
-from screen import convert_screen_to_monitor, grab
+from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
-from inventory import personal, stash, common
+from inventory import personal, common
 
 gamble_count = 0
 gamble_status = False
@@ -92,6 +92,7 @@ def gamble():
                 if new_count >= max_gamble_count:
                     break
         Logger.debug(f"Finish gambling")
+        personal.set_inventory_gold_full(False)
         set_gamble_status(False)
         common.close()
         return None
@@ -122,6 +123,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                 keyboard.send("esc")
                 return False
             keyboard.send('shift', do_release=True)
+            personal.set_inventory_gold_full(False)
             return True
         if quantity:
             for _ in range(quantity):
@@ -131,6 +133,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                     Logger.warning(f"Out of gold, could not purchase {template_name}")
                     keyboard.send("esc")
                     return False
+            personal.set_inventory_gold_full(False)
             return True
         else:
             Logger.error("buy_item: Quantity not specified")

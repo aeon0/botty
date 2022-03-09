@@ -144,6 +144,7 @@ def transfer_items(items: list, action: str = "drop") -> list:
             wait(0.2, 0.4)
         for item in filtered:
             attempts = 0
+            prev_gold_img = cut_roi(grab(), roi=Config().ui_roi["inventory_gold_digits"])
             while attempts < 2:
                 # move to item position and left click
                 mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
@@ -159,15 +160,23 @@ def transfer_items(items: list, action: str = "drop") -> list:
                     mouse.press(button="left")
                     wait(0.2, 0.3)
                     mouse.release(button="left")
-                    wait(0.2, 0.3)
+                    wait(0.8, 1)
                 # check if item is still there
-                slot_img = get_slot_pos_and_img(grab(), item.column, item.row)[1]
+                img=grab()
+                slot_img = get_slot_pos_and_img(img, item.column, item.row)[1]
                 if not slot_has_item(slot_img):
                     # item successfully transferred, delete from list
                     for cnt, o_item in enumerate(items):
                         if o_item.pos == item.pos:
                             items.pop(cnt)
                             break
+                    # check and see if inventory gold count changed
+                    new_gold_img = cut_roi(img, roi=Config().ui_roi["inventory_gold_digits"])
+                    if prev_gold_img.shape == new_gold_img.shape and not(np.bitwise_xor(prev_gold_img, new_gold_img).any()):
+                        Logger.info("Inventory gold is full, force stash")
+                        personal.set_inventory_gold_full(True)
+                    else:
+                        personal.set_inventory_gold_full(False)
                     break
                 else:
                     # item is still there, try again
