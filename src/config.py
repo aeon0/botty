@@ -170,7 +170,6 @@ class Config:
                 self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
-        Logger.info("Loading Config Data")
         self._config = configparser.ConfigParser()
         self._config.read('config/params.ini')
         self._game_config = configparser.ConfigParser()

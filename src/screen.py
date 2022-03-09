@@ -23,12 +23,12 @@ def start_detecting_window():
     global detect_window, detect_window_thread
     detect_window = True
     if detect_window_thread is None:
+        Logger.debug(f"Using WinAPI to search for window: {FIND_WINDOW}")
         detect_window_thread = threading.Thread(target=detect_window_position)
         detect_window_thread.start()
 
 def detect_window_position():
     global detect_window
-    Logger.debug('Detect window thread started')
     while detect_window:
         find_and_set_window_position()
     Logger.debug('Detect window thread stopped')
@@ -38,7 +38,7 @@ def find_and_set_window_position():
     ).advanced_options["window_client_area_offset"])
     if position is not None:
         set_window_position(*position)
-    wait(0.5)
+    wait(1)
 
 def set_window_position(offset_x: int, offset_y: int):
     global monitor_roi, monitor_x_range, monitor_y_range, found_offsets
@@ -105,5 +105,3 @@ def convert_abs_to_monitor(abs_coord: Tuple[float, float]) -> Tuple[float, float
     screen_coord = convert_abs_to_screen(abs_coord)
     monitor_coord = convert_screen_to_monitor(screen_coord)
     return monitor_coord
-
-Logger.debug(f"Using WinAPI to search for window: {FIND_WINDOW}")

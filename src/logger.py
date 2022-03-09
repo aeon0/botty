@@ -2,13 +2,13 @@ import logging
 import io
 import os
 import sys
-import re
 import warnings
+from version import __version__
 
 class Logger:
     """Manage logging"""
     _logger_level = None
-    _formatter = logging.Formatter('[%(asctime)s] %(levelname)-10s %(message)s')
+    _formatter = logging.Formatter(f'[{__version__} %(asctime)s] %(levelname)-10s %(message)s')
     _log_contents = io.StringIO()
     _current_log_file_path = "info.log"
     _output = ""  # intercepted output from stdout and stderr
@@ -22,7 +22,7 @@ class Logger:
         if Logger.logger is None:
             Logger.init()
         Logger.logger.debug(data)
-    
+
     @staticmethod
     def info(data: str):
         if Logger.logger is None:
@@ -82,7 +82,7 @@ class Logger:
         Logger.logger.addHandler(Logger.string_handler)
         Logger.logger.addHandler(Logger.console_handler)
         Logger.logger.addHandler(Logger.file_handler)
-        
+
         # redirect stderr & stdout to logger, e.g. print("...")
         # would have to implement all the std func such as write() flush() etc.
         # sys.stderr = Logger
