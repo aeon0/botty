@@ -70,7 +70,7 @@ def stash_all_items(items: list = None):
     if Config().char["stash_gold"]:
         img = grab()
         if detect_screen_object(ScreenObjects.GoldNone, img).valid:
-            Logger.debug("Skipping gold stashing")
+            Logger.debug("No gold to stash")
         else:
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
@@ -104,6 +104,8 @@ def stash_all_items(items: list = None):
                     # move to next stash
                     wait(0.5, 0.6)
                     return stash_all_items(items=items)
+            else:
+                set_inventory_gold_full(False)
     # check if stash tab is completely full (no empty slots)
     stash.move_to_stash_tab(stash.curr_stash["items"])
     while stash.curr_stash["items"] <= 3:

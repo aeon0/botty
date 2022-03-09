@@ -175,6 +175,8 @@ def transfer_items(items: list, action: str = "drop") -> list:
                     if prev_gold_img.shape == new_gold_img.shape and not(np.bitwise_xor(prev_gold_img, new_gold_img).any()):
                         Logger.info("Inventory gold is full, force stash")
                         personal.set_inventory_gold_full(True)
+                    else:
+                        personal.set_inventory_gold_full(False)
                     break
                 else:
                     # item is still there, try again

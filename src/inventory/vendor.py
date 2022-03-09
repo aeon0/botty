@@ -92,6 +92,7 @@ def gamble():
                 if new_count >= max_gamble_count:
                     break
         Logger.debug(f"Finish gambling")
+        personal.set_inventory_gold_full(False)
         set_gamble_status(False)
         common.close()
         return None
@@ -122,6 +123,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                 keyboard.send("esc")
                 return False
             keyboard.send('shift', do_release=True)
+            personal.set_inventory_gold_full(False)
             return True
         if quantity:
             for _ in range(quantity):
@@ -131,6 +133,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                     Logger.warning(f"Out of gold, could not purchase {template_name}")
                     keyboard.send("esc")
                     return False
+            personal.set_inventory_gold_full(False)
             return True
         else:
             Logger.error("buy_item: Quantity not specified")
