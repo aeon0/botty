@@ -5,16 +5,17 @@ import os
 from utils.misc import wait
 from utils.custom_mouse import mouse
 from logger import Logger
+from messages import Messenger
 
 curr_stash = {
     "items": 3 if Config().char["fill_shared_stash_first"] else 0,
     "gold": 0
 }
 
-def stash_full(self):
+def stash_full():
     Logger.error("All stash is full, quitting")
-    if self._config.general["custom_message_hook"]:
-        self._messenger.send_stash()
+    if Config().general["custom_message_hook"]:
+        Messenger().send_stash()
     os.system("taskkill /f /im  D2R.exe")
     wait(1.0, 1.5)
     os._exit(0)
