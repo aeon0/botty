@@ -32,11 +32,11 @@ class A1(IAct):
         return False
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_SOUTH), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_SOUTH), self._char, force_move=True): return False
         wait(0.5, 0.7)
         if not TemplateFinder().search("A1_WP", grab()).valid:
             curr_loc = Location.A1_WP_SOUTH
-            if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char): return False
+            if not self._pather.traverse_nodes((curr_loc, Location.A1_WP_NORTH), self._char, force_move=True): return False
             wait(0.5, 0.7)
         found_wp_func = lambda: detect_screen_object(ScreenObjects.WaypointLabel).valid
         # decreased threshold because we sometimes walk "over" it during pathing
@@ -50,7 +50,7 @@ class A1(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A1_KASHYA_CAIN), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A1_KASHYA_CAIN), self._char, force_move=True): return False
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A1_KASHYA_CAIN
@@ -63,7 +63,7 @@ class A1(IAct):
         return Location.A1_AKARA
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A1_STASH), self._char):
+        if not self._pather.traverse_nodes((curr_loc, Location.A1_STASH), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
@@ -81,7 +81,7 @@ class A1(IAct):
         return Location.A1_AKARA
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A1_CHARSI), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A1_CHARSI), self._char, force_move=True): return False
         open_npc_menu(Npc.CHARSI)
         press_npc_btn(Npc.CHARSI, "trade_repair")
         return Location.A1_CHARSI

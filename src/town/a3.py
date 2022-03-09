@@ -61,7 +61,7 @@ class A3(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A3_STASH_WP
