@@ -331,7 +331,7 @@ class Bot:
             return self.trigger_or_stop("end_game", failed=True)
 
         # Stash stuff
-        if keep_items:
+        if keep_items or personal.get_inventory_gold_full():
             Logger.info("Stashing items")
             self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
             Logger.info("Running transmutes")

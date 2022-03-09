@@ -19,9 +19,18 @@ from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjec
 from item import ItemCropper
 from messages import Messenger
 
+inv_gold_full = False
 messenger = Messenger()
 item_finder = ItemFinder()
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
+
+def get_inventory_gold_full():
+    global inv_gold_full
+    return inv_gold_full
+
+def set_inventory_gold_full(bool):
+    global inv_gold_full
+    inv_gold_full = bool
 
 def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
     """
@@ -69,6 +78,8 @@ def stash_all_items(items: list = None):
                 # Try to read gold count with OCR
                 stash_full_of_gold = common.read_gold(img, "stash") == 2500000
             except:
+                stash_full_of_gold = False
+            if not stash_full_of_gold:
                 # If gold read by OCR fails, fallback to old method
                 mouse.move(*gold_btn.center, randomize=4)
                 wait(0.1, 0.15)

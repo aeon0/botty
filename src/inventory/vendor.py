@@ -4,11 +4,11 @@ from template_finder import TemplateFinder
 from config import Config
 import numpy as np
 from utils.misc import wait
-from screen import convert_screen_to_monitor, grab
+from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
-from inventory import personal, stash, common
+from inventory import personal, common
 
 gamble_count = 0
 gamble_status = False
