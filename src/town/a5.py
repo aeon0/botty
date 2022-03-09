@@ -37,21 +37,21 @@ class A5(IAct):
         return False
 
     def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True): return False
         if open_npc_menu(Npc.QUAL_KEHK):
             press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             return Location.A5_QUAL_KEHK
         return False
 
     def identify(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True): return False
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A5_QUAL_KEHK
         return False
 
     def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_STASH), self._char):
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_STASH), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
@@ -64,13 +64,13 @@ class A5(IAct):
         return Location.A5_STASH
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Union[Location, bool]:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char, force_move=True): return False
         open_npc_menu(Npc.LARZUK)
         press_npc_btn(Npc.LARZUK, "trade_repair")
         return Location.A5_LARZUK
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char): return False
+        if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: detect_screen_object(ScreenObjects.WaypointLabel).valid
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
