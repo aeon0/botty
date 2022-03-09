@@ -76,9 +76,7 @@ class HealthManager:
             # Wait until the flag is reset by main.py
             if self._did_chicken or self._pausing: continue
             img = grab()
-            # TODO: Check if in town or not! Otherwise risk endless chicken loop
-            match = detect_screen_object(ScreenObjects.InGame, img)
-            if match.valid:
+            if detect_screen_object(ScreenObjects.InGame, img).valid:
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
                 # check rejuv
@@ -105,8 +103,7 @@ class HealthManager:
                         belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                match = detect_screen_object(ScreenObjects.MercIcon)
-                if match.valid:
+                if detect_screen_object(ScreenObjects.MercIcon).valid:
                     merc_health_percentage = meters.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < Config().char["merc_chicken"]:

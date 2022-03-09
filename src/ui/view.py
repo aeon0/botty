@@ -56,6 +56,22 @@ def move_to_corpse():
     pos = convert_screen_to_monitor((Config().ui_pos["corpse_x"], Config().ui_pos["corpse_y"]))
     mouse.move(*pos)
 
+def handle_quest_skill_btn():
+    btn_positions = [
+        convert_screen_to_monitor((Config().ui_pos["char_btn_x"], Config().ui_pos["char_btn_y"])),
+        convert_screen_to_monitor((Config().ui_pos["skill_btn_x"], Config().ui_pos["skill_btn_y"])),
+        convert_screen_to_monitor((Config().ui_pos["quest_btn_x"], Config().ui_pos["quest_btn_y"])),
+    ]
+    for btn_position in btn_positions:
+        # move to and select button
+        mouse.move(btn_position)
+        wait(0.4,0.6)
+        mouse.click(button="left")
+        wait(0.4,0.6)
+        # close screen
+        keyboard.send("esc")
+        wait(0.4,0.6)
+
 def return_to_play() -> bool:
     substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()

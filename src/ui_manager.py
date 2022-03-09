@@ -262,6 +262,12 @@ class ScreenObjects:
         color_match=Config().colors["red"],
         use_grayscale=True
     )
+    QuestSkillBtn=ScreenObject(
+        ref="QUEST_SKILL_BTN",
+        threshold=0.9,
+        use_grayscale=True,
+        roi="quest_skill_btn"
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
