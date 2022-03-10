@@ -62,7 +62,8 @@ def return_to_play() -> bool:
     start=time.time()
     while (elapsed := (time.time() - start) < 5):
         need_escape = False
-        if "DARK" in detect_screen_object(ScreenObjects.InGame, img).name:
+        match = detect_screen_object(ScreenObjects.InGame, img)
+        if match.valid and "DARK" in match.name:
             need_escape = True
         if not need_escape:
             for substring in substrings:
