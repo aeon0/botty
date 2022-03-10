@@ -62,7 +62,8 @@ def set_window_position(offset_x: int, offset_y: int):
 def stop_detecting_window():
     global detect_window, detect_window_thread
     detect_window = False
-    detect_window_thread.join()
+    if detect_window_thread:
+        detect_window_thread.join()
 
 def grab() -> np.ndarray:
     global monitor_roi

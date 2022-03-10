@@ -44,6 +44,7 @@ def on_exit():
     os._exit(1)
 
 def main():
+    screen.start_detecting_window()
     controllers = Controllers(
         GameController(),
         GraphicDebuggerController()
