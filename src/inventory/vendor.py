@@ -141,5 +141,3 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
 
     Logger.error(f"buy_item: Desired item {template_name} not found")
     return False
-
-    
