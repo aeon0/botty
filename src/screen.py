@@ -19,6 +19,10 @@ FIND_WINDOW = WindowSpec(
     process_name_regex=Config().advanced_options["hwnd_window_process"],
 )
 
+def get_offset_state():
+    global found_offsets
+    return found_offsets
+
 def start_detecting_window():
     global detect_window, detect_window_thread
     detect_window = True
