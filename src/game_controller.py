@@ -12,7 +12,7 @@ from game_stats import GameStats
 from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
-from screen import grab, found_offsets
+from screen import grab, get_offset_state
 from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
@@ -121,7 +121,7 @@ class GameController:
         self.is_running = False
 
     def setup_screen(self):
-        if found_offsets:
+        if get_offset_state():
             return True
         return False
 
