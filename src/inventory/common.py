@@ -215,15 +215,53 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
     Logger.debug(f"{type.upper()} gold: {number}")
     return number
 
+def wait_for_left_inventory():
+    start=time.time()
+    while time.time() - start < 5:
+        if left_inventory_ready(grab()):
+            Logger.debug("Vendor/stash inventory fully loaded")
+            return True
+        wait(0.1)
+    Logger.error("wait_for_left_inventory: Vendor/stash inventory not detected")
+    return False
+
+def left_inventory_ready(img = np.ndarray):
+    # on laggy PC's or online the vendor may take longer to have all of its inventory ready
+    if detect_screen_object(ScreenObjects.LeftPanel, img).valid:
+        # check for tab text
+        text, _ = color_filter(img, Config().colors["tab_text"])
+        text = cut_roi(text, Config().ui_roi["left_inventory_tabs"])
+        # check for red slots in inventory space
+        red, _ = color_filter(img, Config().colors["red_slot"])
+        red = cut_roi(red, Config().ui_roi["left_inventory"])
+        # check for blue slots in inventory space
+        blue, _ = color_filter(img, Config().colors["blue_slot"])
+        blue = cut_roi(blue, Config().ui_roi["left_inventory"])
+        # if none of the above are true, then inventory is empty and there are no tabs (not loaded yet)
+        return any(np.sum(i) > 0 for i in [text, red, blue])
+    return False
+
 if __name__ == "__main__":
     import os
     import keyboard
     from config import Config
     from screen import start_detecting_window, stop_detecting_window
+    from utils.misc import color_filter
     start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
-    img = grab()
-    print(read_gold(img, "inventory"))
-    stop_detecting_window()
+    color = Config().colors["tab_text"]
+
+    while 1:
+        # img = cv2.imread("")
+        img = grab()
+
+        a, _ = color_filter(img, Config().colors["tab_text"])
+        c = cut_roi(a, Config().ui_roi["left_inventory_tabs"])
+
+        print(np.sum(c))
+
+        cv2.imshow('test', c)
+        key = cv2.waitKey(1)
