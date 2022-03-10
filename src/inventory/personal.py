@@ -395,7 +395,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     continue
                 # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                 if keep and not need_id:
-                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
+                    if game_stats: game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
                 # if item is to be kept or still needs to be sold or identified, append to list
                 if keep or sell or need_id:
                     # save item info
