@@ -97,7 +97,7 @@ class TownManager:
         # check if we can buy pots in current act
         if self._acts[curr_act].can_buy_pots():
             new_loc = self._acts[curr_act].open_trade_menu(curr_loc)
-            if not new_loc: return False, items
+            if not (new_loc and common.wait_for_left_inventory()): return False, items
             img=grab()
             # Buy HP pots
             if consumables.get_needs("health") > 0:
