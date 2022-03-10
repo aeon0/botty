@@ -219,6 +219,7 @@ def wait_for_left_inventory():
     start=time.time()
     while time.time() - start < 5:
         if left_inventory_ready(grab()):
+            Logger.debug("Vendor/stash inventory fully loaded")
             return True
         wait(0.1)
     Logger.error("wait_for_left_inventory: Vendor/stash inventory not detected")
