@@ -45,6 +45,17 @@ def save_and_exit() -> bool:
     select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
     return True
 
+def dismiss_skills_icon() -> bool:
+    start = time.time()
+    while (match := detect_screen_object(ScreenObjects.QuestSkillBtn)).valid:
+        select_screen_object_match(match)
+        if TemplateFinder().search_and_wait("CLOSE_PANEL", time_out=3).valid:
+            keyboard.send("esc")
+            break
+        if time.time() - start > 10:
+            return False
+    return True
+
 def pickup_corpse():
     Logger.info("Pickup corpse")
     move_to_corpse()
