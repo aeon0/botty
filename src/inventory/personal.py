@@ -74,11 +74,10 @@ def stash_all_items(items: list = None):
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
             wait(0.7, 1)
-            try:
-                # Try to read gold count with OCR
-                stash_full_of_gold = common.read_gold(grab(), "stash") == 2500000
-            except:
-                stash_full_of_gold = False
+            stash_full_of_gold = False
+            # Try to read gold count with OCR
+            try: stash_full_of_gold = common.read_gold(grab(), "stash") == 2500000
+            except: pass
             if not stash_full_of_gold:
                 # If gold read by OCR fails, fallback to old method
                 mouse.move(*gold_btn.center, randomize=4)
