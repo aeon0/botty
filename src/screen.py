@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from mss import mss
 from logger import Logger
@@ -65,10 +66,23 @@ def stop_detecting_window():
     if detect_window_thread:
         detect_window_thread.join()
 
+def increase_brightness(img, value):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+
+    lim = 255 - value
+    v[v > lim] = 255
+    v[v <= lim] += value
+
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img
+
+
 def grab() -> np.ndarray:
     global monitor_roi
     img = np.array(sct.grab(monitor_roi))
-    return img[:, :, :3]
+    return increase_brightness(img[:, :, :3], value=Config().general["incrase_lightness"])
 
 # TODO: Move the below funcs to utils(?)
 

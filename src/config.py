@@ -197,6 +197,7 @@ class Config:
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "d2r_path": self._select_val("general", "d2r_path"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
+            "incrase_lightness":int(self._select_val("general", "incrase_lightness"))
         }
 
         # Added for dclone ip hunting

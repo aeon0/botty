@@ -275,11 +275,12 @@ class GraphicDebuggerController:
             self.panel.configure(image=imgtk)
             self.panel.image = imgtk
 
+
     def run_debugger_processor(self):
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
             img = grab()
-            # Convert the BGR image to HSV image.
+            img = self.increase_brightness(img, value=30)
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
             combined_img = np.zeros(img.shape, dtype="uint8")
