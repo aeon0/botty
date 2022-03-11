@@ -50,10 +50,9 @@ def dismiss_skills_icon() -> bool:
     start = time.time()
     while (match := detect_screen_object(ScreenObjects.QuestSkillBtn)).valid:
         select_screen_object_match(match)
-        if TemplateFinder().search_and_wait(["CLOSE_PANEL", "CLOSE_PANEL_2"], time_out=3).valid:
-            common.close()
-            break
-        if time.time() - start > 10:
+        wait(0.6)
+        common.close()
+        if (time.time() - start) > 15:
             return False
     return True
 
