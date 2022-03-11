@@ -122,6 +122,7 @@ class HealthManager:
                     self._count_panel_detects += 1
                     if self._count_panel_detects >= 2:
                         self._count_panel_detects = 0
+                        Logger.warning(f"Found an open inventory / quest / skill / stats page again. Chicken to dismiss.")
                         self._do_chicken(img)
                     common.close()
         Logger.debug("Stop health monitoring")
