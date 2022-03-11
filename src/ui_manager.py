@@ -224,7 +224,7 @@ class ScreenObjects:
         use_grayscale=True
     )
     RightPanel=ScreenObject(
-        ref="CLOSE_PANEL",
+        ref=["CLOSE_PANEL", "CLOSE_PANEL_2"],
         roi="right_panel_header",
         threshold=0.8,
         use_grayscale=True

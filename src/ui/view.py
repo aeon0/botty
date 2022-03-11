@@ -5,6 +5,7 @@ import keyboard
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
+from inventory import common
 from ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
 from screen import convert_screen_to_monitor
 
@@ -43,6 +44,16 @@ def save_and_exit() -> bool:
         if time.time() - start > 5:
             return False
     select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
+    return True
+
+def dismiss_skills_icon() -> bool:
+    start = time.time()
+    while (match := detect_screen_object(ScreenObjects.QuestSkillBtn)).valid:
+        select_screen_object_match(match)
+        wait(0.6)
+        common.close()
+        if (time.time() - start) > 15:
+            return False
     return True
 
 def pickup_corpse():

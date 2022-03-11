@@ -65,10 +65,10 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
 
 def close(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if detect_screen_object(ScreenObjects.RightPanel, img).valid:
+    if detect_screen_object(ScreenObjects.RightPanel, img).valid or detect_screen_object(ScreenObjects.LeftPanel, img).valid:
         keyboard.send("esc")
         wait(0.1, 0.2)
-        if detect_screen_object(ScreenObjects.RightPanel).valid:
+        if detect_screen_object(ScreenObjects.RightPanel, img).valid or detect_screen_object(ScreenObjects.LeftPanel, img).valid:
             success = view.return_to_play()
             if not success:
                 return None
