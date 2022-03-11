@@ -68,17 +68,16 @@ def stash_all_items(items: list = None):
     Logger.debug("Found inventory gold btn")
     # stash gold
     if Config().char["stash_gold"]:
-        img = grab()
-        if detect_screen_object(ScreenObjects.GoldNone, img).valid:
+        if wait_for_screen_object(ScreenObjects.GoldNone, 1).valid:
             Logger.debug("No gold to stash")
         else:
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
-            try:
-                # Try to read gold count with OCR
-                stash_full_of_gold = common.read_gold(img, "stash") == 2500000
-            except:
-                stash_full_of_gold = False
+            wait(0.7, 1)
+            stash_full_of_gold = False
+            # Try to read gold count with OCR
+            try: stash_full_of_gold = common.read_gold(grab(), "stash") == 2500000
+            except: pass
             if not stash_full_of_gold:
                 # If gold read by OCR fails, fallback to old method
                 mouse.move(*gold_btn.center, randomize=4)
@@ -102,7 +101,6 @@ def stash_all_items(items: list = None):
                     vendor.set_gamble_status(True)
                 else:
                     # move to next stash
-                    wait(0.5, 0.6)
                     return stash_all_items(items=items)
             else:
                 set_inventory_gold_full(False)
