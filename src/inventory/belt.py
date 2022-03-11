@@ -17,12 +17,8 @@ def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if detect_screen_object(ScreenObjects.BeltExpandable, img).valid and Config().char["belt_rows"] > 1:
         keyboard.send(Config().char["show_belt"])
-        if wait_for_expiration(ScreenObjects.BeltExpandable, 0.5):
-            if not view.return_to_play():
-                return None
-            keyboard.send(Config().char["show_belt"])
-            if wait_for_expiration(ScreenObjects.BeltExpandable, 1):
-                return None
+        if not wait_for_expiration(ScreenObjects.BeltExpandable, 1):
+            return None
         img = grab()
     return img
 
