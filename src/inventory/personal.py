@@ -68,7 +68,7 @@ def stash_all_items(items: list = None):
     Logger.debug("Found inventory gold btn")
     # stash gold
     if Config().char["stash_gold"]:
-        if wait_for_screen_object(ScreenObjects.GoldNone, 1).valid:
+        if wait_for_screen_object(ScreenObjects.GoldNone, 0.5).valid:
             Logger.debug("No gold to stash")
         else:
             Logger.debug("Stashing gold")
@@ -142,7 +142,6 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
     :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
     :return: Bool if item should be kept
     """
-    wait(0.2, 0.3)
     ymax = 50 if item_box.data.shape[0] < 50 else item_box.data.shape[0]
     img = item_box.data[0:ymax,:]
 

@@ -27,6 +27,7 @@ class ScreenObject:
     best_match: bool = False
     use_grayscale: bool = False
     color_match: list[np.array] = None
+    suppress_debug: bool = False
 
     def __call__(self, cls):
         cls._screen_object = self
@@ -279,7 +280,8 @@ def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) ->
         roi = roi,
         best_match = screen_object.best_match,
         use_grayscale = screen_object.use_grayscale,
-        normalize_monitor = screen_object.normalize_monitor)
+        normalize_monitor = screen_object.normalize_monitor
+        )
     if match.valid:
         return match
     return match
@@ -290,20 +292,26 @@ def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, 
     mouse.click("left")
     wait(0.05, 0.09)
 
-def wait_for_screen_object(screen_object: ScreenObject, time_out: int = None) -> TemplateMatch:
+def wait_for_screen_object(screen_object: ScreenObject, time_out: float = 30) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
-    time_out = time_out if time_out else 30
     match = TemplateFinder().search_and_wait(
         ref = screen_object.ref,
         time_out = time_out,
         threshold = screen_object.threshold,
         roi = roi,
-        best_match = screen_object.best_match,
         use_grayscale = screen_object.use_grayscale,
-        normalize_monitor = screen_object.normalize_monitor)
-    if match.valid:
-        return match
+        normalize_monitor = screen_object.normalize_monitor,
+        suppress_debug = screen_object.suppress_debug
+        )
     return match
+
+def wait_for_expiration(screen_object: ScreenObject, time_out: float = 3) -> bool:
+    start = time.time()
+    while (time.time() - start) < time_out:
+        if not detect_screen_object(screen_object).valid:
+            return True
+    Logger.debug(f"{screen_object.ref} still found after {time_out} seconds")
+    return False
 
 def hover_over_screen_object_match(match) -> None:
     mouse.move(*convert_screen_to_monitor(match.center))

@@ -3,14 +3,38 @@ from logger import Logger
 from typing import List
 import numpy as np
 from template_finder import TemplateFinder
-from inventory import common, consumables
+from inventory import common, consumables, personal
 from inventory.consumables import item_consumables_map
+from ui import view
+from ui_manager import wait_for_screen_object, ScreenObjects, detect_screen_object, wait_for_expiration
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait, color_filter
 from config import Config
 from screen import convert_abs_to_monitor, convert_monitor_to_screen, convert_screen_to_monitor, grab
 import keyboard
 
+def open(img: np.ndarray = None) -> np.ndarray:
+    img = grab() if img is None else img
+    if detect_screen_object(ScreenObjects.BeltExpandable, img).valid and Config().char["belt_rows"] > 1:
+        keyboard.send(Config().char["show_belt"])
+        if wait_for_expiration(ScreenObjects.BeltExpandable, 0.5):
+            if not view.return_to_play():
+                return None
+            keyboard.send(Config().char["show_belt"])
+            if wait_for_expiration(ScreenObjects.BeltExpandable, 1):
+                return None
+        img = grab()
+    return img
+
+def close(img: np.ndarray = None) -> np.ndarray:
+    img = grab() if img is None else img
+    if not detect_screen_object(ScreenObjects.BeltExpandable, img).valid:
+        keyboard.send("esc")
+        if not wait_for_screen_object(ScreenObjects.BeltExpandable, 2):
+            success = view.return_to_play()
+            if not success:
+                return None
+    return img
 
 def _potion_type(img: np.ndarray) -> str:
     """
@@ -80,10 +104,8 @@ def update_pot_needs():
     if screen_mouse_pos[1] > Config().ui_pos["screen_height"] * 0.72:
         center_m = convert_abs_to_monitor((-200, -120))
         mouse.move(*center_m, randomize=100)
-    keyboard.send(Config().char["show_belt"])
-    wait(0.5)
+    img = open()
     # first clean up columns that might be too much
-    img = grab()
     for column in range(4):
         potion_type = _potion_type(_cut_potion_img(img, column, 0))
         if potion_type != "empty":
@@ -112,21 +134,17 @@ def update_pot_needs():
                     break
             elif current_column is not None and potion_type == "empty":
                 pot_needs[current_column] += 1
-    wait(0.2)
-    #Logger.debug(f"Will pickup: {pot_needs}")
-    keyboard.send(Config().char["show_belt"])
     consumables.set_needs("health", pot_needs["health"])
     consumables.set_needs("mana", pot_needs["mana"])
     consumables.set_needs("rejuv", pot_needs["rejuv"])
+    close(img)
 
 def fill_up_belt_from_inventory(num_loot_columns: int):
     """
     Fill up your belt with pots from the inventory e.g. after death. It will open and close invetory by itself!
     :param num_loot_columns: Number of columns used for loot from left
     """
-    keyboard.send(Config().char["inventory_screen"])
-    wait(0.7, 1.0)
-    img = grab()
+    img = personal.open()
     pot_positions = []
     for column, row in itertools.product(range(num_loot_columns), range(4)):
         center_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
@@ -141,6 +159,4 @@ def fill_up_belt_from_inventory(num_loot_columns: int):
         mouse.click(button="left")
         wait(0.3, 0.4)
     keyboard.release("shift")
-    wait(0.2, 0.25)
-    keyboard.send(Config().char["inventory_screen"])
-    wait(0.5)
+    common.close(img)

@@ -5,7 +5,7 @@ import keyboard
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui_manager import detect_screen_object, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, ScreenObjects, center_mouse, wait_for_expiration
 from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
@@ -222,7 +222,8 @@ npcs = {
 def escape_dialogue(img) -> np.ndarray:
     while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
         keyboard.send("esc")
-        wait(0.2)
+        if wait_for_expiration(ScreenObjects.NPCDialogue, 0.5):
+            break
         img = grab()
     return img
 

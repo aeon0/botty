@@ -176,7 +176,7 @@ class Transmute:
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
-        gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnStash, time_out = 20)
+        gold_btn = wait_for_screen_object(ScreenObjects.GoldBtnStash, time_out = 8)
         if not gold_btn.valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
