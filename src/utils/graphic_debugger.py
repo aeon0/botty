@@ -280,7 +280,7 @@ class GraphicDebuggerController:
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
             img = grab()
-            img = self.increase_brightness(img, value=30)
+            # Convert the BGR image to HSV image.
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
             combined_img = np.zeros(img.shape, dtype="uint8")
