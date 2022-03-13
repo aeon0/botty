@@ -6,7 +6,7 @@ from template_finder import TemplateFinder
 from inventory import common, consumables, personal
 from inventory.consumables import item_consumables_map
 from ui import view
-from ui_manager import wait_for_screen_object, ScreenObjects, detect_screen_object, wait_for_expiration
+from ui_manager import is_visible, wait_until_visible, ScreenObjects, wait_until_hidden
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait, color_filter
 from config import Config
@@ -15,18 +15,18 @@ import keyboard
 
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if detect_screen_object(ScreenObjects.BeltExpandable, img).valid and Config().char["belt_rows"] > 1:
+    if is_visible(ScreenObjects.BeltExpandable, img) and Config().char["belt_rows"] > 1:
         keyboard.send(Config().char["show_belt"])
-        if not wait_for_expiration(ScreenObjects.BeltExpandable, 1):
+        if not wait_until_hidden(ScreenObjects.BeltExpandable, 1):
             return None
         img = grab()
     return img
 
 def close(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if not detect_screen_object(ScreenObjects.BeltExpandable, img).valid:
+    if not is_visible(ScreenObjects.BeltExpandable, img):
         keyboard.send("esc")
-        if not wait_for_screen_object(ScreenObjects.BeltExpandable, 2):
+        if not wait_until_visible(ScreenObjects.BeltExpandable, 2):
             success = view.return_to_play()
             if not success:
                 return None

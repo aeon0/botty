@@ -21,7 +21,7 @@ class IAct:
     # Is trade/repair implemented in this Town?
     def can_trade_and_repair(self) -> bool: return False
     # Is merc resurrection implemented for this Town?
-    def can_identify(self) -> bool: return False    
+    def can_identify(self) -> bool: return False
     def can_gamble (self) -> bool: return False
     # If any of the above functions return True for the Town, the respective method must be implemented
     def open_trade_menu(self, curr_loc: Location) -> Union[Location, bool]: return False

@@ -28,9 +28,9 @@ def exit(run_obj):
     os._exit(0)
 
 
-def wait_for_loading_screen(time_out):
+def wait_for_loading_screen(timeout):
     start = time.time()
-    while time.time() - start < time_out:
+    while time.time() - start < timeout:
         img = grab()
         is_loading_black_roi = np.average(img[:700, 0:250]) < 4.0
         if is_loading_black_roi:
@@ -221,7 +221,7 @@ class AnyaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        template_match = TemplateFinder(True).search_and_wait(template_type, time_out=10, normalize_monitor=True)
+        template_match = TemplateFinder(True).search_and_wait(template_type, timeout=10, normalize_monitor=True)
         if template_match.valid:
             mouse.move(*template_match.center)
             wait(0.1, 0.2)

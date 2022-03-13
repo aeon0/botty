@@ -54,7 +54,7 @@ class A3(IAct):
         return self._char.select_by_template("A3_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        template_match = TemplateFinder().search_and_wait("A3_TOWN_10", time_out=20)
+        template_match = TemplateFinder().search_and_wait("A3_TOWN_10", timeout=20)
         if template_match.valid:
             self._pather.traverse_nodes((Location.A3_STASH_WP, Location.A3_STASH_WP), self._char, force_move=True)
             return Location.A3_STASH_WP

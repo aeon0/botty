@@ -76,7 +76,7 @@ class A5(IAct):
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = TemplateFinder().search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], time_out=20).valid
+        success = TemplateFinder().search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], timeout=20).valid
         if success:
             return Location.A5_TOWN_START
         return False

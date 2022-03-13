@@ -8,7 +8,7 @@ from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
 from template_finder import TemplateFinder
-from ui_manager import wait_for_screen_object, ScreenObjects
+from ui_manager import wait_until_visible, ScreenObjects
 from inventory import consumables
 
 def is_left_skill_selected(template_list: List[str]) -> bool:
@@ -27,7 +27,7 @@ def has_tps() -> bool:
     """
     if Config().char["tp"]:
         keyboard.send(Config().char["tp"])
-        template_match = wait_for_screen_object(ScreenObjects.TownPortalSkill, time_out=4)
+        template_match = wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4)
         if not template_match.valid:
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:

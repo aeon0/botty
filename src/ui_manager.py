@@ -2,6 +2,7 @@ import keyboard
 import os
 import numpy as np
 import time
+from typing import Union, TypeVar, Callable
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
@@ -14,6 +15,7 @@ from game_stats import GameStats
 
 messenger = Messenger()
 game_stats = GameStats()
+T = TypeVar('T')
 
 @dataclass
 class ScreenObject:
@@ -21,7 +23,7 @@ class ScreenObject:
     ref: list[str]
     inp_img: np.ndarray = None
     roi: list[float] = None
-    time_out: float = 30
+    timeout: float = 30
     threshold: float = 0.68
     normalize_monitor: bool = False
     best_match: bool = False
@@ -273,7 +275,7 @@ class ScreenObjects:
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
     img = grab() if img is None else img
-    match = TemplateFinder().search(
+    return TemplateFinder().search(
         ref = screen_object.ref,
         inp_img = img,
         threshold = screen_object.threshold,
@@ -282,9 +284,6 @@ def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) ->
         use_grayscale = screen_object.use_grayscale,
         normalize_monitor = screen_object.normalize_monitor
         )
-    if match.valid:
-        return match
-    return match
 
 def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, float] = (0.9, 1.1)) -> None:
     mouse.move(*convert_screen_to_monitor(match.center), delay_factor=delay_factor)
@@ -292,26 +291,27 @@ def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, 
     mouse.click("left")
     wait(0.05, 0.09)
 
-def wait_for_screen_object(screen_object: ScreenObject, time_out: float = 30) -> TemplateMatch:
-    roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
-    match = TemplateFinder().search_and_wait(
-        ref = screen_object.ref,
-        time_out = time_out,
-        threshold = screen_object.threshold,
-        roi = roi,
-        use_grayscale = screen_object.use_grayscale,
-        normalize_monitor = screen_object.normalize_monitor,
-        suppress_debug = screen_object.suppress_debug
-        )
+def is_visible(screen_object: ScreenObject, img: np.ndarray = None) -> bool:
+    return detect_screen_object(screen_object, img).valid
+
+def wait_until_visible(screen_object: ScreenObject, timeout: float = 30) -> TemplateMatch:
+    if not (match := wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
+        Logger.debug(f"{screen_object.ref} not found after {timeout} seconds")
     return match
 
-def wait_for_expiration(screen_object: ScreenObject, time_out: float = 3) -> bool:
+def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3) -> bool:
+    if not (hidden := wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
+        Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
+    return hidden
+
+def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
     start = time.time()
-    while (time.time() - start) < time_out:
-        if not detect_screen_object(screen_object).valid:
-            return True
-    Logger.debug(f"{screen_object.ref} still found after {time_out} seconds")
-    return False
+    while (time.time() - start) < timeout:
+        res = func()
+        if (success := is_success(res)):
+            break
+        wait(0.1)
+    return res, success
 
 def hover_over_screen_object_match(match) -> None:
     mouse.move(*convert_screen_to_monitor(match.center))
@@ -321,8 +321,7 @@ def list_visible_objects(img: np.ndarray = None) -> list:
     img = grab() if img is None else img
     visible=[]
     for pair in [a for a in vars(ScreenObjects).items() if not a[0].startswith('__') and a[1] is not None]:
-        if (match := detect_screen_object(pair[1], img)).valid:
-            # visible.append(match)
+        if detect_screen_object(pair[1], img).valid:
             visible.append(pair[0])
     return visible
 
@@ -342,6 +341,7 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    while 1:
-        print(list_visible_objects())
-        time.sleep(1)
+    # while 1:
+    #     print(list_visible_objects())
+    #     time.sleep(1)
+    print(f"res = {wait_until_visible(ScreenObjects.BeltExpandable, 7)}")

@@ -15,7 +15,7 @@ from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
 from ui import view
-from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects, center_mouse
 from item import ItemCropper
 from messages import Messenger
 
@@ -62,13 +62,13 @@ def stash_all_items(items: list = None):
     center_mouse()
     # Wait till gold btn is found
     Logger.debug("Searching for inventory gold btn...")
-    if not (gold_btn := wait_for_screen_object(ScreenObjects.GoldBtnInventory, time_out = 20)).valid:
+    if not (gold_btn := wait_until_visible(ScreenObjects.GoldBtnInventory, timeout = 20)).valid:
         Logger.error("Could not determine to be in stash menu. Continue...")
         return
     Logger.debug("Found inventory gold btn")
     # stash gold
     if Config().char["stash_gold"]:
-        if wait_for_screen_object(ScreenObjects.GoldNone, 0.5).valid:
+        if wait_until_visible(ScreenObjects.GoldNone, 0.5).valid:
             Logger.debug("No gold to stash")
         else:
             Logger.debug("Stashing gold")
@@ -258,11 +258,11 @@ def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not detect_screen_object(ScreenObjects.RightPanel, img).valid:
         keyboard.send(Config().char["inventory_screen"])
-        if not wait_for_screen_object(ScreenObjects.RightPanel, 1).valid:
+        if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():
                 return None
             keyboard.send(Config().char["inventory_screen"])
-            if not wait_for_screen_object(ScreenObjects.RightPanel, 1).valid:
+            if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
                 return None
         img = grab()
     return img

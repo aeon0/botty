@@ -204,7 +204,7 @@ class TemplateFinder:
         self,
         ref: Union[str, list[str]],
         roi: list[float] = None,
-        time_out: float = None,
+        timeout: float = None,
         threshold: float = 0.68,
         normalize_monitor: bool = False,
         best_match: bool = False,
@@ -215,7 +215,7 @@ class TemplateFinder:
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
-        :param time_out: After this amount of time the search will stop and it will return [False, None]
+        :param timeout: After this amount of time the search will stop and it will return [False, None]
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Other params are the same as for TemplateFinder.search()
         """
@@ -232,9 +232,9 @@ class TemplateFinder:
                 if template_match.valid:
                     Logger.debug(f"Found Match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     return template_match
-                if time_out is not None and (time.time() - start) > time_out:
+                if timeout is not None and (time.time() - start) > timeout:
                     if Config().general["info_screenshots"] and take_ss:
-                        cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                        cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_timeout_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     if take_ss:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match

@@ -5,7 +5,7 @@ import keyboard
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
-from ui_manager import wait_for_screen_object, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
+from ui_manager import wait_until_visible, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
 from screen import convert_screen_to_monitor
 
 def enable_no_pickup() -> bool:
@@ -18,7 +18,7 @@ def enable_no_pickup() -> bool:
     keyboard.write('/nopickup',delay=.20)
     keyboard.send('enter')
     wait(0.1, 0.25)
-    item_pickup_text = wait_for_screen_object(ScreenObjects.ItemPickupText, time_out=3)
+    item_pickup_text = wait_until_visible(ScreenObjects.ItemPickupText, timeout=3)
     if not item_pickup_text.valid:
         return False
     if item_pickup_text.name == "ITEM_PICKUP_DISABLED":

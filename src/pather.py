@@ -594,7 +594,7 @@ class Pather:
         self,
         path: Union[tuple[Location, Location], list[int]],
         char: IChar,
-        time_out: float = 5,
+        timeout: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False,
@@ -604,7 +604,7 @@ class Pather:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
-        :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
+        :param timeout: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed successful or False if it got stuck
         """
@@ -641,17 +641,17 @@ class Pather:
             while not continue_to_next_node:
                 img = grab()
                 # Handle timeout
-                if (time.time() - last_move) > time_out:
+                if (time.time() - last_move) > timeout:
                     if detect_screen_object(ScreenObjects.WaypointLabel).valid:
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
                         last_move = time.time()
                     else:
-                        # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
+                        # This is a bit hacky, but for moving into a boss location we set timeout usually quite low
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
-                        if time_out > 3.1:
+                        if timeout > 3.1:
                             if Config().general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")

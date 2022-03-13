@@ -35,7 +35,7 @@ class ShenkEld:
     def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
         # Eldritch
         game_stats.update_location("Eld" if Config().general['discord_status_condensed'] else "Eldritch")
-        if not TemplateFinder().search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["ELDRITCH_0", "ELDRITCH_START"], threshold=0.65, timeout=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

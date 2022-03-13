@@ -5,7 +5,7 @@ import keyboard
 import time
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, center_mouse, wait_for_expiration
+from ui_manager import detect_screen_object, ScreenObjects, center_mouse, wait_until_hidden
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables, personal
 from ui import view
@@ -67,7 +67,7 @@ def close(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if detect_screen_object(ScreenObjects.RightPanel, img).valid:
         keyboard.send("esc")
-        if not wait_for_expiration(ScreenObjects.RightPanel):
+        if not wait_until_hidden(ScreenObjects.RightPanel):
             success = view.return_to_play()
             if not success:
                 return None
