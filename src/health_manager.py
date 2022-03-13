@@ -9,6 +9,7 @@ from logger import Logger
 from screen import grab
 import time
 from config import Config
+from inventory import common
 from ui import view, meters
 from ui_manager import detect_screen_object, ScreenObjects
 
@@ -23,6 +24,7 @@ class HealthManager:
         self._callback = None
         self._pausing = True
         self._last_chicken_screenshot = None
+        self._count_panel_detects = 0
 
     def stop_monitor(self):
         self._do_monitor = False
@@ -115,9 +117,14 @@ class HealthManager:
                     elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
                         belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
-                if detect_screen_object(ScreenObjects.QuestSkillBtn, img).valid:
-                    Logger.warning(f"Skill, stats, or quest button appeared--quit to avoid accidental allocations.")
-                    self._do_chicken(img)
+                if detect_screen_object(ScreenObjects.LeftPanel, img).valid or detect_screen_object(ScreenObjects.RightPanel, img).valid:
+                    Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
+                    self._count_panel_detects += 1
+                    if self._count_panel_detects >= 2:
+                        self._count_panel_detects = 0
+                        Logger.warning(f"Found an open inventory / quest / skill / stats page again. Chicken to dismiss.")
+                        self._do_chicken(img)
+                    common.close()
         Logger.debug("Stop health monitoring")
 
 

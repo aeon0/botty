@@ -50,8 +50,3 @@ jobs:
         run: |
           C:\Miniconda\condabin\conda.bat activate botty
           coverage xml
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          verbose: true
-          files: ./coverage.xml

@@ -251,6 +251,10 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
+        # Dismiss skill/quest/help/stats icon if they are on screen
+        if not view.dismiss_skills_icon():
+            view.return_to_play()
+
         # Handle picking up corpse in case of death
         if (corpse_present := is_visible(ScreenObjects.Corpse)):
             self._previous_run_failed = True
