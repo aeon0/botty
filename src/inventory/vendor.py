@@ -7,7 +7,7 @@ from utils.misc import wait
 from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import detect_screen_object, wait_for_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects
 from inventory import personal, common
 
 gamble_count = 0
@@ -39,7 +39,7 @@ def repair() -> bool:
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
     :return: Bool if success
     """
-    repair_btn = wait_for_screen_object(ScreenObjects.RepairBtn, time_out=4)
+    repair_btn = wait_until_visible(ScreenObjects.RepairBtn, timeout=4)
     if not repair_btn.valid:
         return False
     mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])
@@ -53,7 +53,7 @@ def repair() -> bool:
     return True
 
 def gamble():
-    if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, time_out=4, normalize_monitor=True)).valid:
+    if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, timeout=4, normalize_monitor=True)).valid:
         #Gambling window is open. Starting to spent some coins
         max_gamble_count = floor(2000000/188000) # leave about 500k gold and assume buying coronets at ~188k
         while get_gamble_status() and get_gamble_count() < max_gamble_count:

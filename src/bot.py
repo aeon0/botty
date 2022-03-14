@@ -27,7 +27,7 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
+from ui_manager import wait_until_hidden, wait_until_visible, detect_screen_object, ScreenObjects, is_visible
 from ui import meters, skills, view, character_select, main_menu
 from inventory import personal, vendor, belt, common, consumables
 
@@ -105,7 +105,6 @@ class Bot:
         self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
-        self._pick_corpse = False
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
         self._use_id_tome = True
@@ -218,8 +217,7 @@ class Bot:
 
     def on_create_game(self):
         # Start a game from hero selection
-        m = wait_for_screen_object(ScreenObjects.MainMenu)
-        if m.valid:
+        if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
             if "DARK" in m.name:
                 keyboard.send("esc")
             main_menu.start_game()
@@ -258,16 +256,13 @@ class Bot:
             view.return_to_play()
 
         # Handle picking up corpse in case of death
-        self._pick_corpse = detect_screen_object(ScreenObjects.Corpse).valid
-        if self._pick_corpse:
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
             self._previous_run_failed = True
-            time.sleep(1.6)
             view.pickup_corpse()
-            wait(1.2, 1.5)
+            wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-            wait(0.5)
         self._char.discover_capabilities()
-        if self._pick_corpse and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
             keybind = self._char._skill_hotkeys["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
             self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
@@ -285,7 +280,7 @@ class Bot:
             # Update TP, ID, key needs
             if self._game_stats._game_counter == 1:
                 self._use_id_tome = common.tome_state(img, 'id')[0] is not None
-                self._use_keys = detect_screen_object(ScreenObjects.Key, img).valid
+                self._use_keys = is_visible(ScreenObjects.Key, img)
             if (self._game_stats._run_counter - 1) % 4 == 0 or self._previous_run_failed:
                 consumables.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
@@ -327,7 +322,6 @@ class Bot:
                 items = result_items
                 sell_items = any([item.sell for item in items]) if items else None
                 Logger.debug(f"Needs: {consumables.get_needs()}")
-            wait(0.5, 0.8)
         elif meters.get_health(img) < 0.6 or meters.get_mana(img) < 0.2:
             Logger.info("Healing at next possible Vendor")
             self._curr_loc = self._town_manager.heal(self._curr_loc)
@@ -344,10 +338,9 @@ class Bot:
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._picked_up_items = False
-            wait(1.0)
 
         # Check if we are out of tps or need repairing
-        need_repair = detect_screen_object(ScreenObjects.NeedRepair).valid
+        need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
@@ -364,7 +357,6 @@ class Bot:
                 items = result_items
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
-            wait(1.0)
 
         # Check if merc needs to be revived
         match = detect_screen_object(ScreenObjects.MercIcon)
@@ -407,7 +399,6 @@ class Bot:
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        wait(0.2, 0.5)
         self.trigger_or_stop("init")
 
     def on_end_run(self):

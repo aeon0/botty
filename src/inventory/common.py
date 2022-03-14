@@ -5,7 +5,7 @@ import keyboard
 import time
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, ScreenObjects, center_mouse, wait_until_hidden
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables, personal
 from ui import view
@@ -113,7 +113,7 @@ def id_item_with_tome(item_location: list, id_tome_location: list):
     wait(0.1)
     mouse.click(button="left")
     consumables.increment_need("id", 1)
-    wait(0.2, 0.4)
+    wait(0.1)
 
 def transfer_items(items: list, action: str = "drop") -> list:
     #requires open inventory / stash / vendor
@@ -219,7 +219,7 @@ def wait_for_left_inventory():
     start=time.time()
     while time.time() - start < 5:
         if left_inventory_ready(grab()):
-            Logger.debug("Vendor/stash inventory fully loaded")
+            Logger.debug("Vendor/stash inventory open")
             return True
         wait(0.1)
     Logger.error("wait_for_left_inventory: Vendor/stash inventory not detected")

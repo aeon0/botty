@@ -96,7 +96,7 @@ class Trapsin(IChar):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         return True
 
     def kill_shenk(self) -> bool:
@@ -110,7 +110,7 @@ class Trapsin(IChar):
             self._left_attack(cast_pos_abs, 90)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.4, force_tp=True)
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
@@ -132,7 +132,7 @@ class Trapsin(IChar):
                 self.move(pos_m)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         return True
 
 

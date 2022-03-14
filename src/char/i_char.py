@@ -7,7 +7,7 @@ from inventory import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui_manager import wait_for_screen_object
+from ui_manager import wait_until_visible
 from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -69,7 +69,7 @@ class IChar:
         self,
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
-        time_out: float = 8,
+        timeout: float = 8,
         threshold: float = 0.68,
         telekinesis: bool = False
     ) -> bool:
@@ -77,7 +77,7 @@ class IChar:
         Finds any template from the template finder and interacts with it
         :param template_type: Strings or list of strings of the templates that should be searched for
         :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
-        :param time_out: Timeout for the whole template selection, defaults to None
+        :param timeout: Timeout for the whole template selection, defaults to None
         :param threshold: Threshold which determines if a template is found or not. None will use default form .ini files
         :return: True if success. False otherwise
         """
@@ -87,7 +87,7 @@ class IChar:
             if match.valid:
                 keyboard.send("esc")
         start = time.time()
-        while time_out is None or (time.time() - start) < time_out:
+        while timeout is None or (time.time() - start) < timeout:
             template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
@@ -211,7 +211,7 @@ class IChar:
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                match = wait_for_screen_object(ScreenObjects.Loading, 2)
+                match = wait_until_visible(ScreenObjects.Loading, 2)
                 if match.valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center

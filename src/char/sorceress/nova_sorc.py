@@ -48,7 +48,7 @@ class NovaSorc(Sorceress):
         return True
 
     def kill_shenk(self) -> bool:
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
         self._cast_static(0.6)
         self._nova(Config().char["atk_len_shenk"])
         return True
@@ -61,13 +61,13 @@ class NovaSorc(Sorceress):
         self._pather.offset_node(229, offset_229)
         def clear_inside():
             self._pather.traverse_nodes_fixed([(1110, 120)], self)
-            self._pather.traverse_nodes([229], self, time_out=0.8, force_tp=True)
+            self._pather.traverse_nodes([229], self, timeout=0.8, force_tp=True)
             self._nova(atk_len)
             self._move_and_attack((-40, -20), atk_len)
             self._move_and_attack((40, 20), atk_len)
             self._move_and_attack((40, 20), atk_len)
         def clear_outside():
-            self._pather.traverse_nodes([226], self, time_out=0.8, force_tp=True)
+            self._pather.traverse_nodes([226], self, timeout=0.8, force_tp=True)
             self._nova(atk_len)
             self._move_and_attack((45, -20), atk_len)
             self._move_and_attack((-45, 20), atk_len)
@@ -82,7 +82,7 @@ class NovaSorc(Sorceress):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         atk_len = Config().char["atk_len_nihlathak"] * 0.3
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
         # move mouse to center
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

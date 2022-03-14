@@ -72,7 +72,7 @@ class Basic_Ranged(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.4, force_tp=True)
         return True
 
 
@@ -91,7 +91,7 @@ class Basic_Ranged(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.4, force_tp=True)
         return True
 
     def kill_shenk(self) -> bool:
@@ -111,7 +111,7 @@ class Basic_Ranged(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.4, force_tp=True)
         return True
 
     def kill_council(self) -> bool:
@@ -119,7 +119,7 @@ class Basic_Ranged(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         # Go inside cast stuff in general direction
         self._pather.offset_node(229, [250, 130])
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True)
         self._pather.offset_node(229, [-250, -130])
         atk_pos_abs = self._pather.find_abs_node_pos(230, grab())
         if atk_pos_abs is None:
@@ -149,7 +149,7 @@ class Basic_Ranged(IChar):
                     self._left_attack(cast_pos_abs, spray=11)
         # Move outside
         # Move a bit back and another round
-        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
         cast_pos_abs = np.array([-300, -100])
         for _ in range(atk_len_trav_2):
             if skills.is_right_skill_active():
@@ -183,7 +183,7 @@ class Basic_Ranged(IChar):
                 self._left_attack(cast_pos_abs, spray=11)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         return True
 
 

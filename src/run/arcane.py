@@ -41,19 +41,19 @@ class Arcane:
         # Check if we arrived at platform
         templates_platform = ["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"]
         tempaltes_summoner = ["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"]
-        match_platform = TemplateFinder().search_and_wait(templates_platform, threshold=0.55, time_out=0.5, use_grayscale=True, take_ss=False)
-        match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, time_out=0.5, use_grayscale=True, take_ss=False)
+        match_platform = TemplateFinder().search_and_wait(templates_platform, threshold=0.55, timeout=0.5, use_grayscale=True, take_ss=False)
+        match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, timeout=0.5, use_grayscale=True, take_ss=False)
         if not match_platform.valid and not match_summoner.valid:
             # We might have arrived at summoner, move up stairs with static traverse
             self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
             # try to match summoner again
-            match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, time_out=1.0, use_grayscale=True, take_ss=False)
+            match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, timeout=1.0, use_grayscale=True, take_ss=False)
         if match_summoner.valid:
-            if self._pather.traverse_nodes([461], self._char, time_out=2.2, force_tp=True):
+            if self._pather.traverse_nodes([461], self._char, timeout=2.2, force_tp=True):
                 return True
         else:
             # Traverse to center of platform
-            self._pather.traverse_nodes([462], self._char, time_out=1.3, force_tp=True)
+            self._pather.traverse_nodes([462], self._char, timeout=1.3, force_tp=True)
         return False
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:

@@ -101,7 +101,7 @@ class BlizzSorc(Sorceress):
         self.pre_move()
         self.move(pos_m, force_move=True)
         #lower left posistion
-        self._pather.traverse_nodes([151], self, time_out=2.5, force_tp=False)
+        self._pather.traverse_nodes([151], self, timeout=2.5, force_tp=False)
         self._cast_static()
         self._blizzard((-250, 100), spray=10)
         self._ice_blast((60, 70), spray=60)
@@ -130,14 +130,14 @@ class BlizzSorc(Sorceress):
         self._cast_static()
         self._blizzard((100, -50), spray=10)
         # Move to items
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.4, force_tp=True)
         return True
 
     def kill_council(self) -> bool:
         # Move inside to the right
         self._pather.traverse_nodes_fixed([(1110, 120)], self)
         self._pather.offset_node(300, (80, -110))
-        self._pather.traverse_nodes([300], self, time_out=5.5, force_tp=True)
+        self._pather.traverse_nodes([300], self, timeout=5.5, force_tp=True)
         self._pather.offset_node(300, (-80, 110))
         # Attack to the left
         self._blizzard((-150, 10), spray=80)
@@ -154,7 +154,7 @@ class BlizzSorc(Sorceress):
         wait(0.5)
         # Move to far left
         self._pather.offset_node(301, (-80, -50))
-        self._pather.traverse_nodes([301], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([301], self, timeout=2.5, force_tp=True)
         self._pather.offset_node(301, (80, 50))
         # Attack to RIGHT
         self._blizzard((100, 150), spray=80)
@@ -167,7 +167,7 @@ class BlizzSorc(Sorceress):
         for p in [(450, 100), (-190, 200)]:
             pos_m = convert_abs_to_monitor(p)
             self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([304], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([304], self, timeout=2.5, force_tp=True)
         # Attack to center of stairs
         self._blizzard((-175, -200), spray=30)
         self._ice_blast((30, -60), spray=30)
@@ -176,7 +176,7 @@ class BlizzSorc(Sorceress):
         wait(1.0)
         # Move back inside
         self._pather.traverse_nodes_fixed([(1110, 15)], self)
-        self._pather.traverse_nodes([300], self, time_out=2.5, force_tp=False)
+        self._pather.traverse_nodes([300], self, timeout=2.5, force_tp=False)
         # Attack to center
         self._blizzard((-100, 0), spray=10)
         self._cast_static()
@@ -208,7 +208,7 @@ class BlizzSorc(Sorceress):
         self._cast_static()
         self._ice_blast((-30, 50), spray=10)
         # Move outside since the trav.py expects to start searching for items there if char can teleport
-        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
@@ -233,7 +233,7 @@ class BlizzSorc(Sorceress):
         self._blizzard(cast_pos_abs, spray=15)
         # Move to items
         wait(1.3)
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         return True
 
     def kill_summoner(self) -> bool:

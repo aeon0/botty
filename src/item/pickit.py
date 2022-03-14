@@ -35,7 +35,7 @@ class PickIt:
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
-        time_out = False
+        timeout = False
         picked_up_items = []
         skip_items = []
         curr_item_to_pick: Item = None
@@ -43,9 +43,9 @@ class PickIt:
         did_force_move = False
         done_ocr=False
 
-        while not time_out:
+        while not timeout:
             if (time.time() - start) > 28:
-                time_out = True
+                timeout = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
             img = grab()

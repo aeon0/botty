@@ -23,12 +23,12 @@ class Chest:
                 chest = filename[:-4].upper()
                 self._templates.append(chest)
 
-    def open_up_chests(self, time_out: float = 8.0, threshold: float = 0.73) -> bool:
+    def open_up_chests(self, timeout: float = 8.0, threshold: float = 0.73) -> bool:
         Logger.debug("Open chests")
         templates = self._templates
         found_chest = True
         start = time.time()
-        while time.time() - start < time_out:
+        while time.time() - start < timeout:
             template_match = TemplateFinder().search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:

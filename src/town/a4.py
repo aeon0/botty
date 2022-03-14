@@ -40,7 +40,7 @@ class A4(IAct):
         return self._char.select_by_template(["A4_WP", "A4_WP_2"], found_wp_func, threshold=0.62, telekinesis=False)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = TemplateFinder().search_and_wait(["A4_TOWN_4", "A4_TOWN_5", "A4_TOWN_6"], time_out=20).valid
+        success = TemplateFinder().search_and_wait(["A4_TOWN_4", "A4_TOWN_5", "A4_TOWN_6"], timeout=20).valid
         if success:
             return Location.A4_TOWN_START
         return False
