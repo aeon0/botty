@@ -8,6 +8,7 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
+from health_manager import set_pause_state
 from transmute import Transmute
 
 from utils.misc import wait
@@ -251,6 +252,9 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
+        # Pause health manager if not already paused
+        set_pause_state(True)
+
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
@@ -395,6 +399,7 @@ class Bot:
         self._curr_loc = False
         self._pre_buffed = False
         view.save_and_exit()
+        set_pause_state(True)
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
@@ -408,9 +413,11 @@ class Bot:
         if success:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
+                set_pause_state(True)
                 return self.trigger_or_stop("maintenance")
         if not skills.has_tps():
             consumables.set_needs("tp", 20)
+        set_pause_state(True)
         self.trigger_or_stop("end_game", failed=True)
 
     # All the runs go here
@@ -436,6 +443,7 @@ class Bot:
         self._game_stats.update_location("Pin" if Config().general['discord_status_condensed'] else "Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._pindle.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -444,6 +452,7 @@ class Bot:
         self._do_runs["run_shenk"] = False
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._shenk.battle(Config().routes["run_shenk"], not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
@@ -453,6 +462,7 @@ class Bot:
         self._game_stats.update_location("Trav" if Config().general['discord_status_condensed'] else "Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -462,6 +472,7 @@ class Bot:
         self._game_stats.update_location("Nihl" if Config().general['discord_status_condensed'] else "Nihlathak")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._nihlathak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -471,6 +482,7 @@ class Bot:
         self._game_stats.update_location("Arc" if Config().general['discord_status_condensed'] else "Arcane")
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._arcane.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -480,5 +492,6 @@ class Bot:
         self._game_stats.update_location("Dia" if Config().general['discord_status_condensed'] else "Diablo")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._diablo.battle(not self._pre_buffed)
         self._ending_run_helper(res)
