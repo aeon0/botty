@@ -10,6 +10,7 @@ from utils.misc import wait
 from dataclasses import dataclass
 from chest import Chest
 from ui import waypoint
+from health_manager import set_pause_state
 
 class Arcane:
     def __init__(
@@ -17,17 +18,17 @@ class Arcane:
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
         self._chest = Chest(self._char, 'arcane')
-        self.used_tps = 0
 
     def approach(self, start_loc: Location) -> Union[bool, Location]:
         Logger.info("Run Arcane")
+        set_pause_state(True)
         if not self._char.capabilities.can_teleport_natively:
             raise ValueError("Arcane requires teleport")
         if not self._town_manager.open_wp(start_loc):
@@ -72,12 +73,11 @@ class Arcane:
         ]
 
         picked_up_items = False
-        self.used_tps = 0
 
         for i, data in enumerate(path_arr):
+            set_pause_state(False)
             if do_pre_buff:
                 self._char.pre_buff()
-
             # calibrating at start and moving towards the end of the arm
             self._pather.traverse_nodes([data.calib_node_start], self._char, force_tp=True)
             if not self._pather.traverse_nodes_fixed(data.static_path_forward, self._char):
@@ -94,9 +94,8 @@ class Arcane:
                 # Open TP and return back to town, walk to wp and start over
                 if not self._char.tp_town():
                     Logger.warning("TP to town failed, cancel run")
-                    self.used_tps += 20
                     return False
-                self.used_tps += 1
+                set_pause_state(True)
                 if not self._town_manager.wait_for_tp(Location.A2_TP):
                     return False
                 if not self.approach(Location.A2_FARA_STASH):

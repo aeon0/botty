@@ -13,6 +13,20 @@ from inventory import common
 from ui import view, meters
 from ui_manager import detect_screen_object, ScreenObjects
 
+pause_state = True
+
+def get_pause_state():
+    global pause_state
+    return pause_state
+
+def set_pause_state(state: bool):
+    global pause_state
+    prev = get_pause_state()
+    if prev != state:
+        debug_str = "pausing" if state else "active"
+        Logger.info(f"Health Manager is now {debug_str}")
+        pause_state = state
+
 class HealthManager:
     def __init__(self):
         self._do_monitor = False
@@ -22,7 +36,6 @@ class HealthManager:
         self._last_mana = time.time()
         self._last_merc_heal = time.time()
         self._callback = None
-        self._pausing = True
         self._last_chicken_screenshot = None
         self._count_panel_detects = 0
 
@@ -37,16 +50,7 @@ class HealthManager:
 
     def reset_chicken_flag(self):
         self._did_chicken = False
-        self._pausing = True
-
-    def update_location(self, loc: Location):
-        if loc is not None and type(loc) == str:
-            bosses = ["shenk", "eldritch", "pindle", "nihlathak", "trav", "arc", "diablo"]
-            prev_value = self._pausing
-            self._pausing = not any(substring in loc for substring in bosses)
-            if self._pausing != prev_value:
-                debug_str = "pausing" if self._pausing else "active"
-                Logger.info(f"Health Manager is now {debug_str}")
+        set_pause_state(True)
 
     def _do_chicken(self, img):
         if self._callback is not None:
@@ -66,7 +70,7 @@ class HealthManager:
         time.sleep(0.01)
         view.save_and_exit()
         self._did_chicken = True
-        self._pausing = True
+        set_pause_state(True)
 
     def start_monitor(self):
         Logger.info("Start health monitoring")
@@ -76,7 +80,7 @@ class HealthManager:
         while self._do_monitor:
             time.sleep(0.1)
             # Wait until the flag is reset by main.py
-            if self._did_chicken or self._pausing: continue
+            if self._did_chicken or get_pause_state(): continue
             img = grab()
             if detect_screen_object(ScreenObjects.InGame, img).valid:
                 health_percentage = meters.get_health(img)
@@ -128,14 +132,15 @@ class HealthManager:
         Logger.debug("Stop health monitoring")
 
 
-# Testing: Start dying or lossing mana and see if it works
+# Testing: Start dying or losing mana and see if it works
 if __name__ == "__main__":
     import threading
     import keyboard
     import os
+    from health_manager import set_pause_state
     keyboard.add_hotkey('f12', lambda: Logger.info('Exit Health Manager') or os._exit(1))
     manager = HealthManager()
-    manager._pausing = False
+    set_pause_state(True)
     Logger.info("Press f12 to exit health manager")
     health_monitor_thread = threading.Thread(target=manager.start_monitor)
     health_monitor_thread.start()
