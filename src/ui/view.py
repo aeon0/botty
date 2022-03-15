@@ -5,7 +5,7 @@ import keyboard
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
-from ui_manager import wait_until_visible, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects
+from ui_manager import wait_until_hidden, wait_until_visible, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects, is_visible
 from inventory import common
 from screen import convert_screen_to_monitor
 
@@ -37,14 +37,22 @@ def save_and_exit() -> bool:
     Performes save and exit action from within game
     :return: Bool if action was successful
     """
-    start=time.time()
-    while not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
+    # if exit button isn't detected already, press escape
+    if not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
         keyboard.send("esc")
-        wait(0.1)
-        if time.time() - start > 5:
-            return False
-    select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
-    return True
+        # wait for exit button to appear
+        exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 3)
+    success = False
+    # if exit button is found, double click it to be sure
+    if exit_button.valid:
+        select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
+        wait(0.1, 0.2)
+        select_screen_object_match(exit_button, delay_factor=(0.01, 0.1))
+        # if save/exit button disappears then save/exit was successful
+        success = wait_until_hidden(ScreenObjects.SaveAndExit, 4)
+    if not success: 
+        Logger.debug("Failed to find or click save/exit button")
+    return success 
 
 def dismiss_skills_icon() -> bool:
     start = time.time()
