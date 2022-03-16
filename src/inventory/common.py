@@ -162,8 +162,7 @@ def transfer_items(items: list, action: str = "drop") -> list:
                 item_remains = True
                 start = time.time()
                 while item_remains and (time.time() - start) < 3:
-                    img=grab()
-                    slot_img = get_slot_pos_and_img(img, item.column, item.row)[1]
+                    slot_img = get_slot_pos_and_img(grab(), item.column, item.row)[1]
                     item_remains = slot_has_item(slot_img)
                 if not item_remains:
                     # item successfully transferred, delete from list
@@ -173,12 +172,14 @@ def transfer_items(items: list, action: str = "drop") -> list:
                             break
                     if action == "sell":
                         # check and see if inventory gold count changed
-                        new_gold_img = cut_roi(img, roi=Config().ui_roi["inventory_gold_digits"])
-                        if prev_gold_img.shape == new_gold_img.shape and not(np.bitwise_xor(prev_gold_img, new_gold_img).any()):
+                        start = time.time()
+                        gold_unchanged = True
+                        while gold_unchanged and (time.time() - start) < 2:
+                            new_gold_img = cut_roi(grab(), roi=Config().ui_roi["inventory_gold_digits"])
+                            gold_unchanged = prev_gold_img.shape == new_gold_img.shape and not(np.bitwise_xor(prev_gold_img, new_gold_img).any())
+                        if gold_unchanged:
                             Logger.info("Inventory gold is full, force stash")
-                            personal.set_inventory_gold_full(True)
-                        else:
-                            personal.set_inventory_gold_full(False)
+                        personal.set_inventory_gold_full(gold_unchanged)
                     break
                 else:
                     # item is still there, try again
