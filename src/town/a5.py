@@ -7,7 +7,7 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, is_visible
 
 
 class A5(IAct):
@@ -56,8 +56,8 @@ class A5(IAct):
         wait(0.5, 0.6)
         def stash_is_open_func():
             img = grab()
-            found = detect_screen_object(ScreenObjects.GoldBtnInventory, img).valid
-            found |= detect_screen_object(ScreenObjects.GoldBtnStash, img).valid
+            found = is_visible(ScreenObjects.GoldBtnInventory, img)
+            found |= is_visible(ScreenObjects.GoldBtnStash, img)
             return found
         if not self._char.select_by_template(["A5_STASH", "A5_STASH_2"], stash_is_open_func, telekinesis=True):
             return False
@@ -72,7 +72,7 @@ class A5(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: detect_screen_object(ScreenObjects.WaypointLabel).valid
+        found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:

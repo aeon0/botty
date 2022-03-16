@@ -8,7 +8,7 @@ from config import Config
 from screen import convert_screen_to_monitor, grab
 from utils.misc import wait
 from ui import loading
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, is_visible
 
 _WAYPOINTS = {
     # Act 1
@@ -66,8 +66,7 @@ def use_wp(label: str = None, act: int = None, idx: int = None) -> bool:
     if label:
         act = _WAYPOINTS[label][0]
         idx = _WAYPOINTS[label][1]
-    match = detect_screen_object(ScreenObjects.WaypointTabs)
-    if match.valid:
+    if (match := detect_screen_object(ScreenObjects.WaypointTabs)).valid:
         curr_active_act = get_active_act_from_match(match)
     else:
         Logger.error("Could not find waypoint tabs")

@@ -19,8 +19,7 @@ def enable_no_pickup() -> bool:
     keyboard.write('/nopickup',delay=.20)
     keyboard.send('enter')
     wait(0.1, 0.25)
-    item_pickup_text = wait_until_visible(ScreenObjects.ItemPickupText, timeout=3)
-    if not item_pickup_text.valid:
+    if not (item_pickup_text := wait_until_visible(ScreenObjects.ItemPickupText, timeout=1.3)).valid:
         return False
     if item_pickup_text.name == "ITEM_PICKUP_DISABLED":
         return True
@@ -93,11 +92,12 @@ def return_to_play() -> bool:
                     break
         if need_escape:
             keyboard.send("esc")
-            wait(0.6, 1)
+            wait(1)
             img=grab()
         else:
             break
     if not elapsed:
+        Logger.error("return_to_play(): failed to return to neutral play screen")
         return False
     return True
 

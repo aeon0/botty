@@ -27,12 +27,12 @@ def has_tps() -> bool:
     """
     if Config().char["tp"]:
         keyboard.send(Config().char["tp"])
-        template_match = wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4)
-        if not template_match.valid:
+        tps_remain = wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid
+        if not tps_remain:
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-        return template_match.valid
+        return tps_remain
     else:
         return False
 

@@ -153,7 +153,7 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
             and any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
         )
         # items that are checked to be kept should all be identified unless an error occurred or user preferred unidentified
-        or detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid
+        or is_visible(ScreenObjects.Unidentified, item_box.data)
     ):
         include_props = False
         exclude_props = False
@@ -250,13 +250,14 @@ def specific_inventory_roi(desired: str = "reserved"):
 
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if not detect_screen_object(ScreenObjects.RightPanel, img).valid:
+    if not is_visible(ScreenObjects.RightPanel, img):
         keyboard.send(Config().char["inventory_screen"])
         if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():
                 return None
             keyboard.send(Config().char["inventory_screen"])
             if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
+                Logger.error(f"personal.open(): Failed to open inventory")
                 return None
         img = grab()
     return img
@@ -268,7 +269,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
     """
     center_mouse()
     img = open(inp_img)
-    vendor_open = detect_screen_object(ScreenObjects.GoldBtnVendor, inp_img).valid
+    vendor_open = is_visible(ScreenObjects.GoldBtnVendor, inp_img)
     slots = []
     # check which slots have items
     for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
@@ -332,7 +333,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
                 implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
                 if not implied_no_id:
-                    if (is_unidentified := detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid):
+                    if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.data)):
                         need_id = True
                         center_mouse()
                         tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))

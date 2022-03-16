@@ -7,7 +7,7 @@ from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, is_visible
 
 class A2(IAct):
     def __init__(self, pather: Pather, char: IChar):
@@ -33,8 +33,8 @@ class A2(IAct):
         wait(0.3)
         def stash_is_open_func():
             img = grab()
-            found = detect_screen_object(ScreenObjects.GoldBtnInventory, img).valid
-            found |= detect_screen_object(ScreenObjects.GoldBtnStash, img).valid
+            found = is_visible(ScreenObjects.GoldBtnInventory, img)
+            found |= is_visible(ScreenObjects.GoldBtnStash, img)
             return found
         if not self._char.select_by_template(["A2_STASH_LIGHT", "A2_STASH_DARK"], stash_is_open_func, telekinesis=True):
             return False
