@@ -1,14 +1,12 @@
-from utils.misc import color_filter, cut_roi, wait
-from template_finder import TemplateFinder
-from screen import convert_screen_to_monitor, grab
+from utils.misc import wait
+from screen import grab
 from config import Config
 from utils.custom_mouse import mouse
 import keyboard
 import cv2
 from logger import Logger
 import time
-from ui import view
-from ui_manager import ScreenObjects, detect_screen_object, is_visible
+from ui_manager import ScreenObjects, is_visible
 
 
 class DeathManager:

@@ -10,7 +10,7 @@ import time
 from typing import Tuple
 from pather import Pather
 from config import Config
-from ui_manager import detect_screen_object, ScreenObjects, is_visible
+from ui_manager import ScreenObjects, is_visible
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):

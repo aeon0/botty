@@ -6,7 +6,7 @@ from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, is_visible
+from ui_manager import ScreenObjects, is_visible
 from utils.misc import wait
 
 

@@ -202,8 +202,7 @@ class IChar:
                     mouse.click(button="right")
                     consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            template_match = detect_screen_object(ScreenObjects.TownPortal)
-            if template_match.valid:
+            if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
                 pos = template_match.center
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom

@@ -3,7 +3,7 @@ from game_stats import GameStats
 from item import ItemFinder, Item
 from item.item_cropper import ItemText
 from logger import Logger
-from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
+from screen import grab, convert_screen_to_monitor
 import keyboard
 import cv2
 import time
@@ -78,7 +78,7 @@ def stash_all_items(items: list = None):
                 # If gold read by OCR fails, fallback to old method
                 gold_btn = detect_screen_object(ScreenObjects.GoldBtnInventory)
                 select_screen_object_match(gold_btn)
-                if wait_until_visible(ScreenObjects.DepositBtn, 3):
+                if wait_until_visible(ScreenObjects.DepositBtn, 3).valid:
                     keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 else:
                     Logger.error("stash_all_items(): deposit button not detected, failed to stash gold")

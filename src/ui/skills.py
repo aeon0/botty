@@ -1,4 +1,3 @@
-from typing import List
 import keyboard
 from logger import Logger
 import cv2
@@ -9,9 +8,8 @@ from screen import grab
 from config import Config
 from template_finder import TemplateFinder
 from ui_manager import wait_until_visible, ScreenObjects
-from inventory import consumables
 
-def is_left_skill_selected(template_list: List[str]) -> bool:
+def is_left_skill_selected(template_list: list[str]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the left skill slot.
     """
@@ -27,8 +25,7 @@ def has_tps() -> bool:
     """
     if Config().char["tp"]:
         keyboard.send(Config().char["tp"])
-        tps_remain = wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid
-        if not tps_remain:
+        if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -57,7 +54,7 @@ def is_right_skill_active() -> bool:
     avg = np.average(img)
     return avg > 75.0
 
-def is_right_skill_selected(template_list: List[str]) -> bool:
+def is_right_skill_selected(template_list: list[str]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the right skill slot.
     """

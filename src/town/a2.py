@@ -1,13 +1,12 @@
 from char import IChar
 from town.i_act import IAct
 from screen import grab
-from config import Config
 from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
 from template_finder import TemplateFinder
 from utils.misc import wait
-from ui_manager import detect_screen_object, ScreenObjects, is_visible
+from ui_manager import ScreenObjects, is_visible
 
 class A2(IAct):
     def __init__(self, pather: Pather, char: IChar):
@@ -64,7 +63,7 @@ class A2(IAct):
     def open_wp(self, curr_loc: Location) -> bool:
         if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
-        found_wp_func = lambda: detect_screen_object(ScreenObjects.WaypointLabel).valid
+        found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:

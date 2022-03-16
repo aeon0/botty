@@ -1,9 +1,8 @@
-from screen import grab
 from config import Config
 from death_manager import DeathManager
 import time
 import keyboard
-from ui_manager import detect_screen_object, ScreenObjects, is_visible
+from ui_manager import ScreenObjects, is_visible
 from ui import view, loading
 from utils.misc import set_d2r_always_on_top
 

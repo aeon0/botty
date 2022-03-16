@@ -1,9 +1,8 @@
 import time
-from inventory import belt
 import keyboard
 import cv2
 from operator import itemgetter
-from ui_manager import ScreenObjects, detect_screen_object, is_visible
+from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger

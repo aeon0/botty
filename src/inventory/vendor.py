@@ -7,7 +7,7 @@ from utils.misc import wait
 from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
+from ui_manager import is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
 from inventory import personal, common
 
 gamble_count = 0
