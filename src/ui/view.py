@@ -43,23 +43,13 @@ def save_and_exit() -> bool:
         if not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
             keyboard.send("esc")
             # wait for exit button to appear
-            exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 1.5)
+            exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 3)
         # if exit button is found, double click it to be sure
         if exit_button.valid:
-            if attempts == 1:
-                # use keyboard for first attempt
-                keyboard.send('up')
-                wait(0.05, 0.08)
-                keyboard.send('up')
-                wait(0.05, 0.08)
-                keyboard.send('down')
-                wait(0.05, 0.08)
-                keyboard.send('enter')
-            else:
-                # use mouse for second attempt
-                select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
-                select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
-                # if center icon on player bar disappears then save/exit was successful
+            select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
+            wait(0.1, 0.2)
+            select_screen_object_match(exit_button, delay_factor=(0.01, 0.1))
+            # if center icon on player bar disappears then save/exit was successful
             success = wait_until_hidden(ScreenObjects.InGame, 3)
         attempts += 1
     if not success:
