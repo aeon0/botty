@@ -273,8 +273,8 @@ def select_tab(idx: int):
     # indices start from 0
     if not get_active_tab() == idx:
         tab = tab_properties(idx)
-        pos_x, pos_y = convert_screen_to_monitor(tab["center"])
-        mouse.move(pos_x, pos_y)
+        pos = convert_screen_to_monitor(tab["center"])
+        mouse.move(*pos)
         wait(0.2, 0.3)
         mouse.click("left")
         wait(0.2, 0.3)
