@@ -1,3 +1,4 @@
+from turtle import Screen
 import keyboard
 import os
 import numpy as np
@@ -271,6 +272,11 @@ class ScreenObjects:
         use_grayscale=True,
         roi="quest_skill_btn"
     )
+    TabIndicator=ScreenObject(
+        ref="TAB_INDICATOR",
+        roi="tab_indicator",
+        normalize_monitor=False
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -341,7 +347,6 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    # while 1:
-    #     print(list_visible_objects())
-    #     time.sleep(1)
-    print(f"res = {wait_until_visible(ScreenObjects.BeltExpandable, 7)}")
+    while 1:
+        print(list_visible_objects())
+        time.sleep(1)
