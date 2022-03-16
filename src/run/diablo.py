@@ -80,8 +80,7 @@ class Diablo:
                     # Move from Act 4 NPC Jamella towards WP where we can see the Blue Portal
                     if not self._pather.traverse_nodes([164, 163], self._char, timeout=2): return False
                     wait(0.22, 0.28)
-                    template_match = detect_screen_object(ScreenObjects.TownPortalReduced)
-                    if template_match.valid:
+                    if (template_match := detect_screen_object(ScreenObjects.TownPortalReduced)).valid:
                         pos = template_match.center
                         pos = (pos[0], pos[1] + 30)
                         Logger.debug(location + ": Going through portal...")

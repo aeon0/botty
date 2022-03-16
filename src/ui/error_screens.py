@@ -5,8 +5,7 @@ import keyboard
 
 def handle_error() -> bool:
     Logger.warning("Server connection issue. waiting 20s")
-    match = detect_screen_object(ScreenObjects.ServerError)
-    if match.valid:
+    if (match := detect_screen_object(ScreenObjects.ServerError)).valid:
         select_screen_object_match(match)
         wait(1, 2)
         keyboard.send("esc")

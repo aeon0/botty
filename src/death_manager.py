@@ -1,14 +1,12 @@
-from utils.misc import color_filter, cut_roi, wait
-from template_finder import TemplateFinder
-from screen import convert_screen_to_monitor, grab
+from utils.misc import wait
+from screen import grab
 from config import Config
 from utils.custom_mouse import mouse
 import keyboard
 import cv2
 from logger import Logger
 import time
-from ui import view
-from ui_manager import ScreenObjects, detect_screen_object
+from ui_manager import ScreenObjects, is_visible
 
 
 class DeathManager:
@@ -36,8 +34,7 @@ class DeathManager:
 
     def handle_death_screen(self):
         img = grab()
-        template_match = detect_screen_object(ScreenObjects.YouHaveDied, img)
-        if template_match.valid:
+        if is_visible(ScreenObjects.YouHaveDied, img):
             Logger.warning("You have died!")
             if Config().general["info_screenshots"]:
                 self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
@@ -55,7 +52,7 @@ class DeathManager:
             wait(0.1, 0.2)
             mouse.release(button="left")
             time.sleep(1)
-            if detect_screen_object(ScreenObjects.MainMenu).valid:
+            if is_visible(ScreenObjects.MainMenu):
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
             keyboard.send("esc")

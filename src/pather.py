@@ -6,7 +6,6 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
-from item.pickit import PickIt
 from utils.custom_mouse import mouse
 from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 from utils.misc import is_in_roi
@@ -15,7 +14,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 from template_finder import TemplateFinder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
 
 class Location:
     # A5 Town
@@ -642,7 +641,7 @@ class Pather:
                 img = grab()
                 # Handle timeout
                 if (time.time() - last_move) > timeout:
-                    if detect_screen_object(ScreenObjects.WaypointLabel).valid:
+                    if is_visible(ScreenObjects.WaypointLabel):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
@@ -671,18 +670,11 @@ class Pather:
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
-                    Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
-                    if detect_screen_object(ScreenObjects.ShrineArea).valid:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
-                        x_m, y_m = convert_abs_to_monitor((0, -130)) #above head
-                        mouse.move(x_m, y_m)
-                        wait(0.1, 0.15)
-                        mouse.click(button="left")
+                        select_screen_object_match(match)
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                        # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
-                    else:
-                        Logger.debug("Shrine not found.")
                     teleport_count = 0
                     break
                 teleport_count += 1

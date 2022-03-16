@@ -7,7 +7,7 @@ from inventory import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui_manager import wait_until_visible
+from ui_manager import is_visible, wait_until_visible
 from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -83,8 +83,7 @@ class IChar:
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            match = detect_screen_object(ScreenObjects.WaypointLabel)
-            if match.valid:
+            if is_visible(ScreenObjects.WaypointLabel):
                 keyboard.send("esc")
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:
@@ -203,16 +202,14 @@ class IChar:
                     mouse.click(button="right")
                     consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            template_match = detect_screen_object(ScreenObjects.TownPortal)
-            if template_match.valid:
+            if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
                 pos = template_match.center
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                match = wait_until_visible(ScreenObjects.Loading, 2)
-                if match.valid:
+                if wait_until_visible(ScreenObjects.Loading, 2).valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = convert_monitor_to_screen(mouse.get_position())

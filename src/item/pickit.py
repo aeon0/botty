@@ -1,9 +1,8 @@
 import time
-from inventory import belt
 import keyboard
 import cv2
 from operator import itemgetter
-from ui_manager import ScreenObjects, detect_screen_object
+from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
@@ -145,9 +144,9 @@ class PickIt:
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.2)
 
-                    if detect_screen_object(ScreenObjects.Overburdened).valid:
+                    if is_visible(ScreenObjects.Overburdened):
                         found_items = True
-                        Logger.warning("Inventory full, skipping pickit!")
+                        Logger.warning("Inventory full, terminating pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff
                         break
                     else:

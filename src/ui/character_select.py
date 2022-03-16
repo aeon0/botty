@@ -30,8 +30,7 @@ def has_char_template_saved():
     return last_char_template is not None
 
 def save_char_online_status():
-    match = detect_screen_object(ScreenObjects.OnlineStatus)
-    if match.valid:
+    if (match := detect_screen_object(ScreenObjects.OnlineStatus)).valid:
         online_status = online_active(match)
         Logger.debug(f"Saved online status. Online={online_status}")
     else:
@@ -45,8 +44,7 @@ def online_active(match) -> bool:
 
 def save_char_template():
     img = grab()
-    match = detect_screen_object(ScreenObjects.SelectedCharacter)
-    if match.valid:
+    if (match := detect_screen_object(ScreenObjects.SelectedCharacter)).valid:
         x, y, w, h = Config().ui_roi["character_name_sub_roi"]
         x, y = x + match.region[0], y + match.region[1]
         char_template = cut_roi(img, [x, y, w, h])
@@ -74,8 +72,7 @@ def save_char_template():
 def select_char():
     if last_char_template is not None:
         img = grab()
-        match = detect_screen_object(ScreenObjects.OnlineStatus, img)
-        if match.valid:
+        if (match := detect_screen_object(ScreenObjects.OnlineStatus, img)).valid:
             if online_active(match) and (not online_character):
                 select_online_tab(match.region, match.center)
                 img = grab()
@@ -86,8 +83,7 @@ def select_char():
         else:
             Logger.error("select_char: Could not find online/offline tabs")
             return
-        match = detect_screen_object(ScreenObjects.SelectedCharacter, img)
-        if not match.valid:
+        if not (match := detect_screen_object(ScreenObjects.SelectedCharacter, img)).valid:
             Logger.error("select_char: Could not find highlighted profile")
             return
         scrolls_attempts = 0
