@@ -281,7 +281,6 @@ def select_tab(idx: int):
         wait(0.2, 0.3)
         mouse.click("left")
         wait(0.2, 0.3)
-    return
 
 if __name__ == "__main__":
     import os
