@@ -363,8 +363,7 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if merc needs to be revived
-        match = detect_screen_object(ScreenObjects.MercIcon)
-        if not match.valid and Config().char["use_merc"]:
+        if not is_visible(ScreenObjects.MercIcon) and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)

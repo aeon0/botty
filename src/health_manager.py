@@ -11,7 +11,7 @@ import time
 from config import Config
 from inventory import common
 from ui import view, meters
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import ScreenObjects, is_visible
 
 pause_state = True
 
@@ -82,7 +82,7 @@ class HealthManager:
             # Wait until the flag is reset by main.py
             if self._did_chicken or get_pause_state(): continue
             img = grab()
-            if detect_screen_object(ScreenObjects.InGame, img).valid:
+            if is_visible(ScreenObjects.InGame, img):
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
                 # check rejuv
@@ -109,7 +109,7 @@ class HealthManager:
                         belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
                 # check merc
-                if detect_screen_object(ScreenObjects.MercIcon, img).valid:
+                if is_visible(ScreenObjects.MercIcon, img):
                     merc_health_percentage = meters.get_merc_health(img)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage < Config().char["merc_chicken"]:
@@ -121,7 +121,7 @@ class HealthManager:
                     elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
                         belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
-                if detect_screen_object(ScreenObjects.LeftPanel, img).valid or detect_screen_object(ScreenObjects.RightPanel, img).valid:
+                if is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img):
                     Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
                     self._count_panel_detects += 1
                     if self._count_panel_detects >= 2:

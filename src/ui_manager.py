@@ -271,6 +271,11 @@ class ScreenObjects:
         use_grayscale=True,
         roi="quest_skill_btn"
     )
+    DepositBtn=ScreenObject(
+        ref=["DEPOSIT_BTN", "DEPOSIT_BTN_BRIGHT"],
+        threshold=0.8,
+        roi="deposit_btn"
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -310,7 +315,7 @@ def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout =
         res = func()
         if (success := is_success(res)):
             break
-        wait(0.1)
+        wait(0.05)
     return res, success
 
 def hover_over_screen_object_match(match) -> None:
@@ -321,7 +326,7 @@ def list_visible_objects(img: np.ndarray = None) -> list:
     img = grab() if img is None else img
     visible=[]
     for pair in [a for a in vars(ScreenObjects).items() if not a[0].startswith('__') and a[1] is not None]:
-        if detect_screen_object(pair[1], img).valid:
+        if is_visible(pair[1], img):
             visible.append(pair[0])
     return visible
 
