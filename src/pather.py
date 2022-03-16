@@ -6,7 +6,6 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
-from item.pickit import PickIt
 from utils.custom_mouse import mouse
 from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 from utils.misc import is_in_roi

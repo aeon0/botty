@@ -48,7 +48,7 @@ def save_and_exit() -> bool:
         if exit_button.valid:
             select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
             wait(0.1, 0.2)
-            select_screen_object_match(exit_button, delay_factor=(0.01, 0.1))
+            mouse.click(button="left")
             # if center icon on player bar disappears then save/exit was successful
             success = wait_until_hidden(ScreenObjects.InGame, 3)
         attempts += 1
