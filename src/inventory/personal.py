@@ -15,7 +15,7 @@ from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
 from ui import view
-from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, is_visible, wait_until_visible, ScreenObjects, center_mouse
 from item import ItemCropper
 from messages import Messenger
 
@@ -68,7 +68,7 @@ def stash_all_items(items: list = None):
     Logger.debug("Found inventory gold btn")
     # stash gold
     if Config().char["stash_gold"]:
-        if wait_until_visible(ScreenObjects.GoldNone, 0.5).valid:
+        if is_visible(ScreenObjects.GoldNone):
             Logger.debug("No gold to stash")
         else:
             Logger.debug("Stashing gold")
