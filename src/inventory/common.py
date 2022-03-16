@@ -1,4 +1,3 @@
-from turtle import right
 from config import Config
 import cv2
 import numpy as np
