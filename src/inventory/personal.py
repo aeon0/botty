@@ -3,7 +3,7 @@ from game_stats import GameStats
 from item import ItemFinder, Item
 from item.item_cropper import ItemText
 from logger import Logger
-from screen import convert_abs_to_monitor, grab, convert_screen_to_monitor
+from screen import grab, convert_screen_to_monitor
 import keyboard
 import cv2
 import time
@@ -15,7 +15,7 @@ from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
 from ui import view
-from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse
 from item import ItemCropper
 from messages import Messenger
 
@@ -58,19 +58,15 @@ def stash_all_items(items: list = None):
     global messenger
     if items is None:
         Logger.debug("No items to stash, skip")
-        return False
+        return None
     center_mouse()
-    # Wait till gold btn is found
-    Logger.debug("Searching for inventory gold btn...")
-    if not (gold_btn := wait_until_visible(ScreenObjects.GoldBtnInventory, timeout = 20)).valid:
-        Logger.error("Could not determine to be in stash menu. Continue...")
-        return
-    Logger.debug("Found inventory gold btn")
+    # Wait for stash to fully load
+    if not common.wait_for_left_inventory():
+        Logger.error("stash_all_items(): Could not determine to be in stash menu. Continue...")
+        return items
     # stash gold
     if Config().char["stash_gold"]:
-        if wait_until_visible(ScreenObjects.GoldNone, 0.5).valid:
-            Logger.debug("No gold to stash")
-        else:
+        if not is_visible(ScreenObjects.GoldNone):
             Logger.debug("Stashing gold")
             stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
             wait(0.7, 1)
@@ -80,19 +76,17 @@ def stash_all_items(items: list = None):
             except: pass
             if not stash_full_of_gold:
                 # If gold read by OCR fails, fallback to old method
-                mouse.move(*gold_btn.center, randomize=4)
-                wait(0.1, 0.15)
-                mouse.press(button="left")
-                wait(0.25, 0.35)
-                mouse.release(button="left")
-                wait(0.4, 0.6)
-                keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
-                wait(1.3, 1.6)
+                gold_btn = detect_screen_object(ScreenObjects.GoldBtnInventory)
+                select_screen_object_match(gold_btn)
+                if wait_until_visible(ScreenObjects.DepositBtn, 3).valid:
+                    keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
+                else:
+                    Logger.error("stash_all_items(): deposit button not detected, failed to stash gold")
                 # move cursor away from button to interfere with screen grab
-                mouse.move(-120, 0, absolute=False, randomize=15)
-                stash_full_of_gold = not detect_screen_object(ScreenObjects.GoldNone).valid
+                mouse.move(-120, 0, absolute=False, randomize=15, delay_factor=[0.3, 0.5])
+                stash_full_of_gold = wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
             if stash_full_of_gold:
-                Logger.info("Stash tab is full of gold, selecting next stash tab.")
+                Logger.debug("Stash tab is full of gold, selecting next stash tab.")
                 stash.curr_stash["gold"] += 1
                 if Config().general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -100,7 +94,7 @@ def stash_all_items(items: list = None):
                     #decide if gold pickup should be disabled or gambling is active
                     vendor.set_gamble_status(True)
                 else:
-                    # move to next stash
+                    # move to next stash tab
                     return stash_all_items(items=items)
             else:
                 set_inventory_gold_full(False)
@@ -108,10 +102,10 @@ def stash_all_items(items: list = None):
     stash.move_to_stash_tab(stash.curr_stash["items"])
     while stash.curr_stash["items"] <= 3:
         img = grab()
-        if detect_screen_object(ScreenObjects.EmptyStashSlot, img).valid:
+        if is_visible(ScreenObjects.EmptyStashSlot, img):
             break
         else:
-            Logger.info(f"Stash tab completely full, advance to next")
+            Logger.debug(f"Stash tab completely full, advance to next")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
@@ -159,7 +153,7 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
             and any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
         )
         # items that are checked to be kept should all be identified unless an error occurred or user preferred unidentified
-        or detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid
+        or is_visible(ScreenObjects.Unidentified, item_box.data)
     ):
         include_props = False
         exclude_props = False
@@ -256,13 +250,14 @@ def specific_inventory_roi(desired: str = "reserved"):
 
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if not detect_screen_object(ScreenObjects.RightPanel, img).valid:
+    if not is_visible(ScreenObjects.RightPanel, img):
         keyboard.send(Config().char["inventory_screen"])
         if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():
                 return None
             keyboard.send(Config().char["inventory_screen"])
             if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
+                Logger.error(f"personal.open(): Failed to open inventory")
                 return None
         img = grab()
     return img
@@ -274,7 +269,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
     """
     center_mouse()
     img = open(inp_img)
-    vendor_open = detect_screen_object(ScreenObjects.GoldBtnVendor, inp_img).valid
+    vendor_open = is_visible(ScreenObjects.GoldBtnVendor, inp_img)
     slots = []
     # check which slots have items
     for column, row in itertools.product(range(Config().char["num_loot_columns"]), range(4)):
@@ -338,7 +333,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
                 implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
                 if not implied_no_id:
-                    if (is_unidentified := detect_screen_object(ScreenObjects.Unidentified, item_box.data).valid):
+                    if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.data)):
                         need_id = True
                         center_mouse()
                         tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))

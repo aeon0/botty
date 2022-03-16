@@ -10,7 +10,7 @@ import time
 from typing import Tuple
 from pather import Pather
 from config import Config
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import ScreenObjects, is_visible
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -47,8 +47,7 @@ class Sorceress(IChar):
             return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            match = detect_screen_object(ScreenObjects.WaypointLabel)
-            if match.valid:
+            if is_visible(ScreenObjects.WaypointLabel):
                 keyboard.send("esc")
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:

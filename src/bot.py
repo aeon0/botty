@@ -11,7 +11,6 @@ from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
 
-from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -28,7 +27,7 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_manager import wait_until_hidden, wait_until_visible, detect_screen_object, ScreenObjects, is_visible
+from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
 from ui import meters, skills, view, character_select, main_menu
 from inventory import personal, vendor, belt, common, consumables
 
@@ -363,8 +362,7 @@ class Bot:
                 return self.trigger_or_stop("end_game", failed=True)
 
         # Check if merc needs to be revived
-        match = detect_screen_object(ScreenObjects.MercIcon)
-        if not match.valid and Config().char["use_merc"]:
+        if not is_visible(ScreenObjects.MercIcon) and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)

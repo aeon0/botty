@@ -1,7 +1,7 @@
 import itertools
 from random import randint
 from config import Config
-from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects
+from ui_manager import detect_screen_object, select_screen_object_match, wait_until_visible, ScreenObjects
 from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
@@ -67,10 +67,8 @@ class Transmute:
 
     def open_cube(self):
         move_to_stash_tab(0)
-        match = detect_screen_object(ScreenObjects.CubeInventory)
-        if match.valid:
-            x, y = convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
+        if (match := detect_screen_object(ScreenObjects.CubeInventory)).valid:
+            mouse.move(*match.center)
             self._wait()
             mouse.click("right")
             self._wait()
@@ -78,13 +76,8 @@ class Transmute:
             Logger.error(f"Can't find cube: {match.score}")
 
     def transmute(self):
-        match = detect_screen_object(ScreenObjects.CubeOpened)
-        if match.valid:
-            x, y = convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
-            self._wait()
-            mouse.click("left")
-            self._wait()
+        if (match := detect_screen_object(ScreenObjects.CubeOpened)).valid:
+            select_screen_object_match(match)
 
     def close_cube(self):
         self._wait()
@@ -176,8 +169,7 @@ class Transmute:
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
-        gold_btn = wait_until_visible(ScreenObjects.GoldBtnStash, timeout = 8)
-        if not gold_btn.valid:
+        if not wait_until_visible(ScreenObjects.GoldBtnStash, timeout = 8).valid:
             Logger.error("Could not determine to be in stash menu. Continue...")
             return
         if not force and not self.should_transmute():

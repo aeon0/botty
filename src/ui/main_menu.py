@@ -3,7 +3,7 @@ from config import Config
 from utils.misc import wait
 from logger import Logger
 from ui import error_screens
-from ui_manager import detect_screen_object, select_screen_object_match, ScreenObjects
+from ui_manager import detect_screen_object, is_visible, select_screen_object_match, ScreenObjects
 
 def start_game() -> bool:
     """
@@ -13,8 +13,7 @@ def start_game() -> bool:
     Logger.debug("Wait for Play button")
     start = time.time()
     while True:
-        m = detect_screen_object(ScreenObjects.PlayBtn)
-        if m.valid:
+        if (m := detect_screen_object(ScreenObjects.PlayBtn)).valid:
             if play_active(m):
                 # found active play button
                 Logger.debug(f"Found Play Btn")
@@ -38,20 +37,17 @@ def start_game() -> bool:
     start = time.time()
     while True:
         #look for difficulty select
-        m = detect_screen_object(Difficulty)
-        if m.valid:
+        if (m := detect_screen_object(Difficulty)).valid:
             select_screen_object_match(m)
             break
         #check for loading screen
-        m = detect_screen_object(ScreenObjects.Loading)
-        if m.valid:
+        if is_visible(ScreenObjects.Loading):
             Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
             break
         else:
             wait(1,2)
         # check for server issue
-        m = detect_screen_object(ScreenObjects.ServerError)
-        if m.valid:
+        if is_visible(ScreenObjects.ServerError):
             error_screens.handle_error()
             return start_game()
 

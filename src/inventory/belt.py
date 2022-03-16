@@ -4,7 +4,6 @@ from typing import List
 import numpy as np
 from template_finder import TemplateFinder
 from inventory import common, consumables, personal
-from inventory.consumables import item_consumables_map
 from ui import view
 from ui_manager import is_visible, wait_until_visible, ScreenObjects, wait_until_hidden
 from utils.custom_mouse import mouse
@@ -26,7 +25,7 @@ def close(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not is_visible(ScreenObjects.BeltExpandable, img):
         keyboard.send("esc")
-        if not wait_until_visible(ScreenObjects.BeltExpandable, 2):
+        if not wait_until_visible(ScreenObjects.BeltExpandable, 2).valid:
             success = view.return_to_play()
             if not success:
                 return None

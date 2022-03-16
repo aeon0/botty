@@ -7,7 +7,7 @@ from utils.misc import wait
 from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import detect_screen_object, wait_until_visible, ScreenObjects
+from ui_manager import is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
 from inventory import personal, common
 
 gamble_count = 0
@@ -39,14 +39,10 @@ def repair() -> bool:
     Repair and fills up TP buy selling tome and buying. Vendor inventory needs to be open!
     :return: Bool if success
     """
-    repair_btn = wait_until_visible(ScreenObjects.RepairBtn, timeout=4)
-    if not repair_btn.valid:
+    if not (repair_btn := wait_until_visible(ScreenObjects.RepairBtn, timeout=4)).valid:
         return False
-    mouse.move(*repair_btn.center, randomize=12, delay_factor=[1.0, 1.5])
-    wait(0.1, 0.15)
-    mouse.click(button="left")
-    wait(0.1, 0.15)
-    if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+    select_screen_object_match(repair_btn)
+    if wait_until_visible(ScreenObjects.NotEnoughGold, 1).valid:
         Logger.warning("Couldn't repair--out of gold. Continue.")
         keyboard.send("esc")
         return False
@@ -72,7 +68,7 @@ def gamble():
                 wait(0.4, 0.6)
                 img=grab()
                 # make sure the "not enough gold" message doesn't exist
-                if detect_screen_object(ScreenObjects.NotEnoughGold, img).valid:
+                if is_visible(ScreenObjects.NotEnoughGold, img):
                     Logger.warning(f"Out of gold, stop gambling")
                     keyboard.send("esc")
                     set_gamble_status(False)
@@ -118,7 +114,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             wait(0.5, 0.8)
             mouse.click(button="right")
             wait(0.4, 0.6)
-            if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+            if is_visible(ScreenObjects.NotEnoughGold):
                 Logger.warning(f"Out of gold, could not purchase {template_name}")
                 keyboard.send("esc")
                 return False
@@ -129,7 +125,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             for _ in range(quantity):
                 mouse.click(button="right")
                 wait(0.9, 1.1)
-                if detect_screen_object(ScreenObjects.NotEnoughGold).valid:
+                if is_visible(ScreenObjects.NotEnoughGold):
                     Logger.warning(f"Out of gold, could not purchase {template_name}")
                     keyboard.send("esc")
                     return False

@@ -678,11 +678,8 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                match = wait_until_visible(ScreenObjects.Loading, 2)
-                if match.valid:
-                    return True
-                else:
-                    return False
+                return wait_until_visible(ScreenObjects.Loading, 2).valid
+
         else:
             Logger.debug("cant find durance!, trying fixed loc")
             return False
@@ -719,8 +716,7 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    match = wait_until_visible(ScreenObjects.Loading, 2)
-                    if match.valid:
+                    if wait_until_visible(ScreenObjects.Loading, 2).valid:
                         return True
                     return False
 
