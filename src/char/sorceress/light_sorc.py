@@ -57,9 +57,9 @@ class LightSorc(Sorceress):
     def kill_pindle(self) -> bool:
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
+        self._lightning(cast_pos_abs, spray=11)
         for _ in range(int(Config().char["atk_len_pindle"])):
             self._chain_lightning(cast_pos_abs, spray=11)
-        self._lightning(cast_pos_abs, spray=11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
         self._pather.traverse_nodes_fixed("pindle_end", self)
@@ -68,9 +68,9 @@ class LightSorc(Sorceress):
     def kill_eldritch(self) -> bool:
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
+        self._lightning(cast_pos_abs, spray=50)
         for _ in range(int(Config().char["atk_len_eldritch"])):
             self._chain_lightning(cast_pos_abs, spray=90)
-        self._lightning(cast_pos_abs, spray=50)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._pather.traverse_nodes_fixed("eldritch_end", self)
@@ -81,24 +81,25 @@ class LightSorc(Sorceress):
         if shenk_pos_abs is None:
             shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
-        for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
-            self._chain_lightning(cast_pos_abs, spray=90)
-        pos_m = convert_abs_to_monitor((150, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
-        cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
-        for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
-            self._chain_lightning(cast_pos_abs, spray=90)
         self._lightning(cast_pos_abs, spray=60)
+        for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
+            self._chain_lightning(cast_pos_abs, spray=90)
         pos_m = convert_abs_to_monitor((150, 50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
+        self._lightning(cast_pos_abs, spray=60)
+        for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
+            self._chain_lightning(cast_pos_abs, spray=90)
+        pos_m = convert_abs_to_monitor((150, 50))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
+        cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
+        self._lightning(cast_pos_abs, spray=60)
         for _ in range(int(Config().char["atk_len_shenk"])):
             self._chain_lightning(cast_pos_abs, spray=90)
-        self._lightning(cast_pos_abs, spray=60)
         self.pre_move()
         self.move(pos_m, force_move=True)
         # Move to items
@@ -204,6 +205,7 @@ class LightSorc(Sorceress):
 
             if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlathak_pos_abs[0] * 0.9, nihlathak_pos_abs[1] * 0.9])
+                self._lightning(cast_pos_abs, spray=60)
                 self._chain_lightning(cast_pos_abs, delay, 90)
                 # Do some tele "dancing" after each sequence
                 if i < atk_len - 1:
@@ -229,8 +231,8 @@ class LightSorc(Sorceress):
         pos_m = convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         for _ in range(int(Config().char["atk_len_arc"])):
-            self._chain_lightning(cast_pos_abs, spray=11)
             self._lightning(cast_pos_abs, spray=11)
+            self._chain_lightning(cast_pos_abs, spray=11)
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
 
