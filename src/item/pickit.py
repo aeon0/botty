@@ -83,8 +83,7 @@ class PickIt:
                 item_list = [x for x in item_list if "misc_key" != x.name]
 
             # filter out gold less than desired quantity
-            min_gold = Config().char['min_gold_to_pick']
-            if min_gold:
+            if (min_gold := Config().char['min_gold_to_pick']):
                 for item in item_list[:]:
                     if "misc_gold" == item.name:
                         try:
