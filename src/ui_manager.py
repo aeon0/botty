@@ -1,4 +1,3 @@
-from cv2 import norm
 import keyboard
 import os
 import numpy as np
@@ -266,6 +265,11 @@ class ScreenObjects:
         use_grayscale=True,
         roi="quest_skill_btn"
     )
+    TabIndicator=ScreenObject(
+        ref="TAB_INDICATOR",
+        roi="tab_indicator",
+        normalize_monitor=False
+    )
     DepositBtn=ScreenObject(
         ref=["DEPOSIT_BTN", "DEPOSIT_BTN_BRIGHT"],
         threshold=0.8,
@@ -342,7 +346,6 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    # while 1:
-    #     print(list_visible_objects())
-    #     time.sleep(1)
-    print(f"res = {wait_until_visible(ScreenObjects.BeltExpandable, 7)}")
+    while 1:
+        print(list_visible_objects())
+        time.sleep(1)

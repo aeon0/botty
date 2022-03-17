@@ -9,11 +9,11 @@ from ui_manager import detect_screen_object, ScreenObjects, center_mouse, is_vis
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables, personal
 from ui import view
-from screen import grab
+from screen import convert_screen_to_monitor, grab
 from dataclasses import dataclass
 from logger import Logger
 from ocr import Ocr
-
+from template_finder import TemplateMatch
 
 @dataclass
 class BoxInfo:
@@ -244,6 +244,44 @@ def left_inventory_ready(img = np.ndarray):
         return any(np.sum(i) > 0 for i in [text, red, blue])
     return False
 
+def tab_properties(idx: int = 0) -> dict[int, int, tuple]:
+    tab_width = round(int(Config().ui_roi["tab_indicator"][2]) / 4)
+    x_start = int(Config().ui_roi["tab_indicator"][0])
+    left = idx * tab_width + x_start
+    right = (idx + 1) * tab_width + x_start
+    x_center = (left + right) / 2
+    y_center = int(Config().ui_roi["tab_indicator"][1]) - 5
+    return {
+        "left": round(left),
+        "right": round(right),
+        "center": (x_center, y_center)
+    }
+
+def indicator_location_to_tab_count(pos: tuple) -> int:
+    for i in range(3):
+        tab = tab_properties(i)
+        if tab["left"] <= pos[0] < tab["right"]:
+            return i
+
+def get_active_tab(indicator: TemplateMatch = None) -> int:
+    indicator = detect_screen_object(ScreenObjects.TabIndicator) if indicator is None else indicator
+    if indicator.valid:
+        return indicator_location_to_tab_count(indicator.center)
+    else:
+        Logger.error("common/get_active_tab(): Error finding tab indicator")
+    return False
+
+def select_tab(idx: int):
+    # stash or vendor must be open
+    # indices start from 0
+    if not get_active_tab() == idx:
+        tab = tab_properties(idx)
+        pos = convert_screen_to_monitor(tab["center"])
+        mouse.move(*pos)
+        wait(0.2, 0.3)
+        mouse.click("left")
+        wait(0.2, 0.3)
+
 if __name__ == "__main__":
     import os
     import keyboard
@@ -255,8 +293,9 @@ if __name__ == "__main__":
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
-    color = Config().colors["tab_text"]
+    #select_tab(0)
 
+    color = Config().colors["tab_text"]
     while 1:
         # img = cv2.imread("")
         img = grab()
