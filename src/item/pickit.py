@@ -10,6 +10,7 @@ from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
 from char import IChar
 from inventory import consumables
+import parse
 
 
 class PickIt:
@@ -17,11 +18,10 @@ class PickIt:
         self._item_finder = item_finder
         self._last_closest_item: Item = None
 
-    def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
+    def pick_up_items(self, char: IChar) -> bool:
         """
         Pick up all items with specified char
         :param char: The character used to pick up the item
-        :param is_at_trav: Dirty hack to reduce gold pickup only to trav area, should be removed once we can determine the amount of gold reliably
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
         found_nothing = 0
@@ -82,9 +82,17 @@ class PickIt:
             if needs["key"] <= 0:
                 item_list = [x for x in item_list if "misc_key" != x.name]
 
-            # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
-            if Config().char["gold_trav_only"] and not is_at_trav:
-                item_list = [x for x in item_list if "misc_gold" not in x.name]
+            # filter out gold less than desired quantity
+            min_gold = Config().char['min_gold_to_pick']
+            if min_gold:
+                for item in item_list[:]:
+                    if "misc_gold" == item.name:
+                        try:
+                            ocr_gold = int(parse.search("{:d} GOLD", item.ocr_result.text).fixed[0])
+                        except:
+                            ocr_gold = 0
+                        if ocr_gold < min_gold:
+                            item_list.remove(item)
 
             if len(item_list) == 0:
                 # if twice no item was found, break
