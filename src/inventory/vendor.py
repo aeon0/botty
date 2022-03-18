@@ -90,7 +90,8 @@ def gamble():
         Logger.debug(f"Finish gambling")
         stash.set_curr_stash(gold = 0)
         personal.set_inventory_gold_full(False)
-        set_gamble_status(False)
+        if get_gamble_status():
+            set_gamble_status(False)
         common.close()
         return None
     else:

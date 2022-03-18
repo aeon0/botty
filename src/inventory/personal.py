@@ -84,7 +84,8 @@ def stash_all_items(items: list = None):
                     Logger.error("stash_all_items(): deposit button not detected, failed to stash gold")
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15, delay_factor=[0.3, 0.5])
-                stash_full_of_gold = wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
+                # if 0 gold becomes visible in personal inventory then the stash tab still has room for gold
+                stash_full_of_gold = not wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
             if stash_full_of_gold:
                 Logger.debug("Stash tab is full of gold, selecting next stash tab.")
                 stash.set_curr_stash(gold = (stash.get_curr_stash()["gold"] + 1))
