@@ -12,6 +12,15 @@ curr_stash = {
     "gold": 0
 }
 
+def get_curr_stash() -> dict:
+    global curr_stash
+    return curr_stash
+
+def set_curr_stash(items: int, gold: int):
+    global curr_stash
+    if items: curr_stash["items"] = items
+    if gold: curr_stash["gold"] = gold
+
 def stash_full():
     Logger.error("All stash is full, quitting")
     if Config().general["custom_message_hook"]:
