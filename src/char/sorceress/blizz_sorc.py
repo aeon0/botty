@@ -66,7 +66,7 @@ class BlizzSorc(Sorceress):
         self._pather.traverse_nodes_fixed("pindle_end", self)
         return True
 
-def kill_eldritch(self) -> bool:
+    def kill_eldritch(self) -> bool:
         #move up
         pos_m = convert_abs_to_monitor((0, -175))
         self.pre_move()
