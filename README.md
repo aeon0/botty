@@ -97,7 +97,7 @@ run_shenk=0
 | battle_order       | Hotkey for battle orders from cta (only needed if cta_available=1) |
 | battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
 | stash_gold         | Bool value to stash gold each time when stashing items |
-| gold_trav_only     | Hacky config that will restrict gold pickup to trav only. misc_gold must be set to 1 for this to have any effect |
+| min_gold_to_pick   | Minimum quantity of gold to pickup (also must set misc_gold=1 in pickit config) |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
 | atk_len_arc        | Attack length for hdin/sorc fighting arcane  |
 | atk_len_trav       | Attack length for hdin fighting trav (note this atk length will be applied in 4 different spots each) |
