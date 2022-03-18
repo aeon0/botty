@@ -10,7 +10,7 @@ import time
 from typing import Tuple
 from pather import Pather
 from config import Config
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import ScreenObjects, is_visible
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -38,20 +38,19 @@ class Sorceress(IChar):
         self,
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
-        time_out: float = 8,
+        timeout: float = 8,
         threshold: float = 0.68,
         telekinesis: bool = False
     ) -> bool:
         # In case telekinesis is False or hotkey is not set, just call the base implementation
         if not self._skill_hotkeys["telekinesis"] or not telekinesis:
-            return super().select_by_template(template_type, success_func, time_out, threshold)
+            return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            match = detect_screen_object(ScreenObjects.WaypointLabel)
-            if match.valid:
+            if is_visible(ScreenObjects.WaypointLabel):
                 keyboard.send("esc")
         start = time.time()
-        while time_out is None or (time.time() - start) < time_out:
+        while timeout is None or (time.time() - start) < timeout:
             template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 keyboard.send(self._skill_hotkeys["telekinesis"])
@@ -65,7 +64,7 @@ class Sorceress(IChar):
                     if success_func is None or success_func():
                         return True
         # In case telekinesis fails, try again with the base implementation
-        return super().select_by_template(template_type, success_func, time_out, threshold)
+        return super().select_by_template(template_type, success_func, timeout, threshold)
 
     def pre_buff(self):
         if Config().char["cta_available"]:

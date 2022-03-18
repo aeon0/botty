@@ -75,8 +75,8 @@ class Basic(IChar):
             if not self._do_pre_move:
             #  keyboard.send(self._skill_hotkeys["concentration"])
             #  wait(0.05, 0.15)
-                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, time_out=0.1)
+                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=0.1)
         self._cast_attack_pattern(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         return True
@@ -88,7 +88,7 @@ class Basic(IChar):
             if not self._do_pre_move:
             #  keyboard.send(self._skill_hotkeys["concentration"])
             #  wait(0.05, 0.15)
-                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+                self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_attack_pattern(Config().char["atk_len_eldritch"])
         return True
@@ -97,7 +97,7 @@ class Basic(IChar):
         # if not self._do_pre_move:
         #     keyboard.send(self._skill_hotkeys["concentration"])
         #     wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         wait(0.05, 0.1)
         self._cast_attack_pattern(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -107,14 +107,14 @@ class Basic(IChar):
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
         # Go inside and war cry a bit
-        self._pather.traverse_nodes([228, 229], self, time_out=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True)
         self._cast_attack_pattern(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
         if self.capabilities.can_teleport_natively:
             # Back to center stairs and more war cry
-            self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True)
+            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
             self._cast_attack_pattern(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
@@ -126,7 +126,7 @@ class Basic(IChar):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
         # move mouse to center (leftover from hammerdin)
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

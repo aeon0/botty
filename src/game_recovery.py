@@ -1,9 +1,8 @@
-from screen import grab
 from config import Config
 from death_manager import DeathManager
 import time
 import keyboard
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import ScreenObjects, is_visible
 from ui import view, loading
 from utils.misc import set_d2r_always_on_top
 
@@ -23,22 +22,22 @@ class GameRecovery:
             # make sure we are not on loading screen
             is_loading = loading.check_for_black_screen()
             while is_loading:
-                is_loading = detect_screen_object(ScreenObjects.Loading).valid
+                is_loading = is_visible(ScreenObjects.Loading)
                 is_loading |= loading.check_for_black_screen()
                 time.sleep(0.5)
             # lets just see if you might already be at hero selection
-            if detect_screen_object(ScreenObjects.MainMenu).valid:
+            if is_visible(ScreenObjects.MainMenu):
                 return True
             # would have been too easy, maybe we have died?
             if self._death_manager.handle_death_screen():
                 time.sleep(1)
                 continue
             # check for save/exit button
-            if detect_screen_object(ScreenObjects.SaveAndExit).valid:
+            if is_visible(ScreenObjects.SaveAndExit):
                 view.save_and_exit()
                 continue
             # maybe we are in-game in stash/inventory, press escape
-            elif detect_screen_object(ScreenObjects.InGame).valid:
+            elif is_visible(ScreenObjects.InGame):
                 keyboard.send("esc")
             time.sleep(1)
         return False

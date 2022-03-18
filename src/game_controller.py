@@ -12,7 +12,7 @@ from game_stats import GameStats
 from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
-from screen import grab, found_offsets
+from screen import grab, get_offset_state
 from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
 
@@ -42,7 +42,6 @@ class GameController:
         do_restart = False
         messenger = Messenger()
         while 1:
-            self.health_manager.update_location(self.bot.get_curr_location())
             max_game_length_reached = self.game_stats.get_current_game_length() > Config().general["max_game_length_s"]
             max_consecutive_fails_reached = False if not Config().general["max_consecutive_fails"] else self.game_stats.get_consecutive_runs_failed() >= Config().general["max_consecutive_fails"]
             if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken():
@@ -121,7 +120,7 @@ class GameController:
         self.is_running = False
 
     def setup_screen(self):
-        if found_offsets:
+        if get_offset_state():
             return True
         return False
 

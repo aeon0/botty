@@ -5,7 +5,7 @@ import keyboard
 from template_finder import TemplateFinder
 from config import Config
 from screen import grab
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import ScreenObjects, center_mouse, is_visible, wait_until_hidden
 from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
@@ -220,9 +220,10 @@ npcs = {
 
 
 def escape_dialogue(img) -> np.ndarray:
-    while detect_screen_object(ScreenObjects.NPCDialogue, img).valid:
+    while is_visible(ScreenObjects.NPCDialogue, img):
         keyboard.send("esc")
-        wait(0.2)
+        if wait_until_hidden(ScreenObjects.NPCDialogue, 0.5):
+            break
         img = grab()
     return img
 
@@ -301,7 +302,7 @@ def press_npc_btn(npc_key: Npc, action_btn_key: str):
         mouse.move(*res.center, randomize=3, delay_factor=[1.0, 1.5])
         wait(0.2, 0.4)
         mouse.click(button="left")
-        wait(0.3, 0.4)
+        center_mouse()
     else:
         Logger.error(f"Could not find {action_btn_key} btn. Should not happen! Continue...")
         keyboard.send("esc")
@@ -313,9 +314,6 @@ if __name__ == "__main__":
     from config import Config
     import os
     import keyboard
-    from item.item_finder import ItemFinder
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    # open_npc_menu(Npc.MALAH)
-    from inventory import personal
-    personal.stash_all_items(9, ItemFinder())
+    open_npc_menu(Npc.MALAH)

@@ -13,7 +13,7 @@ from pather import Location, Pather
 import numpy as np
 import time
 import os
-from ui_manager import wait_for_screen_object, ScreenObjects
+from ui_manager import wait_until_visible, ScreenObjects
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -491,7 +491,7 @@ class Necro(IChar):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         self.bone_armor()
 
         #get some more summons out for elite packs
@@ -532,7 +532,7 @@ class Necro(IChar):
 
         self._summon_stat()
         #continue to shenk fight
-        self._pather.traverse_nodes(([ 146, 147, 148]), self, time_out=1.4, force_tp=True)
+        self._pather.traverse_nodes(([ 146, 147, 148]), self, timeout=1.4, force_tp=True)
 
         shenk_pos_abs = self._pather.find_abs_node_pos(149, grab())
         if shenk_pos_abs is None:
@@ -566,7 +566,7 @@ class Necro(IChar):
 
         # Move to items
         #wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes(([148,149]), self, time_out=3.4, force_tp=True)
+        self._pather.traverse_nodes(([148,149]), self, timeout=3.4, force_tp=True)
         for _ in range(30):
             self._summon_count()
             if self._skeletons_count < 10:
@@ -678,11 +678,8 @@ class Necro(IChar):
                 wait(0.08, 0.15)
                 mouse.click(button="left")
                 Logger.debug("enter durance lv 1")
-                match = wait_for_screen_object(ScreenObjects.Loading, 2)
-                if match.valid:
-                    return True
-                else:
-                    return False
+                return wait_until_visible(ScreenObjects.Loading, 2).valid
+
         else:
             Logger.debug("cant find durance!, trying fixed loc")
             return False
@@ -719,8 +716,7 @@ class Necro(IChar):
                     wait(0.08, 0.15)
                     mouse.click(button="left")
                     Logger.debug("entering trav...")
-                    match = wait_for_screen_object(ScreenObjects.Loading, 2)
-                    if match.valid:
+                    if wait_until_visible(ScreenObjects.Loading, 2).valid:
                         return True
                     return False
 
@@ -728,7 +724,7 @@ class Necro(IChar):
     def kill_council(self) -> bool:
         ''' kill the council '''
 
-        result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5,threshold=.55)
+        result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,timeout = 2.5,threshold=.55)
 
     #this is gross but the skeletons I think cause pathing issues
         while result is False:
@@ -745,22 +741,22 @@ class Necro(IChar):
 
             if self._pather.find_abs_node_pos(904, grab()):
                 #try again
-                result = self._pather.traverse_nodes((904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((904,905,906,226,228,300), self, force_move=True,timeout = 2.5)
             elif self._pather.find_abs_node_pos(905, grab()):
                 #try again
-                result = self._pather.traverse_nodes((905,906,226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((905,906,226,228,300), self, force_move=True,timeout = 2.5)
             elif self._pather.find_abs_node_pos(906, grab()):
                 #try again
-                result = self._pather.traverse_nodes((906,226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((906,226,228,300), self, force_move=True,timeout = 2.5)
             elif self._pather.find_abs_node_pos(226, grab()):
                 #try again
-                result = self._pather.traverse_nodes((226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((226,228,300), self, force_move=True,timeout = 2.5)
             elif self._pather.find_abs_node_pos(901, grab()):
                 #try again
-                result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((901,902,903,904,905,906,226,228,300), self, force_move=True,timeout = 2.5)
             elif self._pather.find_abs_node_pos(902, grab()):
                 #try again
-                result = self._pather.traverse_nodes((902,903,904,905,906,226,228,300), self, force_move=True,time_out = 2.5)
+                result = self._pather.traverse_nodes((902,903,904,905,906,226,228,300), self, force_move=True,timeout = 2.5)
 
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
 
@@ -864,7 +860,7 @@ class Necro(IChar):
         self._corpse_explosion(corpse_exp_pos, 240, cast_count=18)
 
 
-        #self._pather.traverse_nodes([230, 229 ,228], self, time_out=2.5, force_tp=True)
+        #self._pather.traverse_nodes([230, 229 ,228], self, timeout=2.5, force_tp=True)
         Logger.info('\033[92m'+"atk cycle end"+'\033[0m')
 
 

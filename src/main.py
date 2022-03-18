@@ -26,14 +26,16 @@ def start_or_pause_bot(controllers: Controllers):
     else:
         # Kill any other controllers and start botty
         controllers.debugger.stop()
-        controllers.game.start()
         screen.start_detecting_window()
+        controllers.game.start()
 
 def start_or_stop_graphic_debugger(controllers: Controllers):
     if controllers.debugger.is_running:
         controllers.debugger.stop()
+        screen.stop_detecting_window()
     else:
         # Kill any other controller and start debugger
+        screen.start_detecting_window()
         controllers.game.stop()
         controllers.debugger.start()
 
@@ -48,7 +50,6 @@ def main():
         GameController(),
         GraphicDebuggerController()
     )
-    screen.start_detecting_window()
     if Config().advanced_options["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif Config().advanced_options["logg_lvl"] == "debug":

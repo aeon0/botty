@@ -17,6 +17,7 @@ class ItemText:
     data: np.ndarray = None
     ocr_result: OcrResult = None
     clean_img: np.ndarray = None
+    valid: bool = False
     def __getitem__(self, key):
         return super().__getattribute__(key)
 
@@ -88,21 +89,22 @@ class ItemCropper:
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
-        if Config().advanced_options["use_ocr"]:
+        if Config().advanced_options["ocr_during_pickit"]:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
             results = self._ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, all_results: bool = False, inventory_side: str = "right") -> ItemText:
+    def crop_item_descr(self, inp_img: np.ndarray, inventory_side: str = "right", model = "engd2r_inv_th") -> ItemText:
         """
         Crops visible item description boxes / tooltips
         :inp_img: image from hover over item of interest.
-        :param all_results: whether to return all possible results (True) or the first result (False)
         :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
+        :model: which ocr model to use
+        returns cropped item tooltip box
         """
-        results=[]
+        result = ItemText()
         black_mask, _ = color_filter(inp_img, Config().colors["black"])
         contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
@@ -110,7 +112,7 @@ class ItemCropper:
             x, y, w, h = cv2.boundingRect(cntr)
             cropped_item = inp_img[y:y+h, x:x+w]
             avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-            mostly_dark = True if 0 < avg < 20 else False
+            mostly_dark = True if 0 < avg < 25 else False
             contains_black = True if np.min(cropped_item) < 14 else False
             contains_white = True if np.max(cropped_item) > 250 else False
             contains_orange = False
@@ -126,35 +128,32 @@ class ItemCropper:
                 footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
                 found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
                 if found_footer:
-                    ocr_result = None
-                    if Config().advanced_options["use_ocr"]:
-                        ocr_result = self._ocr.image_to_text(cropped_item, psm=6)[0]
-                    results.append(ItemText(
-                        color = "black",
-                        roi = [x, y, w, h],
-                        data = cropped_item,
-                        ocr_result = ocr_result
-                    ))
-                    if not all_results:
-                        break
-        return results
+                    ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
+                    result.color = "black"
+                    result.roi = [x, y, w, h]
+                    result.data = cropped_item
+                    result.ocr_result = ocr_result
+                    result.valid = True
+                    break
+        return result
 
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import grab
+    from screen import grab, start_detecting_window
     from template_finder import TemplateFinder
+
+    start_detecting_window()
 
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     cropper = ItemCropper()
 
     while 1:
         img = grab().copy()
-        results = cropper.crop_item_descr(img, all_results=True, ocr=False)
-        for res in results:
-            if res["color"]:
-                x, y, w, h = res.roi
-                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-                Logger.debug(f"{res.ocr_result['text']}")
+        res = cropper.crop_item_descr(img, model="engd2r_inv_th_fast")
+        if res["color"]:
+            x, y, w, h = res.roi
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
+            Logger.debug(f"{res.ocr_result['text']}")
         cv2.imshow("res", img)
         cv2.waitKey(1)

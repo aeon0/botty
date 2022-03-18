@@ -10,7 +10,7 @@ from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
-from ocr import OcrResult
+from ocr import OcrResult, Ocr
 
 
 @dataclass
@@ -115,6 +115,11 @@ class ItemFinder:
                                     hist = cv2.calcHist([cropped_item], [0, 1, 2], mask, [8, 8, 8], [0, 256, 0, 256, 0, 256])
                                     hist_result = cv2.compareHist(template.hist, hist, cv2.HISTCMP_CORREL)
                                     same_type = hist_result > 0.65 and hist_result is not np.inf
+                                    # if ocr_during_pickit is off, min_gold_to_pick is set, and matched template is gold, OCR the image
+                                    if not Config().advanced_options['ocr_during_pickit'] \
+                                        and Config().char['min_gold_to_pick'] and 'misc_gold' == key:
+                                        results = Ocr().image_to_text([cluster["clean_img"]], model = "engd2r_inv_th_fast", psm = 7)
+                                        setattr(cluster, "ocr_result", results[0])
                                     if same_type:
                                         item = Item()
                                         item.center = (int(max_loc[0] + x + int(template.data.shape[1] * 0.5)), int(max_loc[1] + y + int(template.data.shape[0] * 0.5)))

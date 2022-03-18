@@ -6,16 +6,15 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
-from item.pickit import PickIt
 from utils.custom_mouse import mouse
 from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
-from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
+from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 from template_finder import TemplateFinder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
 
 class Location:
     # A5 Town
@@ -55,6 +54,7 @@ class Location:
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
     A2_LYSANDER = "a2_lysander"
+    A2_DROGNAN = "a2_drognan"
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -182,7 +182,10 @@ class Pather:
             404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
             405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
             406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
-            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
+            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_25": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_18": (745, -125)},
+            409: {"A2_TOWN_14": (477, 294), "A2_TOWN_13": (128, 226), "A2_TOWN_11": (140, -182), "A2_TOWN_12": (-201, -40)},
+            410: {"A2_TOWN_13": (416, 82), "A2_TOWN_12": (87, -184), "A2_TOWN_21": (-211, 10), "A2_TOWN_22": (-178, 269)},
+            411: {"A2_TOWN_22": (298, 0), "A2_TOWN_23": (0, 190), "A2_TOWN_21": (265, -260), "A2_TOWN_24": (-150, -185)},
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -412,15 +415,23 @@ class Pather:
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
             (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
+            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 401, 402, 403, 409, 410, 411],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
             (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
+            (Location.A2_FARA_STASH, Location.A2_DROGNAN): [403, 409, 410, 411],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_DROGNAN): [408, 406, 405, 403, 409, 410, 411],
             (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_DROGNAN): [404, 409, 410, 411],
             (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
             (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
             (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
             (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
+            (Location.A2_LYSANDER, Location.A2_DROGNAN): [403, 409, 410, 411],
+            (Location.A2_DROGNAN, Location.A2_LYSANDER): [411, 410, 409, 403, 402],
+            (Location.A2_DROGNAN, Location.A2_WP): [411, 410, 409, 404],
+            (Location.A2_DROGNAN, Location.A2_FARA_STASH): [411, 410, 409, 403, 405],
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [],
@@ -582,7 +593,7 @@ class Pather:
         self,
         path: Union[tuple[Location, Location], list[int]],
         char: IChar,
-        time_out: float = 5,
+        timeout: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False,
@@ -592,7 +603,7 @@ class Pather:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
-        :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
+        :param timeout: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed successful or False if it got stuck
         """
@@ -629,17 +640,17 @@ class Pather:
             while not continue_to_next_node:
                 img = grab()
                 # Handle timeout
-                if (time.time() - last_move) > time_out:
-                    if detect_screen_object(ScreenObjects.WaypointLabel).valid:
+                if (time.time() - last_move) > timeout:
+                    if is_visible(ScreenObjects.WaypointLabel):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
                         last_move = time.time()
                     else:
-                        # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
+                        # This is a bit hacky, but for moving into a boss location we set timeout usually quite low
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
-                        if time_out > 3.1:
+                        if timeout > 3.1:
                             if Config().general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
@@ -659,18 +670,11 @@ class Pather:
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
-                    Logger.debug("Longer-than-expected traverse: Check for an occluding shrine")
-                    if detect_screen_object(ScreenObjects.ShrineArea).valid:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
-                        x_m, y_m = convert_abs_to_monitor((0, -130)) #above head
-                        mouse.move(x_m, y_m)
-                        wait(0.1, 0.15)
-                        mouse.click(button="left")
+                        select_screen_object_match(match)
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                        # we might need a check if she moved after the sequence here was executed to confirm it was successful? Otherwise we just loop again :)
-                    else:
-                        Logger.debug("Shrine not found.")
                     teleport_count = 0
                     break
                 teleport_count += 1
@@ -694,7 +698,9 @@ class Pather:
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
     # debug method to display all nodes
+
     def display_all_nodes(pather: Pather, filter: str = None):
+        start = time.time()
         while 1:
             img = grab()
             display_img = img.copy()
@@ -725,33 +731,24 @@ if __name__ == "__main__":
                         x, y = convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                        wrt_origin = (-ref_pos_abs[0], -ref_pos_abs[1])
+                        # print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            # if round(time.time() - start) % 3 == 0:
+            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
     import keyboard
+    from screen import start_detecting_window, stop_detecting_window, grab
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
+    start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
     pather = Pather()
 
-    #display_all_nodes(pather, "DIA_TRASH_")
+    display_all_nodes(pather, "A2_TOWN")
 
-    # # changing node pos and generating new code
-    # code = ""
-    # node_idx = 226
-    # offset = [0, 0]
-    # for k in pather._nodes[node_idx]:
-    #     pather._nodes[node_idx][k][0] += offset[0]
-    #     pather._nodes[node_idx][k][1] += offset[1]
-    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
-    # print(code)
-
-    char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
-    char.discover_capabilities()
-
-
-    #pather.traverse_nodes([602], char)
-    #pather.traverse_nodes_fixed("dia_trash_c", char)
+    stop_detecting_window()

@@ -1,4 +1,5 @@
 import configparser
+import string
 import threading
 import numpy as np
 import os
@@ -63,6 +64,12 @@ class Config:
                     cls._instance.data_loaded = True
                     cls._instance.load_data()
         return cls._instance
+
+    def _select_optional(self, section: string, key: string, default = None):
+        try:
+            return self._select_val(section=section, key=key)
+        except:
+            return default
 
     def _select_val(self, section: str, key: str = None):
         if section in self._custom and key in self._custom[section]:
@@ -148,12 +155,21 @@ class Config:
         return item_props
 
     def turn_off_goldpickup(self):
+        Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
         with config_lock:
             self.char["stash_gold"] = False
             self.items["misc_gold"].pickit_type = 0
 
+    def turn_on_goldpickup(self):
+        Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
+        self.char["stash_gold"] = True
+        # if gold pickup in pickit config was originally on but turned off, turn back on
+        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
+            Logger.info("Turn gold pickup back on")
+            with config_lock:
+                self.items["misc_gold"].pickit_type = 1
+
     def load_data(self):
-        Logger.info("Loading Config Data")
         self._config = configparser.ConfigParser()
         self._config.read('config/params.ini')
         self._game_config = configparser.ConfigParser()
@@ -164,7 +180,10 @@ class Config:
         self._shop_config.read('config/shop.ini')
         self._custom = configparser.ConfigParser()
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
-            self._custom.read('config/custom.ini')
+            try:
+                self._custom.read('config/custom.ini')
+            except configparser.MissingSectionHeaderError:
+                Logger.error("custom.ini missing section header, defaulting to params.ini")
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
@@ -222,7 +241,7 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
-            "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
+            "min_gold_to_pick": int(_default_iff(self._select_val("char", "min_gold_to_pick"), '', 0)),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
@@ -249,6 +268,7 @@ class Config:
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self._config["sorceress"])
@@ -317,7 +337,8 @@ class Config:
             "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
-            "use_ocr": bool(int(self._select_val("advanced_options", "use_ocr"))),
+            "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
+            "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
         self.items = {}

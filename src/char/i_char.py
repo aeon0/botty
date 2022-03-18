@@ -3,10 +3,11 @@ import random
 import time
 import cv2
 import math
+from inventory import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
-from ui_manager import wait_for_screen_object
+from ui_manager import is_visible, wait_until_visible
 from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter
@@ -29,15 +30,23 @@ class IChar:
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
-        if self._skill_hotkeys["teleport"]:
-            if self.select_tp():
-                if self.skill_is_charged():
-                    return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-                else:
-                    return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
-            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+        override = Config().advanced_options["override_capabilities"];
+        if override is None:
+            if self._skill_hotkeys["teleport"]:
+                if self.select_tp():
+                    if self.skill_is_charged():
+                        return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+                    else:
+                        return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
+                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
+            else:
+                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
         else:
-            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
+            Logger.debug(f"override_capabilities is set to {override}")
+            return CharacterCapabilities(
+                can_teleport_natively="can_teleport_natively" in override,
+                can_teleport_with_charges="can_teleport_with_charges" in override
+            )
 
     def discover_capabilities(self, force = False):
         if IChar._CrossGameCapabilities is None or force:
@@ -60,7 +69,7 @@ class IChar:
         self,
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
-        time_out: float = 8,
+        timeout: float = 8,
         threshold: float = 0.68,
         telekinesis: bool = False
     ) -> bool:
@@ -68,17 +77,16 @@ class IChar:
         Finds any template from the template finder and interacts with it
         :param template_type: Strings or list of strings of the templates that should be searched for
         :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
-        :param time_out: Timeout for the whole template selection, defaults to None
+        :param timeout: Timeout for the whole template selection, defaults to None
         :param threshold: Threshold which determines if a template is found or not. None will use default form .ini files
         :return: True if success. False otherwise
         """
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            match = detect_screen_object(ScreenObjects.WaypointLabel)
-            if match.valid:
+            if is_visible(ScreenObjects.WaypointLabel):
                 keyboard.send("esc")
         start = time.time()
-        while time_out is None or (time.time() - start) < time_out:
+        while timeout is None or (time.time() - start) < timeout:
             template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
@@ -172,6 +180,7 @@ class IChar:
         if not skills.has_tps():
             return False
         mouse.click(button="right")
+        consumables.increment_need("tp", 1)
         roi_mouse_move = [
             int(Config().ui_pos["screen_width"] * 0.3),
             0,
@@ -191,17 +200,16 @@ class IChar:
                 self.move(pos_m)
                 if skills.has_tps():
                     mouse.click(button="right")
+                    consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
-            template_match = detect_screen_object(ScreenObjects.TownPortal)
-            if template_match.valid:
+            if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
                 pos = template_match.center
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
                 wait(0.08, 0.15)
                 mouse.click(button="left")
-                match = wait_for_screen_object(ScreenObjects.Loading, 2)
-                if match.valid:
+                if wait_until_visible(ScreenObjects.Loading, 2).valid:
                     return True
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = convert_monitor_to_screen(mouse.get_position())

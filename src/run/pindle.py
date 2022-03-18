@@ -38,7 +38,7 @@ class Pindle:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Pindle
-        if not TemplateFinder().search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, time_out=20).valid:
+        if not TemplateFinder().search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, timeout=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

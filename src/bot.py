@@ -8,9 +8,9 @@ import cv2
 from copy import copy
 from typing import Union
 from collections import OrderedDict
+from health_manager import set_pause_state
 from transmute import Transmute
 
-from utils.misc import wait
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -20,7 +20,6 @@ from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
 from pather import Pather, Location
-from death_manager import DeathManager
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
@@ -28,9 +27,9 @@ from char.barbarian import Barbarian
 from char.necro import Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_manager import wait_for_screen_object, detect_screen_object, ScreenObjects
+from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
 from ui import meters, skills, view, character_select, main_menu
-from inventory import personal, vendor, stash, belt
+from inventory import personal, vendor, belt, common, consumables
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -78,7 +77,7 @@ class Bot:
         a3 = A3(self._pather, self._char)
         a2 = A2(self._pather, self._char)
         a1 = A1(self._pather, self._char)
-        self._town_manager = TownManager(self._item_finder, a1, a2, a3, a4, a5)
+        self._town_manager = TownManager(a1, a2, a3, a4, a5)
 
         # Create runs
         if Config().routes["run_shenk"] and not Config().routes["run_eldritch"]:
@@ -106,10 +105,10 @@ class Bot:
         self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
-        self._pick_corpse = False
         self._picked_up_items = False
         self._curr_loc: Union[bool, Location] = None
-        self._tps_left = 10 # assume half full tp book
+        self._use_id_tome = True
+        self._use_keys = True
         self._pre_buffed = False
         self._stopping = False
         self._pausing = False
@@ -218,8 +217,7 @@ class Bot:
 
     def on_create_game(self):
         # Start a game from hero selection
-        m = wait_for_screen_object(ScreenObjects.MainMenu)
-        if m.valid:
+        if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
             if "DARK" in m.name:
                 keyboard.send("esc")
             main_menu.start_game()
@@ -253,17 +251,21 @@ class Bot:
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
+        # Pause health manager if not already paused
+        set_pause_state(True)
+
+        # Dismiss skill/quest/help/stats icon if they are on screen
+        if not view.dismiss_skills_icon():
+            view.return_to_play()
+
         # Handle picking up corpse in case of death
-        self._pick_corpse = detect_screen_object(ScreenObjects.Corpse).valid
-        if self._pick_corpse:
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
             self._previous_run_failed = True
-            time.sleep(1.6)
             view.pickup_corpse()
-            wait(1.2, 1.5)
+            wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-            wait(0.5)
         self._char.discover_capabilities()
-        if self._pick_corpse and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
             keybind = self._char._skill_hotkeys["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
             self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
@@ -271,82 +273,112 @@ class Bot:
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
 
-        # Check if should need some healing
-        img = grab()
-        buy_pots = belt.should_buy_pots()
-        if meters.get_health(img) < 0.6 or meters.get_mana(img) < 0.2 or buy_pots:
-            if buy_pots:
-                Logger.info("Buy pots at next possible Vendor")
-                pot_needs = belt.get_pot_needs()
-                self._curr_loc = self._town_manager.buy_pots(self._curr_loc, pot_needs["health"], pot_needs["mana"])
-                wait(0.5, 0.8)
-                belt.update_pot_needs()
-            else:
-                Logger.info("Healing at next possible Vendor")
-                self._curr_loc = self._town_manager.heal(self._curr_loc)
-            if not self._curr_loc:
-                return self.trigger_or_stop("end_game", failed=True)
-
-        # Check if we should force stash (e.g. when picking up items by accident or after failed runs or chicken/death)
-        routine_stash = False
+        # Inspect inventory
+        items = None
+        need_inspect = self._picked_up_items or self._previous_run_failed
         if Config().char["runs_per_stash"]:
-            routine_stash = self._game_stats._run_counter % Config().char["runs_per_stash"] == 0
-        force_stash = False
-        if not self._picked_up_items and (routine_stash or self._previous_run_failed):
-            force_stash = personal.should_stash(Config().char["num_loot_columns"])
-        # Stash stuff, either when item was picked up or after X runs without stashing because of unwanted loot in inventory
-        if self._picked_up_items or force_stash:
-            if Config().char["id_items"]:
-                Logger.info("Identifying items")
+            need_inspect |= (self._game_stats._run_counter - 1) % Config().char["runs_per_stash"] == 0
+        if need_inspect:
+            img = personal.open()
+            # Update TP, ID, key needs
+            if self._game_stats._game_counter == 1:
+                self._use_id_tome = common.tome_state(img, 'id')[0] is not None
+                self._use_keys = is_visible(ScreenObjects.Key, img)
+            if (self._game_stats._run_counter - 1) % 4 == 0 or self._previous_run_failed:
+                consumables.update_tome_key_needs(img, item_type = 'tp')
+                if self._use_id_tome:
+                    consumables.update_tome_key_needs(img, item_type = 'id')
+                if self._use_keys:
+                    # if keys run out then refilling will be unreliable :(
+                    self._use_keys = consumables.update_tome_key_needs(img, item_type = 'key')
+            # Check inventory items
+            if personal.inventory_has_items(img):
+                Logger.debug("Inspecting inventory items")
+                items = personal.inspect_items(img, close_window=False, game_stats=self._game_stats)
+            common.close()
+        Logger.debug(f"Needs: {consumables.get_needs()}")
+        if items:
+            # if there are still items that need identifying, go to cain to identify them
+            if any([item.need_id for item in items]):
+                Logger.info("ID items at cain")
                 self._curr_loc = self._town_manager.identify(self._curr_loc)
                 if not self._curr_loc:
                     return self.trigger_or_stop("end_game", failed=True)
+                # recheck inventory
+                items = personal.inspect_items(game_stats=self._game_stats)
+        keep_items = any([item.keep for item in items]) if items else None
+        sell_items = any([item.sell for item in items]) if items else None
+
+        # Check if should need some healing
+        img = grab()
+        need_refill = (
+            consumables.should_buy("health", min_needed = 3) or
+            consumables.should_buy("mana", min_needed = 3) or
+            (self._use_keys and consumables.should_buy("key", min_remaining = 4)) or
+            consumables.should_buy("tp", min_remaining = 3) or
+            consumables.should_buy("id", min_remaining = 3)
+        )
+        if need_refill or sell_items:
+            Logger.info("Buy consumables and/or sell items")
+            self._curr_loc, result_items = self._town_manager.buy_consumables(self._curr_loc, items = items)
+            if self._curr_loc:
+                items = result_items
+                sell_items = any([item.sell for item in items]) if items else None
+                Logger.debug(f"Needs: {consumables.get_needs()}")
+        elif meters.get_health(img) < 0.6 or meters.get_mana(img) < 0.2:
+            Logger.info("Healing at next possible Vendor")
+            self._curr_loc = self._town_manager.heal(self._curr_loc)
+        if not self._curr_loc:
+            return self.trigger_or_stop("end_game", failed=True)
+
+        # Stash stuff
+        if keep_items or personal.get_inventory_gold_full():
             Logger.info("Stashing items")
-            self._curr_loc = self._town_manager.stash(self._curr_loc)
+            self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
             Logger.info("Running transmutes")
             self._transmute.run_transmutes(force=False)
-            keyboard.send("esc")
+            common.close()
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
             self._picked_up_items = False
-            wait(1.0)
 
         # Check if we are out of tps or need repairing
-        need_repair = detect_screen_object(ScreenObjects.NeedRepair).valid
-        need_routine_repair = False
-        if Config().char["runs_per_repair"]:
-            need_routine_repair = self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
+        need_repair = is_visible(ScreenObjects.NeedRepair)
+        need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
-        if self._tps_left < random.randint(3, 5) or need_repair or need_routine_repair or need_refill_teleport:
-            if need_repair: Logger.info("Repair needed. Gear is about to break")
-            elif need_routine_repair: Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={Config().char['runs_per_repair']}")
-            elif need_refill_teleport: Logger.info("Teleport charges ran out. Need to repair")
-            else: Logger.info("Repairing and buying TPs at next Vendor")
-            self._curr_loc = self._town_manager.repair_and_fill_tps(self._curr_loc)
+        if need_repair or need_routine_repair or need_refill_teleport or sell_items:
+            if need_repair:
+                Logger.info("Repair needed. Gear is about to break")
+            elif need_routine_repair:
+                Logger.info(f"Routine repair. Run count={self._game_stats._run_counter}, runs_per_repair={Config().char['runs_per_repair']}")
+            elif need_refill_teleport:
+                Logger.info("Teleport charges ran out. Need to repair")
+            elif sell_items:
+                Logger.info("Selling items at repair vendor")
+            self._curr_loc, result_items = self._town_manager.repair(self._curr_loc, items)
+            if self._curr_loc:
+                items = result_items
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
-            self._tps_left = 20
-            wait(1.0)
 
         # Check if merc needs to be revived
-        match = detect_screen_object(ScreenObjects.MercIcon)
-        if not match.valid and Config().char["use_merc"]:
+        if not is_visible(ScreenObjects.MercIcon) and Config().char["use_merc"]:
             Logger.info("Resurrect merc")
             self._game_stats.log_merc_death()
             self._curr_loc = self._town_manager.resurrect(self._curr_loc)
             if not self._curr_loc:
                 return self.trigger_or_stop("end_game", failed=True)
 
-        # Check if gambling is needed
-        if stash.gambling_needed() and Config().char["gamble_items"]:
-            for x in range (4):
-                self._curr_loc = self._town_manager.gamble(self._curr_loc)
-                vendor.gamble(self._item_finder)
-                if (x ==3):
-                    self._curr_loc = self._town_manager.stash(self._curr_loc)
-                else:
-                    self._curr_loc = self._town_manager.stash(self._curr_loc, gamble=True)
-            stash.set_gold_full(False)
+        # Gamble if needed
+        while vendor.get_gamble_status() and Config().char["gamble_items"]:
+            Logger.debug("Head to gamble")
+            self._curr_loc = self._town_manager.gamble(self._curr_loc)
+            items = vendor.gamble()
+            if items:
+                self._curr_loc, _ = self._town_manager.stash(self._curr_loc, items = items)
+                common.close()
+            if not self._curr_loc:
+                return self.trigger_or_stop("end_game", failed=True)
 
         # Start a new run
         started_run = False
@@ -365,11 +397,11 @@ class Bot:
         self._curr_loc = False
         self._pre_buffed = False
         view.save_and_exit()
+        set_pause_state(True)
         self._game_stats.log_end_game(failed=failed)
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        wait(0.2, 0.5)
         self.trigger_or_stop("init")
 
     def on_end_run(self):
@@ -377,12 +409,13 @@ class Bot:
             self._pre_buffed = True
         success = self._char.tp_town()
         if success:
-            self._tps_left -= 1
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
+                set_pause_state(True)
                 return self.trigger_or_stop("maintenance")
         if not skills.has_tps():
-            self._tps_left = 0
+            consumables.set_needs("tp", 20)
+        set_pause_state(True)
         self.trigger_or_stop("end_game", failed=True)
 
     # All the runs go here
@@ -408,6 +441,7 @@ class Bot:
         self._game_stats.update_location("Pin" if Config().general['discord_status_condensed'] else "Pindle")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._pindle.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -416,6 +450,7 @@ class Bot:
         self._do_runs["run_shenk"] = False
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._shenk.battle(Config().routes["run_shenk"], not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
@@ -425,6 +460,7 @@ class Bot:
         self._game_stats.update_location("Trav" if Config().general['discord_status_condensed'] else "Travincal")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -434,6 +470,7 @@ class Bot:
         self._game_stats.update_location("Nihl" if Config().general['discord_status_condensed'] else "Nihlathak")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._nihlathak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -443,8 +480,8 @@ class Bot:
         self._game_stats.update_location("Arc" if Config().general['discord_status_condensed'] else "Arcane")
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._arcane.battle(not self._pre_buffed)
-        self._tps_left -= self._arcane.used_tps
         self._ending_run_helper(res)
 
     def on_run_diablo(self):
@@ -453,6 +490,6 @@ class Bot:
         self._game_stats.update_location("Dia" if Config().general['discord_status_condensed'] else "Diablo")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._diablo.battle(not self._pre_buffed)
-        self._tps_left -= 1 # we use one tp at pentagram for calibration
         self._ending_run_helper(res)
