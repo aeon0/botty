@@ -2,11 +2,12 @@ from PIL import Image, ImageDraw, ImageFont
 import argparse
 
 parser = argparse.ArgumentParser(description="Generate item names/properties images to be used in pickit settings.")
-parser.add_argument("-o", "--output", type=str, default="../../assets/item_properties", help="Output file name.", required=False)
-parser.add_argument("-n", "--item_name", type=str, help="Item name (This will also be used inside pickit. No spaces.)", required=True)
+parser.add_argument("-o", "--output_dir", type=str, default="../../assets/items", help="Output directory.", required=False)
+parser.add_argument("-n", "--item_name", type=str, help="Item name (will be the file name if no file name provided.)", required=True)
+parser.add_argument("-f", "--file_name", type=str, help="If you want to name the file specifically so when you use it in pickit, it's more descriptive.", required=False)
 parser.add_argument("-t", "--item_type", type=str, default="magic", help="Determines the text color & the image prefix file name. (item type matters.)", required=False, choices=[
     "gray"
-    "normal",
+    "white",
     "magic",
     "rare",
     "unique",
@@ -14,6 +15,7 @@ parser.add_argument("-t", "--item_type", type=str, default="magic", help="Determ
     "rune",
     "misc"
 ])
+args = parser.parse_args()
 
 ITEM_COLORS = {
     "gray": (113,113,113),
@@ -26,9 +28,8 @@ ITEM_COLORS = {
     "misc": (229,164,4)
 }
 
-args = parser.parse_args()
 
-font_size = 18
+font_size = 19
 text = args.item_name
 
 font = ImageFont.truetype('diablofont.otf', font_size)
@@ -38,7 +39,10 @@ img = Image.new('RGBA', (text_size[0], text_size[1]), (2, 2, 2))
 
 draw = ImageDraw.Draw(img)
 font = ImageFont.truetype('diablofont.otf', font_size)
-
 draw.text((0,0), text, font=font, fill=ITEM_COLORS[args.item_type])
 
-img.save(f"{args.output}/{args.item_type}_{args.item_name}.png")
+file_name = args.file_name.replace(" ", "_") if args.file_name else args.item_name.replace(" ", "_")
+
+img.save(f"{args.output_dir}/{args.item_type}_{file_name}.png")
+
+print(f"saved {args.output_dir}\\{args.item_type}_{file_name}.png")
