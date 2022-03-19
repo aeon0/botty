@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import argparse
 
-parser = argparse.ArgumentParser(description="Generate item properties images to be used in pickit settings.")
+parser = argparse.ArgumentParser(description="Generate item names/properties images to be used in pickit settings.")
 parser.add_argument("-o", "--output", type=str, default="../../assets/item_properties", help="Output file name.", required=False)
 parser.add_argument("-n", "--item_name", type=str, help="Item name (This will also be used inside pickit. No spaces.)", required=True)
 parser.add_argument("-t", "--item_type", type=str, default="magic", help="Determines the text color & the image prefix file name. (item type matters.)", required=False, choices=[
