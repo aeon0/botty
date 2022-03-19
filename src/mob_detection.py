@@ -14,10 +14,10 @@ def bright_contrast(img, brightness=255, contrast=127):
     :param brightness: adjust Brightness of the picture [Default: 255, Integer 0 - 255]
     :param contrast: adjust Contrast of the picture [Default: 127, Integer 0 - 254]
     Returns variables cal
-    """        
+    """
     brightness = int((brightness - 0) * (255 - (-255)) / (510 - 0) + (-255))
     contrast = int((contrast - 0) * (127 - (-127)) / (254 - 0) + (-127))
-    
+
     if brightness != 0:
         if brightness > 0:
             shadow = brightness
@@ -38,7 +38,7 @@ def bright_contrast(img, brightness=255, contrast=127):
     return cal
 
 #Applies filters to an image - adapted from Nathan's Live-view
-def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
+def apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
         """
         Helper function that will apply HSV filters
         :param img: The image to which filters should be applied
@@ -47,7 +47,7 @@ def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bo
         :param info_ss: Save an image of the applied filters in folder INFO_SCREENSHOTS  [Default: False, Bool]
         :param erode: erode (thin lines) in the picture [Default: None, Integer, no filter: 0,  0 - 36]
         :param dilate: dilate (thicken lines) in the picture [Default: None, Integer, no filter: 0, 0 - 36]
-        :param blur: blur the picture [Default: None, no filter: 0, Integer, 0 - 30] 
+        :param blur: blur the picture [Default: None, no filter: 0, Integer, 0 - 30]
         :param lh: cut-off Hue BELOW this value [Default: None, no filter: 0, Integer 0 - 255]
         :param ls: cut-off Saturation BELOW this value [Default: None, no filter: 0,  Integer 0 - 255]
         :param lv: cut-off Value BELOW this value [Default: None, no filter: 0, Integer 0 - 255]
@@ -62,7 +62,7 @@ def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bo
         """
         img = img
         if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-        if mask_hud: 
+        if mask_hud:
             _hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
             img = cv2.bitwise_and(img, img, mask=_hud_mask)
         if mask_char: img = cv2.rectangle(img, (600,250), (700,400), (0,0,0), -1) # black out character by drawing a black box above him (e.g. ignore set glow)
@@ -77,9 +77,9 @@ def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bo
         if lh or ls or lv or uh or us or uv:
             lower = np.array([lh, ls, lv])
             upper = np.array([uh, us, uv])
-            self.hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-            cont_mask = cv2.inRange(self.hsv, lower, upper)
-            img = cv2.bitwise_and(img, img, mask=cont_mask)        
+            hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            cont_mask = cv2.inRange(hsv, lower, upper)
+            img = cv2.bitwise_and(img, img, mask=cont_mask)
         if thresh: img = cv2.threshold(img, thresh, 255, cv2.THRESH_BINARY)[1]
         threshz = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         if thresh: _, threshz = cv2.threshold(threshz, thresh, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -89,7 +89,7 @@ def apply_filter(self, img, mask_char:bool=False, mask_hud:bool=True, info_ss:bo
         return filterimage, threshz
 
 # add rectangles and crosses - adapted from Nathan's Live-View
-def add_markers(self, img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
+def add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
     """
     Helper function that will add rectangles and crosshairs to allow object detection
     :param img: The image to which filters should be applied
@@ -127,7 +127,6 @@ def add_markers(self, img:str, threshz:str, info_ss:bool=False, rect_min_size:in
                 cv2.drawMarker(img, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
                 mark = [int(center_x), int(center_y)]
                 pos_marker.append(mark)
-    self.frame_markup = img.copy()
     img = img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return img, pos_rectangles, pos_marker
@@ -146,15 +145,15 @@ def get_targets_ordered_by_distance(targets, ignore_radius:int=0):
     targets = [t for t in targets if pythagorean_distance(t) > ignore_radius] #ignore targets that are too close
     return targets #a sorted arry of all targets, nearest to farest away
 
-def mobcheck(self, info_ss:bool=False) -> bool:
+def mobcheck(info_ss:bool=False) -> bool:
     #wait(1) # let the merc paint some mobs
     img = grab()
     input = img #for drawing lines later
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-    filterimage, threshz = apply_filter(self, img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+    filterimage, threshz = apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
     pos_marker = []
     pos_rectangle = []
-    filterimage, pos_rectangle, pos_marker = add_markers(self, filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+    filterimage, pos_rectangle, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
     order = get_targets_ordered_by_distance(pos_marker, 150)
     if not order:
@@ -165,7 +164,7 @@ def mobcheck(self, info_ss:bool=False) -> bool:
         pos_m = convert_abs_to_monitor(pos_m)
         Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
         if info_ss:
-            #draw an arrow on a screenshot where a mob was found 
+            #draw an arrow on a screenshot where a mob was found
             pt2 = (640,360)
             x1, y1 = order[0]
             pt1 = (int(x1),int(y1))
@@ -189,3 +188,15 @@ if __name__ == "__main__":
     from math import sqrt #for object detection
     from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
     from logger import Logger
+
+    while 1:
+        # img = cv2.imread("")
+        img = grab()
+
+        filterimage, threshz = apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+        pos_marker = []
+        pos_rectangle = []
+        filterimage, pos_rectangle, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+
+        cv2.imshow('test', filterimage)
+        key = cv2.waitKey(1)
