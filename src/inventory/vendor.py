@@ -8,7 +8,7 @@ from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
 from ui_manager import is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
-from inventory import personal, common
+from inventory import personal, common, stash
 
 gamble_count = 0
 gamble_status = False
@@ -88,8 +88,10 @@ def gamble():
                 if new_count >= max_gamble_count:
                     break
         Logger.debug(f"Finish gambling")
+        stash.set_curr_stash(gold = 0)
         personal.set_inventory_gold_full(False)
-        set_gamble_status(False)
+        if get_gamble_status():
+            set_gamble_status(False)
         common.close()
         return None
     else:

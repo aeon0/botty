@@ -15,8 +15,7 @@ from template_finder import TemplateFinder
 import numpy as np
 import keyboard
 import cv2
-from inventory import personal
-from inventory.stash import move_to_stash_tab
+from inventory import personal, common
 
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
@@ -66,7 +65,7 @@ class Transmute:
         self._wait()
 
     def open_cube(self):
-        move_to_stash_tab(0)
+        common.select_tab(0)
         if (match := detect_screen_object(ScreenObjects.CubeInventory)).valid:
             mouse.move(*match.center)
             self._wait()
@@ -93,7 +92,7 @@ class Transmute:
         return self.pick_from_area(column, row, Config().ui_roi["right_inventory"])
 
     def pick_from_stash_at(self, index, column, row):
-        move_to_stash_tab(index)
+        common.select_tab(index)
         return self.pick_from_area(column, row, Config().ui_roi["left_inventory"])
 
     def inspect_area(self, total_rows, total_columns, roi, known_items) -> InventoryCollection:
@@ -127,7 +126,7 @@ class Transmute:
     def inspect_stash(self) -> Stash:
         stash = Stash()
         for i in range(4):
-            move_to_stash_tab(i)
+            common.select_tab(i)
             wait(0.4, 0.5)
             tab = self.inspect_area(
                 10, 10, Config().ui_roi["left_inventory"], FLAWLESS_GEMS)
@@ -141,14 +140,14 @@ class Transmute:
             while flawless_gems.count_by(gem) > 0:
                 pick.append((randint(0, 3), *flawless_gems.pop(gem)))
         for tab, x, y in sorted(pick, key=lambda x: x[0]):
-            move_to_stash_tab(tab)
+            common.select_tab(tab)
             self.pick_from_inventory_at(x, y)
 
     def select_tab_with_enough_space(self, s: Stash) -> None:
         tabs_priority = Config()._transmute_config["stash_destination"]
         for tab in tabs_priority:
             if s.get_empty_on_tab(tab) > 0:
-                move_to_stash_tab(tab)
+                common.select_tab(tab)
                 break
 
     def put_back_all_gems(self, s: Stash) -> None:
