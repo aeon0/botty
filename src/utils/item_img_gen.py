@@ -16,19 +16,19 @@ parser.add_argument("-t", "--item_type", type=str, default="magic", help="Determ
 ])
 
 ITEM_COLORS = {
-    "gray": (92,92,93),
-    "normal": (194,194,195),
-    "magic": (106,107,207),
-    "rare": (207,207,98),
-    "unique": (162,151,108),
-    "set": (0,204,1),
-    "rune": (199,142,1),
-    "misc": (199,142,1)
+    "gray": (113,113,113),
+    "white": (221,221,221),
+    "magic": (123,123,236),
+    "rare": (232,232,113),
+    "unique": (194,178,129),
+    "set": (4,241,4),
+    "rune": (229,164,4),
+    "misc": (229,164,4)
 }
 
 args = parser.parse_args()
 
-font_size = 16
+font_size = 18
 text = args.item_name
 
 font = ImageFont.truetype('diablofont.otf', font_size)
