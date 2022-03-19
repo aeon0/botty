@@ -211,14 +211,12 @@ class TemplateFinder:
         take_ss: bool = True,
         use_grayscale: bool = False,
         suppress_debug: bool = False,
-        filterimage:str = None,
         color_match: list = False,
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
         :param timeout: After this amount of time the search will stop and it will return [False, None]
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
-        :param filterimage: Search using a filtered image. By default None, in this case a screenshot is taken on which no filter was applied
         Other params are the same as for TemplateFinder.search()
         """
         if type(ref) is str:
@@ -227,10 +225,7 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
-            if filterimage is not None:
-                img = filterimage
-            else:
-                img = grab()
+            img = grab()
             template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor, color_match=color_match)
             is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
