@@ -8,7 +8,7 @@ from config import Config
 from screen import grab
 import cv2
 import numpy as np
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 
 
 def _is_slot_empty(img, treshold=16.0):
@@ -67,7 +67,7 @@ def inspect_area(
 
         if len(known_items) > 0:
             match = TemplateFinder().search(
-                known_items, slot_img, threshold=0.91, best_match=True
+                known_items, slot_img, threshold=0.91, search_type=SearchType.BEST_MATCH
             )
 
             if match.valid:

@@ -4,7 +4,7 @@ from logger import Logger
 from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from town.town_manager import TownManager
 from utils.misc import wait
 from dataclasses import dataclass
@@ -82,7 +82,7 @@ class Nihlathak:
             # Move to spot where eye would be visible
             self._pather.traverse_nodes_fixed(data.circle_static_path_key, self._char)
             # Search for eye
-            template_match = TemplateFinder().search_and_wait(data.template_name, threshold=0.7, best_match=True, time_out=3)
+            template_match = TemplateFinder().search_and_wait(data.template_name, threshold=0.7, search_type=SearchType.BEST_MATCH, time_out=3)
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
                 self._pather.traverse_nodes_fixed(data.destination_static_path_key, self._char)

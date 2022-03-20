@@ -2,7 +2,7 @@ import time
 import os
 
 from logger import Logger
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from screen import grab
 from char import IChar
 from config import Config
@@ -29,7 +29,7 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < time_out:
-            template_match = TemplateFinder().search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
+            template_match = TemplateFinder().search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, search_type=SearchType.BEST_MATCH, normalize_monitor=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:

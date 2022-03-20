@@ -7,7 +7,7 @@ from utils.misc import wait
 from logger import Logger
 from config import Config
 from screen import grab, convert_screen_to_monitor, convert_abs_to_monitor
-from template_finder import TemplateFinder, TemplateMatch
+from template_finder import TemplateFinder, TemplateMatch, SearchType
 from dataclasses import dataclass
 from messages import Messenger
 from game_stats import GameStats
@@ -277,7 +277,7 @@ def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) ->
         inp_img = img,
         threshold = screen_object.threshold,
         roi = roi,
-        best_match = screen_object.best_match,
+        search_type=SearchType.BEST_MATCH if screen_object.best_match else SearchType.FIRST_MATCH,
         use_grayscale = screen_object.use_grayscale,
         normalize_monitor = screen_object.normalize_monitor)
     if match.valid:
@@ -298,7 +298,7 @@ def wait_for_screen_object(screen_object: ScreenObject, time_out: int = None) ->
         time_out = time_out,
         threshold = screen_object.threshold,
         roi = roi,
-        best_match = screen_object.best_match,
+        search_type = SearchType.BEST_MATCH if screen_object.best_match else SearchType.FIRST_MATCH,
         use_grayscale = screen_object.use_grayscale,
         normalize_monitor = screen_object.normalize_monitor)
     if match.valid:

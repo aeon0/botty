@@ -575,7 +575,6 @@ class Pather:
         template_match = TemplateFinder().search(
             [*node],
             img,
-            best_match=False,
             threshold=threshold,
             roi=Config().ui_roi["cut_skill_bar"],
             use_grayscale=True

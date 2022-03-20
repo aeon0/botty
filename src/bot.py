@@ -15,7 +15,7 @@ from game_stats import GameStats
 from logger import Logger
 from config import Config
 from screen import grab
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
@@ -203,7 +203,7 @@ class Bot:
             "select_character": Bot._MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
         })
-        match = TemplateFinder().search_and_wait(list(transition_to_screens.keys()), best_match=True)
+        match = TemplateFinder().search_and_wait(list(transition_to_screens.keys()), search_type=SearchType.BEST_MATCH)
         self.trigger_or_stop(transition_to_screens[match.name])
 
     def on_select_character(self):

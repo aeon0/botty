@@ -10,7 +10,7 @@ from screen import grab, convert_screen_to_monitor
 from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template
 
@@ -148,10 +148,11 @@ class AnyaShopper:
                 claw_pos = []
                 img = grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
-                for ck in claw_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
+                template_matches = TemplateFinder(True).search(claw_keys, img, roi=self.roi_vendor, search_type=SearchType.ALL_MATCH)
+                for template_match in template_matches:
                     if template_match.valid:
                         claw_pos.append(template_match.center)
+
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)

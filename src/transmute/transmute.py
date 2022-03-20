@@ -11,7 +11,7 @@ from utils.misc import wait
 from version import __version__
 from logger import Logger
 from game_stats import GameStats
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 import numpy as np
 import keyboard
 import cv2
@@ -116,7 +116,8 @@ class Transmute:
             if not self._is_slot_empty(slot_img[+4:-4, +4:-4], treshold=36):
                 result.set_empty((column, row))
             match = TemplateFinder().search(
-                known_items, slot_img, threshold=0.91, best_match=True)
+                known_items, slot_img, threshold=0.91, search_type=SearchType.BEST_MATCH
+            )
 
             if match.valid:
                 result.append(match.name, (column, row))

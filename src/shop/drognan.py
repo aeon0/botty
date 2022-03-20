@@ -12,7 +12,7 @@ from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor, conv
 from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -90,8 +90,8 @@ class DrognanShopper:
                 item_pos = []
                 img = grab().copy()
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
-                for ck in item_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
+                template_matches = TemplateFinder(True).search(item_keys, img, roi=self.roi_vendor, search_type=SearchType.ALL_MATCH)
+                for template_match in template_matches:
                     if template_match.valid:
                         item_pos.append(template_match.center)
 

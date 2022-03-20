@@ -1,17 +1,26 @@
 import cv2
 import threading
+import time
+import numpy as np
+import os.path
+
 from copy import deepcopy
 from screen import convert_screen_to_monitor, grab
 from typing import Union
 from dataclasses import dataclass
-import numpy as np
 from logger import Logger
-import time
-import os
 from config import Config
 from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
+from enum import Enum
 
 template_finder_lock = threading.Lock()
+
+
+class SearchType(Enum):
+    FIRST_MATCH = 1
+    BEST_MATCH = 2
+    ALL_MATCH = 3
+
 
 @dataclass
 class TemplateMatch:
@@ -20,6 +29,7 @@ class TemplateMatch:
     center: tuple[float, float] = None
     region: list[float] = None
     valid: bool = False
+
 
 class TemplateFinder:
     """
@@ -73,10 +83,10 @@ class TemplateFinder:
         threshold: float = 0.68,
         roi: list[float] = None,
         normalize_monitor: bool = False,
-        best_match: bool = False,
+        search_type: SearchType = SearchType.FIRST_MATCH,
         use_grayscale: bool = False,
-        color_match: list = False,
-    ) -> TemplateMatch:
+        color_match: list = False
+    ) -> Union[TemplateMatch, list[TemplateMatch]]:
         """
         Search for a template in an image
         :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
@@ -85,9 +95,10 @@ class TemplateFinder:
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
         :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
+        :param search_type: Used to determine how to do the search: First, Best or all match. Default behavior is first match
         :param use_grayscale: Use grayscale template matching for speed up
         :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
-        :return: Returns a TemplateMatch object with a valid flag
+        :return: Returns a TemplateMatch object for search type First or Best or a List of TemplateMatch objects for search type ALl with a valid flag
         """
         if roi is None:
             # if no roi is provided roi = full inp_img
@@ -105,7 +116,7 @@ class TemplateFinder:
             scales = [self._templates[ref][2]]
             masks = [self._templates[ref][3]]
             names = [ref]
-            best_match = False
+            search_type = SearchType.FIRST_MATCH
         elif type(ref) == list:
             if type(ref[0]) == str:
                 if not color_match:
@@ -135,7 +146,7 @@ class TemplateFinder:
                 templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
             scales = [1.0]
             masks = [None]
-            best_match = False
+            search_type = SearchType.FIRST_MATCH
 
         scores = [0] * len(templates)
         ref_points = [(0, 0)] * len(templates)
@@ -144,8 +155,9 @@ class TemplateFinder:
         if color_match:
             inp_img = color_filter(inp_img, color_match)[1]
 
+        results = []
         for count, template in enumerate(templates):
-            template_match = TemplateMatch()
+
             scale = scales[count]
             mask = masks[count]
 
@@ -159,46 +171,69 @@ class TemplateFinder:
                 img: np.ndarray = inp_img
 
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+
                 if use_grayscale:
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
                 res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
                 np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
-                _, max_val, _, max_pos = cv2.minMaxLoc(res)
-                if self._save_last_res:
-                    with template_finder_lock:
-                        self.last_res = deepcopy(res)
-                if max_val > threshold:
-                    rec = [int((max_pos[0] + rx) // scale), int((max_pos[1] +ry) // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
-                    ref_point = roi_center(rec)
 
-                    if normalize_monitor:
-                        ref_point =  convert_screen_to_monitor(ref_point)
-                        rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
-                    if best_match:
-                        scores[count] = max_val
-                        ref_points[count] = ref_point
-                        recs[count] = rec
-                    else:
-                        try: template_match.name = names[count]
-                        except: pass
-                        template_match.center = ref_point
-                        template_match.score = max_val
-                        template_match.region = rec
-                        template_match.valid = True
-                        return template_match
+                max_val = 1
+                h, w = template.shape[:2]
+                while max_val > threshold:
 
-        if len(scores) > 0 and max(scores) > 0:
-            idx=scores.index(max(scores))
-            try: template_match.name = names[idx]
-            except: pass
-            template_match.center = ref_points[idx]
-            template_match.score = scores[idx]
-            template_match.region = recs[idx]
-            template_match.valid = True
-        else:
-            template_match = TemplateMatch()
+                    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
-        return template_match
+                    if self._save_last_res:
+                        with template_finder_lock:
+                            self.last_res = deepcopy(res)
+
+                    if max_val > threshold:
+
+                        res[max(max_loc[1]-h//2, 0):max_loc[1]+h//2+1, max(max_loc[0]-w//2, 0):max_loc[0]+w//2+1] = 0# eliminate current result from results
+
+                        rec = [int((max_loc[0] + rx) // scale), int((max_loc[1] +ry) // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
+                        ref_point = roi_center(rec)
+
+                        if normalize_monitor:
+                            ref_point =  convert_screen_to_monitor(ref_point)
+                            rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
+                        if search_type == SearchType.BEST_MATCH:
+                            scores[count] = max_val
+                            ref_points[count] = ref_point
+                            recs[count] = rec
+                        else:
+
+                            template_match = TemplateMatch()
+                            try: template_match.name = names[count]
+                            except: pass
+                            template_match.center = ref_point
+                            template_match.score = max_val
+                            template_match.region = rec
+                            template_match.valid = True
+
+                            if search_type == SearchType.FIRST_MATCH:
+                                return template_match
+                            else:
+                                results.append(template_match)
+
+        if search_type == SearchType.BEST_MATCH:
+            if len(scores) > 0 and max(scores) > 0:
+                idx=scores.index(max(scores))
+                template_match = TemplateMatch()
+                try: template_match.name = names[idx]
+                except: pass
+                template_match.center = ref_points[idx]
+                template_match.score = scores[idx]
+                template_match.region = recs[idx]
+                template_match.valid = True
+                return template_match
+            else:
+                return TemplateMatch()
+        elif search_type == SearchType.FIRST_MATCH:
+            return TemplateMatch()
+
+        return results
 
     def search_and_wait(
         self,
@@ -207,7 +242,7 @@ class TemplateFinder:
         time_out: float = None,
         threshold: float = 0.68,
         normalize_monitor: bool = False,
-        best_match: bool = False,
+        search_type: SearchType = SearchType.FIRST_MATCH,
         take_ss: bool = True,
         use_grayscale: bool = False,
         suppress_debug: bool = False,
@@ -226,7 +261,7 @@ class TemplateFinder:
         start = time.time()
         while 1:
             img = grab()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor, color_match=color_match)
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, search_type=search_type, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor, color_match=color_match)
             is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
@@ -259,7 +294,7 @@ if __name__ == "__main__":
         display_img = img.copy()
         start = time.time()
         for key in search_templates:
-            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
+            template_match = TemplateFinder().search(key, img, search_type=SearchType.BEST_MATCH, threshold=0.5, use_grayscale=True)
             if template_match.valid:
                 x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)

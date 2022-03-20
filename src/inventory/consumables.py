@@ -5,7 +5,7 @@ import keyboard
 import time
 import parse
 from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from ui_manager import detect_screen_object, ScreenObjects
 from inventory import personal, common
 from utils.misc import wait
@@ -112,7 +112,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
             [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
             img,
             roi = personal.specific_inventory_roi("reserved"),
-            best_match = True,
+            search_type=SearchType.BEST_MATCH,
             normalize_monitor=True
             )
         if match.valid:

@@ -100,11 +100,11 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    from template_finder import TemplateFinder
+    from template_finder import TemplateFinder, SearchType
 
     while True:
         img = grab()
-        if (result := TemplateFinder().search(["YOU_HAVE_DIED", "NOT_ENOUGH_GOLD"], img, color_match=Config().colors["red"], use_grayscale=True, best_match=True)).valid:
+        if (result := TemplateFinder().search(["YOU_HAVE_DIED", "NOT_ENOUGH_GOLD"], img, color_match=Config().colors["red"], use_grayscale=True, search_type=SearchType.BEST_MATCH)).valid:
             print(f"match: {result.score}")
         else:
             print("no match")

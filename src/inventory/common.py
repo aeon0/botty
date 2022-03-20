@@ -4,7 +4,7 @@ import numpy as np
 import keyboard
 import time
 from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from ui_manager import detect_screen_object, ScreenObjects, center_mouse
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables, personal
@@ -94,7 +94,7 @@ def calc_item_roi(img_pre, img_post):
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()
-    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True, normalize_monitor = True)).valid:
+    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, search_type=SearchType.BEST_MATCH, normalize_monitor = True)).valid:
         if tome_found.name == f"{tome_type.upper()}_TOME":
             state = "ok"
         else:

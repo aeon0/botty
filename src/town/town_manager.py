@@ -1,5 +1,5 @@
 from typing import Union
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from config import Config
 from pather import Location
 from logger import Logger
@@ -48,7 +48,7 @@ class TownManager:
         :param time_out: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within time_out time
         """
-        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, best_match=True, time_out=time_out)
+        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, search_type=SearchType.BEST_MATCH, time_out=time_out)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None

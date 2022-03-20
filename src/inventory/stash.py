@@ -1,4 +1,4 @@
-from template_finder import TemplateFinder
+from template_finder import TemplateFinder, SearchType
 from screen import grab, convert_screen_to_monitor
 from config import Config
 import os
@@ -25,7 +25,7 @@ def move_to_stash_tab(stash_idx: int):
     :param stash_idx: idx of the stash starting at 0 (personal stash)
     """
     str_to_idx_map = {"STASH_0_ACTIVE": 0, "STASH_1_ACTIVE": 1, "STASH_2_ACTIVE": 2, "STASH_3_ACTIVE": 3}
-    template_match = TemplateFinder().search([*str_to_idx_map], grab(), threshold=0.7, best_match=True, roi=Config().ui_roi["stash_btn_roi"])
+    template_match = TemplateFinder().search([*str_to_idx_map], grab(), threshold=0.7, search_type=SearchType.BEST_MATCH, roi=Config().ui_roi["stash_btn_roi"])
     curr_active_stash = str_to_idx_map[template_match.name] if template_match.valid else -1
     if curr_active_stash != stash_idx:
         # select the start stash
