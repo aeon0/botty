@@ -37,6 +37,7 @@ from town import TownManager, A1, A2, A3, A4, A5, town_manager
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
+from utils.key_decoder import D2RKeymap
 
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
@@ -47,6 +48,12 @@ class Bot:
         self._item_finder = ItemFinder()
         self._pather = Pather()
         self._pickit = PickIt(self._item_finder)
+
+        saved_games_folder = Config().general["saved_games_folder"]
+        name = Config().char["name"]
+        online = Config().char["online"]
+        self._d2r_keymap = D2RKeymap(saved_games_folder, name, online)
+        self._detected_character = False
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:
@@ -248,6 +255,30 @@ class Bot:
                 Logger.info("Activated /nopickup")
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
+        if not self._detected_character:
+            keys_to_check = [
+                self._d2r_keymap.Skill1,
+                self._d2r_keymap.Skill2,
+                self._d2r_keymap.Skill3,
+                self._d2r_keymap.Skill4,
+                self._d2r_keymap.Skill5,
+                self._d2r_keymap.Skill6,
+                self._d2r_keymap.Skill7,
+                self._d2r_keymap.Skill8,
+                self._d2r_keymap.Skill9,
+                self._d2r_keymap.Skill10,
+                self._d2r_keymap.Skill11,
+                self._d2r_keymap.Skill12,
+                self._d2r_keymap.Skill13,
+                self._d2r_keymap.Skill14,
+                self._d2r_keymap.Skill15,
+                self._d2r_keymap.Skill16
+            ]
+            for key in keys_to_check:
+                # TODO: Press the hotkey button(s)
+                # Determine if it's a left or right skill
+                # Determine what skill it is
+                Logger.debug(key)
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):

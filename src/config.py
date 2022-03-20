@@ -216,6 +216,8 @@ class Config:
             self.routes[key] = bool(int(self._select_val("routes", key)))
 
         self.char = {
+            "name": self._select_val("char", "name"),
+            "online": bool(int(self._select_val("char", "online"))),
             "type": self._select_val("char", "type"),
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
