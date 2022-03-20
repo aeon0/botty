@@ -191,7 +191,10 @@ class Config:
         self.configs["transmute"]["parser"].read('config/transmute.ini')
 
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
-            self.configs["custom"]["parser"].read('config/custom.ini')
+            try:
+                self._custom.read('config/custom.ini')
+            except configparser.MissingSectionHeaderError:
+                Logger.error("custom.ini missing section header, defaulting to params.ini")
 
         for config_name in self.configs:
             config = self.configs[config_name]
@@ -201,6 +204,7 @@ class Config:
             except KeyError: # "" header section was not found for this config file.
                 pass
             
+
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),

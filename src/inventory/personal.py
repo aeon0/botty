@@ -68,7 +68,7 @@ def stash_all_items(items: list = None):
     if Config().char["stash_gold"]:
         if not is_visible(ScreenObjects.GoldNone):
             Logger.debug("Stashing gold")
-            stash.move_to_stash_tab(min(3, stash.curr_stash["gold"]))
+            common.select_tab(min(3, stash.get_curr_stash()["gold"]))
             wait(0.7, 1)
             stash_full_of_gold = False
             # Try to read gold count with OCR
@@ -84,13 +84,14 @@ def stash_all_items(items: list = None):
                     Logger.error("stash_all_items(): deposit button not detected, failed to stash gold")
                 # move cursor away from button to interfere with screen grab
                 mouse.move(-120, 0, absolute=False, randomize=15, delay_factor=[0.3, 0.5])
-                stash_full_of_gold = wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
+                # if 0 gold becomes visible in personal inventory then the stash tab still has room for gold
+                stash_full_of_gold = not wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
             if stash_full_of_gold:
                 Logger.debug("Stash tab is full of gold, selecting next stash tab.")
-                stash.curr_stash["gold"] += 1
+                stash.set_curr_stash(gold = (stash.get_curr_stash()["gold"] + 1))
                 if Config().general["info_screenshots"]:
                     cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-                if stash.curr_stash["gold"] > 3:
+                if stash.get_curr_stash()["gold"] > 3:
                     #decide if gold pickup should be disabled or gambling is active
                     vendor.set_gamble_status(True)
                 else:
@@ -99,8 +100,8 @@ def stash_all_items(items: list = None):
             else:
                 set_inventory_gold_full(False)
     # check if stash tab is completely full (no empty slots)
-    stash.move_to_stash_tab(stash.curr_stash["items"])
-    while stash.curr_stash["items"] <= 3:
+    common.select_tab(stash.get_curr_stash()["items"])
+    while stash.get_curr_stash()["items"] <= 3:
         img = grab()
         if is_visible(ScreenObjects.EmptyStashSlot, img):
             break
@@ -108,10 +109,13 @@ def stash_all_items(items: list = None):
             Logger.debug(f"Stash tab completely full, advance to next")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-            stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
-            if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
+            if Config().char["fill_shared_stash_first"]:
+                stash.set_curr_stash(items = (stash.get_curr_stash()["items"] - 1))
+            else:
+                stash.set_curr_stash(items = (stash.get_curr_stash()["items"] + 1))
+            if (Config().char["fill_shared_stash_first"] and stash.get_curr_stash()["items"] < 0) or stash.get_curr_stash()["items"] > 3:
                 stash.stash_full()
-            stash.move_to_stash_tab(stash.curr_stash["items"])
+            common.select_tab(stash.get_curr_stash()["items"])
     # stash stuff
     while True:
         items = common.transfer_items(items, "stash")
@@ -120,10 +124,13 @@ def stash_all_items(items: list = None):
             Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-            stash.curr_stash["items"] += -1 if Config().char["fill_shared_stash_first"] else 1
-            if (Config().char["fill_shared_stash_first"] and stash.curr_stash["items"] < 0) or stash.curr_stash["items"] > 3:
+            if Config().char["fill_shared_stash_first"]:
+                stash.set_curr_stash(items = (stash.get_curr_stash()["items"] - 1))
+            else:
+                stash.set_curr_stash(items = (stash.get_curr_stash()["items"] + 1))
+            if (Config().char["fill_shared_stash_first"] and stash.get_curr_stash()["items"] < 0) or stash.get_curr_stash()["items"] > 3:
                 stash.stash_full()
-            stash.move_to_stash_tab(stash.curr_stash["items"])
+            common.select_tab(stash.get_curr_stash()["items"])
         else:
             break
     Logger.debug("Done stashing")
