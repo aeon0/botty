@@ -14,7 +14,7 @@ import screen as screen
 import numpy as np
 import time
 import os
-from ui_manager import wait_for_screen_object, ScreenObjects
+from ui_manager import ScreenObjects
 
 class Poison_Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
