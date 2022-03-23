@@ -175,7 +175,7 @@ class Ocr:
             word = word.strip()
             if word and word != "NEWLINEHERE":
                 try:
-                    if confidences[word_count] <= 88:
+                    if confidences[word_count] <= 90:
                         alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
                         if not alphanumeric.isnumeric() and (word not in word_list) and alphanumeric not in word_list:
                             closest_match, similarity, _ = extractOne(word, word_list, scorer=levenshtein)
