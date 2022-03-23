@@ -157,14 +157,6 @@ class Ocr:
     """
     OCR output processing functions:
     """
-    @staticmethod
-    def _is_integer(n):
-        try:
-            float(n)
-        except ValueError:
-            return False
-        else:
-            return float(n)._is_integer()
 
     def _check_known_errors(self, text):
         for key, value in self._ocr_errors.items():
@@ -185,7 +177,7 @@ class Ocr:
                 try:
                     if confidences[word_count] <= 88:
                         alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
-                        if not self._is_integer(alphanumeric) and (word not in word_list) and alphanumeric not in word_list:
+                        if not alphanumeric.isnumeric() and (word not in word_list) and alphanumeric not in word_list:
                             closest_match, similarity, _ = extractOne(word, word_list, scorer=levenshtein)
                             normalized_similarity = 1 - similarity / len(word)
                             if (normalized_similarity) >= (match_threshold):
