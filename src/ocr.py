@@ -5,7 +5,6 @@ import re
 from rapidfuzz.process import extractOne
 from rapidfuzz.string_metric import levenshtein
 import csv
-import difflib
 from utils.misc import erode_to_black
 from logger import Logger
 from typing import List, Union
