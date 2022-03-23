@@ -27,7 +27,7 @@ def get_experience():
         fix_regexps = False,
         check_known_errors = False,
         check_wordlist = False,
-        word_match_threshold = 0.9
+        word_match_threshold = 0.5
     )[0]
     split_text = ocr_result.text.split(' ')
     current_exp = int(split_text[1].replace(',', ''))
