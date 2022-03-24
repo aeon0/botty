@@ -1,4 +1,4 @@
-import time
+import time, keyboard
 from config import Config
 from utils.misc import wait
 from logger import Logger
@@ -30,19 +30,16 @@ def start_game() -> bool:
             return False
     difficulty=Config().general["difficulty"].upper()
     # TODO: need to revise logic here
-    if difficulty == "NORMAL": Difficulty = ScreenObjects.Normal
-    elif difficulty == "NIGHTMARE": Difficulty = ScreenObjects.Nightmare
-    elif difficulty == "HELL": Difficulty = ScreenObjects.Hell
+    if difficulty == "NORMAL": Difficulty = 'r'
+    elif difficulty == "NIGHTMARE": Difficulty = 'n'
+    elif difficulty == "HELL": Difficulty = 'h'
     else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
     start = time.time()
+    keyboard.send(Difficulty)
     while True:
-        #look for difficulty select
-        if (m := detect_screen_object(Difficulty)).valid:
-            select_screen_object_match(m)
-            break
         #check for loading screen
         if is_visible(ScreenObjects.Loading):
-            Logger.debug("Found loading screen / creating game screen rather than difficulty select, normal difficulty")
+            Logger.debug("Found loading screen")
             break
         else:
             wait(1,2)
