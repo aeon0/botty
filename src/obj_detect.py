@@ -4,10 +4,11 @@ import time
 from math import sqrt #for object detection
 from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
+from utils.misc import pythagorean_distance
 
 
 #Changes Brightness and Contrast - adapted from Nathan's Live-view
-def bright_contrast(img, brightness=255, contrast=127):
+def _bright_contrast(img, brightness=255, contrast=127):
     """
     Helper function to change brightness and contrast
     :param img: The image to which filters should be applied
@@ -38,7 +39,7 @@ def bright_contrast(img, brightness=255, contrast=127):
     return cal
 
 #Applies filters to an image - adapted from Nathan's Live-view
-def apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
+def _apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
         """
         Helper function that will apply HSV filters
         :param img: The image to which filters should be applied
@@ -73,7 +74,7 @@ def apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=Fal
             kernel = np.ones((dilate, dilate), 'uint8')
             img = cv2.dilate(img, kernel, iterations=1)
         if blur: img = cv2.blur(img, (blur, blur))
-        if bright or contrast: img = bright_contrast(img, bright, contrast)
+        if bright or contrast: img = _bright_contrast(img, bright, contrast)
         if lh or ls or lv or uh or us or uv:
             lower = np.array([lh, ls, lv])
             upper = np.array([uh, us, uv])
@@ -89,7 +90,7 @@ def apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=Fal
         return filterimage, threshz
 
 # add rectangles and crosses - adapted from Nathan's Live-View
-def add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
+def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
     """
     Helper function that will add rectangles and crosshairs to allow object detection
     :param img: The image to which filters should be applied
@@ -105,7 +106,7 @@ def add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, 
     Returns variables img (containing markers) & rectangles (x,y,w,h for each) & marker (x,y for eah)
     """
     #add rectangles
-    n_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(threshz)
+    n_labels, _, stats, _ = cv2.connectedComponentsWithStats(threshz)
     pos_rectangles = []
     pos_marker = []
     for i in range(1, n_labels):
@@ -131,39 +132,31 @@ def add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, 
     if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return img, pos_rectangles, pos_marker
 
-# adapted from BEN Open CV Bot Tutorial #9
-def pythagorean_distance(pos_x, pos_y):
-        my_pos = (1280/2, 720/2) #center of the screen
-        return sqrt((pos_x - my_pos[0])**2 + (pos_y - my_pos[1])**2)
+def _sort_targets_by_dist(targets):
+    return targets.sort(key=lambda pos: pythagorean_distance(pos[0], 1280/2, pos[1], 720/2))
 
-# adapted from BEN Open CV Bot Tutorial #9
-def get_targets_ordered_by_distance(targets, ignore_radius:int=0):
-    my_pos = (1280/2, 720/2) #center of the screen
-    def pythagorean_distance(pos):
-        return sqrt((pos[0] - my_pos[0])**2 + (pos[1] - my_pos[1])**2)
-    targets.sort(key=pythagorean_distance)
-    targets = [t for t in targets if pythagorean_distance(t) > ignore_radius] #ignore targets that are too close
-    return targets #a sorted arry of all targets, nearest to farest away
+def _ignore_targets_within_radius(targets, ignore_radius:int=0):
+    return [t for t in targets if pythagorean_distance(t[0], 1280/2, t[1], 720/2) > ignore_radius] #ignore targets that are too close
 
 def mobcheck(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-    filterimage, threshz = apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+    filterimage, threshz = _apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
     pos_marker = []
-    filterimage, _, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+    filterimage, _, pos_marker = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
-    order = get_targets_ordered_by_distance(pos_marker, 150)
-    if not order:
+    filtered_targets = _ignore_targets_within_radius(pos_marker, 150)
+    if not filtered_targets:
         Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
         return False
     else:
-        pos_m = convert_screen_to_abs(order[0]) #nearest marker
+        pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
         pos_m = convert_abs_to_monitor(pos_m)
         Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
         if info_ss:
             #draw an arrow on a screenshot where a mob was found
             pt2 = (640,360)
-            x1, y1 = order[0]
+            x1, y1 = filtered_targets[0]
             pt1 = (int(x1),int(y1))
             input = np.ascontiguousarray(img)
             cv2.arrowedLine(input, pt2, pt1, line_type=cv2.LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
@@ -190,10 +183,10 @@ if __name__ == "__main__":
         # img = cv2.imread("")
         img = grab()
 
-        filterimage, threshz = apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+        filterimage, threshz = _apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
         pos_marker = []
         pos_rectangle = []
-        filterimage, pos_rectangle, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        filterimage, pos_rectangle, pos_marker = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
 
         cv2.imshow('test', filterimage)
         key = cv2.waitKey(1)
