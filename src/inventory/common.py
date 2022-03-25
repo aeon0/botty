@@ -87,6 +87,8 @@ def calc_item_roi(img_pre, img_post):
         final = np.bitwise_and.reduce([blue_red_mask, green_mask, diff_thresh])
         _, roi = trim_black(final)
         return roi
+    except ValueError:
+        Logger.debug(f"_calc_item_roi: Couldn't determine item dimensions--tooltip likely obscuring")
     except BaseException as err:
         Logger.error(f"_calc_item_roi: Unexpected {err=}, {type(err)=}")
         return None
