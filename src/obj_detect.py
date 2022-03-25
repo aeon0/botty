@@ -145,15 +145,14 @@ def get_targets_ordered_by_distance(targets, ignore_radius:int=0):
     targets = [t for t in targets if pythagorean_distance(t) > ignore_radius] #ignore targets that are too close
     return targets #a sorted arry of all targets, nearest to farest away
 
-def mobcheck(info_ss:bool=False) -> bool:
+def mobcheck(info_ss: bool = False) -> bool:
     #wait(1) # let the merc paint some mobs
     img = grab()
     input = img #for drawing lines later
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     filterimage, threshz = apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
     pos_marker = []
-    pos_rectangle = []
-    filterimage, pos_rectangle, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+    filterimage, _, pos_marker = add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
     order = get_targets_ordered_by_distance(pos_marker, 150)
     if not order:
