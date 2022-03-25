@@ -35,20 +35,23 @@ def start_game() -> bool:
     elif difficulty == "HELL": Difficulty = 'h'
     else: Logger.error(f"Invalid difficulty: {Config().general['difficulty']}")
     start = time.time()
-    keyboard.send(Difficulty)
+    keyboard.press(Difficulty)
     while True:
         #check for loading screen
         if is_visible(ScreenObjects.Loading):
+            keyboard.release(Difficulty)
             Logger.debug("Found loading screen")
             break
         else:
             wait(1,2)
         # check for server issue
         if is_visible(ScreenObjects.ServerError):
+            keyboard.release(Difficulty)
             error_screens.handle_error()
             return start_game()
 
         if time.time() - start > 15:
+            keyboard.release(Difficulty)
             Logger.error(f"Could not find {difficulty}_BTN or LOADING, start over")
             return start_game()
     return True
