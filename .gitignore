@@ -29,3 +29,8 @@ stats/
 htmlcov/
 coverage.xml
 utils/live-view/
+botty*.iml
+misc.xml
+vcs.xml
+modules.xml
+.idea/*
