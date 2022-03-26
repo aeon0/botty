@@ -1,23 +1,18 @@
 import cv2
-import WindowCapture
+from screen import start_detecting_window, grab
 import numpy as np
 import json
-capture = WindowCapture.WindowCapture()
-_hud_mask = cv2.imread(f"hud_mask.png", cv2.IMREAD_GRAYSCALE)
+_hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
 _hud_mask = cv2.threshold(_hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
 import keyboard
 import os
+
 class LiveViewer:
     def __init__(self):
-        keyboard.add_hotkey('q', self.q_pressed)
-        #with open('last_settings.json') as f:
-        with open(r'd:\Documents\GitHub\botty-diablo\src\utils\live-view\last_settings.json') as f:
+        with open("./src/utils/live-view-last-settings.json") as f:
             self.settings = json.loads(f.read())
         self.setup()
         self.live_view(1)
-
-    def q_pressed(self):
-        os._exit(1)
 
     def setup(self):
         cv2.namedWindow("Settings", cv2.WINDOW_NORMAL)
@@ -59,7 +54,7 @@ class LiveViewer:
         return cal
 
     def value_update(self, ignore=0):
-        self.image = capture.get_screenshot()
+        self.image = grab()
         self.image = cv2.bitwise_and(self.image, self.image, mask=_hud_mask)
         # black out character
         self.image = cv2.rectangle(self.image, (550,250), (700,400), (0,0,0), -1)
@@ -77,7 +72,7 @@ class LiveViewer:
             self.settings['contrast'] = cv2.getTrackbarPos('contrast', 'Settings')
             self.settings['thresh'] = cv2.getTrackbarPos('thresh', 'Settings')
             self.settings['invert'] = cv2.getTrackbarPos('invert', 'Settings')
-            with open('last_settings.json', 'w') as f:
+            with open("./src/utils/live-view-last-settings.json", 'w') as f:
                 f.write(json.dumps(self.settings))
         except cv2.error:
             return
@@ -123,4 +118,13 @@ class LiveViewer:
         while True:
             self.value_update(1)
 
-l = LiveViewer()
+if __name__ == "__main__":
+    import keyboard
+    import os
+    from logger import Logger
+    from screen import start_detecting_window, stop_detecting_window
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    start_detecting_window()
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
+    l = LiveViewer()
