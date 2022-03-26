@@ -177,7 +177,6 @@ if __name__ == "__main__":
     import cv2
     import numpy as np
     import time
-    from math import sqrt #for object detection
     from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
     from logger import Logger
 
