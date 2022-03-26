@@ -86,18 +86,6 @@ class ScreenObjects:
         threshold=0.9,
         use_grayscale=True
     )
-    Nightmare=ScreenObject(
-        ref=["NIGHTMARE_BTN"],
-        roi="difficulty_select",
-        threshold=0.9,
-        use_grayscale=True
-    )
-    Hell=ScreenObject(
-        ref=["HELL_BTN"],
-        roi="difficulty_select",
-        threshold=0.9,
-        use_grayscale=True
-    )
     CubeInventory=ScreenObject(
         ref=["HORADRIC_CUBE"],
         roi="left_inventory",
