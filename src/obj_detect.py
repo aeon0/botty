@@ -1,10 +1,9 @@
 import cv2
 import numpy as np
 import time
-from math import sqrt #for object detection
 from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
-from utils.misc import pythagorean_distance
+from math import dist
 
 
 #Changes Brightness and Contrast - adapted from Nathan's Live-view
@@ -132,20 +131,23 @@ def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20,
     if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return img, pos_rectangles, pos_marker
 
+def _dist_to_center(pos):
+    return dist(pos, (1280/2, 720/2))
+
 def _sort_targets_by_dist(targets):
-    return targets.sort(key=lambda pos: pythagorean_distance(pos[0], 1280/2, pos[1], 720/2))
+    return targets.sort(key=lambda pos: _dist_to_center(pos))
 
 def _ignore_targets_within_radius(targets, ignore_radius:int=0):
-    return [t for t in targets if pythagorean_distance(t[0], 1280/2, t[1], 720/2) > ignore_radius] #ignore targets that are too close
+    return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
 def mobcheck(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     filterimage, threshz = _apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
-    pos_marker = []
-    filterimage, _, pos_marker = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+    pos_markers = []
+    filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
-    filtered_targets = _ignore_targets_within_radius(pos_marker, 150)
+    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(pos_markers), 150)
     if not filtered_targets:
         Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
         return False

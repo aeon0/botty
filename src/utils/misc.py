@@ -6,7 +6,6 @@ import random
 import ctypes
 import numpy as np
 from copy import deepcopy
-from math import sqrt
 
 from pyparsing import Regex
 
@@ -211,9 +210,6 @@ def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
 
 def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
-
-def pythagorean_distance(x_1, y_1, x_2, y_2):
-    return sqrt((x_1 - x_2)**2 + (y_1 - y_2)**2)
 
 # if __name__ == "__main__":
     # print(find_d2r_window())
