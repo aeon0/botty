@@ -11,6 +11,7 @@ from utils.misc import cut_roi, wait, color_filter
 from config import Config
 from screen import convert_abs_to_monitor, convert_monitor_to_screen, convert_screen_to_monitor, grab
 import keyboard
+import os
 
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
@@ -102,8 +103,15 @@ def update_pot_needs():
     img = open()
     # first clean up columns that might be too much
     for column in range(4):
-        potion_type = _potion_type(_cut_potion_img(img, column, 0))
-        if potion_type != "empty":
+        potion_type = None
+        try:
+            potion_type = _potion_type(_cut_potion_img(img, column, 0))
+        except TypeError:
+            Logger.error("Could not find potions in belt. Most likely due to \"show_belt\" in params.ini having the incorrect hotkey.")
+            Logger.error("Closing in 10 seconds..")
+            wait(10)
+            os._exit(1)
+        if potion_type and potion_type != "empty":
             rows_left[potion_type] -= 1
             if rows_left[potion_type] < 0:
                 rows_left[potion_type] += 1
