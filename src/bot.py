@@ -10,6 +10,7 @@ from typing import Union
 from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
+from utils.misc import wait, hms
 
 from game_stats import GameStats
 from logger import Logger
@@ -118,6 +119,7 @@ class Bot:
         self._current_threads = []
         self._ran_no_pickup = False
         self._previous_run_failed = False
+        self._timer = time.time()
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
@@ -402,11 +404,25 @@ class Bot:
         view.save_and_exit()
         set_pause_state(True)
         self._game_stats.log_end_game(failed=failed)
+        
+        if Config().general["max_runtime_before_break_m"]:            
+            elapsed_time = time.time() - self._timer
+            Logger.info(f'Session length = {elapsed_time} s, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]*60} s.')
+            
+            if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
+                Logger.info(f'Max session length reached, taking a break for {Config().general["break_length_m"]} minutes.')
+                self._messenger.send_message(f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)} minutes.')
+                if not self._pausing:
+                    self.toggle_pause()
 
-        ## If current session length longer than max_runtime_before_break
-        ## toggle_pause and wait(break_length)
-        ## reset current session length and toggle_pause again
-        self.toggle_pause()
+                wait(Config().general["break_length_m"]*60)
+
+                Logger.info(f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.')
+                if self._pausing:
+                    self.toggle_pause()
+                
+                self._timer = time.time()
+        
 
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
