@@ -418,6 +418,7 @@ class Bot:
                 wait(Config().general["break_length_m"]*60)
 
                 Logger.info(f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.')
+                self._messenger.send_message(f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.')
                 if self._pausing:
                     self.toggle_pause()
                 
