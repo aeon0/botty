@@ -4,6 +4,7 @@ import time
 from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
 from math import dist
+from utils.misc import color_filter
 
 
 #Changes Brightness and Contrast - adapted from Nathan's Live-view
@@ -75,6 +76,7 @@ def _apply_filter(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=Fa
         if blur: img = cv2.blur(img, (blur, blur))
         if bright or contrast: img = _bright_contrast(img, bright, contrast)
         if lh or ls or lv or uh or us or uv:
+            _, img = color_filter(img, ([lh, ls, lv], [uh, us, uv]))
             lower = np.array([lh, ls, lv])
             upper = np.array([uh, us, uv])
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -140,7 +142,7 @@ def _sort_targets_by_dist(targets):
 def _ignore_targets_within_radius(targets, ignore_radius:int=0):
     return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
-def mobcheck(img: np.ndarray = None, info_ss: bool = False) -> bool:
+def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     filterimage, threshz = _apply_filter(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
