@@ -191,6 +191,8 @@ class Config:
             "name": self._select_val("general", "name"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
+            "max_runtime_before_break": float(self._select_val("general", "max_runtime_before_break")),
+            "break_length": float(self._select_val("general", "break_length")),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "message_api_type": self._select_val("general", "message_api_type"),

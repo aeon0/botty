@@ -402,6 +402,12 @@ class Bot:
         view.save_and_exit()
         set_pause_state(True)
         self._game_stats.log_end_game(failed=failed)
+
+        ## If current session length longer than max_runtime_before_break
+        ## toggle_pause and wait(break_length)
+        ## reset current session length and toggle_pause again
+        self.toggle_pause()
+
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
