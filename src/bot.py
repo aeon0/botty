@@ -251,6 +251,9 @@ class Bot:
                 Logger.info("Activated /nopickup")
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
+
+        self._game_stats.log_exp()
+
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
@@ -425,6 +428,7 @@ class Bot:
     # ==================================
     def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
         self._game_stats._run_counter += 1
+        self._game_stats.log_exp()
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:

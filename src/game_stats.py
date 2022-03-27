@@ -10,6 +10,8 @@ from messages import Messenger
 from utils.misc import hms
 from version import __version__
 
+from ui import player_bar
+
 
 class GameStats:
     def __init__(self):
@@ -31,6 +33,8 @@ class GameStats:
         self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         self._nopickup_active = False
+        self._starting_exp = 0
+        self._current_exp = 0
 
     def update_location(self, loc: str):
         if self._location != loc:
@@ -100,6 +104,17 @@ class GameStats:
             self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
+    def log_exp(self):
+        curr_exp = player_bar.get_experience()[0]
+        if self._starting_exp == 0:
+            self._starting_exp = curr_exp
+            self._current_exp = curr_exp
+            Logger.debug(f"EXP Start: {self._starting_exp}")
+        elif curr_exp > 0:
+            self._current_exp = curr_exp
+            Logger.debug(f"EXP Current: {self._current_exp}")
+            Logger.debug(f"EXP Gained: {self._current_exp - self._starting_exp}")
+
     def pause_timer(self):
         if self._timer is None or self._paused:
             return
@@ -133,8 +148,16 @@ class GameStats:
             good_games_time = elapsed_time - self._failed_game_time
             avg_length = good_games_time / float(good_games_count)
             avg_length_str = hms(avg_length)
+        gained_exp = self._current_exp - self._starting_exp
+        exp_per_hour = round(gained_exp / good_games_time * 3600, 1)
+        exp_per_game = round(gained_exp / float(good_games_count), 1)
 
-        msg = f'\nSession length: {elapsed_time_str}\nGames: {self._game_counter}\nAvg Game Length: {avg_length_str}'
+        msg = f'\nSession length: {elapsed_time_str}'
+        msg += f'\nGames: {self._game_counter}'
+        msg += f'\nAvg Game Length: {avg_length_str}'
+        msg += f'\nXP Gained: {gained_exp:,}'
+        msg += f'\nXP Per Hour: {exp_per_hour:,}'
+        msg += f'\nXP Per Game: {exp_per_game:,}'
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
