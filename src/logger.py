@@ -4,11 +4,30 @@ import os
 import sys
 import warnings
 from version import __version__
+from colorama import Fore, Back, Style, init
+
+init()
+
+class CustomFormatter(logging.Formatter):
+    format = f'[{__version__} %(asctime)s] %(levelname)-10s %(message)s'
+
+    FORMATS = {
+        logging.DEBUG:    Fore.WHITE          + format + Fore.WHITE,
+        logging.INFO:     Fore.LIGHTBLUE_EX   + format + Fore.WHITE,
+        logging.WARNING:  Fore.LIGHTYELLOW_EX + format + Fore.WHITE,
+        logging.ERROR:    Fore.LIGHTRED_EX    + format + Fore.WHITE,
+        logging.CRITICAL: Fore.RED            + format + Fore.WHITE
+    }
+
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
 
 class Logger:
     """Manage logging"""
     _logger_level = None
-    _formatter = logging.Formatter(f'[{__version__} %(asctime)s] %(levelname)-10s %(message)s')
     _log_contents = io.StringIO()
     _current_log_file_path = "info.log"
     _output = ""  # intercepted output from stdout and stderr
@@ -74,9 +93,10 @@ class Logger:
         Logger.file_handler.setLevel(Logger._logger_level)
 
         # Optionally add a formatter
-        Logger.string_handler.setFormatter(Logger._formatter)
-        Logger.console_handler.setFormatter(Logger._formatter)
-        Logger.file_handler.setFormatter(Logger._formatter)
+        _format = CustomFormatter()
+        Logger.string_handler.setFormatter(_format)
+        Logger.console_handler.setFormatter(_format)
+        Logger.file_handler.setFormatter(_format)
 
         # Add the handler to the logger
         Logger.logger.addHandler(Logger.string_handler)
