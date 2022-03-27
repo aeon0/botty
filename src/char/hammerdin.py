@@ -1,4 +1,3 @@
-from logging import Filter
 import keyboard
 from ui import skills
 from utils.custom_mouse import mouse
