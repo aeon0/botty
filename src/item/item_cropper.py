@@ -5,9 +5,10 @@ import time
 
 from utils.misc import color_filter, erode_to_black
 from template_finder import TemplateFinder
-from ocr import Ocr, OcrResult
+from ocr import OcrResult
 from config import Config
 from logger import Logger
+from d2r_image import ocr
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
@@ -23,8 +24,6 @@ class ItemText:
 
 class ItemCropper:
     def __init__(self):
-        self._ocr = Ocr()
-
         self._gaus_filter = (19, 1)
         self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
@@ -91,7 +90,7 @@ class ItemCropper:
         # print(debug_str)
         if Config().advanced_options["ocr_during_pickit"]:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
-            results = self._ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
+            results = ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
@@ -128,7 +127,7 @@ class ItemCropper:
                 footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
                 found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
                 if found_footer:
-                    ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
+                    ocr_result = ocr.image_to_text(cropped_item, psm=6, model=model)[0]
                     result.color = "black"
                     result.roi = [x, y, w, h]
                     result.data = cropped_item

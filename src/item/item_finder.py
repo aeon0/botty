@@ -10,7 +10,8 @@ from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
-from ocr import OcrResult, Ocr
+from ocr import OcrResult
+from d2r_image import ocr
 
 
 @dataclass
@@ -118,7 +119,7 @@ class ItemFinder:
                                     # if ocr_during_pickit is off, min_gold_to_pick is set, and matched template is gold, OCR the image
                                     if not Config().advanced_options['ocr_during_pickit'] \
                                         and Config().char['min_gold_to_pick'] and 'misc_gold' == key:
-                                        results = Ocr().image_to_text([cluster["clean_img"]], model = "engd2r_inv_th_fast", psm = 7)
+                                        results = ocr.image_to_text([cluster["clean_img"]], model = "engd2r_inv_th_fast", psm = 7)
                                         setattr(cluster, "ocr_result", results[0])
                                     if same_type:
                                         item = Item()
