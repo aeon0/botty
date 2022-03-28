@@ -1,7 +1,4 @@
-
-
 levels = {}
-
 levels[1] = levels[0] = { "lvl":1, "exp":0, "xp_to_next":500 }
 levels[2] = levels[500] = { "lvl":2, "exp":500, "xp_to_next":1000 }
 levels[3] = levels[1500] = { "lvl":3, "exp":1500, "xp_to_next":2250 }
@@ -105,7 +102,6 @@ levels[99] = levels[3520485254] = { "lvl":99, "exp":3520485254, "xp_to_next":Non
 
 def get_level(index: int):
     try:
-        level = levels[index]
-        return level
+        return levels[index]
     except:
         return { "lvl":0, "exp":0, "xp_to_next":0 }
