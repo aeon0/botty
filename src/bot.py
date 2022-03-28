@@ -25,6 +25,7 @@ from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
 from char.necro import Necro
+from char.poison_necro import Poison_Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
@@ -61,6 +62,8 @@ class Bot:
             self._char: IChar = Trapsin(Config().trapsin, self._pather)
         elif Config().char["type"] == "barbarian":
             self._char: IChar = Barbarian(Config().barbarian, self._pather)
+        elif Config().char["type"] == "poison_necro":
+            self._char: IChar = Poison_Necro(Config().poison_necro, self._pather)
         elif Config().char["type"] == "necro":
             self._char: IChar = Necro(Config().necro, self._pather)
         elif Config().char["type"] == "basic":

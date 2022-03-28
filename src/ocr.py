@@ -2,8 +2,9 @@ from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy as np
 import cv2
 import re
+from rapidfuzz.process import extractOne
+from rapidfuzz.string_metric import levenshtein
 import csv
-import difflib
 from utils.misc import erode_to_black
 from logger import Logger
 from typing import List, Union
@@ -77,7 +78,7 @@ class Ocr:
         fix_regexps: bool = True,
         check_known_errors: bool = True,
         check_wordlist: bool = True,
-        word_match_threshold: float = 0.9
+        word_match_threshold: float = 0.5
     ) -> list[str]:
         """
         Uses Tesseract to read image(s)
@@ -156,13 +157,14 @@ class Ocr:
     """
     OCR output processing functions:
     """
+
     def _check_known_errors(self, text):
         for key, value in self._ocr_errors.items():
             if key in text:
                 text = text.replace(key, value)
         return text
 
-    def _check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.9) -> str:
+    def _check_wordlist(self, text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.5) -> str:
         with open(f'assets/tessdata/word_lists/{word_list}') as file:
             word_list = [line.rstrip() for line in file]
 
@@ -173,12 +175,14 @@ class Ocr:
             word = word.strip()
             if word and word != "NEWLINEHERE":
                 try:
-                    if confidences[word_count] <= 88:
-                        if (word not in word_list) and (re.sub(r"[^a-zA-Z0-9]", "", word) not in word_list):
-                            closest_match = difflib.get_close_matches(word, word_list, cutoff=match_threshold)
-                            if closest_match and closest_match != word:
-                                new_string += f"{closest_match[0]} "
-                                Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match[0]}, score=")
+                    if confidences[word_count] <= 90:
+                        alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
+                        if not alphanumeric.isnumeric() and (word not in word_list) and alphanumeric not in word_list:
+                            closest_match, similarity, _ = extractOne(word, word_list, scorer=levenshtein)
+                            normalized_similarity = 1 - similarity / len(word)
+                            if (normalized_similarity) >= (match_threshold):
+                                new_string += f"{closest_match} "
+                                Logger.debug(f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match}, similarity={normalized_similarity*100:.1f}%")
                             else:
                                 new_string += f"{word} "
                         else:
@@ -190,8 +194,8 @@ class Ocr:
                     # bizarre word_count index exceeded sometimes... can't reproduce and words otherwise seem to match up
                     Logger.error(f"check_wordlist: IndexError for word: {word}, index: {word_count}, text: {text}")
                     return text
-                except:
-                    Logger.error(f"check_wordlist: Unknown error for word: {word}, index: {word_count}, text: {text}")
+                except Exception as e:
+                    Logger.error(f"check_wordlist: Unknown error for word: {word}, index: {word_count}, text: {text}, exception: {e}")
                     return text
             elif word == "NEWLINEHERE":
                 new_string += "\n"
@@ -300,6 +304,6 @@ if __name__ == "__main__":
         fix_regexps = False,
         check_known_errors = False,
         check_wordlist = False,
-        word_match_threshold = 0.9
+        word_match_threshold = 0.5
     )[0]
     Logger.debug(ocr_result.text)

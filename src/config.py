@@ -23,7 +23,7 @@ class Config:
     data_loaded = False
 
     configs = {}
-    
+
     # config data
     general = {}
     advanced_options = {}
@@ -44,6 +44,7 @@ class Config:
     hammerdin = {}
     trapsin = {}
     barbarian = {}
+    poison_necro = {}
     necro = {}
     basic = {}
     basic_ranged = {}
@@ -199,11 +200,11 @@ class Config:
         for config_name in self.configs:
             config = self.configs[config_name]
             try:
-                for var in config["parser"]["variables"]: 
+                for var in config["parser"]["variables"]:
                     config["vars"][var] = config["parser"]["variables"][var] # set var name to var value
             except KeyError: # "" header section was not found for this config file.
                 pass
-            
+
 
 
         self.general = {
@@ -342,6 +343,10 @@ class Config:
         self.necro = self.configs["config"]["parser"]["necro"]
         if "necro" in self.configs["custom"]["parser"]:
             self.necro.update(self.configs["custom"]["parser"]["necro"])
+
+        self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
+        if "poison_necro" in self.configs["custom"]["parser"]:
+            self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
