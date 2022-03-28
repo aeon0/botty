@@ -10,8 +10,8 @@ from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
-from ocr import OcrResult
 from d2r_image import ocr
+from d2r_image.data_models import OcrResult
 
 
 @dataclass

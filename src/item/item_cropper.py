@@ -5,10 +5,10 @@ import time
 
 from utils.misc import color_filter, erode_to_black
 from template_finder import TemplateFinder
-from ocr import OcrResult
 from config import Config
 from logger import Logger
 from d2r_image import ocr
+from d2r_image.data_models import OcrResult
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
