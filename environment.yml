@@ -32,3 +32,4 @@ dependencies:
     - typing_extensions
     - d2r-image
     - d2-nip-eval
+    - colorama

@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import time
 import threading
@@ -8,7 +9,10 @@ from logger import Logger
 from config import Config
 from messages import Messenger
 from utils.misc import hms
+from utils.levels import get_level
 from version import __version__
+
+from ui import player_bar
 
 
 class GameStats:
@@ -31,6 +35,9 @@ class GameStats:
         self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         self._nopickup_active = False
+        self._starting_exp = 0
+        self._current_exp = 0
+        self._current_lvl = 0
 
     def update_location(self, loc: str):
         if self._location != loc:
@@ -100,6 +107,20 @@ class GameStats:
             self._consecutive_runs_failed = 0
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
+    def log_exp(self):
+        exp = player_bar.get_experience()
+
+        if exp[1] > 0:
+            curr_lvl = get_level(exp[1])['lvl']
+            if curr_lvl > 0:
+                self._current_lvl = curr_lvl-1
+        
+        if self._starting_exp == 0:
+            self._starting_exp = exp[0]
+        
+        if exp[0] > 0:
+            self._current_exp = exp[0]
+
     def pause_timer(self):
         if self._timer is None or self._paused:
             return
@@ -129,12 +150,35 @@ class GameStats:
         elapsed_time_str = hms(elapsed_time)
         avg_length_str = "n/a"
         good_games_count = self._game_counter - self._runs_failed
-        if good_games_count > 0:
-            good_games_time = elapsed_time - self._failed_game_time
-            avg_length = good_games_time / float(good_games_count)
-            avg_length_str = hms(avg_length)
+        good_games_time = elapsed_time - self._failed_game_time
 
-        msg = f'\nSession length: {elapsed_time_str}\nGames: {self._game_counter}\nAvg Game Length: {avg_length_str}'
+        if good_games_count == 0:
+            good_games_count = 1
+
+        avg_length = good_games_time / float(good_games_count)
+        avg_length_str = hms(avg_length)
+
+        curr_lvl = get_level(self._current_lvl)
+        exp_gained = self._current_exp - curr_lvl['exp']
+        per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
+        gained_exp = self._current_exp - self._starting_exp
+        exp_per_second = gained_exp / good_games_time
+        exp_per_hour = round(exp_per_second * 3600, 1)
+        exp_per_game = round(gained_exp / float(good_games_count), 1)
+        exp_needed = curr_lvl['xp_to_next'] - exp_gained
+        time_to_lvl = exp_needed / exp_per_second
+        games_to_lvl = exp_needed / exp_per_game
+
+        msg = f'\nSession length: {elapsed_time_str}'
+        msg += f'\nGames: {self._game_counter}'
+        msg += f'\nAvg Game Length: {avg_length_str}'
+        msg += f'\nCurrent Level: {curr_lvl["lvl"]}'
+        msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
+        msg += f'\nXP Gained: {gained_exp:,}'
+        msg += f'\nXP Per Hour: {exp_per_hour:,}'
+        msg += f'\nXP Per Game: {exp_per_game:,}'
+        msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
+        msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
