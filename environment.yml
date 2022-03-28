@@ -32,3 +32,5 @@ dependencies:
     - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
     - typing_extensions
     - rapidfuzz
+    - d2r-image
+    - d2-nip-eval

@@ -1,4 +1,5 @@
 import itertools
+import os
 from game_stats import GameStats
 from item import ItemFinder, Item
 from item.item_cropper import ItemText
@@ -8,6 +9,7 @@ import keyboard
 import cv2
 import time
 import numpy as np
+import glob
 
 from template_finder import TemplateFinder
 from config import Config
@@ -18,11 +20,20 @@ from ui import view
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse
 from item import ItemCropper
 from messages import Messenger
+from d2r_image import processing as d2r_image
+from d2_nip_eval import lexer
 
 inv_gold_full = False
 messenger = Messenger()
 item_finder = ItemFinder()
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
+nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'nip')
+glob_nip_path = os.path.join(nip_path, '**', '*.nip')
+nip_file_paths = glob.glob(glob_nip_path, recursive=True)
+expressions = []
+for nip_file_path in nip_file_paths:
+    data = open(nip_file_path).readlines()
+    expressions += lexer.transpile_nip_expressions(data)
 
 def get_inventory_gold_full():
     global inv_gold_full
@@ -296,9 +307,12 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
         wait(0.1, 0.2)
         hovered_item = grab()
+        d2r_image_hovered_item = d2r_image.get_hovered_item(hovered_item)
         # get the item description box
         item_box = ItemCropper().crop_item_descr(hovered_item)
-        if item_box.valid:
+        # if item_box.valid:
+        if d2r_image_hovered_item:
+            should_keep_item = lexer.keep_item(expressions, d2r_image_hovered_item.as_dict())
             # determine the item's ROI in inventory
             cnt=0
             while True:
