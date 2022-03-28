@@ -411,14 +411,15 @@ class Bot:
 
             if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
                 Logger.info(f'Max session length reached, taking a break for {Config().general["break_length_m"]} minutes.')
-                self._messenger.send_message(f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)} minutes.')
+                self._messenger.send_message(f'Ran for {hms(elapsed_time)}, taking a break for {Config().general["break_length_m"]} minutes.')
                 if not self._pausing:
                     self.toggle_pause()
 
                 wait(Config().general["break_length_m"]*60)
 
-                Logger.info(f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.')
-                self._messenger.send_message(f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.')
+                break_msg = f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.'
+                Logger.info(break_msg)
+                self._messenger.send_message(break_msg)
                 if self._pausing:
                     self.toggle_pause()
 
