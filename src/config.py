@@ -88,6 +88,7 @@ class Config:
             if var_name in found_val:
                 var_val = self.configs[found_in]["vars"][var_name]
                 found_val = found_val.replace(var_name, var_val)
+        
         return found_val
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
@@ -220,8 +221,14 @@ class Config:
             "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "games_via_lobby": bool(int(self._select_val("general", "games_via_lobby"))),
             "d2r_path": self._select_val("general", "d2r_path"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
+            "region": self._select_val("general", "region"),
+            "max_players": int(self._select_val("general", "max_players")),
+            "max_delta_approx_time": int(self._select_val("general", "max_delta_approx_time")),
+            "db_email": self._select_val("general", "DB_email"),
+            "db_password": self._select_val("general", "DB_password"),
         }
 
         # Added for dclone ip hunting

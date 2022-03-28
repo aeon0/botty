@@ -38,7 +38,7 @@ class GameController:
         # Start bot thread
         host = self.group_manager.decide_host ()
         #self.bot = Bot(self.game_stats)
-        self.bot = Bot(self.game_stats, self.api, host=host, groupID = self.group_manager._groupID, gn = self._firebase._gn, pw = self._firebase._pw)
+        self.bot = Bot(self.game_stats, host=host, groupID = self.group_manager._groupID, gn = self._firebase._gn, pw = self._firebase._pw)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()

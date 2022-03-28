@@ -242,7 +242,7 @@ class Bot:
                 found_btn_play = TemplateFinder().search_and_wait("CREATE_GAME", timeout= 3, threshold=0.8, best_match=True, normalize_monitor=True)
                 if found_btn_play.valid:
                     self._gn, self._pw = main_menu.create_game_lobby ()
-                    self.trigger_or_stop("start_from_town")
+                    #self.trigger_or_stop("start_from_town")
                     
     def join_via_lobby (self):
         while self._first_game == False:
@@ -252,7 +252,7 @@ class Bot:
             if not main_menu.goto_lobby (): return
         main_menu.join_game_lobby (self._gn, self._pw)
         self._first_game = False
-        self.trigger_or_stop("start_from_town")
+        #self.trigger_or_stop("start_from_town")
      
 
     def on_create_game(self): 
@@ -278,16 +278,6 @@ class Bot:
                     main_menu.start_game()
                     view.move_to_corpse()
                 else: return
-        self.trigger_or_stop("start_from_town")
-
-    def on_create_game(self):
-        # Start a game from hero selection
-        if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
-            if "DARK" in m.name:
-                keyboard.send("esc")
-            main_menu.start_game()
-            view.move_to_corpse()
-        else: return
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
