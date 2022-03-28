@@ -191,8 +191,8 @@ class Config:
             "name": self._select_val("general", "name"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
-            "max_runtime_before_break_m": False if not self._select_val("general", "max_runtime_before_break_m") else float(self._select_val("general", "max_runtime_before_break_m")),
-            "break_length_m": float(self._select_val("general", "break_length_m")),
+            "max_runtime_before_break_m": float(_default_iff(self._select_val("general", "max_runtime_before_break_m"), '', 0)),
+            "break_length_m": float(_default_iff(self._select_val("general", "break_length_m"), '', 0)),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "message_api_type": self._select_val("general", "message_api_type"),
@@ -324,11 +324,11 @@ class Config:
         self.necro = self._config["necro"]
         if "necro" in self._custom:
             self.necro.update(self._custom["necro"])
-            
+
         # PNecro config
         self.poison_necro = self._config["poison_necro"]
         if "poison_necro" in self._custom:
-            self.necro.update(self._custom["poison_necro"])            
+            self.necro.update(self._custom["poison_necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
