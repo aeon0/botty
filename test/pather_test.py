@@ -2,7 +2,7 @@ import pytest
 from mocks.screen_mock import ScreenMock
 from logger import Logger
 from pather import Pather
-from template_finder import TemplateFinder
+from screen import convert_screen_to_abs
 
 
 class TestPather:
@@ -11,8 +11,7 @@ class TestPather:
         Logger.remove_file_logger()
 
         screen = ScreenMock()
-        template_finder = TemplateFinder(screen)
-        self.pather = Pather(screen, template_finder)
+        self.pather = Pather()
 
     @pytest.mark.parametrize("test_input, expected", [
         ((90, 90), True),
@@ -23,7 +22,7 @@ class TestPather:
     ])
     def test_adjust_abs_range_to_screen(self, test_input, expected):
         should_be_adapted = expected
-        pos_abs = self.pather._screen.convert_screen_to_abs(test_input)
+        pos_abs = convert_screen_to_abs(test_input)
         new_pos_abs = self.pather._adjust_abs_range_to_screen(pos_abs)
         is_adapted = new_pos_abs != pos_abs
         assert(should_be_adapted == is_adapted)

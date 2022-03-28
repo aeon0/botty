@@ -2,69 +2,96 @@ import time
 import keyboard
 import cv2
 from operator import itemgetter
-
+from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
-from screen import Screen
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from item import ItemFinder, Item
-from ui import UiManager
-from ui import BeltManager
 from char import IChar
+from inventory import consumables
+import parse
 
 
 class PickIt:
-    def __init__(self, screen: Screen, item_finder: ItemFinder, ui_manager: UiManager, belt_manager: BeltManager):
+    def __init__(self, item_finder: ItemFinder):
         self._item_finder = item_finder
-        self._screen = screen
-        self._belt_manager = belt_manager
-        self._ui_manager = ui_manager
-        self._config = Config()
         self._last_closest_item: Item = None
 
-    def pick_up_items(self, char: IChar, is_at_trav: bool = False) -> bool:
+    def pick_up_items(self, char: IChar) -> bool:
         """
         Pick up all items with specified char
         :param char: The character used to pick up the item
-        :param is_at_trav: Dirty hack to reduce gold pickup only to trav area, should be removed once we can determine the amount of gold reliably
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
         found_nothing = 0
         found_items = False
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
         #Creating a screenshot of the current loot
-        if self._config.general["loot_screenshots"]:
-            img = self._screen.grab()
+        if Config().general["loot_screenshots"]:
+            img = grab()
             cv2.imwrite("./loot_screenshots/info_debug_drop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             Logger.debug("Took a screenshot of current loot")
         start = prev_cast_start = time.time()
-        time_out = False
+        timeout = False
         picked_up_items = []
         skip_items = []
         curr_item_to_pick: Item = None
         same_item_timer = None
         did_force_move = False
-        while not time_out:
+        done_ocr=False
+
+        while not timeout:
             if (time.time() - start) > 28:
-                time_out = True
+                timeout = True
                 Logger.warning("Got stuck during pickit, skipping it this time...")
                 break
-            img = self._screen.grab()
+            img = grab()
             item_list = self._item_finder.search(img)
 
-            # Check if we need to pick up certain pots more pots
-            need_pots = self._belt_manager.get_pot_needs()
-            if need_pots["mana"] <= 0:
-                item_list = [x for x in item_list if "mana_potion" not in x.name]
-            if need_pots["health"] <= 0:
-                item_list = [x for x in item_list if "healing_potion" not in x.name]
-            if need_pots["rejuv"] <= 0:
-                item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+            if Config().advanced_options["ocr_during_pickit"] and not done_ocr:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                for cnt, item in enumerate(item_list):
+                    for cnt2, x in enumerate(item.ocr_result['word_confidences']):
+                        found_low_confidence = False
+                        if x <= 88:
+                            try:
+                                Logger.debug(f"Low confidence word #{cnt2}: {item.ocr_result['original_text'].split()[cnt2]} -> {item.ocr_result['text'].split()[cnt2]}, Conf: {x}, save screenshot")
+                                found_low_confidence = True
+                            except: pass
+                        if found_low_confidence and Config().general["loot_screenshots"]:
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.png", item.ocr_result['original_img'])
+                            cv2.imwrite(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_n.png", item.ocr_result['processed_img'])
+                            with open(f"./loot_screenshots/ocr_drop_{timestamp}_{cnt}_o.gt.txt", 'w') as f:
+                                f.write(item.ocr_result['text'])
+                done_ocr = True
 
-            # TODO: Hacky solution for trav only gold pickup, hope we can soon read gold ammount and filter by that...
-            if self._config.char["gold_trav_only"] and not is_at_trav:
-                item_list = [x for x in item_list if "misc_gold" not in x.name]
+            # Check if we need to pick up any consumables
+            needs = consumables.get_needs()
+            if needs["mana"] <= 0:
+                item_list = [x for x in item_list if "mana_potion" not in x.name]
+            if needs["health"] <= 0:
+                item_list = [x for x in item_list if "healing_potion" not in x.name]
+            if needs["rejuv"] <= 0:
+                item_list = [x for x in item_list if "rejuvenation_potion" not in x.name]
+            if needs["tp"] <= 0:
+                item_list = [x for x in item_list if "scroll_tp" not in x.name]
+            if needs["id"] <= 0:
+                item_list = [x for x in item_list if "scroll_id" not in x.name]
+            if needs["key"] <= 0:
+                item_list = [x for x in item_list if "misc_key" != x.name]
+
+            # filter out gold less than desired quantity
+            if (min_gold := Config().char['min_gold_to_pick']):
+                for item in item_list[:]:
+                    if "misc_gold" == item.name:
+                        try:
+                            ocr_gold = int(parse.search("{:d} GOLD", item.ocr_result.text).fixed[0])
+                        except:
+                            ocr_gold = 0
+                        if ocr_gold < min_gold:
+                            item_list.remove(item)
 
             if len(item_list) == 0:
                 # if twice no item was found, break
@@ -73,13 +100,13 @@ class PickIt:
                     break
                 else:
                     # Maybe we need to move cursor to another position to avoid highlighting items
-                    pos_m = self._screen.convert_abs_to_monitor((0, 0))
+                    pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=[90, 160])
                     time.sleep(0.2)
             else:
                 found_nothing = 0
                 item_list.sort(key=itemgetter('dist'))
-                closest_item = next((obj for obj in item_list if "misc_gold" not in obj["name"]), None)
+                closest_item = next((obj for obj in item_list if not any(map(obj["name"].__contains__, ["misc_gold", "misc_scroll", "misc_key"]))), None)
                 if not closest_item:
                     closest_item = item_list[0]
 
@@ -106,23 +133,27 @@ class PickIt:
                                 self._last_closest_item.name == closest_item.name and \
                                 abs(self._last_closest_item.dist - closest_item.dist) < 20
 
-                x_m, y_m = self._screen.convert_screen_to_monitor(closest_item.center)
-                if not force_move and (closest_item.dist < self._config.ui_pos["item_dist"] or force_pick_up):
+                x_m, y_m = convert_screen_to_monitor(closest_item.center)
+                if not force_move and (closest_item.dist < Config().ui_pos["item_dist"] or force_pick_up):
                     self._last_closest_item = None
-                    # if potion is picked up, record it in the belt manager
-                    if "potion" in closest_item.name:
-                        self._belt_manager.picked_up_pot(closest_item.name)
-                    # no need to stash potions, scrolls, or gold
-                    if "potion" not in closest_item.name and "tp_scroll" != closest_item.name and "misc_gold" not in closest_item.name:
-                        found_items = True
+                    # no need to stash potions, scrolls, gold, keys
+                    if ("potion" not in closest_item.name) and ("misc_scroll" not in closest_item.name) and ("misc_key" != closest_item.name):
+                        if ("misc_gold" != closest_item.name):
+                            found_items = True
+                            if Config().advanced_options["ocr_during_pickit"]:
+                                for item in item_list:
+                                    Logger.debug(f"OCR DROP: Name: {item.ocr_result['text']}, Conf: {item.ocr_result['word_confidences']}")
+                    else:
+                        # note: key pickup appears to be random between 1 and 5, but set here at minimum of 1 for now
+                        consumables.increment_need(closest_item.name, -1)
 
                     prev_cast_start = char.pick_up_item((x_m, y_m), item_name=closest_item.name, prev_cast_start=prev_cast_start)
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.2)
 
-                    if self._ui_manager.is_overburdened():
+                    if is_visible(ScreenObjects.Overburdened):
                         found_items = True
-                        Logger.warning("Inventory full, skipping pickit!")
+                        Logger.warning("Inventory full, terminating pickit!")
                         # TODO: Could think about sth like: Go back to town, stash, come back picking up stuff
                         break
                     else:
@@ -139,7 +170,7 @@ class PickIt:
                     # save closeset item for next time to check potential endless loops of not reaching it or of telekinsis/teleport
                     self._last_closest_item = closest_item
 
-        keyboard.send(self._config.char["show_items"])
+        keyboard.send(Config().char["show_items"])
         return found_items
 
 
@@ -148,21 +179,14 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from ui import UiManager
     from template_finder import TemplateFinder
     from pather import Pather
     import keyboard
 
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    ui_manager = UiManager(screen, t_finder)
-    belt_manager = BeltManager(screen, t_finder)
-    belt_manager._pot_needs = {"rejuv": 0, "health": 2, "mana": 2}
-    pather = Pather(screen, t_finder)
+    pather = Pather()
     item_finder = ItemFinder()
-    char = Hammerdin(config.hammerdin, config.char, t_finder, ui_manager, pather)
-    pickit = PickIt(screen, item_finder, ui_manager, belt_manager)
+    char = Hammerdin(Config().hammerdin, Config().char, pather)
+    pickit = PickIt(item_finder)
     print(pickit.pick_up_items(char))

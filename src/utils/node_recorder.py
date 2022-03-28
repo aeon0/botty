@@ -1,4 +1,4 @@
-from screen import Screen
+from screen import grab, convert_monitor_to_screen, convert_abs_to_screen
 import cv2
 from config import Config
 from template_finder import TemplateFinder
@@ -13,7 +13,7 @@ import math
 
 
 class NodeRecorder:
-    def __init__(self, screen: Screen, config: Config, run_name):
+    def __init__(self, run_name):
         if os.path.exists("generated"):
             for path in Path("generated").glob("**/*"):
                 if path.is_file():
@@ -26,13 +26,11 @@ class NodeRecorder:
         self._run_name = run_name
         self._offset = 100
         self._template_counter = 0
-        self._half_width = config.ui_pos["screen_width"] // 2
-        self._half_height = config.ui_pos["screen_height"] // 2
-        self._screen = screen
+        self._half_width = Config().ui_pos["screen_width"] // 2
+        self._half_height = Config().ui_pos["screen_height"] // 2
         self._curr_state = 0
         self._upper_left = None
-        self._template_finder = TemplateFinder(self._screen)
-        self._template_finder._templates = {}
+        TemplateFinder()._templates = {}
         self._pather_code_file = "generated/pather_generated.py"
         self.ref_points = {}
         self.nodes = {}
@@ -46,8 +44,8 @@ class NodeRecorder:
 
     def find_templates(self, img):
         ref_points = {}
-        for key in self._template_finder._templates:
-            found = self._template_finder.search(key, img, use_grayscale=False, threshold=0.77)
+        for key in TemplateFinder()._templates:
+            found = TemplateFinder().search(key, img, use_grayscale=False, threshold=0.77)
             if found.valid:
                 ref_points[key] = found.center
         return ref_points
@@ -58,9 +56,9 @@ class NodeRecorder:
                 os._exit(1)
             self.ref_points = {}
             self.debug_node_pos = {}
-            img = self._screen.grab()
+            img = grab()
             loc_monitor = mouse.get_position()
-            loc_screen = self._screen.convert_monitor_to_screen(loc_monitor)
+            loc_screen = convert_monitor_to_screen(loc_monitor)
             if e.name == "f8" and self._curr_state == 0:
                 # create a tempalte
                 if self._upper_left is None:
@@ -79,7 +77,7 @@ class NodeRecorder:
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
                     template_img = load_template(template_path, 1.0, False)
-                    self._template_finder._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
+                    TemplateFinder()._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
             elif e.name == "f7":
                 self.ref_points = {}
             else:
@@ -102,11 +100,11 @@ class NodeRecorder:
                         if template_key in self.ref_points:
                             ref_pos_screen = self.ref_points[template_key]
                             # Get reference position of template in abs coordinates
-                            ref_pos_abs = self._screen.convert_screen_to_abs(ref_pos_screen)
+                            ref_pos_abs = convert_screen_to_abs(ref_pos_screen)
                             # Calc the abs node position with the relative coordinates (relative to ref)
                             node_pos_rel = self.nodes[node_idx][template_key]
                             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                            node_screen_pos = self._screen.convert_abs_to_screen(node_pos_abs)
+                            node_screen_pos = convert_abs_to_screen(node_pos_abs)
                             self.debug_node_pos[node_idx] = node_screen_pos
                             break
                     # if it was found try to add all other visible templates to it that are not already included
@@ -138,15 +136,14 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: print('Force Exit (f12)') or os._exit(1))
     print("Enter run name...")
     run_name = input()
+    from screen import stop_detecting_window, start_detecting_window
+    start_detecting_window()
 
-    config = Config()
-    screen = Screen()
-
-    recorder = NodeRecorder(screen, config, run_name)
+    recorder = NodeRecorder(run_name)
     keyboard.hook(recorder.hook, suppress=True)
 
     while 1:
-        img = screen.grab().copy()
+        img = grab().copy()
         try:
             for key in recorder.debug_node_pos:
                 cv2.circle(img, recorder.debug_node_pos[key], 8, (0, 0, 255), 4)
@@ -159,3 +156,5 @@ if __name__ == "__main__":
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("vis", img)
         cv2.waitKey(1)
+
+    stop_detecting_window()

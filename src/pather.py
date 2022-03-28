@@ -6,14 +6,15 @@ import random
 from typing import Tuple, Union, List
 import cv2
 import numpy as np
-
+from utils.custom_mouse import mouse
+from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
-from screen import Screen
+from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 from template_finder import TemplateFinder
 from char import IChar
-
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
 
 class Location:
     # A5 Town
@@ -53,6 +54,7 @@ class Location:
     A2_TP = "a2_tp"
     A2_FARA_STASH = "a2_fara_stash"
     A2_LYSANDER = "a2_lysander"
+    A2_DROGNAN = "a2_drognan"
     # A1 Town
     A1_TOWN_START = "a1_town_start"
     A1_STASH = "a1_stash"
@@ -89,12 +91,9 @@ class Pather:
     nodes you can specify in which order this nodes should be traversed in self._paths.
     """
 
-    def __init__(self, screen: Screen, template_finder: TemplateFinder):
-        self._config = Config()
-        self._screen = screen
-        self._template_finder = template_finder
-        self._range_x = [-self._config.ui_pos["center_x"] + 7, self._config.ui_pos["center_x"] - 7]
-        self._range_y = [-self._config.ui_pos["center_y"] + 7, self._config.ui_pos["center_y"] - self._config.ui_pos["skill_bar_height"] - 33]
+    def __init__(self):
+        self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
+        self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -104,8 +103,8 @@ class Pather:
             4: {'A5_TOWN_1': (-467, 267), 'A5_TOWN_2': (293, 113), 'A5_TOWN_3': (-267, -139), 'A5_TOWN_4': (162, -163)},
             5: {'A5_TOWN_2': (303+60, 219+40), 'A5_TOWN_3': (-257+60, -33+40), 'A5_TOWN_4': (172+60, -57+40)},
             6: {'A5_TOWN_3': (-583+80, 175+60), 'A5_TOWN_4': (-155+80, 151+60), 'A5_TOWN_5': (-13+80, -240+60), 'A5_TOWN_6': (307+80, 61+60)},
-            8: {'A5_TOWN_6': (127, 293), 'A5_TOWN_5': (-195, -5), 'A5_TOWN_7': (598, -87)},
-            9: {'A5_TOWN_5': (-407, 167), 'A5_TOWN_7': (386, 85)},
+            8: {'A5_TOWN_6': (127, 293), 'A5_TOWN_5': (-195, -5), 'A5_RED_PORTAL': (598, -87)},
+            9: {'A5_TOWN_5': (-407, 167), 'A5_RED_PORTAL': (386, 85)},
             10: {'A5_TOWN_4': (-472, 58), 'A5_TOWN_6': (-11, -32), 'A5_TOWN_8': (321, 131)},
             11: {'A5_TOWN_6': (-299, -215), 'A5_TOWN_8': (33, -52), 'A5_TOWN_9': (7, 231)},
             12: {'A5_TOWN_8': (-139, -196), 'A5_TOWN_9': (-165, 87)},
@@ -183,7 +182,10 @@ class Pather:
             404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
             405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
             406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
-            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_22": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_21": (-518, -299), "A2_TOWN_18": (745, -125)},
+            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_25": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_18": (745, -125)},
+            409: {"A2_TOWN_14": (477, 294), "A2_TOWN_13": (128, 226), "A2_TOWN_11": (140, -182), "A2_TOWN_12": (-201, -40)},
+            410: {"A2_TOWN_13": (416, 82), "A2_TOWN_12": (87, -184), "A2_TOWN_21": (-211, 10), "A2_TOWN_22": (-178, 269)},
+            411: {"A2_TOWN_22": (298, 0), "A2_TOWN_23": (0, 190), "A2_TOWN_21": (265, -260), "A2_TOWN_24": (-150, -185)},
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -205,54 +207,69 @@ class Pather:
             516: {"NIL2D_2": (-80, -143), "NIL2D_4": (73, 261), "NIL2D_0": (-287, 114), "NIL2D_3": (-343, 248)},
             517: {"NIL2D_5": (423, 139), "NIL2D_4": (-444, 127), "NIL2D_2": (-598, -277), "NIL2D_0": (-804, -20), "NIL2D_3": (-860, 114)},
 
+            ########################
             # Diablo Chaos Sanctuary
+            ########################
             600: {"DIABLO_1": (-127, -11), "DIABLO_0": (310, -121),}, #waypoint
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
-            #602: {"DIABLO_PENT_0": (253, 75), "DIABLO_PENT_1": (-487, 67), "DIABLO_PENT_2": (-142, 275), "DIABLO_PENT_3": (-268, -147)}, # pentagram position / diablo attack position
-            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), }, # Pentagram "DIA_NEW_PENT_4": (128, -200),
+            # PENTRAGRAM
+            602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), },
+            #Trash Entrance Calibration Node
+            603: {"DIA_CS_ENTRANCE_603": (121-111, 100-267),"DIA_CS_ENTRANCE_603_2": (121-111+700, 100-267-103),"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
+            604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
+            605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),}, #LC Hall1
+            #Trash Pent - Seal Calibration Nodes (currently not used)
+            606: {"DIA_TRASH_A_6": (146, -35), "DIA_TRASH_A_1": (104, 136), "DIA_TRASH_A_2": (-262, -36), "DIA_TRASH_A_0": (294, 48), "DIA_TRASH_A_3": (-368, 70), "DIA_TRASH_A_7": (446, 22), "DIA_TRASH_A_9": (-280, 391), "DIA_TRASH_A_10": (262, -484), }, #Trash Pent A
+            607: {'DIA_TRASH_B_6': (325, 7), 'DIA_TRASH_B_9': (325, 13), 'DIA_TRASH_B_15': (-182, 108), 'DIA_TRASH_B_19': (-260, -165), 'DIA_TRASH_B_10': (-189, 107), 'DIA_TRASH_B_18': (653, -254), 'DIA_TRASH_B_5': (323, 13), 'DIA_TRASH_B_11': (582, -55), 'DIA_TRASH_B_21': (676, 313), 'DIA_TRASH_B_2': (326, 11), 'DIA_TRASH_B_7': (320, 11), 'DIA_TRASH_B_20': (796, 243), 'DIA_TRASH_B_13': (-190, 107), 'DIA_TRASH_B_17': (-196, 103), 'DIA_TRASH_B_14': (-190, 108), 'DIA_TRASH_B_22': (-678, -150), 'DIA_TRASH_B_16': (-184, 109), 'DIA_TRASH_B_12': (-184, 110), 'DIA_TRASH_B_3': (333, 19), 'DIA_TRASH_B_1': (327, 18), 'DIA_TRASH_B_8': (329, 17), 'DIA_TRASH_B_4': (326, 15), 'DIA_TRASH_B_24': (343, -220)}, #trash pent b
+            608: {'DIA_TRASH_C_4': (395, 242), 'DIA_TRASH_C_5': (325, 121), 'DIA_TRASH_C_6': (317, 110), 'DIA_TRASH_C_12': (-37, -173), 'DIA_TRASH_C_1': (-215, 227), 'DIA_TRASH_C_3': (105, 301), 'DIA_TRASH_C_7': (-211, 220), 'DIA_TRASH_C_0': (656, 458), 'DIA_TRASH_C_10': (317, 118), 'DIA_TRASH_C_2': (-213, 225), 'DIA_TRASH_C_13': (-33, -172), 'DIA_TRASH_C_8': (604, -187), 'DIA_TRASH_C_11': (-32, -170), 'DIA_TRASH_C_19': (27, -462), 'DIA_TRASH_C_9': (600, -190), 'DIA_TRASH_C_14': (-36, -172), 'DIA_TRASH_C_15': (-34, -170), 'DIA_TRASH_C_18': (-36, -172), 'DIA_TRASH_C_16': (-36, -171)}, #Trash Pent C
+            # Entrance 1 Hall3
+            609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3
 
-            # SEAL A1L_new Vizier
-            610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1  "DIA_A1L2_11": (-47, -52),
-            611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist 2"DIA_A1L2_11": (176, -346),
-            612: {"DIA_A1L2_9": (-126, 171), "DIA_A1L2_6": (-122, 181), "DIA_A1L2_18": (-140, 174), "DIA_A1L2_3": (-268, 160), "DIA_A1L2_7": (-319, 103), "DIA_A1L2_4": (-181, -299), "DIA_A1L2_5_OPEN": (335, 110), "DIA_A1L2_5_CLOSED": (335, 110), "DIA_A1L2_5_MOUSEOVER": (335, 110), "DIA_A1L2_0": (91, -393), "DIA_A1L2_1": (-431, 14), }, # seal boss far "DIA_A1L2_11": (-324, -211),
-            613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far"DIA_A1L2_11": (156, -357),
-            614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close "DIA_A1L2_11": (-371, -308),
-            615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close "DIA_A1L2_11": (-595, 218),
-            619: {"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check
+            #CALIBRATION SPOTS FOR LAYOUT CHECKS
+            610620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218),},
+            630640: {"DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),"DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33),}, #not used anymore.
+            650660: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), "DIA_C2G_CAL_0": (-247, -56), "DIA_C2G_CAL_1": (-379, -64), "DIA_C2G_CAL_2": (134, -158), "DIA_C2G_CAL_3": (52, 157), "DIA_C2G_CAL_4": (269, 196), "DIA_C2G_CAL_6": (200, -22), "DIA_C2G_CAL_7": (166, -83), "DIA_C2G_CAL_8": (248, -151), "DIA_C2G_CAL_9": (-87, 55), "DIA_C2G_CAL_10": (377, -220), "DIA_C2G_CAL_11": (46, -30), "DIA_C2G_CAL_12": (172, -34), "DIA_C2G_CAL_13": (118, -177), "DIA_C2G_CAL_14": (130, -290), "DIA_C2G_CAL_15": (290, -341), "DIA_C2G_CAL_16": (-218, -148), "DIA_C2G_CAL_17": (40, 66), "DIA_C2G_CAL_18": (745, 70), "DIA_C2G_CAL_19": (666, 231),},
 
-            # SEAL A2Y_new Vizier
-            620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach "DIA_A2Y4_28": (86, 96), "DIA_A2Y4_34": (71, -32),"DIA_A2Y4_31": (199, 7),  "DIA_A2Y4_33": (-147, -78), "DIA_A2Y4_35": (64, -15), "DIA_A2Y4_37": (-238, 123), "DIA_A2Y4_36_MOUSEOVER": (133, 117),"DIA_A2Y4_36_CLOSED": (133, 117), "DIA_A2Y4_36_OPEN": (133, 117), "DIA_A2Y4_19": (234, 27),
-            621: {"DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach "DIA_A2Y4_33": (129, -214), "DIA_A2Y4_37": (-15, -3), "DIA_A2Y4_2": (-194, -121),
-            622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_36_OPEN": (320, 466), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist "DIA_A2Y4_37": (59, -268),
+            # SEAL A1L Vizier
+            610: {'DIA_A1L2_24': (-329, 18),'DIA_A1L2_20': (-423, 160),'DIA_A1L2_21': (-214, -247),'DIA_A1L2_22': (-123, 143), 'DIA_A1L2_23': (134, -105), "DIA_A1L2_8": (-99, 161), "DIA_A1L2_4": (299, -13), "DIA_A1L2_1": (49, 300), "DIA_A1L2_7": (160, 389), "DIA_A1L2_2": (-60, 480), "DIA_A1L2_3": (212, 447), "DIA_A1L2_18": (340, 460), "DIA_A1L2_0": (571, -107), "DIA_A1L2_6": (358, 467), }, #approach1
+            611: {'DIA_A1L2_22': (-338, 41),'DIA_A1L2_23': (-80, -212), "DIA_A1L2_4": (85, -120), "DIA_A1L2_1": (-165, 193), "DIA_A1L2_7": (-53, 282), "DIA_A1L2_8": (-313, 54), "DIA_A1L2_3": (-2, 339), "DIA_A1L2_18": (126, 353), "DIA_A1L2_9": (140, 350), "DIA_A1L2_6": (144, 360), "DIA_A1L2_0": (357, -214), },#safe-dist
+            612: {"DIA_A1L2_9": (-126, 171), "DIA_A1L2_6": (-122, 181), "DIA_A1L2_18": (-140, 174), "DIA_A1L2_3": (-268, 160), "DIA_A1L2_7": (-319, 103), "DIA_A1L2_4": (-181, -299), "DIA_A1L2_5_OPEN": (335, 110), "DIA_A1L2_5_CLOSED": (335, 110), "DIA_A1L2_5_MOUSEOVER": (335, 110), "DIA_A1L2_0": (91, -393), "DIA_A1L2_1": (-431, 14), }, # seal boss far
+            613: {"DIA_A1L2_6": (62, -157), "DIA_A1L2_18": (44, -164), "DIA_A1L2_9": (58, -167), "DIA_A1L2_13": (-170, -52), "DIA_A1L2_3": (-84, -178), "DIA_A1L2_7": (-136, -235), "DIA_A1L2_14_OPEN": (-251, 155), "DIA_A1L2_14_CLOSED": (-251, 155), "DIA_A1L2_14_MOUSEOVER": (-251, 155), "DIA_A1L2_2": (-356, -144), "DIA_A1L2_19": (344, 198), },# seal fake far
+            614: {"DIA_A1L2_14_OPEN": (-109, 10), "DIA_A1L2_14_CLOSED": (-109, 10), "DIA_A1L2_14_MOUSEOVER": (-109, 10), "DIA_A1L2_14_CLOSED_DARK": (-109, 10),"DIA_A1L2_13": (-28, -196), "DIA_A1L2_3": (58, -322), "DIA_A1L2_2": (-214, -289), "DIA_A1L2_18": (186, -308), "DIA_A1L2_6": (204, -302), "DIA_A1L2_9": (200, -312), "DIA_A1L2_7": (6, -380), "DIA_A1L2_1": (-105, -469), }, # seal fake close
+            615: {"DIA_A1L2_10": (314, -49), "DIA_A1L2_18": (-354, 39), "DIA_A1L2_19": (-53, 396), "DIA_A1L2_3": (-481, 25), "DIA_A1L2_7": (-533, -33), "DIA_A1L2_0": (-122, -528), "DIA_A1L2_4": (-394, -434), "DIA_A1L2_13": (-567, 151), "DIA_A1L2_1": (-644, -121), }, # seal boss close
+            619: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152), "DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218), }, # calibration point for layout check MERGED  619 and  620 templates from both seals to have a "common node" for calibration before layout check
+
+            # SEAL A2Y Vizier
+            620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach
+            621: {"DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach
+            622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_36_OPEN": (320, 466), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist
             623: {"DIA_A2Y4_43": (486, -350), "DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_20": (-500, 146), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), "DIA_A2Y4_0": (121+1, -369-24),}, #center
-            624: {"DIA_A2Y4_29_CLOSED": (440, 135), "DIA_A2Y4_29_OPEN": (440, 135), "DIA_A2Y4_29_MOUSEOVER": (440, 135),"DIA_A2Y4_43": (43, -218), "DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_20": (-934, 274), "DIA_A2Y4_15": (-780, 186), "DIA_A2Y4_13": (-1000, 140), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_16": (-319, -238),"DIA_A2Y4_0": (-319+1, -238-24),}, #left far fake #"DIA_A2Y4_31": (149, 260), "DIA_A2Y4_35": (-56, 279),
-            625: {"DIA_A2Y4_29_CLOSED": (150, -28), "DIA_A2Y4_29_OPEN": (150, -28), "DIA_A2Y4_29_MOUSEOVER": (150, -28), "DIA_A2Y4_43": (-245, -380), "DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), "DIA_A2Y4_16": (-604, -400),"DIA_A2Y4_0": (-604+1, -400-24),}, #left close fake "DIA_A2Y4_28": (-271, -123), "DIA_A2Y4_35": (-346, 117)}, #"DIA_A2Y4_31": (-141, 98),
-            626: {"DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# "DIA_A2Y4_39": (-610, -38), "DIA_A2Y4_19": (-14, -20),  "DIA_A2Y4_40": (-575, -38), #"DIA_A2Y4_22": (288, -228), "DIA_A2Y4_38": (-607, -44),  }, #right close boss #"DIA_A2Y4_28": (272, -111),  #"DIA_A2Y4_31": (364, -194),
+            624: {"DIA_A2Y4_29_CLOSED": (440, 135), "DIA_A2Y4_29_OPEN": (440, 135), "DIA_A2Y4_29_MOUSEOVER": (440, 135),"DIA_A2Y4_43": (43, -218), "DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_20": (-934, 274), "DIA_A2Y4_15": (-780, 186), "DIA_A2Y4_13": (-1000, 140), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_16": (-319, -238),"DIA_A2Y4_0": (-319+1, -238-24),}, #left far fake
+            625: {"DIA_A2Y4_29_CLOSED": (150, -28), "DIA_A2Y4_29_OPEN": (150, -28), "DIA_A2Y4_29_MOUSEOVER": (150, -28), "DIA_A2Y4_43": (-245, -380), "DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), "DIA_A2Y4_16": (-604, -400),"DIA_A2Y4_0": (-604+1, -400-24),}, #left close fake
+            626: {"DIA_A2Y4_35": (296, 68), "DIA_A2Y4_36_OPEN": (-115, 70), "DIA_A2Y4_36_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36B_CLOSED": (-115, 70), "DIA_A2Y4_36_MOUSEOVER": (-115, 70), "DIA_A2Y4_37": (-486, 76), },# right close boss
             627: {"DIA_A2Y4_13": (-472, -187),"DIA_A2Y4_15": (-246, -143), "DIA_A2Y4_20": (-399, -54), "DIA_A2Y4_36_OPEN": (205, 197), "DIA_A2Y4_36_CLOSED": (205, 197),"DIA_A2Y4_36_MOUSEOVER": (205, 197),"DIA_A2Y4_37": (-166, 203), "DIA_A2Y4_38": (-288, 83), "DIA_A2Y4_39": (-291, 89), "DIA_A2Y4_40": (-256, 89), "DIA_A2Y4_41": (-229, -143), }, # right far boss
 
-            # SEAL B1S_new De Seis
-            630: {"DIA_B1S3_1": (201, -191), "DIA_B1S3_6": (369, 38), "DIA_B1S3_0": (494, -45), "DIA_B1S3_3": (489, -172), "DIA_B1S3_4": (723, -39),}, #cross river "DIA_B1S3_2": (297, -297),
-            #630: {"DIA_B1S2_3": (-66, -165), "DIA_B1S2_8": (272, 25), "DIA_B1S2_14": (315, 108), "DIA_B1S2_16": (-67, 320), }, # approach "DIA_B1S2_28": (6, -76), "DIA_B1S2_24": (3, 9), "DIA_B1S2_27": (9, -142),  "DIA_B1S2_29": (-214, -6), "DIA_B1S2_30": (246, 25), #"DIA_B1S2_0": (286, -179),
-            631: {"DIA_B1S2_2": (-232, -78), "DIA_B1S2_3": (169, -361), "DIA_B1S2_5": (-225, -86), "DIA_B1S2_12": (-29, 199), "DIA_B1S2_13": (-358, 52), "DIA_B1S2_15": (-42, 210), "DIA_B1S2_16": (168, 124), "DIA_B1S2_18": (-197, 117), }, #corner left "DIA_B1S2_24": (238, -187), "DIA_B1S2_29": (21, -202),
+            # SEAL B1S De Seis
+            630: {"DIA_B1S3_1": (201, -191), "DIA_B1S3_6": (369, 38), "DIA_B1S3_0": (494, -45), "DIA_B1S3_3": (489, -172), "DIA_B1S3_4": (723, -39),}, #cross river
+            631: {"DIA_B1S2_2": (-232, -78), "DIA_B1S2_3": (169, -361), "DIA_B1S2_5": (-225, -86), "DIA_B1S2_12": (-29, 199), "DIA_B1S2_13": (-358, 52), "DIA_B1S2_15": (-42, 210), "DIA_B1S2_16": (168, 124), "DIA_B1S2_18": (-197, 117), }, #corner left
             632: {"DIA_B1S2_2": (87, -224), "DIA_B1S2_8": (-330, -95), "DIA_B1S2_11": (-120, -306), "DIA_B1S2_12": (290, 53), "DIA_B1S2_13": (-38, -93), "DIA_B1S2_15": (277, 64), "DIA_B1S2_17": (-200, 25), "DIA_B1S2_18": (122, -29), "DIA_B1S2_19": (-174, 287), "DIA_B1S2_21": (-307, -67), }, #corner
-            633: {"DIA_B1S2_2": (99, 278), "DIA_B1S2_6": (37, -391), "DIA_B1S2_8": (-285, -280), "DIA_B1S2_13": (352, -100), "DIA_B1S2_19": (216, 279), "DIA_B1S2_20": (-208, 69), "DIA_B1S2_21": (83, -75), "DIA_B1S2_25": (62, -114), "DIA_B1S2_26": (-96, -228), }, #corner right "DIA_B1S2_28": (-236, 55),
-            634: {"DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),}, #seal close #"DIA_B1S2_28": (-20, 289), "DIA_B1S2_9": (384, -164), "DIA_B1S2_27": (376, 114),
-            635: {"DIA_B1S2_7": (315, -167), "DIA_B1S2_8": (169, 21), "DIA_B1S2_24_OPEN": (-108, 9), "DIA_B1S2_24_CLOSED": (-108, 9),"DIA_B1S2_24_MOUSEOVER": (-108, 9),"DIA_B1S2_26": (357, 73), "DIA_B1S2_27": (-94, -146),"DIA_B1S2_29": (-325, -6),  "DIA_B1S2_30": (143, 21),}, # seal far "DIA_B1S2_0": (183, -183),  "DIA_B1S2_14": (213, 104),
-            636: {"DIA_B1S2_4": (383, -111), "DIA_B1S2_5": (187, 256), "DIA_B1S2_6": (-252, 100), "DIA_B1S2_7": (-427, 23), "DIA_B1S2_11": (-20, 177),  "DIA_B1S2_25": (-228, 377), },#"DIA_B1S2_26": (-386, 262), }, #cross river #"DIA_B1S2_28": (-100, 68), "DIA_B1S2_2": (193, 261), "DIA_B1S2_9": (-169, 57),},
-            637: {"DIA_B1S2_2": (-210, 122), "DIA_B1S2_4": (-20, -251), "DIA_B1S2_5": (-216, 116), "DIA_B1S2_6": (-663, -35), "DIA_B1S2_7": (-838, -112), "DIA_B1S2_11": (-430, 42), "DIA_B1S2_26": (-796, 127), }, #close circle "DIA_B1S2_28": (-552, -99),
+            633: {"DIA_B1S2_2": (99, 278), "DIA_B1S2_6": (37, -391), "DIA_B1S2_8": (-285, -280), "DIA_B1S2_13": (352, -100), "DIA_B1S2_19": (216, 279), "DIA_B1S2_20": (-208, 69), "DIA_B1S2_21": (83, -75), "DIA_B1S2_25": (62, -114), "DIA_B1S2_26": (-96, -228), }, #corner right
+            634: {"DIA_B1S2_6": (253, -156), "DIA_B1S2_7": (78, -233), "DIA_B1S2_20": (8, 303),"DIA_B1S2_24_OPEN": (-345, -57),"DIA_B1S2_24_CLOSED": (-345, -57),"DIA_B1S2_24_MOUSEOVER": (-345, -57),"DIA_B1S2_25": (278, 121),  "DIA_B1S2_26": (120, 7),}, #seal close
+            635: {"DIA_B1S2_7": (315, -167), "DIA_B1S2_8": (169, 21), "DIA_B1S2_24_OPEN": (-108, 9), "DIA_B1S2_24_CLOSED": (-108, 9),"DIA_B1S2_24_MOUSEOVER": (-108, 9),"DIA_B1S2_26": (357, 73), "DIA_B1S2_27": (-94, -146),"DIA_B1S2_29": (-325, -6),  "DIA_B1S2_30": (143, 21),}, # seal far
+            636: {"DIA_B1S2_4": (383, -111), "DIA_B1S2_5": (187, 256), "DIA_B1S2_6": (-252, 100), "DIA_B1S2_7": (-427, 23), "DIA_B1S2_11": (-20, 177),  "DIA_B1S2_25": (-228, 377), }, #cross river
+            637: {"DIA_B1S2_2": (-210, 122), "DIA_B1S2_4": (-20, -251), "DIA_B1S2_5": (-216, 116), "DIA_B1S2_6": (-663, -35), "DIA_B1S2_7": (-838, -112), "DIA_B1S2_11": (-430, 42), "DIA_B1S2_26": (-796, 127), }, #close circle
 
-            # SEAL B2U_new De Seis
+            # SEAL B2U De Seis
             640: {"DIA_B2U2_14": (-183, -53), "DIA_B2U2_0": (-20, 196), "DIA_B2U2_1": (-177, -96), "DIA_B2U2_2": (-299, 40), "DIA_B2U2_5": (-414, 168), "DIA_B2U2_8": (-431, 166), "DIA_B2U2_4": (-278, 371), "DIA_B2U2_6": (-462, -232), "DIA_B2U2_3": (-431, 310), "DIA_B2U2_13": (-540, -182), }, #approach
             641: {"DIA_B2U2_2": (-11, -111), "DIA_B2U2_5": (-126, 17), "DIA_B2U2_8": (-142, 15), "DIA_B2U2_3": (-143, 159), "DIA_B2U2_4": (11, 220), "DIA_B2U2_14": (105, -204), "DIA_B2U2_1": (111, -247), "DIA_B2U2_0": (268, 45), "DIA_B2U2_7": (-308, -148), "DIA_B2U2_13": (-252, -334), },#  approach
             642: {"DIA_B2U2_10": (-96, 90), "DIA_B2U2_7": (122, -107), "DIA_B2U2_17": (-65, 216), "DIA_B2U2_5": (304, 58), "DIA_B2U2_13": (178, -293), "DIA_B2U2_3": (287, 200), "DIA_B2U2_15": (50, 366), "DIA_B2U2_2": (419, -70), "DIA_B2U2_6": (256, -342), "DIA_B2U2_20": (-406, 151), }, #safe-dist
-            643: {"DIA_B2U2_3": (75, -82), "DIA_B2U2_4": (229, -21), "DIA_B2U2_5": (92, -224), "DIA_B2U2_6": (-122, 246), "DIA_B2U2_13": (-201, 296), "DIA_B2U2_10": (-308, -192), "DIA_B2U2_1": (163, 382), "DIA_B2U2_17": (-407, 105), "DIA_B2U2_15": (-292, 255) }, #boss seal far # ,  "DIA_B2U2_21": (-282, 256),
-            644: {"DIA_B2U2_15": (50, 6),  "DIA_B2U2_13": (141, 47), "DIA_B2U2_17": (-65, -144), "DIA_B2U2_6": (220, -3), "DIA_B2U2_7": (85, 233), "DIA_B2U2_16_OPEN": (-308, -18), "DIA_B2U2_16_CLOSED": (-308, -18), "DIA_B2U2_16_MOUSEOVER": (-308, -18), "DIA_B2U2_22": (-334, 149), "DIA_B2U2_19": (-344, 270), "DIA_B2U2_10": (34, -441), }, # boss seal close #"DIA_B2U2_21": (59, 6),
-            645: {"DIA_B2U2_16_CLOSED": (81, 34), "DIA_B2U2_16_OPEN": (81, 34), "DIA_B2U2_16_MOUSEOVER": (81, 34),"DIA_B2U2_20": (-18, -157), "DIA_B2U2_18": (-185, 98), "DIA_B2U2_19": (44, 322), "DIA_B2U2_17": (323, -92), "DIA_B2U2_12": (-123, 377),  "DIA_B2U2_13": (530, 99), "DIA_B2U2_15": (439, 58),}, # boss seal far  "DIA_B2U2_21": (448, 58), "DIA_B2U2_22": (55, 219),
+            643: {"DIA_B2U2_3": (75, -82), "DIA_B2U2_4": (229, -21), "DIA_B2U2_5": (92, -224), "DIA_B2U2_6": (-122, 246), "DIA_B2U2_13": (-201, 296), "DIA_B2U2_10": (-308, -192), "DIA_B2U2_1": (163, 382), "DIA_B2U2_17": (-407, 105), "DIA_B2U2_15": (-292, 255) }, #boss seal far
+            644: {"DIA_B2U2_15": (50, 6),  "DIA_B2U2_13": (141, 47), "DIA_B2U2_17": (-65, -144), "DIA_B2U2_6": (220, -3), "DIA_B2U2_7": (85, 233), "DIA_B2U2_16_OPEN": (-308, -18), "DIA_B2U2_16_CLOSED": (-308, -18), "DIA_B2U2_16_MOUSEOVER": (-308, -18), "DIA_B2U2_22": (-334, 149), "DIA_B2U2_19": (-344, 270), "DIA_B2U2_10": (34, -441), }, # boss seal close
+            645: {"DIA_B2U2_16_CLOSED": (81, 34), "DIA_B2U2_16_OPEN": (81, 34), "DIA_B2U2_16_MOUSEOVER": (81, 34),"DIA_B2U2_20": (-18, -157), "DIA_B2U2_18": (-185, 98), "DIA_B2U2_19": (44, 322), "DIA_B2U2_17": (323, -92), "DIA_B2U2_12": (-123, 377),  "DIA_B2U2_13": (530, 99), "DIA_B2U2_15": (439, 58),}, # boss seal far
             646: {"DIA_B2U2_1": (37, 203), "DIA_B2U2_14": (31, 246), "DIA_B2U2_6": (-248, 67), "DIA_B2U2_13": (-327, 117), }, #safe-dist2
-            647: {"DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), },
-            648: {"DIA_B2U_CAL_14": (19, -193), "DIA_B2U_CAL_13": (-218, -46), "DIA_B2U_CAL_17": (266, 49), "DIA_B2U_CAL_18": (217, 222), "DIA_B2U_CAL_16": (377, 79), "DIA_B2U_CAL_15": (524, 85), "DIA_B2U_CAL_8": (-574, 95), "DIA_B2U_CAL_19": (698, -131), },
-            649: {"DIA_B2U_CAL_17": (-59, 210), "DIA_B2U_CAL_16": (52, 240), "DIA_B2U_CAL_14": (-306, -32), "DIA_B2U_CAL_15": (199, 246), "DIA_B2U_CAL_19": (373, 30), "DIA_B2U_CAL_18": (-108, 383), "DIA_B2U_CAL_13": (-543, 115), "DIA_B2U_CAL_8": (-899, 256), },
-            #6499: {"DIA_B2U_CAL2_6": (40, -185), "DIA_B2U_CAL2_7": (-191, -69), "DIA_B2U_CAL2_5": (187, -92), "DIA_B2U_CAL2_1": (43, 230), "DIA_B2U_CAL2_2": (-132, 222), "DIA_B2U_CAL2_0": (203, 234), "DIA_B2U_CAL2_9": (-272, 283), "DIA_B2U_CAL2_8": (-460, 71),},
+            647: {"DIA_B2U_CAL_9": (-102, -96), "DIA_B2U_CAL_10": (79, -191), "DIA_B2U_CAL_5": (-153, 164), "DIA_B2U_CAL_13": (94, -207), "DIA_B2U_CAL_4": (32, 243), "DIA_B2U_CAL_8": (-262, -66), "DIA_B2U_CAL_6": (-285, 141), "DIA_B2U_CAL_1": (347, 33), }, #calibdation node
+            648: {"DIA_B2U_CAL_14": (19, -193), "DIA_B2U_CAL_13": (-218, -46), "DIA_B2U_CAL_17": (266, 49), "DIA_B2U_CAL_18": (217, 222), "DIA_B2U_CAL_16": (377, 79), "DIA_B2U_CAL_15": (524, 85), "DIA_B2U_CAL_8": (-574, 95), "DIA_B2U_CAL_19": (698, -131), },#approach calibration node 2
+            649: {"DIA_B2U_CAL_17": (-59, 210), "DIA_B2U_CAL_16": (52, 240), "DIA_B2U_CAL_14": (-306, -32), "DIA_B2U_CAL_15": (199, 246), "DIA_B2U_CAL_19": (373, 30), "DIA_B2U_CAL_18": (-108, 383), "DIA_B2U_CAL_13": (-543, 115), "DIA_B2U_CAL_8": (-899, 256), }, #approach calibration node1 (close to river)
 
             #SEAL C1F_NEW Infector
             650: {"DIA_C1F7_5": (-37, 150), "DIA_C1F7_2": (91, -130), "DIA_C1F7_4": (-184, 91), "DIA_C1F7_7": (168, -183), "DIA_C1F7_8": (-332, 109), "DIA_C1F7_20": (-43, -347), "DIA_C1F7_26": (-45, -351), "DIA_C1F7_17": (-42, -353), }, #approach
@@ -264,12 +281,36 @@ class Pather:
             656: {"DIA_C1F7_48": (-61, 13), "DIA_C1F7_39": (71, 101), "DIA_C1F7_44": (129, -56), "DIA_C1F7_49": (-139, -76), "DIA_C1F7_52": (141, -82), "DIA_C1F7_51": (147, 119), "DIA_C1F7_36": (146, 271), "DIA_C1F7_35": (276, 194), },#layoutcheck
 
             #SEAL C2G_new Infector
-            660: {"DIA_C2G2_19": (178, -45), "DIA_C2G2_2": (-182, 71), "DIA_C2G2_20": (-9, 205), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_23": (401, 46), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach "DIA_C2G2_16": (41, 57),
-            661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_19": (164, 410), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close "DIA_C2G2_16": (27, 512),
-            662: {"DIA_C2G2_15": (-54, -160), "DIA_C2G2_12": (271, -138), "DIA_C2G2_17": (-137, 280), "DIA_C2G2_10": (-146, 316), "DIA_C2G2_9": (-251, 354), "DIA_C2G2_7_CLOSED": (433, 88), "DIA_C2G2_7_OPEN": (433, 88),"DIA_C2G2_7_MOUSEOVER": (433, 88),"DIA_C2G2_14": (315, 323), "DIA_C2G2_8": (-124, 447), }, # seal boss far #"DIA_C2G2_16": (-443, -29),  #"DIA_C2G2_23": (244, 133),
-            663: {"DIA_C2G2_9": (94, 181), "DIA_C2G2_17": (207, 107), "DIA_C2G2_10": (198, 143), "DIA_C2G2_21_OPEN": (16, 297), "DIA_C2G2_21_CLOSED": (16, 297),"DIA_C2G2_21_MOUSEOVER": (16, 297),"DIA_C2G2_8": (221, 274), "DIA_C2G2_15": (290, -333), "DIA_C2G2_20": (-435, 93), "DIA_C2G2_19": (-504, 24), }, # safe dist "DIA_C2G2_16": (-99, -202), #"DIA_C2G2_23": (297, -207),
-            664: {"DIA_C2G2_20": (-214, -66), "DIA_C2G2_21_OPEN": (237, 137), "DIA_C2G2_21_CLOSED": (237, 137),"DIA_C2G2_21_MOUSEOVER": (237, 137),"DIA_C2G2_19": (-284, -135), "DIA_C2G2_9": (315, 22), "DIA_C2G2_10": (419, -16), "DIA_C2G2_17": (428, -52), "DIA_C2G2_8": (442, 115), "DIA_C2G2_5": (868, 63), }, # seal fake far "DIA_C2G2_16": (122, -361), #"DIA_C2G2_23": (126, -240),
-            665: {"DIA_C2G2_8": (43, -27), "DIA_C2G2_9": (-85, -121), "DIA_C2G2_10": (19, -158), "DIA_C2G2_21_OPEN": (-163, -6), "DIA_C2G2_21_CLOSED": (-163, -6),"DIA_C2G2_21_MOUSEOVER": (-163, -6),"DIA_C2G2_17": (28, -194),  "DIA_C2G2_5": (468, -80), "DIA_C2G2_14": (480, -153), "DIA_C2G2_22": (503, 208), "DIA_C2G2_20": (-614, -208), }, # seal boss close #"DIA_C2G2_23": (-260, 258),
+            660: {"DIA_C2G2_2": (-182, 71), "DIA_C2G2_3": (-258, 115), "DIA_C2G2_18": (151, -250), "DIA_C2G2_6": (-310, -9), "DIA_C2G2_15": (430, -74), "DIA_C2G2_11": (-272, -406), }, # approach
+            661: {"DIA_C2G2_14": (33, 153), "DIA_C2G2_5": (20, 226), "DIA_C2G2_11": (322, -90), "DIA_C2G2_6": (284, 307), "DIA_C2G2_17": (-420, 110), "DIA_C2G2_10": (-429, 146), "DIA_C2G2_8": (-407, 277),  "DIA_C2G2_22": (56, 514), },# seal boss close
+            662: {"DIA_C2G2_15": (-54, -160), "DIA_C2G2_12": (271, -138), "DIA_C2G2_17": (-137, 280), "DIA_C2G2_10": (-146, 316), "DIA_C2G2_9": (-251, 354), "DIA_C2G2_7_CLOSED": (433, 88), "DIA_C2G2_7_OPEN": (433, 88),"DIA_C2G2_7_MOUSEOVER": (433, 88),"DIA_C2G2_14": (315, 323), "DIA_C2G2_8": (-124, 447), }, # seal boss far
+            663: {"DIA_C2G2_9": (94, 181), "DIA_C2G2_17": (207, 107), "DIA_C2G2_10": (198, 143), "DIA_C2G2_21_OPEN": (16, 297), "DIA_C2G2_21_CLOSED": (16, 297),"DIA_C2G2_21_MOUSEOVER": (16, 297),"DIA_C2G2_8": (221, 274), "DIA_C2G2_15": (290, -333), "DIA_C2G2_20": (-435, 93), "DIA_C2G2_19": (-504, 24), }, # safe dist
+            664: {"DIA_C2G2_20": (-214, -66), "DIA_C2G2_21_OPEN": (237, 137), "DIA_C2G2_21_CLOSED": (237, 137),"DIA_C2G2_21_MOUSEOVER": (237, 137),"DIA_C2G2_19": (-284, -135), "DIA_C2G2_9": (315, 22), "DIA_C2G2_10": (419, -16), "DIA_C2G2_17": (428, -52), "DIA_C2G2_8": (442, 115), "DIA_C2G2_5": (868, 63), }, # seal fake far
+            665: {"DIA_C2G2_8": (43, -27), "DIA_C2G2_9": (-85, -121), "DIA_C2G2_10": (19, -158), "DIA_C2G2_21_OPEN": (-163, -6), "DIA_C2G2_21_CLOSED": (-163, -6),"DIA_C2G2_21_MOUSEOVER": (-163, -6),"DIA_C2G2_17": (28, -194),  "DIA_C2G2_5": (468, -80), "DIA_C2G2_14": (480, -153), "DIA_C2G2_22": (503, 208), "DIA_C2G2_20": (-614, -208), }, # seal boss close
+
+            #DIABLO ENTRANCE STYLE 1 (clear_trash=1)
+            670: {"DIABLO_ENTRANCE_1": (1200, 260),"DIABLO_ENTRANCE_2": (233, -174),"DIABLO_ENTRANCE_3": (-77, -182),"DIABLO_ENTRANCE_4": (-363, 372), "DIABLO_ENTRANCE_5": (-612, -76),  "DIABLO_ENTRANCE_6": (869, 86),"DIABLO_ENTRANCE_7": (593, 579),"DIABLO_ENTRANCE_8": (1105, 301),"DIABLO_ENTRANCE_9": (236, 418),  "DIABLO_ENTRANCE_10": (233, 386), "DIABLO_ENTRANCE_11": (73, -216), "DIABLO_ENTRANCE_12": (-569, 611), "DIABLO_ENTRANCE_31": (376, -100), "DIABLO_ENTRANCE_32": (506, -133), "DIABLO_ENTRANCE_33": (187, -150), "DIABLO_ENTRANCE_34": (-8, -152), "DIABLO_ENTRANCE_35": (-167, -202), "DIABLO_ENTRANCE_36": (-310, -90), "DIABLO_ENTRANCE_37": (-444, -40), "DIABLO_ENTRANCE_38": (1, 282), "DIABLO_ENTRANCE_39": (-275, 163),},# Hall 1 center
+            671: {"DIABLO_ENTRANCE_1": (621, 60),"DIABLO_ENTRANCE_2": (-144, -318), "DIABLO_ENTRANCE_3": (-454, -327), "DIABLO_ENTRANCE_4": (-740, 230), "DIABLO_ENTRANCE_5": (-989, -218),  "DIABLO_ENTRANCE_6": (492, -56), "DIABLO_ENTRANCE_7": (216, 437), "DIABLO_ENTRANCE_8": (728, 159), "DIABLO_ENTRANCE_9": (-140, 276), "DIABLO_ENTRANCE_10": (-143, 245),  "DIABLO_ENTRANCE_11": (-304, -360), "DIABLO_ENTRANCE_12": (-964, 469), "DIABLO_ENTRANCE_31": (-1, -242), "DIABLO_ENTRANCE_32": (129, -275), "DIABLO_ENTRANCE_33": (-190, -292), "DIABLO_ENTRANCE_34": (-385, -294), "DIABLO_ENTRANCE_35": (-544, -344), "DIABLO_ENTRANCE_36": (-687, -232), "DIABLO_ENTRANCE_37": (-821, -182), "DIABLO_ENTRANCE_38": (-376, 140), "DIABLO_ENTRANCE_39": (-652, 21),}, #hall1 right
+            672: {"DIABLO_ENTRANCE_1": (327, -118), "DIABLO_ENTRANCE_2": (-438, -496), "DIABLO_ENTRANCE_6": (198, -234), "DIABLO_ENTRANCE_7": (-78, 259),  "DIABLO_ENTRANCE_8": (434, -19),  "DIABLO_ENTRANCE_9": (-434, 98),  "DIABLO_ENTRANCE_10": (-437, 66),  "DIABLO_ENTRANCE_11": (-598, -538),  },#hall1 left not used
+            673: {"DIABLO_ENTRANCE_12": (-129, -152), "DIABLO_ENTRANCE_15": (-273, -108), "DIABLO_ENTRANCE_13": (211, 241), "DIABLO_ENTRANCE_17": (-19, 386), "DIABLO_ENTRANCE_16": (-522, -174), "DIABLO_ENTRANCE_18": (-730, 239), },
+            674: {"DIABLO_ENTRANCE_18": (13, 235), "DIABLO_ENTRANCE_19": (-150, 201), "DIABLO_ENTRANCE_16": (221, -178), "DIABLO_ENTRANCE_15": (470, -112), "DIABLO_ENTRANCE_23": (-718, 214), "DIABLO_ENTRANCE_26": (-551, 564), "DIABLO_ENTRANCE_17": (724, 382), },
+            675: {"DIABLO_ENTRANCE_23": (-279, 181), "DIABLO_ENTRANCE_19": (289, 167), "DIABLO_ENTRANCE_18": (452, 202), "DIABLO_ENTRANCE_26": (-112, 531), "DIABLO_ENTRANCE_22": (-197, 523), "DIABLO_ENTRANCE_24": (-117, 587), "DIABLO_ENTRANCE_21": (-564, 399), "DIABLO_ENTRANCE_16": (660, -211), },
+            676: {"DIABLO_ENTRANCE_21": (142, -273), "DIABLO_ENTRANCE_25": (-268, -357), "DIABLO_ENTRANCE_22": (509, -149), "DIABLO_ENTRANCE_24": (589, -85), "DIABLO_ENTRANCE_26": (594, -141), "DIABLO_ENTRANCE_23": (481, -499), },
+
+            #DIABLO ENTRANCE STYLE 2  (clear_trash=1)
+            677: {"DIABLO_ENTRANCE2_2": (31, -146), "DIABLO_ENTRANCE2_46": (480, -2), "DIABLO_ENTRANCE2_3": (-500, 4), },
+            678: {"DIABLO_ENTRANCE2_5": (58, -224), "DIABLO_ENTRANCE2_4": (-150, -227), "DIABLO_ENTRANCE2_17": (-277, 151), "DIABLO_ENTRANCE2_9": (-178, 300), "DIABLO_ENTRANCE2_10": (-178, 335), "DIABLO_ENTRANCE2_15": (-261, 317), "DIABLO_ENTRANCE2_12": (-329, -296), "DIABLO_ENTRANCE2_7": (452, 48), },
+            679: {"DIABLO_ENTRANCE2_7": (252, -152), "DIABLO_ENTRANCE2_9": (-378, 100), "DIABLO_ENTRANCE2_8": (389, -48), "DIABLO_ENTRANCE2_10": (-378, 135), "DIABLO_ENTRANCE2_11": (501, 20), },
+            680: {"DIABLO_ENTRANCE2_12": (101, -199), "DIABLO_ENTRANCE2_41": (-290, 13), "DIABLO_ENTRANCE2_17": (151, 256), "DIABLO_ENTRANCE2_4": (280, -130), "DIABLO_ENTRANCE2_35": (-291, 114), "DIABLO_ENTRANCE2_29": (-293, 113), "DIABLO_ENTRANCE2_27": (-342, 229), "DIABLO_ENTRANCE2_36": (-341, 244), },
+            681: {"DIABLO_ENTRANCE2_18": (358, -56), "DIABLO_ENTRANCE2_19": (-291, 267), "DIABLO_ENTRANCE2_20": (-287, 278), "DIABLO_ENTRANCE2_15": (-492, -142), "DIABLO_ENTRANCE2_17": (-508, -307), "DIABLO_ENTRANCE2_43": (-517, 419), },
+            682: {"DIABLO_ENTRANCE2_41": (-42, -13), "DIABLO_ENTRANCE2_35": (-43, 88), "DIABLO_ENTRANCE2_29": (-45, 87), "DIABLO_ENTRANCE2_15": (394, 40), "DIABLO_ENTRANCE2_17": (378, -126), "DIABLO_ENTRANCE2_32": (-472, 315), "DIABLO_ENTRANCE2_21": (-471, 355), "DIABLO_ENTRANCE2_23": (-471, 356), },
+            683: {"DIABLO_ENTRANCE2_43": (356, 259), "DIABLO_ENTRANCE2_23": (-483, 14), "DIABLO_ENTRANCE2_21": (-484, 13), "DIABLO_ENTRANCE2_24": (-484, 24), "DIABLO_ENTRANCE2_32": (-485, -27), "DIABLO_ENTRANCE2_25": (-489, 45), "DIABLO_ENTRANCE2_27": (-645, 493), "DIABLO_ENTRANCE2_36": (-644, 508), },
+            684: {"DIABLO_ENTRANCE2_25": (-203, -242), "DIABLO_ENTRANCE2_23": (-197, -273), "DIABLO_ENTRANCE2_27": (-359, 206), "DIABLO_ENTRANCE2_36": (-358, 221), "DIABLO_ENTRANCE2_31": (-536, 429), "DIABLO_ENTRANCE2_39": (-876, 120), },
+            685: {"DIABLO_ENTRANCE2_42": (15, -383), "DIABLO_ENTRANCE2_39": (205, -363), "DIABLO_ENTRANCE2_31": (545, -54), "DIABLO_ENTRANCE2_41": (-474, -502), "DIABLO_ENTRANCE2_35": (-473, -507), "DIABLO_ENTRANCE2_28": (-474, -508), "DIABLO_ENTRANCE2_29": (-475, -508), },
+            686: {"DIABLO_ENTRANCE2_35": (-127, -314), "DIABLO_ENTRANCE2_28": (-128, -315), "DIABLO_ENTRANCE2_42": (361, -191), "DIABLO_ENTRANCE2_39": (551, -171),}, #replaced by 609
+            ########################
+            # DIABLO END
+            ########################
 
             # A1 town
             #kashya_cain
@@ -288,7 +329,7 @@ class Pather:
             707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
             708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
 
-            #extrra necro walking waypoints
+            #extra necro walking waypoints
             900: {"NECRO_TRAV_1": (-102, 46), },
             901: {"NECRO_TRAV_4": (-37, -69), "NECRO_TRAV_0": (354, 28), "NECRO_TRAV_6": (-339, 117), "NECRO_TRAV_5": (426, 140), "NECRO_TRAV_3": (433, -269), "NECRO_TRAV_2": (775, -176), },
             902: {"NECRO_TRAV_6": (271, 358), "NECRO_TRAV_4": (573, 172), },
@@ -374,15 +415,23 @@ class Pather:
             (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
             (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
             (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
+            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 401, 402, 403, 409, 410, 411],
             (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
             (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
+            (Location.A2_FARA_STASH, Location.A2_DROGNAN): [403, 409, 410, 411],
             (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_DROGNAN): [408, 406, 405, 403, 409, 410, 411],
             (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
             (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_DROGNAN): [404, 409, 410, 411],
             (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
             (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
             (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
             (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
+            (Location.A2_LYSANDER, Location.A2_DROGNAN): [403, 409, 410, 411],
+            (Location.A2_DROGNAN, Location.A2_LYSANDER): [411, 410, 409, 403, 402],
+            (Location.A2_DROGNAN, Location.A2_WP): [411, 410, 409, 404],
+            (Location.A2_DROGNAN, Location.A2_FARA_STASH): [411, 410, 409, 403, 405],
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [],
@@ -453,18 +502,18 @@ class Pather:
             raise ValueError(error_msg)
         char.pre_move()
         if type(key) == str:
-            path = self._config.path[key]
+            path = Config().path[key]
         else:
             path = key
         i = 0
         stuck_count = 0
         while i < len(path):
-            x_m, y_m = self._screen.convert_screen_to_monitor(path[i])
+            x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = self._screen.grab()
+            t0 = grab()
             char.move((x_m, y_m))
-            t1 = self._screen.grab()
+            t1 = grab()
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -478,7 +527,7 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self._screen.grab())
+        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
@@ -502,18 +551,18 @@ class Pather:
         if f < 1.0:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if adjusted position is "inside globe"
-        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["mana_globe"], screen_pos) or is_in_roi(self._config.ui_roi["health_globe"], screen_pos):
+        screen_pos = convert_abs_to_screen(abs_pos)
+        if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
             # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = self._screen.convert_screen_to_abs((0, self._config.ui_roi["mana_globe"][1]))[1]
+            new_range_y_bottom = convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
             f = abs(new_range_y_bottom / float(abs_pos[1]))
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         # Check if clicking on merc img
-        screen_pos = self._screen.convert_abs_to_screen(abs_pos)
-        if is_in_roi(self._config.ui_roi["merc_icon"], screen_pos):
-            width = self._config.ui_roi["merc_icon"][2]
-            height = self._config.ui_roi["merc_icon"][3]
-            w_abs, h_abs = self._screen.convert_screen_to_abs((width, height))
+        screen_pos = convert_abs_to_screen(abs_pos)
+        if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
+            width = Config().ui_roi["merc_icon"][2]
+            height = Config().ui_roi["merc_icon"][3]
+            w_abs, h_abs = convert_screen_to_abs((width, height))
             fw = abs(w_abs / float(abs_pos[0]))
             fh = abs(h_abs / float(abs_pos[1]))
             f = max(fw, fh)
@@ -522,17 +571,17 @@ class Pather:
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = self._template_finder.search(
+        template_match = TemplateFinder().search(
             [*node],
             img,
             best_match=False,
             threshold=threshold,
-            roi=self._config.ui_roi["cut_skill_bar"],
+            roi=Config().ui_roi["cut_skill_bar"],
             use_grayscale=True
         )
         if template_match.valid:
             # Get reference position of template in abs coordinates
-            ref_pos_abs = self._screen.convert_screen_to_abs(template_match.center)
+            ref_pos_abs = convert_screen_to_abs(template_match.center)
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
@@ -544,7 +593,7 @@ class Pather:
         self,
         path: Union[tuple[Location, Location], list[int]],
         char: IChar,
-        time_out: float = 5,
+        timeout: float = 5,
         force_tp: bool = False,
         do_pre_move: bool = True,
         force_move: bool = False,
@@ -554,7 +603,7 @@ class Pather:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
-        :param time_out: Timeout in second. If no more move was found in that time it will cancel traverse
+        :param timeout: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
         :return: Bool if traversed successful or False if it got stuck
         """
@@ -587,22 +636,22 @@ class Pather:
             continue_to_next_node = False
             last_move = time.time()
             did_force_move = False
+            teleport_count = 0
             while not continue_to_next_node:
-                img = self._screen.grab()
+                img = grab()
                 # Handle timeout
-                if (time.time() - last_move) > time_out:
-                    success = self._template_finder.search("WAYPOINT_MENU", img, threshold=threshold).valid
-                    if success:
+                if (time.time() - last_move) > timeout:
+                    if is_visible(ScreenObjects.WaypointLabel):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
                         last_move = time.time()
                     else:
-                        # This is a bit hacky, but for moving into a boss location we set time_out usually quite low
+                        # This is a bit hacky, but for moving into a boss location we set timeout usually quite low
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
-                        if time_out > 3.1:
-                            if self._config.general["info_screenshots"]:
+                        if timeout > 3.1:
+                            if Config().general["info_screenshots"]:
                                 cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
@@ -614,20 +663,31 @@ class Pather:
                         pos_abs = last_direction
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
-                    x_m, y_m = self._screen.convert_abs_to_monitor(pos_abs)
+                    x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
                     did_force_move = True
                     last_move = time.time()
+
+                # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
+                if (teleport_count + 1) % 30 == 0:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        Logger.debug(f"Shrine found, activating it")
+                        select_screen_object_match(match)
+                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                    teleport_count = 0
+                    break
+                teleport_count += 1
 
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
-                    if dist < self._config.ui_pos["reached_node_dist"]:
+                    if dist < Config().ui_pos["reached_node_dist"]:
                         continue_to_next_node = True
                     else:
                         # Move the char
-                        x_m, y_m = self._screen.convert_abs_to_monitor(node_pos_abs)
+                        x_m, y_m = convert_abs_to_monitor(node_pos_abs)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         last_move = time.time()
@@ -638,65 +698,57 @@ class Pather:
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
     # debug method to display all nodes
+
     def display_all_nodes(pather: Pather, filter: str = None):
+        start = time.time()
         while 1:
-            img = pather._screen.grab()
+            img = grab()
             display_img = img.copy()
             template_map = {}
             template_scores = {}
-            for template_type in pather._template_finder._templates:
+            for template_type in TemplateFinder()._templates:
                 if filter is None or filter in template_type:
-                    template_match = pather._template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
+                    template_match = TemplateFinder().search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.center
                         template_scores[template_type] = template_match.score
+            #print(f"{template_scores:0.2f}")
             print(template_scores)
-            print(template_map)
+            # print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
                     if template_type in template_map:
                         ref_pos_screen = template_map[template_type]
                         # Get reference position of template in abs coordinates
-                        ref_pos_abs = pather._screen.convert_screen_to_abs(ref_pos_screen)
+                        ref_pos_abs = convert_screen_to_abs(ref_pos_screen)
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                         node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
-                        x, y = pather._screen.convert_abs_to_screen(node_pos_abs)
+                        x, y = convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                        x, y = pather._screen.convert_abs_to_screen(ref_pos_abs)
+                        x, y = convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                        wrt_origin = (-ref_pos_abs[0], -ref_pos_abs[1])
+                        # print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
+            # if round(time.time() - start) % 3 == 0:
+            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
     import keyboard
+    from screen import start_detecting_window, stop_detecting_window, grab
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")
+    start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from ui import UiManager
-    config = Config()
-    screen = Screen()
-    t_finder = TemplateFinder(screen)
-    pather = Pather(screen, t_finder)
+    pather = Pather()
 
-    display_all_nodes(pather, "DIA_B1S")
+    display_all_nodes(pather, "A2_TOWN")
 
-    # # changing node pos and generating new code
-    # code = ""
-    # node_idx = 226
-    # offset = [0, 0]
-    # for k in pather._nodes[node_idx]:
-    #     pather._nodes[node_idx][k][0] += offset[0]
-    #     pather._nodes[node_idx][k][1] += offset[1]
-    #     code += (f'"{k}": {pather._nodes[node_idx][k]}, ')
-    # print(code)
-
-    ui_manager = UiManager(screen, t_finder)
-    char = Hammerdin(config.hammerdin, config.char, screen, t_finder, ui_manager, pather)
-
-    #pather.traverse_nodes([632], char)
+    stop_detecting_window()

@@ -1,7 +1,7 @@
 import cv2
 import threading
 from copy import deepcopy
-from screen import Screen
+from screen import convert_screen_to_monitor, grab
 from typing import Union
 from dataclasses import dataclass
 import numpy as np
@@ -9,10 +9,9 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center
+from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
 
 template_finder_lock = threading.Lock()
-
 
 @dataclass
 class TemplateMatch:
@@ -28,30 +27,41 @@ class TemplateFinder:
     to find these assets within another image
     IMPORTANT: This method must be thread safe!
     """
-    def __init__(self, screen: Screen, template_pathes: list[str] = ["assets\\templates", "assets\\npc", "assets\\item_properties", "assets\\chests", "assets\\gamble", "assets\\items_inventory"], save_last_res: bool = False):
-        self._screen = screen
-        self._config = Config()
-        self._save_last_res = save_last_res
-        if self._save_last_res:
-            # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
-            self.last_res = None
-        # load templates with their filename as key in the dict
-        pathes = []
-        for path in template_pathes:
-            pathes += list_files_in_folder(path)
-        self._templates = {}
-        for file_path in pathes:
-            file_name: str = os.path.basename(file_path)
-            if file_name.endswith('.png'):
-                key = file_name[:-4].upper()
-                template_img = load_template(file_path, 1.0, True)
-                mask = alpha_to_mask(template_img)
-                self._templates[key] = [
-                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
-                    cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
-                    1.0,
-                    mask
-                ]
+    TEMPLATE_PATHS = [
+        "assets\\templates",
+        "assets\\npc",
+        "assets\\shop",
+        "assets\\item_properties",
+        "assets\\chests",
+        "assets\\gamble",
+    ]
+    _instance = None
+
+    def __new__(cls, save_last_res=False):
+        if cls._instance is None:
+            cls._instance = super(TemplateFinder, cls).__new__(cls)
+            cls._instance._save_last_res = save_last_res
+            if cls._instance._save_last_res:
+                # do not use this when running botty as it is used accross multiple threads! Just used in shopper as a workaround for now
+                cls._instance.last_res = None
+            # load templates with their filename as key in the dict
+            pathes = []
+            for path in TemplateFinder.TEMPLATE_PATHS:
+                pathes += list_files_in_folder(path)
+            cls._instance._templates = {}
+            for file_path in pathes:
+                file_name: str = os.path.basename(file_path)
+                if file_name.lower().endswith('.png'):
+                    key = file_name[:-4].upper()
+                    template_img = load_template(file_path, 1.0, True)
+                    mask = alpha_to_mask(template_img)
+                    cls._instance._templates[key] = [
+                        cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
+                        cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
+                        1.0,
+                        mask
+                    ]
+        return cls._instance
 
     def get_template(self, key):
         return cv2.cvtColor(self._templates[key][0], cv2.COLOR_BGRA2BGR)
@@ -65,6 +75,7 @@ class TemplateFinder:
         normalize_monitor: bool = False,
         best_match: bool = False,
         use_grayscale: bool = False,
+        color_match: list = False,
     ) -> TemplateMatch:
         """
         Search for a template in an image
@@ -75,7 +86,8 @@ class TemplateFinder:
         :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
         :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
         :param use_grayscale: Use grayscale template matching for speed up
-        :return: Returns a TempalteMatch object with a valid flag
+        :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
+        :return: Returns a TemplateMatch object with a valid flag
         """
         if roi is None:
             # if no roi is provided roi = full inp_img
@@ -83,32 +95,44 @@ class TemplateFinder:
         rx, ry, rw, rh = roi
         inp_img = inp_img[ry:ry + rh, rx:rx + rw]
 
-        templates_gray = None
         if type(ref) == str:
-            templates = [self._templates[ref][0]]
-            if use_grayscale:
-                templates_gray = [self._templates[ref][1]]
+            if not color_match:
+                templates = [self._templates[ref][use_grayscale]]
+            else:
+                templates = [color_filter(self._templates[ref][0], color_match)[1]]
+                if use_grayscale:
+                    templates = [cv2.cvtColor(templates[0], cv2.COLOR_BGR2GRAY)]
             scales = [self._templates[ref][2]]
             masks = [self._templates[ref][3]]
             names = [ref]
             best_match = False
         elif type(ref) == list:
             if type(ref[0]) == str:
-                templates = [self._templates[i][0] for i in ref]
-                if use_grayscale:
-                    templates_gray = [self._templates[i][1] for i in ref]
+                if not color_match:
+                    templates = [self._templates[i][use_grayscale] for i in ref]
+                else:
+                    templates = [color_filter(self._templates[i][0], color_match)[1] for i in ref]
+                    if use_grayscale:
+                        templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
                 scales = [self._templates[i][2] for i in ref]
                 masks = [self._templates[i][3] for i in ref]
                 names = ref
             else:
-                templates = ref
-                templates_gray = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in ref]
+                if not color_match:
+                    templates = ref
+                else:
+                    templates = [color_filter(i, color_match)[1] for i in ref]
+                if use_grayscale:
+                    templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
                 scales =  [1.0] * len(ref)
                 masks = [None] * len(ref)
         else:
-            templates = [ref]
+            if not color_match:
+                templates = [ref]
+            else:
+                templates = [color_filter(ref, color_match)[1]]
             if use_grayscale:
-                templates_gray = [cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY)]
+                templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
             scales = [1.0]
             masks = [None]
             best_match = False
@@ -116,6 +140,9 @@ class TemplateFinder:
         scores = [0] * len(templates)
         ref_points = [(0, 0)] * len(templates)
         recs = [[0, 0, 0, 0]] * len(templates)
+
+        if color_match:
+            inp_img = color_filter(inp_img, color_match)[1]
 
         for count, template in enumerate(templates):
             template_match = TemplateMatch()
@@ -134,7 +161,6 @@ class TemplateFinder:
             if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
                 if use_grayscale:
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    template = templates_gray[count]
                 res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
                 np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
                 _, max_val, _, max_pos = cv2.minMaxLoc(res)
@@ -146,8 +172,8 @@ class TemplateFinder:
                     ref_point = roi_center(rec)
 
                     if normalize_monitor:
-                        ref_point =  self._screen.convert_screen_to_monitor(ref_point)
-                        rec[0], rec[1] = self._screen.convert_screen_to_monitor((rec[0], rec[1]))
+                        ref_point =  convert_screen_to_monitor(ref_point)
+                        rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
                     if best_match:
                         scores[count] = max_val
                         ref_points[count] = ref_point
@@ -178,17 +204,18 @@ class TemplateFinder:
         self,
         ref: Union[str, list[str]],
         roi: list[float] = None,
-        time_out: float = None,
+        timeout: float = None,
         threshold: float = 0.68,
         normalize_monitor: bool = False,
         best_match: bool = False,
         take_ss: bool = True,
         use_grayscale: bool = False,
         suppress_debug: bool = False,
+        color_match: list = False,
     ) -> TemplateMatch:
         """
         Helper function that will loop and keep searching for a template
-        :param time_out: After this amount of time the search will stop and it will return [False, None]
+        :param timeout: After this amount of time the search will stop and it will return [False, None]
         :param take_ss: Bool value to take screenshot on timeout or not (flag must still be set in params!)
         Other params are the same as for TemplateFinder.search()
         """
@@ -198,16 +225,16 @@ class TemplateFinder:
             Logger.debug(f"Waiting for templates: {ref}")
         start = time.time()
         while 1:
-            img = self._screen.grab()
-            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor)
-            is_loading_black_roi = np.average(img[:, 0:self._config.ui_roi["loading_left_black"][2]]) < 1.0
+            img = grab()
+            template_match = self.search(ref, img, roi=roi, threshold=threshold, best_match=best_match, use_grayscale=use_grayscale, normalize_monitor=normalize_monitor, color_match=color_match)
+            is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
             if not is_loading_black_roi or "LOADING" in ref:
                 if template_match.valid:
                     Logger.debug(f"Found Match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     return template_match
-                if time_out is not None and (time.time() - start) > time_out:
-                    if self._config.general["info_screenshots"] and take_ss:
-                        cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_time_out_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                if timeout is not None and (time.time() - start) > timeout:
+                    if Config().general["info_screenshots"] and take_ss:
+                        cv2.imwrite(f"./info_screenshots/info_wait_for_{ref}_timeout_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                     if take_ss:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match
@@ -215,19 +242,26 @@ class TemplateFinder:
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
-    from screen import Screen
-    screen = Screen()
-    template_finder = TemplateFinder(screen)
-    search_templates = ["DIABLO_PENT_0", "DIABLO_PENT_1", "DIABLO_PENT_2", "DIABLO_PENT_3"]
+    import keyboard
+    import os
+    from screen import start_detecting_window
+    start_detecting_window()
+    from template_finder import TemplateFinder
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
+
+    search_templates = ["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"]
 
     while 1:
         # img = cv2.imread("")
-        img = screen.grab()
+        img = grab()
         display_img = img.copy()
         start = time.time()
         for key in search_templates:
-            template_match = template_finder.search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
+            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
             if template_match.valid:
+                x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")

@@ -4,7 +4,7 @@ import keyboard
 from bot import Bot
 from template_finder import TemplateFinder
 from utils.misc import wait, set_d2r_always_on_top
-from screen import Screen
+from screen import get_offset_state, grab
 from config import Config
 
 
@@ -39,13 +39,11 @@ def restart_game(d2_path = None):
     attempts = 0
     set_d2r_always_on_top()
     while not success:
-        screen = Screen()
-        success = screen.found_offsets        
+        success = get_offset_state()
         wait(0.5, 1.0)
 
-    template_finder = TemplateFinder(screen)
-    
-    while not template_finder.search(Bot._MAIN_MENU_MARKERS,screen.grab(), best_match=True).valid:
+
+    while not TemplateFinder().search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
         attempts += 1
@@ -53,7 +51,7 @@ def restart_game(d2_path = None):
             return False
     return True
 
-# For testing 
+# For testing
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         result = restart_game(sys.argv[1])
