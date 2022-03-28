@@ -1,0 +1,77 @@
+// ##### assassin katars ###############
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 280 && [itemmaxdamageperlevel] >= 4 && [itemtohitperlevel] >= 33 && [ias] >= 30
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 440 && [ias] >= 30
+//+5/+6 ls claws
+[type] == handtohand && [quality] <= rare # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+//assassin white claws
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2    
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2  
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2     
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2      
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== greatertalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2       
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2    
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2  
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2     
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2      
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2       
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2    
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2  
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2     
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2      
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skillmindblast] >= 2        
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== suwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2       
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2   
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skillmindblast] >= 2         
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2      
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2   
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skillmindblast] >= 2     
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== runictalons && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2       
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2   
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skillmindblast] >= 2     
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2     
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2     
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilldragonflight] >= 2 && [skillmindblast] >= 2     
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skillshadowmaster] >= 2 && [skillweaponblock] >= 2 && [skillvenom] >= 2   
+[name]== scissorssuwayyah && [flag] != ethereal && [quality] <= superior # [sockets] == 3 && [skilllightningsentry] >= 2 && [skillwakeofinferno] >= 2    
+
+//WHITE CLAWS
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillDragonFlight] >= 2 && ([Sockets] == 0 || [Sockets] == 3)					//Chaos, Fury
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillMindBlast] >= 2 && ([Sockets] == 0 || [Sockets] == 3)						//Chaos, Fury
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillVenom] >= 2 && ([Sockets] == 0 || [Sockets] == 3)							//Chaos, Fury
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillWakeOfInferno] >= 2 && ([Sockets] == 0 || [Sockets] == 3)					//Chaos, Fury
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillDragonFlight] >= 2 && [SkillMindBlast] >= 3 && ([Sockets] == 0 || [Sockets] == 3)							//Chaos, Fury
+([Name] == GreaterTalons || [Name] == GreaterClaws || [Name] == Suwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillShadowMaster] >= 2 && [SkillWeaponBlock] >= 2 && [SkillVenom] >= 2 && ([Sockets] == 0 || [Sockets] == 3)	//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillDragonFlight] >= 2 && ([Sockets] == 0 || [Sockets] == 3)										//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillMindBlast] >= 2 && ([Sockets] == 0 || [Sockets] == 3)											//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillVenom] >= 2 && ([Sockets] == 0 || [Sockets] == 3)												//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillLightningSentry] >= 3 && [SkillWakeOfInferno] >= 2 && ([Sockets] == 0 || [Sockets] == 3)										//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillDragonFlight] >= 2 && [SkillMindBlast] >= 3 && ([Sockets] == 0 || [Sockets] == 3)												//Chaos, Fury
+([Name] == RunicTalons || [Name] == ScissorsSuwayyah) && [Quality] <= Superior && [Flag] != Ethereal # [SkillShadowMaster] >= 1 && [SkillWeaponBlock] >= 2 && [SkillVenom] >= 12&& ([Sockets] == 0 || [Sockets] == 3)
+
+//          ==rare==
+([name] == handscythe && [name] <= scissorssuwayyah) && [quality] == rare # [assassinskills]+[skilllightningsentry] >= 5 && ([itemtohitperlevel] > 0 || [ias] >= 30 || [sockets] == 2)
+([name] == greatertalons || [name] == runictalons) && [quality] == rare # [assassinskills]+[skilllightningsentry] == 5
+([name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [assassinskills]+[skilllightningsentry] == 5 && [ias] >= 10
+([name] == greatertalons || [name] == runictalons) && [quality] == rare # ([skillvenom] >= 3 || [skilllightningsentry] >= 3 || [skillweaponblock] >= 3) && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == greaterclaws || [name] == feralclaws) && [quality] == rare # ([skillvenom] >= 3 || [skilllightningsentry] >= 3 || [skillweaponblock] >= 3) && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == bladetalons || [name] == greatertalons || [name] == runictalons) && [quality] == rare # [itemtohitperlevel] > 0 && [ias] >= 30 && [sockets] == 2
+([name] == claws || [name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [itemtohitperlevel] > 0 && [ias] >= 40 && [sockets] == 2
+([name] == bladetalons || [name] == greatertalons || [name] == runictalons) && [quality] == rare # [enhanceddamage] >= 225 && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == claws || [name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [enhanceddamage] >= 200 && [itemtohitperlevel] > 0 && [ias] >= 30
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 200 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350

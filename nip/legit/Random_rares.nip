@@ -1,0 +1,121 @@
+// ##### druid pelts ###################
+[type] == pelt && [class] == exceptional && [quality] == magic && [flag] != ethereal # ([druidskills] >= 2 || [elementalskilltab] >= 2) && [skilltornado] >= 3
+[type] == pelt && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [druidskills] >= 2 && [skilltornado] >= 3
+
+// ##### paladin shields ###############
+[type] == auricshields && [class] == elite && [quality] == magic && [flag] != ethereal # ([sockets] == 4 || [paladinskills] >= 2) && [fbr] >= 30
+[type] == auricshields && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [paladinskills] >= 2 && [fbr] >= 30
+
+// ##### necromancer shrunken heads ####
+[type] == voodooheads && [class] == exceptional && [quality] == magic && [flag] != ethereal # ([necromancerskills] >= 2 || [poisonandboneskilltab] >= 3) && [skillbonespear]+[skillbonespirit]+[skillpoisonnova] >= 6
+[type] == voodooheads && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [necromancerskills] >= 2 && [skillbonespear]+[skillbonespirit]+[skillpoisonnova] >= 6
+
+// ##### axes ##########################
+[type] == axe && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 4 && [itemtohitperlevel] >= 33 && [ias] >= 30
+[type] == axe && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+
+// ##### bows ##########################
+
+// ##### crossbows #####################
+
+// ##### daggers #######################
+
+// ##### javelins ######################
+//4-6 jav skills 30+ [ias] javelins
+[name] == maidenjavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == maidenjavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
+[name] == ceremonialjavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == ceremonialjavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
+[name] == matriarchaljavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == matriarchaljavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
+
+// ##### maces #########################
+([type] == club || [type] == hammer || [type] == mace) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 30
+([type] == club || [type] == hammer || [type] == mace) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+
+// ##### polearms ######################
+[type] == polearm && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 30
+[type] == polearm && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+
+// ##### scepters ######################
+[type] == scepter && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 30
+[type] == scepter && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+
+// ##### spears ########################
+[type] == spear && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 40
+[type] == spear && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 40
+
+// ##### staves ########################
+
+// ##### swords ########################
+[type] == sword && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 4 && [itemtohitperlevel] >= 25 && [ias] >= 30
+[type] == sword && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+([name] == crystalsword || [name] == greatsword) && [quality] == magic # [warcriesskilltab] >= 3 && ([lifeleech] >= 8 || [manaleech] >= 8)
+
+// ##### throwing ######################
+
+// ##### wands #########################
+
+// ##### amazon weapons ################
+[type] == amazonbow && [quality] == rare # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 20 && [itemskillonhit] >= 1
+[type] == amazonbow && [quality] == rare # [sockets] >= 2 && [enhanceddamage] >= 350 && [ias] >= 20 && [itemskillonhit] >= 1
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [itemreplenishquantity] >= 1
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 300 && [itemreplenishquantity] >= 1
+
+ 
+
+// ##### sorceress orbs ################
+//[type] == sorceressitem && [quality] == magic # [dexterity] >= 100
+//enchant orbs
+[type] == orb && [quality] == rare # [skillenchant] >= 2 && [fireskilltab] == 3
+[type] == orb && [quality] == rare # [skillenchant] == 3 && [fireskilltab] >= 2
+[type] == orb && [quality] == rare # [skillenchant] == 3 && [sorceressskills] == 2
+
+//          ==rare==
+//[type] == armor && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 150 && [sockets] == 2 && ([itemreplenishdurability] > 0 || [itemreplenishquantity] > 0)
+
+//          ==rare==
+[type] == belt && [quality] == rare && [flag] != ethereal # [fhr] == 24 && [strength] >= 20 && [maxhp] >= 50
+//[type] == belt && [quality] == rare && [flag] != ethereal # [fhr] == 24 && [strength] >= 10 && [maxhp] >= 30 && [itemgoldbonus] >= 70
+[type] == belt && [quality] == rare && [flag] == ethereal # ([fhr] == 24 || [maxhp] >= 50) && [enhanceddefense] >= 150 && ([itemreplenishdurability] > 0 || [itemreplenishquantity] > 0)
+
+//          ==rare==
+[type] == axe && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 400
+
+//          ==rare==
+[type] == bow && [quality] == rare # [enhanceddamage] >= 300 && ([ias] == 20 || [sockets] == 2)
+
+//          ==rare==
+//[type] == scepter && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 400
+[type] == scepter && [quality] == rare # [skillblessedhammer]+[skillconcentration]+[palicombatskilltab]+[paladinskills] >= 8
+[type] == scepter && [quality] == rare # [skillfistoftheheavens]+[skillconviction]+[palicombatskilltab]+[paladinskills] >= 8
+[type] == scepter && [quality] == rare # [skillholyshield]+[paladinskills]+[palicombatskilltab] >= 5
+
+//          ==rare==
+[type] == sword && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 300
+([name] == scimitar || [name] == cutlass || [name] == ataghan) && [quality] == rare # ([enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 300) && [ias] >= 40 && [sockets] >= 0
+
+//          ==rare==
+[type] == wand && [quality] == rare # [skillbonespear]+[skillbonespirit] == 6 && ([necromancerskills] == 2 || [poisonandboneskilltab] == 2) && [fcr] == 20
+
+//          ==rare==
+[type] == amazonspear && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 225 && [itemtohitperlevel] > 1 || [enhanceddamage] >= 300
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # ([enhanceddamage] >= 200 && [itemtohitperlevel] > 1 || [enhanceddamage] >= 300) && ([itemreplenishdurability] > 1 || [itemreplenishquantity] > 1)
+[type] == amazonbow && [quality] == rare # ([enhanceddamage] >= 150 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 300) && ([ias] == 20 || [sockets] == 2)
+//([name] == maidenjavelin || [name] == ceremonialjavelin || [name] == matriarchaljavelin) && [quality] == rare && [flag] != ethereal # [javelinandspearskilltab]+[amazonskills] >= 4 && [ias] >= 30
+
+//          ==rare==
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[poisonandboneskilltab]+[skillbonespear]+[skillbonespirit] >= 8
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillbonespear] >= 5 && [fbr] == 30 && [sockets] >=0 
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillbonespirit] >= 5 && [fbr] == 30 && [sockets] >= 0
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillpoisonnova] >= 5 && [fbr] == 30 && [sockets] >= 0
+
+//          ==rare==
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skillfireball]+[skillfiremastery] >= 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skillblizzard]+[skillcoldmastery] >= 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skilllightning]+[skilllightningmastery] >= 6
+
+//          ==rare==
+[type] == pelt && [quality] == rare # [druidskills]+[skilltornado] >= 5
+[type] == pelt && [quality] == rare # [druidskills]+[skillarmageddon]+[skillsummongrizzly] >= 8
+[type] == pelt && [quality] == rare # [druidskills]+[skillfury] >= 5 && [itemtohitpercentperlevel] >= 1

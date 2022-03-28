@@ -1,0 +1,96 @@
+// MISC
+
+//-----runes-----
+
+[name] == greatermanapotion
+[name] == supermanapotion
+[name] == superhealingpotion
+[name] == rejuvenationpotion
+[name] == fullrejuvenationpotion
+
+//[name] == perfectamethyst || [name] == perfecttopaz || [name] == perfectdiamond || [name] == perfectsapphire || [name] == perfectruby || [name] == perfectskull
+//[name] == perfecttopaz
+
+//[name] == flawlessemerald # # [maxquantity] == 3
+//[name] == flawlessdiamond # # [maxquantity] == 3
+//[name] == flawlessruby # # [maxquantity] == 3
+//[name] == flawlesstopaz # # [maxquantity] == 3
+//[name] == flawlessamethyst # # [maxquantity] == 1
+//[Name] == FlawlessSapphire # # [MaxQuantity] == 3
+
+//[name] == elrune # # [MaxQuantity] == 1
+//[name] == eldrune # # [MaxQuantity] == 1
+//[name] == tirrune # # [MaxQuantity] == 1
+//[name] == nefrune # # [MaxQuantity] == 1
+//[name] == ethrune # # [MaxQuantity] == 1
+//[name] == ithrune # # [MaxQuantity] == 1
+//[name] == talrune # # [MaxQuantity] == 1
+//[name] == ralrune # # [MaxQuantity] == 1
+//[name] == ortrune # # [MaxQuantity] == 1
+//[name] == thulrune # # [MaxQuantity] == 1
+//[name] == amnrune # # [MaxQuantity] == 1
+//[name] == solrune # # [MaxQuantity] == 1
+//[name] == shaelrune # # [MaxQuantity] == 1
+//[name] == dolrune # # [MaxQuantity] == 1
+//[name] == helrune # # [MaxQuantity] == 1
+//[name] == iorune # # [MaxQuantity] == 1
+//[name] == lumrune # # [MaxQuantity] == 1
+//[name] == korune # # [MaxQuantity] == 1
+//[name] == falrune # # [MaxQuantity] == 1
+//[name] == lemrune # # [MaxQuantity] == 1
+[name] == pulrune # # [MaxQuantity] == 3
+[name] == umrune # # [MaxQuantity] == 3
+[name] == malrune # # [MaxQuantity] == 10
+[name] == istrune # # [MaxQuantity] == 10
+
+[name] >= gulrune && [name] <= zodrune
+
+[name] == keyofhate # # [maxquantity] == 1
+[name] == keyofterror # # [maxquantity] == 10
+[name] == keyofdestruction # # [maxquantity] == 10
+
+[name] == diablo'shorn
+[name] == mephisto'sbrain
+[name] == baal'seye
+
+//[Name] == TwistedEssenceOfSuffering # # [MaxQuantity] == 10
+//[Name] == ChargedEssenceOfHatred # # [MaxQuantity] == 10
+//[Name] == BurningEssenceOfTerror # # [MaxQuantity] == 10
+//[Name] == FesteringEssenceOfDestruction # # [MaxQuantity] == 10 
+
+// --set items--
+
+// --tal rasha's--
+//[name] == swirlingcrystal && [quality] == set # # [maxquantity] == 1
+//[name] == deathmask && [quality] == set
+//[name] == lacqueredplate && [quality] == set
+//[name] == amulet && [quality] == set
+//[Type] == Amulet && [Quality] == Set # [SorceressSkills] == 2 // Tal Rasha's Adjucation
+//[name] == meshbelt && [quality] == set # [itemmagicbonus] == 15 && [defense] == 40
+
+//[Name] == WingedHelm && [Quality] == Set // Guillaume's Face
+//[Name] == RoundShield && [Quality] == Set // Whistan's Guard
+
+// --aldur's--
+//[name] == battleboots && [quality] == set
+
+// --immortal king's--
+//[name] == warboots && [quality] == set
+//[name] == warbelt && [quality] == set
+//[name] == ogremaul && [quality] == set
+//[name] == sacredarmor && [quality] == set // immortal king's soul cage
+//[name] == avengerguard && [quality] == set # [itemmagicbonus] == 40 && [defense] == 175
+
+// --trang-oul's--
+//[name] == heavybracers && [quality] == set # [defense] >= 74
+//[name] == trollbelt && [quality] == set # [maxmana] == 50 && [defense] == 166
+//[name] == bonevisage && [quality] == set # [defense] == 257
+
+// griswold's
+
+//[name] == caduceus && [quality] == set # [enhanceddamage] == 240 && [sockets] == 4
+//[name] == corona && [quality] == set # [enhanceddefense] == 75 && [itemmagicbonus] == 30
+//[name] == vortexshield && [quality] == set # [defense] == 333
+
+[Type] == Gold # [Gold] >= 1000
+[name] == tokenofabsolution
