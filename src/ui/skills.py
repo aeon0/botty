@@ -8,6 +8,7 @@ from screen import grab
 from config import Config
 from template_finder import TemplateFinder
 from ui_manager import wait_until_visible, ScreenObjects
+from d2r_image import ocr
 
 def is_left_skill_selected(template_list: list[str]) -> bool:
     """
@@ -64,7 +65,7 @@ def is_right_skill_selected(template_list: list[str]) -> bool:
             return True
     return False
 
-def get_skill_charges(ocr, img: np.ndarray = None):
+def get_skill_charges(img: np.ndarray = None):
     if img is None:
         img = grab()
     x, y, w, h = Config().ui_roi["skill_right"]
