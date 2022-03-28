@@ -36,11 +36,11 @@ def get_experience():
     try:
         current_exp = int(split_text[1].replace(',', '').replace('.', ''))
         required_exp = int(split_text[3].replace(',', '').replace('.', ''))
-        return current_exp, required_exp, round((current_exp / required_exp) * 100, 2)
+        return current_exp, required_exp
     except Exception as e:
         Logger.error(f"EXP OCR Error: {split_text}")
         Logger.error(f"EXP OCR Error: {str(e)}")
-        return 0,0,0.0
+        return 0,0
 
 
 if __name__ == "__main__":
