@@ -38,16 +38,28 @@ from town import TownManager, A1, A2, A3, A4, A5, town_manager
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
+from firebase import Firebase
+import random
+import string
+from datetime import datetime
 
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
-    def __init__(self, game_stats: GameStats):
+    def __init__(self, game_stats: GameStats, host: bool = True, groupID: str = "", gn: str = "", pw: str = ""):
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._item_finder = ItemFinder()
         self._pather = Pather()
         self._pickit = PickIt(self._item_finder)
+        self._firebase = Firebase ()
+        self._userID = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(10))
+        self._groupID = groupID 
+        self._gn = gn
+        self._pw = pw
+        self._last_update = datetime.utcnow()
+        self._host = host
+        self._first_game = True
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:
@@ -217,6 +229,56 @@ class Bot:
                 character_select.save_char_online_status()
                 character_select.save_char_template()
         self.trigger_or_stop("create_game")
+
+    def create_via_lobby(self):
+        found_btn_play = TemplateFinder().search_and_wait("CREATE_GAME", timeout= 3, threshold=0.8, best_match=True, normalize_monitor=True)
+        if found_btn_play.valid:
+            self._gn, self._pw = main_menu.create_game_lobby ()
+            self.trigger_or_stop("start_from_town")
+        else:
+            found_btn_lobby = TemplateFinder().search_and_wait("LOBBY", threshold=0.8, best_match=True, normalize_monitor=True)
+            if found_btn_lobby.valid:
+                if not main_menu.goto_lobby (): return
+                found_btn_play = TemplateFinder().search_and_wait("CREATE_GAME", timeout= 3, threshold=0.8, best_match=True, normalize_monitor=True)
+                if found_btn_play.valid:
+                    self._gn, self._pw = main_menu.create_game_lobby ()
+                    self.trigger_or_stop("start_from_town")
+                    
+    def join_via_lobby (self):
+        while self._first_game == False:
+            time.sleep (1)
+        found_btn_lobby = TemplateFinder().search_and_wait("LOBBY", timeout=3, threshold=0.8, best_match=True, normalize_monitor=True)
+        if found_btn_lobby.valid:
+            if not main_menu.goto_lobby (): return
+        main_menu.join_game_lobby (self._gn, self._pw)
+        self._first_game = False
+        self.trigger_or_stop("start_from_town")
+     
+
+    def on_create_game(self): 
+        if Config().general["region"]!="":
+            #if self._host == False:
+            #    self._host = self.decide_host ()
+            if self._host:
+                self.create_via_lobby ()
+                if self._groupID == "":
+                    self._groupID = self._firebase.add_group (self._gn, self._pw, self._userID)
+                else:
+                    self._firebase.update_group_data (self._groupID, self._userID, self._gn, self._pw)
+            else:
+                self.join_via_lobby ()                 
+        else:
+            if Config().general ["games_via_lobby"]:
+                self.create_via_lobby()    
+            else:
+                # Start a game from hero selection
+                if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
+                    if "DARK" in m.name:
+                        keyboard.send("esc")
+                    main_menu.start_game()
+                    view.move_to_corpse()
+                else: return
+        self.trigger_or_stop("start_from_town")
 
     def on_create_game(self):
         # Start a game from hero selection

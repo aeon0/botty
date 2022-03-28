@@ -15,6 +15,8 @@ from messages import Messenger
 from screen import grab, get_offset_state
 from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
+from firebase import Firebase
+from group_manger import GroupManager
 
 
 class GameController:
@@ -23,16 +25,20 @@ class GameController:
         self.health_monitor_thread = None
         self.health_manager = None
         self.death_manager = None
+        self.group_manager = None
         self.death_monitor_thread = None
         self.game_recovery = None
         self.game_stats = None
         self.game_controller_thread = None
         self.bot_thread = None
         self.bot = None
+        self._firebase = Firebase ()
 
     def run_bot(self):
         # Start bot thread
-        self.bot = Bot(self.game_stats)
+        host = self.group_manager.decide_host ()
+        #self.bot = Bot(self.game_stats)
+        self.bot = Bot(self.game_stats, self.api, host=host, groupID = self.group_manager._groupID, gn = self._firebase._gn, pw = self._firebase._pw)
         self.bot_thread = threading.Thread(target=self.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
@@ -41,10 +47,11 @@ class GameController:
         self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         do_restart = False
         messenger = Messenger()
+        self.group_manager.update_game_data ()
         while 1:
             max_game_length_reached = self.game_stats.get_current_game_length() > Config().general["max_game_length_s"]
             max_consecutive_fails_reached = False if not Config().general["max_consecutive_fails"] else self.game_stats.get_consecutive_runs_failed() >= Config().general["max_consecutive_fails"]
-            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken():
+            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken() or self.group_manager.new_game ():
                 # Some debug and logging
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {Config().general['name']}!")
@@ -54,6 +61,8 @@ class GameController:
                     self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
                     self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
+                elif self.group_manager.new_game():
+                    self.group_manager.reset_cont_flag()
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
@@ -106,6 +115,7 @@ class GameController:
         self.setup_screen()
         self.start_health_manager_thread()
         self.start_death_manager_thread()
+        self.start_group_manager_thread()
         self.game_recovery = GameRecovery(self.death_manager)
         self.game_stats = GameStats()
         self.start_game_controller_thread()
@@ -137,6 +147,13 @@ class GameController:
         self.death_monitor_thread = threading.Thread(target=self.death_manager.start_monitor)
         self.death_monitor_thread.daemon = True
         self.death_monitor_thread.start()
+
+    def start_group_manager_thread (self):
+        # Run group manager thread
+        self.group_manager = GroupManager(self._firebase)
+        self.group_monitor_thread = threading.Thread(target=self.group_manager.start_monitor)
+        self.group_monitor_thread.daemon = True
+        self.group_monitor_thread.start()
 
     def start_game_controller_thread(self):
         # Run game controller thread

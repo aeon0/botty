@@ -257,6 +257,30 @@ class ScreenObjects:
         threshold=0.8,
         roi="deposit_btn",
     )
+    CreateBtn=ScreenObject(
+        ref=["CREATE_GAME"],
+        threshold=0.8,    
+    )
+    CreateBtn2=ScreenObject(
+        ref=["CREATE_GAME2"],
+        threshold=0.8, 
+    )
+    GameName=ScreenObject(
+        ref=["GAME_NAME"],
+        threshold=0.8,    
+    )
+    Lobby=ScreenObject(
+        ref=["LOBBY"],
+        threshold=0.8,    
+    )
+    Join=ScreenObject(
+        ref=["GAME_NAME_JOIN"],
+        threshold=0.8, 
+    )
+    BtnJoin=ScreenObject(
+        ref=["JOIN_GAME"],
+        threshold=0.8, 
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None

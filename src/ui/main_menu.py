@@ -5,6 +5,8 @@ from utils.misc import wait
 from logger import Logger
 from ui import error_screens
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, ScreenObjects
+import random
+import string
 
 
 def _play_active(match) -> bool:
@@ -56,3 +58,77 @@ def start_game() -> bool:
             keyboard.release(difficulty_key)
             return start_game()
     return True
+
+def goto_lobby () -> bool:
+        """
+        Go from charselection to lobby
+        :return: Bool if action was successful
+        """
+        while 1:
+            Logger.debug("Wait for Lobby button")
+            if (found_btn_lobby := detect_screen_object(ScreenObjects.Lobby)).valid:
+                Logger.debug(f"Found Lobby Btn")
+                select_screen_object_match (found_btn_lobby)
+                break
+        return True
+
+def create_game_lobby () -> bool:
+        Logger.debug("Creating game via Lobby")
+        while 1:
+            if (found_btn_create := detect_screen_object(ScreenObjects.CreateBtn)).valid:      
+                select_screen_object_match (found_btn_create)
+                break
+        while 1:
+            if (found_btn_game_name := detect_screen_object(ScreenObjects.GameName)).valid: 
+                select_screen_object_match (found_btn_game_name)
+                break
+        gn = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(15))
+        pw = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(10))
+        keyboard.write (gn)
+        wait (0.15, 0.25)
+        keyboard.send("Tab")
+        wait (0.15, 0.25)
+        keyboard.write (pw)
+        """
+        for char in gn:
+            keyboard.send(char)
+            wait (0.15, 0.25)
+        keyboard.send("Tab")
+        for char in pw:
+            keyboard.send(char)
+            wait (0.15, 0.25)
+        """
+        while 1:
+            if (found_btn_game_name := detect_screen_object(ScreenObjects.CreateBtn2)).valid:
+                Logger.debug(f"Found Play Btn2")
+                select_screen_object_match (found_btn_game_name)
+                break
+        return gn, pw
+
+def join_game_lobby (gn, pw) -> bool:
+        Logger.debug("Joining game via Lobby")
+        while 1:
+            if (found_join := detect_screen_object(ScreenObjects.Join)).valid:      
+                select_screen_object_match (found_join)
+                Logger.debug(f"Found Lobby Btn")
+                break
+        keyboard.write (gn)
+        wait (0.15, 0.25)
+        keyboard.send("Tab")
+        wait (0.15, 0.25)
+        keyboard.write (pw)
+        """
+        for char in gn:
+            keyboard.send(char)
+            wait (0.15, 0.25)
+        keyboard.send("Tab")
+        for char in pw:
+            keyboard.send(char)
+            wait (0.15, 0.25)
+        """
+        while 1:
+            if (found_btn_join := detect_screen_object(ScreenObjects.BtnJoin)).valid:      
+                select_screen_object_match (found_btn_join)
+                Logger.debug(f"Found Join Btn")
+                break
+
