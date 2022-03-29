@@ -5,6 +5,7 @@ import time
 import os
 import random
 import cv2
+import math
 from copy import copy
 from typing import Union
 from collections import OrderedDict
@@ -410,17 +411,18 @@ class Bot:
 
         if Config().general["max_runtime_before_break_m"] and Config().general["break_length_m"]:
             elapsed_time = time.time() - self._timer
-            Logger.info(f'Session length = {elapsed_time} s, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]*60} s.')
+            Logger.debug(f'Session length = {math.ceil(elapsed_time/60)} minutes, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]}.')
 
             if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
-                Logger.info(f'Max session length reached, taking a break for {Config().general["break_length_m"]} minutes.')
-                self._messenger.send_message(f'Ran for {hms(elapsed_time)}, taking a break for {Config().general["break_length_m"]} minutes.')
+                break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
+                Logger.info(break_msg)
+                self._messenger.send_message(break_msg)
                 if not self._pausing:
                     self.toggle_pause()
 
                 wait(Config().general["break_length_m"]*60)
 
-                break_msg = f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.'
+                break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
                 Logger.info(break_msg)
                 self._messenger.send_message(break_msg)
                 if self._pausing:
