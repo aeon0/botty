@@ -69,7 +69,7 @@ class ScreenObjects:
         use_grayscale=True
     )
     MainMenu=ScreenObject(
-        ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK"],
+        ref=["MAIN_MENU_TOP_LEFT", "MAIN_MENU_TOP_LEFT_DARK", "LOBBY_MENU_TOP_LEFT"],
         roi="main_menu_top_left",
         best_match=True,
         use_grayscale=True

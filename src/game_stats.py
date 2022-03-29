@@ -166,9 +166,13 @@ class GameStats:
         exp_per_hour = round(exp_per_second * 3600, 1)
         exp_per_game = round(gained_exp / float(good_games_count), 1)
         exp_needed = curr_lvl['xp_to_next'] - exp_gained
-        time_to_lvl = exp_needed / exp_per_second
-        games_to_lvl = exp_needed / exp_per_game
 
+        if exp_per_second != 0 and exp_per_game !=0:
+            time_to_lvl = exp_needed / exp_per_second
+            games_to_lvl = exp_needed / exp_per_game
+        else:
+            time_to_lvl=999999
+            games_to_lvl=999999
         msg = f'\nSession length: {elapsed_time_str}'
         msg += f'\nGames: {self._game_counter}'
         msg += f'\nAvg Game Length: {avg_length_str}'

@@ -44,7 +44,7 @@ import string
 from datetime import datetime
 
 class Bot:
-    _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
+    _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK", "LOBBY_MENU_TOP_LEFT"]
 
     def __init__(self, game_stats: GameStats, host: bool = True, groupID: str = "", gn: str = "", pw: str = ""):
         self._game_stats = game_stats

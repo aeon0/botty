@@ -120,8 +120,8 @@ class Firebase:
     def group_valid(self, group):
         if len(group.val()["shared_with"]) < self.config.general["max_players"]:
             if abs(self.runt - int (group.val()["approx_runtime"])) < int (self.config.general["max_delta_approx_time"]): 
-                for user in group.val()["claimed_runs"]:
-                    for run in user:
+                for user,runs in group.val()["claimed_runs"].items():
+                    for run in runs:
                         for route in self.routelist:
                             if route in run:
                                 return False
