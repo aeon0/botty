@@ -2,7 +2,6 @@ import itertools
 import os
 from game_stats import GameStats
 from item import ItemFinder, Item
-from item.item_cropper import ItemText
 from logger import Logger
 from screen import grab, convert_screen_to_monitor
 import keyboard
@@ -18,7 +17,6 @@ from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
 from ui import view
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse
-from item import ItemCropper
 from messages import Messenger
 from d2r_image import processing as d2r_image
 from d2_nip_eval import lexer
@@ -147,111 +145,6 @@ def stash_all_items(items: list = None):
     Logger.debug("Done stashing")
     return items
 
-def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bool = True) -> bool:
-    """
-    Check if an item should be kept, the item should be hovered and in own inventory when function is called
-    :param img: Image in which the item is searched (item details should be visible)
-    :param do_logging: Bool value to turn on/off logging for items that are found and should be kept
-    :return: Bool if item should be kept
-    """
-    ymax = 50 if item_box.data.shape[0] < 50 else item_box.data.shape[0]
-    img = item_box.data[0:ymax,:]
-
-    if any(x in found_item.name for x in ["potion", "misc_scroll"]) or found_item.name == "misc_key" or (Config().items[found_item.name].pickit_type == 0):
-        return False
-    setattr(found_item, "ocr_result", item_box["ocr_result"])
-
-    include_props = Config().items[found_item.name].include
-    exclude_props = Config().items[found_item.name].exclude
-
-    if (
-        #Disable include/exclude params for uniq, rare, magical if ident is disabled in params.ini
-        (
-            not Config().char["id_items"]
-            and any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
-        )
-        # items that are checked to be kept should all be identified unless an error occurred or user preferred unidentified
-        or is_visible(ScreenObjects.Unidentified, item_box.data)
-    ):
-        include_props = False
-        exclude_props = False
-
-    if not (include_props or exclude_props):
-        if do_logging:
-            Logger.debug(f"{found_item.name}: Stashing")
-        return True
-    include = True
-    include_logic_type = Config().items[found_item.name].include_type
-    if include_props:
-        include = False
-        found_props=[]
-        for prop in include_props:
-            if len(prop)>1:
-                found_subprops=[]
-                for subprop in prop:
-                    try:
-                        template_match = TemplateFinder().search(subprop, img, threshold=0.95)
-                    except:
-                        Logger.error(f"{found_item.name}: can't find template file for required {prop}, ignore just in case")
-                        template_match = lambda: None; template_match.valid = True
-                    if template_match.valid:
-                        if include_logic_type == "OR":
-                            found_subprops.append(True)
-                        else:
-                            found_props.append (True)
-                            break
-                    else:
-                        found_subprops.append(False)
-                        break
-                if (len(found_subprops) > 0 and all(found_subprops)):
-                    include = True
-                    break
-            else:
-                try:
-                    template_match = TemplateFinder().search(prop, img, threshold=0.95)
-                except:
-                    Logger.error(f"{found_item.name}: can't find template file for required {prop}, ignore just in case")
-                    template_match = lambda: None; template_match.valid = True
-                if template_match.valid:
-                    if include_logic_type == "AND":
-                        found_props.append(True)
-                    else:
-                        include = True
-                        break
-                else:
-                    found_props.append(False)
-        if include_logic_type == "AND" and len(found_props) > 0 and all(found_props):
-            include = True
-    if not include:
-        if do_logging:
-            Logger.debug(f"{found_item.name}: Discarding. Required {include_logic_type}({include_props})={include}")
-        return False
-    exclude = False
-    exclude_logic_type = Config().items[found_item.name].exclude_type
-    if exclude_props:
-        found_props = []
-        for prop in exclude_props:
-            try:
-                template_match = TemplateFinder().search(prop, img, threshold=0.97)
-            except:
-                Logger.error(f"{found_item.name}: can't find template file for exclusion {prop}, ignore just in case")
-                template_match = lambda: None; template_match.valid = False
-            if template_match.valid:
-                if exclude_logic_type == "AND":
-                    found_props.append(True)
-                else:
-                    exclude = True
-                    break
-            else:
-                found_props.append(False)
-        if exclude_logic_type == "AND" and len(exclude_props) > 0 and all(found_props):
-            exclude = True
-    if include and not exclude:
-        if do_logging:
-            Logger.debug(f"{found_item.name}: Stashing. Required {include_logic_type}({include_props})={include}, exclude {exclude_logic_type}({exclude_props})={exclude}")
-        return True
-    return False
-
 def specific_inventory_roi(desired: str = "reserved"):
     #roi spec: left, top, W, H
     roi = Config().ui_roi["right_inventory"].copy()
@@ -307,12 +200,9 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
         wait(0.1, 0.2)
         hovered_item = grab()
-        d2r_image_hovered_item = d2r_image.get_hovered_item(hovered_item)
         # get the item description box
-        item_box = ItemCropper().crop_item_descr(hovered_item)
-        # if item_box.valid:
-        if d2r_image_hovered_item:
-            should_keep_item = lexer.keep_item(expressions, d2r_image_hovered_item.as_dict())
+        item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+        if item_box is not None:
             # determine the item's ROI in inventory
             cnt=0
             while True:
@@ -342,7 +232,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             sell = Config().char["sell_junk"] and item_can_be_traded
             # check and see if item exists in pickit
             try:
-                found_item = item_finder.search(item_box.data)[0]
+                found_item = item_finder.search(item_box.img)[0]
             except:
                 Logger.debug(f"inspect_items: item_finder returned None or error for {item_name}, likely an accidental pick")
                 Logger.debug(f"Dropping {item_name}")
@@ -350,11 +240,12 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             # attempt to identify item
             need_id = False
             if Config().char["id_items"] and found_item:
+                # TODO: need to clean this logic up once we get rid of pickit.ini and use NIP
                 # if this item has no include or exclude properties, leave it unidentified
                 implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
                 implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
                 if not implied_no_id:
-                    if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.data)):
+                    if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.img)):
                         need_id = True
                         center_mouse()
                         tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
@@ -365,9 +256,9 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
                         wait(0.2, 0.3)
                         hovered_item = grab()
-                        item_box = ItemCropper().crop_item_descr(hovered_item)
+                        item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
 
-            if item_box.valid:
+            if item_box is not None:
                 Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
                 for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
                     Logger.debug(f"OCR LINE{i}: {line}")
@@ -381,18 +272,17 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                                 found_low_confidence = True
                             except: pass
                     if found_low_confidence:
-                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box.ocr_result['original_img'])
-                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_n.png", item_box.ocr_result['processed_img'])
+                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
 
                 # decide whether to keep item
                 keep = False
                 if not need_id:
-                    keep = keep_item(item_box, found_item) if found_item else False
+                    keep = lexer.keep_item(expressions, item_properties.as_dict()) if found_item else False
                 if keep:
                     sell = need_id = False
 
                 box = common.BoxInfo(
-                    img = item_box.data,
+                    img = item_box.img,
                     pos = (x_m, y_m),
                     column = slot[2],
                     row = slot[1],
@@ -408,7 +298,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     continue
                 # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                 if game_stats is not None and (keep and not need_id):
-                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.data, item_box.ocr_result.text)
+                    Logger.debug(f"Stashing {item_name}")
+                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
                 # if item is to be kept or still needs to be sold or identified, append to list
                 if keep or sell or need_id:
                     # save item info
@@ -423,7 +314,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         else:
             failed = True
         if failed:
-            Logger.error(f"item_cropper failed for slot_pos: {slot[0]}")
+            Logger.error(f"item segmentation failed for slot_pos: {slot[0]}")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
     if close_window:

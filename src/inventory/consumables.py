@@ -10,7 +10,7 @@ from utils.misc import wait
 from screen import grab
 from dataclasses import dataclass
 from logger import Logger
-from item import ItemCropper
+from d2r_image import processing as d2r_image
 
 @dataclass
 class Consumables:
@@ -132,8 +132,8 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
     wait(0.2, 0.2)
     hovered_item = grab()
     # get the item description box
-    item_box = ItemCropper().crop_item_descr(hovered_item, model="engd2r_inv_th_fast")
-    if item_box.valid:
+    _, item_box = d2r_image.get_hovered_item(hovered_item)
+    if item_box is not None:
         try:
             result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
             if item_type.lower() in ["tp", "id"]:

@@ -15,7 +15,7 @@ from d2r_image.data_models import OcrResult
 class ItemText:
     color: str = None
     roi: list[int] = None
-    data: np.ndarray = None
+    img: np.ndarray = None
     ocr_result: OcrResult = None
     clean_img: np.ndarray = None
     valid: bool = False
@@ -83,7 +83,7 @@ class ItemCropper:
                         item_clusters.append(ItemText(
                             color = key,
                             roi = [x, y, w, h],
-                            data = cropped_item,
+                            img = cropped_item,
                             clean_img = cleaned_img[y:y+h, x:x+w]
                         ))
         debug_str += f" | cluster: {time.time() - start}"
@@ -95,51 +95,11 @@ class ItemCropper:
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
 
-    def crop_item_descr(self, inp_img: np.ndarray, inventory_side: str = "right", model = "engd2r_inv_th") -> ItemText:
-        """
-        Crops visible item description boxes / tooltips
-        :inp_img: image from hover over item of interest.
-        :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
-        :model: which ocr model to use
-        returns cropped item tooltip box
-        """
-        result = ItemText()
-        black_mask, _ = color_filter(inp_img, Config().colors["black"])
-        contours = cv2.findContours(black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = contours[0] if len(contours) == 2 else contours[1]
-        for cntr in contours:
-            x, y, w, h = cv2.boundingRect(cntr)
-            cropped_item = inp_img[y:y+h, x:x+w]
-            avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-            mostly_dark = True if 0 < avg < 25 else False
-            contains_black = True if np.min(cropped_item) < 14 else False
-            contains_white = True if np.max(cropped_item) > 250 else False
-            contains_orange = False
-            if not contains_white:
-                #check for orange (like key of destruction, etc.)
-                orange_mask, _ = color_filter(cropped_item, Config().colors["orange"])
-                contains_orange = np.min(orange_mask) > 0
-            expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
-            expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
-            box2 = Config().ui_roi[f"{inventory_side}_inventory"]
-            overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+28+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
-            if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
-                footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
-                found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
-                if found_footer:
-                    ocr_result = ocr.image_to_text(cropped_item, psm=6, model=model)[0]
-                    result.color = "black"
-                    result.roi = [x, y, w, h]
-                    result.data = cropped_item
-                    result.ocr_result = ocr_result
-                    result.valid = True
-                    break
-        return result
-
 if __name__ == "__main__":
     import keyboard
     import os
     from screen import start_detecting_window, grab
+    from d2r_image import processing as d2r_image
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
@@ -150,8 +110,8 @@ if __name__ == "__main__":
 
     while 1:
         img = grab().copy()
-        res = cropper.crop_item_descr(img, model="engd2r_inv_th_fast")
-        if res.valid:
+        res = d2r_image.get_hovered_item(img)
+        if res is not None:
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
             #Logger.debug(f"{res.ocr_result['text']}")
