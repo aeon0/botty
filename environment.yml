@@ -33,3 +33,4 @@ dependencies:
     - typing_extensions
     - rapidfuzz
     - colorama
+    - pyrebase
