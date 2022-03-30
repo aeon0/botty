@@ -110,18 +110,19 @@ if __name__ == "__main__":
 
     while 1:
         img = grab().copy()
-        res = d2r_image.get_hovered_item(img)
+        item_properties, res = d2r_image.get_hovered_item(img)
         if res is not None:
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
             #Logger.debug(f"{res.ocr_result['text']}")
 
+            Logger.debug(item_properties)
             Logger.debug(f"OCR ITEM DESCR: Mean conf: {res.ocr_result.mean_confidence}")
             for i, line in enumerate(list(filter(None, res.ocr_result.text.splitlines()))):
                 Logger.debug(f"OCR LINE{i}: {line}")
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             found_low_confidence = False
-            for cnt, x in enumerate(res.ocr_result['word_confidences']):
+            for cnt, x in enumerate(res.ocr_result["word_confidences"]):
                 if x <= 88:
                     try:
                         Logger.debug(f"Low confidence word #{cnt}: {res.ocr_result['original_text'].split()[cnt]} -> {res.ocr_result['text'].split()[cnt]}, Conf: {x}")
@@ -130,4 +131,4 @@ if __name__ == "__main__":
 
 
         cv2.imshow("res", img)
-        cv2.waitKey(5000)
+        cv2.waitKey(1)
