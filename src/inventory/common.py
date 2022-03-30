@@ -5,9 +5,9 @@ import keyboard
 import time
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, center_mouse, is_visible, wait_until_hidden
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
 from utils.misc import wait, trim_black, color_filter, cut_roi
-from inventory import consumables, personal
+from inventory import consumables
 from ui import view
 from screen import convert_screen_to_monitor, grab
 from dataclasses import dataclass
@@ -115,83 +115,6 @@ def id_item_with_tome(item_location: list, id_tome_location: list):
     mouse.click(button="left")
     consumables.increment_need("id", 1)
     wait(0.1)
-
-def transfer_items(items: list, action: str = "drop") -> list:
-    #requires open inventory / stash / vendor
-    img = grab()
-    filtered = []
-    left_panel_open = is_visible(ScreenObjects.LeftPanel, img)
-    if action == "drop":
-        filtered = [ item for item in items if item.keep == False and item.sell == False ]
-    elif action == "sell":
-        filtered = [ item for item in items if item.keep == False and item.sell == True ]
-        if not left_panel_open:
-            Logger.error(f"transfer_items: Can't perform, vendor is not open")
-    elif action == "stash":
-        if is_visible(ScreenObjects.GoldBtnStash, img):
-            filtered = [ item for item in items if item.keep == True ]
-        else:
-            Logger.error(f"transfer_items: Can't perform, stash is not open")
-    else:
-        Logger.error(f"transfer_items: incorrect action param={action}")
-    if filtered:
-        # if dropping, control+click to drop unless left panel is open, then drag to middle
-        # if stashing, control+click to stash
-        # if selling, control+click to sell
-        # TODO: if purchasing, right-click to buy
-        # TODO: if purchasing stack, shift+right-click to buy
-        if (action == "drop" and not left_panel_open) or action in ["sell", "stash"]:
-            keyboard.send('ctrl', do_release=False)
-            wait(0.2, 0.4)
-        for item in filtered:
-            attempts = 1
-            prev_gold_img = cut_roi(grab(), roi=Config().ui_roi["inventory_gold_digits"])
-            while attempts <= 2:
-                # move to item position and left click
-                mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
-                wait(0.2, 0.4)
-                mouse.press(button="left")
-                wait(0.2, 0.4)
-                mouse.release(button="left")
-                # if dropping, drag item to middle if vendor/stash is open
-                if action == "drop" and left_panel_open:
-                    center_mouse()
-                    wait(0.2, 0.3)
-                    mouse.press(button="left")
-                    wait(0.2, 0.3)
-                    mouse.release(button="left")
-                # check if item is still there
-                item_remains = True
-                start = time.time()
-                while item_remains and (time.time() - start) < 3:
-                    slot_img = get_slot_pos_and_img(grab(), item.column, item.row)[1]
-                    item_remains = slot_has_item(slot_img)
-                if not item_remains:
-                    # item successfully transferred, delete from list
-                    for cnt, o_item in enumerate(items):
-                        if o_item.pos == item.pos:
-                            items.pop(cnt)
-                            break
-                    if action == "sell":
-                        # check and see if inventory gold count changed
-                        start = time.time()
-                        gold_unchanged = True
-                        while gold_unchanged and (time.time() - start) < 2:
-                            new_gold_img = cut_roi(grab(), roi=Config().ui_roi["inventory_gold_digits"])
-                            gold_unchanged = prev_gold_img.shape == new_gold_img.shape and not(np.bitwise_xor(prev_gold_img, new_gold_img).any())
-                        if gold_unchanged:
-                            Logger.info("Inventory gold is full, force stash")
-                        personal.set_inventory_gold_full(gold_unchanged)
-                    break
-                else:
-                    # item is still there, try again
-                    attempts += 1
-                if attempts > 2:
-                    Logger.error(f"transfer_items: could not stash in position {item.pos}")
-        if (action == "drop" and not left_panel_open) or action in ["sell", "stash"]:
-            keyboard.send('ctrl', do_press=False)
-        wait(0.1)
-    return items
 
 # use with caution--unreliable
 def read_gold(img: np.ndarray = None, type: str = "inventory"):

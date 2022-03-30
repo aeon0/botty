@@ -15,7 +15,7 @@ from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
 from ui import view
-from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse
+from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse, wait_for_update
 from item import ItemCropper
 from messages import Messenger
 
@@ -118,7 +118,7 @@ def stash_all_items(items: list = None):
             common.select_tab(stash.get_curr_stash()["items"])
     # stash stuff
     while True:
-        items = common.transfer_items(items, "stash")
+        items = transfer_items(items, "stash")
         if items and any([item.keep for item in items]):
             # could not stash all items, stash tab is likely full
             Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
@@ -390,7 +390,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 if not (keep or need_id) and vendor_open and item_can_be_traded:
                     Logger.debug(f"Selling {item_name}")
                     box.sell = True
-                    common.transfer_items([box], action = "sell")
+                    transfer_items([box], action = "sell")
                     continue
                 # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                 if game_stats is not None and (keep and not need_id):
@@ -402,7 +402,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 else:
                     # if item isn't going to be kept (or sold if vendor window not open), trash it
                     Logger.debug(f"Dropping {item_name}")
-                    common.transfer_items([box], action = "drop")
+                    transfer_items([box], action = "drop")
                 wait(0.3, 0.5)
             else:
                 failed = True
@@ -415,3 +415,61 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
     if close_window:
         common.close()
     return boxes
+
+def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) -> list:
+    #requires open inventory / stash / vendor
+    img = img if img is not None else grab()
+    filtered = []
+    left_panel_open = is_visible(ScreenObjects.LeftPanel, img)
+    if action == "drop":
+        filtered = [ item for item in items if item.keep == False and item.sell == False ]
+    elif action == "sell":
+        filtered = [ item for item in items if item.keep == False and item.sell == True ]
+        if not left_panel_open:
+            Logger.error(f"transfer_items: Can't perform, vendor is not open")
+    elif action == "stash":
+        if is_visible(ScreenObjects.GoldBtnStash, img):
+            filtered = [ item for item in items if item.keep == True ]
+        else:
+            Logger.error(f"transfer_items: Can't perform, stash is not open")
+    else:
+        Logger.error(f"transfer_items: incorrect action param={action}")
+    if filtered:
+        # if dropping, control+click to drop unless left panel is open, then drag to middle
+        # if stashing, control+click to stash
+        # if selling, control+click to sell
+        if (action == "drop" and not left_panel_open) or action in ["sell", "stash"]:
+            keyboard.send('ctrl', do_release=False)
+            wait(0.1, 0.2)
+        for item in filtered:
+            # move to item position and left click
+            mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
+            wait(0.2, 0.4)
+            pre_transfer_img = grab()
+            mouse.press(button="left")
+            # wait for inventory image to update indicating successful transfer / item select
+            success = wait_for_update(pre_transfer_img, specific_inventory_roi("open"), 3)
+            mouse.release(button="left")
+            if not success:
+                Logger.warning(f"transfer_items: inventory unchanged after attempting to {action} item at position {item.pos}")
+                break
+            else:
+                # if dropping, drag item to middle if vendor/stash is open
+                if action == "drop" and left_panel_open:
+                    center_mouse()
+                    mouse.press(button="left")
+                    wait(0.2, 0.3)
+                    mouse.release(button="left")
+                # item successfully transferred, delete from list
+                Logger.debug(f"Confirmed {action} at position {item.pos}")
+                for cnt, o_item in enumerate(items):
+                    if o_item.pos == item.pos:
+                        items.pop(cnt)
+                        break
+                if action == "sell":
+                    # check and see if inventory gold count changed
+                    if (gold_unchanged := not wait_for_update(pre_transfer_img, Config().ui_roi["inventory_gold_digits"], 3)):
+                        Logger.info("Inventory gold is full, force stash")
+                    set_inventory_gold_full(gold_unchanged)
+        keyboard.send('ctrl', do_press=False)
+    return items
