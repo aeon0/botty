@@ -461,6 +461,7 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
                     wait(0.2, 0.3)
                     mouse.release(button="left")
                 # item successfully transferred, delete from list
+                Logger.debug(f"Confirmed {action} at position {item.pos}")
                 for cnt, o_item in enumerate(items):
                     if o_item.pos == item.pos:
                         items.pop(cnt)
