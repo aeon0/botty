@@ -233,6 +233,19 @@ class Bot:
 
     def on_start_from_town(self):
         self._curr_loc = self._town_manager.wait_for_town_spawn()
+
+        # Handle picking up corpse in case of death
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
+            self._previous_run_failed = True
+            view.pickup_corpse()
+            wait_until_hidden(ScreenObjects.Corpse)
+            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        self._char.discover_capabilities()
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+            keybind = self._char._skill_hotkeys["teleport"]
+            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
             cur_game_ip = get_d2r_game_ip()
@@ -266,18 +279,6 @@ class Bot:
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
-
-        # Handle picking up corpse in case of death
-        if (corpse_present := is_visible(ScreenObjects.Corpse)):
-            self._previous_run_failed = True
-            view.pickup_corpse()
-            wait_until_hidden(ScreenObjects.Corpse)
-            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = self._char._skill_hotkeys["teleport"]
-            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
