@@ -24,9 +24,9 @@ def kill_game():
 
 def restart_game(d2_path = None):
     if not d2_path:
-        path = "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe"
+        path = "C:\Program Files (x86)\Diablo II Resurrected"
     else:
-        path = d2_path
+        path = f"{d2_path}\D2R.exe"
     kill_game()
     wait(1.0, 1.5)
     # This method should function similar to opening the exe via double-click

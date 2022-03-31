@@ -4,7 +4,7 @@ import shutil
 
 from config import Config
 from mss import mss
-from utils.misc import close_down_d2
+from utils.misc import close_down_bnet_launcher, close_down_d2
 
 
 def get_d2r_folder() -> str:
@@ -25,7 +25,6 @@ def get_d2r_folder() -> str:
         assert(f"Could not find D2R Saved Games at {d2_saved_games}")
     return d2_saved_games
 
-
 def backup_settings():
     d2_saved_games = get_d2r_folder()
     if os.path.exists(d2_saved_games + "\\Settings_backup.json"):
@@ -37,7 +36,6 @@ def backup_settings():
         shutil.copyfile(d2_saved_games + "\\Settings.json", d2_saved_games + "\\Settings_backup.json")
         print("Settings backed up successfully.")
 
-
 def restore_settings_from_backup():
     d2_saved_games = get_d2r_folder()
     if os.path.exists(d2_saved_games + "\\Settings_backup.json"):
@@ -46,6 +44,22 @@ def restore_settings_from_backup():
         print("Settings restored successfully.")
     else:
         print("No backup was found, couldn't restore settings.")
+
+def change_launch_settings():
+    close_down_bnet_launcher()
+    f = open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config")
+    curr_settings = json.load(f)
+    curr_settings["Games"]["osi"]["AdditionalLaunchArguments"] = Config().advanced_options["launch_options"]
+    with open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config", 'w') as outfile:
+        json.dump(curr_settings, outfile, indent=4)
+
+def copy_mod_files():
+    new_path = f"{Config().general['d2r_path']}/mods"
+    try:
+        shutil.rmtree(new_path)
+        shutil.copytree("assets/mods", new_path)
+    except OSError as error:
+        print(error)
 
 def adjust_settings():
     close_down_d2()
@@ -57,6 +71,9 @@ def adjust_settings():
         os._exit(1)
     d2_saved_games = get_d2r_folder()
     # adjust settings
+    if Config().advanced_options["launch_options"]:
+        change_launch_settings()
+        copy_mod_files()
     f = open(d2_saved_games + "\\Settings.json")
     curr_settings = json.load(f)
     f = open("assets/d2r_settings.json")
