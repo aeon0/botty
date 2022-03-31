@@ -1,3 +1,4 @@
+from shop.shopper_base import ShopperBase
 import datetime
 import os
 import time
@@ -28,7 +29,7 @@ def exit(run_obj):
     os._exit(0)
 
 
-class DrognanShopper:
+class DrognanShopper(ShopperBase):
     """
     Shop at Drognan for Items.
     Currently supported: Hammerdin scepters
@@ -62,6 +63,9 @@ class DrognanShopper:
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.items_evaluated = 0
         self.items_bought = 0
+
+    def get_name(self):
+        return "Drognan (for D2R Classic)"
 
     def run(self):
         Logger.info("Personal Drognan Shopper at your service! Hang on, running some errands...")

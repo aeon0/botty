@@ -1,3 +1,4 @@
+from shop.shopper_base import ShopperBase
 import datetime
 import os
 import time
@@ -38,7 +39,7 @@ def wait_for_loading_screen(timeout):
     return False
 
 
-class AnyaShopper:
+class AnyaShopper(ShopperBase):
     """
     Shop at Anya for 20 ias, +3 java skill gloves and more...
 
@@ -76,6 +77,9 @@ class AnyaShopper:
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.claws_evaluated = 0
         self.claws_bought = 0
+
+    def get_name(self):
+        return "Anya"
 
     def run(self):
         Logger.info("Personal Anya Shopper at your service! Hang on, running some errands...")
