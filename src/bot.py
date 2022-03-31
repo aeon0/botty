@@ -40,6 +40,7 @@ from town import TownManager, A1, A2, A3, A4, A5, town_manager
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
+from bot_info import BOT_DATA
 
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
@@ -76,6 +77,9 @@ class Bot:
             Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
             os._exit(1)
 
+        BOT_DATA["name"] = Config().general["name"]
+        BOT_DATA["char_type"] = Config().char["type"]
+
         # Create Town Manager
         a5 = A5(self._pather, self._char)
         a4 = A4(self._pather, self._char)
@@ -96,6 +100,9 @@ class Bot:
             "run_arcane": Config().routes["run_arcane"],
             "run_diablo": Config().routes["run_diablo"],
         }
+
+        BOT_DATA["routes"] = [routeName for routeName in self._do_runs if self._do_runs[routeName]]
+
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
         self._do_runs_reset = copy(self._do_runs)

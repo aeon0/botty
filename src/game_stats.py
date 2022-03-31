@@ -11,8 +11,10 @@ from messages import Messenger
 from utils.misc import hms
 from utils.levels import get_level
 from version import __version__
+from bot_info import BOT_DATA
 
 from ui import player_bar
+from website.websockets import WebSocketClient
 
 
 class GameStats:
@@ -32,12 +34,17 @@ class GameStats:
         self._failed_game_time = 0
         self._location = None
         self._location_stats = {}
-        self._location_stats["totals"] = { "items": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
+        self._location_stats["totals"] = { "items": 0, "runs": 0, "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         self._nopickup_active = False
         self._starting_exp = 0
         self._current_exp = 0
         self._current_lvl = 0
+
+        self.ws = WebSocketClient(Config().general['name'])
+        self.ws.start()
+
+        print("---------------fsdfsdf----------sdfsdfsdfsd-------------------------")
 
     def update_location(self, loc: str):
         if self._location != loc:
@@ -51,6 +58,7 @@ class GameStats:
     def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = None):
         Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold"]
+        BOT_DATA["items_found"].push(item_name)
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
@@ -63,6 +71,8 @@ class GameStats:
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
+            BOT_DATA["deaths"] += self._location_stats["totals"]["deaths"]
+
 
         self._messenger.send_death(self._location, img)
 
@@ -71,6 +81,7 @@ class GameStats:
         if self._location is not None:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
+            BOT_DATA["chickens"] += self._location_stats["totals"]["chickens"]
 
         self._messenger.send_chicken(self._location, img)
 
@@ -79,15 +90,20 @@ class GameStats:
         if self._location is not None:
             self._location_stats[self._location]["merc_deaths"] += 1
             self._location_stats["totals"]["merc_deaths"] += 1
+            BOT_DATA["merc_deaths"] += self._location_stats["totals"]["merc_deaths"]
 
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
+            print("----------------------------------------------")
             if Config().general["discord_status_count"] and self._game_counter % Config().general["discord_status_count"] == 0:
                 # every discord_status_count game send a message update about current status
                 self._send_status_update()
-        self._game_counter += 1
         self._timer = time.time()
+        self._game_counter += 1
+        self._location_stats["totals"]["runs"] += 1
+        BOT_DATA["runs"] += self._location_stats["totals"]["runs"]
+        self._send_stats_to_ws()
         Logger.info(f"Starting game #{self._game_counter}")
 
     def log_end_game(self, failed: bool = False):
@@ -101,10 +117,12 @@ class GameStats:
             if self._location is not None:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
+                BOT_DATA["failed_runs"] += self._location_stats["totals"]["failed_runs"]
             self._failed_game_time += elapsed_time
             Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
             self._consecutive_runs_failed = 0
+            
             Logger.info(f"End game. Elapsed time: {elapsed_time:.2f}s")
 
     def log_exp(self):
@@ -114,6 +132,8 @@ class GameStats:
             curr_lvl = get_level(exp[1])['lvl']
             if curr_lvl > 0:
                 self._current_lvl = curr_lvl-1
+                BOT_DATA["char_level"] = self._current_lvl
+                BOT_DATA["char_expereience"] = exp[0]
         
         if self._starting_exp == 0:
             self._starting_exp = exp[0]
@@ -126,6 +146,8 @@ class GameStats:
             return
         self._timepaused = time.time()
         self._paused = True
+        BOT_DATA["paused"] = self._paused
+
 
     def resume_timer(self):
         if self._timer is None or not self._paused:
@@ -133,6 +155,7 @@ class GameStats:
         pausetime = time.time() - self._timepaused
         self._timer = self._timer + pausetime
         self._paused = False
+        BOT_DATA["paused"] = self._paused
 
     def get_current_game_length(self):
         if self._timer is None:
@@ -222,6 +245,10 @@ class GameStats:
 
         with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
             f.write(msg)
+    
+    def _send_stats_to_ws(self):
+        self.ws.updateStats(self._location_stats["totals"])
+
 
 
 if __name__ == "__main__":

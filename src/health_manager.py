@@ -12,7 +12,7 @@ from config import Config
 from inventory import common
 from ui import view, meters
 from ui_manager import ScreenObjects, is_visible
-
+from bot_info import BOT_DATA
 pause_state = True
 
 def get_pause_state():
@@ -85,6 +85,9 @@ class HealthManager:
             if is_visible(ScreenObjects.InGame, img):
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
+                BOT_DATA["char_health_percentage"] = health_percentage
+                BOT_DATA["char_mana_percentage"] = mana_percentage
+                
                 # check rejuv
                 success_drink_rejuv = False
                 last_drink = time.time() - self._last_rejuv

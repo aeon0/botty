@@ -13,8 +13,8 @@ from dataclasses import dataclass
 from messages import Messenger
 from game_stats import GameStats
 
-messenger = Messenger()
-game_stats = GameStats()
+# messenger = Messenger()
+# game_stats = GameStats()
 T = TypeVar('T')
 
 @dataclass
