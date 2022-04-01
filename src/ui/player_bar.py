@@ -14,7 +14,7 @@ def get_experience():
     wait(0.05)
     # crop roi
     img = grab()
-    
+
     mouse.move(x_m, y_m-50, randomize = (8,1))
     crop = cut_roi(img, Config().ui_roi["xp_bar_text"])
     ocr_result = Ocr().image_to_text(
@@ -47,14 +47,14 @@ def get_experience():
 if __name__ == "__main__":
     import keyboard
     import os
-    
+
     from screen import start_detecting_window
     start_detecting_window()
-    
+
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
-    
+
     exp = get_experience()
     Logger.debug(f"EXP curr: {exp[0]}")
     Logger.debug(f"EXP req: {exp[1]}")
