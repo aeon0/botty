@@ -184,7 +184,6 @@ class GameStats:
                 msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
             except:
                 Logger.warning("Failed to log exp")
-                pass
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
