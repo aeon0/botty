@@ -405,6 +405,11 @@ class Config:
             "speed_factor": float(self._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
         }
+        other_section = "other_bools"
+        for key in self.configs["shop"]["parser"]["other_bools"]:
+            self.shop[key] = bool(self._select_val(other_section, key))
+            print(f"{key}: {self._select_val(other_section, key)}")
+
         stash_destination_str = self._select_val("transmute","stash_destination")
         self.configs["transmute"]["parser"] = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
