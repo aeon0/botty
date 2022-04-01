@@ -11,10 +11,9 @@ from messages import Messenger
 from utils.misc import hms
 from utils.levels import get_level
 from version import __version__
-from bot_info import BOT_DATA
 
 from ui import player_bar
-from website.websockets import WebSocketClient
+from bot_events import callback_call
 
 
 class GameStats:
@@ -41,10 +40,6 @@ class GameStats:
         self._current_exp = 0
         self._current_lvl = 0
 
-        self.ws = WebSocketClient(Config().general['name'])
-        self.ws.start()
-
-        print("---------------fsdfsdf----------sdfsdfsdfsd-------------------------")
 
     def update_location(self, loc: str):
         if self._location != loc:
@@ -58,52 +53,52 @@ class GameStats:
     def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = None):
         Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold"]
-        BOT_DATA["items_found"].push(item_name)
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
             self._messenger.send_item(item_name, img, self._location, ocr_text)
+        callback_call("on_item_keep", item_name, ocr_text, instance=self)
+        
 
     def log_death(self, img: str):
         self._death_counter += 1
+        callback_call("on_death", self._death_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
-            BOT_DATA["deaths"] += self._location_stats["totals"]["deaths"]
 
 
         self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
         self._chicken_counter += 1
+        callback_call("on_chicken", self._chicken_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
-            BOT_DATA["chickens"] += self._location_stats["totals"]["chickens"]
+            
 
         self._messenger.send_chicken(self._location, img)
 
     def log_merc_death(self):
         self._merc_death_counter += 1
+        callback_call("on_merc_death", self._merc_death_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["merc_deaths"] += 1
             self._location_stats["totals"]["merc_deaths"] += 1
-            BOT_DATA["merc_deaths"] += self._location_stats["totals"]["merc_deaths"]
 
     def log_start_game(self):
         if self._game_counter > 0:
             self._save_stats_to_file()
-            print("----------------------------------------------")
             if Config().general["discord_status_count"] and self._game_counter % Config().general["discord_status_count"] == 0:
                 # every discord_status_count game send a message update about current status
                 self._send_status_update()
         self._timer = time.time()
         self._game_counter += 1
         self._location_stats["totals"]["runs"] += 1
-        BOT_DATA["runs"] += self._location_stats["totals"]["runs"]
-        self._send_stats_to_ws()
+        callback_call("on_run", self._game_counter, instance=self)
         Logger.info(f"Starting game #{self._game_counter}")
 
     def log_end_game(self, failed: bool = False):
@@ -114,10 +109,10 @@ class GameStats:
         if failed:
             self._runs_failed += 1
             self._consecutive_runs_failed += 1
+            callback_call("on_failed_run", self._runs_failed, self._consecutive_runs_failed, instance=self)
             if self._location is not None:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
-                BOT_DATA["failed_runs"] += self._location_stats["totals"]["failed_runs"]
             self._failed_game_time += elapsed_time
             Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
         else:
@@ -132,8 +127,7 @@ class GameStats:
             curr_lvl = get_level(exp[1])['lvl']
             if curr_lvl > 0:
                 self._current_lvl = curr_lvl-1
-                BOT_DATA["char_level"] = self._current_lvl
-                BOT_DATA["char_expereience"] = exp[0]
+                
         
         if self._starting_exp == 0:
             self._starting_exp = exp[0]
@@ -146,7 +140,7 @@ class GameStats:
             return
         self._timepaused = time.time()
         self._paused = True
-        BOT_DATA["paused"] = self._paused
+        callback_call("on_pause", instance=self)
 
 
     def resume_timer(self):
@@ -155,7 +149,7 @@ class GameStats:
         pausetime = time.time() - self._timepaused
         self._timer = self._timer + pausetime
         self._paused = False
-        BOT_DATA["paused"] = self._paused
+        callback_call("on_resume", instance=self)
 
     def get_current_game_length(self):
         if self._timer is None:
@@ -181,27 +175,27 @@ class GameStats:
         avg_length = good_games_time / float(good_games_count)
         avg_length_str = hms(avg_length)
 
-        curr_lvl = get_level(self._current_lvl)
-        exp_gained = self._current_exp - curr_lvl['exp']
-        per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
-        gained_exp = self._current_exp - self._starting_exp
-        exp_per_second = gained_exp / good_games_time
-        exp_per_hour = round(exp_per_second * 3600, 1)
-        exp_per_game = round(gained_exp / float(good_games_count), 1)
-        exp_needed = curr_lvl['xp_to_next'] - exp_gained
-        time_to_lvl = exp_needed / exp_per_second
-        games_to_lvl = exp_needed / exp_per_game
+        # curr_lvl = get_level(self._current_lvl)
+        # exp_gained = self._current_exp - curr_lvl['exp']
+        # per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
+        # gained_exp = self._current_exp - self._starting_exp
+        # exp_per_second = gained_exp / good_games_time
+        # exp_per_hour = round(exp_per_second * 3600, 1)
+        # exp_per_game = round(gained_exp / float(good_games_count), 1)
+        # exp_needed = curr_lvl['xp_to_next'] - exp_gained
+        # time_to_lvl = exp_needed / exp_per_second
+        # games_to_lvl = exp_needed / exp_per_game
 
         msg = f'\nSession length: {elapsed_time_str}'
         msg += f'\nGames: {self._game_counter}'
         msg += f'\nAvg Game Length: {avg_length_str}'
-        msg += f'\nCurrent Level: {curr_lvl["lvl"]}'
-        msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
-        msg += f'\nXP Gained: {gained_exp:,}'
-        msg += f'\nXP Per Hour: {exp_per_hour:,}'
-        msg += f'\nXP Per Game: {exp_per_game:,}'
-        msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
-        msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
+        # msg += f'\nCurrent Level: {curr_lvl["lvl"]}'
+        # msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
+        # msg += f'\nXP Gained: {gained_exp:,}'
+        # msg += f'\nXP Per Hour: {exp_per_hour:,}'
+        # msg += f'\nXP Per Game: {exp_per_game:,}'
+        # msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
+        # msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
@@ -245,9 +239,6 @@ class GameStats:
 
         with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
             f.write(msg)
-    
-    def _send_stats_to_ws(self):
-        self.ws.updateStats(self._location_stats["totals"])
 
 
 
