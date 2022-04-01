@@ -35,7 +35,7 @@ def get_experience():
     split_text = ocr_result.text.split(' ')
 
     try:
-        split _text = split_text[split_text.index("EXPERIENCE:"):]
+        split_text = split_text[split_text.index("EXPERIENCE:"):]
         current_exp = int(split_text[1].replace(',', '').replace('.', ''))
         required_exp = int(split_text[3].replace(',', '').replace('.', ''))
         return current_exp, required_exp
