@@ -2,7 +2,7 @@ import cv2
 import threading
 from copy import deepcopy
 from screen import convert_screen_to_monitor, grab
-from typing import Union
+from typing import Union, List
 from dataclasses import dataclass
 import numpy as np
 from logger import Logger
@@ -239,6 +239,138 @@ class TemplateFinder:
                         Logger.debug(f"Could not find any of the above templates")
                     return template_match
 
+    def search_multi(
+        self,
+        ref: Union[str, np.ndarray, list[str]],
+        inp_img: np.ndarray,
+        threshold: float = 0.45,
+        roi: list[float] = None,
+        normalize_monitor: bool = False,
+        best_match: bool = False,
+        use_grayscale: bool = False,
+        color_match: list = False,
+    ) -> List[TemplateMatch]:
+        """
+        Search for a template in an image
+        :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
+        :param inp_img: Image in which the template will be searched
+        :param threshold: Threshold which determines if a template is found or not
+        :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
+        :param normalize_monitor: If True will return positions in monitor coordinates. Otherwise in coordinates of the input image.
+        :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
+        :param use_grayscale: Use grayscale template matching for speed up
+        :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
+        :return: Returns a TemplateMatch object with a valid flag
+        """
+        matches = []
+
+        if roi is None:
+            # if no roi is provided roi = full inp_img
+            roi = [0, 0, inp_img.shape[1], inp_img.shape[0]]
+        rx, ry, rw, rh = roi
+        inp_img = inp_img[ry:ry + rh, rx:rx + rw]
+
+        if type(ref) == str:
+            if not color_match:
+                templates = [self._templates[ref][use_grayscale]]
+            else:
+                templates = [color_filter(self._templates[ref][0], color_match)[1]]
+                if use_grayscale:
+                    templates = [cv2.cvtColor(templates[0], cv2.COLOR_BGR2GRAY)]
+            scales = [self._templates[ref][2]]
+            masks = [self._templates[ref][3]]
+            names = [ref]
+            best_match = False
+        elif type(ref) == list:
+            if type(ref[0]) == str:
+                if not color_match:
+                    templates = [self._templates[i][use_grayscale] for i in ref]
+                else:
+                    templates = [color_filter(self._templates[i][0], color_match)[1] for i in ref]
+                    if use_grayscale:
+                        templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
+                scales = [self._templates[i][2] for i in ref]
+                masks = [self._templates[i][3] for i in ref]
+                names = ref
+            else:
+                if not color_match:
+                    templates = ref
+                else:
+                    templates = [color_filter(i, color_match)[1] for i in ref]
+                if use_grayscale:
+                    templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
+                scales =  [1.0] * len(ref)
+                masks = [None] * len(ref)
+        else:
+            if not color_match:
+                templates = [ref]
+            else:
+                templates = [color_filter(ref, color_match)[1]]
+            if use_grayscale:
+                templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
+            scales = [1.0]
+            masks = [None]
+            best_match = False
+
+        scores = [0] * len(templates)
+        ref_points = [(0, 0)] * len(templates)
+        recs = [[0, 0, 0, 0]] * len(templates)
+
+        if color_match:
+            inp_img = color_filter(inp_img, color_match)[1]
+
+        for count, template in enumerate(templates):
+            template_match = TemplateMatch()
+            scale = scales[count]
+            mask = masks[count]
+
+            if scale != 1:
+                img: np.ndarray = cv2.resize(inp_img, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+                rx *= scale
+                ry *= scale
+                rw *= scale
+                rh *= scale
+            else:
+                img: np.ndarray = inp_img
+
+            if img.shape[0] > template.shape[0] and img.shape[1] > template.shape[1]:
+                if use_grayscale:
+                    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                max_val = 1
+                h, w = template.shape[:2]
+
+                while max_val > threshold:
+                    template_match = TemplateMatch()
+                    res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=mask)
+                    np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+                    _, max_val, _, max_pos = cv2.minMaxLoc(res)
+                    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+                    # using top ranked score, fill in that area with green
+                    img[max_loc[1]:max_loc[1]+h+1:, max_loc[0]:max_loc[0]+w+1, 0] = 0    # blue channel
+                    img[max_loc[1]:max_loc[1]+h+1:, max_loc[0]:max_loc[0]+w+1, 1] = 255  # green channel
+                    img[max_loc[1]:max_loc[1]+h+1:, max_loc[0]:max_loc[0]+w+1, 2] = 0    # red channel
+                    if max_val > threshold:
+                        rec = [int((max_pos[0] + rx) // scale), int((max_pos[1] +ry) // scale), int(template.shape[1] // scale), int(template.shape[0] // scale)]
+                        ref_point = roi_center(rec)
+
+                        if normalize_monitor:
+                            ref_point =  convert_screen_to_monitor(ref_point)
+                            rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
+                        if best_match:
+                            scores[count] = max_val
+                            ref_points[count] = ref_point
+                            recs[count] = rec
+                        else:
+                            try: template_match.name = names[count]
+                            except: pass
+                            template_match.center = ref_point
+                            template_match.score = max_val
+                            template_match.region = rec
+                            template_match.valid = True
+                            matches.append(template_match)
+
+        return matches
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
