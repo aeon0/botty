@@ -65,7 +65,7 @@ class DrognanShopper(ShopperBase):
         self.items_bought = 0
 
     def get_name(self):
-        return "Drognan (for D2R Classic)"
+        return "Drognan"
 
     def run(self):
         Logger.info("Personal Drognan Shopper at your service! Hang on, running some errands...")

@@ -408,7 +408,6 @@ class Config:
         other_section = "other_bools"
         for key in self.configs["shop"]["parser"]["other_bools"]:
             self.shop[key] = bool(self._select_val(other_section, key))
-            print(f"{key}: {self._select_val(other_section, key)}")
 
         stash_destination_str = self._select_val("transmute","stash_destination")
         self.configs["transmute"]["parser"] = {
