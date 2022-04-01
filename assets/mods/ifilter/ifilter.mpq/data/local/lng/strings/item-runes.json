@@ -2,7 +2,7 @@
     {
         "id": 10902,
         "Key": "r16",
-        "enUS": "  Io Rune  ",
+        "enUS": " Io Rune ",
         "zhTW": "符文：埃歐",
         "deDE": "[fs]Io-Rune",
         "esES": "Runa Io",
@@ -19,7 +19,7 @@
     {
         "id": 10903,
         "Key": "r16L",
-        "enUS": "  Io  ",
+        "enUS": " Io ",
         "zhTW": "埃歐",
         "deDE": "Io",
         "esES": "Io",
@@ -36,7 +36,7 @@
     {
         "id": 10904,
         "Key": "r13",
-        "enUS": "  Shael Rune  ",
+        "enUS": " Shael Rune ",
         "zhTW": "符文：夏",
         "deDE": "[fs]Shael-Rune",
         "esES": "Runa Shael",
@@ -53,7 +53,7 @@
     {
         "id": 10905,
         "Key": "r13L",
-        "enUS": "  Shael  ",
+        "enUS": " Shael ",
         "zhTW": "夏",
         "deDE": "Shael",
         "esES": "Shael",
@@ -70,7 +70,7 @@
     {
         "id": 10906,
         "Key": "r31",
-        "enUS": "  Jah Rune ÿc2**  ",
+        "enUS": " Jah Rune ÿc2** ",
         "zhTW": "符文：喬",
         "deDE": "[fs]Jah-Rune",
         "esES": "Runa Jah",
@@ -87,7 +87,7 @@
     {
         "id": 10907,
         "Key": "r31L",
-        "enUS": "  Jah  ",
+        "enUS": " Jah ",
         "zhTW": "喬",
         "deDE": "Jah",
         "esES": "Jah",
@@ -104,7 +104,7 @@
     {
         "id": 10910,
         "Key": "Runeword22",
-        "enUS": "  Delirium  ",
+        "enUS": " Delirium ",
         "zhTW": "精神錯亂",
         "deDE": "Delirium",
         "esES": "Delirio",
@@ -121,7 +121,7 @@
     {
         "id": 20440,
         "Key": "r33",
-        "enUS": "  Zod Rune ÿc2**  ",
+        "enUS": " Zod Rune ÿc2** ",
         "zhTW": "符文：薩德",
         "deDE": "[fs]Zod-Rune",
         "esES": "Runa Zod",
@@ -138,7 +138,7 @@
     {
         "id": 20441,
         "Key": "r32",
-        "enUS": "  Cham Rune ÿc2**  ",
+        "enUS": " Cham Rune ÿc2** ",
         "zhTW": "符文：查姆",
         "deDE": "[fs]Cham-Rune",
         "esES": "Runa Cham",
@@ -155,7 +155,7 @@
     {
         "id": 20443,
         "Key": "r30",
-        "enUS": "  Ber Rune ÿc2**  ",
+        "enUS": " Ber Rune ÿc2** ",
         "zhTW": "符文：貝",
         "deDE": "[fs]Ber-Rune",
         "esES": "Runa Ber",
@@ -172,7 +172,7 @@
     {
         "id": 20444,
         "Key": "r29",
-        "enUS": "  Sur Rune ÿc2**  ",
+        "enUS": " Sur Rune ÿc2** ",
         "zhTW": "符文：瑟",
         "deDE": "[fs]Sur-Rune",
         "esES": "Runa Sur",
@@ -189,7 +189,7 @@
     {
         "id": 20445,
         "Key": "r28",
-        "enUS": "  Lo Rune ÿc2**  ",
+        "enUS": " Lo Rune ÿc2** ",
         "zhTW": "符文：羅",
         "deDE": "[fs]Lo-Rune",
         "esES": "Runa Lo",
@@ -206,7 +206,7 @@
     {
         "id": 20446,
         "Key": "r27",
-        "enUS": "  Ohm Rune ÿc2**  ",
+        "enUS": " Ohm Rune ÿc2** ",
         "zhTW": "符文：歐姆",
         "deDE": "[fs]Ohm-Rune",
         "esES": "Runa Ohm",
@@ -223,7 +223,7 @@
     {
         "id": 20447,
         "Key": "r26",
-        "enUS": "  Vex Rune ÿc2**  ",
+        "enUS": " Vex Rune ÿc2** ",
         "zhTW": "符文：伐克斯",
         "deDE": "[fs]Vex-Rune",
         "esES": "Runa Vex",
@@ -240,7 +240,7 @@
     {
         "id": 20448,
         "Key": "r25",
-        "enUS": "  Gul Rune ÿc2*  ",
+        "enUS": " Gul Rune ÿc2* ",
         "zhTW": "符文：古爾",
         "deDE": "[fs]Gul-Rune",
         "esES": "Runa Gul",
@@ -257,7 +257,7 @@
     {
         "id": 20449,
         "Key": "r24",
-        "enUS": "  Ist Rune ÿc2*  ",
+        "enUS": " Ist Rune ÿc2* ",
         "zhTW": "符文：伊司特",
         "deDE": "[fs]Ist-Rune",
         "esES": "Runa Ist",
@@ -274,7 +274,7 @@
     {
         "id": 20450,
         "Key": "r23",
-        "enUS": "  Mal Rune ÿc2*  ",
+        "enUS": " Mal Rune ÿc2* ",
         "zhTW": "符文：馬爾",
         "deDE": "[fs]Mal-Rune",
         "esES": "Runa Mal",
@@ -291,7 +291,7 @@
     {
         "id": 20451,
         "Key": "r22",
-        "enUS": "  Um Rune ÿc2*  ",
+        "enUS": " Um Rune ÿc2* ",
         "zhTW": "符文：烏姆",
         "deDE": "[fs]Um-Rune",
         "esES": "Runa Um",
@@ -308,7 +308,7 @@
     {
         "id": 20452,
         "Key": "r21",
-        "enUS": "  Pul Rune ÿc2*  ",
+        "enUS": " Pul Rune ÿc2* ",
         "zhTW": "符文：普爾",
         "deDE": "[fs]Pul-Rune",
         "esES": "Runa Pul",
@@ -325,7 +325,7 @@
     {
         "id": 20453,
         "Key": "r20",
-        "enUS": "  Lem Rune ÿc2*  ",
+        "enUS": " Lem Rune ÿc2* ",
         "zhTW": "符文：藍姆",
         "deDE": "[fs]Lem-Rune",
         "esES": "Runa Lem",
@@ -342,7 +342,7 @@
     {
         "id": 20454,
         "Key": "r19",
-        "enUS": "  Fal Rune  ",
+        "enUS": " Fal Rune ",
         "zhTW": "符文：法爾",
         "deDE": "[fs]Fal-Rune",
         "esES": "Runa Fal",
@@ -359,7 +359,7 @@
     {
         "id": 20455,
         "Key": "r18",
-        "enUS": "  Ko Rune  ",
+        "enUS": " Ko Rune ",
         "zhTW": "符文：科",
         "deDE": "[fs]Ko-Rune",
         "esES": "Runa Ko",
@@ -376,7 +376,7 @@
     {
         "id": 20456,
         "Key": "r17",
-        "enUS": "  Lum Rune  ",
+        "enUS": " Lum Rune ",
         "zhTW": "符文：盧姆",
         "deDE": "[fs]Lum-Rune",
         "esES": "Runa Lum",
@@ -393,7 +393,7 @@
     {
         "id": 20458,
         "Key": "r15",
-        "enUS": "  Hel Rune ÿc2*  ",
+        "enUS": " Hel Rune ÿc2* ",
         "zhTW": "符文：海爾",
         "deDE": "[fs]Hel-Rune",
         "esES": "Runa Hel",
@@ -410,7 +410,7 @@
     {
         "id": 20459,
         "Key": "r14",
-        "enUS": "  Dol Rune  ",
+        "enUS": " Dol Rune ",
         "zhTW": "符文：多爾",
         "deDE": "[fs]Dol-Rune",
         "esES": "Runa Dol",
@@ -427,7 +427,7 @@
     {
         "id": 20461,
         "Key": "r12",
-        "enUS": "  Sol Rune ÿc2*  ",
+        "enUS": " Sol Rune ÿc2* ",
         "zhTW": "符文：索爾",
         "deDE": "[fs]Sol-Rune",
         "esES": "Runa Sol",
@@ -444,7 +444,7 @@
     {
         "id": 20462,
         "Key": "r11",
-        "enUS": "  Amn Rune  ",
+        "enUS": " Amn Rune ",
         "zhTW": "符文：安姆",
         "deDE": "[fs]Amn-Rune",
         "esES": "Runa Amn",
@@ -461,7 +461,7 @@
     {
         "id": 20463,
         "Key": "r10",
-        "enUS": "  Thul Rune  ",
+        "enUS": " Thul Rune ",
         "zhTW": "符文：書爾",
         "deDE": "[fs]Thul-Rune",
         "esES": "Runa Thul",
@@ -478,7 +478,7 @@
     {
         "id": 20464,
         "Key": "r09",
-        "enUS": "  Ort Rune  ",
+        "enUS": " Ort Rune ",
         "zhTW": "符文：歐特",
         "deDE": "[fs]Ort-Rune",
         "esES": "Runa Ort",
@@ -495,7 +495,7 @@
     {
         "id": 20465,
         "Key": "r08",
-        "enUS": "  Ral Rune ÿc2*  ",
+        "enUS": " Ral Rune ÿc2* ",
         "zhTW": "符文：拉爾",
         "deDE": "[fs]Ral-Rune",
         "esES": "Runa Ral",
@@ -512,7 +512,7 @@
     {
         "id": 20466,
         "Key": "r07",
-        "enUS": "  Tal Rune  ",
+        "enUS": " Tal Rune ",
         "zhTW": "符文：塔爾",
         "deDE": "[fs]Tal-Rune",
         "esES": "Runa Tal",
@@ -529,7 +529,7 @@
     {
         "id": 20467,
         "Key": "r06",
-        "enUS": "  Ith Rune  ",
+        "enUS": " Ith Rune ",
         "zhTW": "符文：伊司",
         "deDE": "[fs]Ith-Rune",
         "esES": "Runa Ith",
@@ -546,7 +546,7 @@
     {
         "id": 20468,
         "Key": "r05",
-        "enUS": "  Eth Rune  ",
+        "enUS": " Eth Rune ",
         "zhTW": "符文：愛斯",
         "deDE": "[fs]Eth-Rune",
         "esES": "Runa Eth",
@@ -563,7 +563,7 @@
     {
         "id": 20469,
         "Key": "r04",
-        "enUS": "  Nef Rune  ",
+        "enUS": " Nef Rune ",
         "zhTW": "符文：那夫",
         "deDE": "[fs]Nef-Rune",
         "esES": "Runa Nef",
@@ -580,7 +580,7 @@
     {
         "id": 20470,
         "Key": "r03",
-        "enUS": "  Tir Rune  ",
+        "enUS": " Tir Rune ",
         "zhTW": "符文：特爾",
         "deDE": "[fs]Tir-Rune",
         "esES": "Runa Tir",
@@ -597,7 +597,7 @@
     {
         "id": 20471,
         "Key": "r02",
-        "enUS": "  Eld Rune  ",
+        "enUS": " Eld Rune ",
         "zhTW": "符文：艾德",
         "deDE": "[fs]Eld-Rune",
         "esES": "Runa Eld",
@@ -614,7 +614,7 @@
     {
         "id": 20472,
         "Key": "r01",
-        "enUS": "  El Rune  ",
+        "enUS": " El Rune ",
         "zhTW": "符文：艾爾",
         "deDE": "[fs]El-Rune",
         "esES": "Runa El",
@@ -631,7 +631,7 @@
     {
         "id": 20473,
         "Key": "r33L",
-        "enUS": "  Zod  ",
+        "enUS": " Zod ",
         "zhTW": "薩德",
         "deDE": "Zod",
         "esES": "Zod",
@@ -648,7 +648,7 @@
     {
         "id": 20474,
         "Key": "r32L",
-        "enUS": "  Cham  ",
+        "enUS": " Cham ",
         "zhTW": "查姆",
         "deDE": "Cham",
         "esES": "Cham",
@@ -665,7 +665,7 @@
     {
         "id": 20476,
         "Key": "r30L",
-        "enUS": "  Ber  ",
+        "enUS": " Ber ",
         "zhTW": "貝",
         "deDE": "Ber",
         "esES": "Ber",
@@ -682,7 +682,7 @@
     {
         "id": 20477,
         "Key": "r29L",
-        "enUS": "  Sur  ",
+        "enUS": " Sur ",
         "zhTW": "瑟",
         "deDE": "Sur",
         "esES": "Sur",
@@ -699,7 +699,7 @@
     {
         "id": 20478,
         "Key": "r28L",
-        "enUS": "  Lo  ",
+        "enUS": " Lo ",
         "zhTW": "羅",
         "deDE": "Lo",
         "esES": "Lo",
@@ -716,7 +716,7 @@
     {
         "id": 20479,
         "Key": "r27L",
-        "enUS": "  Ohm  ",
+        "enUS": " Ohm ",
         "zhTW": "歐姆",
         "deDE": "Ohm",
         "esES": "Ohm",
@@ -733,7 +733,7 @@
     {
         "id": 20480,
         "Key": "r26L",
-        "enUS": "  Vex  ",
+        "enUS": " Vex ",
         "zhTW": "伐克斯",
         "deDE": "Vex",
         "esES": "Vex",
@@ -750,7 +750,7 @@
     {
         "id": 20481,
         "Key": "r25L",
-        "enUS": "  Gul  ",
+        "enUS": " Gul ",
         "zhTW": "古爾",
         "deDE": "Gul",
         "esES": "Gul",
@@ -767,7 +767,7 @@
     {
         "id": 20482,
         "Key": "r24L",
-        "enUS": "  Ist  ",
+        "enUS": " Ist ",
         "zhTW": "伊司特",
         "deDE": "Ist",
         "esES": "Ist",
@@ -784,7 +784,7 @@
     {
         "id": 20483,
         "Key": "r23L",
-        "enUS": "  Mal  ",
+        "enUS": " Mal ",
         "zhTW": "馬爾",
         "deDE": "Mal",
         "esES": "Mal",
@@ -801,7 +801,7 @@
     {
         "id": 20484,
         "Key": "r22L",
-        "enUS": "  Um  ",
+        "enUS": " Um ",
         "zhTW": "烏姆",
         "deDE": "Um",
         "esES": "Um",
@@ -818,7 +818,7 @@
     {
         "id": 20485,
         "Key": "r21L",
-        "enUS": "  Pul  ",
+        "enUS": " Pul ",
         "zhTW": "普爾",
         "deDE": "Pul",
         "esES": "Pul",
@@ -835,7 +835,7 @@
     {
         "id": 20486,
         "Key": "r20L",
-        "enUS": "  Lem  ",
+        "enUS": " Lem ",
         "zhTW": "藍姆",
         "deDE": "Lem",
         "esES": "Lem",
@@ -852,7 +852,7 @@
     {
         "id": 20487,
         "Key": "r19L",
-        "enUS": "  Fal  ",
+        "enUS": " Fal ",
         "zhTW": "法爾",
         "deDE": "Fal",
         "esES": "Fal",
@@ -869,7 +869,7 @@
     {
         "id": 20488,
         "Key": "r18L",
-        "enUS": "  Ko  ",
+        "enUS": " Ko ",
         "zhTW": "科",
         "deDE": "Ko",
         "esES": "Ko",
@@ -886,7 +886,7 @@
     {
         "id": 20489,
         "Key": "r17L",
-        "enUS": "  Lum  ",
+        "enUS": " Lum ",
         "zhTW": "盧姆",
         "deDE": "Lum",
         "esES": "Lum",
@@ -903,7 +903,7 @@
     {
         "id": 20491,
         "Key": "r15L",
-        "enUS": "  Hel  ",
+        "enUS": " Hel ",
         "zhTW": "海爾",
         "deDE": "Hel",
         "esES": "Hel",
@@ -920,7 +920,7 @@
     {
         "id": 20492,
         "Key": "r14L",
-        "enUS": "  Dol  ",
+        "enUS": " Dol ",
         "zhTW": "多爾",
         "deDE": "Dol",
         "esES": "Dol",
@@ -937,7 +937,7 @@
     {
         "id": 20494,
         "Key": "r12L",
-        "enUS": "  Sol  ",
+        "enUS": " Sol ",
         "zhTW": "索爾",
         "deDE": "Sol",
         "esES": "Sol",
@@ -954,7 +954,7 @@
     {
         "id": 20495,
         "Key": "r11L",
-        "enUS": "  Amn  ",
+        "enUS": " Amn ",
         "zhTW": "安姆",
         "deDE": "Amn",
         "esES": "Amn",
@@ -971,7 +971,7 @@
     {
         "id": 20496,
         "Key": "r10L",
-        "enUS": "  Thul  ",
+        "enUS": " Thul ",
         "zhTW": "書爾",
         "deDE": "Thul",
         "esES": "Thul",
@@ -988,7 +988,7 @@
     {
         "id": 20497,
         "Key": "r09L",
-        "enUS": "  Ort  ",
+        "enUS": " Ort ",
         "zhTW": "歐特",
         "deDE": "Ort",
         "esES": "Ort",
@@ -1005,7 +1005,7 @@
     {
         "id": 20498,
         "Key": "r08L",
-        "enUS": "  Ral  ",
+        "enUS": " Ral ",
         "zhTW": "拉爾",
         "deDE": "Ral",
         "esES": "Ral",
@@ -1022,7 +1022,7 @@
     {
         "id": 20499,
         "Key": "r07L",
-        "enUS": "  Tal  ",
+        "enUS": " Tal ",
         "zhTW": "塔爾",
         "deDE": "Tal",
         "esES": "Tal",
@@ -1039,7 +1039,7 @@
     {
         "id": 20500,
         "Key": "r06L",
-        "enUS": "  Ith  ",
+        "enUS": " Ith ",
         "zhTW": "伊司",
         "deDE": "Ith",
         "esES": "Ith",
@@ -1056,7 +1056,7 @@
     {
         "id": 20501,
         "Key": "r05L",
-        "enUS": "  Eth  ",
+        "enUS": " Eth ",
         "zhTW": "愛斯",
         "deDE": "Eth",
         "esES": "Eth",
@@ -1073,7 +1073,7 @@
     {
         "id": 20502,
         "Key": "r04L",
-        "enUS": "  Nef  ",
+        "enUS": " Nef ",
         "zhTW": "那夫",
         "deDE": "Nef",
         "esES": "Nef",
@@ -1090,7 +1090,7 @@
     {
         "id": 20503,
         "Key": "r03L",
-        "enUS": "  Tir  ",
+        "enUS": " Tir ",
         "zhTW": "特爾",
         "deDE": "Tir",
         "esES": "Tir",
@@ -1107,7 +1107,7 @@
     {
         "id": 20504,
         "Key": "r02L",
-        "enUS": "  Eld  ",
+        "enUS": " Eld ",
         "zhTW": "艾德",
         "deDE": "Eld",
         "esES": "Eld",
@@ -1124,7 +1124,7 @@
     {
         "id": 20505,
         "Key": "r01L",
-        "enUS": "  El  ",
+        "enUS": " El ",
         "zhTW": "艾爾",
         "deDE": "El",
         "esES": "El",
@@ -1141,7 +1141,7 @@
     {
         "id": 20506,
         "Key": "RuneQuote",
-        "enUS": "  '  ",
+        "enUS": " ' ",
         "zhTW": "'",
         "deDE": "'",
         "esES": "'",
@@ -1158,7 +1158,7 @@
     {
         "id": 20507,
         "Key": "Runeword1",
-        "enUS": "  Ancients' Pledge  ",
+        "enUS": " Ancients' Pledge ",
         "zhTW": "先祖之契",
         "deDE": "Schwur der Urahnen",
         "esES": "Promesa de los Antiguos",
@@ -1175,7 +1175,7 @@
     {
         "id": 20508,
         "Key": "Runeword2",
-        "enUS": "  Armageddon  ",
+        "enUS": " Armageddon ",
         "zhTW": "毀天滅地",
         "deDE": "Armageddon",
         "esES": "Armagedón",
@@ -1192,7 +1192,7 @@
     {
         "id": 20509,
         "Key": "Runeword3",
-        "enUS": "  Authority  ",
+        "enUS": " Authority ",
         "zhTW": "權威",
         "deDE": "Macht",
         "esES": "Autoridad",
@@ -1209,7 +1209,7 @@
     {
         "id": 20510,
         "Key": "Runeword4",
-        "enUS": "  Beast  ",
+        "enUS": " Beast ",
         "zhTW": "野獸",
         "deDE": "Bestie",
         "esES": "Bestia",
@@ -1226,7 +1226,7 @@
     {
         "id": 20511,
         "Key": "Runeword5",
-        "enUS": "  Beauty  ",
+        "enUS": " Beauty ",
         "zhTW": "美貌",
         "deDE": "Schönheit",
         "esES": "Belleza",
@@ -1243,7 +1243,7 @@
     {
         "id": 20512,
         "Key": "Runeword6",
-        "enUS": "  Black  ",
+        "enUS": " Black ",
         "zhTW": "黑錘",
         "deDE": "Schwärze",
         "esES": "Negrura",
@@ -1260,7 +1260,7 @@
     {
         "id": 20513,
         "Key": "Runeword7",
-        "enUS": "  Blood  ",
+        "enUS": " Blood ",
         "zhTW": "鮮血",
         "deDE": "Blut",
         "esES": "Sangre",
@@ -1277,7 +1277,7 @@
     {
         "id": 20514,
         "Key": "Runeword8",
-        "enUS": "  Bone  ",
+        "enUS": " Bone ",
         "zhTW": "骸骨",
         "deDE": "Knochen",
         "esES": "Hueso",
@@ -1294,7 +1294,7 @@
     {
         "id": 20515,
         "Key": "Runeword9",
-        "enUS": "  Bramble  ",
+        "enUS": " Bramble ",
         "zhTW": "刺藤",
         "deDE": "Dornen",
         "esES": "Zarza",
@@ -1311,7 +1311,7 @@
     {
         "id": 20516,
         "Key": "Runeword10",
-        "enUS": "  Brand  ",
+        "enUS": " Brand ",
         "zhTW": "烙印",
         "deDE": "Brand",
         "esES": "Tizón",
@@ -1328,7 +1328,7 @@
     {
         "id": 20517,
         "Key": "Runeword11",
-        "enUS": "  Breath of the Dying  ",
+        "enUS": " Breath of the Dying ",
         "zhTW": "死亡呼吸",
         "deDE": "Odem der Sterbenden",
         "esES": "Aliento de los muertos",
@@ -1345,7 +1345,7 @@
     {
         "id": 20518,
         "Key": "Runeword12",
-        "enUS": "  Broken Promise  ",
+        "enUS": " Broken Promise ",
         "zhTW": "破碎誓言",
         "deDE": "Gebrochenes Versprechen",
         "esES": "Promesa rota",
@@ -1362,7 +1362,7 @@
     {
         "id": 20519,
         "Key": "Runeword13",
-        "enUS": "  Call to Arms  ",
+        "enUS": " Call to Arms ",
         "zhTW": "戰爭召喚",
         "deDE": "Ruf zu den Waffen",
         "esES": "Llamada a las armas",
@@ -1379,7 +1379,7 @@
     {
         "id": 20520,
         "Key": "Runeword14",
-        "enUS": "  Chains of Honor  ",
+        "enUS": " Chains of Honor ",
         "zhTW": "榮耀之鍊",
         "deDE": "Ketten der Ehre",
         "esES": "Cadenas de honor",
@@ -1396,7 +1396,7 @@
     {
         "id": 20521,
         "Key": "Runeword15",
-        "enUS": "  Chance  ",
+        "enUS": " Chance ",
         "zhTW": "機會",
         "deDE": "Zufall",
         "esES": "Casualidad",
@@ -1413,7 +1413,7 @@
     {
         "id": 20522,
         "Key": "Runeword16",
-        "enUS": "  Chaos  ",
+        "enUS": " Chaos ",
         "zhTW": "混沌",
         "deDE": "Chaos",
         "esES": "Caos",
@@ -1430,7 +1430,7 @@
     {
         "id": 20523,
         "Key": "Runeword17",
-        "enUS": "  Crescent Moon  ",
+        "enUS": " Crescent Moon ",
         "zhTW": "新月",
         "deDE": "Mondsichel",
         "esES": "Luna creciente",
@@ -1447,7 +1447,7 @@
     {
         "id": 20524,
         "Key": "Runeword18",
-        "enUS": "  Darkness  ",
+        "enUS": " Darkness ",
         "zhTW": "黑暗",
         "deDE": "Dunkelheit",
         "esES": "Oscuridad",
@@ -1464,7 +1464,7 @@
     {
         "id": 20525,
         "Key": "Runeword19",
-        "enUS": "  Daylight  ",
+        "enUS": " Daylight ",
         "zhTW": "白晝",
         "deDE": "Tageslicht",
         "esES": "Luz",
@@ -1481,7 +1481,7 @@
     {
         "id": 20526,
         "Key": "Runeword20",
-        "enUS": "  Death  ",
+        "enUS": " Death ",
         "zhTW": "死神",
         "deDE": "Tod",
         "esES": "Muerte",
@@ -1498,7 +1498,7 @@
     {
         "id": 20527,
         "Key": "Runeword21",
-        "enUS": "  Deception  ",
+        "enUS": " Deception ",
         "zhTW": "欺暪",
         "deDE": "Täuschung",
         "esES": "Engaño",
@@ -1515,7 +1515,7 @@
     {
         "id": 20529,
         "Key": "Runeword23",
-        "enUS": "  Desire  ",
+        "enUS": " Desire ",
         "zhTW": "渴望",
         "deDE": "Begierde",
         "esES": "Deseo",
@@ -1532,7 +1532,7 @@
     {
         "id": 20530,
         "Key": "Runeword24",
-        "enUS": "  Despair  ",
+        "enUS": " Despair ",
         "zhTW": "絕望",
         "deDE": "Verzweiflung",
         "esES": "Desesperación",
@@ -1549,7 +1549,7 @@
     {
         "id": 20531,
         "Key": "Runeword25",
-        "enUS": "  Destruction  ",
+        "enUS": " Destruction ",
         "zhTW": "毀滅",
         "deDE": "Zerstörung",
         "esES": "Destrucción",
@@ -1566,7 +1566,7 @@
     {
         "id": 20532,
         "Key": "Runeword26",
-        "enUS": "  Doom  ",
+        "enUS": " Doom ",
         "zhTW": "末日",
         "deDE": "Verdammnis",
         "esES": "Fatalidad",
@@ -1583,7 +1583,7 @@
     {
         "id": 20533,
         "Key": "Runeword27",
-        "enUS": "  Dragon  ",
+        "enUS": " Dragon ",
         "zhTW": "飛龍",
         "deDE": "Drachen",
         "esES": "Dragón",
@@ -1600,7 +1600,7 @@
     {
         "id": 20534,
         "Key": "Runeword28",
-        "enUS": "  Dread  ",
+        "enUS": " Dread ",
         "zhTW": "恐懼",
         "deDE": "Schrecken",
         "esES": "Pavor",
@@ -1617,7 +1617,7 @@
     {
         "id": 20535,
         "Key": "Runeword29",
-        "enUS": "  Dream  ",
+        "enUS": " Dream ",
         "zhTW": "夢境",
         "deDE": "Traum",
         "esES": "Sueño",
@@ -1634,7 +1634,7 @@
     {
         "id": 20536,
         "Key": "Runeword30",
-        "enUS": "  Duress  ",
+        "enUS": " Duress ",
         "zhTW": "強制",
         "deDE": "Nötigung",
         "esES": "Coacción",
@@ -1651,7 +1651,7 @@
     {
         "id": 20537,
         "Key": "Runeword31",
-        "enUS": "  Edge  ",
+        "enUS": " Edge ",
         "zhTW": "邊緣",
         "deDE": "Schneide",
         "esES": "Filo",
@@ -1668,7 +1668,7 @@
     {
         "id": 20538,
         "Key": "Runeword32",
-        "enUS": "  Elation  ",
+        "enUS": " Elation ",
         "zhTW": "興高彩烈",
         "deDE": "Erregung",
         "esES": "Júbilo",
@@ -1685,7 +1685,7 @@
     {
         "id": 20539,
         "Key": "Runeword33",
-        "enUS": "  Enigma  ",
+        "enUS": " Enigma ",
         "zhTW": "謎團",
         "deDE": "Rätsel",
         "esES": "Enigma",
@@ -1702,7 +1702,7 @@
     {
         "id": 20540,
         "Key": "Runeword34",
-        "enUS": "  Enlightenment  ",
+        "enUS": " Enlightenment ",
         "zhTW": "教化",
         "deDE": "Erleuchtung",
         "esES": "Ilustración",
@@ -1719,7 +1719,7 @@
     {
         "id": 20541,
         "Key": "Runeword35",
-        "enUS": "  Envy  ",
+        "enUS": " Envy ",
         "zhTW": "羨慕",
         "deDE": "Neid",
         "esES": "Envidia",
@@ -1736,7 +1736,7 @@
     {
         "id": 20542,
         "Key": "Runeword36",
-        "enUS": "  Eternity  ",
+        "enUS": " Eternity ",
         "zhTW": "永恆",
         "deDE": "Ewigkeit",
         "esES": "Eternidad",
@@ -1753,7 +1753,7 @@
     {
         "id": 20543,
         "Key": "Runeword37",
-        "enUS": "  Exile  ",
+        "enUS": " Exile ",
         "zhTW": "流亡",
         "deDE": "Exil",
         "esES": "Exilio",
@@ -1770,7 +1770,7 @@
     {
         "id": 20544,
         "Key": "Runeword38",
-        "enUS": "  Faith  ",
+        "enUS": " Faith ",
         "zhTW": "信心",
         "deDE": "Glaube",
         "esES": "Fe",
@@ -1787,7 +1787,7 @@
     {
         "id": 20545,
         "Key": "Runeword39",
-        "enUS": "  Famine  ",
+        "enUS": " Famine ",
         "zhTW": "饑荒",
         "deDE": "Hungersnot",
         "esES": "Hambruna",
@@ -1804,7 +1804,7 @@
     {
         "id": 20546,
         "Key": "Runeword40",
-        "enUS": "  Flickering Flame  ",
+        "enUS": " Flickering Flame ",
         "zhTW": "搖曳焰火",
         "deDE": "Flamme",
         "esES": "Llama trémula",
@@ -1821,7 +1821,7 @@
     {
         "id": 20547,
         "Key": "Runeword41",
-        "enUS": "  Fortitude  ",
+        "enUS": " Fortitude ",
         "zhTW": "剛毅",
         "deDE": "Stärke",
         "esES": "Fortaleza",
@@ -1838,7 +1838,7 @@
     {
         "id": 20548,
         "Key": "Runeword42",
-        "enUS": "  Fortune  ",
+        "enUS": " Fortune ",
         "zhTW": "機運",
         "deDE": "Glück",
         "esES": "Fortuna",
@@ -1855,7 +1855,7 @@
     {
         "id": 20549,
         "Key": "Runeword43",
-        "enUS": "  Friendship  ",
+        "enUS": " Friendship ",
         "zhTW": "友情",
         "deDE": "Freundschaft",
         "esES": "Amistad",
@@ -1872,7 +1872,7 @@
     {
         "id": 20550,
         "Key": "Runeword44",
-        "enUS": "  Fury  ",
+        "enUS": " Fury ",
         "zhTW": "狂怒",
         "deDE": "Wut",
         "esES": "Furia",
@@ -1889,7 +1889,7 @@
     {
         "id": 20551,
         "Key": "Runeword45",
-        "enUS": "  Gloom  ",
+        "enUS": " Gloom ",
         "zhTW": "幽暗",
         "deDE": "Düsternis",
         "esES": "Melancolía",
@@ -1906,7 +1906,7 @@
     {
         "id": 20552,
         "Key": "Runeword46",
-        "enUS": "  Glory  ",
+        "enUS": " Glory ",
         "zhTW": "榮譽",
         "deDE": "Ruhm",
         "esES": "Gloria",
@@ -1923,7 +1923,7 @@
     {
         "id": 20553,
         "Key": "Runeword47",
-        "enUS": "  Grief  ",
+        "enUS": " Grief ",
         "zhTW": "悔恨",
         "deDE": "Trauer",
         "esES": "Dolor",
@@ -1940,7 +1940,7 @@
     {
         "id": 20554,
         "Key": "Runeword48",
-        "enUS": "  Hand of Justice  ",
+        "enUS": " Hand of Justice ",
         "zhTW": "正義之手",
         "deDE": "Hand der Gerechtigkeit",
         "esES": "Mano justiciera",
@@ -1957,7 +1957,7 @@
     {
         "id": 20555,
         "Key": "Runeword49",
-        "enUS": "  Harmony  ",
+        "enUS": " Harmony ",
         "zhTW": "和諧",
         "deDE": "Harmonie",
         "esES": "Armonía",
@@ -1974,7 +1974,7 @@
     {
         "id": 20556,
         "Key": "Runeword50",
-        "enUS": "  Hatred  ",
+        "enUS": " Hatred ",
         "zhTW": "憎恨",
         "deDE": "Hass",
         "esES": "Odio",
@@ -1991,7 +1991,7 @@
     {
         "id": 20557,
         "Key": "Runeword51",
-        "enUS": "  Heart of the Oak  ",
+        "enUS": " Heart of the Oak ",
         "zhTW": "橡樹之心",
         "deDE": "Herz der Eiche",
         "esES": "Corazón de roble",
@@ -2008,7 +2008,7 @@
     {
         "id": 20558,
         "Key": "Runeword52",
-        "enUS": "  Heaven's Will  ",
+        "enUS": " Heaven's Will ",
         "zhTW": "天堂意志",
         "deDE": "Himmlischer Wille",
         "esES": "Voluntad del cielo",
@@ -2025,7 +2025,7 @@
     {
         "id": 20559,
         "Key": "Runeword53",
-        "enUS": "  Holy Tears  ",
+        "enUS": " Holy Tears ",
         "zhTW": "神聖之淚",
         "deDE": "Heilige Tränen",
         "esES": "Lágrimas sagradas",
@@ -2042,7 +2042,7 @@
     {
         "id": 20560,
         "Key": "Runeword54",
-        "enUS": "  Holy Thunder  ",
+        "enUS": " Holy Thunder ",
         "zhTW": "神聖雷擊",
         "deDE": "Heiliger Donner",
         "esES": "Trueno sagrado",
@@ -2059,7 +2059,7 @@
     {
         "id": 20561,
         "Key": "Runeword55",
-        "enUS": "  Honor  ",
+        "enUS": " Honor ",
         "zhTW": "榮耀",
         "deDE": "Ehre",
         "esES": "Honor",
@@ -2076,7 +2076,7 @@
     {
         "id": 20562,
         "Key": "Runeword56",
-        "enUS": "  Revenge  ",
+        "enUS": " Revenge ",
         "zhTW": "報復",
         "deDE": "Rache",
         "esES": "Revancha",
@@ -2093,7 +2093,7 @@
     {
         "id": 20563,
         "Key": "Runeword57",
-        "enUS": "  Humility  ",
+        "enUS": " Humility ",
         "zhTW": "謙恭",
         "deDE": "Demut",
         "esES": "Humildad",
@@ -2110,7 +2110,7 @@
     {
         "id": 20564,
         "Key": "Runeword58",
-        "enUS": "  Hunger  ",
+        "enUS": " Hunger ",
         "zhTW": "飢餓",
         "deDE": "Hunger",
         "esES": "Hambre",
@@ -2127,7 +2127,7 @@
     {
         "id": 20565,
         "Key": "Runeword59",
-        "enUS": "  Ice  ",
+        "enUS": " Ice ",
         "zhTW": "寒冰",
         "deDE": "Eis",
         "esES": "Hielo",
@@ -2144,7 +2144,7 @@
     {
         "id": 20566,
         "Key": "Runeword60",
-        "enUS": "  Infinity  ",
+        "enUS": " Infinity ",
         "zhTW": "無限",
         "deDE": "Unendlichkeit",
         "esES": "Infinito",
@@ -2161,7 +2161,7 @@
     {
         "id": 20567,
         "Key": "Runeword61",
-        "enUS": "  Innocence  ",
+        "enUS": " Innocence ",
         "zhTW": "純真",
         "deDE": "Unschuld",
         "esES": "Inocencia",
@@ -2178,7 +2178,7 @@
     {
         "id": 20568,
         "Key": "Runeword62",
-        "enUS": "  Insight  ",
+        "enUS": " Insight ",
         "zhTW": "靈光",
         "deDE": "Einsicht",
         "esES": "Perspicacia",
@@ -2195,7 +2195,7 @@
     {
         "id": 20569,
         "Key": "Runeword63",
-        "enUS": "  Jealousy  ",
+        "enUS": " Jealousy ",
         "zhTW": "妒忌",
         "deDE": "Eifersucht",
         "esES": "Celos",
@@ -2212,7 +2212,7 @@
     {
         "id": 20570,
         "Key": "Runeword64",
-        "enUS": "  Judgement  ",
+        "enUS": " Judgement ",
         "zhTW": "審判",
         "deDE": "Urteil",
         "esES": "Sentencia",
@@ -2229,7 +2229,7 @@
     {
         "id": 20571,
         "Key": "Runeword65",
-        "enUS": "  King's Grace  ",
+        "enUS": " King's Grace ",
         "zhTW": "王者的慈悲",
         "deDE": "Königliche Gnade",
         "esES": "Gracia del rey",
@@ -2246,7 +2246,7 @@
     {
         "id": 20572,
         "Key": "Runeword66",
-        "enUS": "  Kingslayer  ",
+        "enUS": " Kingslayer ",
         "zhTW": "拭王者",
         "deDE": "Königsmord",
         "esES": "Regicida",
@@ -2263,7 +2263,7 @@
     {
         "id": 20573,
         "Key": "Runeword67",
-        "enUS": "  Knight's Vigil  ",
+        "enUS": " Knight's Vigil ",
         "zhTW": "騎士守望",
         "deDE": "Ritters Wacht",
         "esES": "Vela del caballero",
@@ -2280,7 +2280,7 @@
     {
         "id": 20574,
         "Key": "Runeword68",
-        "enUS": "  Knowledge  ",
+        "enUS": " Knowledge ",
         "zhTW": "學識",
         "deDE": "Wissen",
         "esES": "Saber",
@@ -2297,7 +2297,7 @@
     {
         "id": 20575,
         "Key": "Runeword69",
-        "enUS": "  Last Wish  ",
+        "enUS": " Last Wish ",
         "zhTW": "最後遺願",
         "deDE": "Letzter Wunsch",
         "esES": "Último deseo",
@@ -2314,7 +2314,7 @@
     {
         "id": 20576,
         "Key": "Runeword70",
-        "enUS": "  Law  ",
+        "enUS": " Law ",
         "zhTW": "律法",
         "deDE": "Gesetz",
         "esES": "Ley",
@@ -2331,7 +2331,7 @@
     {
         "id": 20577,
         "Key": "Runeword71",
-        "enUS": "  Lawbringer  ",
+        "enUS": " Lawbringer ",
         "zhTW": "執法者",
         "deDE": "Gesetzesbringer",
         "esES": "Jurista",
@@ -2348,7 +2348,7 @@
     {
         "id": 20578,
         "Key": "Runeword72",
-        "enUS": "  Leaf  ",
+        "enUS": " Leaf ",
         "zhTW": "葉子",
         "deDE": "Blatt",
         "esES": "Hoja",
@@ -2365,7 +2365,7 @@
     {
         "id": 20579,
         "Key": "Runeword73",
-        "enUS": "  Lightning  ",
+        "enUS": " Lightning ",
         "zhTW": "閃電",
         "deDE": "Blitzschlag",
         "esES": "Rayo",
@@ -2382,7 +2382,7 @@
     {
         "id": 20580,
         "Key": "Runeword74",
-        "enUS": "  Lionheart  ",
+        "enUS": " Lionheart ",
         "zhTW": "獅子心",
         "deDE": "Löwenherz",
         "esES": "Corazón de león",
@@ -2399,7 +2399,7 @@
     {
         "id": 20581,
         "Key": "Runeword75",
-        "enUS": "  Lore  ",
+        "enUS": " Lore ",
         "zhTW": "知識",
         "deDE": "Überlieferung",
         "esES": "Acervo",
@@ -2416,7 +2416,7 @@
     {
         "id": 20582,
         "Key": "Runeword76",
-        "enUS": "  Love  ",
+        "enUS": " Love ",
         "zhTW": "愛情",
         "deDE": "Liebe",
         "esES": "Amor",
@@ -2433,7 +2433,7 @@
     {
         "id": 20583,
         "Key": "Runeword77",
-        "enUS": "  Loyalty  ",
+        "enUS": " Loyalty ",
         "zhTW": "忠誠",
         "deDE": "Treue",
         "esES": "Lealtad",
@@ -2450,7 +2450,7 @@
     {
         "id": 20584,
         "Key": "Runeword78",
-        "enUS": "  Lust  ",
+        "enUS": " Lust ",
         "zhTW": "慾望",
         "deDE": "Lust",
         "esES": "Lujuria",
@@ -2467,7 +2467,7 @@
     {
         "id": 20585,
         "Key": "Runeword79",
-        "enUS": "  Madness  ",
+        "enUS": " Madness ",
         "zhTW": "瘋狂",
         "deDE": "Wahnsinn",
         "esES": "Locura",
@@ -2484,7 +2484,7 @@
     {
         "id": 20586,
         "Key": "Runeword81",
-        "enUS": "  Malice  ",
+        "enUS": " Malice ",
         "zhTW": "怨恨",
         "deDE": "Boshaftigkeit",
         "esES": "Maldad",
@@ -2501,7 +2501,7 @@
     {
         "id": 20587,
         "Key": "Runeword82",
-        "enUS": "  Melody  ",
+        "enUS": " Melody ",
         "zhTW": "旋律",
         "deDE": "Melodie",
         "esES": "Melodía",
@@ -2518,7 +2518,7 @@
     {
         "id": 20588,
         "Key": "Runeword83",
-        "enUS": "  Memory  ",
+        "enUS": " Memory ",
         "zhTW": "記憶",
         "deDE": "Erinnerung",
         "esES": "Memoria",
@@ -2535,7 +2535,7 @@
     {
         "id": 20589,
         "Key": "Runeword84",
-        "enUS": "  Mist  ",
+        "enUS": " Mist ",
         "zhTW": "迷霧",
         "deDE": "Nebel",
         "esES": "Bruma",
@@ -2552,7 +2552,7 @@
     {
         "id": 20590,
         "Key": "Runeword85",
-        "enUS": "  Morning  ",
+        "enUS": " Morning ",
         "zhTW": "清晨",
         "deDE": "Morgen",
         "esES": "Mañana",
@@ -2569,7 +2569,7 @@
     {
         "id": 20591,
         "Key": "Runeword86",
-        "enUS": "  Mystery  ",
+        "enUS": " Mystery ",
         "zhTW": "神秘",
         "deDE": "Geheimnis",
         "esES": "Misterio",
@@ -2586,7 +2586,7 @@
     {
         "id": 20592,
         "Key": "Runeword87",
-        "enUS": "  Myth  ",
+        "enUS": " Myth ",
         "zhTW": "神話",
         "deDE": "Mythos",
         "esES": "Mito",
@@ -2603,7 +2603,7 @@
     {
         "id": 20593,
         "Key": "Runeword88",
-        "enUS": "  Nadir  ",
+        "enUS": " Nadir ",
         "zhTW": "天底",
         "deDE": "Nadir",
         "esES": "Nadir",
@@ -2620,7 +2620,7 @@
     {
         "id": 20594,
         "Key": "Runeword89",
-        "enUS": "  Nature's Kingdom  ",
+        "enUS": " Nature's Kingdom ",
         "zhTW": "自然王國",
         "deDE": "Königreich der Natur",
         "esES": "Reino de la naturaleza",
@@ -2637,7 +2637,7 @@
     {
         "id": 20595,
         "Key": "Runeword90",
-        "enUS": "  Night  ",
+        "enUS": " Night ",
         "zhTW": "夜晚",
         "deDE": "Nacht",
         "esES": "Noche",
@@ -2654,7 +2654,7 @@
     {
         "id": 20596,
         "Key": "Runeword91",
-        "enUS": "  Oath  ",
+        "enUS": " Oath ",
         "zhTW": "誓約",
         "deDE": "Eid",
         "esES": "Juramento",
@@ -2671,7 +2671,7 @@
     {
         "id": 20597,
         "Key": "Runeword92",
-        "enUS": "  Obedience  ",
+        "enUS": " Obedience ",
         "zhTW": "遵從",
         "deDE": "Gehorsam",
         "esES": "Obediencia",
@@ -2688,7 +2688,7 @@
     {
         "id": 20598,
         "Key": "Runeword93",
-        "enUS": "  Oblivion  ",
+        "enUS": " Oblivion ",
         "zhTW": "湮沒",
         "deDE": "Nichts",
         "esES": "Olvido",
@@ -2705,7 +2705,7 @@
     {
         "id": 20599,
         "Key": "Runeword94",
-        "enUS": "  Obsession  ",
+        "enUS": " Obsession ",
         "zhTW": "著魔",
         "deDE": "Besessenheit",
         "esES": "Obsesión",
@@ -2722,7 +2722,7 @@
     {
         "id": 20600,
         "Key": "Runeword95",
-        "enUS": "  Passion  ",
+        "enUS": " Passion ",
         "zhTW": "熱情",
         "deDE": "Leidenschaft",
         "esES": "Pasión",
@@ -2739,7 +2739,7 @@
     {
         "id": 20601,
         "Key": "Runeword96",
-        "enUS": "  Patience  ",
+        "enUS": " Patience ",
         "zhTW": "耐心",
         "deDE": "Geduld",
         "esES": "Paciencia",
@@ -2756,7 +2756,7 @@
     {
         "id": 20602,
         "Key": "Runeword97",
-        "enUS": "  Pattern  ",
+        "enUS": " Pattern ",
         "zhTW": "樣式",
         "deDE": "Prasseln",
         "esES": "Patrón",
@@ -2773,7 +2773,7 @@
     {
         "id": 20603,
         "Key": "Runeword98",
-        "enUS": "  Peace  ",
+        "enUS": " Peace ",
         "zhTW": "和平",
         "deDE": "Frieden",
         "esES": "Paz",
@@ -2790,7 +2790,7 @@
     {
         "id": 20604,
         "Key": "Runeword99",
-        "enUS": "  Voice of Reason  ",
+        "enUS": " Voice of Reason ",
         "zhTW": "理性之聲",
         "deDE": "Stimme der Vernunft",
         "esES": "Voz de la razón",
@@ -2807,7 +2807,7 @@
     {
         "id": 20605,
         "Key": "Runeword100",
-        "enUS": "  Penitence  ",
+        "enUS": " Penitence ",
         "zhTW": "懺悔",
         "deDE": "Reue",
         "esES": "Penitencia",
@@ -2824,7 +2824,7 @@
     {
         "id": 20606,
         "Key": "Runeword101",
-        "enUS": "  Peril  ",
+        "enUS": " Peril ",
         "zhTW": "危害",
         "deDE": "Gefahr",
         "esES": "Peligro",
@@ -2841,7 +2841,7 @@
     {
         "id": 20607,
         "Key": "Runeword102",
-        "enUS": "  Pestilence  ",
+        "enUS": " Pestilence ",
         "zhTW": "疫病",
         "deDE": "Pestilenz",
         "esES": "Pestilencia",
@@ -2858,7 +2858,7 @@
     {
         "id": 20608,
         "Key": "Runeword103",
-        "enUS": "  Phoenix  ",
+        "enUS": " Phoenix ",
         "zhTW": "鳳凰",
         "deDE": "Phönix",
         "esES": "Fénix",
@@ -2875,7 +2875,7 @@
     {
         "id": 20609,
         "Key": "Runeword104",
-        "enUS": "  Piety  ",
+        "enUS": " Piety ",
         "zhTW": "虔誠",
         "deDE": "Frömmigkeit",
         "esES": "Piedad",
@@ -2892,7 +2892,7 @@
     {
         "id": 20610,
         "Key": "Runeword105",
-        "enUS": "  Pillar of Faith  ",
+        "enUS": " Pillar of Faith ",
         "zhTW": "信念之柱",
         "deDE": "Säule des Glaubens",
         "esES": "Pilar de fe",
@@ -2909,7 +2909,7 @@
     {
         "id": 20611,
         "Key": "Runeword106",
-        "enUS": "  Plague  ",
+        "enUS": " Plague ",
         "zhTW": "瘟疫",
         "deDE": "Pest",
         "esES": "Peste",
@@ -2926,7 +2926,7 @@
     {
         "id": 20612,
         "Key": "Runeword107",
-        "enUS": "  Praise  ",
+        "enUS": " Praise ",
         "zhTW": "頌揚",
         "deDE": "Lobpreisung",
         "esES": "Alabanza",
@@ -2943,7 +2943,7 @@
     {
         "id": 20613,
         "Key": "Runeword108",
-        "enUS": "  Prayer  ",
+        "enUS": " Prayer ",
         "zhTW": "祈禱",
         "deDE": "Gebet",
         "esES": "Oración",
@@ -2960,7 +2960,7 @@
     {
         "id": 20614,
         "Key": "Runeword109",
-        "enUS": "  Pride  ",
+        "enUS": " Pride ",
         "zhTW": "驕傲",
         "deDE": "Stolz",
         "esES": "Orgullo",
@@ -2977,7 +2977,7 @@
     {
         "id": 20615,
         "Key": "Runeword110",
-        "enUS": "  Principle  ",
+        "enUS": " Principle ",
         "zhTW": "原則",
         "deDE": "Prinzip",
         "esES": "Principio",
@@ -2994,7 +2994,7 @@
     {
         "id": 20616,
         "Key": "Runeword111",
-        "enUS": "  Prowess in Battle  ",
+        "enUS": " Prowess in Battle ",
         "zhTW": "勇戰之力",
         "deDE": "Tapferkeit im Kampf",
         "esES": "Habilidad en combate",
@@ -3011,7 +3011,7 @@
     {
         "id": 20617,
         "Key": "Runeword112",
-        "enUS": "  Prudence  ",
+        "enUS": " Prudence ",
         "zhTW": "謹慎",
         "deDE": "Besonnenheit",
         "esES": "Prudencia",
@@ -3028,7 +3028,7 @@
     {
         "id": 20618,
         "Key": "Runeword113",
-        "enUS": "  Punishment  ",
+        "enUS": " Punishment ",
         "zhTW": "懲罰",
         "deDE": "Strafe",
         "esES": "Castigo",
@@ -3045,7 +3045,7 @@
     {
         "id": 20619,
         "Key": "Runeword114",
-        "enUS": "  Purity  ",
+        "enUS": " Purity ",
         "zhTW": "純潔",
         "deDE": "Reinheit",
         "esES": "Pureza",
@@ -3062,7 +3062,7 @@
     {
         "id": 20620,
         "Key": "Runeword115",
-        "enUS": "  Question  ",
+        "enUS": " Question ",
         "zhTW": "疑問",
         "deDE": "Frage",
         "esES": "Duda",
@@ -3079,7 +3079,7 @@
     {
         "id": 20621,
         "Key": "Runeword116",
-        "enUS": "  Radiance  ",
+        "enUS": " Radiance ",
         "zhTW": "光輝",
         "deDE": "Glanz",
         "esES": "Resplandor",
@@ -3096,7 +3096,7 @@
     {
         "id": 20622,
         "Key": "Runeword117",
-        "enUS": "  Rain  ",
+        "enUS": " Rain ",
         "zhTW": "降雨",
         "deDE": "Regen",
         "esES": "Lluvia",
@@ -3113,7 +3113,7 @@
     {
         "id": 20623,
         "Key": "Runeword118",
-        "enUS": "  Reason  ",
+        "enUS": " Reason ",
         "zhTW": "理由",
         "deDE": "Vernunft",
         "esES": "Razón",
@@ -3130,7 +3130,7 @@
     {
         "id": 20624,
         "Key": "Runeword119",
-        "enUS": "  Red  ",
+        "enUS": " Red ",
         "zhTW": "鮮紅",
         "deDE": "Röte",
         "esES": "Rojez",
@@ -3147,7 +3147,7 @@
     {
         "id": 20625,
         "Key": "Runeword120",
-        "enUS": "  Rhyme  ",
+        "enUS": " Rhyme ",
         "zhTW": "聲韻",
         "deDE": "Reim",
         "esES": "Rima",
@@ -3164,7 +3164,7 @@
     {
         "id": 20626,
         "Key": "Runeword121",
-        "enUS": "  Rift  ",
+        "enUS": " Rift ",
         "zhTW": "裂隙",
         "deDE": "Zerrissenheit",
         "esES": "Grieta",
@@ -3181,7 +3181,7 @@
     {
         "id": 20627,
         "Key": "Runeword122",
-        "enUS": "  Sanctuary  ",
+        "enUS": " Sanctuary ",
         "zhTW": "聖堂",
         "deDE": "Zuflucht",
         "esES": "Santuario",
@@ -3198,7 +3198,7 @@
     {
         "id": 20628,
         "Key": "Runeword123",
-        "enUS": "  Serendipity  ",
+        "enUS": " Serendipity ",
         "zhTW": "機緣",
         "deDE": "Glückseligkeit",
         "esES": "Serendipia",
@@ -3215,7 +3215,7 @@
     {
         "id": 20629,
         "Key": "Runeword124",
-        "enUS": "  Shadow  ",
+        "enUS": " Shadow ",
         "zhTW": "暗影",
         "deDE": "Schatten",
         "esES": "Sombra",
@@ -3232,7 +3232,7 @@
     {
         "id": 20630,
         "Key": "Runeword125",
-        "enUS": "  Shadow of Doubt  ",
+        "enUS": " Shadow of Doubt ",
         "zhTW": "懷疑之影",
         "deDE": "Schatten des Zweifels",
         "esES": "Sombra de duda",
@@ -3249,7 +3249,7 @@
     {
         "id": 20631,
         "Key": "Runeword126",
-        "enUS": "  Silence  ",
+        "enUS": " Silence ",
         "zhTW": "寂靜",
         "deDE": "Stille",
         "esES": "Silencio",
@@ -3266,7 +3266,7 @@
     {
         "id": 20632,
         "Key": "Runeword127",
-        "enUS": "  Siren's Song  ",
+        "enUS": " Siren's Song ",
         "zhTW": "賽蓮之歌",
         "deDE": "Sirenengesang",
         "esES": "Canto de sirena",
@@ -3283,7 +3283,7 @@
     {
         "id": 20633,
         "Key": "Runeword128",
-        "enUS": "  Smoke  ",
+        "enUS": " Smoke ",
         "zhTW": "煙霧",
         "deDE": "Rauch",
         "esES": "Humo",
@@ -3300,7 +3300,7 @@
     {
         "id": 20634,
         "Key": "Runeword129",
-        "enUS": "  Sorrow  ",
+        "enUS": " Sorrow ",
         "zhTW": "哀傷",
         "deDE": "Traurigkeit",
         "esES": "Tristeza",
@@ -3317,7 +3317,7 @@
     {
         "id": 20635,
         "Key": "Runeword130",
-        "enUS": "  Spirit  ",
+        "enUS": " Spirit ",
         "zhTW": "精神",
         "deDE": "Geist",
         "esES": "Espíritu",
@@ -3334,7 +3334,7 @@
     {
         "id": 20636,
         "Key": "Runeword131",
-        "enUS": "  Splendor  ",
+        "enUS": " Splendor ",
         "zhTW": "燦爛",
         "deDE": "Pracht",
         "esES": "Esplendor",
@@ -3351,7 +3351,7 @@
     {
         "id": 20637,
         "Key": "Runeword132",
-        "enUS": "  Starlight  ",
+        "enUS": " Starlight ",
         "zhTW": "星光",
         "deDE": "Sternenlicht",
         "esES": "Luz de las estrellas",
@@ -3368,7 +3368,7 @@
     {
         "id": 20638,
         "Key": "Runeword133",
-        "enUS": "  Stealth  ",
+        "enUS": " Stealth ",
         "zhTW": "隱密",
         "deDE": "Verstohlenheit",
         "esES": "Sigilo",
@@ -3385,7 +3385,7 @@
     {
         "id": 20639,
         "Key": "Runeword134",
-        "enUS": "  Steel  ",
+        "enUS": " Steel ",
         "zhTW": "鋼鐵",
         "deDE": "Stahl",
         "esES": "Acero",
@@ -3402,7 +3402,7 @@
     {
         "id": 20640,
         "Key": "Runeword135",
-        "enUS": "  Still Water  ",
+        "enUS": " Still Water ",
         "zhTW": "寂靜之水",
         "deDE": "Stilles Wasser",
         "esES": "Aguas tranquilas",
@@ -3419,7 +3419,7 @@
     {
         "id": 20641,
         "Key": "Runeword136",
-        "enUS": "  Sting  ",
+        "enUS": " Sting ",
         "zhTW": "螫刺",
         "deDE": "Stachel",
         "esES": "Aguijón",
@@ -3436,7 +3436,7 @@
     {
         "id": 20642,
         "Key": "Runeword137",
-        "enUS": "  Stone  ",
+        "enUS": " Stone ",
         "zhTW": "石塊",
         "deDE": "Stein",
         "esES": "Roca",
@@ -3453,7 +3453,7 @@
     {
         "id": 20643,
         "Key": "Runeword138",
-        "enUS": "  Storm  ",
+        "enUS": " Storm ",
         "zhTW": "風暴",
         "deDE": "Sturm",
         "esES": "Tormenta",
@@ -3470,7 +3470,7 @@
     {
         "id": 20644,
         "Key": "Runeword139",
-        "enUS": "  Strength  ",
+        "enUS": " Strength ",
         "zhTW": "力量",
         "deDE": "Stärke",
         "esES": "Fuerza",
@@ -3487,7 +3487,7 @@
     {
         "id": 20645,
         "Key": "Runeword140",
-        "enUS": "  Tempest  ",
+        "enUS": " Tempest ",
         "zhTW": "暴風雨",
         "deDE": "Orkan",
         "esES": "Tempestad",
@@ -3504,7 +3504,7 @@
     {
         "id": 20646,
         "Key": "Runeword141",
-        "enUS": "  Temptation  ",
+        "enUS": " Temptation ",
         "zhTW": "誘惑",
         "deDE": "Versuchung",
         "esES": "Tentación",
@@ -3521,7 +3521,7 @@
     {
         "id": 20647,
         "Key": "Runeword142",
-        "enUS": "  Terror  ",
+        "enUS": " Terror ",
         "zhTW": "恐佈",
         "deDE": "Terror",
         "esES": "Terror",
@@ -3538,7 +3538,7 @@
     {
         "id": 20648,
         "Key": "Runeword143",
-        "enUS": "  Thirst  ",
+        "enUS": " Thirst ",
         "zhTW": "飢渴",
         "deDE": "Durst",
         "esES": "Sed",
@@ -3555,7 +3555,7 @@
     {
         "id": 20649,
         "Key": "Runeword144",
-        "enUS": "  Thought  ",
+        "enUS": " Thought ",
         "zhTW": "思維",
         "deDE": "Gedanke",
         "esES": "Pensamiento",
@@ -3572,7 +3572,7 @@
     {
         "id": 20650,
         "Key": "Runeword145",
-        "enUS": "  Thunder  ",
+        "enUS": " Thunder ",
         "zhTW": "雷霆",
         "deDE": "Donner",
         "esES": "Trueno",
@@ -3589,7 +3589,7 @@
     {
         "id": 20651,
         "Key": "Runeword146",
-        "enUS": "  Time  ",
+        "enUS": " Time ",
         "zhTW": "時間",
         "deDE": "Zeit",
         "esES": "Tiempo",
@@ -3606,7 +3606,7 @@
     {
         "id": 20652,
         "Key": "Runeword147",
-        "enUS": "  Tradition  ",
+        "enUS": " Tradition ",
         "zhTW": "傳統",
         "deDE": "Tradition",
         "esES": "Tradición",
@@ -3623,7 +3623,7 @@
     {
         "id": 20653,
         "Key": "Runeword148",
-        "enUS": "  Treachery  ",
+        "enUS": " Treachery ",
         "zhTW": "背信",
         "deDE": "Verrat",
         "esES": "Traición",
@@ -3640,7 +3640,7 @@
     {
         "id": 20654,
         "Key": "Runeword149",
-        "enUS": "  Trust  ",
+        "enUS": " Trust ",
         "zhTW": "信任",
         "deDE": "Vertrauen",
         "esES": "Confianza",
@@ -3657,7 +3657,7 @@
     {
         "id": 20655,
         "Key": "Runeword150",
-        "enUS": "  Truth  ",
+        "enUS": " Truth ",
         "zhTW": "真理",
         "deDE": "Wahrheit",
         "esES": "Verdad",
@@ -3674,7 +3674,7 @@
     {
         "id": 20656,
         "Key": "Runeword151",
-        "enUS": "  Unbending Will  ",
+        "enUS": " Unbending Will ",
         "zhTW": "堅定意志",
         "deDE": "Unbeugsamer Wille",
         "esES": "Voluntad de hierro",
@@ -3691,7 +3691,7 @@
     {
         "id": 20657,
         "Key": "Runeword152",
-        "enUS": "  Valor  ",
+        "enUS": " Valor ",
         "zhTW": "英勇",
         "deDE": "Heldenmut",
         "esES": "Valor",
@@ -3708,7 +3708,7 @@
     {
         "id": 20658,
         "Key": "Runeword153",
-        "enUS": "  Vengeance  ",
+        "enUS": " Vengeance ",
         "zhTW": "復仇",
         "deDE": "Rache",
         "esES": "Venganza",
@@ -3725,7 +3725,7 @@
     {
         "id": 20659,
         "Key": "Runeword154",
-        "enUS": "  Venom  ",
+        "enUS": " Venom ",
         "zhTW": "劇毒",
         "deDE": "Geifer",
         "esES": "Ponzoña",
@@ -3742,7 +3742,7 @@
     {
         "id": 20660,
         "Key": "Runeword155",
-        "enUS": "  Victory  ",
+        "enUS": " Victory ",
         "zhTW": "勝利",
         "deDE": "Sieg",
         "esES": "Victoria",
@@ -3759,7 +3759,7 @@
     {
         "id": 20661,
         "Key": "Runeword156",
-        "enUS": "  Voice  ",
+        "enUS": " Voice ",
         "zhTW": "聲音",
         "deDE": "Stimme",
         "esES": "Voz",
@@ -3776,7 +3776,7 @@
     {
         "id": 20662,
         "Key": "Runeword157",
-        "enUS": "  Void  ",
+        "enUS": " Void ",
         "zhTW": "虛無",
         "deDE": "[ms]leerer[fs]leere[ns]leeres[pl]leere",
         "esES": "Vacío",
@@ -3793,7 +3793,7 @@
     {
         "id": 20663,
         "Key": "Runeword158",
-        "enUS": "  War  ",
+        "enUS": " War ",
         "zhTW": "戰爭",
         "deDE": "Krieg",
         "esES": "Guerra",
@@ -3810,7 +3810,7 @@
     {
         "id": 20664,
         "Key": "Runeword159",
-        "enUS": "  Water  ",
+        "enUS": " Water ",
         "zhTW": "清水",
         "deDE": "Wasser",
         "esES": "Agua",
@@ -3827,7 +3827,7 @@
     {
         "id": 20665,
         "Key": "Runeword160",
-        "enUS": "  Wealth  ",
+        "enUS": " Wealth ",
         "zhTW": "財富",
         "deDE": "Wohlstand",
         "esES": "Riqueza",
@@ -3844,7 +3844,7 @@
     {
         "id": 20666,
         "Key": "Runeword161",
-        "enUS": "  Whisper  ",
+        "enUS": " Whisper ",
         "zhTW": "低語",
         "deDE": "Flüstern",
         "esES": "Susurro",
@@ -3861,7 +3861,7 @@
     {
         "id": 20667,
         "Key": "Runeword162",
-        "enUS": "  White  ",
+        "enUS": " White ",
         "zhTW": "蒼白",
         "deDE": "Weiß",
         "esES": "Blancura",
@@ -3878,7 +3878,7 @@
     {
         "id": 20668,
         "Key": "Runeword163",
-        "enUS": "  Wind  ",
+        "enUS": " Wind ",
         "zhTW": "輕風",
         "deDE": "Wind",
         "esES": "Viento",
@@ -3895,7 +3895,7 @@
     {
         "id": 20669,
         "Key": "Runeword164",
-        "enUS": "  Wings of Hope  ",
+        "enUS": " Wings of Hope ",
         "zhTW": "希望之翼",
         "deDE": "Schwingen der Hoffnung",
         "esES": "Alas de esperanza",
@@ -3912,7 +3912,7 @@
     {
         "id": 20670,
         "Key": "Runeword165",
-        "enUS": "  Wisdom  ",
+        "enUS": " Wisdom ",
         "zhTW": "智慧",
         "deDE": "Weisheit",
         "esES": "Sabiduría",
@@ -3929,7 +3929,7 @@
     {
         "id": 20671,
         "Key": "Runeword166",
-        "enUS": "  Woe  ",
+        "enUS": " Woe ",
         "zhTW": "悲痛",
         "deDE": "Unglück",
         "esES": "Aflicción",
@@ -3946,7 +3946,7 @@
     {
         "id": 20672,
         "Key": "Runeword167",
-        "enUS": "  Wonder  ",
+        "enUS": " Wonder ",
         "zhTW": "驚奇",
         "deDE": "Wunder",
         "esES": "Asombro",
@@ -3963,7 +3963,7 @@
     {
         "id": 20673,
         "Key": "Runeword168",
-        "enUS": "  Wrath  ",
+        "enUS": " Wrath ",
         "zhTW": "憤怒",
         "deDE": "Wut",
         "esES": "Ira",
@@ -3980,7 +3980,7 @@
     {
         "id": 20674,
         "Key": "Runeword169",
-        "enUS": "  Youth  ",
+        "enUS": " Youth ",
         "zhTW": "年輕",
         "deDE": "Jugend",
         "esES": "Juventud",
@@ -3997,7 +3997,7 @@
     {
         "id": 20675,
         "Key": "Runeword170",
-        "enUS": "  Zephyr  ",
+        "enUS": " Zephyr ",
         "zhTW": "和風",
         "deDE": "Zephyr",
         "esES": "Céfiro",
