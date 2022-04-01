@@ -89,9 +89,10 @@ class DrognanShopper:
                 # Search for items
                 item_pos = []
                 img = grab().copy()
+
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
-                for ck in item_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
+                template_matches = TemplateFinder(True).search_all(item_keys, img, roi=self.roi_vendor)
+                for template_match in template_matches:
                     if template_match.valid:
                         item_pos.append(template_match.center)
 
