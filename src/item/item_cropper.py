@@ -111,7 +111,7 @@ if __name__ == "__main__":
     while 1:
         img = grab().copy()
         item_properties, res = d2r_image.get_hovered_item(img)
-        if res is not None:
+        if res.roi is not None:
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
             #Logger.debug(f"{res.ocr_result['text']}")
@@ -128,7 +128,6 @@ if __name__ == "__main__":
                         Logger.debug(f"Low confidence word #{cnt}: {res.ocr_result['original_text'].split()[cnt]} -> {res.ocr_result['text'].split()[cnt]}, Conf: {x}")
                         found_low_confidence = True
                     except: pass
-
 
         cv2.imshow("res", img)
         cv2.waitKey(1)
