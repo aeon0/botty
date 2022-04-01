@@ -36,7 +36,7 @@ class GameStats:
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         self._nopickup_active = False
         self._starting_exp = 0
-        self._current_exp = 0
+        self._current_exp = 1
         self._current_lvl = 0
 
     def update_location(self, loc: str):
@@ -114,10 +114,10 @@ class GameStats:
             curr_lvl = get_level(exp[1])['lvl']
             if curr_lvl > 0:
                 self._current_lvl = curr_lvl-1
-        
+
         if self._starting_exp == 0:
             self._starting_exp = exp[0]
-        
+
         if exp[0] > 0:
             self._current_exp = exp[0]
 
@@ -159,26 +159,31 @@ class GameStats:
         avg_length_str = hms(avg_length)
 
         curr_lvl = get_level(self._current_lvl)
-        exp_gained = self._current_exp - curr_lvl['exp']
-        per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
-        gained_exp = self._current_exp - self._starting_exp
-        exp_per_second = gained_exp / good_games_time
-        exp_per_hour = round(exp_per_second * 3600, 1)
-        exp_per_game = round(gained_exp / float(good_games_count), 1)
-        exp_needed = curr_lvl['xp_to_next'] - exp_gained
-        time_to_lvl = exp_needed / exp_per_second
-        games_to_lvl = exp_needed / exp_per_game
 
         msg = f'\nSession length: {elapsed_time_str}'
         msg += f'\nGames: {self._game_counter}'
         msg += f'\nAvg Game Length: {avg_length_str}'
         msg += f'\nCurrent Level: {curr_lvl["lvl"]}'
-        msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
-        msg += f'\nXP Gained: {gained_exp:,}'
-        msg += f'\nXP Per Hour: {exp_per_hour:,}'
-        msg += f'\nXP Per Game: {exp_per_game:,}'
-        msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
-        msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
+
+        if curr_lvl["lvl"] < 99:
+            try:
+                exp_gained = self._current_exp - curr_lvl['exp']
+                per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
+                gained_exp = self._current_exp - self._starting_exp
+                exp_per_second = gained_exp / good_games_time
+                exp_per_hour = round(exp_per_second * 3600, 1)
+                exp_per_game = round(gained_exp / float(good_games_count), 1)
+                exp_needed = curr_lvl['xp_to_next'] - exp_gained
+                time_to_lvl = exp_needed / exp_per_second
+                games_to_lvl = exp_needed / exp_per_game
+                msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
+                msg += f'\nXP Gained: {gained_exp:,}'
+                msg += f'\nXP Per Hour: {exp_per_hour:,}'
+                msg += f'\nXP Per Game: {exp_per_game:,}'
+                msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
+                msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
+            except:
+                Logger.warning("Failed to log exp")
 
         table = BeautifulTable()
         table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)

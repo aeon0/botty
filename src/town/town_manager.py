@@ -140,7 +140,7 @@ class TownManager:
                     Logger.error("buy_consumables: Error purchasing keys")
             # Sell items, if any
             if items:
-                items = common.transfer_items(items, action = "sell")
+                items = personal.transfer_items(items, action = "sell")
             common.close()
             return new_loc, items
         Logger.warning(f"Could not buy consumables in {curr_act}. Continue.")
@@ -219,7 +219,7 @@ class TownManager:
             new_loc = self._acts[curr_act].open_trade_and_repair_menu(curr_loc)
             if not new_loc: return False, False
             if items:
-                items = common.transfer_items(items, "sell")
+                items = personal.transfer_items(items, "sell")
             vendor.repair()
             wait(0.1, 0.2)
             common.close()
@@ -229,7 +229,7 @@ class TownManager:
         new_loc = self._acts[Location.A5_TOWN_START].open_trade_and_repair_menu(new_loc)
         if not new_loc: return False, False
         if items:
-            items = common.transfer_items(items, "sell")
+            items = personal.transfer_items(items, "sell")
         vendor.repair()
         wait(0.1, 0.2)
         common.close()

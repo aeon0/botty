@@ -2,9 +2,10 @@ import keyboard
 import os
 import numpy as np
 import time
+import cv2
 from typing import Union, TypeVar, Callable
 from utils.custom_mouse import mouse
-from utils.misc import wait
+from utils.misc import wait, cut_roi, image_is_equal
 from logger import Logger
 from config import Config
 from screen import grab, convert_screen_to_monitor, convert_abs_to_monitor
@@ -291,6 +292,12 @@ def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3) -> bool:
         Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
     return hidden
 
+def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3) -> bool:
+    roi = roi if roi is not None else [0, 0, img.shape[0]-1, img.shape[1] -1]
+    if not (change := wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
+        Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
+    return change
+
 def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
     start = time.time()
     while (time.time() - start) < timeout:
@@ -322,12 +329,14 @@ def center_mouse(delay_factor: list = None):
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":
     import keyboard
-    from screen import start_detecting_window
+    from screen import start_detecting_window, grab, stop_detecting_window
     start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
-    print("Go to D2R window and press f11 to start game")
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    print("Go to D2R window and press f11 to start")
     keyboard.wait("f11")
     from config import Config
-    while 1:
-        print(list_visible_objects())
-        time.sleep(1)
+
+    print(wait_for_update(grab(), Config().ui_roi["right_inventory"], timeout=5))
+    # while 1:
+    #     print(list_visible_objects())
+    #     time.sleep(1)

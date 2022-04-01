@@ -5,6 +5,7 @@ import time
 import os
 import random
 import cv2
+import math
 from copy import copy
 from typing import Union
 from collections import OrderedDict
@@ -232,6 +233,19 @@ class Bot:
 
     def on_start_from_town(self):
         self._curr_loc = self._town_manager.wait_for_town_spawn()
+
+        # Handle picking up corpse in case of death
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
+            self._previous_run_failed = True
+            view.pickup_corpse()
+            wait_until_hidden(ScreenObjects.Corpse)
+            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        self._char.discover_capabilities()
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+            keybind = self._char._skill_hotkeys["teleport"]
+            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
             cur_game_ip = get_d2r_game_ip()
@@ -265,18 +279,6 @@ class Bot:
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
-
-        # Handle picking up corpse in case of death
-        if (corpse_present := is_visible(ScreenObjects.Corpse)):
-            self._previous_run_failed = True
-            view.pickup_corpse()
-            wait_until_hidden(ScreenObjects.Corpse)
-            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = self._char._skill_hotkeys["teleport"]
-            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
@@ -410,17 +412,18 @@ class Bot:
 
         if Config().general["max_runtime_before_break_m"] and Config().general["break_length_m"]:
             elapsed_time = time.time() - self._timer
-            Logger.info(f'Session length = {elapsed_time} s, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]*60} s.')
+            Logger.debug(f'Session length = {math.ceil(elapsed_time/60)} minutes, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]}.')
 
             if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
-                Logger.info(f'Max session length reached, taking a break for {Config().general["break_length_m"]} minutes.')
-                self._messenger.send_message(f'Ran for {hms(elapsed_time)}, taking a break for {Config().general["break_length_m"]} minutes.')
+                break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
+                Logger.info(break_msg)
+                self._messenger.send_message(break_msg)
                 if not self._pausing:
                     self.toggle_pause()
 
                 wait(Config().general["break_length_m"]*60)
 
-                break_msg = f'Break over, now running for {Config().general["max_runtime_before_break_m"]} more minutes.'
+                break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
                 Logger.info(break_msg)
                 self._messenger.send_message(break_msg)
                 if self._pausing:

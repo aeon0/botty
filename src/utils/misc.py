@@ -211,6 +211,12 @@ def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
 def unit_vector(vec: np.ndarray) -> np.ndarray:
     return vec / dist(vec, (0, 0))
 
+def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
+    shape_equal = img1.shape == img2.shape
+    if not shape_equal:
+        Logger.debug("image_is_equal: Image shape is not equal")
+        return False
+    return not(np.bitwise_xor(img1, img2).any())
 
 # if __name__ == "__main__":
     # print(find_d2r_window())
