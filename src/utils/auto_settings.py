@@ -63,12 +63,12 @@ def restore_settings_from_backup():
     backup_file = f"{d2_saved_games}/launch_options_backup.txt"
     current_file = f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config"
     if not os.path.exists(backup_file):
-        print("No launch options backup file was found, couldn't restore.")
+        print("No D2R launch options backup file was found, couldn't restore.")
         return
     with open(backup_file, 'r') as f:
         launch_options = f.read().strip()
     set_launch_settings(launch_options)
-    print("Launch options restored successfully.")
+    print("D2R launch options restored successfully.")
 
 def set_launch_settings(launch_options):
     close_down_bnet_launcher()
