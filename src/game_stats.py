@@ -36,7 +36,7 @@ class GameStats:
         self._stats_filename = f'stats_{time.strftime("%Y%m%d_%H%M%S")}.log'
         self._nopickup_active = False
         self._starting_exp = 0
-        self._current_exp = 0
+        self._current_exp = 1
         self._current_lvl = 0
 
     def update_location(self, loc: str):
