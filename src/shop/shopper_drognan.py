@@ -63,6 +63,11 @@ class DrognanShopper(ShopperBase):
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.items_evaluated = 0
         self.items_bought = 0
+        self.look_for_leaf_runeword_base = Config().shop["shop_leaf_runeword_base"]
+        self.look_for_wand_of_life_tap = Config().shop["shop_weapon_life_tap"]
+        self.look_for_wand_of_lower_resist = Config().shop["shop_weapon_lower_resist"]
+        super(DrognanShopper, self).__init__()
+        self.get_tabs()
 
     def get_name(self):
         return "Drognan"
@@ -81,6 +86,12 @@ class DrognanShopper(ShopperBase):
             press_npc_btn(Npc.DROGNAN, "trade")
             time.sleep(0.1)
             img = grab()
+
+            for search_tab in self.search_tabs:
+                self.click_tab(search_tab)
+                self.search_for_leaf_runeword_base()
+                self.search_for_wand_of_life_tap()
+                self.search_for_wand_of_lower_resist()
 
             if self.look_for_scepters is True:
                 mouse.move(self.sb_x, self.sb_y, randomize=3, delay_factor=[0.6, 0.8])
@@ -131,33 +142,16 @@ class DrognanShopper(ShopperBase):
         # This can probably be tweaked but seems to work well enough for now.
 
         # Exit town
-        pos_m = convert_abs_to_monitor((200, -100))
-        mouse.move(pos_m[0], pos_m[1])
-        self.hold_move(pos_m, time_held=(3.0 / self.speed_factor))
+        self.move_shopper(200, -100, 5)
+        self.move_shopper(-200, 100, 4)
 
-        # Return to town
-        pos_m = convert_abs_to_monitor((-200, 100))
-        mouse.move(pos_m[0], pos_m[1])
-        self.hold_move(pos_m, time_held=(2.0 / self.speed_factor))
 
-    # A variation of the move() function from pather.py
-    def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
-        factor = Config().advanced_options["pathing_delay_factor"]
-        # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-        pos_screen = convert_monitor_to_screen(pos_monitor)
-        pos_abs = convert_screen_to_abs(pos_screen)
-
-        # This logic (from pather.py) sometimes negatively affects the shopper, so default is to skip this.
-        if self.apply_pather_adjustment:
-            dist = math.dist(pos_abs, (0, 0))
-            min_wd = Config().ui_pos["min_walk_dist"]
-            max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / dist
-            pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-
-        x, y = convert_abs_to_monitor(pos_abs)
-        mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
-        wait(0.012, 0.02)
-        mouse.press(button="left")
-        wait(time_held - 0.05, time_held + 0.05)
-        mouse.release(button="left")
+    def get_tabs(self):
+        """
+        Sets up which tabs we want to search in
+        """
+        if self.look_for_wand_of_life_tap or self.look_for_wand_of_lower_resist:
+            self.search_tabs.add(2)
+        if self.look_for_leaf_runeword_base:
+            self.search_tabs.add(2)
+            self.search_tabs.add(3)

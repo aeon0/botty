@@ -30,7 +30,7 @@ class ShopperBase(abc.ABC):
         self.start_time = time.time()
         self.roi_vendor = Config().ui_roi["left_inventory"]
         self.rx, self.ry, _, _ = self.roi_vendor
-        self.first_tab_x, self.second_tab_y = convert_screen_to_monitor((115, 77))
+        self.first_tab_x, self.first_tab_y = convert_screen_to_monitor((115, 77))
         self.second_tab_x, self.second_tab_y = convert_screen_to_monitor((180, 77))
         self.third_tab_x, self.third_tab_y = convert_screen_to_monitor((245, 77))
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
@@ -56,7 +56,7 @@ class ShopperBase(abc.ABC):
             return
 
     def click_first_tab(self):
-        mouse.move(self.second_tab_x, self.second_tab_y, randomize=3, delay_factor=[0.6, 0.8])
+        mouse.move(self.first_tab_x, self.first_tab_y, randomize=3, delay_factor=[0.6, 0.8])
         wait(0.05, 0.1)
         mouse.press(button="left")
         wait(0.3, 0.4)
@@ -201,11 +201,80 @@ class ShopperBase(abc.ABC):
         if self.look_for_leaf_runeword_base:
             self.search_for_item(
                 item_description="leaf_runeword_base",
-                item_type_asset_keys=["SHORT_STAFF", "LONG_STAFF"],
+                item_type_asset_keys=["SHORT_STAFF", "LONG_STAFF", "GNARLED_STAFF", "BATTLE_STAFF"],
+                item_type_asset_threshold=0.8,
                 item_stat_asset_keys_required=["2_SOCKETED"],
                 item_stat_asset_keys_avoid=["PREFIX_MECHANICS"],
                 item_misc_stat_asset_keys=["3_TO_ENCHANT", "3_TO_FIRE_BALL", "3_TO_FIRE_WALL", "3_TO_STATIC_FIELD", "3_TO_WARMTH", "3_TO_FIRE_BOLT", "3_TO_METEOR"],
-                min_misc_stats=2)
+                min_misc_stats=2,
+                item_stat_asset_threshold=0.96)
+
+    def search_for_warcry_weapon(self):
+        if self.look_for_warcry_weapon:
+            self.search_for_item(
+                item_description="warcry_weapon",
+                item_type_asset_keys=["GREAT_SWORD", "WAR_AXE", "FLAMBERGE", "WAR_SWORD", "GREAT_SWORD", "BASTARD_SWORD", "CRYSTAL_SWORD"],
+                item_stat_asset_keys_required=["3_TO_WARCRIES"],
+                item_stat_asset_threshold=0.97
+            )
+
+    def search_for_warcry_stick(self):
+        if self.look_for_warcry_stick:
+            self.search_for_item(
+                item_description="warcry_stick",
+                item_type_asset_keys=["GLAIVE", "THROWING_SPEAR"],
+                item_stat_asset_keys_required=["3_TO_WARCRIES"],
+                item_stat_asset_threshold=0.97
+            )
+
+    def search_for_jewelers_armor_of_the_whale(self):
+        if self.look_for_jewelers_armor_of_the_whale:
+            self.search_for_item(
+                item_description="jewelers_armor_of_the_whale",
+                item_type_asset_keys=["FIELD_PLATE", "PLATE_MAIL", "GOTHIC_PLATE", "FULL_PLATE_MAIL", "ANCIENT_ARMOR", "LIGHT_PLATE"],
+                item_stat_asset_keys_required=["PREFIX_JEWELERS"],
+                item_misc_stat_asset_keys=["SUFFIX_OF_THE_WHALE"],
+                min_misc_stats=1
+            )
+
+    def search_for_resist_belt_of_the_whale(self):
+        if self.look_for_resist_belt_of_the_whale:
+            self.search_for_item(
+                item_description="resist_belt_of_the_whale",
+                item_type_asset_keys=["PLATED_BELT"],
+                item_stat_asset_keys_required=["SUFFIX_OF_THE_WHALE"],
+                item_misc_stat_asset_keys=["PREFIX_COBALT", "PREFIX_CORAL", "PREFIX_GARNET"],
+                min_misc_stats=1
+            )
+
+    def search_for_resist_belt_of_wealth(self):
+        if self.look_for_resist_belt_of_wealth:
+            self.search_for_item(
+                item_description="resist_belt_of_wealth",
+                item_type_asset_keys=["PLATED_BELT"],
+                item_stat_asset_keys_required=["SUFFIX_OF_WEALTH"],
+                item_misc_stat_asset_keys=["PREFIX_COBALT", "PREFIX_CORAL", "PREFIX_GARNET"]
+            )
+
+    def search_for_artisans_helm_of_the_whale(self):
+        if self.look_for_artisans_helm_of_the_whale:
+            self.search_for_item(
+                item_description="artisans_helm_of_the_whale",
+                item_type_asset_keys=["CROWN", "GREAT_HELM"],
+                item_stat_asset_keys_required=["PREFIX_ARTISANS"],
+                item_misc_stat_asset_keys=["SUFFIX_OF_THE_WHALE"],
+                min_misc_stats=1
+            )
+
+    def search_for_artisans_helm_of_stability(self):
+        if self.look_for_artisans_helm_of_stability:
+            self.search_for_item(
+                item_description="artisans_helm_of_stability",
+                item_type_asset_keys=["CROWN", "GREAT_HELM"],
+                item_stat_asset_keys_required=["PREFIX_ARTISANS"],
+                item_misc_stat_asset_keys=["SUFFIX_OF_STABILITY"],
+                min_misc_stats=1
+            )
 
     def search_for_item(
             self,

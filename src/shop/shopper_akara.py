@@ -50,7 +50,6 @@ class AkaraShopper(ShopperBase):
         Logger.debug(f"look_for_leaf_runeword_base={self.look_for_leaf_runeword_base}")
         Logger.debug(f"look_for_wand_of_life_tap={self.look_for_wand_of_life_tap}")
         Logger.debug(f"look_for_wand_of_lower_resist={self.look_for_wand_of_lower_resist}")
-        Logger.debug(f"Location: {self._curr_loc}")
         self._char.discover_capabilities()
         self.get_tabs()
         self.shop_loop()

@@ -74,6 +74,11 @@ class A5(IAct):
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
+    def open_frigid_wp(self) -> bool:
+        wait(0.5, 0.7)
+        found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
+        return self._char.select_by_template("FRIGID_WP", found_wp_func, telekinesis=True)
+
     def wait_for_tp(self) -> Union[Location, bool]:
         success = TemplateFinder().search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], timeout=20).valid
         if success:
