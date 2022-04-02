@@ -43,7 +43,7 @@ class WebSocketClient():
         self.ws.send('2probe')
         self.ws.send('5')
 
-        self.id = sid
+        self.id = None
         self.passive_update_delay = 10 # how long to wait in seconds between sending automatic updates to the websocket
         self.update_queue = []
 
@@ -61,6 +61,9 @@ class WebSocketClient():
             msg = self.ws.recv()
             if msg == "2": # ping
                 self.ws.send('3') # pong
+            # Check if the first to chars are 40.
+            elif '40{"sid":"' in msg:
+                self.id = json.loads(msg[2:])['sid']
             elif "website.request" in msg:
                 msg = json.loads(json.loads(msg[2:])[1])
                 hook.Call("recv_website_request", message=msg)

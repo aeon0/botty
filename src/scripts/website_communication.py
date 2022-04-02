@@ -18,6 +18,7 @@ if True:# or webserver_type == 1 or webserver_type == 2:
         ws.send(copy)
 
     def do_action(message):
+        print(ws.id, message["ids"])
         if ws.id in message["ids"]:
             if message["action"] == "update":
                     send_update()
