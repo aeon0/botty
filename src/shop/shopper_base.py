@@ -4,6 +4,7 @@ import time
 import glob
 import os
 import math
+import cv2
 from shop.shop_helpers import Coordinate
 from config import Config
 from typing import Dict, Tuple, Union, List, Callable
@@ -41,6 +42,8 @@ class ShopperBase(abc.ABC):
         self.debug_stats_count = {}
         self.debug_stat_checks = Config().shop["debug_stat_checks"]
         self.items_bought = {}
+        pos_m = convert_abs_to_monitor((-200, 0))
+        self.mouse_reset = Coordinate(pos_m[0], pos_m[1])
 
     def click_tab(self, tab_index=0):
         if tab_index == 1:
@@ -71,7 +74,7 @@ class ShopperBase(abc.ABC):
         wait(0.3, 0.4)
 
     @staticmethod
-    def mouse_over(pos: Coordinate()):
+    def mouse_over(pos: Coordinate(0, 0)):
         """
         Moves the mouse over a given position coordinate
         """
@@ -169,6 +172,70 @@ class ShopperBase(abc.ABC):
     @staticmethod
     def stop_shopping():
         os._exit(0)
+
+    def search_for_staff_of_teleportation(self):
+        if self.look_for_staff_of_teleportation:
+            self.search_for_item(
+                "staff_of_teleportation",
+                ["BATTLE_STAFF",
+                 "WAR_STAFF", "GNARLED_STAFF"],
+                0.7,
+                ["SUFFIX_OF_TELEPORTATION"],
+                0.94)
+
+    def search_for_wand_of_life_tap(self):
+        if self.look_for_wand_of_life_tap:
+            self.search_for_item(
+                "wand_of_life_tap",
+                ["BONE_WAND",
+                 "GRIM_WAND", "YEW_WAND", "WAND"],
+                0.7,
+                ["SUFFIX_OF_LIFE_TAP"],
+                0.94)
+
+    def search_for_wand_of_lower_resist(self):
+        if self.look_for_wand_of_lower_resist:
+            self.search_for_item(
+                "wand_of_lower_resist",
+                ["BONE_WAND",
+                 "GRIM_WAND", "YEW_WAND", "WAND"],
+                0.7,
+                ["SUFFIX_OF_LOWER_RESIST"],
+                0.94)
+
+    def search_for_item(
+            self,
+            item_description="",
+            item_type_asset_keys=[],
+            item_type_asset_threshold=0.7,
+            item_stat_asset_keys=[],
+            item_stat_asset_threshold=0.94):
+
+        item_pos = []
+        item_pos_sorted = []
+        for item_key in item_type_asset_keys:
+            self.mouse_over(self.mouse_reset)
+            img = grab().copy()
+            template_matches = TemplateFinder(True).search_multi(item_key, img, threshold=item_type_asset_threshold,
+                                                                 roi=self.roi_vendor)
+            # Logger.debug(f"Found {len(template_matches)} {item_key}")
+            for template_match in template_matches:
+                if template_match.valid:
+                    item_pos.append(template_match.center)
+        for pos in item_pos:
+            x_m, y_m = convert_screen_to_monitor(pos)
+            coord = Coordinate(x_m, y_m)
+            item_pos_sorted.append(coord)
+        item_pos_sorted.sort(key=lambda x: (x.y, x.x))
+        for pos in item_pos_sorted:
+            ShopperBase.mouse_over(pos)
+            img_stats = grab()
+            self.check_stats(img_stats)
+            for item_stat_asset_key in item_stat_asset_keys:
+                if TemplateFinder(True).search(item_stat_asset_key, img_stats, roi=self.roi_item_stats,
+                                               threshold=item_stat_asset_threshold).valid:
+                    self.buy_item(item_description)
+        return
 
 
 ShopperBase.register(tuple)

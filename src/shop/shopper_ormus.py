@@ -21,6 +21,8 @@ class OrmusShopper(ShopperBase):
 
     def __init__(self):
         self.look_for_staff_of_teleportation = Config().shop["shop_weapon_teleport"]
+        self.look_for_wand_of_life_tap = Config().shop["shop_weapon_life_tap"]
+        self.look_for_wand_of_lower_resist = Config().shop["shop_weapon_lower_resist"]
         super(OrmusShopper, self).__init__()
         return
 
@@ -30,6 +32,8 @@ class OrmusShopper(ShopperBase):
     def run(self):
         Logger.info(f"Personal {self.get_name()} Shopper at your service! Hang on, running some errands...")
         Logger.debug(f"look_for_staff_of_teleportation={self.look_for_staff_of_teleportation}")
+        Logger.debug(f"look_for_wand_of_life_tap={self.look_for_wand_of_life_tap}")
+        Logger.debug(f"look_for_wand_of_lower_resist={self.look_for_wand_of_lower_resist}")
         self.get_tabs()
         self.shop_loop()
 
@@ -38,33 +42,11 @@ class OrmusShopper(ShopperBase):
             open_npc_menu(Npc.ORMUS)
             press_npc_btn(Npc.ORMUS, "trade")
             time.sleep(0.1)
-
             for search_tab in self.search_tabs:
                 self.click_tab(search_tab)
-                if self.look_for_staff_of_teleportation:
-                    staff_pos = []
-                    staff_pos_sorted = []
-                    img = grab().copy()
-                    staff_keys = ["BATTLE_STAFF", "WAR_STAFF", "GNARLED_STAFF"]
-                    for staff_key in staff_keys:
-                        template_matches = TemplateFinder(True).search_multi(staff_key, img, threshold=0.7, roi=self.roi_vendor)
-                        # Logger.debug(f"Found {len(template_matches)} {staff_key}")
-                        for template_match in template_matches:
-                            if template_match.valid:
-                                staff_pos.append(template_match.center)
-                    for pos in staff_pos:
-                        x_m, y_m = convert_screen_to_monitor(pos)
-                        coord = Coordinate()
-                        coord.x = x_m
-                        coord.y = y_m
-                        staff_pos_sorted.append(coord)
-                    staff_pos_sorted.sort(key=lambda x: (x.y, x.x))
-                    for pos in staff_pos_sorted:
-                        ShopperBase.mouse_over(pos)
-                        img_stats = grab()
-                        self.check_stats(img_stats)
-                        if TemplateFinder(True).search("SUFFIX_OF_TELEPORTATION", img_stats, roi=self.roi_item_stats, threshold=0.94).valid:
-                            self.buy_item("staff_of_teleportation")
+                self.search_for_staff_of_teleportation()
+                self.search_for_wand_of_life_tap()
+                self.search_for_wand_of_lower_resist()
 
             self.reset_shop()
 
@@ -74,8 +56,6 @@ class OrmusShopper(ShopperBase):
         """
         # We want to walk out the town exit to the top right and come back down to Ormus
         # This can probably be tweaked but seems to work well enough for now.
-
-        Logger.debug("Resetting Shop")
 
         # Exit town
         # Move down into nook
@@ -97,3 +77,5 @@ class OrmusShopper(ShopperBase):
         if self.look_for_staff_of_teleportation:
             self.search_tabs.add(2)
             self.search_tabs.add(3)
+        if self.look_for_wand_of_life_tap or self.look_for_wand_of_lower_resist:
+            self.search_tabs.add(2)
