@@ -404,6 +404,7 @@ class Config:
             "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
             "speed_factor": float(self._select_val("scepters", "speed_factor")),
             "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
+            "faster_run_walk": int(self._select_val("misc", "faster_run_walk")),
         }
         other_section = "other_bools"
         for key in self.configs["shop"]["parser"]["other_bools"]:

@@ -22,7 +22,7 @@ def main():
     else:
         print(f"ERROR: Unkown logg_lvl {Config().advanced_options['logg_lvl']}. Must be one of [info, debug]")
 
-    keyboard.add_hotkey(Config().advanced_options["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
+    keyboard.add_hotkey(Config().advanced_options["exit_key"], lambda: on_exit())
 
     shoppers = load_shoppers()
 
@@ -44,6 +44,8 @@ def main():
         if not keyread == "f12" and keyread.find("f") > -1:
             fkey_num = int(keyread.replace("f", "")) - 1
             Logger.info(f"Shopper selected: {shoppers[fkey_num].get_name()}")
+            keyboard.remove_hotkey(Config().advanced_options["exit_key"])
+            keyboard.add_hotkey(Config().advanced_options["exit_key"], lambda: on_shopper_exit(shoppers[fkey_num]))
             shoppers[fkey_num].run()
         time.sleep(0.2)
 
@@ -67,6 +69,16 @@ def load_shoppers() -> List[ShopperBase]:
     Logger.info(f"Loaded Shoppers: {[cls.__name__ for cls in ShopperBase.__subclasses__()]}")
     return shoppers
 
+
+def on_exit():
+    Logger.info(f'Force Exit')
+    os._exit(1)
+
+
+def on_shopper_exit(shopper):
+    for stat, count in shopper.debug_stats_count.items():
+        Logger.debug(f"Saw {stat}: {count} times.")
+    on_exit()
 
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end
