@@ -39,6 +39,8 @@ class ShopperBase(abc.ABC):
         self.roi_item_stats = [0, 0, int(math.ceil(Config().ui_pos["screen_width"] // 2)), int(math.ceil(Config().ui_pos["screen_height"] - 100))]
         self.template_stat_assets = self.get_stat_template_assets()
         self.debug_stats_count = {}
+        self.debug_stat_checks = Config().shop["debug_stat_checks"]
+        self.items_bought = {}
 
     def click_tab(self, tab_index=0):
         if tab_index == 1:
@@ -74,7 +76,7 @@ class ShopperBase(abc.ABC):
         Moves the mouse over a given position coordinate
         """
         mouse.move(pos.x, pos.y, randomize=3, delay_factor=[0.5, 0.6])
-        #wait(0.05, 0.1)
+        wait(0.05, 0.1)
 
     @staticmethod
     def get_stat_template_assets():
@@ -111,6 +113,8 @@ class ShopperBase(abc.ABC):
         self.hold_move(pos_m, time_held=(duration * self.speed_factor))
 
     def check_stats(self, img):
+        if not self.debug_stat_checks:
+            return
         t = time.perf_counter()
         stat_count = 0
         for stat_asset in self.template_stat_assets:
@@ -146,6 +150,25 @@ class ShopperBase(abc.ABC):
         mouse.press(button="left")
         wait(time_held - 0.05, time_held + 0.05)
         mouse.release(button="left")
+
+    def buy_item(self, item_name):
+        if Config().shop["max_single_item_shop_quantity"] and self.items_bought.get(item_name):
+            # Item already purchased
+            Logger.debug(f"Found {item_name} but skipping because already purchased and max_single_item_shop_quantity is set to true in shop config")
+            return
+        mouse.click(button="right")
+        if not self.items_bought.get(item_name):
+            self.items_bought[item_name] = 1
+        else:
+            self.items_bought[item_name] += 1
+        Logger.debug(f"Bought {item_name} number {self.items_bought[item_name]}!")
+        if Config().shop["max_item_shop_quantity"]:
+            Logger.debug("Wrapping up shopping because item was bought and max_item_shop_quantity is set to true in shop config")
+            ShopperBase.stop_shopping()
+
+    @staticmethod
+    def stop_shopping():
+        os._exit(0)
 
 
 ShopperBase.register(tuple)

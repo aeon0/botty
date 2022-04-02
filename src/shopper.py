@@ -41,7 +41,7 @@ def main():
 
     while 1:
         keyread = keyboard.read_key()
-        if not keyread == "f12" and keyread.find("f") > -1:
+        if not keyread == "f12" and keyread.find("f") == 0:
             fkey_num = int(keyread.replace("f", "")) - 1
             Logger.info(f"Shopper selected: {shoppers[fkey_num].get_name()}")
             keyboard.remove_hotkey(Config().advanced_options["exit_key"])

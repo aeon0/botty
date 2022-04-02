@@ -29,16 +29,13 @@ class OrmusShopper(ShopperBase):
 
     def run(self):
         Logger.info(f"Personal {self.get_name()} Shopper at your service! Hang on, running some errands...")
-        Logger.debug(f"Assets found: {len(self.template_stat_assets)}")
+        Logger.debug(f"look_for_staff_of_teleportation={self.look_for_staff_of_teleportation}")
         self.get_tabs()
-        self.reset_shop()
         self.shop_loop()
 
     def shop_loop(self):
         while True:
-            Logger.debug("Clicking Ormus")
             open_npc_menu(Npc.ORMUS)
-            Logger.debug("Trading with Ormus")
             press_npc_btn(Npc.ORMUS, "trade")
             time.sleep(0.1)
 
@@ -51,7 +48,7 @@ class OrmusShopper(ShopperBase):
                     staff_keys = ["BATTLE_STAFF", "WAR_STAFF", "GNARLED_STAFF"]
                     for staff_key in staff_keys:
                         template_matches = TemplateFinder(True).search_multi(staff_key, img, threshold=0.7, roi=self.roi_vendor)
-                        Logger.debug(f"Found {len(template_matches)} {staff_key}")
+                        # Logger.debug(f"Found {len(template_matches)} {staff_key}")
                         for template_match in template_matches:
                             if template_match.valid:
                                 staff_pos.append(template_match.center)
@@ -66,9 +63,8 @@ class OrmusShopper(ShopperBase):
                         ShopperBase.mouse_over(pos)
                         img_stats = grab()
                         self.check_stats(img_stats)
-                        if TemplateFinder(True).search("SUFFIX_OF_TELEPORTATION", img_stats, roi=self.roi_item_stats,
-                                                       threshold=0.94).valid:
-                            mouse.click(button="right")
+                        if TemplateFinder(True).search("SUFFIX_OF_TELEPORTATION", img_stats, roi=self.roi_item_stats, threshold=0.94).valid:
+                            self.buy_item("staff_of_teleportation")
 
             self.reset_shop()
 
