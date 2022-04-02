@@ -18,11 +18,11 @@ if True:# or webserver_type == 1 or webserver_type == 2:
         ws.send(copy)
 
     def do_action(message):
-        if message["action"] == "update":
-            if ws.id in message["ids"]:
-                send_update()
-        elif message["action"] == "pause" or message["action"] == "resume":
-            GameController.bot.toggle_pause()
+        if ws.id in message["ids"]:
+            if message["action"] == "update":
+                    send_update()
+            elif message["action"] == "pause" or message["action"] == "resume":
+                GameController.bot.toggle_pause()
 
         
 
