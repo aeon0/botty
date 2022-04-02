@@ -18,6 +18,15 @@ from messages import Messenger
 
 
 class OrmusShopper(ShopperBase):
+    """
+    Shop at Ormus for staves of teleportation, life tap and lower resist wands
+
+    In order to start the shopping bot:
+    1. Run this file in Python.
+    2. Be in game in Kurast Docks (act 3 town).
+    3. Stand close to Ormus and the Ziggurat stairs.
+    4. While being in game, the hotkey corresponding to Ormus
+    """
 
     def __init__(self):
         self.look_for_staff_of_teleportation = Config().shop["shop_weapon_teleport"]

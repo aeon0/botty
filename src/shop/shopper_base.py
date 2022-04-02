@@ -151,7 +151,7 @@ class ShopperBase(abc.ABC):
         mouse.move(x, y, randomize=5, delay_factor=[factor * 0.1, factor * 0.14])
         wait(0.012, 0.02)
         mouse.press(button="left")
-        wait(time_held - 0.05, time_held + 0.05)
+        wait(time_held, time_held + 0.05)
         mouse.release(button="left")
 
     def buy_item(self, item_name):
@@ -176,39 +176,46 @@ class ShopperBase(abc.ABC):
     def search_for_staff_of_teleportation(self):
         if self.look_for_staff_of_teleportation:
             self.search_for_item(
-                "staff_of_teleportation",
-                ["BATTLE_STAFF",
+                item_description="staff_of_teleportation",
+                item_type_asset_keys=["BATTLE_STAFF",
                  "WAR_STAFF", "GNARLED_STAFF"],
-                0.7,
-                ["SUFFIX_OF_TELEPORTATION"],
-                0.94)
+                item_stat_asset_keys_required=["SUFFIX_OF_TELEPORTATION"])
 
     def search_for_wand_of_life_tap(self):
         if self.look_for_wand_of_life_tap:
             self.search_for_item(
-                "wand_of_life_tap",
-                ["BONE_WAND",
+                item_description="wand_of_life_tap",
+                item_type_asset_keys=["BONE_WAND",
                  "GRIM_WAND", "YEW_WAND", "WAND"],
-                0.7,
-                ["SUFFIX_OF_LIFE_TAP"],
-                0.94)
+                item_stat_asset_keys_required=["SUFFIX_OF_LIFE_TAP"])
 
     def search_for_wand_of_lower_resist(self):
         if self.look_for_wand_of_lower_resist:
             self.search_for_item(
-                "wand_of_lower_resist",
-                ["BONE_WAND",
+                item_description="wand_of_lower_resist",
+                item_type_asset_keys=["BONE_WAND",
                  "GRIM_WAND", "YEW_WAND", "WAND"],
-                0.7,
-                ["SUFFIX_OF_LOWER_RESIST"],
-                0.94)
+                item_stat_asset_keys_required=["SUFFIX_OF_LOWER_RESIST"])
+
+    def search_for_leaf_runeword_base(self):
+        if self.look_for_leaf_runeword_base:
+            self.search_for_item(
+                item_description="leaf_runeword_base",
+                item_type_asset_keys=["SHORT_STAFF", "LONG_STAFF"],
+                item_stat_asset_keys_required=["2_SOCKETED"],
+                item_stat_asset_keys_avoid=["PREFIX_MECHANICS"],
+                item_misc_stat_asset_keys=["3_TO_ENCHANT", "3_TO_FIRE_BALL", "3_TO_FIRE_WALL", "3_TO_STATIC_FIELD", "3_TO_WARMTH", "3_TO_FIRE_BOLT", "3_TO_METEOR"],
+                min_misc_stats=2)
 
     def search_for_item(
             self,
             item_description="",
             item_type_asset_keys=[],
             item_type_asset_threshold=0.7,
-            item_stat_asset_keys=[],
+            item_stat_asset_keys_required=[],
+            item_stat_asset_keys_avoid=[],
+            item_misc_stat_asset_keys=[],
+            min_misc_stats=0,
             item_stat_asset_threshold=0.94):
 
         item_pos = []
@@ -218,7 +225,7 @@ class ShopperBase(abc.ABC):
             img = grab().copy()
             template_matches = TemplateFinder(True).search_multi(item_key, img, threshold=item_type_asset_threshold,
                                                                  roi=self.roi_vendor)
-            # Logger.debug(f"Found {len(template_matches)} {item_key}")
+            # Logger.debug(f"Matched {len(template_matches)} of {item_key}")
             for template_match in template_matches:
                 if template_match.valid:
                     item_pos.append(template_match.center)
@@ -228,13 +235,31 @@ class ShopperBase(abc.ABC):
             item_pos_sorted.append(coord)
         item_pos_sorted.sort(key=lambda x: (x.y, x.x))
         for pos in item_pos_sorted:
+            avoid_item = False
             ShopperBase.mouse_over(pos)
             img_stats = grab()
             self.check_stats(img_stats)
-            for item_stat_asset_key in item_stat_asset_keys:
-                if TemplateFinder(True).search(item_stat_asset_key, img_stats, roi=self.roi_item_stats,
+            for item_stat_asset_key_avoid in item_stat_asset_keys_avoid:
+                if TemplateFinder(True).search(item_stat_asset_key_avoid, img_stats, roi=self.roi_item_stats,
                                                threshold=item_stat_asset_threshold).valid:
-                    self.buy_item(item_description)
+                    avoid_item = True
+            if avoid_item:
+                Logger.debug(f"Matched avoidable stat. Skipping item.")
+                continue
+            for item_stat_asset_key_required in item_stat_asset_keys_required:
+                if TemplateFinder(True).search(item_stat_asset_key_required, img_stats, roi=self.roi_item_stats,
+                                               threshold=item_stat_asset_threshold).valid:
+                    Logger.debug(f"Matched {item_stat_asset_key_required}")
+                    if item_misc_stat_asset_keys is None or min_misc_stats == 0:
+                        self.buy_item(item_description)
+                    misc_stat_count = 0
+                    for item_misc_stat_asset_key in item_misc_stat_asset_keys:
+                        if TemplateFinder(True).search(item_misc_stat_asset_key, img_stats, roi=self.roi_item_stats,
+                                                       threshold=item_stat_asset_threshold).valid:
+                            misc_stat_count += 1
+                            Logger.debug(f"Matched {item_misc_stat_asset_key}. Misc stat {misc_stat_count} of {min_misc_stats}")
+                            if misc_stat_count >= min_misc_stats:
+                                self.buy_item(item_description)
         return
 
 
