@@ -12,7 +12,8 @@ from config import Config
 from inventory import common
 from ui import view, meters
 from ui_manager import ScreenObjects, is_visible
-from bot_info import BOT_DATA
+from bot_events import hook
+
 pause_state = True
 
 def get_pause_state():
@@ -83,47 +84,14 @@ class HealthManager:
             if self._did_chicken or get_pause_state(): continue
             img = grab()
             if is_visible(ScreenObjects.InGame, img):
-                health_percentage = meters.get_health(img)
-                mana_percentage = meters.get_mana(img)
-                BOT_DATA["char_health_percentage"] = health_percentage
-                BOT_DATA["char_mana_percentage"] = mana_percentage
-                
-                # check rejuv
-                success_drink_rejuv = False
-                last_drink = time.time() - self._last_rejuv
-                if (health_percentage < Config().char["take_rejuv_potion_health"] and last_drink > 1) or \
-                   (mana_percentage < Config().char["take_rejuv_potion_mana"] and last_drink > 2):
-                    success_drink_rejuv = belt.drink_potion("rejuv", stats=[health_percentage, mana_percentage])
-                    self._last_rejuv = time.time()
-                # in case no rejuv was used, check for chicken, health pot and mana pot usage
-                if not success_drink_rejuv:
-                    # check health
-                    last_drink = time.time() - self._last_health
-                    if health_percentage < Config().char["take_health_potion"] and last_drink > 3.5:
-                        belt.drink_potion("health", stats=[health_percentage, mana_percentage])
-                        self._last_health = time.time()
-                    # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
-                    elif health_percentage < Config().char["chicken"] and (time.time() - start) > 6:
-                        Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
-                        self._do_chicken(img)
-                    # check mana
-                    last_drink = time.time() - self._last_mana
-                    if mana_percentage < Config().char["take_mana_potion"] and last_drink > 4:
-                        belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
-                        self._last_mana = time.time()
-                # check merc
+                localplayer_health_percentage = meters.get_health(img)
+                localplayer_mana_percentage = meters.get_mana(img)
+                merc_health_percentage = meters.get_merc_health(img)
+
+                hook.Call("on_self_health_update", health_percentage=localplayer_health_percentage, mana_percentage=localplayer_mana_percentage, img=img, instance=self)
                 if is_visible(ScreenObjects.MercIcon, img):
-                    merc_health_percentage = meters.get_merc_health(img)
-                    last_drink = time.time() - self._last_merc_heal
-                    if merc_health_percentage < Config().char["merc_chicken"]:
-                        Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
-                        self._do_chicken(img)
-                    if merc_health_percentage < Config().char["heal_rejuv_merc"] and last_drink > 4.0:
-                        belt.drink_potion("rejuv", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_heal = time.time()
-                    elif merc_health_percentage < Config().char["heal_merc"] and last_drink > 7.0:
-                        belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
-                        self._last_merc_heal = time.time()
+                    hook.Call("on_merc_health_update", health_percentage=merc_health_percentage, img=img, instance=self)
+
                 if is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img):
                     Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
                     self._count_panel_detects += 1
@@ -132,6 +100,7 @@ class HealthManager:
                         Logger.warning(f"Found an open inventory / quest / skill / stats page again. Chicken to dismiss.")
                         self._do_chicken(img)
                     common.close()
+                    
         Logger.debug("Stop health monitoring")
 
 

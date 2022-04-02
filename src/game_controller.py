@@ -15,9 +15,11 @@ from messages import Messenger
 from screen import grab, get_offset_state
 from utils.restart import restart_game, kill_game
 from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
-
+from bot_events import hook
 
 class GameController:
+    bot = None
+
     def __init__(self):
         self.is_running = False
         self.health_monitor_thread = None
@@ -28,17 +30,17 @@ class GameController:
         self.game_stats = None
         self.game_controller_thread = None
         self.bot_thread = None
-        self.bot = None
+        GameController.bot = None
 
     def run_bot(self):
         # Start bot thread
-        self.bot = Bot(self.game_stats)
-        self.bot_thread = threading.Thread(target=self.bot.start)
+        GameController.bot = Bot(self.game_stats)
+        self.bot_thread = threading.Thread(target=GameController.bot.start)
         self.bot_thread.daemon = True
         self.bot_thread.start()
         # Register that thread to the death and health manager so they can stop the bot thread if needed
-        self.death_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
-        self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
+        self.death_manager.set_callback(lambda: GameController.bot.stop() or kill_thread(self.bot_thread))
+        self.health_manager.set_callback(lambda: GameController.bot.stop() or kill_thread(self.bot_thread))
         do_restart = False
         messenger = Messenger()
         while 1:
@@ -54,7 +56,7 @@ class GameController:
                     self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
                     self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
-                self.bot.stop()
+                GameController.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
                 if max_consecutive_fails_reached:
@@ -66,6 +68,7 @@ class GameController:
                 else:
                     do_restart = self.game_recovery.go_to_hero_selection()
                 break
+            hook.Call("bot_loop")
             time.sleep(0.5)
         self.bot_thread.join()
         if do_restart:
@@ -145,8 +148,8 @@ class GameController:
         self.game_controller_thread.start()
 
     def toggle_pause_bot(self):
-        if self.bot:
-            self.bot.toggle_pause()
+        if GameController.bot:
+            GameController.bot.toggle_pause()
 
     def safe_exit(self, error_code=0):
         kill_game()

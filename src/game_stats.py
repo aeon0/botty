@@ -1,24 +1,15 @@
-import math
 import numpy as np
 import time
-import threading
-import inspect
-from beautifultable import BeautifulTable
-
 from logger import Logger
 from config import Config
-from messages import Messenger
-from utils.misc import hms
 from utils.levels import get_level
 from version import __version__
-
 from ui import player_bar
-from bot_events import callback_call
+from bot_events import hook
 
 
 class GameStats:
     def __init__(self):
-        self._messenger = Messenger()
         self._start_time = time.time()
         self._timer = None
         self._timepaused = None
@@ -57,49 +48,53 @@ class GameStats:
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
-        if send_message:
-            self._messenger.send_item(item_name, img, self._location, ocr_text)
-        callback_call("on_item_keep", item_name, ocr_text, instance=self)
+        hook.Call("on_item_keep", item_name=item_name, img=img, location=self._location, ocr_text=ocr_text, send_message=send_message, instance=self)
         
 
     def log_death(self, img: str):
         self._death_counter += 1
-        callback_call("on_death", self._death_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
 
+        hook.Call("on_death", count=self._death_counter, location=self._location, img=img, instance=self)
 
-        self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
         self._chicken_counter += 1
-        callback_call("on_chicken", self._chicken_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
             
-
-        self._messenger.send_chicken(self._location, img)
+        hook.Call("on_chicken", count=self._chicken_counter, location=self._location, instance=self)
 
     def log_merc_death(self):
         self._merc_death_counter += 1
-        callback_call("on_merc_death", self._merc_death_counter, self._location, instance=self)
         if self._location is not None:
             self._location_stats[self._location]["merc_deaths"] += 1
             self._location_stats["totals"]["merc_deaths"] += 1
 
+        hook.Call("on_merc_death", count=self._merc_death_counter, location=self._location, instance=self)
+        
+
     def log_start_game(self):
-        if self._game_counter > 0:
-            self._save_stats_to_file()
-            if Config().general["discord_status_count"] and self._game_counter % Config().general["discord_status_count"] == 0:
-                # every discord_status_count game send a message update about current status
-                self._send_status_update()
         self._timer = time.time()
         self._game_counter += 1
         self._location_stats["totals"]["runs"] += 1
-        callback_call("on_run", self._game_counter, instance=self)
         Logger.info(f"Starting game #{self._game_counter}")
+
+        hook.Call("on_run", 
+            runs=self._game_counter, 
+            deaths=self._death_counter, 
+            chickens=self._chicken_counter, 
+            merc_deaths=self._merc_death_counter, 
+            failed_runs=self._runs_failed,
+            items=self._location_stats["totals"]["items"],
+            location=self._location,
+            location_stats=self._location_stats,
+            instance=self
+        )
+
 
     def log_end_game(self, failed: bool = False):
         elapsed_time = 0
@@ -109,12 +104,12 @@ class GameStats:
         if failed:
             self._runs_failed += 1
             self._consecutive_runs_failed += 1
-            callback_call("on_failed_run", self._runs_failed, self._consecutive_runs_failed, instance=self)
             if self._location is not None:
                 self._location_stats[self._location]["failed_runs"] += 1
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
             Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
+            hook.Call("on_failed_run", count=self._runs_failed, consecutive_count=self._consecutive_runs_failed, instance=self)
         else:
             self._consecutive_runs_failed = 0
             
@@ -140,7 +135,7 @@ class GameStats:
             return
         self._timepaused = time.time()
         self._paused = True
-        callback_call("on_pause", instance=self)
+        hook.Call("on_pause", paused=self._paused)
 
 
     def resume_timer(self):
@@ -149,7 +144,7 @@ class GameStats:
         pausetime = time.time() - self._timepaused
         self._timer = self._timer + pausetime
         self._paused = False
-        callback_call("on_resume", instance=self)
+        hook.Call("on_resume", paused=self._paused)
 
     def get_current_game_length(self):
         if self._timer is None:
@@ -161,85 +156,6 @@ class GameStats:
 
     def get_consecutive_runs_failed(self):
         return self._consecutive_runs_failed
-
-    def _create_msg(self):
-        elapsed_time = time.time() - self._start_time
-        elapsed_time_str = hms(elapsed_time)
-        avg_length_str = "n/a"
-        good_games_count = self._game_counter - self._runs_failed
-        good_games_time = elapsed_time - self._failed_game_time
-
-        if good_games_count == 0:
-            good_games_count = 1
-
-        avg_length = good_games_time / float(good_games_count)
-        avg_length_str = hms(avg_length)
-
-        # curr_lvl = get_level(self._current_lvl)
-        # exp_gained = self._current_exp - curr_lvl['exp']
-        # per_to_lvl = exp_gained / curr_lvl["xp_to_next"]
-        # gained_exp = self._current_exp - self._starting_exp
-        # exp_per_second = gained_exp / good_games_time
-        # exp_per_hour = round(exp_per_second * 3600, 1)
-        # exp_per_game = round(gained_exp / float(good_games_count), 1)
-        # exp_needed = curr_lvl['xp_to_next'] - exp_gained
-        # time_to_lvl = exp_needed / exp_per_second
-        # games_to_lvl = exp_needed / exp_per_game
-
-        msg = f'\nSession length: {elapsed_time_str}'
-        msg += f'\nGames: {self._game_counter}'
-        msg += f'\nAvg Game Length: {avg_length_str}'
-        # msg += f'\nCurrent Level: {curr_lvl["lvl"]}'
-        # msg += f'\nPercent to Level: {math.ceil(per_to_lvl*100)}%'
-        # msg += f'\nXP Gained: {gained_exp:,}'
-        # msg += f'\nXP Per Hour: {exp_per_hour:,}'
-        # msg += f'\nXP Per Game: {exp_per_game:,}'
-        # msg += f'\nTime Needed To Level: {hms(time_to_lvl)}'
-        # msg += f'\nGames Needed To Level: {math.ceil(games_to_lvl):,}'
-
-        table = BeautifulTable()
-        table.set_style(BeautifulTable.STYLE_BOX_ROUNDED)
-        for location in self._location_stats:
-            if location == "totals":
-                continue
-            stats = self._location_stats[location]
-            table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
-
-        table.rows.append([
-            "T" if Config().general['discord_status_condensed'] else "Total",
-            self._location_stats["totals"]["items"],
-            self._location_stats["totals"]["chickens"],
-            self._location_stats["totals"]["deaths"],
-            self._location_stats["totals"]["merc_deaths"],
-            self._location_stats["totals"]["failed_runs"]
-        ])
-
-        if Config().general['discord_status_condensed']:
-            table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
-        else:
-            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]
-
-        msg += f"\n{str(table)}\n"
-        return msg
-
-    def _send_status_update(self):
-        msg = f"Status Report\n{self._create_msg()}\nVersion: {__version__}"
-        self._messenger.send_message(msg)
-
-    def _save_stats_to_file(self):
-        msg = self._create_msg()
-        msg += "\nItems:"
-        for location in self._location_stats:
-            if location == "totals":
-                continue
-            stats = self._location_stats[location]
-            msg += f"\n  {location}:"
-            for item_name in stats["items"]:
-                msg += f"\n    {item_name}"
-
-        with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
-            f.write(msg)
-
 
 
 if __name__ == "__main__":

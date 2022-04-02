@@ -48,6 +48,7 @@ class Config:
     necro = {}
     basic = {}
     basic_ranged = {}
+    webserver = {}
 
     _instance = None
 
@@ -226,6 +227,8 @@ class Config:
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
         }
 
+        
+
         # Added for dclone ip hunting
         self.dclone = {
             "region_ips": self._select_val("dclone", "region_ips"),
@@ -367,6 +370,11 @@ class Config:
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
+        }
+
+        self.webserver = {
+            "enable": int(self._select_val("webserver", "enable")),
+            "port": int(self._select_val("webserver", "port")),
         }
 
         self.items = {}

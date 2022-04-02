@@ -40,8 +40,7 @@ from town import TownManager, A1, A2, A3, A4, A5, town_manager
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
-from bot_info import BOT_DATA
-from bot_events import callback_call
+from bot_events import hook
 
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
@@ -149,7 +148,7 @@ class Bot:
         self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
         self._transmute = Transmute(self._game_stats)
 
-        callback_call("on_bot_init", instance=self)
+        hook.Call("on_bot_init", instance=self)
 
 
     def draw_graph(self):
@@ -236,7 +235,7 @@ class Bot:
             view.move_to_corpse()
         else: return
         self.trigger_or_stop("start_from_town")
-        callback_call("on_create_game", instance=self)
+        hook.Call("on_create_game", instance=self)
 
     def on_start_from_town(self):
         self._curr_loc = self._town_manager.wait_for_town_spawn()
@@ -414,30 +413,8 @@ class Bot:
         self._pre_buffed = False
         view.save_and_exit()
         set_pause_state(True)
-        self._game_stats.log_end_game(failed=failed)
-
-        if Config().general["max_runtime_before_break_m"] and Config().general["break_length_m"]:
-            elapsed_time = time.time() - self._timer
-            Logger.debug(f'Session length = {math.ceil(elapsed_time/60)} minutes, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]}.')
-
-            if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
-                break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
-                Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
-                if not self._pausing:
-                    self.toggle_pause()
-
-                wait(Config().general["break_length_m"]*60)
-
-                break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
-                Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
-                if self._pausing:
-                    self.toggle_pause()
-
-                self._timer = time.time()
-        
-        callback_call("on_end_game", failed=failed, instance=self)
+        self._game_stats.log_end_game(failed=failed)       
+        hook.Call("on_end_game", failed=failed, instance=self)
 
 
         self._do_runs = copy(self._do_runs_reset)
@@ -458,7 +435,7 @@ class Bot:
             consumables.set_needs("tp", 20)
         set_pause_state(True)
         self.trigger_or_stop("end_game", failed=True)
-        callback_call("on_end_run", instance=self)
+        hook.Call("on_end_run", instance=self)
 
     # All the runs go here
     # ==================================
@@ -487,7 +464,7 @@ class Bot:
             set_pause_state(False)
             res = self._pindle.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-        callback_call("on_run_pindle", instance=self)
+        hook.Call("on_run_pindle", instance=self)
 
     def on_run_shenk(self):
         res = False
@@ -497,7 +474,7 @@ class Bot:
             set_pause_state(False)
             res = self._shenk.battle(Config().routes["run_shenk"], not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
-        callback_call("on_run_shenk", instance=self)
+        hook.Call("on_run_shenk", instance=self)
 
     def on_run_trav(self):
         res = False
@@ -508,7 +485,7 @@ class Bot:
             set_pause_state(False)
             res = self._trav.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-        callback_call("on_run_trav", instance=self)
+        hook.Call("on_run_trav", instance=self)
 
     def on_run_nihlathak(self):
         res = False
@@ -519,7 +496,7 @@ class Bot:
             set_pause_state(False)
             res = self._nihlathak.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-        callback_call("on_run_nihlathak", instance=self)
+        hook.Call("on_run_nihlathak", instance=self)
 
     def on_run_arcane(self):
         res = False
@@ -530,7 +507,7 @@ class Bot:
             set_pause_state(False)
             res = self._arcane.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-        callback_call("on_run_arcane", instance=self)
+        hook.Call("on_run_arcane", instance=self)
 
     def on_run_diablo(self):
         res = False
@@ -541,4 +518,4 @@ class Bot:
             set_pause_state(False)
             res = self._diablo.battle(not self._pre_buffed)
         self._ending_run_helper(res)
-        callback_call("on_run_diablo", instance=self)
+        hook.Call("on_run_diablo", instance=self)

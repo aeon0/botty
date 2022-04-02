@@ -1,6 +1,12 @@
-from logger import Logger
+from types import SimpleNamespace
+import inspect
 
-callbacks = {
+_callbacks = { 
+    # even though the hook.Add function will automatically key:value and put it in here if it doesn't exist,
+    # be nice to other developers and make sure you put it in here so they know it exists
+    # thanks
+    
+    # bot hooks
     "on_bot_init": {},
 
     "on_create_game": {},
@@ -24,40 +30,47 @@ callbacks = {
     "on_merc_death": {},
     "on_failed_run": {},
 
-    "on_health_mana_update": {},
+    "on_self_health_update": {},
+    "on_merc_health_update": {},
+
+    "bot_loop": {},
+
+
+    # websockets / website hooks
+    "recv_website_request": {},
 }
 
-def callback_register(callback_type, unique_identifier, callback, *args, instance=None):
-    def cb(*args, **kwargs):
-        return callback(*args, **kwargs)
-    callbacks[callback_type][unique_identifier] = cb
 
-def callback_unregister(callback_type, unique_identifier):
-    del callbacks[callback_type][unique_identifier]
+def _add(callback_type, unique_identifier, callback):
+    def cb(**kwargs):
 
-def callback_exists(callback_type, unique_identifier):
-    return unique_identifier in callbacks[callback_type]
+        caller_kwargs = inspect.stack()[1][0].f_locals["kwargs"]
+        callback_args = inspect.getfullargspec(callback).args
+
+        new_kwargs = {}
+        for arg in callback_args:
+            if arg in caller_kwargs:
+                new_kwargs[arg] = caller_kwargs[arg]
+            else:
+                new_kwargs[arg] = None
+        return callback(**new_kwargs)
+
+    if not _callbacks[callback_type]:
+        _callbacks[callback_type] = {}
+    _callbacks[callback_type][unique_identifier] = cb
+
+def _remove(callback_type, unique_identifier):
+    del _callbacks[callback_type][unique_identifier]
+
+def _exists(callback_type, unique_identifier):
+    return unique_identifier in _callbacks[callback_type]
     
-def callback_call(callback_type, *args, **kwargs):
-    for callback in callbacks[callback_type].values():
-        callback(*args, **kwargs)
+def _call(callback_type, **kwargs):
+    for callback in _callbacks[callback_type].values():
+        callback(**kwargs)
 
-# callback_register("on_bot_init", lambda: print("on_bot_init"))
-# callback_register("on_game_create", lambda: print("on_game_create"))
-# callback_register("on_game_end", lambda: print("on_game_end"))
-# callback_register("on_pindle_run", lambda: print("on_pindle_run"))
-# callback_register("on_shenk_run", lambda: print("on_shenk_run"))
-# callback_register("on_trav_run", lambda: print("on_trav_run"))
-# callback_register("on_nihlathak_run", lambda: print("on_nihlathak_run"))
-# callback_register("on_arcane_run", lambda: print("on_arcane_run"))
-# callback_register("on_diablo_run", lambda: print("on_diablo_run"))
-# callback_register("on_run_end", lambda: print("on_run_end"))
-# callback_register("on_pause", lambda: print("on_pause"))
-# callback_register("on_resume", lambda: print("on_resume"))
-# callback_register("on_item_keep", lambda: print("on_item_keep"))
-# callback_register("on_run", lambda: print("on_run"))
-# callback_register("on_death", lambda: print("on_death"))
-# callback_register("on_chicken", lambda: print("on_chicken"))
-# callback_register("on_merc_death", lambda: print("on_merc_death"))
-# callback_register("on_failed_run", lambda: print("on_failed_run"))
-
+hook = SimpleNamespace()
+hook.Add = _add
+hook.Remove = _remove
+hook.Exists = _exists
+hook.Call = _call
