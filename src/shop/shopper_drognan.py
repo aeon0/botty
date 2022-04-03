@@ -142,8 +142,8 @@ class DrognanShopper(ShopperBase):
         # This can probably be tweaked but seems to work well enough for now.
 
         # Exit town
-        self.move_shopper(200, -100, 5)
-        self.move_shopper(-200, 100, 4)
+        self.move_shopper(200, -100, 2.5)
+        self.move_shopper(-200, 100, 2)
 
 
     def get_tabs(self):

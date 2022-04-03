@@ -100,12 +100,9 @@ class ShopperBase(abc.ABC):
         Faster run walk is not linear and diminishing returns should be calculated
         """
         speed = Config().shop["faster_run_walk"]
-        if speed < 1:
-            speed = 1.0
-        else:
-            speed = round((((150 * speed) / (150 + speed)) / 100.0), 2)
-        Logger.debug(f"Effective Run Walk Factor: {speed * 100}%")
-        return speed
+        speed = round(((150 * speed) / (150 + speed)), 2)
+        Logger.debug(f"Effective Run Walk Factor: {speed}%")
+        return round((speed + 100) / 100.0, 2)
 
     def move_shopper(self, x, y, duration):
         """
@@ -113,7 +110,7 @@ class ShopperBase(abc.ABC):
         """
         pos_m = convert_abs_to_monitor((x, y))
         mouse.move(pos_m[0], pos_m[1])
-        self.hold_move(pos_m, time_held=(duration * self.speed_factor))
+        self.hold_move(pos_m, time_held=(duration / self.speed_factor))
 
     def check_stats(self, img):
         if not self.debug_stat_checks:
@@ -214,8 +211,7 @@ class ShopperBase(abc.ABC):
             self.search_for_item(
                 item_description="warcry_weapon",
                 item_type_asset_keys=["GREAT_SWORD", "WAR_AXE", "FLAMBERGE", "WAR_SWORD", "GREAT_SWORD", "BASTARD_SWORD", "CRYSTAL_SWORD"],
-                item_stat_asset_keys_required=["3_TO_WARCRIES"],
-                item_stat_asset_threshold=0.97
+                item_stat_asset_keys_required=["PREFIX_ECHOING"]
             )
 
     def search_for_warcry_stick(self):
@@ -223,8 +219,7 @@ class ShopperBase(abc.ABC):
             self.search_for_item(
                 item_description="warcry_stick",
                 item_type_asset_keys=["GLAIVE", "THROWING_SPEAR"],
-                item_stat_asset_keys_required=["3_TO_WARCRIES"],
-                item_stat_asset_threshold=0.97
+                item_stat_asset_keys_required=["PREFIX_ECHOING"]
             )
 
     def search_for_jewelers_armor_of_the_whale(self):
@@ -253,7 +248,8 @@ class ShopperBase(abc.ABC):
                 item_description="resist_belt_of_wealth",
                 item_type_asset_keys=["PLATED_BELT"],
                 item_stat_asset_keys_required=["SUFFIX_OF_WEALTH"],
-                item_misc_stat_asset_keys=["PREFIX_COBALT", "PREFIX_CORAL", "PREFIX_GARNET"]
+                item_misc_stat_asset_keys=["PREFIX_COBALT", "PREFIX_CORAL", "PREFIX_GARNET"],
+                min_misc_stats=1
             )
 
     def search_for_artisans_helm_of_the_whale(self):

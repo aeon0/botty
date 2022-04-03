@@ -72,9 +72,9 @@ class OrmusShopper(ShopperBase):
         # Move out of the nook
         self.move_shopper(-150, -100, 0.8)
         # Move to the bridge
-        self.move_shopper(200, -120, 9.2)
+        self.move_shopper(200, -120, 8.5)
         # Come back across bridge
-        self.move_shopper(-200, 120, 8.7)
+        self.move_shopper(-200, 120, 8.5)
         # Turn around ziggurat
         self.move_shopper(-150, -100, 0.9)
 

@@ -72,7 +72,7 @@ class AkaraShopper(ShopperBase):
         Should be near Akara before and after script runs
         """
         self.move_shopper(-150, 100, 0.1)
-        self.move_shopper(-200, -120, 2.4)
+        self.move_shopper(-200, -120, 1.7)
         self._curr_loc = Location.A1_WP_SOUTH
         self.camp.open_wp(self._curr_loc)
         wait(0.1, 0.4)
@@ -81,8 +81,7 @@ class AkaraShopper(ShopperBase):
             self.camp.open_wp(Location.A1_WP_SOUTH)
             waypoint.use_wp("Rouge Encampment")
             wait(0.2, 0.4)
-            self.move_shopper(-150, 100, 0.1)
-            self.move_shopper(200, 120, 3.0)
+            self.move_shopper(200, 120, 1.7)
             self.move_shopper(15, 10, 0.2)
 
 
