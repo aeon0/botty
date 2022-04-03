@@ -194,7 +194,7 @@ class GameStats:
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
 
         table.rows.append([
-            "T" if Config().general['discord_status_condensed'] else "Total",
+            "T",
             self._location_stats["totals"]["items"],
             self._location_stats["totals"]["chickens"],
             self._location_stats["totals"]["deaths"],
@@ -202,10 +202,7 @@ class GameStats:
             self._location_stats["totals"]["failed_runs"]
         ])
 
-        if Config().general['discord_status_condensed']:
-            table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
-        else:
-            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]
+        table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
 
         msg += f"\n{str(table)}\n"
         return msg
