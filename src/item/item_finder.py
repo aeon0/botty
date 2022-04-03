@@ -140,19 +140,31 @@ class ItemFinder:
 
 # Testing: Throw some stuff on the ground see if it is found
 if __name__ == "__main__":
-    from screen import grab
-    from config import Config
+    import keyboard
+    import os
+    from screen import start_detecting_window, grab
+    from logger import Logger
+    from d2r_image import processing as d2r_image
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
 
-    item_finder = ItemFinder()
     while 1:
-        # img = cv2.imread("")
-        img = grab().copy()
-        item_list = item_finder.search(img)
-        for item in item_list:
-            # print(item.name + " " + str(item.score))
-            cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
-            cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
-            cv2.putText(img, item.ocr_result["text"], item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        # img = cv2.resize(img, None, fx=0.5, fy=0.5)
-        cv2.imshow('test', img)
-        cv2.waitKey(1)
+        print(d2r_image.get_ground_loot(grab()))
+        cv2.waitKey(5000)
+
+
+    # item_finder = ItemFinder()
+    # while 1:
+    #     # img = cv2.imread("")
+    #     img = grab().copy()
+    #     item_list = item_finder.search(img)
+    #     for item in item_list:
+    #         # print(item.name + " " + str(item.score))
+    #         cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
+    #         cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
+    #         cv2.putText(img, item.ocr_result["text"], item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    #     # img = cv2.resize(img, None, fx=0.5, fy=0.5)
+    #     cv2.imshow('test', img)
+    #     cv2.waitKey(1)

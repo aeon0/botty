@@ -4,7 +4,6 @@ from dataclasses import dataclass
 import time
 
 from utils.misc import color_filter, erode_to_black
-from template_finder import TemplateFinder
 from config import Config
 from logger import Logger
 from d2r_image import ocr
@@ -104,9 +103,6 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-
-    keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper()
 
     while 1:
         img = grab().copy()
