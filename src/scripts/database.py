@@ -1,4 +1,3 @@
-from asyncore import write
 import shelve
 from bot_events import hook
 
