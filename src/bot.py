@@ -430,12 +430,23 @@ class Bot:
             self._curr_loc = self._town_manager.wait_for_tp(self._curr_loc)
             if self._curr_loc:
                 set_pause_state(True)
+                hook.Call("on_end_run",
+                    runs=self._game_stats._run_counter,
+                    deaths=self._game_stats._death_counter,
+                    chickens=self._game_stats._chicken_counter,
+                    merc_deaths=self._game_stats._merc_death_counter,
+                    failed_runs=self._game_stats._runs_failed,
+                    items=self._location_stats["totals"]["items"],
+
+                    failed=False,
+                    instance=self
+                )
                 return self.trigger_or_stop("maintenance")
         if not skills.has_tps():
             consumables.set_needs("tp", 20)
         set_pause_state(True)
         self.trigger_or_stop("end_game", failed=True)
-        hook.Call("on_end_run", instance=self)
+        hook.Call("on_end_run", failed=True, instance=self)
 
     # All the runs go here
     # ==================================

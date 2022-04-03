@@ -18,7 +18,7 @@ from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_vi
 from bot_events import hook
 
 class GameController:
-    bot = None
+    bot = None # Allows for GameController.bot to be accessed anywhere by just importing GameController
 
     def __init__(self):
         self.is_running = False

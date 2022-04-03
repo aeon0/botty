@@ -48,7 +48,14 @@ class GameStats:
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
-        hook.Call("on_item_keep", item_name=item_name, img=img, location=self._location, ocr_text=ocr_text, send_message=send_message, instance=self)
+        hook.Call("on_item_keep", 
+            item_name=item_name, 
+            img=img, 
+            location=self._location, 
+            ocr_text=ocr_text, 
+            send_message=send_message, 
+            instance=self
+        )
         
 
     def log_death(self, img: str):
@@ -57,7 +64,11 @@ class GameStats:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
 
-        hook.Call("on_death", count=self._death_counter, location=self._location, img=img, instance=self)
+        hook.Call("on_death", count=self._death_counter, 
+            location=self._location, 
+            img=img, 
+            instance=self
+        )
 
 
     def log_chicken(self, img: str):
@@ -66,7 +77,11 @@ class GameStats:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
             
-        hook.Call("on_chicken", count=self._chicken_counter, location=self._location, instance=self)
+        hook.Call("on_chicken", 
+            count=self._chicken_counter, 
+            location=self._location, 
+            instance=self
+        )
 
     def log_merc_death(self):
         self._merc_death_counter += 1
@@ -74,7 +89,11 @@ class GameStats:
             self._location_stats[self._location]["merc_deaths"] += 1
             self._location_stats["totals"]["merc_deaths"] += 1
 
-        hook.Call("on_merc_death", count=self._merc_death_counter, location=self._location, instance=self)
+        hook.Call("on_merc_death", 
+            count=self._merc_death_counter, 
+            location=self._location, 
+            instance=self
+        )
         
 
     def log_start_game(self):
@@ -109,7 +128,11 @@ class GameStats:
                 self._location_stats["totals"]["failed_runs"] += 1
             self._failed_game_time += elapsed_time
             Logger.warning(f"End failed game: Elapsed time: {elapsed_time:.2f}s Fails: {self._consecutive_runs_failed}")
-            hook.Call("on_failed_run", count=self._runs_failed, consecutive_count=self._consecutive_runs_failed, instance=self)
+            hook.Call("on_failed_run", 
+                count=self._runs_failed, 
+                consecutive_count=self._consecutive_runs_failed, 
+                instance=self
+            )
         else:
             self._consecutive_runs_failed = 0
             

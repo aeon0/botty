@@ -88,10 +88,19 @@ class HealthManager:
                 localplayer_mana_percentage = meters.get_mana(img)
                 merc_health_percentage = meters.get_merc_health(img)
 
-                hook.Call("on_self_health_update", health_percentage=localplayer_health_percentage, mana_percentage=localplayer_mana_percentage, img=img, instance=self)
+                hook.Call("on_self_health_update", 
+                    health_percentage=localplayer_health_percentage, 
+                    mana_percentage=localplayer_mana_percentage, 
+                    img=img, 
+                    instance=self
+                )
+                
                 if is_visible(ScreenObjects.MercIcon, img):
-                    hook.Call("on_merc_health_update", health_percentage=merc_health_percentage, img=img, instance=self)
-
+                    hook.Call("on_merc_health_update", 
+                        health_percentage=merc_health_percentage, 
+                        img=img, 
+                        instance=self
+                    )
                 if is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img):
                     Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
                     self._count_panel_detects += 1

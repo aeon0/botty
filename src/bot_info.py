@@ -33,13 +33,14 @@ def on_init(instance):
     BOT_DATA["routes"] = instance._do_runs
     print("INIT'd")
 
-def on_run(runs, deaths, chickens, merc_deaths, items, failed_runs):
+def on_run(runs, deaths, chickens, merc_deaths, items, failed_runs, location):
     BOT_DATA["runs"] = runs
     BOT_DATA["deaths"] = deaths
     BOT_DATA["chickens"] = chickens
     BOT_DATA["merc_deaths"] = merc_deaths
     BOT_DATA["failed_runs"] = failed_runs
     BOT_DATA["items"] = items
+    BOT_DATA["current_location"] = location
 
 
 def update_pause(paused):

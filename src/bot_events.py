@@ -41,6 +41,22 @@ _callbacks = {
 }
 
 
+"""
+    This is a bit unorthodox, but the way this works is you do
+
+    hook.Call("on_pickup_item", item_name=item, location=location, ocr_text=ocr_text) you would put this line where the bot picks up an item
+
+    now for the unorthadox part, when defining your callback, you don't have to use all the arguments, you can just use the ones you want.
+    for example.
+    def log_pickup(item_name):
+        print(f"{item_name} picked up")
+    hook.Add("on_pickup_item", "unique_string", log_pickup)
+
+    this will work, even though we're not including the location and ocr_text arguments. (note that you must use the same arg keyword name though.)
+    
+"""
+
+
 def _add(callback_type, unique_identifier, callback):
     def cb(**kwargs):
 
