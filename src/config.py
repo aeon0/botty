@@ -219,7 +219,6 @@ class Config:
             "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
-            "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
