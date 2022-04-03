@@ -19,6 +19,7 @@ def process_exists(process_name):
 
 def kill_game():
     while process_exists("D2R.exe"):
+        os.system("taskkill /f /im  BlizzardError.exe")
         os.system("taskkill /f /im  D2R.exe")
         wait(1.0, 1.5)
 
