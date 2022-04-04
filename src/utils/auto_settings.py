@@ -79,10 +79,10 @@ def set_launch_settings(launch_options):
         json.dump(curr_settings, outfile, indent=4)
 
 def copy_mod_files():
-    new_path = f"{Config().general['d2r_path']}/mods"
+    new_path = f"{Config().general['d2r_path']}/mods/botty"
     try:
         shutil.rmtree(new_path)
-        shutil.copytree("assets/mods", new_path)
+        shutil.copytree("assets/mods/botty", new_path)
     except OSError as error:
         print(error)
 
