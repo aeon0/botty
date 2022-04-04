@@ -145,13 +145,17 @@ if __name__ == "__main__":
     from screen import start_detecting_window, grab
     from logger import Logger
     from d2r_image import processing as d2r_image
+    from d2r_image.demo import draw_items_on_image_data
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
     while 1:
-        print(d2r_image.get_ground_loot(grab()))
+        img=grab().copy()
+        all_loot = d2r_image.get_ground_loot(img)
+        draw_items_on_image_data(all_loot.items, img)
+        cv2.imshow('test', img)
         cv2.waitKey(5000)
 
 
