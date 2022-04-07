@@ -329,7 +329,7 @@ class Poison_Necro(IChar):
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
@@ -341,7 +341,7 @@ class Poison_Necro(IChar):
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
@@ -355,7 +355,7 @@ class Poison_Necro(IChar):
                 keyboard.send(self._skill_hotkeys["corpse_explosion"])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-                cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+                cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
                 mouse.move(*cast_pos_monitor)
                 mouse.press(button="right")
                 wait(0.075, 0.1)
