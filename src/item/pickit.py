@@ -115,7 +115,11 @@ class PickIt:
                 if curr_item_to_pick is not None:
                     is_same_item = (curr_item_to_pick.name == closest_item.name and \
                         abs(curr_item_to_pick.dist - closest_item.dist) < 20)
-                    if same_item_timer is None or not is_same_item:
+                    if closest_item.name == "misc_gold":
+                        # backlist this item type for this pickit round
+                        Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
+                        skip_items.append(closest_item.name)
+                    elif same_item_timer is None or not is_same_item:
                         same_item_timer = time.time()
                         did_force_move = False
                     elif time.time() - same_item_timer > 1 and not did_force_move:
