@@ -115,7 +115,7 @@ class PickIt:
                 if curr_item_to_pick is not None:
                     is_same_item = (curr_item_to_pick.name == closest_item.name and \
                         abs(curr_item_to_pick.dist - closest_item.dist) < 20)
-                    if closest_item.name == "misc_gold":
+                    if closest_item.name == "misc_gold" and is_same_item:
                         # backlist this item type for this pickit round
                         Logger.warning(f"Could not pick up: {closest_item.name}. Continue with other items")
                         skip_items.append(closest_item.name)
