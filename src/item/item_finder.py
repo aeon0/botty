@@ -154,6 +154,7 @@ if __name__ == "__main__":
     while 1:
         img=grab().copy()
         all_loot = d2r_image.get_ground_loot(img)
+        print(all_loot)
         draw_items_on_image_data(all_loot.items, img)
         cv2.imshow('test', img)
         cv2.waitKey(5000)
