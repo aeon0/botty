@@ -64,6 +64,12 @@ class AnyaShopper(ShopperBase):
         self.trap_claw_min_score = Config().shop["trap_min_score"]
         self.look_for_melee_claws = Config().shop["shop_melee_claws"]
         self.melee_claw_min_score = Config().shop["melee_min_score"]
+        self.look_for_warcry_stick = Config().shop["shop_for_warcry_stick"]
+        self.look_for_jewelers_armor_of_the_whale = Config().shop["shop_jewelers_armor_of_the_whale"]
+        self.look_for_resist_belt_of_the_whale = Config().shop["shop_resist_belt_of_the_whale"]
+        self.look_for_resist_belt_of_wealth = Config().shop["shop_resist_belt_of_wealth"]
+        self.look_for_artisans_helm_of_the_whale = Config().shop["shop_artisans_helm_of_the_whale"]
+        self.look_for_artisans_helm_of_stability = Config().shop["shop_artisans_helm_of_stability"]
         self._messenger = Messenger()
         self.run_count = 0
         self.start_time = time.time()
@@ -77,12 +83,14 @@ class AnyaShopper(ShopperBase):
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.claws_evaluated = 0
         self.claws_bought = 0
+        super(AnyaShopper, self).__init__()
 
     def get_name(self):
         return "Anya"
 
     def run(self):
         Logger.info("Personal Anya Shopper at your service! Hang on, running some errands...")
+        self.get_tabs()
         self.reset_shop()
         self.shop_loop()
 
@@ -150,12 +158,14 @@ class AnyaShopper(ShopperBase):
                 wait(0.3, 0.4)
                 # Search for claws
                 claw_pos = []
-                img = grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
                 for ck in claw_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
-                    if template_match.valid:
-                        claw_pos.append(template_match.center)
+                    self.mouse_over(self.mouse_reset)
+                    img = grab().copy()
+                    template_matches = TemplateFinder(True).search_multi(ck, img, roi=self.roi_vendor)
+                    for template_match in template_matches:
+                        if template_match.valid:
+                            claw_pos.append(template_match.center)
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
@@ -202,6 +212,17 @@ class AnyaShopper(ShopperBase):
                         self.claws_bought += 1
                         time.sleep(1)
 
+            for search_tab in self.search_tabs:
+                self.click_tab(search_tab)
+                if search_tab == 1:
+                    self.search_for_jewelers_armor_of_the_whale()
+                    self.search_for_resist_belt_of_the_whale()
+                    self.search_for_resist_belt_of_wealth()
+                    self.search_for_artisans_helm_of_the_whale()
+                    self.search_for_artisans_helm_of_stability()
+                if search_tab == 4:
+                    self.search_for_warcry_stick()
+
             # Done with this shopping round
             self.reset_shop()
             self.run_count += 1
@@ -232,3 +253,12 @@ class AnyaShopper(ShopperBase):
             mouse.click(button="left")
             return True
         return False
+
+    def get_tabs(self):
+        """
+        Sets up which tabs we want to search in
+        """
+        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability:
+            self.search_tabs.add(1)
+        if self.look_for_warcry_stick:
+            self.search_tabs.add(4)

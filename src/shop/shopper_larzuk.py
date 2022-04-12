@@ -67,7 +67,7 @@ class LarzukShopper(ShopperBase):
         """
         Should be near Larzuk before and after script runs
         """
-        self.move_shopper(-150, -10, 2.5)
+        self.move_shopper(-170, 0, 1.8)
         self._curr_loc = Location.A5_STASH
         self.harrogath.open_wp(self._curr_loc)
         wait(0.2, 0.5)
@@ -77,7 +77,7 @@ class LarzukShopper(ShopperBase):
             self.harrogath.open_frigid_wp()
             waypoint.use_wp("Harrogath")
             wait(0.2, 0.4)
-            self.move_shopper(200, 20, 2.5)
+            self.move_shopper(200, 20, 1.8)
 
     def get_tabs(self):
         """

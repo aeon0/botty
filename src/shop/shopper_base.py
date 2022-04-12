@@ -33,6 +33,7 @@ class ShopperBase(abc.ABC):
         self.first_tab_x, self.first_tab_y = convert_screen_to_monitor((115, 77))
         self.second_tab_x, self.second_tab_y = convert_screen_to_monitor((180, 77))
         self.third_tab_x, self.third_tab_y = convert_screen_to_monitor((245, 77))
+        self.fourth_tab_x, self.fourth_tab_y = convert_screen_to_monitor((330, 77))
         self.c_x, self.c_y = convert_screen_to_monitor((Config().ui_pos["center_x"], Config().ui_pos["center_y"]))
         self.speed_factor = self.get_effective_faster_run_walk()
         self.apply_pather_adjustment = Config().shop["apply_pather_adjustment"]
@@ -47,28 +48,15 @@ class ShopperBase(abc.ABC):
 
     def click_tab(self, tab_index=0):
         if tab_index == 1:
-            self.click_first_tab()
+            mouse.move(self.first_tab_x, self.first_tab_y, randomize=3, delay_factor=[0.6, 0.8])
         elif tab_index == 2:
-            self.click_second_tab()
+            mouse.move(self.second_tab_x, self.second_tab_y, randomize=3, delay_factor=[0.6, 0.8])
         elif tab_index == 3:
-            self.click_third_tab()
+            mouse.move(self.third_tab_x, self.third_tab_y, randomize=3, delay_factor=[0.6, 0.8])
+        elif tab_index == 4:
+            mouse.move(self.fourth_tab_x, self.fourth_tab_y, randomize=3, delay_factor=[0.6, 0.8])
         else:
             return
-
-    def click_first_tab(self):
-        mouse.move(self.first_tab_x, self.first_tab_y, randomize=3, delay_factor=[0.6, 0.8])
-        wait(0.05, 0.1)
-        mouse.press(button="left")
-        wait(0.3, 0.4)
-
-    def click_second_tab(self):
-        mouse.move(self.second_tab_x, self.second_tab_y, randomize=3, delay_factor=[0.6, 0.8])
-        wait(0.05, 0.1)
-        mouse.press(button="left")
-        wait(0.3, 0.4)
-
-    def click_third_tab(self):
-        mouse.move(self.third_tab_x, self.third_tab_y, randomize=3, delay_factor=[0.6, 0.8])
         wait(0.05, 0.1)
         mouse.press(button="left")
         wait(0.3, 0.4)
