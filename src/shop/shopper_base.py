@@ -272,6 +272,16 @@ class ShopperBase(abc.ABC):
                 min_misc_stats=1
             )
 
+    def search_for_lancers_gauntlets_of_alacrity(self):
+        if self.look_for_lancers_gauntlets_of_alacrity:
+            self.search_for_item(
+                item_description="lancers_gauntlets_of_alacrity",
+                item_type_asset_keys=["GAUNTLETS"],
+                item_stat_asset_keys_required=["PREFIX_LANCERS"],
+                item_misc_stat_asset_keys=["SUFFIX_OF_ALACRITY"],
+                min_misc_stats=1
+            )
+
     def search_for_item(
             self,
             item_description="",

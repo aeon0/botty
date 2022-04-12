@@ -70,6 +70,7 @@ class AnyaShopper(ShopperBase):
         self.look_for_resist_belt_of_wealth = Config().shop["shop_resist_belt_of_wealth"]
         self.look_for_artisans_helm_of_the_whale = Config().shop["shop_artisans_helm_of_the_whale"]
         self.look_for_artisans_helm_of_stability = Config().shop["shop_artisans_helm_of_stability"]
+        self.look_for_lancers_gauntlets_of_alacrity = Config().shop["shop_lancers_gauntlets_of_alacrity"]
         self._messenger = Messenger()
         self.run_count = 0
         self.start_time = time.time()
@@ -103,52 +104,6 @@ class AnyaShopper(ShopperBase):
             press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
             img = grab()
-
-            # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove = TemplateFinder(True).search(
-                ref=load_template(asset_folder + "ias_gloves.png", 1.0),
-                inp_img=img,
-                threshold=0.96,
-                roi=Config().ui_roi["left_inventory"],
-                normalize_monitor=True,
-            )
-            if ias_glove.valid:
-                self.ias_gloves_seen += 1
-                mouse.move(*ias_glove.center)
-                time.sleep(0.1)
-                img = grab()
-
-                if self.look_for_plus_3_gloves is True:
-                    gg_gloves = TemplateFinder(True).search(
-                        ref=load_template(
-                            asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
-                        ),
-                        inp_img=img,
-                        threshold=0.80
-                    )
-                    if gg_gloves.valid:
-                        mouse.click(button="right")
-                        self._messenger.send_message("Bought awesome IAS/+3 gloves!")
-
-                        Logger.info("IAS/+3 gloves bought!")
-                        self.gloves_bought += 1
-                        time.sleep(1)
-
-                else:
-                    if self.look_for_plus_2_gloves is True:
-                        g_gloves = TemplateFinder(True).search(
-                            ref=load_template(
-                                asset_folder + "g_gloves.png", 1.0
-                            ),
-                            inp_img=img,
-                            threshold=0.80
-                        )
-                        if g_gloves.valid:
-                            mouse.click(button="right")
-                            self._messenger.send_message("Bought some decent IAS/+2 gloves")
-                            Logger.info("IAS/+2 gloves bought!")
-                            self.gloves_bought += 1
-                            time.sleep(1)
 
             # Select Weapons section
             if self.look_for_trap_claws is True or self.look_for_melee_claws is True:
@@ -220,6 +175,7 @@ class AnyaShopper(ShopperBase):
                     self.search_for_resist_belt_of_wealth()
                     self.search_for_artisans_helm_of_the_whale()
                     self.search_for_artisans_helm_of_stability()
+                    self.search_for_lancers_gauntlets_of_alacrity()
                 if search_tab == 4:
                     self.search_for_warcry_stick()
 
@@ -258,7 +214,7 @@ class AnyaShopper(ShopperBase):
         """
         Sets up which tabs we want to search in
         """
-        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability:
+        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability or self.look_for_lancers_gauntlets_of_alacrity:
             self.search_tabs.add(1)
         if self.look_for_warcry_stick:
             self.search_tabs.add(4)
