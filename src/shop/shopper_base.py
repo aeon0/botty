@@ -13,6 +13,7 @@ from utils.custom_mouse import mouse
 from utils.misc import wait
 from template_finder import TemplateFinder
 from logger import Logger
+from utils.restart import kill_game
 
 
 class ShopperBase(abc.ABC):
@@ -42,9 +43,20 @@ class ShopperBase(abc.ABC):
         self.template_stat_assets = self.get_stat_template_assets()
         self.debug_stats_count = {}
         self.debug_stat_checks = Config().shop["debug_stat_checks"]
+        self.max_game_time = Config().shop["max_game_time"]
         self.items_bought = {}
         pos_m = convert_abs_to_monitor((-200, 0))
         self.mouse_reset = Coordinate(pos_m[0], pos_m[1])
+
+    def get_time(self):
+        return round(time.time() - self.start_time)
+
+    def check_run_time(self):
+        Logger.debug(f"Time: {self.get_time()}, Max Time: {self.max_game_time}")
+        if self.get_time() > self.max_game_time:
+            Logger.debug(f"Max game time {self.max_game_time} reached. Quitting.")
+            kill_game()
+            os._exit(1)
 
     def click_tab(self, tab_index=0):
         if tab_index == 1:

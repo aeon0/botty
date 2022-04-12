@@ -82,6 +82,7 @@ class DrognanShopper(ShopperBase):
         # This is the main shopping loop. It can be further generalized to more easily support new items,
         # But this is sufficient for now.
         while True:
+            self.check_run_time()
             open_npc_menu(Npc.DROGNAN)
             press_npc_btn(Npc.DROGNAN, "trade")
             time.sleep(0.1)

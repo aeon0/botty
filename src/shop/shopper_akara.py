@@ -56,6 +56,7 @@ class AkaraShopper(ShopperBase):
 
     def shop_loop(self):
         while True:
+            self.check_run_time()
             open_npc_menu(Npc.AKARA)
             press_npc_btn(Npc.AKARA, "trade")
             time.sleep(0.1)

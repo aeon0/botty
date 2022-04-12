@@ -48,6 +48,7 @@ class OrmusShopper(ShopperBase):
 
     def shop_loop(self):
         while True:
+            self.check_run_time()
             open_npc_menu(Npc.ORMUS)
             press_npc_btn(Npc.ORMUS, "trade")
             time.sleep(0.1)

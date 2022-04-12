@@ -47,6 +47,7 @@ class LarzukShopper(ShopperBase):
 
     def shop_loop(self):
         while True:
+            self.check_run_time()
             open_npc_menu(Npc.LARZUK)
             press_npc_btn(Npc.LARZUK, "trade_repair")
             time.sleep(0.1)

@@ -406,6 +406,7 @@ class Config:
             "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
             "faster_run_walk": int(self._select_val("misc", "faster_run_walk")),
             "debug_stat_checks": bool(int(self._select_val("misc", "debug_stat_checks"))),
+            "max_game_time": int(self._select_val("misc", "max_game_time")),
         }
         other_section = "other_bools"
         for key in self.configs["shop"]["parser"]["other_bools"]:

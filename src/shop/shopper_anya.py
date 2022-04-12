@@ -95,10 +95,10 @@ class AnyaShopper(ShopperBase):
         self.shop_loop()
 
     def shop_loop(self):
-
         asset_folder = "assets/shop/gloves/"
 
         while True:
+            self.check_run_time()
             open_npc_menu(Npc.ANYA)
             press_npc_btn(Npc.ANYA, "trade")
             time.sleep(0.1)
