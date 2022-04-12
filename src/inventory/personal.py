@@ -413,6 +413,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
     if close_window:
+        if not is_visible(ScreenObjects.RightPanel, img):
+            center_mouse()
         common.close()
     return boxes
 
