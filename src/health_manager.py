@@ -29,10 +29,6 @@ def set_pause_state(state: bool):
 
 _run = False
 _did_chicken = False
-_last_rejuv = time.time()
-_last_health = time.time()
-_last_mana = time.time()
-_last_merc_heal = time.time()
 _callback = None
 _last_chicken_screenshot = None
 _count_panel_detects = 0
@@ -71,17 +67,23 @@ def update_values(img):
 			_merc_hp = meters.get_merc_health(img)
 		else:
 			_merc_hp = None
+	else:
+		_hp = None
+		_mp = None
 
 def stop_monitor():
+	global _run
 	_run = False
 
 def set_callback(callback):
+	global _callback
 	_callback = callback
 
 def did_chicken():
 	return _did_chicken
 
 def reset_chicken_flag():
+	global _did_chicken
 	_did_chicken = False
 	set_pause_state(True)
 
@@ -109,7 +111,7 @@ def _do_chicken(img):
 
 def start_health_manager():
 	# Ensure this method runs in one thread only
-	global _thread_id, _run, _did_chicken, _last_rejuv, _last_mana, _last_health, _last_merc_heal, _count_panel_detects
+	global _thread_id, _run, _did_chicken, _count_panel_detects
 
 	if _thread_id is not None and _thread_id != threading.get_ident():
 		Logger.info(f"Health monitor thread already running: {_thread_id}. Returning")
@@ -120,7 +122,13 @@ def start_health_manager():
 
 	_run = True
 	_did_chicken = False
+
 	start = time.time()
+	last_rejuv = time.time() - 100
+	last_health = time.time() - 100
+	last_mana = time.time() - 100
+	last_merc_heal = time.time() - 100
+
 	while _run:
 		time.sleep(0.1)
 		# Wait until the flag is reset by main.py
@@ -132,38 +140,38 @@ def start_health_manager():
 			# check rejuv
 			success_drink_rejuv = False
 
-			if (hp() < Config().char["take_rejuv_potion_health"] and time_since(_last_rejuv) > 1) or \
-			   (mp() < Config().char["take_rejuv_potion_mana"] and time_since(_last_rejuv) > 2):
+			if (hp() < Config().char["take_rejuv_potion_health"] and time_since(last_rejuv) > 1) or \
+			   (mp() < Config().char["take_rejuv_potion_mana"] and time_since(last_rejuv) > 2):
 				success_drink_rejuv = belt.drink_potion("rejuv", stats=[hp(), mp()])
-				_last_rejuv = time.time()
+				last_rejuv = time.time()
 			# in case no rejuv was used, check for chicken, health pot and mana pot usage
 			if not success_drink_rejuv:
 				# check health
-				last_drink = time.time() - _last_health
-				if hp() < Config().char["take_health_potion"] and time_since(_last_health) > 3.5:
+				last_drink = time_since(last_health)
+				if hp() < Config().char["take_health_potion"] and last_drink > 3.5:
 					belt.drink_potion("health", stats=[hp(), mp()])
-					_last_health = time.time()
+					last_health = time.time()
 				# give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
 				elif hp() < Config().char["chicken"] and (time.time() - start) > 6:
 					Logger.warning(f"Trying to chicken, player HP {(hp()*100):.1f}%!")
 					_do_chicken(img)
 				# check mana
-				last_drink = time.time() - _last_mana
+				last_drink = time.time() - last_mana
 				if mp() < Config().char["take_mana_potion"] and last_drink > 4:
 					belt.drink_potion("mana", stats=[hp(), mp()])
-					_last_mana = time.time()
+					last_mana = time.time()
 			# check merc
 			if is_merc_alive():
-				last_drink = time.time() - _last_merc_heal
+				last_drink = time.time() - last_merc_heal
 				if merc_hp() < Config().char["merc_chicken"]:
 					Logger.warning(f"Trying to chicken, merc HP {(merc_hp()*100):.1f}%!")
 					_do_chicken(img)
 				if merc_hp() < Config().char["heal_rejuv_merc"] and last_drink > 4.0:
 					belt.drink_potion("rejuv", merc=True, stats=[merc_hp()])
-					_last_merc_heal = time.time()
+					last_merc_heal = time.time()
 				elif merc_hp() < Config().char["heal_merc"] and last_drink > 7.0:
 					belt.drink_potion("health", merc=True, stats=[merc_hp()])
-					_last_merc_heal = time.time()
+					last_merc_heal = time.time()
 			if is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img):
 				Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
 				_count_panel_detects += 1
