@@ -92,7 +92,6 @@ class AnyaShopper(ShopperBase):
     def run(self):
         Logger.info("Personal Anya Shopper at your service! Hang on, running some errands...")
         self.get_tabs()
-        self.reset_shop()
         self.shop_loop()
 
     def shop_loop(self):
@@ -100,17 +99,29 @@ class AnyaShopper(ShopperBase):
 
         while True:
             self.check_run_time()
-            open_npc_menu(Npc.ANYA)
-            press_npc_btn(Npc.ANYA, "trade")
+            trade_is_open = False
+            while not trade_is_open:
+                open_npc_menu(Npc.ANYA)
+                press_npc_btn(Npc.ANYA, "trade")
+                trade_is_open = self.is_trade_open()
             time.sleep(0.1)
-            img = grab()
 
-            # Select Weapons section
+            for search_tab in self.search_tabs:
+                self.click_tab(search_tab)
+                if search_tab == 1:
+                    self.search_for_jewelers_armor_of_the_whale()
+                    self.search_for_resist_belt_of_the_whale()
+                    self.search_for_resist_belt_of_wealth()
+                    self.search_for_artisans_helm_of_the_whale()
+                    self.search_for_artisans_helm_of_stability()
+                    self.search_for_lancers_gauntlets_of_alacrity()
+                if search_tab == 4:
+                    self.search_for_warcry_stick()
+
             if self.look_for_trap_claws is True or self.look_for_melee_claws is True:
                 mouse.move(self.sb_x, self.sb_y, randomize=3, delay_factor=[0.6, 0.8])
                 wait(0.05, 0.1)
                 mouse.press(button="left")
-                wait(0.3, 0.4)
                 # Search for claws
                 claw_pos = []
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
@@ -126,7 +137,7 @@ class AnyaShopper(ShopperBase):
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
                     x_m, y_m = convert_screen_to_monitor(pos)
                     mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
-                    wait(0.5, 0.6)
+                    wait(0.1, 0.3)
                     img_stats = grab()
                     trap_score = 0
                     melee_score = 0
@@ -167,18 +178,6 @@ class AnyaShopper(ShopperBase):
                         self.claws_bought += 1
                         time.sleep(1)
 
-            for search_tab in self.search_tabs:
-                self.click_tab(search_tab)
-                if search_tab == 1:
-                    self.search_for_jewelers_armor_of_the_whale()
-                    self.search_for_resist_belt_of_the_whale()
-                    self.search_for_resist_belt_of_wealth()
-                    self.search_for_artisans_helm_of_the_whale()
-                    self.search_for_artisans_helm_of_stability()
-                    self.search_for_lancers_gauntlets_of_alacrity()
-                if search_tab == 4:
-                    self.search_for_warcry_stick()
-
             # Done with this shopping round
             self.reset_shop()
             self.run_count += 1
@@ -201,7 +200,6 @@ class AnyaShopper(ShopperBase):
                 mouse.move(800, 450, randomize=50, delay_factor=[0.7, 0.7])
 
     def select_by_template(self, template_type: str) -> bool:
-        Logger.debug(f"Select {template_type}")
         template_match = TemplateFinder(True).search_and_wait(template_type, timeout=10, normalize_monitor=True)
         if template_match.valid:
             mouse.move(*template_match.center)
@@ -214,7 +212,7 @@ class AnyaShopper(ShopperBase):
         """
         Sets up which tabs we want to search in
         """
-        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability or self.look_for_lancers_gauntlets_of_alacrity:
+        if self.look_for_jewelers_armor_of_the_whale or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability or self.look_for_lancers_gauntlets_of_alacrity:
             self.search_tabs.add(1)
         if self.look_for_warcry_stick:
             self.search_tabs.add(4)

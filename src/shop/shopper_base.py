@@ -47,6 +47,7 @@ class ShopperBase(abc.ABC):
         self.items_bought = {}
         pos_m = convert_abs_to_monitor((-200, 0))
         self.mouse_reset = Coordinate(pos_m[0], pos_m[1])
+        self.trade_roi = [0, 520, 500, 200]
 
     def get_time(self):
         return round(time.time() - self.start_time)
@@ -256,7 +257,7 @@ class ShopperBase(abc.ABC):
         if self.look_for_artisans_helm_of_the_whale:
             self.search_for_item(
                 item_description="artisans_helm_of_the_whale",
-                item_type_asset_keys=["CROWN", "GREAT_HELM"],
+                item_type_asset_keys=["CROWN", "GREAT_HELM", "BONE_HELM"],
                 item_stat_asset_keys_required=["PREFIX_ARTISANS"],
                 item_misc_stat_asset_keys=["SUFFIX_OF_THE_WHALE"],
                 min_misc_stats=1
@@ -266,7 +267,7 @@ class ShopperBase(abc.ABC):
         if self.look_for_artisans_helm_of_stability:
             self.search_for_item(
                 item_description="artisans_helm_of_stability",
-                item_type_asset_keys=["CROWN", "GREAT_HELM"],
+                item_type_asset_keys=["CROWN", "GREAT_HELM", "BONE_HELM"],
                 item_stat_asset_keys_required=["PREFIX_ARTISANS"],
                 item_misc_stat_asset_keys=["SUFFIX_OF_STABILITY"],
                 min_misc_stats=1
@@ -312,6 +313,7 @@ class ShopperBase(abc.ABC):
         for pos in item_pos_sorted:
             avoid_item = False
             ShopperBase.mouse_over(pos)
+            wait(0.1, 0.3)
             img_stats = grab()
             self.check_stats(img_stats)
             for item_stat_asset_key_avoid in item_stat_asset_keys_avoid:
@@ -337,6 +339,10 @@ class ShopperBase(abc.ABC):
                                 self.buy_item(item_description)
         return
 
+    def is_trade_open(self):
+        img = grab().copy()
+        trade_window = TemplateFinder(True).search("TRADE_WINDOW", img, roi=self.trade_roi)
+        return trade_window.valid
 
 ShopperBase.register(tuple)
 

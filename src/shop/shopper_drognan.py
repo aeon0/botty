@@ -83,8 +83,11 @@ class DrognanShopper(ShopperBase):
         # But this is sufficient for now.
         while True:
             self.check_run_time()
-            open_npc_menu(Npc.DROGNAN)
-            press_npc_btn(Npc.DROGNAN, "trade")
+            trade_is_open = False
+            while not trade_is_open:
+                open_npc_menu(Npc.DROGNAN)
+                press_npc_btn(Npc.DROGNAN, "trade")
+                trade_is_open = self.is_trade_open()
             time.sleep(0.1)
             img = grab()
 
