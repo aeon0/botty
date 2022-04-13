@@ -296,8 +296,8 @@ class ShopperBase(abc.ABC):
 
         item_pos = []
         item_pos_sorted = []
+        self.mouse_over(self.mouse_reset)
         for item_key in item_type_asset_keys:
-            self.mouse_over(self.mouse_reset)
             img = grab().copy()
             template_matches = TemplateFinder(True).search_multi(item_key, img, threshold=item_type_asset_threshold,
                                                                  roi=self.roi_vendor)

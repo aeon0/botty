@@ -51,7 +51,7 @@ class LarzukShopper(ShopperBase):
             trade_is_open = False
             while not trade_is_open:
                 open_npc_menu(Npc.LARZUK)
-                press_npc_btn(Npc.LARZUK, "trade")
+                press_npc_btn(Npc.LARZUK, "trade_repair")
                 trade_is_open = self.is_trade_open()
             time.sleep(0.1)
             for search_tab in self.search_tabs:
