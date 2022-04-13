@@ -79,6 +79,9 @@ def restore_d2r_window_visibility():
     else:
         print('OS not supported, unable to set D2R always on top')
 
+def time_since(t: float):
+    return time.time() - t
+
 def wait(min_seconds, max_seconds = None):
     if max_seconds is None:
         max_seconds = min_seconds

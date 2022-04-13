@@ -9,7 +9,7 @@ from config import Config
 from death_manager import DeathManager
 from game_recovery import GameRecovery
 from game_stats import GameStats
-from health_manager import HealthManager
+import health_manager
 from logger import Logger
 from messages import Messenger
 from screen import grab, get_offset_state
@@ -21,7 +21,6 @@ class GameController:
     def __init__(self):
         self.is_running = False
         self.health_monitor_thread = None
-        self.health_manager = None
         self.death_manager = None
         self.death_monitor_thread = None
         self.game_recovery = None
@@ -38,13 +37,13 @@ class GameController:
         self.bot_thread.start()
         # Register that thread to the death and health manager so they can stop the bot thread if needed
         self.death_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
-        self.health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
+        health_manager.set_callback(lambda: self.bot.stop() or kill_thread(self.bot_thread))
         do_restart = False
         messenger = Messenger()
         while 1:
             max_game_length_reached = self.game_stats.get_current_game_length() > Config().general["max_game_length_s"]
             max_consecutive_fails_reached = False if not Config().general["max_consecutive_fails"] else self.game_stats.get_consecutive_runs_failed() >= Config().general["max_consecutive_fails"]
-            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or self.health_manager.did_chicken():
+            if max_game_length_reached or max_consecutive_fails_reached or self.death_manager.died() or health_manager.did_chicken():
                 # Some debug and logging
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {Config().general['name']}!")
@@ -52,8 +51,8 @@ class GameController:
                         cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 elif self.death_manager.died():
                     self.game_stats.log_death(self.death_manager._last_death_screenshot)
-                elif self.health_manager.did_chicken():
-                    self.game_stats.log_chicken(self.health_manager._last_chicken_screenshot)
+                elif health_manager.did_chicken():
+                    self.game_stats.log_chicken(health_manager._last_chicken_screenshot)
                 self.bot.stop()
                 kill_thread(self.bot_thread)
                 # Try to recover from whatever situation we are and go back to hero selection
@@ -71,7 +70,7 @@ class GameController:
         if do_restart:
             # Reset flags before running a new bot
             self.death_manager.reset_death_flag()
-            self.health_manager.reset_chicken_flag()
+            health_manager.reset_chicken_flag()
             self.game_stats.log_end_game(failed=max_game_length_reached)
             return self.run_bot()
         else:
@@ -126,8 +125,7 @@ class GameController:
 
     def start_health_manager_thread(self):
         # Run health monitor thread
-        self.health_manager = HealthManager()
-        self.health_monitor_thread = threading.Thread(target=self.health_manager.start_monitor)
+        self.health_monitor_thread = threading.Thread(target=health_manager.start_health_manager)
         self.health_monitor_thread.daemon = True
         self.health_monitor_thread.start()
 
