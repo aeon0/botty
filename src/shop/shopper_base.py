@@ -48,6 +48,7 @@ class ShopperBase(abc.ABC):
         pos_m = convert_abs_to_monitor((-200, 0))
         self.mouse_reset = Coordinate(pos_m[0], pos_m[1])
         self.trade_roi = [0, 520, 500, 200]
+        self.game_menu = [500, 50, 300, 600]
 
     def get_time(self):
         return round(time.time() - self.start_time)
@@ -340,9 +341,18 @@ class ShopperBase(abc.ABC):
         return
 
     def is_trade_open(self):
+        self.check_game_menu_closed()
         img = grab().copy()
         trade_window = TemplateFinder(True).search("TRADE_WINDOW", img, roi=self.trade_roi)
         return trade_window.valid
+
+    def check_game_menu_closed(self):
+        img = grab().copy()
+        game_menu = TemplateFinder(True).search("GAME_MENU", img, roi=self.game_menu)
+        if game_menu.valid:
+            Logger.debug("Game menu is open. Closing it.")
+            keyboard.send("esc")
+
 
 ShopperBase.register(tuple)
 
