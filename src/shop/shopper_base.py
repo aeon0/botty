@@ -5,6 +5,7 @@ import glob
 import os
 import math
 import cv2
+import keyboard
 from shop.shop_helpers import Coordinate
 from config import Config
 from typing import Dict, Tuple, Union, List, Callable
