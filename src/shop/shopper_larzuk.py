@@ -22,6 +22,7 @@ class LarzukShopper(ShopperBase):
         self.look_for_resist_belt_of_wealth = Config().shop["shop_resist_belt_of_wealth"]
         self.look_for_artisans_helm_of_the_whale = Config().shop["shop_artisans_helm_of_the_whale"]
         self.look_for_artisans_helm_of_stability = Config().shop["shop_artisans_helm_of_stability"]
+        self.look_for_lancers_gauntlets_of_alacrity = Config().shop["shop_lancers_gauntlets_of_alacrity"]
         self._pather = Pather()
         self._char: IChar = Basic(Config().basic, self._pather)
         # Create Town Manager
@@ -62,6 +63,7 @@ class LarzukShopper(ShopperBase):
                     self.search_for_resist_belt_of_wealth()
                     self.search_for_artisans_helm_of_the_whale()
                     self.search_for_artisans_helm_of_stability()
+                    self.search_for_lancers_gauntlets_of_alacrity()
                 else:
                     self.search_for_warcry_weapon()
 
@@ -87,7 +89,7 @@ class LarzukShopper(ShopperBase):
         """
         Sets up which tabs we want to search in
         """
-        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability:
+        if self.look_for_jewelers_armor_of_the_whale or self.look_for_resist_belt_of_the_whale or self.look_for_resist_belt_of_wealth or self.look_for_artisans_helm_of_the_whale or self.look_for_artisans_helm_of_stability or self.search_for_lancers_gauntlets_of_alacrity():
             self.search_tabs.add(1)
         if self.look_for_warcry_weapon:
             self.search_tabs.add(2)

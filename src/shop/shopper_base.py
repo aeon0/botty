@@ -277,7 +277,7 @@ class ShopperBase(abc.ABC):
         if self.look_for_lancers_gauntlets_of_alacrity:
             self.search_for_item(
                 item_description="lancers_gauntlets_of_alacrity",
-                item_type_asset_keys=["GAUNTLETS"],
+                item_type_asset_keys=["GAUNTLETS", "LIGHT_GAUNTLETS"],
                 item_stat_asset_keys_required=["PREFIX_LANCERS"],
                 item_misc_stat_asset_keys=["SUFFIX_OF_ALACRITY"],
                 min_misc_stats=1
@@ -313,7 +313,7 @@ class ShopperBase(abc.ABC):
         for pos in item_pos_sorted:
             avoid_item = False
             ShopperBase.mouse_over(pos)
-            wait(0.1, 0.3)
+            wait(0.05, 0.2)
             img_stats = grab()
             self.check_stats(img_stats)
             for item_stat_asset_key_avoid in item_stat_asset_keys_avoid:
