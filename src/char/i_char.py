@@ -30,7 +30,7 @@ class IChar:
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
-        override = Config().advanced_options["override_capabilities"];
+        override = Config().advanced_options["override_capabilities"]
         if override is None:
             if self._skill_hotkeys["teleport"]:
                 if self.select_tp():
