@@ -157,7 +157,7 @@ class IChar:
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
-            wait(self._cast_duration)
+            wait(self._cast_duration, self._cast_duration + 0.02)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
             pos_screen = convert_monitor_to_screen(pos_monitor)
@@ -310,8 +310,7 @@ class IChar:
     def kill_cs_trash(self, location:str) -> bool:
         raise ValueError("Diablo CS Trash is not implemented!")
 
-    # Only possible with memory reading
-    # =========================================
+    # ------------------- memread ----------------------#
     def baal_idle(self, monster_filter: list[str], start_time: float = None) -> tuple[bool, list[str]]:
         raise ValueError("Ball idle not implemented")
 
@@ -326,3 +325,26 @@ class IChar:
 
     def kill_andy(self) -> bool:
         raise ValueError("Kill andy is not implemented")
+    # -----------------------------------------------------#
+
+
+if __name__ == "__main__":
+    import os
+    import keyboard
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    print(f"Get on D2R screen and press F11 when ready")
+    keyboard.wait("f11")
+    from utils.misc import cut_roi
+    from config import Config
+    from template_finder import TemplateFinder
+    from ocr import Ocr
+    from ui import skills
+
+    skill_hotkeys = {}
+    ocr = Ocr()
+
+    i_char = IChar({})
+
+    while True:
+        print(skills.get_skill_charges(grab()))
+        wait(1)

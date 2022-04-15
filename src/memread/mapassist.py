@@ -9,6 +9,7 @@ import numpy as np
 import pyastar2d
 from copy import deepcopy
 import math
+import screen
 
 
 def translation_matrix(tx, ty):
@@ -32,10 +33,17 @@ def scaling_matrix(sx, sy):
         [0.0, 0.0, 1.0]
     ]))
 
+
 class MapAssistApi:
-    def __init__(self):
-        self._transform_matrix = None
-        self._player_pos = [0, 0]
+    _transform_matrix = None
+    _inv_transform_matrix = None
+    _player_pos = [0, 0]
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(MapAssistApi, cls).__new__(cls)
+        return cls._instance
 
     def update_transform_matrix(self, player_pos):
         self._player_pos = player_pos
@@ -46,25 +54,6 @@ class MapAssistApi:
         self._transform_matrix = tm_p @ rm @ scalem
         self._transform_matrix = np.transpose(self._transform_matrix)
         self._inv_transform_matrix = np.linalg.inv(self._transform_matrix)
-
-    def fast_imp(self, world_pos):
-        # translation
-        cp = np.array([
-            self._player_pos[0] - world_pos[0],
-            self._player_pos[1] - world_pos[1]
-        ])
-        # rotation
-        a = np.deg2rad(45)
-        x = cp[0]
-        y = cp[1]
-        cp = np.array([
-            x * np.cos(a) - y * np.sin(a),
-            x * np.sin(a) + y * np.cos(a)
-        ])
-        # scaling
-        cp = np.array([cp[0] * 27.5, cp[1] * 13.75])
-        cp = cp.astype(np.int32)
-        return cp
 
     def world_to_abs_screen(self, world_pos):
         cp = np.array([world_pos[0], world_pos[1], 1.0])
@@ -81,7 +70,8 @@ class MapAssistApi:
         res = np.array([int(res[0] / res[2]), int(res[1] / res[2])])
         return res
 
-    def create_grid(self, screen, img):
+    # just for debugging
+    def create_grid(self, img):
         delta = 20
         step = 2
         x_range = (int(self._player_pos[0] - delta), int(self._player_pos[0] + delta))
@@ -160,14 +150,12 @@ class MapAssistApi:
 
 
 if __name__ == "__main__":
-    from screen import Screen
-    screen = Screen(1)
-    api = MapAssistApi()
+    screen.find_and_set_window_position()
     i = 0
     while 1:
         time.sleep(0.01)
         img = screen.grab().copy()
-        data = api.get_data()
+        data = MapAssistApi().get_data()
         map_img = None
         if data is not None:
             # api.create_grid(screen, img)
@@ -205,10 +193,10 @@ if __name__ == "__main__":
                 player_pos_area = np.array((int(data["player_pos_area"][0]), int(data["player_pos_area"][1])))
                 cv2.circle(map_img, player_pos_area, 3, (0, 255, 0), 2)
                 # viewport area of screen
-                top_left = api.abs_screen_to_world([-630, -360]) - data["area_origin"]
-                top_right = api.abs_screen_to_world([630, -360]) - data["area_origin"]
-                bottom_right = api.abs_screen_to_world([630, 260]) - data["area_origin"]
-                bottom_left = api.abs_screen_to_world([-630, 260]) - data["area_origin"]
+                top_left = MapAssistApi().abs_screen_to_world([-630, -360]) - data["area_origin"]
+                top_right = MapAssistApi().abs_screen_to_world([630, -360]) - data["area_origin"]
+                bottom_right = MapAssistApi().abs_screen_to_world([630, 260]) - data["area_origin"]
+                bottom_left = MapAssistApi().abs_screen_to_world([-630, 260]) - data["area_origin"]
                 cv2.line(map_img, top_left, top_right, (0, 0, 255), 1)
                 cv2.line(map_img, top_right, bottom_right, (0, 0, 255), 1)
                 cv2.line(map_img, bottom_right, bottom_left, (0, 0, 255), 1)
@@ -221,15 +209,17 @@ if __name__ == "__main__":
                 for p in data["poi"]:
                     if p["label"].startswith("Worldstone Keep Level 3"):
                         map_pos = p["position"] - data["area_origin"]
+                        map_pos[1] += 0
                         cv2.circle(map_img, map_pos, 3, (255, 0, 0), 2)
                         # Calc route from player to entrance
                         start = time.time()
                         weighted_map = deepcopy(data["map"])
                         weighted_map = weighted_map.astype(np.float32)
                         weighted_map[weighted_map == 0] = np.inf
-                        weighted_map[weighted_map == 1] = 1
+                        weighted_map[weighted_map == 1] = 1.0
                         start_pos = np.array([player_pos_area[1], player_pos_area[0]])
-                        end_pos = np.array([map_pos[1], map_pos[0] + 1])
+                        end_pos = np.array([map_pos[1], map_pos[0]])
+                        weighted_map[end_pos[0]-10:end_pos[0]+10, end_pos[1]-10:end_pos[1]+10] = 1.0
                         route = pyastar2d.astar_path(weighted_map, start_pos, end_pos, allow_diagonal=False)
                         if route is not None:
                             for r in route:
@@ -239,11 +229,13 @@ if __name__ == "__main__":
                                 if dist < 29:
                                     # check if it is in screen
                                     world_r = np.array([r[1], r[0]]) + data["area_origin"]
-                                    sc = api.world_to_abs_screen(world_r)
+                                    sc = MapAssistApi().world_to_abs_screen(world_r)
                                     if -630 < sc[0] < 630 and -360 < sc[1] < 260:
                                         cv2.circle(map_img, (r[1], r[0]), 3, (255, 190, 0), 2)
                                         cv2.circle(img, (sc[0] + 640, sc[1] + 360), 5, (255, 190, 0), 3)
                                         break
+                        else:
+                            print("Route is not found...")
                         # print(time.time() - start)
 
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
@@ -251,3 +243,24 @@ if __name__ == "__main__":
         if map_img is not None:
             cv2.imshow("map", map_img)
         cv2.waitKey(1)
+
+
+
+    # def fast_imp(self, world_pos):
+    #     # translation
+    #     cp = np.array([
+    #         self._player_pos[0] - world_pos[0],
+    #         self._player_pos[1] - world_pos[1]
+    #     ])
+    #     # rotation
+    #     a = np.deg2rad(45)
+    #     x = cp[0]
+    #     y = cp[1]
+    #     cp = np.array([
+    #         x * np.cos(a) - y * np.sin(a),
+    #         x * np.sin(a) + y * np.cos(a)
+    #     ])
+    #     # scaling
+    #     cp = np.array([cp[0] * 27.5, cp[1] * 13.75])
+    #     cp = cp.astype(np.int32)
+    #     return cp

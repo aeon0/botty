@@ -83,10 +83,7 @@ class Location:
     A4_DIABLO_B_LAYOUTCHECK = "a4_diablo_b_layoutcheck"
     A4_DIABLO_C_LAYOUTCHECK = "a4_diablo_c_layoutcheck"
     A4_DIABLO_END = "a4_diablo_end"
-    # Arcane
-    A2_ARC_START = "a2_arc_start"
-    A2_ARC_CHECKPOINT = "a2_arc_checkpoint"
-    A2_ARC_END = "a2_arc_end"
+    # ------------- memread ------------- #
     # Andy
     A1_ANDY_START = "a1_andy_start"
     A1_ANDY_END = "a1_andy_end"
@@ -96,6 +93,7 @@ class Location:
     # Baal
     A5_BAAL_WORLDSTONE_KEEP_LVL2 = "a5_baal_worldstone_keep_lvl2"
     A5_BAAL_WORLDSTONE_CHAMBER = "a5_baal_worldstone_chamber"
+    # ----------------------------------- #
 
 class Pather:
     """

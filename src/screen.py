@@ -6,6 +6,7 @@ from utils.misc import WindowSpec, find_d2r_window, wait
 from config import Config
 import threading
 
+
 sct = mss()
 monitor_roi = sct.monitors[0]
 found_offsets = False

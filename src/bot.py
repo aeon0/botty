@@ -4,7 +4,6 @@ import keyboard
 import time
 import os
 import random
-import threading
 import cv2
 import math
 from copy import copy
@@ -14,7 +13,6 @@ from health_manager import set_pause_state
 from transmute import Transmute
 from utils.misc import wait, hms
 
-from utils.misc import kill_thread, wait
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -39,12 +37,16 @@ from inventory import personal, vendor, belt, common, consumables
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
-from pather_v2 import PatherV2
-from api.mapassist import MapAssistApi
+from utils.misc import kill_thread, wait
+from memread.baal import Baal
+from memread.meph import Meph
+from memread.andy import Andy
+import threading
 
 # Added for dclone ip hunt
 from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
+
 
 class Bot:
     _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
@@ -100,6 +102,9 @@ class Bot:
             "run_nihlathak": Config().routes["run_nihlathak"],
             "run_arcane": Config().routes["run_arcane"],
             "run_diablo": Config().routes["run_diablo"],
+            "run_andy": Config().routes["run_andy"],
+            "run_meph": Config().routes["run_meph"],
+            "run_baal": Config().routes["run_baal"],
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
@@ -113,6 +118,10 @@ class Bot:
         self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit)
         self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit)
         self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
+        # ----------------- memread -------------------#
+        self._baal = Baal(self._pather, self._town_manager, self._char, self._pickit)
+        self._meph = Meph(self._pather, self._town_manager, self._char, self._pickit)
+        self._andy = Andy(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
         self._picked_up_items = False
@@ -128,7 +137,7 @@ class Bot:
         self._timer = time.time()
 
         # Create State Machine
-        self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
+        self._states=['initialization', 'hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo', 'andy', 'meph', 'baal']
         self._transitions = [
             { 'trigger': 'init', 'source': 'initialization', 'dest': '=','before': "on_init"},
             { 'trigger': 'select_character', 'source': 'initialization', 'dest': 'hero_selection', 'before': "on_select_character"},
@@ -143,9 +152,14 @@ class Bot:
             { 'trigger': 'run_nihlathak', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_nihlathak"},
             { 'trigger': 'run_arcane', 'source': 'town', 'dest': 'arcane', 'before': "on_run_arcane"},
             { 'trigger': 'run_diablo', 'source': 'town', 'dest': 'nihlathak', 'before': "on_run_diablo"},
+            # ---- memread ---- #
+            { 'trigger': 'run_andy', 'source': 'town', 'dest': 'andy', 'before': "on_run_andy"},
+            { 'trigger': 'run_meph', 'source': 'town', 'dest': 'meph', 'before': "on_run_meph"},
+            { 'trigger': 'run_baal', 'source': 'town', 'dest': 'baal', 'before': "on_run_baal"},
+            # ---------------- #
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlathak', 'trav', 'arcane', 'diablo','end_run'], 'dest': 'initialization', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy', 'end_run'], 'dest': 'initialization', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
         self._transmute = Transmute(self._game_stats)
@@ -165,11 +179,12 @@ class Bot:
 
     def stop(self):
         self._stopping = True
-        # We need to kill all sub threads
+        # ------------- memread ------------- #
         for thread in threading.enumerate():
             if thread.name.startswith("botty_subthread"):
                 Logger.debug(f"Killing bot subthread: {thread.name}")
                 kill_thread(thread)
+        # ----------------------------------- #
 
     def toggle_pause(self):
         self._pausing = not self._pausing
@@ -538,12 +553,14 @@ class Bot:
             res = self._diablo.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
+    # ------------- memread ------------- #
     def on_run_baal(self):
         res = False
         self._do_runs["run_baal"] = False
         self._game_stats.update_location("Baal")
         self._curr_loc = self._baal.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._baal.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -553,6 +570,7 @@ class Bot:
         self._game_stats.update_location("Meph")
         self._curr_loc = self._meph.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._meph.battle(not self._pre_buffed)
         self._ending_run_helper(res)
 
@@ -562,5 +580,7 @@ class Bot:
         self._game_stats.update_location("Andy")
         self._curr_loc = self._andy.approach(self._curr_loc)
         if self._curr_loc:
+            set_pause_state(False)
             res = self._andy.battle(not self._pre_buffed)
         self._ending_run_helper(res)
+    # --------------------------------------------- #

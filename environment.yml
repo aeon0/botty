@@ -25,7 +25,6 @@ dependencies:
     - pytest-pythonpath
     - graphviz
     - psutil
-    - pyastar2d
     - cryptography
     - pillow
     - discord.py
@@ -34,3 +33,5 @@ dependencies:
     - typing_extensions
     - rapidfuzz
     - colorama
+    # memread
+    - pyastar2d

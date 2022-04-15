@@ -13,17 +13,21 @@ from pather import Pather, Location
 import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
 
-from api.mapassist import MapAssistApi
-from pather_v2 import PatherV2
+import screen
+from memread.mapassist import MapAssistApi
+from memread.mem_pather import MemPather
+import math
+import threading
+from random import random
+import numpy as np
+from utils.misc import is_in_roi
 
 
 class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt, pather_v2: PatherV2, api: MapAssistApi):
+    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
         Logger.info("Setting up Hammerdin")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._api = api
-        self._pather_v2 = pather_v2
         self._do_pre_move = True
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
@@ -44,7 +48,7 @@ class Hammerdin(IChar):
             while (time.time() - start) < time_in_s:
                 mouse.press(button="left")
                 if not moved_center:
-                    m = self._screen.convert_abs_to_monitor((0, 0))
+                    m = screen.convert_abs_to_monitor((0, 0))
                     mouse.move(*m, randomize=35, delay_factor=[0.1, 0.2])
                     moved_center = True
                 else:
@@ -52,16 +56,16 @@ class Hammerdin(IChar):
                 mouse.release(button="left")
                 wait(0.01, 0.02)
             wait(0.02, 0.04)
-            keyboard.send(self._char_config["stand_still"], do_press=False)
+            keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _cast_holy_bolt(self, time_in_s: float, abs_screen_pos: tuple[float, float]):
         if self._skill_hotkeys["holy_bolt"]:
             keyboard.send(self._skill_hotkeys["concentration"])
             keyboard.send(self._skill_hotkeys["holy_bolt"])
             wait(0.05)
-            m = self._screen.convert_abs_to_monitor(abs_screen_pos)
+            m = screen.convert_abs_to_monitor(abs_screen_pos)
             mouse.move(*m, delay_factor=[0.2, 0.4])
-            keyboard.send(self._char_config["stand_still"], do_release=False)
+            keyboard.send(Config().char["stand_still"], do_release=False)
             start = time.time()
             while (time.time() - start) < time_in_s:
                 wait(0.06, 0.08)
@@ -1239,13 +1243,12 @@ class Hammerdin(IChar):
         return True
 
 
-    # Memory reading
-    # ===================================
+    # ----------------------- memread -------------------------------#
     def _kill_mobs(self, names: list[str]) -> bool:
         start = time.time()
         success = False
         while time.time() - start < 80:
-            data = self._api.get_data()
+            data = MapAssistApi().get_data()
             is_alive = False
             if data is not None:
                 for m in data["monsters"]:
@@ -1253,7 +1256,7 @@ class Hammerdin(IChar):
                     proceed = any(m["name"].startswith(startstr) for startstr in names)
                     if proceed:
                         dist = math.dist(area_pos, data["player_pos_area"])
-                        self._pather_v2.traverse(area_pos, self, randomize=10)
+                        MemPather().traverse(area_pos, self, randomize=10)
                         if dist < 8:
                             self._cast_hammers(1.0)
                         is_alive = True
@@ -1273,14 +1276,14 @@ class Hammerdin(IChar):
         hammer_thread.daemon = True
 
         throne_area = [70, 0, 50, 85]
-        if not self._pather_v2.traverse((93, 26), self):
+        if not MemPather().traverse((93, 26), self):
             return False, found_monsters
         aura = "redemption"
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
             keyboard.send(self._skill_hotkeys[aura])
         start = time.time()
         while time.time() - start < 50:
-            data = self._api.get_data()
+            data = MapAssistApi().get_data()
             if data is not None:
                  for m in data["monsters"]:
                     area_pos = m["position"] - data["area_origin"]
@@ -1312,7 +1315,7 @@ class Hammerdin(IChar):
         prev_position = None
         prev_pos_counter = time.time()
         while time.time() - start < 100:
-            data = self._api.get_data()
+            data = MapAssistApi().get_data()
             found_a_monster = False
             if data is not None:
                 for m in data["monsters"]:
@@ -1326,7 +1329,7 @@ class Hammerdin(IChar):
                             aura_after_battle = "cleansing"
                         else:
                             dist = math.dist(area_pos, data["player_pos_area"])
-                            self._pather_v2.traverse(area_pos, self, randomize=12)
+                            MemPather().traverse(area_pos, self, randomize=12)
                             if dist < 8:
                                 self._cast_hammers(1.0)
                         found_a_monster = True
@@ -1335,7 +1338,7 @@ class Hammerdin(IChar):
                     prev_pos_counter = time.time()
                 if time.time() - prev_pos_counter > 3.8:
                     Logger.debug("Reposition for next attack")
-                    m_pos = self._screen.convert_abs_to_monitor((random.randint(-100, 100), random.randint(-100, 100)))
+                    m_pos = screen.convert_abs_to_monitor((random.randint(-100, 100), random.randint(-100, 100)))
                     self.pre_move()
                     self.move(m_pos)
                 prev_position = data["player_pos_area"]
@@ -1354,6 +1357,8 @@ class Hammerdin(IChar):
 
     def kill_andy(self) -> bool:
         return self._kill_mobs(["Andariel"])
+    # ----------------------- memread -------------------------------#
+
 
 
 if __name__ == "__main__":

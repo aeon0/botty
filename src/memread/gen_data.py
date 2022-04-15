@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from api.mapassist import MapAssistApi
+from memread.mapassist import MapAssistApi
 from screen import Screen
 import cv2
 import time
