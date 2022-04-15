@@ -123,7 +123,7 @@ class ItemCropper:
             expected_height = True if (self._box_expected_height_range[0] < h < self._box_expected_height_range[1]) else False
             expected_width = True if (self._box_expected_width_range[0] < w < self._box_expected_width_range[1]) else False
             box2 = Config().ui_roi[f"{inventory_side}_inventory"]
-            overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+28+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
+            overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+50+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
             if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
                 footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
                 found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
