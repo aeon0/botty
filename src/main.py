@@ -93,22 +93,9 @@ def main():
 if __name__ == "__main__":
     # To avoid cmd just closing down, except any errors and add a input() to the end
     try:
-        # config = Config(print_warnings=True)
-        # url = "http://185.82.21.82:4404/check_key"
-        # payload={
-        #     "key": config.general["key"],
-        #     "mac": "test"
-        # }
-        # headers = {
-        #     'Content-Type': 'application/json'
-        # }
-        # response = requests.post(url, headers=headers, data=json.dumps(payload))
-        # if response.status_code == 200 and response.json()["valid"]:
         game_controller = GameController()
         debugger_controller = GraphicDebuggerController()
         main()
-        # else:
-        #     Logger.error("Key Error")
     except:
         traceback.print_exc()
     print("Press Enter to exit ...")
