@@ -78,8 +78,10 @@ def set_launch_settings(launch_options):
     with open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config", 'w') as outfile:
         json.dump(curr_settings, outfile, indent=4)
 
-def copy_mod_files():
-    new_path = f"{Config().general['d2r_path']}/mods/botty"
+def copy_mod_files(): 
+    new_path = os.path.join(Config().general['d2r_path'], "mods\\botty")
+    if not os.path.exists(new_path):
+        os.makedirs(new_path)
     try:
         shutil.rmtree(new_path)
         shutil.copytree("assets/mods/botty", new_path)
@@ -128,4 +130,4 @@ def check_settings() -> dict:
     return diff_settings
 
 if __name__ == "__main__":
-    adjust_settings()
+    copy_mod_files()
