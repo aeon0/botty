@@ -81,7 +81,7 @@ class Baal:
         # Move to baal room
         if not MemPather().traverse((91, 15), self._char): return False
         if not MemPather().go_to_area((15089, 5006), "TheWorldstoneChamber"): return False
-        self._char.select_skill("teleport")
+        self._char.select_tp()
         if not MemPather().traverse((136, 176), self._char, do_pre_move=False): return False
         self._char.kill_baal()
         picked_up_items |= self._pickit.pick_up_items(self._char)

@@ -1,5 +1,3 @@
-import requests
-import json
 from dataclasses import dataclass
 import keyboard
 import os

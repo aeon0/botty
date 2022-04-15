@@ -18,7 +18,7 @@ from memread.mapassist import MapAssistApi
 from memread.mem_pather import MemPather
 import math
 import threading
-from random import random
+import random
 import numpy as np
 from utils.misc import is_in_roi
 
@@ -1338,6 +1338,7 @@ class Hammerdin(IChar):
                     prev_pos_counter = time.time()
                 if time.time() - prev_pos_counter > 3.8:
                     Logger.debug("Reposition for next attack")
+                    
                     m_pos = screen.convert_abs_to_monitor((random.randint(-100, 100), random.randint(-100, 100)))
                     self.pre_move()
                     self.move(m_pos)

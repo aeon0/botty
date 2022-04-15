@@ -185,6 +185,7 @@ class MemPather:
                 start_pos = np.array([player_pos_area[1], player_pos_area[0]])
                 end_pos = np.array([map_pos[1], map_pos[0]])
                 weighted_map[end_pos[0]-10:end_pos[0]+10, end_pos[1]-10:end_pos[1]+10] = 1.0
+                weighted_map[start_pos[0]-5:start_pos[0]+5, start_pos[1]-5:start_pos[1]+5] = 1.0
                 route = pyastar2d.astar_path(weighted_map, start_pos, end_pos, allow_diagonal=False)
                 if route is None:
                     Logger.warning("Could not calculate route")
