@@ -1,127 +1,112 @@
 import numpy as np
 from mss import mss
-import cv2
-import time
 from logger import Logger
 from typing import Tuple
+from utils.misc import WindowSpec, find_d2r_window, wait
 from config import Config
-from utils.misc import load_template
-import os
+import threading
 
+sct = mss()
+monitor_roi = sct.monitors[0]
+found_offsets = False
+monitor_x_range = None
+monitor_y_range = None
+detect_window = True
+detect_window_thread = None
 
-class Screen:
-    """Grabs images from screen and converts different coordinate systems to each other"""
+FIND_WINDOW = WindowSpec(
+    title_regex=Config().advanced_options["hwnd_window_title"],
+    process_name_regex=Config().advanced_options["hwnd_window_process"],
+)
 
-    def __init__(self, monitor: int = 0, wait: int = 20):
-        self._sct = mss()
-        monitor_idx = monitor + 1 # sct saves the whole screen (including both monitors if available at index 0, then monitor 1 at 1 and 2 at 2)
-        if len(self._sct.monitors) == 1:
-            Logger.error("How do you not have a monitor connected?!")
-            os._exit(1)
-        if monitor_idx >= len(self._sct.monitors):
-            Logger.warning("Monitor index not available! Choose a smaller number for 'monitor' in the param.ini. Forcing value to 0 for now.")
-            monitor_idx = 1
-        self._config = Config()
-        self._monitor_roi = self._sct.monitors[monitor_idx]
-        # auto find offests
-        template = load_template(f"assets/templates/main_menu_top_left.png", 1.0)
-        template_ingame = load_template(f"assets/templates/window_ingame_offset_reference.png", 1.0)
-        start = time.time()
-        self.found_offsets = False
-        Logger.info("Searching for window offsets. Make sure D2R is in focus and you are on the hero selection screen")
-        debug_max_val = 0
-        while time.time() - start < wait:
-            img = self.grab()
-            self._sct = mss()
-            res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-            res_ingame = cv2.matchTemplate(img, template_ingame, cv2.TM_CCOEFF_NORMED)
-            _, max_val, _, max_pos = cv2.minMaxLoc(res)
-            _, max_val_ingame, _, max_pos_ingame = cv2.minMaxLoc(res_ingame)
+def get_offset_state():
+    global found_offsets
+    return found_offsets
 
-            # We are in game
-            if max_val_ingame > max_val:
-                max_val = max_val_ingame
-                offset_x, offset_y = max_pos_ingame
-                max_pos = (
-                    offset_x - self._config.ui_pos["ingame_ref_x"],
-                    offset_y - self._config.ui_pos["ingame_ref_y"],
-                )
-            # Save max found scores for debug in case it fails
-            if max_val > debug_max_val:
-                debug_max_val = max_val
-            if max_val > 0.84:
-                if max_val < 0.93:
-                    Logger.warning(f"Your template match score to calc corner was lower then usual ({max_val*100:.1f}% confidence). " +
-                        "You might run into template matching issues along the way!")
-                offset_left, offset_top = max_pos
-                Logger.debug(f"Set offsets: left {offset_left}px, top {offset_top}px")
-                self._monitor_roi["top"] += offset_top
-                self._monitor_roi["left"] += offset_left
-                self._monitor_x_range = (self._monitor_roi["left"] + 10, self._monitor_roi["left"] + self._monitor_roi["width"] - 10)
-                self._monitor_y_range = (self._monitor_roi["top"] + 10, self._monitor_roi["top"] + self._monitor_roi["height"] - 10)
-                self._monitor_roi["width"] = self._config.ui_pos["screen_width"]
-                self._monitor_roi["height"] = self._config.ui_pos["screen_height"]
-                self.found_offsets = True
-                break
-        if not self.found_offsets:
-            if self._config.general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/error_d2r_window_not_found_" + time.strftime("%Y%m%d_%H%M%S") + ".png", self.grab())
-            Logger.error("Could not find hero selection or template for ingame, shutting down")
-            Logger.error(f"The max score that could be found was: ({debug_max_val*100:.1f}% confidence)")
-            Logger.error("Could not determine window offset. Please make sure you have the D2R window " +
-                                f"focused and that you are on the hero selection screen when pressing {self._config.general['resume_key']}")
-            
+def start_detecting_window():
+    global detect_window, detect_window_thread
+    detect_window = True
+    if detect_window_thread is None:
+        Logger.debug(f"Using WinAPI to search for window: {FIND_WINDOW}")
+        detect_window_thread = threading.Thread(target=detect_window_position)
+        detect_window_thread.start()
 
-    def convert_monitor_to_screen(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        return (screen_coord[0] - self._monitor_roi["left"], screen_coord[1] - self._monitor_roi["top"])
+def detect_window_position():
+    global detect_window
+    while detect_window:
+        find_and_set_window_position()
+    Logger.debug('Detect window thread stopped')
 
-    def convert_screen_to_monitor(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        x = screen_coord[0] + self._monitor_roi["left"]
-        y = screen_coord[1] + self._monitor_roi["top"]
-        return (np.clip(x, *self._monitor_x_range), np.clip(y, *self._monitor_y_range))
+def find_and_set_window_position():
+    position = find_d2r_window(FIND_WINDOW, offset=Config(
+    ).advanced_options["window_client_area_offset"])
+    if position is not None:
+        set_window_position(*position)
+    wait(1)
 
-    def convert_abs_to_screen(self, abs_coord: Tuple[float, float]) -> Tuple[float, float]:
-        # abs has it's center on char which is the center of the screen
-        return ((self._monitor_roi["width"] // 2) + abs_coord[0], (self._monitor_roi["height"] // 2) + abs_coord[1])
+def set_window_position(offset_x: int, offset_y: int):
+    global monitor_roi, monitor_x_range, monitor_y_range, found_offsets
+    if found_offsets and monitor_roi["top"] == offset_y and monitor_roi["left"] == offset_x:
+        return
+    Logger.debug(f"Set offsets: left {offset_x}px, top {offset_y}px")
+    monitor_roi["top"] = offset_y
+    monitor_roi["left"] = offset_x
+    monitor_roi["width"] = Config().ui_pos["screen_width"]
+    monitor_roi["height"] = Config().ui_pos["screen_height"]
+    monitor_x_range = (
+        monitor_roi["left"] + 10, monitor_roi["left"] + monitor_roi["width"] - 10)
+    monitor_y_range = (
+        monitor_roi["top"] + 10, monitor_roi["top"] + monitor_roi["height"] - 10)
+    found_offsets = True
 
-    def convert_screen_to_abs(self, screen_coord: Tuple[float, float]) -> Tuple[float, float]:
-        return (screen_coord[0] - (self._monitor_roi["width"] // 2), screen_coord[1] - (self._monitor_roi["height"] // 2))
+def stop_detecting_window():
+    global detect_window, detect_window_thread
+    detect_window = False
+    if detect_window_thread:
+        detect_window_thread.join()
 
-    def convert_abs_to_monitor(self, abs_coord: Tuple[float, float]) -> Tuple[float, float]:
-        screen_coord = self.convert_abs_to_screen(abs_coord)
-        monitor_coord = self.convert_screen_to_monitor(screen_coord)
-        return monitor_coord
+def grab() -> np.ndarray:
+    global monitor_roi
+    img = np.array(sct.grab(monitor_roi))
+    return img[:, :, :3]
 
-    def grab(self) -> np.ndarray:
-        img = np.array(self._sct.grab(self._monitor_roi))
-        return img[:, :, :3]
+# TODO: Move the below funcs to utils(?)
 
+def convert_monitor_to_screen(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+    global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_monitor_to_screen: empty coordinates passed")
+        return None
+    return (screen_coord[0] - monitor_roi["left"], screen_coord[1] - monitor_roi["top"])
 
-if __name__ == "__main__":
-    from config import Config
-    config = Config()
-    screen = Screen(config.general["monitor"])
-    while 1:
-        start = time.time()
-        test_img = screen.grab().copy()
-        # print(time.time() - start)
+def convert_screen_to_monitor(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+    global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_screen_to_monitor: empty coordinates passed")
+        return None
+    x = screen_coord[0] + monitor_roi["left"]
+    y = screen_coord[1] + monitor_roi["top"]
+    return (np.clip(x, *monitor_x_range), np.clip(y, *monitor_y_range))
 
-        show_roi = True
-        show_pt = True
+def convert_abs_to_screen(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
+    global monitor_roi
+    if abs_coord is None:
+        Logger.error("convert_screen_to_monitor: empty coordinates passed")
+        return None
+    # abs has it's center on char which is the center of the screen
+    return ((monitor_roi["width"] // 2) + abs_coord[0], (monitor_roi["height"] // 2) + abs_coord[1])
 
-        if show_roi:
-            for roi_key in config.ui_roi:
-                x, y, w, h = config.ui_roi[roi_key]
-                # t = screen.convert_screen_to_monitor((0, 0))
-                # p1 = screen.convert_screen_to_monitor((x, y))
-                # p2 = screen.convert_screen_to_monitor((x+w, y+h))
-                p1 = (x, y)
-                p2 = (x+w, y+h)
-                cv2.rectangle(test_img, p1, p2, (0, 255, 0), 2)
-                cv2.putText(test_img, roi_key, (p1[0], p1[1]+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+def convert_screen_to_abs(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+    global monitor_roi
+    if screen_coord is None:
+        Logger.error("convert_screen_to_abs: empty coordinates passed")
+        return None
+    return (screen_coord[0] - (monitor_roi["width"] // 2), screen_coord[1] - (monitor_roi["height"] // 2))
 
-        if show_pt:
-            pass
-
-        cv2.imshow("test", test_img)
-        cv2.waitKey(1)
+def convert_abs_to_monitor(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
+    if abs_coord is None:
+        Logger.error("convert_abs_to_monitor: empty coordinates passed")
+        return None
+    screen_coord = convert_abs_to_screen(abs_coord)
+    monitor_coord = convert_screen_to_monitor(screen_coord)
+    return monitor_coord

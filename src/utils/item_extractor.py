@@ -5,11 +5,9 @@ import argparse
 import os
 import cv2
 import numpy as np
-from config import Config
-from utils.misc import color_filter
+
 from item.item_cropper import ItemCropper
 import time
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to autocrop items.")
@@ -18,7 +16,6 @@ if __name__ == "__main__":
 
     args.file_path = "C:\\Users\\aliig\\Desktop\\bot\\botty-gleed-ocr\\input_images"
     gen_truth = 1
-
 
     item_cropper = ItemCropper()
 

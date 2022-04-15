@@ -1,20 +1,20 @@
 import keyboard
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Tuple, Union, List, Callable
 from utils.custom_mouse import mouse
 from char import IChar
 from template_finder import TemplateFinder
-from ui import UiManager
 from pather import Pather
-from screen import Screen
+from screen import grab
 from utils.misc import wait
 import time
 from typing import Tuple
 from pather import Pather
-
+from config import Config
+from ui_manager import ScreenObjects, is_visible
 
 class Sorceress(IChar):
-    def __init__(self, skill_hotkeys, char_config, screen: Screen, template_finder: TemplateFinder, ui_manager: UiManager, pather: Pather):
-        super().__init__(skill_hotkeys, char_config, screen, template_finder, ui_manager)
+    def __init__(self, skill_hotkeys: dict, pather: Pather):
+        super().__init__(skill_hotkeys)
         self._pather = pather
 
     def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
@@ -38,25 +38,24 @@ class Sorceress(IChar):
         self,
         template_type:  Union[str, List[str]],
         success_func: Callable = None,
-        time_out: float = 8,
+        timeout: float = 8,
         threshold: float = 0.68,
         telekinesis: bool = False
     ) -> bool:
         # In case telekinesis is False or hotkey is not set, just call the base implementation
         if not self._skill_hotkeys["telekinesis"] or not telekinesis:
-            return super().select_by_template(template_type, success_func, time_out, threshold)
+            return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
-            if self._template_finder.search("WAYPOINT_MENU", self._screen.grab()).valid:
+            if is_visible(ScreenObjects.WaypointLabel):
                 keyboard.send("esc")
         start = time.time()
-        while time_out is None or (time.time() - start) < time_out:
-            template_match = self._template_finder.search(template_type, self._screen.grab(), threshold=threshold)
+        while timeout is None or (time.time() - start) < timeout:
+            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
             if template_match.valid:
-                x_m, y_m = self._screen.convert_screen_to_monitor(template_match.position)
                 keyboard.send(self._skill_hotkeys["telekinesis"])
                 wait(0.1, 0.2)
-                mouse.move(x_m, y_m)
+                mouse.move(*template_match.center)
                 wait(0.2, 0.3)
                 mouse.click(button="right")
                 # check the successfunction for 2 sec, if not found, try again
@@ -65,10 +64,10 @@ class Sorceress(IChar):
                     if success_func is None or success_func():
                         return True
         # In case telekinesis fails, try again with the base implementation
-        return super().select_by_template(template_type, success_func, time_out, threshold)
+        return super().select_by_template(template_type, success_func, timeout, threshold)
 
     def pre_buff(self):
-        if self._char_config["cta_available"]:
+        if Config().char["cta_available"]:
             self._pre_buff_cta()
         if self._skill_hotkeys["energy_shield"]:
             keyboard.send(self._skill_hotkeys["energy_shield"])

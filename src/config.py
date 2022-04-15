@@ -1,9 +1,15 @@
 import configparser
+import string
+import threading
 import numpy as np
 import os
-import re
 from dataclasses import dataclass
 from logger import Logger
+config_lock = threading.Lock()
+
+
+def _default_iff(value, iff, default = None):
+    return default if value == iff else value
 
 @dataclass
 class ItemProps:
@@ -14,57 +20,210 @@ class ItemProps:
     exclude_type: str = "OR"
 
 class Config:
-    def _select_val(self, section: str, key: str = None):
-        if section in self._custom and key in self._custom[section]:
-            return self._custom[section][key]
-        elif section in self._config:
-            return self._config[section][key]
-        elif section in self._pickit_config:
-            return self._pickit_config[section][key]
-        elif section in self._shop_config:
-            return self._shop_config[section][key]
-        else:
-            return self._game_config[section][key]
+    data_loaded = False
 
-    def __init__(self, print_warnings: bool = False):
-        # print_warnings, what a hack... here it is, not making the effort
-        # passing a single config instance through bites me in the ass
-        self._print_warnings = print_warnings
-        self._config = configparser.ConfigParser()
-        self._config.read('config/params.ini')
-        self._game_config = configparser.ConfigParser()
-        self._game_config.read('config/game.ini')
-        self._pickit_config = configparser.ConfigParser()
-        self._pickit_config.read('config/pickit.ini')
-        self._shop_config = configparser.ConfigParser()
-        self._shop_config.read('config/shop.ini')
-        self._custom = configparser.ConfigParser()
+    configs = {}
+
+    # config data
+    general = {}
+    advanced_options = {}
+    gamble = {}
+    ui_roi = {}
+    ui_pos = {}
+    dclone = {}
+    routes = {}
+    routes_order = []
+    char = {}
+    items = {}
+    colors = {}
+    shop = {}
+    path = {}
+    blizz_sorc = {}
+    light_sorc = {}
+    nova_sorc = {}
+    hammerdin = {}
+    trapsin = {}
+    barbarian = {}
+    poison_necro = {}
+    necro = {}
+    basic = {}
+    basic_ranged = {}
+
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Config, cls).__new__(cls)
+            with config_lock:
+                if not cls._instance.data_loaded:
+                    cls._instance.data_loaded = True
+                    cls._instance.load_data()
+        return cls._instance
+
+    def _select_optional(self, section: string, key: string, default = None):
+        try:
+            return self._select_val(section=section, key=key)
+        except:
+            return default
+
+    def _select_val(self, section: str, key: str = None):
+        found_in = ""
+        if section in self.configs["custom"]["parser"] and key in self.configs["custom"]["parser"][section]:
+            found_val = self.configs["custom"]["parser"][section][key]
+            found_in = "custom"
+        elif section in self.configs["config"]["parser"]:
+            found_val = self.configs["config"]["parser"][section][key]
+            found_in = "config"
+        elif section in self.configs["pickit"]["parser"]:
+            found_val = self.configs["pickit"]["parser"][section][key]
+            found_in = "pickit"
+        elif section in self.configs["shop"]["parser"]:
+            found_val = self.configs["shop"]["parser"][section][key]
+            found_in = "shop"
+        else:
+            found_val = self.configs["game"]["parser"][section][key]
+            found_in = "game"
+
+        for var_name in self.configs[found_in]["vars"]: # set variable.
+            if var_name in found_val:
+                var_val = self.configs[found_in]["vars"][var_name]
+                found_val = found_val.replace(var_name, var_val)
+        return found_val
+
+    def parse_item_config_string(self, key: str = None) -> ItemProps:
+        string = self._select_val("items", key).upper()
+        return self.string_to_item_prop (string)
+
+    def string_to_item_prop (self, string: str) -> ItemProps:
+        item_props = ItemProps()
+        brk_on = 0
+        brk_off = 0
+        section = 0
+        counter = 0
+        start_section = 0
+        start_item = 0
+        include_list = []
+        exclude_list = []
+        for char in string:
+            new_section = False
+            counter+=1
+            if char == "(":
+                brk_on +=1
+            elif char == ")":
+                brk_off += 1
+            if ((char == "," and brk_on==brk_off)):
+                new_section = True
+                if  (counter == len (string)):
+                    string_section = string [start_section:counter]
+                else:
+                    string_section = string [start_section:counter-1]
+                if section == 0:
+                    item_props.pickit_type = int (string_section)
+                section +=1
+                start_section = counter
+            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
+                if new_section:
+                    section -=1
+                if start_item ==0:
+                    start_item = start_section
+                if  (counter == len (string)):
+                    item = string [start_item:counter]
+                else:
+                    item = string [start_item:counter-1]
+                if section == 0 and counter == len (string):
+                    item_props.pickit_type = int (item)
+                    pass
+                if section ==1:
+                    include_list.append (item)
+                    start_item = counter +1
+                elif section ==2:
+                    exclude_list.append (item)
+                    start_item = counter +1
+                if new_section:
+                    section +=1
+        if (len (include_list)>0 and (len (include_list[0]) >=6)):
+            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
+                item_props.include_type = "AND"
+            else:
+                item_props.include_type = "OR"
+        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
+            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
+                item_props.exclude_type = "AND"
+            else:
+                item_props.exclude_type = "OR"
+        for i in range (len(include_list)):
+            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
+            include_list[i]  = include_list[i].split (",")
+        for l in range (len (exclude_list)):
+            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
+            exclude_list[l] = exclude_list[l].split (",")
+        item_props.include = include_list
+        item_props.exclude = exclude_list
+        return item_props
+
+    def turn_off_goldpickup(self):
+        Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
+        with config_lock:
+            self.char["stash_gold"] = False
+            self.items["misc_gold"].pickit_type = 0
+
+    def turn_on_goldpickup(self):
+        Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
+        self.char["stash_gold"] = True
+        # if gold pickup in pickit config was originally on but turned off, turn back on
+        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
+            Logger.info("Turn gold pickup back on")
+            with config_lock:
+                self.items["misc_gold"].pickit_type = 1
+
+    def load_data(self):
+        self.configs = {
+            "config": {"parser": configparser.ConfigParser(), "vars": {}},
+            "game": {"parser": configparser.ConfigParser(), "vars": {}},
+            "pickit": {"parser": configparser.ConfigParser(), "vars": {}},
+            "shop": {"parser": configparser.ConfigParser(), "vars": {}},
+            "transmute": {"parser": configparser.ConfigParser(), "vars": {}},
+            "custom": {"parser": configparser.ConfigParser(), "vars": {}},
+        }
+        self.configs["config"]["parser"].read('config/params.ini')
+        self.configs["game"]["parser"].read('config/game.ini')
+        self.configs["pickit"]["parser"].read('config/pickit.ini')
+        self.configs["shop"]["parser"].read('config/shop.ini')
+        self.configs["transmute"]["parser"].read('config/transmute.ini')
+
         if os.environ.get('RUN_ENV') != "test" and os.path.exists('config/custom.ini'):
-            self._custom.read('config/custom.ini')
+            try:
+                self.configs["custom"]["parser"].read('config/custom.ini')
+            except configparser.MissingSectionHeaderError:
+                Logger.error("custom.ini missing section header, defaulting to params.ini")
+
+        for config_name in self.configs:
+            config = self.configs[config_name]
+            try:
+                for var in config["parser"]["variables"]:
+                    config["vars"][var] = config["parser"]["variables"][var] # set var name to var value
+            except KeyError: # "" header section was not found for this config file.
+                pass
+
+
 
         self.general = {
             "key": self._select_val("general", "key"),
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
             "name": self._select_val("general", "name"),
-            "monitor": int(self._select_val("general", "monitor")),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
-            "exit_key": self._select_val("general", "exit_key"),
-            "resume_key": self._select_val("general", "resume_key"),
-            "auto_settings_key": self._select_val("general", "auto_settings_key"),
-            "restore_settings_from_backup_key": self._select_val("general", "restore_settings_from_backup_key"),
-            "settings_backup_key": self._select_val("general", "settings_backup_key"),
-            "graphic_debugger_key": self._select_val("general", "graphic_debugger_key"),
-            "logg_lvl": self._select_val("general", "logg_lvl"),
+            "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
+            "max_runtime_before_break_m": float(_default_iff(self._select_val("general", "max_runtime_before_break_m"), '', 0)),
+            "break_length_m": float(_default_iff(self._select_val("general", "break_length_m"), '', 0)),
             "randomize_runs": bool(int(self._select_val("general", "randomize_runs"))),
             "difficulty": self._select_val("general", "difficulty"),
             "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
-            "discord_status_condensed": bool(int(self._select_val("general", "discord_status_condensed"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
-            "d2r_path": self._select_val("general", "d2r_path"),
-            "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck")))
+            "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
+            "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
         }
 
         # Added for dclone ip hunting
@@ -76,8 +235,8 @@ class Config:
         self.routes = {}
         order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
         self.routes_order = [x.strip() for x in order_str.split(",")]
-        del self._config["routes"]["order"]
-        for key in self._config["routes"]:
+        del self.configs["config"]["parser"]["routes"]["order"]
+        for key in self.configs["config"]["parser"]["routes"]:
             self.routes[key] = bool(int(self._select_val("routes", key)))
 
         self.char = {
@@ -106,10 +265,11 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
-            "gold_trav_only": bool(int(self._select_val("char", "gold_trav_only"))),
+            "min_gold_to_pick": int(_default_iff(self._select_val("char", "min_gold_to_pick"), '', 0)),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
+            "fill_shared_stash_first": bool(int(self._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
@@ -121,101 +281,118 @@ class Config:
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
             "atk_len_eldritch": float(self._select_val("char", "atk_len_eldritch")),
             "atk_len_shenk": float(self._select_val("char", "atk_len_shenk")),
-            "atk_len_nihlatak": float(self._select_val("char", "atk_len_nihlatak")),
+            "atk_len_nihlathak": float(self._select_val("char", "atk_len_nihlathak")),
             "atk_len_diablo_vizier": float(self._select_val("char", "atk_len_diablo_vizier")),
             "atk_len_diablo_deseis": float(self._select_val("char", "atk_len_diablo_deseis")),
             "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
-            "kill_cs_trash": float(self._select_val("char", "kill_cs_trash")),
-            "always_repair": bool(int(self._select_val("char", "always_repair"))),
+            "kill_cs_trash": bool(int(self._select_val("char", "kill_cs_trash"))),
+            "cs_town_visits": bool(int(self._select_val("char", "cs_town_visits"))),
+            "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
+            "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
+            "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
+            "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
         }
-
         # Sorc base config
-        sorc_base_cfg = dict(self._config["sorceress"])
-        if "sorceress" in self._custom:
-            sorc_base_cfg.update(dict(self._custom["sorceress"]))
+        sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
+        if "sorceress" in self.configs["custom"]["parser"]:
+            sorc_base_cfg.update(dict(self.configs["custom"]["parser"]["sorceress"]))
         # blizz sorc
-        self.blizz_sorc = dict(self._config["blizz_sorc"])
-        if "blizz_sorc" in self._custom:
-            self.blizz_sorc.update(dict(self._custom["blizz_sorc"]))
+        self.blizz_sorc = dict(self.configs["config"]["parser"]["blizz_sorc"])
+        if "blizz_sorc" in self.configs["custom"]["parser"]:
+            self.blizz_sorc.update(dict(self.configs["custom"]["parser"]["blizz_sorc"]))
         self.blizz_sorc.update(sorc_base_cfg)
         # light sorc
-        self.light_sorc = dict(self._config["light_sorc"])
-        if "light_sorc" in self._custom:
-            self.light_sorc.update(dict(self._custom["light_sorc"]))
+        self.light_sorc = dict(self.configs["config"]["parser"]["light_sorc"])
+        if "light_sorc" in self.configs["custom"]["parser"]:
+            self.light_sorc.update(dict(self.configs["custom"]["parser"]["light_sorc"]))
         self.light_sorc.update(sorc_base_cfg)
         # nova sorc
-        self.nova_sorc = dict(self._config["nova_sorc"])
-        if "nova_sorc" in self._custom:
-            self.nova_sorc.update(dict(self._custom["nova_sorc"]))
+        self.nova_sorc = dict(self.configs["config"]["parser"]["nova_sorc"])
+        if "nova_sorc" in self.configs["custom"]["parser"]:
+            self.nova_sorc.update(dict(self.configs["custom"]["parser"]["nova_sorc"]))
         self.nova_sorc.update(sorc_base_cfg)
 
         # Palandin config
-        self.hammerdin = self._config["hammerdin"]
-        if "hammerdin" in self._custom:
-            self.hammerdin.update(self._custom["hammerdin"])
+        self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
+        if "hammerdin" in self.configs["custom"]["parser"]:
+            self.hammerdin.update(self.configs["custom"]["parser"]["hammerdin"])
 
         # Assasin config
-        self.trapsin = self._config["trapsin"]
-        if "trapsin" in self._custom:
-            self.trapsin.update(self._custom["trapsin"])
+        self.trapsin = self.configs["config"]["parser"]["trapsin"]
+        if "trapsin" in self.configs["custom"]["parser"]:
+            self.trapsin.update(self.configs["custom"]["parser"]["trapsin"])
 
         # Barbarian config
-        self.barbarian = self._config["barbarian"]
-        if "barbarian" in self._custom:
-            self.barbarian.update(self._custom["barbarian"])
+        self.barbarian = self.configs["config"]["parser"]["barbarian"]
+        if "barbarian" in self.configs["custom"]["parser"]:
+            self.barbarian.update(self.configs["custom"]["parser"]["barbarian"])
         self.barbarian = dict(self.barbarian)
         self.barbarian["cry_frequency"] = float(self.barbarian["cry_frequency"])
 
         # Basic config
-        self.basic = self._config["basic"]
-        if "basic" in self._custom:
-            self.basic.update(self._custom["basic"])
+        self.basic = self.configs["config"]["parser"]["basic"]
+        if "basic" in self.configs["custom"]["parser"]:
+            self.basic.update(self.configs["custom"]["parser"]["basic"])
 
         # Basic Ranged config
-        self.basic_ranged = self._config["basic_ranged"]
-        if "basic_ranged" in self._custom:
-            self.basic_ranged.update(self._custom["basic_ranged"])
+        self.basic_ranged = self.configs["config"]["parser"]["basic_ranged"]
+        if "basic_ranged" in self.configs["custom"]["parser"]:
+            self.basic_ranged.update(self.configs["custom"]["parser"]["basic_ranged"])
 
         # Necro config
-        self.necro = self._config["necro"]
-        if "necro" in self._custom:
-            self.necro.update(self._custom["necro"])
+        self.necro = self.configs["config"]["parser"]["necro"]
+        if "necro" in self.configs["custom"]["parser"]:
+            self.necro.update(self.configs["custom"]["parser"]["necro"])
+
+        self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
+        if "poison_necro" in self.configs["custom"]["parser"]:
+            self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
             "message_headers": self._select_val("advanced_options", "message_headers"),
             "message_body_template": self._select_val("advanced_options", "message_body_template"),
-            "message_highlight": bool(int(self._select_val("advanced_options", "message_highlight"))),
-            "d2r_windows_always_on_top": bool(int(self._select_val("advanced_options", "d2r_windows_always_on_top"))),
             "graphic_debugger_layer_creator": bool(int(self._select_val("advanced_options", "graphic_debugger_layer_creator"))),
+            "logg_lvl": self._select_val("advanced_options", "logg_lvl"),
+            "exit_key": self._select_val("advanced_options", "exit_key"),
+            "resume_key": self._select_val("advanced_options", "resume_key"),
+            "auto_settings_key": self._select_val("advanced_options", "auto_settings_key"),
+            "restore_settings_from_backup_key": self._select_val("advanced_options", "restore_settings_from_backup_key"),
+            "settings_backup_key": self._select_val("advanced_options", "settings_backup_key"),
+            "graphic_debugger_key": self._select_val("advanced_options", "graphic_debugger_key"),
+            "hwnd_window_title": _default_iff(Config()._select_val("advanced_options", "hwnd_window_title"), ''),
+            "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
+            "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
+            "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
+            "launch_options": self._select_val("advanced_options", "launch_options"),
+            "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
         self.items = {}
-        for key in self._pickit_config["items"]:
+        for key in self.configs["pickit"]["parser"]["items"]:
             try:
                 self.items[key] = self.parse_item_config_string(key)
-                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png") and self._print_warnings:
-                    print(f"Warning: You activated {key} in pickit, but there is no img available in assets/items")
+                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png"):
+                    Logger.warning(f"You activated {key} in pickit, but there is no img available in assets/items")
             except ValueError as e:
-                if self._print_warnings:
-                    print(f"Error with pickit config: {key} ({e})")
+                Logger.error(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
-        for key in self._game_config["colors"]:
+        for key in self.configs["game"]["parser"]["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
 
         self.ui_pos = {}
-        for key in self._game_config["ui_pos"]:
+        for key in self.configs["game"]["parser"]["ui_pos"]:
             self.ui_pos[key] = int(self._select_val("ui_pos", key))
 
         self.ui_roi = {}
-        for key in self._game_config["ui_roi"]:
+        for key in self.configs["game"]["parser"]["ui_roi"]:
             self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi", key).split(",")])
 
         self.path = {}
-        for key in self._game_config["path"]:
+        for key in self.configs["game"]["parser"]["path"]:
             self.path[key] = np.reshape(np.array([int(x) for x in self._select_val("path", key).split(",")]), (-1, 2))
 
         self.shop = {
@@ -226,38 +403,23 @@ class Config:
             "trap_min_score": int(self._select_val("claws", "trap_min_score")),
             "melee_min_score": int(self._select_val("claws", "melee_min_score")),
             "shop_hammerdin_scepters": bool(int(self._select_val("scepters", "shop_hammerdin_scepters"))),
+            "speed_factor": float(self._select_val("scepters", "speed_factor")),
+            "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
+        }
+        stash_destination_str = self._select_val("transmute","stash_destination")
+        self.configs["transmute"]["parser"] = {
+            "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
+            "transmute_every_x_game": self._select_val("transmute","transmute_every_x_game"),
         }
 
-    def parse_item_config_string(self, key: str = None) -> ItemProps:
-        item_props = ItemProps()
-        # split string by commas NOT contained within parentheses
-        item_string_as_list = re.split(r',\s*(?![^()]*\))', self._select_val("items", key).upper())
-        trim_strs=["AND(", "OR(", "(", ")", " "]
-        clean_string = [re.sub(r'|'.join(map(re.escape, trim_strs)), '', x).strip() for x in item_string_as_list]
-        item_props.pickit_type = int(clean_string[0])
-        try:
-            item_props.include = clean_string[1].split(',') if clean_string[1] else None
-            item_props.include_type = "AND" if "AND" in item_string_as_list[1] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
-        try:
-            item_props.exclude = clean_string[2].split(',') if clean_string[2] else None
-            item_props.exclude_type = "AND" if "AND" in item_string_as_list[2] else "OR"
-        except IndexError as error:
-            pass
-        except Exception as exception:
-            Logger.error(f"Item parsing error: {exception}")
-        return item_props
-
 if __name__ == "__main__":
-    config = Config(print_warnings=True)
+    from copy import deepcopy
+    config = self()
 
     # Check if any added items miss templates
     for k in config.items:
         if not os.path.exists(f"./assets/items/{k}.png"):
-            print(f"Template not found: {k}")
+            Logger.warning(f"Template not found: {k}")
 
     # Check if any item templates miss a config
     for filename in os.listdir(f'assets/items'):
@@ -266,4 +428,4 @@ if __name__ == "__main__":
             item_name = filename[:-4]
             blacklist_item = item_name.startswith("bl__")
             if item_name not in config.items and not blacklist_item:
-                print(f"Config not found for: " + filename)
+                Logger.warning(f"Config not found for: " + filename)
