@@ -10,24 +10,9 @@ from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables
 from ui import view
 from screen import convert_screen_to_monitor, grab
-from dataclasses import dataclass
 from logger import Logger
 from ocr import Ocr
 from template_finder import TemplateMatch
-
-@dataclass
-class BoxInfo:
-    img: np.ndarray = None
-    pos: tuple = None
-    column: int = None
-    row: int = None
-    need_id: bool = False
-    sell: bool = False
-    keep: bool = False
-    def __getitem__(self, key):
-        return super().__getattribute__(key)
-    def __setitem__(self, key, value):
-        setattr(self, key, value)
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """
