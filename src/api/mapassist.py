@@ -35,21 +35,43 @@ def scaling_matrix(sx, sy):
 class MapAssistApi:
     def __init__(self):
         self._transform_matrix = None
+        self._player_pos = [0, 0]
 
     def update_transform_matrix(self, player_pos):
+        self._player_pos = player_pos
         angle = np.deg2rad(45)
         tm_p = translation_matrix(-player_pos[0], -player_pos[1])
         rm = rotation_matrix(angle)
-        scalem = scaling_matrix(27, 13.5)
+        scalem = scaling_matrix(27.5, 13.75)
         self._transform_matrix = tm_p @ rm @ scalem
         self._transform_matrix = np.transpose(self._transform_matrix)
         self._inv_transform_matrix = np.linalg.inv(self._transform_matrix)
+
+    def fast_imp(self, world_pos):
+        # translation
+        cp = np.array([
+            self._player_pos[0] - world_pos[0],
+            self._player_pos[1] - world_pos[1]
+        ])
+        # rotation
+        a = np.deg2rad(45)
+        x = cp[0]
+        y = cp[1]
+        cp = np.array([
+            x * np.cos(a) - y * np.sin(a),
+            x * np.sin(a) + y * np.cos(a)
+        ])
+        # scaling
+        cp = np.array([cp[0] * 27.5, cp[1] * 13.75])
+        cp = cp.astype(np.int32)
+        return cp
 
     def world_to_abs_screen(self, world_pos):
         cp = np.array([world_pos[0], world_pos[1], 1.0])
         res = self._transform_matrix @ cp
         res = np.transpose(res)
-        res = np.array([int(res[0] / res[2]), int(res[1] / res[2])])
+        res = np.array([(res[0] / res[2]), (res[1] / res[2])])
+        res = res.astype(np.int32)
         return res
 
     def abs_screen_to_world(self, abs_screen_pos):
@@ -58,6 +80,21 @@ class MapAssistApi:
         res = np.transpose(res)
         res = np.array([int(res[0] / res[2]), int(res[1] / res[2])])
         return res
+
+    def create_grid(self, screen, img):
+        delta = 20
+        step = 2
+        x_range = (int(self._player_pos[0] - delta), int(self._player_pos[0] + delta))
+        y_range = (int(self._player_pos[1] - delta), int(self._player_pos[1] + delta))
+        for x in range(x_range[0], x_range[1], step):
+            for y in range(y_range[0], y_range[1], step):
+                next_x = x + step
+                next_y = y + step
+                center = screen.convert_abs_to_screen(self.world_to_abs_screen([x, y]))
+                right = screen.convert_abs_to_screen(self.world_to_abs_screen([next_x, y]))
+                bottom = screen.convert_abs_to_screen(self.world_to_abs_screen([x, next_y]))
+                cv2.line(img, center, right, (255, 0, 0), 1)
+                cv2.line(img, center, bottom, (255, 0, 0), 1)
 
     def get_data(self) -> dict:
         try:
@@ -126,22 +163,26 @@ if __name__ == "__main__":
     from screen import Screen
     screen = Screen(1)
     api = MapAssistApi()
+    i = 0
     while 1:
+        time.sleep(0.01)
         img = screen.grab().copy()
         data = api.get_data()
         map_img = None
         if data is not None:
-            print(data["left_skill"], data["right_skill"], data["used_skill"])
+            # api.create_grid(screen, img)
+            # print(data["left_skill"], data["right_skill"], data["used_skill"])
             # abs_pos = api.world_to_abs_screen((15089, 5006))
             # screen_pos = screen.convert_abs_to_screen(abs_pos)
             # cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (255, 255, 0), 2)
 
             for monster in data["monsters"]:
                 screen_pos = screen.convert_abs_to_screen(monster["abs_screen_position"])
-                top_left = (int(screen_pos[0] - 30), int(screen_pos[1] - 100))
-                bottom_right = (int(screen_pos[0] + 30), int(screen_pos[1]))
-                cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (0, 255, 0), 2)
-                cv2.rectangle(img, top_left, bottom_right, (0, 0, 255), 2)
+                # top_left = (int(screen_pos[0] - 15), int(screen_pos[1] - 50))
+                # bottom_right = (int(screen_pos[0] + 15), int(screen_pos[1]))
+                cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1] - 40)), 4, (0, 255, 0), 2)
+                screen_pos = screen.convert_abs_to_screen([0, 0])
+                cv2.circle(img, (int(screen_pos[0]), int(screen_pos[1])), 4, (30, 255, 140), 2)
 
             for poi in data["poi"]:
                 screen_pos = screen.convert_abs_to_screen(poi["abs_screen_position"])
@@ -204,7 +245,7 @@ if __name__ == "__main__":
                                         cv2.circle(img, (sc[0] + 640, sc[1] + 360), 5, (255, 190, 0), 3)
                                         break
                         # print(time.time() - start)
-        time.sleep(0.05)
+
         img = cv2.resize(img, None, fx=0.5, fy=0.5)
         cv2.imshow("t", img)
         if map_img is not None:
