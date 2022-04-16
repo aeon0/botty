@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import math
 
 from config import Config
+from enip.transpile import should_pickup
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
@@ -139,6 +140,13 @@ class ItemFinder:
 
 
 # Testing: Throw some stuff on the ground see if it is found
+
+# {'x': 402, 'y': 277, 'w': 130, 'h': 42}, Name='GHOUL TURN', Quality='rare', Text='GHOUL TURN', 
+# BaseItem={'DisplayName': 'Ring', 'NTIPAliasClassID': 522, 'NTIPAliasType': 10, 'dimensions': [1, 1], 'sets': ['ANGELICHALO', 'CATHANSSEAL'], 
+# 'uniques': ['NAGELRING', 'MANALDHEAL', 'THESTONEOFJORDAN', 'CONSTRICTINGRING', 'BULKATHOSWEDDINGBAND', 'DWARFSTAR', 'RAVENFROST', 'NATURESPEACE', 'WISPPROJECTOR', 'CARRIONWIND']}, 
+# Item=None, NTIPAliasType=10, NTIPAliasClassID=522, NTIPAliasClass=None, NTIPAliasQuality=6, NTIPAliasFlag={'0x10': True, '0x4000000': True}
+
+
 if __name__ == "__main__":
     import keyboard
     import os
@@ -154,12 +162,21 @@ if __name__ == "__main__":
     while 1:
         img=grab().copy()
         all_loot = d2r_image.get_ground_loot(img)
-        print(all_loot)
+        for item in all_loot.items:
+            item = {
+                "Quality": item.Quality,
+                "NTIPAliasClassID": item.NTIPAliasClassID,
+                "NTIPAliasType": item.NTIPAliasType,
+                "NTIPAliasClass": item.NTIPAliasClass,
+                "NTIPAliasQuality": item.NTIPAliasQuality,
+                "NTIPAliasFlag": item.NTIPAliasFlag,
+            }
+            print(should_pickup(item))
         draw_items_on_image_data(all_loot.items, img)
         cv2.imshow('test', img)
         cv2.waitKey(5000)
 
-
+# cd C:\Users\Owner\Desktop\botty_v0.7.1\botty && conda activate botty && python src/item/item_finder.py
     # item_finder = ItemFinder()
     # while 1:
     #     # img = cv2.imread("")

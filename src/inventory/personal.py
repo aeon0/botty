@@ -19,19 +19,15 @@ from ui import view
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse, wait_for_update
 from messages import Messenger
 from d2r_image import processing as d2r_image
-from d2_nip_eval import lexer
+# from d2_nip_eval import lexer
+
+from enip.transpile import should_id, should_keep
 
 inv_gold_full = False
 messenger = Messenger()
 item_finder = ItemFinder()
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
-nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'nip')
-glob_nip_path = os.path.join(nip_path, '**', '*.nip')
-nip_file_paths = glob.glob(glob_nip_path, recursive=True)
-expressions = []
-for nip_file_path in nip_file_paths:
-    data = open(nip_file_path).readlines()
-    expressions += lexer.transpile_nip_expressions(data)
+
 
 def get_inventory_gold_full():
     global inv_gold_full
@@ -202,6 +198,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         hovered_item = grab()
         # get the item description box
         item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+        print("69_420", type(item_properties), type(item_box))
         if item_box is not None:
             # determine the item's ROI in inventory
             cnt=0
@@ -238,26 +235,27 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 Logger.debug(f"Dropping {item_name}")
                 found_item = False
             # attempt to identify item
-            need_id = False
-            if Config().char["id_items"] and found_item:
-                # TODO: need to clean this logic up once we get rid of pickit.ini and use NIP
-                # if this item has no include or exclude properties, leave it unidentified
-                implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
-                implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
-                if not implied_no_id:
-                    if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.img)):
-                        need_id = True
-                        center_mouse()
-                        tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
-                    if is_unidentified and tome_state is not None and tome_state == "ok":
-                        common.id_item_with_tome([x_m, y_m], tome_pos)
-                        need_id = False
-                        # recapture box after ID
-                        mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
-                        wait(0.2, 0.3)
-                        hovered_item = grab()
-                        item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
-
+            # need_id = False
+            is_unidentified = False
+            # TODO: need to clean this logic up once we get rid of pickit.ini and use NIP
+            # if this item has no include or exclude properties, leave it unidentified
+            # implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
+            # implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
+            # if not implied_no_id:
+            #     if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.img)):
+            #         need_id = True
+            #         center_mouse()
+            #         tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
+            #     if is_unidentified and tome_state is not None and tome_state == "ok":
+            #         common.id_item_with_tome([x_m, y_m], tome_pos)
+            #         need_id = False
+            #         # recapture box after ID
+            #         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
+            #         wait(0.2, 0.3)
+            #         hovered_item = grab()
+            #         item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+            
+            is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
             if item_box is not None:
                 Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
                 for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
@@ -276,11 +274,20 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                 # decide whether to keep item
                 keep = False
-                if not need_id:
-                    keep = lexer.keep_item(expressions, item_properties.as_dict()) if found_item else False
+                need_id = False
+                Logger.error(f"is_unidentified {is_unidentified}")
+                print(item_properties)
+                if is_unidentified and should_id(item_properties.as_dict()):    
+                    need_id = True
+                    print("NEED ID")
+                else: # ! Check if we should keep the item
+                    keep = should_keep(item_properties.as_dict())
+                    print("KEEP", keep)
                 if keep:
                     sell = need_id = False
+                    # sell = False
 
+                Logger.warning(f"keep {keep}, need_id {need_id}, sell {sell}")
                 box = common.BoxInfo(
                     img = item_box.img,
                     pos = (x_m, y_m),
@@ -297,9 +304,9 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     transfer_items([box], action = "sell")
                     continue
                 # if item is to be kept and is already ID'd or doesn't need ID, log and stash
-                if game_stats is not None and (keep and not need_id):
-                    Logger.debug(f"Stashing {item_name}")
-                    game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
+                # if game_stats is not None and (keep and not need_id):
+                #     Logger.debug(f"Stashing {item_name}")
+                #     game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
                 # if item is to be kept or still needs to be sold or identified, append to list
                 if keep or sell or need_id:
                     # save item info
@@ -318,6 +325,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
     if close_window:
+        if not is_visible(ScreenObjects.RightPanel, img):
+            center_mouse()
         common.close()
     return boxes
 
