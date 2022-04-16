@@ -8,6 +8,7 @@ import keyboard
 import cv2
 import time
 import numpy as np
+from dataclasses import dataclass
 
 from template_finder import TemplateFinder
 from config import Config
@@ -23,6 +24,20 @@ inv_gold_full = False
 messenger = Messenger()
 item_finder = ItemFinder()
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
+
+@dataclass
+class BoxInfo:
+    img: np.ndarray = None
+    pos: tuple = None
+    column: int = None
+    row: int = None
+    need_id: bool = False
+    sell: bool = False
+    keep: bool = False
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
 
 def get_inventory_gold_full():
     global inv_gold_full
@@ -269,7 +284,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
         img = grab()
     return img
 
-def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None):
+def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None) -> list[BoxInfo]:
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
@@ -377,7 +392,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 if keep:
                     sell = need_id = False
 
-                box = common.BoxInfo(
+                box = BoxInfo(
                     img = item_box.data,
                     pos = (x_m, y_m),
                     column = slot[2],
@@ -444,6 +459,16 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
             keyboard.send('ctrl', do_release=False)
             wait(0.1, 0.2)
         for item in filtered:
+            pre_hover_img = grab()
+            _, slot_img = common.get_slot_pos_and_img(pre_hover_img, item.column, item.row)
+            if not common.slot_has_item(slot_img):
+                # item no longer exists in that position...
+                Logger.debug(f"Item at {item.pos} doesn't exist, skip and remove from list")
+                for cnt, o_item in enumerate(items):
+                    if o_item.pos == item.pos:
+                        items.pop(cnt)
+                        break
+                continue
             # move to item position and left click
             mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
             wait(0.2, 0.4)
@@ -473,5 +498,5 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
                     if (gold_unchanged := not wait_for_update(pre_transfer_img, Config().ui_roi["inventory_gold_digits"], 3)):
                         Logger.info("Inventory gold is full, force stash")
                     set_inventory_gold_full(gold_unchanged)
-        keyboard.send('ctrl', do_press=False)
+    keyboard.send('ctrl', do_press=False)
     return items
