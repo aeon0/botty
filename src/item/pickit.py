@@ -27,16 +27,36 @@ class PickIt:
         :param char: The character used to pick up the item
         :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
         """
-        found_nothing = 0
-        found_items = False
+        def sort_by_distance(item):
+            item_x = item.BoundingBox["x"] + item.BoundingBox["w"] // 2
+            item_y = item.BoundingBox["y"] + item.BoundingBox["h"] // 2
+
+            player_x = Config().ui_pos["screen_width"] / 2
+            player_y = Config().ui_pos["screen_height"] / 2
+
+            item_distance = ((item_x - player_x) ** 2 + (item_y - player_y) ** 2) ** 0.5
+            return item_distance
+
+
+
+        picked_up_item = False
 
         keyboard.send(Config().char["show_items"])
-        time.sleep(1.0) # sleep needed here to give d2r time to display items on screen on keypress
+        time.sleep(0.5)
         img = grab()
+        items = d2r_image.get_ground_loot(img).items.copy()
+        items.sort(key=sort_by_distance)
         
-        all_loot = d2r_image.get_ground_loot(img)
-        for item in all_loot.items:
-            item = {
+        for i in range(len(items)):
+            if picked_up_item:
+                img = grab()
+                time.sleep(0.5)
+                items = d2r_image.get_ground_loot(img).items.copy()
+                items.sort(key=sort_by_distance)
+                i=0
+                
+            item = items[i]
+            nip_formatted_item = {
                 "Quality": item.Quality,
                 "NTIPAliasClassID": item.NTIPAliasClassID,
                 "NTIPAliasType": item.NTIPAliasType,
@@ -45,14 +65,23 @@ class PickIt:
                 "NTIPAliasFlag": item.NTIPAliasFlag,
             }
 
-            pickup = should_pickup(item)
-            if pickup:
-                print("Should pickup item!")
+            if should_pickup(nip_formatted_item):
+                center_x = item.BoundingBox["x"] + item.BoundingBox["w"] // 2
+                center_y = item.BoundingBox["y"] + item.BoundingBox["h"] // 2
+
+                mx, my = convert_screen_to_monitor((center_x, center_y))
                 
+                mouse.move(mx, my)
+                mouse.click(button="left")
+                picked_up_item = True
+                print(f"\n\nAttempting to pick up {item.Name}\n\n")
+            else:
+                picked_up_item = False
+
 
         
         keyboard.send(Config().char["show_items"])
-        return found_items
+        return []#found_items
 
 
 # class PickIt:
