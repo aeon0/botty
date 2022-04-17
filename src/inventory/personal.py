@@ -302,7 +302,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     # sell = False
 
                 box = BoxInfo(
-                    img = item_box.data,
+                    img = item_box.img,
                     pos = (x_m, y_m),
                     column = slot[2],
                     row = slot[1],
