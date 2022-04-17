@@ -79,9 +79,9 @@ class HealthManager:
         self._did_chicken = False
         start = time.time()
 
-        lp_hp_potion_delay = 9 + uniform(0, 1)
-        lp_mp_potion_delay = 9 + uniform(0, 1)
-        merc_hp_potion_delay = 9 + uniform(0, 1)
+        lp_hp_potion_delay = uniform(9, 10)
+        lp_mp_potion_delay = uniform(9, 10)
+        merc_hp_potion_delay = uniform(9, 10)
 
         while self._do_monitor:
             time.sleep(0.1)
@@ -93,9 +93,9 @@ class HealthManager:
                 mana_percentage = meters.get_mana(img)
                 # check rejuv
 
-                if health_percentage == 100:
+                if health_percentage == 1:
                     lp_hp_potion_delay = 0
-                if mana_percentage == 100:
+                if mana_percentage == 1:
                     lp_mp_potion_delay = 0
 
                 success_drink_rejuv = False
