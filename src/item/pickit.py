@@ -1,3 +1,4 @@
+from enum import Enum
 import time
 import keyboard
 import cv2
@@ -11,51 +12,101 @@ from item import ItemFinder, Item
 from char import IChar
 from inventory import consumables
 import parse
+from math import dist
 
 from d2r_image import processing as d2r_image
 from d2r_image.demo import draw_items_on_image_data
 from enip.transpile import should_pickup
 
+
+class PickedUpResults(Enum):
+    PickedUp      = 1
+    NotPickedUp   = 2
+    InventoryFull = 3
+
 class PickIt:
     def __init__(self, item_finder: ItemFinder):
         self._item_finder = item_finder
-        self._last_closest_item: Item = None
 
-    def pick_up_items(self, char: IChar) -> bool:
-        """
-        Pick up all items with specified char
-        :param char: The character used to pick up the item
-        :return: Bool if any items were picked up or not. (Does not account for picking up scrolls and pots)
-        """
+        self.already_looked_at = []
+        self.cached_pickit_items = {} # * Cache the result of weather or not we should pick up the item. this should save some time
+        self.prev_item_pickup_attempt = ''
+        self.fail_pickup_count = 0
+
+
+    def pick_up_item(self, item: object, item_id: str) -> bool:
+
+        item_x, item_y = convert_screen_to_monitor(
+            (item.BoundingBox["x"] + item.BoundingBox["w"] // 2,
+            item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
+        )
+
+        item_UID = f"{item_id}_{item_x}_{item_y}" # * Create a "unique" id for the item
+        
+        if item_UID not in self.already_looked_at:
+            self.already_looked_at.append(item_UID)
+            if item_UID == self.prev_item_pickup_attempt:
+                print("Failed to pick up item, possibly inventory full")
+                fail_pickup_count += 1
+                if is_visible(ScreenObjects.Overburdened):
+                    return PickedUpResults.InventoryFull
+            
+            mouse.move(item_x, item_y)
+            mouse.click(button="left")
+            self.prev_item_pickup_attempt = item_UID
+            print(f"\n\nAttempting to pick up {item.Name}\n\n")
+            return PickedUpResults.PickedUp
+        else:
+            return PickedUpResults.NotPickedUp
+
+    
+    def grab_items(self) -> list:
         def sort_by_distance(item):
+            # * Get the middle of the item box
             item_x = item.BoundingBox["x"] + item.BoundingBox["w"] // 2
             item_y = item.BoundingBox["y"] + item.BoundingBox["h"] // 2
 
             player_x = Config().ui_pos["screen_width"] / 2
             player_y = Config().ui_pos["screen_height"] / 2
 
-            item_distance = ((item_x - player_x) ** 2 + (item_y - player_y) ** 2) ** 0.5
+            item_distance = dist((item_x, item_y), (player_x, player_y)) #((item_x - player_x) ** 2 + (item_y - player_y) ** 2) ** 0.5
             return item_distance
-
-
-
-        picked_up_item = False
-
-        keyboard.send(Config().char["show_items"])
-        time.sleep(0.5)
         img = grab()
         items = d2r_image.get_ground_loot(img).items.copy()
         items.sort(key=sort_by_distance)
-        
-        for i in range(len(items)):
-            if picked_up_item:
-                img = grab()
+        return items
+
+    def pick_up_items(self, char: IChar) -> bool:
+        """
+            To be called everytime the bot wants to pick up items
+            Pick up items that with a specified char
+            :param char: The character used to pick up the item
+            TODO :return: return a list of the items that were picked up
+        """
+         
+        self.prev_item_pickup_attempt = ''
+        self.fail_pickup_count = 0
+        self.already_looked_at = []
+
+
+        keyboard.send(Config().char["show_items"])
+        time.sleep(0.2)
+        start = time.time()
+        items = self.grab_items()
+        print(f"Time to grab items: {time.time() - start}")
+
+        picked_up_items = []
+
+        picked_up_item = False
+        i = 0
+        while i < len(items):
+            if picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
                 time.sleep(0.5)
-                items = d2r_image.get_ground_loot(img).items.copy()
-                items.sort(key=sort_by_distance)
+                items = self.grab_items()
                 i=0
-                
+            
             item = items[i]
+
             nip_formatted_item = {
                 "Quality": item.Quality,
                 "NTIPAliasClassID": item.NTIPAliasClassID,
@@ -65,23 +116,32 @@ class PickIt:
                 "NTIPAliasFlag": item.NTIPAliasFlag,
             }
 
-            if should_pickup(nip_formatted_item):
-                center_x = item.BoundingBox["x"] + item.BoundingBox["w"] // 2
-                center_y = item.BoundingBox["y"] + item.BoundingBox["h"] // 2
-
-                mx, my = convert_screen_to_monitor((center_x, center_y))
-                
-                mouse.move(mx, my)
-                mouse.click(button="left")
-                picked_up_item = True
-                print(f"\n\nAttempting to pick up {item.Name}\n\n")
+            item_ID = f"{item.Name}_" + "_".join([str(value) for _, value in nip_formatted_item.items()])
+            
+            pick_up_res=0
+            if item_ID in self.cached_pickit_items: # * Check if we cached the result of weather or not we should pick up the item
+                print("Using cached on id", item_ID)
+                if self.cached_pickit_items[item_ID]:
+                    pick_up_res = self.pick_up_item(item, item_ID)
             else:
-                picked_up_item = False
+                pickup = should_pickup(nip_formatted_item)
+                self.cached_pickit_items[item_ID] = pickup
+                if pickup:
+                    print("Using should_pickup!")
+                    pick_up_res = self.pick_up_item(item, item_ID)             
+           
+            
+            if pick_up_res == PickedUpResults.InventoryFull:
+                pass
+            else:
+                picked_up_item = pick_up_res == PickedUpResults.PickedUp
+                picked_up_item and picked_up_items.append(item)
+                
+            print(i, len(items))
+            i+=1
 
-
-        
         keyboard.send(Config().char["show_items"])
-        return []#found_items
+        return len(picked_up_items) >= 1
 
 
 # class PickIt:
