@@ -177,6 +177,7 @@ class Config:
                 self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
+        Logger.debug("Loading config")
         self.configs = {
             "config": {"parser": configparser.ConfigParser(), "vars": {}},
             "game": {"parser": configparser.ConfigParser(), "vars": {}},
@@ -232,11 +233,13 @@ class Config:
         }
 
         self.routes = {}
-        order_str = self._select_val("routes", "order").replace("run_eldritch", "run_shenk")
+        order_str = self._select_val("routes", "order")
         self.routes_order = [x.strip() for x in order_str.split(",")]
         del self.configs["config"]["parser"]["routes"]["order"]
-        for key in self.configs["config"]["parser"]["routes"]:
-            self.routes[key] = bool(int(self._select_val("routes", key)))
+        for key in self.routes_order:
+            self.routes[key] = True
+        # Botty only knows "run_shenk" but in orders we split run_eldritch and run_eldritch_shenk
+        self.routes_order = ["run_shenk" if x in ["run_eldritch", "run_eldritch_shenk"] else x for x in self.routes_order]
 
         self.char = {
             "type": self._select_val("char", "type"),
@@ -413,7 +416,7 @@ class Config:
 
 if __name__ == "__main__":
     from copy import deepcopy
-    config = self()
+    config = Config()
 
     # Check if any added items miss templates
     for k in config.items:
