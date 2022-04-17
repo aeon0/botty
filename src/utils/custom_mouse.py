@@ -7,12 +7,12 @@ import random
 import math
 import time
 from typing import Union, Tuple
-from template_finder import TemplateFinder
 import screen
 from config import Config
 from utils.misc import is_in_roi
 from logger import Logger
-
+from inventory import personal
+from ui_manager import ScreenObjects, is_visible
 
 def isNumeric(val):
     return isinstance(val, (float, int, np.int32, np.int64, np.float32, np.float64))
@@ -260,31 +260,26 @@ class mouse:
             _mouse.move(point[0], point[1], duration=delta)
 
     @staticmethod
-    def _is_clicking_save():
+    def _is_clicking_safe():
         # Because of reports that botty lost equiped items, let's check if the inventory is open, and if it is, restrict the mouse move
         mouse_pos = screen.convert_monitor_to_screen(_mouse.get_position())
-        is_inventory_open = TemplateFinder().search(
-            "INVENTORY_TEXT",
-            screen.grab(),
-            threshold=0.8,
-            roi=Config().ui_roi["inventory_text"]
-        ).valid
+        is_inventory_open = is_visible(ScreenObjects.GoldBtnInventory)
         if is_inventory_open:
-            is_in_equiped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
-            is_in_restricted_inventory_area = is_in_roi(Config().ui_roi["restricted_inventory_area"], mouse_pos)
-            if is_in_restricted_inventory_area or is_in_equiped_area:
+            is_in_equipped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
+            is_in_restricted_inventory_area = is_in_roi(personal.specific_inventory_roi("reserved"), mouse_pos)
+            if is_in_restricted_inventory_area or is_in_equipped_area:
                 Logger.error("Mouse wants to click in equipped area. Cancel action.")
                 return False
         return True
 
     @staticmethod
     def click(button):
-        if button != "left" or mouse._is_clicking_save():
+        if button != "left" or mouse._is_clicking_safe():
             _mouse.click(button)
 
     @staticmethod
     def press(button):
-        if button != "left" or mouse._is_clicking_save():
+        if button != "left" or mouse._is_clicking_safe():
             _mouse.press(button)
 
     @staticmethod
