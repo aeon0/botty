@@ -59,7 +59,6 @@ run_shenk=0
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty. |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images). |
 | discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
-| discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
 | info_screenshots         | If `1`, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while. |
 | loot_screenshots         | If `1`, the bot takes a screenshot with timestamp everytime he presses `show_items` button and saves it to `loot_screenshots` folder. Remember to clear them once in a while... |
 | saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |

@@ -472,7 +472,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
-        self._game_stats.update_location("Pin" if Config().general['discord_status_condensed'] else "Pindle")
+        self._game_stats.update_location("Pin")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -491,7 +491,7 @@ class Bot:
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location("Trav" if Config().general['discord_status_condensed'] else "Travincal")
+        self._game_stats.update_location("Trav")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -501,7 +501,7 @@ class Bot:
     def on_run_nihlathak(self):
         res = False
         self._do_runs["run_nihlathak"] = False
-        self._game_stats.update_location("Nihl" if Config().general['discord_status_condensed'] else "Nihlathak")
+        self._game_stats.update_location("Nihl")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -511,7 +511,7 @@ class Bot:
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
-        self._game_stats.update_location("Arc" if Config().general['discord_status_condensed'] else "Arcane")
+        self._game_stats.update_location("Arc")
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -521,7 +521,7 @@ class Bot:
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False
-        self._game_stats.update_location("Dia" if Config().general['discord_status_condensed'] else "Diablo")
+        self._game_stats.update_location("Dia")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)

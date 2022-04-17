@@ -19,18 +19,15 @@ def process_exists(process_name):
 
 def kill_game():
     while process_exists("D2R.exe"):
+        os.system("taskkill /f /im  BlizzardError.exe")
         os.system("taskkill /f /im  D2R.exe")
         wait(1.0, 1.5)
 
-def restart_game(d2_path = None):
-    if not d2_path:
-        path = "C:\Program Files (x86)\Diablo II Resurrected\D2R.exe"
-    else:
-        path = d2_path
+def restart_game(d2_path):
     kill_game()
     wait(1.0, 1.5)
     # This method should function similar to opening the exe via double-click
-    os.startfile(path)
+    os.startfile(f"{d2_path}/D2R.exe")
     wait(4.4, 5.5)
     for i in range(20):
         keyboard.send("space")

@@ -50,7 +50,7 @@ class GameStats:
 
     def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = None):
         Logger.debug(f"Stashed and logged: {item_name}")
-        filtered_items = ["_potion", "misc_gold"]
+        filtered_items = ["_potion", "misc_gold", "_amethyst", "_ruby", "misc_chipped_diamond", "misc_flawed_diamond", "misc_diamond", "misc_flawless_diamond", "_topaz", "_emerald", "_sapphire", "misc_chipped_skull", "misc_flawed_skull", "misc_skull", "misc_flawless_skull"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
@@ -194,7 +194,7 @@ class GameStats:
             table.rows.append([location, len(stats["items"]), stats["chickens"], stats["deaths"], stats["merc_deaths"], stats["failed_runs"]])
 
         table.rows.append([
-            "T" if Config().general['discord_status_condensed'] else "Total",
+            "T",
             self._location_stats["totals"]["items"],
             self._location_stats["totals"]["chickens"],
             self._location_stats["totals"]["deaths"],
@@ -202,10 +202,7 @@ class GameStats:
             self._location_stats["totals"]["failed_runs"]
         ])
 
-        if Config().general['discord_status_condensed']:
-            table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
-        else:
-            table.columns.header = ["Run", "Items", "Chicken", "Death", "Merc Death", "Failed Runs"]
+        table.columns.header = ["Run", "I", "C", "D", "MD", "F"]
 
         msg += f"\n{str(table)}\n"
         return msg
