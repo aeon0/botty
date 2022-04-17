@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import math
 
 from config import Config
-from enip.transpile import should_pickup
+from nip.transpile import should_pickup
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
@@ -163,15 +163,8 @@ if __name__ == "__main__":
         img=grab().copy()
         all_loot = d2r_image.get_ground_loot(img)
         for item in all_loot.items:
-            item = {
-                "Quality": item.Quality,
-                "NTIPAliasClassID": item.NTIPAliasClassID,
-                "NTIPAliasType": item.NTIPAliasType,
-                "NTIPAliasClass": item.NTIPAliasClass,
-                "NTIPAliasQuality": item.NTIPAliasQuality,
-                "NTIPAliasFlag": item.NTIPAliasFlag,
-            }
-            print(should_pickup(item))
+            print(should_pickup(item.as_dict()))
+
         draw_items_on_image_data(all_loot.items, img)
         cv2.imshow('test', img)
         cv2.waitKey(5000)

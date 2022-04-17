@@ -22,7 +22,7 @@ from messages import Messenger
 from d2r_image import processing as d2r_image
 # from d2_nip_eval import lexer
 
-from enip.transpile import should_id, should_keep
+from nip.transpile import should_id, should_keep
 
 inv_gold_full = False
 messenger = Messenger()

@@ -16,7 +16,7 @@ from math import dist
 
 from d2r_image import processing as d2r_image
 from d2r_image.demo import draw_items_on_image_data
-from enip.transpile import should_pickup
+from nip.transpile import should_pickup
 
 
 class PickedUpResults(Enum):
