@@ -34,12 +34,25 @@ class PickIt:
         self.fail_pickup_count = 0
 
 
-    def pick_up_item(self, item: object, item_id: str) -> bool:
+    def yoink_item(self, item: object, char: IChar):
+        if item.Dist > Config().ui_pos["item_dist"]:
+            char.pre_move()
+            char.move((item.ScreenX, item.ScreenY), force_move=True)
+            if not char.capabilities.can_teleport_natively:
+                time.sleep(0.3)
+            time.sleep(0.1)
+        else:
+            char.pick_up_item((item.ScreenX, item.ScreenY), item_name=item.Name, prev_cast_start=0.1)
+
+    def pick_up_item(self, char: IChar, item: object, item_id: str) -> bool:
 
         item_x, item_y = convert_screen_to_monitor(
             (item.BoundingBox["x"] + item.BoundingBox["w"] // 2,
             item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
         )
+
+        item.ScreenX = item_x
+        item.ScreenY = item_y
 
         item_UID = f"{item_id}_{item_x}_{item_y}" # * Create a "unique" id for the item
         
@@ -51,10 +64,10 @@ class PickIt:
                 if is_visible(ScreenObjects.Overburdened):
                     return PickedUpResults.InventoryFull
             
-            mouse.move(item_x, item_y)
-            mouse.click(button="left")
+            
+            self.yoink_item(item, char)
             self.prev_item_pickup_attempt = item_UID
-            print(f"\n\nAttempting to pick up {item.Name}\n\n")
+            print(f"\nAttempting to pick up {item.Name}\n")
             return PickedUpResults.PickedUp
         else:
             return PickedUpResults.NotPickedUp
@@ -62,15 +75,13 @@ class PickIt:
     
     def grab_items(self) -> list:
         def sort_by_distance(item):
-            # * Get the middle of the item box
-            item_x = item.BoundingBox["x"] + item.BoundingBox["w"] // 2
-            item_y = item.BoundingBox["y"] + item.BoundingBox["h"] // 2
+            _dist = dist(
+                (item.BoundingBox["x"] + item.BoundingBox["w"] // 2, item.BoundingBox["y"] + item.BoundingBox["h"] // 2),
+                (Config().ui_pos["screen_width"] / 2, Config().ui_pos["screen_height"] / 2)
+            )
+            item.Dist = _dist
+            return _dist
 
-            player_x = Config().ui_pos["screen_width"] / 2
-            player_y = Config().ui_pos["screen_height"] / 2
-
-            item_distance = dist((item_x, item_y), (player_x, player_y)) #((item_x - player_x) ** 2 + (item_y - player_y) ** 2) ** 0.5
-            return item_distance
         img = grab()
         items = d2r_image.get_ground_loot(img).items.copy()
         items.sort(key=sort_by_distance)
@@ -83,7 +94,15 @@ class PickIt:
             :param char: The character used to pick up the item
             TODO :return: return a list of the items that were picked up
         """
-         
+        
+        # if needs["mana"] <= 0:
+        #     item_list = [x for x in item_list if "mana_potion" not in x.name]
+        # if needs["health"] <= 0:
+        #     item_list = [x for x in item_list if "healing_potion" not in x.name]
+        # if needs["rejuv"] <= 0:
+        #     item_list = [x for x in item_list if "rejuvination_potion" not in x.name]
+
+
         self.prev_item_pickup_attempt = ''
         self.fail_pickup_count = 0
         self.already_looked_at = []
@@ -91,9 +110,7 @@ class PickIt:
 
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
-        start = time.time()
         items = self.grab_items()
-        print(f"Time to grab items: {time.time() - start}")
 
         picked_up_items = []
 
@@ -106,29 +123,52 @@ class PickIt:
                 i=0
             
             item = items[i]
+            
+            # TODO implement proper [itemquality] filter
+            # * Begin ghetto potion code
+            needs = consumables.get_needs()
+            print(needs, i)
+            if "Healing Potion" in item.Name:
+                if needs["health"] == 0:
+                    i+=1
+                    picked_up_item = False
+                    continue
+                else:
+                    consumables.increment_need("health", -1)
+            elif "Mana Potion" in item.Name:
+                if needs["mana"] == 0:
+                    picked_up_item = False
+                    i+=1
+                    continue
+                else:
+                    consumables.increment_need("mana", -1)
+            elif "Rejuvination" in item.Name:
+                if needs["rejuv"] == 0:
+                    picked_up_item = False
+                    i+=1
+                    continue
+                else:
+                    print(42069 ,"xD")
+                    consumables.increment_need("rejuv", -1)
+                    
 
-            nip_formatted_item = {
-                "Quality": item.Quality,
-                "NTIPAliasClassID": item.NTIPAliasClassID,
-                "NTIPAliasType": item.NTIPAliasType,
-                "NTIPAliasClass": item.NTIPAliasClass,
-                "NTIPAliasQuality": item.NTIPAliasQuality,
-                "NTIPAliasFlag": item.NTIPAliasFlag,
-            }
 
-            item_ID = f"{item.Name}_" + "_".join([str(value) for _, value in nip_formatted_item.items()])
+            # * End ghetto potion code
+
+
+            item_ID = f"{item.Name}_" + "_".join([str(value) for _, value in item.as_dict().items()])
             
             pick_up_res=0
             if item_ID in self.cached_pickit_items: # * Check if we cached the result of weather or not we should pick up the item
-                print("Using cached on id", item_ID)
+                # print("Using cached on id", item_ID)
                 if self.cached_pickit_items[item_ID]:
-                    pick_up_res = self.pick_up_item(item, item_ID)
+                    pick_up_res = self.pick_up_item(char, item, item_ID)
             else:
-                pickup = should_pickup(nip_formatted_item)
+                pickup = should_pickup(item.as_dict())
                 self.cached_pickit_items[item_ID] = pickup
                 if pickup:
-                    print("Using should_pickup!")
-                    pick_up_res = self.pick_up_item(item, item_ID)             
+                    # print("Using should_pickup!")
+                    pick_up_res = self.pick_up_item(char, item, item_ID)             
            
             
             if pick_up_res == PickedUpResults.InventoryFull:
@@ -136,8 +176,9 @@ class PickIt:
             else:
                 picked_up_item = pick_up_res == PickedUpResults.PickedUp
                 picked_up_item and picked_up_items.append(item)
-                
-            print(i, len(items))
+            
+            print(f"{item.Name} - picked up: {picked_up_item}")
+            # print(i, len(items))
             i+=1
 
         keyboard.send(Config().char["show_items"])

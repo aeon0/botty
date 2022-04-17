@@ -232,105 +232,106 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 if cnt >= 2:
                     Logger.error(f"inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
                     break
-            item_name = item_box.ocr_result.text.splitlines()[0] if not vendor_open else item_box.ocr_result.text.splitlines()[1]
-            extend_roi = item_box.roi[:]
-            extend_roi[3] = extend_roi[3] + 30
-            item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
-            if item_roi:
-                item_rois.append(item_roi)
-            # determine whether the item can be sold
-            item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
-            sell = Config().char["sell_junk"] and item_can_be_traded
-            # check and see if item exists in pickit
-            try:
-                found_item = item_finder.search(item_box.img)[0]
-            except:
-                Logger.debug(f"inspect_items: item_finder returned None or error for {item_name}, likely an accidental pick")
-                Logger.debug(f"Dropping {item_name}")
-                found_item = False
-            # attempt to identify item
-            # need_id = False
-            is_unidentified = False
-            # TODO: need to clean this logic up once we get rid of pickit.ini and use NIP
-            # if this item has no include or exclude properties, leave it unidentified
-            # implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
-            # implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
-            # if not implied_no_id:
-            #     if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.img)):
-            #         need_id = True
-            #         center_mouse()
-            #         tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
-            #     if is_unidentified and tome_state is not None and tome_state == "ok":
-            #         common.id_item_with_tome([x_m, y_m], tome_pos)
-            #         need_id = False
-            #         # recapture box after ID
-            #         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
-            #         wait(0.2, 0.3)
-            #         hovered_item = grab()
-            #         item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
-            
-            is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
-            if item_box is not None:
-                Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-                for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-                    Logger.debug(f"OCR LINE{i}: {line}")
-                if Config().general["loot_screenshots"]:
-                    timestamp = time.strftime("%Y%m%d_%H%M%S")
-                    found_low_confidence = False
-                    for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
-                        if x <= 88:
-                            try:
-                                Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
-                                found_low_confidence = True
-                            except: pass
-                    if found_low_confidence:
-                        cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
-
-                # decide whether to keep item
-                keep = False
-                need_id = False
-                Logger.error(f"is_unidentified {is_unidentified}")
-                print(item_properties)
-                if is_unidentified and should_id(item_properties.as_dict()):    
-                    need_id = True
-                    print("NEED ID")
-                else: # ! Check if we should keep the item
-                    keep = should_keep(item_properties.as_dict())
-                    print("KEEP", keep)
-                if keep:
-                    sell = need_id = False
-                    # sell = False
-
-                box = BoxInfo(
-                    img = item_box.img,
-                    pos = (x_m, y_m),
-                    column = slot[2],
-                    row = slot[1],
-                    need_id = need_id,
-                    sell = sell,
-                    keep = keep
-                )
-                # sell if not keeping item, vendor is open, and item type can be traded
-                if not (keep or need_id) and vendor_open and item_can_be_traded:
-                    Logger.debug(f"Selling {item_name}")
-                    box.sell = True
-                    transfer_items([box], action = "sell")
-                    continue
-                # if item is to be kept and is already ID'd or doesn't need ID, log and stash
-                # if game_stats is not None and (keep and not need_id):
-                #     Logger.debug(f"Stashing {item_name}")
-                #     game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
-                # if item is to be kept or still needs to be sold or identified, append to list
-                if keep or sell or need_id:
-                    # save item info
-                    boxes.append(box)
-                else:
-                    # if item isn't going to be kept (or sold if vendor window not open), trash it
+            if item_box.ocr_result:
+                item_name = item_box.ocr_result.text.splitlines()[0] if not vendor_open else item_box.ocr_result.text.splitlines()[1]
+                extend_roi = item_box.roi[:]
+                extend_roi[3] = extend_roi[3] + 30
+                item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
+                if item_roi:
+                    item_rois.append(item_roi)
+                # determine whether the item can be sold
+                item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
+                sell = Config().char["sell_junk"] and item_can_be_traded
+                # check and see if item exists in pickit
+                try:
+                    found_item = item_finder.search(item_box.img)[0]
+                except:
+                    Logger.debug(f"inspect_items: item_finder returned None or error for {item_name}, likely an accidental pick")
                     Logger.debug(f"Dropping {item_name}")
-                    transfer_items([box], action = "drop")
-                wait(0.3, 0.5)
-            else:
-                failed = True
+                    found_item = False
+                # attempt to identify item
+                # need_id = False
+                is_unidentified = False
+                # TODO: need to clean this logic up once we get rid of pickit.ini and use NIP
+                # if this item has no include or exclude properties, leave it unidentified
+                # implied_no_id = not (Config().items[found_item.name].include or Config().items[found_item.name].exclude)
+                # implied_no_id |= not any(item_type in found_item.name for item_type in ["uniq", "magic", "rare", "set"])
+                # if not implied_no_id:
+                if (is_unidentified := is_visible(ScreenObjects.Unidentified, item_box.img)):
+                    need_id = True
+                    center_mouse()
+                    tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
+                if is_unidentified and tome_state is not None and tome_state == "ok":
+                    common.id_item_with_tome([x_m, y_m], tome_pos)
+                    need_id = False
+                    # recapture box after ID
+                    mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
+                    wait(0.2, 0.3)
+                    hovered_item = grab()
+                    item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+                
+                is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
+                if item_box is not None:
+                    Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
+                    for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
+                        Logger.debug(f"OCR LINE{i}: {line}")
+                    if Config().general["loot_screenshots"]:
+                        timestamp = time.strftime("%Y%m%d_%H%M%S")
+                        found_low_confidence = False
+                        for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+                            if x <= 88:
+                                try:
+                                    Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                                    found_low_confidence = True
+                                except: pass
+                        if found_low_confidence:
+                            cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
+
+                    # decide whether to keep item
+                    keep = False
+                    need_id = False
+                    Logger.error(f"is_unidentified {is_unidentified}")
+                    print(item_properties)
+                    if is_unidentified and should_id(item_properties.as_dict()):    
+                        need_id = True
+                        print("NEED ID")
+                    else: # ! Check if we should keep the item
+                        keep = should_keep(item_properties.as_dict())
+                        print("KEEP", keep)
+                    if keep:
+                        sell = need_id = False
+                        # sell = False
+
+                    box = BoxInfo(
+                        img = item_box.img,
+                        pos = (x_m, y_m),
+                        column = slot[2],
+                        row = slot[1],
+                        need_id = need_id,
+                        sell = sell,
+                        keep = keep
+                    )
+                    # sell if not keeping item, vendor is open, and item type can be traded
+                    if not (keep or need_id) and vendor_open and item_can_be_traded:
+                        Logger.debug(f"Selling {item_name}")
+                        box.sell = True
+                        transfer_items([box], action = "sell")
+                        continue
+                    # if item is to be kept and is already ID'd or doesn't need ID, log and stash
+                    # if game_stats is not None and (keep and not need_id):
+                    #     Logger.debug(f"Stashing {item_name}")
+                    #     game_stats.log_item_keep(found_item.name, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
+                    # if item is to be kept or still needs to be sold or identified, append to list
+                    if keep or sell or need_id:
+                        # save item info
+                        boxes.append(box)
+                    else:
+                        # if item isn't going to be kept (or sold if vendor window not open), trash it
+                        Logger.debug(f"Dropping {item_name}")
+                        transfer_items([box], action = "drop")
+                    wait(0.3, 0.5)
+                else:
+                    failed = True
         else:
             failed = True
         if failed:
