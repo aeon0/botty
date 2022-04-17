@@ -142,13 +142,12 @@ class PickIt:
                     continue
                 else:
                     consumables.increment_need("mana", -1)
-            elif "Rejuvination" in item.Name:
+            elif "Rejuvenation" in item.Name:
                 if needs["rejuv"] == 0:
                     picked_up_item = False
                     i+=1
                     continue
                 else:
-                    print(42069 ,"xD")
                     consumables.increment_need("rejuv", -1)
                     
 
