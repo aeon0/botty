@@ -266,7 +266,7 @@ class mouse:
         is_inventory_open = is_visible(ScreenObjects.GoldBtnInventory)
         if is_inventory_open:
             is_in_equipped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
-            is_in_restricted_inventory_area = is_in_roi(personal.specific_inventory_roi("reserved"), mouse_pos)
+            is_in_restricted_inventory_area = is_in_roi(Config().ui_roi["restricted_inventory_area"], mouse_pos)
             if is_in_restricted_inventory_area or is_in_equipped_area:
                 Logger.error("Mouse wants to click in equipped area. Cancel action.")
                 return False
