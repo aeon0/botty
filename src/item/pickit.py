@@ -32,6 +32,8 @@ class PickIt:
         self.cached_pickit_items = {} # * Cache the result of weather or not we should pick up the item. this should save some time
         self.prev_item_pickup_attempt = ''
         self.fail_pickup_count = 0
+        
+        self.timeout = 30 # * The we should be in the pickit phase
 
 
     def yoink_item(self, item: object, char: IChar):
@@ -99,6 +101,7 @@ class PickIt:
         self.fail_pickup_count = 0
         self.already_looked_at = []
 
+        start = time.time()
 
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
@@ -108,8 +111,10 @@ class PickIt:
 
         picked_up_item = False
         i = 0
-        while i < len(items):
+        while i < len(items) and time.time() - start < self.timeout:
             if picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
+                pos_m = convert_abs_to_monitor((0, 0)) 
+                mouse.move(*pos_m, randomize=[90, 160]) # * Move mouse (to top left) to stop accidental item highlighting
                 time.sleep(0.5)
                 items = self.grab_items()
                 i=0
