@@ -67,7 +67,7 @@ class PickIt:
             
             self.yoink_item(item, char)
             self.prev_item_pickup_attempt = item_UID
-            print(f"\nAttempting to pick up {item.Name}\n")
+            # print(f"\nAttempting to pick up {item.Name}\n")
             return PickedUpResults.PickedUp
         else:
             return PickedUpResults.NotPickedUp
@@ -94,14 +94,6 @@ class PickIt:
             :param char: The character used to pick up the item
             TODO :return: return a list of the items that were picked up
         """
-        
-        # if needs["mana"] <= 0:
-        #     item_list = [x for x in item_list if "mana_potion" not in x.name]
-        # if needs["health"] <= 0:
-        #     item_list = [x for x in item_list if "healing_potion" not in x.name]
-        # if needs["rejuv"] <= 0:
-        #     item_list = [x for x in item_list if "rejuvination_potion" not in x.name]
-
 
         self.prev_item_pickup_attempt = ''
         self.fail_pickup_count = 0
@@ -122,12 +114,11 @@ class PickIt:
                 items = self.grab_items()
                 i=0
             
-            item = items[i]
+            item = items[i]           
             
             # TODO implement proper [itemquality] filter
             # * Begin ghetto potion code
             needs = consumables.get_needs()
-            print(needs, i)
             if "Healing Potion" in item.Name:
                 if needs["health"] == 0:
                     i+=1
@@ -149,9 +140,6 @@ class PickIt:
                     continue
                 else:
                     consumables.increment_need("rejuv", -1)
-                    
-
-
             # * End ghetto potion code
 
 
@@ -163,20 +151,22 @@ class PickIt:
                 if self.cached_pickit_items[item_ID]:
                     pick_up_res = self.pick_up_item(char, item, item_ID)
             else:
-                pickup = should_pickup(item.as_dict())
+                item_dict = item.as_dict()
+                if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image.
+                    item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
+                pickup = should_pickup(item_dict)
                 self.cached_pickit_items[item_ID] = pickup
                 if pickup:
                     # print("Using should_pickup!")
                     pick_up_res = self.pick_up_item(char, item, item_ID)             
            
-            
             if pick_up_res == PickedUpResults.InventoryFull:
                 pass
             else:
                 picked_up_item = pick_up_res == PickedUpResults.PickedUp
                 picked_up_item and picked_up_items.append(item)
             
-            print(f"{item.Name} - picked up: {picked_up_item}")
+            # print(f"{item.Name} - picked up: {picked_up_item}")
             # print(i, len(items))
             i+=1
 

@@ -128,13 +128,14 @@ def validate_nip_expression(nip_expression):
         for token in tokens:
             is_invalid_stat_lookup = (
                 token.type == TokenType.NTIPAliasClass or
-                token.type == TokenType.NTIPAliasClassID or
+                token.type == TokenType.NTIPAliasClassID and token.value != '523' or # 523 refers to gold
                 token.type == TokenType.NTIPAliasFlag or 
                 token.type == TokenType.NTIPAliasType or 
                 token.type == TokenType.NTIPAliasQuality
             )
 
             if is_invalid_stat_lookup:
+                #print("-" * 30)
                 raise NipValidationError("stats", token)
 
     if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
@@ -191,15 +192,30 @@ def should_keep(item_data):
         if expression["transpiled"]:
             try:
                 if eval(expression["transpiled"]):
-                    print(expression["raw"])
+                    #print(expression["raw"])
                     return True
             except:
                 pass
-                # print(f"Error: {expression['raw']}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
+                #print(f"Error: {expression['raw']}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
     return False
 
-import time
+
+def gold_pickup(item_data):
+    for expression in nip_expressions:
+        if expression["raw"]:
+            if "[gold]" in expression["raw"].lower():
+                res = eval(expression["transpiled"])
+                if res:
+                    return True
+    return False
+
+
 def should_pickup(item_data):
+    # * Handle the gold pickup.
+    if item_data["BaseItem"]["DisplayName"] == "Gold":
+        return gold_pickup(item_data)
+
+
     wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
         if expression["raw"]:
@@ -210,7 +226,7 @@ def should_pickup(item_data):
                 property_condition = eval(transpile_nip_expression(nip_expression_split[0])) # * This string in the eval uses the item_data that is being passed in
             except:
                 pass
-                # print(f"Error: {expression}")
+                #print(f"Error: {expression}")
             if property_condition:
                 return True
 
@@ -239,7 +255,7 @@ def should_pickup(item_data):
                                     wants_open_socket = True
                                     break
                                 else:
-                                    # print(1)
+                                    # #print(1)
                                     wants_open_socket = False
                                     break
     
@@ -254,13 +270,13 @@ def should_id(item_data):
     for expression in nip_expressions:
         try:
             if eval(expression["should_id_transpiled"]):
-                print(expression["raw"])
+                # #print(expression["raw"])
                 if len(expression["raw"].split("#")) > 1:
                     id = True
                     break
         except Exception as e:
             pass
-            # print(f"Error: {expression['raw']} {e}\n\n") # TODO look at these errors
+            # #print(f"Error: {expression['raw']} {e}\n\n") # TODO look at these errors
     return id
 
 def load_nip_expressions(filepath):
@@ -270,7 +286,7 @@ def load_nip_expressions(filepath):
                 load_nip_expression(line.strip())
             except Exception as e:
                 pass
-                # print("Errored on line:", line) # TODO look at these errors
+                # #print(e, "Errored on line:", line) # TODO look at these errors
 
 
 
@@ -284,9 +300,12 @@ nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.split(
 nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.split("\\")[-2].startswith("-")]
 
 for nip_file_path in nip_file_paths:
-    print(nip_file_path)
+    #print(nip_file_path)
     load_nip_expressions(nip_file_path)
 
 
+# #print(transpile_nip_expression(
+#     """[name] == gold && [gold] >= 10"""
+# ))
 
-print(f"Loaded {len(nip_expressions)} nip expressions.")
+#print(f"Loaded {len(nip_expressions)} nip expressions.")
