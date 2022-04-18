@@ -392,6 +392,14 @@ class Config:
         self.ui_roi = {}
         for key in self.configs["game"]["parser"]["ui_roi"]:
             self.ui_roi[key] = np.array([int(x) for x in self._select_val("ui_roi", key).split(",")])
+        open_width = int(self.ui_pos["slot_width"] * self.char["num_loot_columns"])
+        # calc roi for restricted inventory area
+        self.ui_roi["restricted_inventory_area"] = self.ui_roi["right_inventory"].copy()
+        self.ui_roi["restricted_inventory_area"][0] += open_width # left
+        self.ui_roi["restricted_inventory_area"][2] -= open_width # width
+        # calc roi for open inventory area
+        self.ui_roi["open_inventory_area"] = self.ui_roi["right_inventory"].copy()
+        self.ui_roi["open_inventory_area"][2] = open_width # width
 
         self.path = {}
         for key in self.configs["game"]["parser"]["path"]:
