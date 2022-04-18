@@ -126,7 +126,6 @@ class Lexer:
             lookup_key += self.current_token
         self._advance()
 
-        print(self.current_section)
         if self.current_section == NipSections.PROP:
             if lookup_key in "name":
                 return Token(TokenType.NAME, lookup_key)
