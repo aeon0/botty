@@ -47,7 +47,6 @@ class PickIt:
             char.pick_up_item((item.ScreenX, item.ScreenY), item_name=item.Name, prev_cast_start=0.1)
 
     def pick_up_item(self, char: IChar, item: object, item_id: str) -> bool:
-
         item_x, item_y = convert_screen_to_monitor(
             (item.BoundingBox["x"] + item.BoundingBox["w"] // 2,
             item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
@@ -66,10 +65,8 @@ class PickIt:
                 if is_visible(ScreenObjects.Overburdened):
                     return PickedUpResults.InventoryFull
             
-            
             self.yoink_item(item, char)
             self.prev_item_pickup_attempt = item_UID
-            # print(f"\nAttempting to pick up {item.Name}\n")
             return PickedUpResults.PickedUp
         else:
             return PickedUpResults.NotPickedUp
@@ -101,11 +98,12 @@ class PickIt:
         self.fail_pickup_count = 0
         self.already_looked_at = []
 
-        start = time.time()
 
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
         items = self.grab_items()
+
+        start = time.time()
 
         picked_up_items = []
 
@@ -113,11 +111,13 @@ class PickIt:
         i = 0
         while i < len(items) and time.time() - start < self.timeout:
             if picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
-                pos_m = convert_abs_to_monitor((0, 0)) 
-                mouse.move(*pos_m, randomize=[90, 160]) # * Move mouse (to top left) to stop accidental item highlighting
+                # start1 = time.time()
+                pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
+                mouse.move(*pos_m) # * Move the mouse to the bottom of the D2R window
                 time.sleep(0.5)
                 items = self.grab_items()
                 i=0
+                # print(f"start1 took {time.time() - start1}")
             
             item = items[i]           
             
@@ -129,6 +129,9 @@ class PickIt:
                     i+=1
                     picked_up_item = False
                     continue
+                # git push <remote name, e.g. origin> <local branch name>:<remote branch name>
+                #git rebase -i HEAD~12 -x "git commit --amend --author 'Riddle <Riddle.Aimware@mail.com>' --no-edit"
+
                 else:
                     consumables.increment_need("health", -1)
             elif "Mana Potion" in item.Name:
@@ -151,28 +154,34 @@ class PickIt:
             item_ID = f"{item.Name}_" + "_".join([str(value) for _, value in item.as_dict().items()])
             
             pick_up_res=0
-            if item_ID in self.cached_pickit_items: # * Check if we cached the result of weather or not we should pick up the item
-                # print("Using cached on id", item_ID)
+            start2 = time.time()
+            if item_ID in self.cached_pickit_items: # * Check if we cached the result of whether or not we should pick up the item
                 if self.cached_pickit_items[item_ID]:
                     pick_up_res = self.pick_up_item(char, item, item_ID)
             else:
                 item_dict = item.as_dict()
-                if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image.
-                    item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
+                if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image
+                    """
+                    TODO FIX THE ERROR WITH GOLD PADDING OR SOMETHING! BELOW TRY EXCEPT STATEMENT WILL DO FOR NOW.
+                        item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
+                            ValueError: invalid literal for int() with base 10: '12801 3897'
+
+                    """
+                    try: 
+                        item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
+                    except ValueError:
+                        item_dict["NTIPAliasStat"] = {'14': 0}
                 pickup = should_pickup(item_dict)
                 self.cached_pickit_items[item_ID] = pickup
                 if pickup:
-                    # print("Using should_pickup!")
                     pick_up_res = self.pick_up_item(char, item, item_ID)             
-           
+            print(f"Start2: took {time.time() - start2}")
             if pick_up_res == PickedUpResults.InventoryFull:
                 pass
             else:
                 picked_up_item = pick_up_res == PickedUpResults.PickedUp
                 picked_up_item and picked_up_items.append(item)
             
-            # print(f"{item.Name} - picked up: {picked_up_item}")
-            # print(i, len(items))
             i+=1
 
         keyboard.send(Config().char["show_items"])
