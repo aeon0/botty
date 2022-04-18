@@ -266,7 +266,8 @@ class mouse:
             "INVENTORY_GOLD_BTN",
             screen.grab(),
             threshold=0.8,
-            roi=Config().ui_roi["gold_btn"]
+            roi=Config().ui_roi["gold_btn"],
+            use_grayscale=True
         ).valid
         if is_inventory_open:
             is_in_equipped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
