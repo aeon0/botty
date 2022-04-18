@@ -11,8 +11,7 @@ import screen
 from config import Config
 from utils.misc import is_in_roi
 from logger import Logger
-from inventory import personal
-from ui_manager import ScreenObjects, is_visible
+from template_finder import TemplateFinder
 
 def isNumeric(val):
     return isinstance(val, (float, int, np.int32, np.int64, np.float32, np.float64))
@@ -263,7 +262,12 @@ class mouse:
     def _is_clicking_safe():
         # Because of reports that botty lost equiped items, let's check if the inventory is open, and if it is, restrict the mouse move
         mouse_pos = screen.convert_monitor_to_screen(_mouse.get_position())
-        is_inventory_open = is_visible(ScreenObjects.GoldBtnInventory)
+        is_inventory_open = TemplateFinder().search(
+            "INVENTORY_GOLD_BTN",
+            screen.grab(),
+            threshold=0.8,
+            roi=Config().ui_roi["gold_btn"]
+        ).valid
         if is_inventory_open:
             is_in_equipped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
             is_in_restricted_inventory_area = is_in_roi(Config().ui_roi["restricted_inventory_area"], mouse_pos)
