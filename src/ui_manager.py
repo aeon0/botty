@@ -139,7 +139,8 @@ class ScreenObjects:
     )
     GoldBtnInventory=ScreenObject(
         ref="INVENTORY_GOLD_BTN",
-        roi="gold_btn"
+        roi="gold_btn",
+        use_grayscale=True
     )
     GoldBtnStash=ScreenObject(
         ref="INVENTORY_GOLD_BTN",

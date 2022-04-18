@@ -168,10 +168,11 @@ def tab_properties(idx: int = 0) -> dict[int, int, tuple]:
     }
 
 def indicator_location_to_tab_count(pos: tuple) -> int:
-    for i in range(3):
+    for i in range(4):
         tab = tab_properties(i)
         if tab["left"] <= pos[0] < tab["right"]:
             return i
+    return -1
 
 def get_active_tab(indicator: TemplateMatch = None) -> int:
     indicator = detect_screen_object(ScreenObjects.TabIndicator) if indicator is None else indicator
@@ -179,7 +180,7 @@ def get_active_tab(indicator: TemplateMatch = None) -> int:
         return indicator_location_to_tab_count(indicator.center)
     else:
         Logger.error("common/get_active_tab(): Error finding tab indicator")
-    return False
+    return -1
 
 def select_tab(idx: int):
     # stash or vendor must be open

@@ -109,7 +109,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
         match = TemplateFinder().search(
             [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
             img,
-            roi = personal.specific_inventory_roi("reserved"),
+            roi = Config().ui_roi["restricted_inventory_area"],
             best_match = True,
             normalize_monitor=True
             )
@@ -122,7 +122,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
             Logger.debug(f"update_tome_key_needs: could not find {item_type}")
             return False
     elif item_type.lower() in ["key"]:
-        match = TemplateFinder().search("INV_KEY", img, roi = personal.specific_inventory_roi("reserved"), normalize_monitor = True)
+        match = TemplateFinder().search("INV_KEY", img, roi = Config().ui_roi["restricted_inventory_area"], normalize_monitor = True)
         if not match.valid:
             return False
     else:

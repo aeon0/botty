@@ -85,16 +85,13 @@ class Bot:
         self._town_manager = TownManager(a1, a2, a3, a4, a5)
 
         # Create runs
-        if Config().routes["run_shenk"] and not Config().routes["run_eldritch"]:
-            Logger.error("Running shenk without eldtritch is not supported. Either run none or both")
-            os._exit(1)
         self._do_runs = {
-            "run_trav": Config().routes["run_trav"],
-            "run_pindle": Config().routes["run_pindle"],
-            "run_shenk": Config().routes["run_shenk"] or Config().routes["run_eldritch"],
-            "run_nihlathak": Config().routes["run_nihlathak"],
-            "run_arcane": Config().routes["run_arcane"],
-            "run_diablo": Config().routes["run_diablo"],
+            "run_trav": Config().routes.get("run_trav"),
+            "run_pindle": Config().routes.get("run_pindle"),
+            "run_shenk": Config().routes.get("run_eldritch") or Config().routes.get("run_eldritch_shenk"),
+            "run_nihlathak": Config().routes.get("run_nihlathak"),
+            "run_arcane": Config().routes.get("run_arcane"),
+            "run_diablo": Config().routes.get("run_diablo"),
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
@@ -485,7 +482,7 @@ class Bot:
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
-            res = self._shenk.battle(Config().routes["run_shenk"], not self._pre_buffed, self._game_stats)
+            res = self._shenk.battle(Config().routes.get("run_eldritch_shenk"), not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
     def on_run_trav(self):

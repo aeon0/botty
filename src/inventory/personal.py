@@ -217,8 +217,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             # determine the item's ROI in inventory
             cnt=0
             while True:
-                pre = mask_by_roi(img, specific_inventory_roi("open"))
-                post = mask_by_roi(hovered_item, specific_inventory_roi("open"))
+                pre = mask_by_roi(img, Config().ui_roi["open_inventory_area"])
+                post = mask_by_roi(hovered_item, Config().ui_roi["open_inventory_area"])
                 # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
                 if not np.array_equal(pre, post):
                     break
@@ -386,7 +386,7 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
             pre_transfer_img = grab()
             mouse.press(button="left")
             # wait for inventory image to update indicating successful transfer / item select
-            success = wait_for_update(pre_transfer_img, specific_inventory_roi("open"), 3)
+            success = wait_for_update(pre_transfer_img, Config().ui_roi["open_inventory_area"], 3)
             mouse.release(button="left")
             if not success:
                 Logger.warning(f"transfer_items: inventory unchanged after attempting to {action} item at position {item.pos}")
