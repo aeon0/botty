@@ -123,9 +123,9 @@ class PickIt:
             TODO :return: return a list of the items that were picked up
         """
         self.reset_state()
+        self.move_cursor_to_hud()
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
-        self.move_cursor_to_hud()
         pickit_phase_start = time.time()
 
         items = self.grab_items()
