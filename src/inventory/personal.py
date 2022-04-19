@@ -211,8 +211,12 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         wait(0.1, 0.2)
         hovered_item = grab()
         # get the item description box
-        item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
-        print("69_420", type(item_properties), type(item_box))
+        item_properties, item_box = (None, None)
+        try: # ! This happens because we don't know the items slot count. To get more context remove the try and catch and see what happens
+            item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+        except Exception as e:
+            Logger.error(f"personal.inspect_items(): Failed to get item properties for slot {slot}")
+            failed = True
         if item_box is not None:
             # determine the item's ROI in inventory
             cnt=0
