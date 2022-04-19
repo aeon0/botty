@@ -102,6 +102,7 @@ class PickIt:
     def pick_up_item(self, char: IChar, item: object) -> bool:
         if item.UID == self.prev_item_pickup_attempt:
             self.fail_pickup_count += 1
+            time.sleep(0.2)
             if is_visible(ScreenObjects.Overburdened):
                 Logger.warning("Inventory is full, creating creating next game.") #TODO Create logic that will go to the next game, sense you can possible have other runs the bot wants to do
                 view.save_and_exit()
