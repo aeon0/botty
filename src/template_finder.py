@@ -9,7 +9,7 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
+from utils.misc import cut_roi, load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
 
 template_finder_lock = threading.Lock()
 
@@ -244,14 +244,23 @@ class TemplateFinder:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import start_detecting_window
+    from screen import start_detecting_window, stop_detecting_window
     start_detecting_window()
     from template_finder import TemplateFinder
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
-    search_templates = ["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"]
+    _capture_templates = False
+    def _toggle_template_capture():
+        global _capture_templates
+        _capture_templates = not _capture_templates
+        Logger.info(f"_capture_templates = {_capture_templates}")
+
+    keyboard.add_hotkey('f10', lambda: _toggle_template_capture())
+    print("Press f10 to toggle template recapture")
+
+    search_templates = ["A3_TOWN_0", "A3_TOWN_1", "A3_TOWN_10", "A3_TOWN_11", "A3_TOWN_12", "A3_TOWN_13", "A3_TOWN_14", "A3_TOWN_15", "A3_TOWN_16", "A3_TOWN_17", "A3_TOWN_18", "A3_TOWN_19", "A3_TOWN_2", "A3_TOWN_20", "A3_TOWN_3", "A3_TOWN_4", "A3_TOWN_5", "A3_TOWN_7", "A3_TOWN_8", "A3_TOWN_9"]
 
     while 1:
         # img = cv2.imread("")
@@ -259,14 +268,17 @@ if __name__ == "__main__":
         display_img = img.copy()
         start = time.time()
         for key in search_templates:
-            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
+            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.6, use_grayscale=True)
             if template_match.valid:
                 x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
-
-        # print(time.time() - start)
-        # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
+                if _capture_templates:
+                    if not os.path.exists("info_screenshots"):
+                        os.system("mkdir info_screenshots")
+                    filename=f"./info_screenshots/{key.lower()}.png"
+                    cv2.imwrite(filename, cut_roi(img, template_match.region))
+                    Logger.info("filename saved")
         cv2.imshow('test', display_img)
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(3000)
