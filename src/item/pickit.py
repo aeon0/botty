@@ -2,21 +2,18 @@ from enum import Enum
 import time
 import keyboard
 import cv2
-from operator import itemgetter
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
-from item import ItemFinder, Item
+from item import ItemFinder
 from char import IChar
 from inventory import consumables
-import parse
 from math import dist
 from ui import view
 
 from d2r_image import processing as d2r_image
-from d2r_image.demo import draw_items_on_image_data
 from nip.transpile import should_pickup
 
 
@@ -27,8 +24,7 @@ class PickedUpResults(Enum):
     InventoryFull  = 4
 
 class PickIt:
-    def __init__(self, item_finder: ItemFinder):
-        self._item_finder = item_finder
+    def __init__(self, item_finder: ItemFinder): # TODO remove ItemFinder from here
         self.cached_pickit_items = {} # * Cache the result of weather or not we should pick up the item. this should save some time
         
         self.last_action = None
