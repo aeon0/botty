@@ -46,6 +46,8 @@ def transpile(tokens):
             # expression += f"NTIPAliasFlag['{token.value}']"
         elif token.type == TokenType.NTIPAliasType:
             expression += f"(int(NTIPAliasType['{token.value}']))"
+        elif token.type == TokenType.IDNAME:
+             expression += "(str(item_data['NTIPAliasIdName']).lower())"
         elif token.type == TokenType.NAME:
             expression += "(int(item_data['NTIPAliasClassID']))"
         elif token.type == TokenType.CLASS:
@@ -91,7 +93,12 @@ def transpile(tokens):
             if tokens[i - 1].type != TokenType.SECTIONAND:
                 expression += "and"
         elif token.type == TokenType.UNKNOWN:
-            expression += "(-1)"
+            print(1111)
+            print(tokens[i-2] ,token)
+            if tokens[i - 2].type == TokenType.IDNAME:
+                expression += f"(str('{token.value}').lower())"
+            else:
+                expression += "(-1)"
         else:
             expression += f"{token.value}"
         expression += "" # add space if spaces are needed
@@ -188,11 +195,13 @@ def load_nip_expression(nip_expression):
 
 
 def should_keep(item_data):
+    # print(item_data["NTIPAliasIdName"])
     for expression in nip_expressions:
         if expression["transpiled"]:
+            print(expression["transpiled"])
             try:
                 if eval(expression["transpiled"]):
-                    #print(expression["raw"])
+                    # print(expression["raw"])
                     return True
             except:
                 pass
@@ -307,5 +316,6 @@ for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
 
+print(transpile_nip_expression("[idname]"))
 print(f"Loaded {len(nip_expressions)} nip expressions.")
 

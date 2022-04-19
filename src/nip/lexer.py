@@ -137,6 +137,8 @@ class Lexer:
                 return Token(TokenType.QUALITY, lookup_key)
             elif lookup_key == "type":
                 return Token(TokenType._TYPE, lookup_key)
+            elif lookup_key == "idname":
+                return Token(TokenType.IDNAME, lookup_key)
             elif lookup_key in NTIPAliasClass:
                 return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
             elif lookup_key in NTIPAliasQuality:
@@ -182,7 +184,7 @@ class Lexer:
             elif lookup_key in NTIPAliasType:
                 return Token(TokenType.NTIPAliasType, lookup_key)
             else:
-                return Token(TokenType.UNKNOWN, "-1")
+                return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.NTIPAliasStat, lookup_key)

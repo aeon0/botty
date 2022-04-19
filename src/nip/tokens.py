@@ -30,15 +30,16 @@ class TokenType(Enum):
     NTIPAliasType =       24
     NTIPAlias =           25
 
-    NAME =                26
-    FLAG =                27
-    QUALITY =             28
-    CLASS =               29
-    MAXQUANITY =          30
-    _TYPE =               31
+    IDNAME =              26
+    NAME =                27
+    FLAG =                28
+    QUALITY =             29
+    CLASS =               30
+    MAXQUANITY =          31
+    _TYPE =               32
 
-    WHITESPACE =          32
-    COMMENT =             33
+    WHITESPACE =          33
+    COMMENT =             34
 
     SECTIONAND =          35
 
