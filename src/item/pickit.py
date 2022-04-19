@@ -13,6 +13,7 @@ from char import IChar
 from inventory import consumables
 import parse
 from math import dist
+from ui import view
 
 from d2r_image import processing as d2r_image
 from d2r_image.demo import draw_items_on_image_data
@@ -20,71 +21,102 @@ from nip.transpile import should_pickup
 
 
 class PickedUpResults(Enum):
-    PickedUp      = 1
-    NotPickedUp   = 2
-    InventoryFull = 3
+    TeleportedTo   = 0
+    PickedUp       = 1
+    PickedUpFailed = 3
+    InventoryFull  = 4
 
 class PickIt:
     def __init__(self, item_finder: ItemFinder):
         self._item_finder = item_finder
-
-        self.already_looked_at = []
         self.cached_pickit_items = {} # * Cache the result of weather or not we should pick up the item. this should save some time
+        
+        self.last_action = None
+
         self.prev_item_pickup_attempt = ''
         self.fail_pickup_count = 0
-        
+
+        self.picked_up_items = []
+        self.picked_up_item = False
+
         self.timeout = 30 # * The we should be in the pickit phase
 
 
-    def yoink_item(self, item: object, char: IChar):
-        if item.Dist > Config().ui_pos["item_dist"]:
-            char.pre_move()
-            char.move((item.ScreenX, item.ScreenY), force_move=True)
-            if not char.capabilities.can_teleport_natively:
-                time.sleep(0.3)
-            time.sleep(0.1)
-        else:
-            char.pick_up_item((item.ScreenX, item.ScreenY), item_name=item.Name, prev_cast_start=0.1)
+    def move_cursor_to_hud(self): # * Avoid highlighting the items
+        pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
+        mouse.move(*pos_m) 
 
-    def pick_up_item(self, char: IChar, item: object, item_id: str) -> bool:
-        item_x, item_y = convert_screen_to_monitor(
-            (item.BoundingBox["x"] + item.BoundingBox["w"] // 2,
-            item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
-        )
-
-        item.ScreenX = item_x
-        item.ScreenY = item_y
-
-        item_UID = f"{item_id}_{item_x}_{item_y}" # * Create a "unique" id for the item
-        
-        if item_UID not in self.already_looked_at:
-            self.already_looked_at.append(item_UID)
-            if item_UID == self.prev_item_pickup_attempt:
-                print("Failed to pick up item, possibly inventory full")
-                fail_pickup_count += 1
-                if is_visible(ScreenObjects.Overburdened):
-                    return PickedUpResults.InventoryFull
-            
-            self.yoink_item(item, char)
-            self.prev_item_pickup_attempt = item_UID
-            return PickedUpResults.PickedUp
-        else:
-            return PickedUpResults.NotPickedUp
-
-    
     def grab_items(self) -> list:
-        def sort_by_distance(item):
-            _dist = dist(
-                (item.BoundingBox["x"] + item.BoundingBox["w"] // 2, item.BoundingBox["y"] + item.BoundingBox["h"] // 2),
-                (Config().ui_pos["screen_width"] / 2, Config().ui_pos["screen_height"] / 2)
-            )
-            item.Dist = _dist
-            return _dist
+        def sort_by_distance(item): # * sets some extra item data since we already looping
+            item.ScreenX, item.ScreenY = (item.BoundingBox["x"] + item.BoundingBox["w"] // 2, item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
+            item.MonitorX, item.MonitorY = convert_screen_to_monitor((item.ScreenX, item.ScreenY))
+            item.Dist = dist((item.ScreenX, item.ScreenY), (Config().ui_pos["screen_width"] / 2, Config().ui_pos["screen_height"] / 2))
+            item.ID = f"{item.Name}_" + "_".join([str(value) for _, value in item.as_dict().items()])
+            item.UID = f"{item.ID}_{item.ScreenX}_{item.ScreenY}"
+            return item.Dist
 
         img = grab()
         items = d2r_image.get_ground_loot(img).items.copy()
         items.sort(key=sort_by_distance)
         return items
+
+    def reset_state(self):
+        """Reset the pickit state"""
+        self.last_action = None
+        self.prev_item_pickup_attempt = ''
+        self.fail_pickup_count = 0 
+        self.picked_up_items = []
+        self.picked_up_item = False
+
+    def needs_pot420(self, item): # TODO implement proper [itemquality] filter
+        needs = consumables.get_needs()
+        if "Healing Potion" in item.Name:
+            if needs["health"] == 0:
+                return True
+            else:
+                consumables.increment_need("health", -1)
+        elif "Mana Potion" in item.Name:
+            if needs["mana"] == 0:
+                return True
+            else:
+                consumables.increment_need("mana", -1)
+        elif "Rejuvenation" in item.Name:
+            if needs["rejuv"] == 0:
+                return True
+            else:
+                consumables.increment_need("rejuv", -1)
+
+    def yoink_item(self, item: object, char: IChar, force_tp=False):
+        if item.Dist > Config().ui_pos["item_dist"] or force_tp:
+            char.pre_move()
+            char.move((item.MonitorX, item.MonitorY), force_move=force_tp)
+            time.sleep(0.1)
+            # * Move mouse to the middle of the screen and click on the item you teleported to
+            pos_m = convert_abs_to_monitor((0,-45))
+            mouse.move(*pos_m)
+            mouse.click(button="left")
+        else:
+            char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
+        return PickedUpResults.PickedUp
+
+    def pick_up_item(self, char: IChar, item: object) -> bool:
+        if item.UID == self.prev_item_pickup_attempt:
+            self.fail_pickup_count += 1
+            if is_visible(ScreenObjects.Overburdened):
+                Logger.warning("Inventory is full, creating creating next game.") #TODO Create logic that will go to the next game, sense you can possible have other runs the bot wants to do
+                view.save_and_exit()
+                return PickedUpResults.InventoryFull
+            elif self.fail_pickup_count >= 1:
+                # * +1 because we failed at picking it up once already, we just can't detect the first failure (unless it is due to full inventory)
+                if char.capabilities.can_teleport_natively:
+                    Logger.warning(f"Failed to pick up '{item.Name}' {self.fail_pickup_count + 1} times in a row, trying to teleport")
+                    return self.yoink_item(item, char, force_tp=True)
+                else:
+                    Logger.warning(f"Failed to pick up '{item.Name}' {self.fail_pickup_count + 1} times in a row, moving on to the next item.")
+                    return PickedUpResults.PickedUpFailed # * Since the pickup failed, the pickit loop will move on to another item. (but wont forget this item exists)
+            
+        self.prev_item_pickup_attempt = item.UID
+        return self.yoink_item(item, char)
 
     def pick_up_items(self, char: IChar) -> bool:
         """
@@ -93,71 +125,34 @@ class PickIt:
             :param char: The character used to pick up the item
             TODO :return: return a list of the items that were picked up
         """
-
-        self.prev_item_pickup_attempt = ''
-        self.fail_pickup_count = 0
-        self.already_looked_at = []
-
-
+        self.reset_state()
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
+        self.move_cursor_to_hud()
+        pickit_phase_start = time.time()
+
         items = self.grab_items()
-
-        start = time.time()
-
-        picked_up_items = []
-
-        picked_up_item = False
         i = 0
-        while i < len(items) and time.time() - start < self.timeout:
-            if picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
-                # start1 = time.time()
-                pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
-                mouse.move(*pos_m) # * Move the mouse to the bottom of the D2R window
+        while i < len(items) and time.time() - pickit_phase_start < self.timeout:
+            if self.picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
+                self.move_cursor_to_hud()
                 time.sleep(0.5)
                 items = self.grab_items()
                 i=0
-                # print(f"start1 took {time.time() - start1}")
-            
-            item = items[i]           
-            
-            # TODO implement proper [itemquality] filter
-            # * Begin ghetto potion code
-            needs = consumables.get_needs()
-            if "Healing Potion" in item.Name:
-                if needs["health"] == 0:
-                    i+=1
-                    picked_up_item = False
-                    continue
-                # git push <remote name, e.g. origin> <local branch name>:<remote branch name>
-                #git rebase -i HEAD~12 -x "git commit --amend --author 'Riddle <Riddle.Aimware@mail.com>' --no-edit"
-
-                else:
-                    consumables.increment_need("health", -1)
-            elif "Mana Potion" in item.Name:
-                if needs["mana"] == 0:
-                    picked_up_item = False
-                    i+=1
-                    continue
-                else:
-                    consumables.increment_need("mana", -1)
-            elif "Rejuvenation" in item.Name:
-                if needs["rejuv"] == 0:
-                    picked_up_item = False
-                    i+=1
-                    continue
-                else:
-                    consumables.increment_need("rejuv", -1)
-            # * End ghetto potion code
 
 
-            item_ID = f"{item.Name}_" + "_".join([str(value) for _, value in item.as_dict().items()])
+            item = items[i]
             
-            pick_up_res=0
-            start2 = time.time()
-            if item_ID in self.cached_pickit_items: # * Check if we cached the result of whether or not we should pick up the item
-                if self.cached_pickit_items[item_ID]:
-                    pick_up_res = self.pick_up_item(char, item, item_ID)
+            if self.needs_pot420(item): # * If item is potion & we need a potion of any kind, we should pick it up and move on
+                self.picked_up_item = False
+                i+=1 
+                continue
+
+
+            pick_up_res=None
+            if item.ID in self.cached_pickit_items: # * Check if we cached the result of whether or not we should pick up the item
+                if self.cached_pickit_items[item.ID]:
+                    pick_up_res = self.pick_up_item(char, item)
             else:
                 item_dict = item.as_dict()
                 if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image
@@ -172,20 +167,20 @@ class PickIt:
                     except ValueError:
                         item_dict["NTIPAliasStat"] = {'14': 0}
                 pickup = should_pickup(item_dict)
-                self.cached_pickit_items[item_ID] = pickup
+                self.cached_pickit_items[item.ID] = pickup
                 if pickup:
-                    pick_up_res = self.pick_up_item(char, item, item_ID)             
-            print(f"Start2: took {time.time() - start2}")
+                    pick_up_res = self.pick_up_item(char, item, )             
             if pick_up_res == PickedUpResults.InventoryFull:
-                pass
+                break
             else:
-                picked_up_item = pick_up_res == PickedUpResults.PickedUp
-                picked_up_item and picked_up_items.append(item)
-            
+                self.picked_up_item = pick_up_res == PickedUpResults.PickedUp
+                self.picked_up_item and self.picked_up_items.append(item)
+                self.picked_up_item and Logger.info(f"Attempting to pick up {item.Name}")
+            self.last_action = pick_up_res
             i+=1
 
         keyboard.send(Config().char["show_items"])
-        return len(picked_up_items) >= 1
+        return len(self.picked_up_items) >= 1
 
 
 # class PickIt:
