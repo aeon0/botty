@@ -264,7 +264,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
 
     # enter the template names you are trying to detect here
-    _template_list = ["A3_TOWN_0", "A3_TOWN_1", "A3_TOWN_10", "A3_TOWN_11", "A3_TOWN_12", "A3_TOWN_13", "A3_TOWN_14", "A3_TOWN_15", "A3_TOWN_16", "A3_TOWN_17", "A3_TOWN_18", "A3_TOWN_19", "A3_TOWN_2", "A3_TOWN_20", "A3_TOWN_3", "A3_TOWN_4", "A3_TOWN_5", "A3_TOWN_7", "A3_TOWN_8", "A3_TOWN_9"]
+    _template_list = ["ELDRITCH_0", "ELDRITCH_1", "ELDRITCH_2", "ELDRITCH_3", "ELDRITCH_4", "ELDRITCH_5", "ELDRITCH_6", "ELDRITCH_7", "ELDRITCH_8", "ELDRITCH_9", "ELDRITCH_START"]
 
     _current_template_idx = -1
     _last_stored_idx = 0
