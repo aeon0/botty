@@ -294,18 +294,18 @@ nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirnam
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 
- # * Remove files that end in .nip and begin in -. i.e -ladder.nip = toggled off
-nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.split("\\")[-1].startswith("-")]
-# * Removes folders that begin with -. i.e -ladder
-nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.split("\\")[-2].startswith("-")]
+# * Removes folders and files that begin with -
+for filepath in nip_file_paths:
+    split_filepath = filepath.split("\\")
+    for i,dir in enumerate(split_filepath):
+        if dir.startswith("-"):
+            remove = "\\".join(split_filepath[:i + 1])
+            nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.startswith(remove)]
 
 for nip_file_path in nip_file_paths:
-    #print(nip_file_path)
+    print(nip_file_path)
     load_nip_expressions(nip_file_path)
 
 
-# #print(transpile_nip_expression(
-#     """[name] == gold && [gold] >= 10"""
-# ))
+print(f"Loaded {len(nip_expressions)} nip expressions.")
 
-#print(f"Loaded {len(nip_expressions)} nip expressions.")
