@@ -1,0 +1,3 @@
+//UNIQUE SCEPTERS
+//[Name] == MightyScepter && [Quality] == Unique				 				//HEAVEN'S LIGHT or THE REDEEMER
+//[Name] == Caduceus && [Quality] == Unique										//ASTREON'S IRON WARD

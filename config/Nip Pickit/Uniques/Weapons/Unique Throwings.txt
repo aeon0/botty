@@ -1,0 +1,4 @@
+//########## THROWING ################
+//[name] == wingedknife && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 250 // warshrike
+//[name] == wingedaxe && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 210 // lacerator
+//[name] == flyingaxe && [quality] == unique && [flag] != ethereal # [enhanceddamage] == 210 // gimmershard

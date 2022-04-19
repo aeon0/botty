@@ -1,0 +1,23 @@
+// ########## WHITE ARMORS ################
+[name] == DuskShroud && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 700 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == Wyrmhide && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 705 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == ScarabHusk && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 711 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == WireFleece && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 721 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == DiamondMail && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 733 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == LoricatedMail && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 744 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == GreatHauberk && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 751 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == Boneweave && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 757 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == BalrogSkin && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 785 && [Sockets] == 0		//Prudence, Duress, Fortitude, Stone
+[name] == ArchonPlate && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 700 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == KrakenShell && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 784 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == HellforgePlate && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 795 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == LacqueredPlate && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 810 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == ShadowPlate && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 835 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+[name] == SacredArmor && [Quality] < Superior && [Flag] == Ethereal # [Defense] >= 900 && [Sockets] == 0	//Prudence, Duress, Fortitude, Stone
+//([type] == archonplate || [name] == sacredarmor) && [quality] == normal && [flag] != ethereal # [sockets] == 3 && [defense] >= 0
+//[type] == armor && [quality] == normal && [class] == elite && [flag] == ethereal # [sockets] == 0 && [defense] >= 1000 && [enhanceddefense] >= 15
+//[type] == armor && [quality] == normal && [class] == elite && [flag] == ethereal # [sockets] == 4 && [defense] >= 1000 && [enhanceddefense] >= 15
+//[type] == armor && [quality] == normal && [class] == elite && [flag] != ethereal # [sockets] == 3 && [defense] >= 1000 && [enhanceddefense] >= 15
+//([name] == ringmail || [name] == gothicplate || [name] == fullplatemail || [name] == ancientarmor) && [quality] == superior && [flag] != ethereal # [sockets] == 3 && [enhanceddefense] == 15 && ([itemmaxdurabilitypercent] == 15 || [itemmaxdurabilitypercent] == 0)
+([name] == tigulatedmail || [name] == cuirass || [name] == mesharmor || [name] == russetarmor || [name] == mageplate || [name] == sharktootharmor) && [quality] == superior && [flag] != ethereal # [sockets] == 3 && [enhanceddefense] >= 15 && ([itemmaxdurabilitypercent] >= 15)
+//([name] == duskshroud || [name] == wyrmhide || [name] == scarabhusk || [name] == wirefleece || [name] == archonplate || [name] == greathauberk || [name] == archonplate && [quality] <= superior && [flag] ([sockets] == 3 && [enhanceddefense] >= 1 && ([itemmaxdurabilitypercent] >= 0 || [itemmaxdurabilitypercent] == 0)

@@ -1,0 +1,4 @@
+//########## POLEARMS ################
+//[name] == ogreaxe && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 320 // bonehew eth
+[name] == thresher && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 240 && [lifeleech] == 15 // the reaper's toll eth
+[name] == crypticaxe && [quality] == unique && [flag] == ethereal # [sockets] == 3 // tomb reaver eth

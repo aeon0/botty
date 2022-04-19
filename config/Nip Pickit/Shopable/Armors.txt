@@ -1,0 +1,19 @@
+//=============================================================
+//************ armor and shields ******************************
+//=============================================================
+
+[type] == armor && [quality] == magic && ([class] == normal || [class] == exceptional) && [flag] != ethereal # [maxhp] <= 80 && [maxhp] >= 80 && [sockets] == 3
+[type] == armor && [quality] == magic && [flag] != ethereal # [sockets] == 4 && ([maxhp] >= 80 || [fhr] == 24)
+
+[name] == ancientarmor && [quality] == magic # [sockets] == 4 && [maxhp] >= 90
+//[name] == ancientarmor && [quality] == magic # [sockets] == 4 && [fhr] == 24
+[name] == archonplate && [quality] == magic # [sockets] == 4 && [maxhp] >= 90
+[name] == archonplate && [quality] == magic # [sockets] == 4 && [fhr] == 24
+
+[name] == lightplate && [quality] == magic # [sockets] == 3 && [maxhp] == 80 && [itemlevelreq] <= 30
+[name] == mageplate && [quality] == magic # [sockets] == 3 && [maxhp] == 80 && [itemlevelreq] <= 30
+
+//          ==magic==
+[type] == armor && [quality] == magic && [class] == elite && [flag] != ethereal # [sockets] >= 3 && ([fhr] == 28 || [maxhp] == 80)
+[type] == armor && [quality] == magic && [class] == elite && [flag] != ethereal # [sockets] >= 3 && ([fhr] == 28 || [maxhp] >= 98)
+([name] == gothicplate || [name] == ancientarmor) && [quality] == magic && [flag] != ethereal # [sockets] >= 3 && ([fhr] == 28 || [maxhp] >= 100)

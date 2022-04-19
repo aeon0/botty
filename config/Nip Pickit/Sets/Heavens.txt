@@ -1,0 +1,5 @@
+// # heaven's brethren #
+[name] == cuirass && [quality] == set // haemosu's adamant
+[name] == reinforcedmace && [quality] == set // dangoon's teaching
+[name] == ward && [quality] == set // taebaek's glory
+[name] == spiredhelm && [quality] == set // ondal's almighty

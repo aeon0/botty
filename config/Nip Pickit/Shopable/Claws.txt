@@ -1,0 +1,70 @@
+//=============================================================
+//************ claws ******************************************
+//=============================================================
+
+[type] == handtohand && [quality] == magic # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [ias] >= 20 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [itemtohitperlevel] >= 1 && [skilllightningsentry] >= 2
+
+//[name] == runictalons && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+//[name] == feralclaws && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+//[name] == runictalons && [quality] == magic # [itemtohitpercentperlevel] >= 1 && [ias] >= 20
+//[name] == feralclaws && [quality] == magic # [itemtohitpercentperlevel] >= 1 && [ias] >= 20
+//[name] == wristsword && [quality] == magic # [itemtohitpercentperlevel] >= 1 && [ias] >= 20
+//[name] == battlecestus && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+//[name] == wristsword && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+//[name] == battlecestus && [quality] == magic # [itemtohitpercentperlevel] >= 1 && [ias] >= 20
+
+[type] == handtohand && [quality] == magic # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [trapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [trapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [trapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [trapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # [ias] >= 20 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] == magic # [itemtohitperlevel] >= 1 && [skilllightningsentry] >= 2
+
+[name] == runictalons && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+[name] == feralclaws && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+[name] == wristsword && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+[name] == battlecestus && [quality] == magic # [itemtohitperlevel] >= 1 && [ias] >= 20
+
+([type] == handtohand || [type] == assassinclaw || [type] == assassinitem) && [quality] >= magic # [skilllightningsentry] >= 3 && ([trapsskilltab] >= 3 || [assassinskills] >= 2)
+
+[type] == handtohand && [quality] == magic # ([assassinskills] == 2 || [trapsskilltab] == 3) && [skilllightningsentry] == 3
+[type] == handtohand && [quality] == magic # ([assassinskills] == 2 || [shadowdisciplinesskilltab] == 3) && ([skillvenom] == 3 || [skillfade] == 3)
+[type] == handtohand && [quality] == magic # [assassinskills]+[skilllightningsentry] == 5 && [ias] >= 30
+[type] == handtohand && [quality] == magic # [trapsskilltab]+[skilllightningsentry] >= 5 && [ias] >= 30
+
+[name] == greatertalons && [quality] == magic # [assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] >= 5
+[name] == greatertalons && [quality] == magic # [assassinskills]+[skillwakeoffire] == 5 || [trapsskilltab]+[skillwakeoffire] >= 5
+[name] == greatertalons && [quality] == magic # [itemtohitperlevel] >= 15 && [ias] >= 30
+[name] == greatertalons && [quality] == magic # [sockets] == 3 && [ias] >= 30
+[name] == greatertalons && [quality] == magic # [assassinskills]+[skilllightningsentry] >= 4 && [ias] >= 30
+[name] == greatertalons && [quality] == magic # [assassinskills]+[skillwakeoffire] >= 4 && [ias] >= 30
+[name] == greatertalons && [quality] == magic # [trapsskilltab]+[skilllightningsentry] >= 5 && [ias] >= 30
+[name] == greatertalons && [quality] == magic # [trapsskilltab]+[skillwakeoffire] >= 5 && [ias] >= 30
+
+[name] == greaterclaws && [quality] == magic # [assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] >= 5 && [ias] >= 10
+[name] == greaterclaws && [quality] == magic # [assassinskills]+[skillwakeoffire] == 5 || [trapsskilltab]+[skillwakeoffire] >= 5 && [ias] >= 10
+[name] == greaterclaws && [quality] == magic # [itemtohitperlevel] >= 15 && [ias] >= 40
+[name] == greaterclaws && [quality] == magic # [sockets] == 3 && [ias] >= 40
+[name] == greaterclaws && [quality] == magic # [assassinskills]+[skilllightningsentry] >= 4 && [ias] >= 40
+[name] == greaterclaws && [quality] == magic # [assassinskills]+[skillwakeoffire] >= 4 && [ias] >= 40
+[name] == greaterclaws && [quality] == magic # [trapsskilltab]+[skilllightningsentry] >= 5 && [ias] >= 40
+[name] == greaterclaws && [quality] == magic # [trapsskilltab]+[skillwakeoffire] >= 5 && [ias] >= 40
+
+[name] == bladetalons && [quality] == magic # [assassinskills] == 1 && [ias] == 30
+
+//([name] == greatertalons || [name] <= runictalons) && [quality] == magic # [assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] == 6
+([name] == greatertalons || [name] <= runictalons) && [quality] == magic # [itemtohitperlevel] >= 15 && [ias] >= 30 && ([skilllightningsentry] == 3 || [skillvenom] == 3 || [skillweaponblock] >= 3)
+([name] == greaterclaws || [name] <= feralclaws) && [quality] == magic # ([assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] == 6) && [ias] >= 10
+([name] == greaterclaws || [name] <= feralclaws) && [quality] == magic # [itemtohitperlevel] >= 15 && [ias] >= 40 && ([skilllightningsentry] == 3 || [skillvenom] == 3 || [skillweaponblock] >= 3)
+//([name] == handscythe && [name] <= scissorssuwayyah) && [quality] == magic # [shadowdisciplinesskilltab] == 3 && ([skillvenom] == 3 || [skillfade] == 3)
+([name] == handscythe && [name] <= scissorssuwayyah) && [quality] == magic # [assassinskills]+[skilllightningsentry] >= 5 && ([itemtohitperlevel] > 0 || [ias] >= 30 || [sockets] == 2)
+

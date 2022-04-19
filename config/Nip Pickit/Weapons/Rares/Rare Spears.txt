@@ -1,0 +1,7 @@
+// ##### SPEARS ########################
+[type] == spear && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 40
+[type] == spear && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 40
+[type] == amazonspear && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 225 && [itemtohitperlevel] > 1 || [enhanceddamage] >= 300
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # ([enhanceddamage] >= 200 && [itemtohitperlevel] > 1 || [enhanceddamage] >= 300) && ([itemreplenishdurability] > 1 || [itemreplenishquantity] > 1)
+[type] == amazonbow && [quality] == rare # ([enhanceddamage] >= 150 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 300) && ([ias] == 20 || [sockets] == 2)
+//([name] == maidenjavelin || [name] == ceremonialjavelin || [name] == matriarchaljavelin) && [quality] == rare && [flag] != ethereal # [javelinandspearskilltab]+[amazonskills] >= 4 && [ias] >= 30

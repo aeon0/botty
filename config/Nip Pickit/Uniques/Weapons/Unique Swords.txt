@@ -1,0 +1,5 @@
+//########## SWORDS ################
+//[name] == espandon && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 200 // crainte vomir
+//[name] == phaseblade && [quality] == unique # [sanctuaryaura] == 13 && [enhanceddamage] == 270 && [strength] == 10 // azurewrath
+//[name] == tulwar && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 120 && [dexterity] == 15 // blade of ali baba
+//[name] == battlesword && [quality] == unique && [flag] == ethereal // headstriker

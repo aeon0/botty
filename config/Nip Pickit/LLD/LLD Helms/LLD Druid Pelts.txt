@@ -1,0 +1,6 @@
+//---DRUID------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == pelt && [quality] == superior && [flag] != ethereal # [skillfury] == 3 && [skillheartofwolverine] > 0 && ([sockets] == 0 || [sockets] == 3) && [itemlevelreq] <= 30
+[type] == pelt && [quality] == rare # [elementalskilltab] == 2 && ([skilltornado] == 3 || [skillfissure] == 3) && [itemlevelreq] <= 30 // 5 nado/fissure pelt
+[type] == pelt && [quality] == rare # [elementalskilltab] == 2 && [skillfissure] == 3 && [sockets] == 2 && [itemlevelreq] <= 30
+[type] == pelt && [quality] == rare # [shapeshiftingskilltab] == 2 && [skillfury] == 3 && ([itemtohitpercentperlevel] >= 1 || [sockets] == 2) && [itemlevelreq] <= 30 // 5 fury pelt

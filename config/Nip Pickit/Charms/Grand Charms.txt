@@ -1,0 +1,59 @@
+//################GRAND CHARMS############
+
+//all skill gc's
+[name] == grandcharm && [quality] == magic # [itemaddskilltab] == 1 && [maxhp] >= 0
+
+//skiller gc
+//[name] == grandcharm && [quality] == magic # [palicombatskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [offensiveaurasskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [defensiveaurasskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [lightningskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [fireskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [coldskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [elementalskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [shapeshiftingskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [druidsummoningskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [trapsskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [shadowdisciplinesskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [martialartsskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [poisonandboneskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [necromancersummoningskilltab] ==1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [cursesskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [passiveandmagicskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [bowandcrossbowskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [javelinandspearskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [warcriesskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [barbcombatskilltab] == 1 && [maxhp] >= 0
+//[name] == grandcharm && [quality] == magic # [masteriesskilltab] == 1 && [maxhp] >= 0
+
+//all skills + max hp/str/dex/fhr/frw
+[name] == grandcharm && [quality] == magic # [itemaddskilltab] >= 1 && ([maxhp] >= 1 || [strength] >= 6 || [dexterity] >= 6 || [fhr] >= 12 || [frw] >= 7)
+
+//gold find gc
+//[name] == grandcharm && [quality] == magic # [itemgoldbonus] >= 40
+[name] == grandcharm && [quality] == magic # [itemgoldbonus] >= 40 && (([coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 60) || [coldresist] >= 26 || [fireresist] >= 26 || [lightresist] >= 26)
+[name] == grandcharm && [quality] == magic # [itemgoldbonus] >= 40 && (([maxdamage] >= 9 && [tohit] >= 49) || [mana] >= 40)
+[name] == grandcharm && [quality] == magic # [itemgoldbonus] >= 50 && ([tohit] >= 100 || [warcriesskilltab] == 1 || [maxdamage] >= 20 || [maxmana] >= 20 || [fireresist] >= 20 && [coldresist] >= 20)
+
+//resist gc
+//[name] == grandcharm && [quality] == magic # [coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 60
+//[name] == grandcharm && [quality] == magic # [coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 56 && ([frw] == 7 || [fhr] == 12)
+//[name] == grandcharm && [quality] == magic # [coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 40 && [maxhp] >= 25
+//[name] == grandcharm && [quality] == magic # [fireresist] == 15 && [lightresist] == 15 && [coldresist] == 15 && [poisonresist] == 15 && ([frw] == 7 || [fhr] == 12 || [maxhp] >= 30)
+
+//max damage gc
+//[name] == grandcharm && [quality] == magic # [maxdamage] >= 9 && [tohit] >= 40
+[name] == grandcharm && [quality] == magic # ([maxdamage] >= 9 && [tohit] >= 40) && ([maxhp] >= 25 || [strength] >= 5 || [dexterity] >= 5 || [fhr] >= 12)
+//[name] == grandcharm && [quality] == magic # [maxdamage] == 14
+
+//ar with life gc
+//[name] == grandcharm && [quality] == magic # [tohit] >= 100 && [maxhp] >= 35
+
+//life with mana gc
+//[name] == grandcharm && [quality] == magic # [maxhp] >= 40 && [mana] >= 35
+//[name] == grandcharm && [quality] == magic # [maxmana] == 40 && ([maxhp] >= 20 || [fhr] == 12)
+
+//Combination gc
+[name] == grandcharm && [quality] == magic # (([maxdamage] >= 10 && [tohit] >= 70) || [itemaddskilltab] >= 1) && ([maxhp] >= 35 || [strength] >= 7 || [dexterity] >= 7 || [fhr] >= 13)
+[name] == grandcharm && [quality] == magic # ([coldresist] >= 15 && [lightresist] >= 15 || [maxdamage] >= 10) && ([maxhp] >= 20 || [strength] >= 6 || [dexterity] >= 6 || [fhr] >= 12 || [frw] >= 3)
+[name] == grandcharm && [quality] == magic # ([palicombatskilltab]+[fireskilltab]+[coldskilltab]+[lightningskilltab]+[trapsskilltab]+[shadowdisciplinesskilltab]+[javelinandspearskilltab]+[poisonandboneskilltab]+[elementalskilltab] == 1) && ([maxhp] >= 35 || [strength] >= 6 || [dexterity] >= 6 || [fhr] >= 3 || [frw] >= 3)

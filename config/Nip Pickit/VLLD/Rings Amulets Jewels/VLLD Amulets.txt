@@ -1,0 +1,6 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == amulet && [quality] == rare # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [fcr] == 10 && [maxhp]+[maxmana] >= 10 && [hpregen] >= 5 && [itemlevelreq] <= 18
+//[type] == amulet && [quality] == rare # [maxhp]+[maxmana] >= 40 && [hpregen] >= 7 && [itemlevelreq] <= 18
+//[type] == amulet && [quality] == rare # [strength]+[dexterity]+[hpregen] >= 15 && [itemlevelreq] <= 18
+//[type] == amulet && [quality] == rare # [hpregen] >= 7 && [strength]+[dexterity] >= 5 && [itemlevelreq] <= 18

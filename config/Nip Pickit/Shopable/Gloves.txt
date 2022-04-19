@@ -1,0 +1,11 @@
+//Magic
+
+//[type] == gloves && [quality] == magic # [ias] == 20 && [martialartsskilltab] == 3
+//[type] == gloves && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[type] == gloves && [quality] == magic # [ias] == 20 && [bowandcrossbowskilltab] == 3
+//[name] == vampirebonegloves && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[name] == vambraces && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[name] == crusadergauntlets && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[name] == vampirebonegloves && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[name] == vambraces && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3
+//[name] == crusadergauntlets && [quality] == magic # [ias] == 20 && [javelinandspearskilltab] == 3

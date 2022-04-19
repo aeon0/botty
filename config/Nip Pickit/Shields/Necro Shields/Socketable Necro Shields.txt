@@ -1,0 +1,2 @@
+//######### WHITE VODOO HEADS ###############
+[Name] == voodooheads && [quality] <= superior && [flag] != ethereal # [skillbonespirit]+[skillbonespear] == 6 && [sockets] >= 0

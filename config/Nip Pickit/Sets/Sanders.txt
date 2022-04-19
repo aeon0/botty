@@ -1,0 +1,5 @@
+// # sander's folly #
+[name] == cap && [quality] == set # [itemmagicbonus] == 35 // sander's paragon
+//[name] == bonewand && [quality] == set // sander's superstition
+[name] == heavygloves && [quality] == set # [maxhp] == 40 // sander's taboo
+[name] == heavyboots && [quality] == set # [dexterity] == 10 && [strength] == 5 // sander's riprap

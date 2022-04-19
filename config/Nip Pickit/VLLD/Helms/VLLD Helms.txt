@@ -1,0 +1,13 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// vlld rare helms
+[type] == circlet && [quality] == rare && [flag] != ethereal # [sockets] == 2 && [frw] == 20 && ([enhanceddamage] >= 15 || [tohit] >= 80 || [maxdamage] >= 6 || [maxhp] >= 20 || [maxmana] >= 20 || [lightmaxdam] >= 500 || [hpregen] >= 5) && [itemlevelreq] <= 18
+[type] == circlet && [quality] == rare && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 1 && ([fcr] == 10 || [frw] == 20) && ([maxhp] >= 10 || [hpregen] >= 5 || [maxmana] >= 20 || [sockets] >= 0) && [itemlevelreq] <= 18
+[type] == circlet && [quality] == rare && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 1 && [fcr] == 10 && [frw] == 20 && [itemlevelreq] <= 18
+[name] == crown && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 30 && [sockets] == 2 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 18
+[name] == crown && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 10 && [sockets] == 2 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9
+
+//vlld magic helms
+[name] == crown && [quality] == magic && [flag] == ethereal # [enhanceddefense] >= 20 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9
+[name] == crown && [quality] == magic && [flag] == ethereal # [enhanceddefense] >= 30 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 18
+//[type] == circlet && [quality] == magic && [flag] != ethereal # ([tohit] >= 120 || [itemtohitpercentperlevel] > 70 || [enhanceddamage] >= 20 || [maxmana] >= 30) && ([maxhp] >= 30 || [hpregen] >= 5 || [frw] >= 20) && [itemlevelreq] <= 18

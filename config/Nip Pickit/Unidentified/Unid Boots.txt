@@ -1,0 +1,10 @@
+//UNIQUE BOOTS
+//[Name] == Boots && [Quality] == Unique && [Flag] != Ethereal					//HOTSPUR
+//[Name] == SharkskinBoots && [Quality] == Unique								//WATERWALK
+[Name] == BattleBoots && [Quality] == Unique									//WAR TRAVELER
+[Name] == WarBoots && [Quality] == Unique										//GORE RIDER
+[Name] == ScarabshellBoots && [Quality] == Unique && [Flag] != Ethereal			//SANDSTORM TREK
+[Name] == ScarabshellBoots && [Quality] == Unique && [Flag] == Ethereal		//SANDSTORM TREK ETH
+[Name] == BoneweaveBoots && [Quality] == Unique								//MARROWWALK
+[Name] == WyrmhideBoots && [Quality] == Unique								//MERMAN'S SPROCKET
+[Name] == MyrmidonGreaves && [Quality] == Unique								//SHADOW DANCER

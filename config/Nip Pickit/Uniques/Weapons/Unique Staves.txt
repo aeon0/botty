@@ -1,0 +1,4 @@
+//########## STAVES ################
+[name] == elderstaff && [quality] == unique # [itemallskills] == 4 && [plusdefense] == 550 && [energy] == 50 && [magicdamagereduction] == 5 // ondal's wisdom
+[name] == elderstaff && [quality] == unique && [flag] == ethereal //ondal's wisdom
+[name] == quarterstaff && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 300 //ribcracker

@@ -1,0 +1,5 @@
+//########## SORCERESS ORBS ################
+[name] == eldritchorb && [quality] == unique # [sorceressskills] == 3 && [passiveltngmastery] == 20 && [passivefiremastery] == 20 && [energy] >= 25 // eschuta's temper
+//[name] == swirlingcrystal && [quality] == unique // && [flag] == ethereal // oculus
+//[name] == swirlingcrystal && [quality] == unique && [flag] == ethereal
+[name] == dimensionalshard && [quality] == unique // death's fathom

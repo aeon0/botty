@@ -1,0 +1,4 @@
+//---AMAZON------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+([name] == maidenjavelin || [name] == ceremonialjavelin) && [quality] <= rare && [flag] != ethereal # [javelinandspearskilltab] >= 4 && [ias] >= 30 && [itemlevelreq] <= 30
+[name] == ceremonialjavelin && [quality] <= rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 100 && [itemreplenishquantity] > 0 && [itemlevelreq] <= 30

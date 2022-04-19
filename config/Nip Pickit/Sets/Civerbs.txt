@@ -1,0 +1,4 @@
+// # civerb's vestment #
+//[name] == grandscepter && [quality] == set // civerb's cudgel
+//[type] == amulet && [quality] == set # [manarecovery] == 40 && [hpregen] == 4 // civerb's icon
+//[name] == largeshield && [quality] == set // civerb's ward

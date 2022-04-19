@@ -1,0 +1,1 @@
+[type] == boots && [quality] == magic # [maxmana] == 40 && [frw] == 40

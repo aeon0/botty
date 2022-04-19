@@ -1,0 +1,6 @@
+//UNIQUE SORCERESS
+[Name] == SwirlingCrystal && [Quality] == Unique && [Flag] != Ethereal			//THE OCULUS
+[Name] == SwirlingCrystal && [Quality] == Unique && [Flag] == Ethereal			//THE OCULUS ETH
+[Name] == EldritchOrb && [Quality] == Unique 									//ESCHUTA'S TEMPER
+[Name] == EldritchOrb && [Quality] == Unique && [Flag] == Ethereal				//ESCHUTA'S TEMPER ETH
+[Name] == DimensionalShard && [Quality] == Unique								//DEATH'S FATHOM

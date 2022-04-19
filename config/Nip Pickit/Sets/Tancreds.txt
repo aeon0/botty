@@ -1,0 +1,6 @@
+// # tancred's battlegear #
+//[name] == bonehelm && [quality] == set // tancred's skull
+//[name] == fullplatemail && [quality] == set // tancred's spine
+//[name] == boots && [quality] == set # [staminarecoverybonus] == 25 && [dexterity] == 10 // tancred's hobnails
+//[name] == militarypick && [quality] == set // tancred's crowbill
+//[type] == amulet && [quality] == set # [magicdamagereduction] == 1 && [normaldamagereduction] == 2 // tancred's weird

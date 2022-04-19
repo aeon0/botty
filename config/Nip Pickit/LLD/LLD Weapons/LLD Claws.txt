@@ -1,0 +1,10 @@
+//---ASSASSIN----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[name] == handscythe && [quality] == superior # [sockets] == 2 && ([skilllightningsentry] >= 1)+ ([skillmindblast] >= 1)+([skilldragonflight] >= 1)+([skillweaponblock] >= 1)+([skillshadowmaster] >= 1)+([skillwakeoffire] >= 1) == 2 && [itemlevelreq] <= 30
+//[name] == handscythe && [quality] <= superior # [sockets] == 2 && ([ShadowdisciplinesSkilltab]) =1) && [itemlevelreq] <= 30
+//[name] == handscythe && [quality] <= superior # [sockets] == 2 && ([assassinskills]) =1) && [itemlevelreq] <= 30
+[name] == handscythe && [quality] == rare # ([martialartsskilltab] == 1 || [assassinskills] == 1) && ([skilldragonflight] >= 1 || [skillDragontail] >= 1) && [sockets] >= 0 && [itemlevelreq] <= 30
+[name] == handscythe && [quality] == magic # ([martialartsskilltab] == 1 || [assassinskills] == 1) && ([skilldragonflight] >= 1 || [skillDragontail] >= 1) && [sockets] >= 0 && [itemlevelreq] <= 30
+[name] == handscythe && [quality] == magic # ([ShadowdisciplinesSkilltab] == 1 || [assassinskills] == 1) && ([skilldragonflight] >= 1 || [skillDragontail] >= 1) && [sockets] >= 0 && [itemlevelreq] <= 30
+[name] == handscythe && [quality] == superior # ([trapsskilltab] == 1 || [assassinskills] == 1) && ([skilllightningsentry] >= 1 || [skillwakeoffire] >= 1) && [sockets] >= 0 && [itemlevelreq] <= 30
+[name] == handscythe && [quality] == superior # ([ShadowdisciplinesSkilltab] == 1 || [assassinskills] == 1) && ([skilldragonflight] >= 1 || [skillDragontail] >= 1) && [sockets] >= 0 && [itemlevelreq] <= 30

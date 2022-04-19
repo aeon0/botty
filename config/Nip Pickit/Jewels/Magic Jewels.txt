@@ -1,0 +1,5 @@
+// jewels condensed
+[type] == jewel && [quality] == magic # [fireresist] >= 15 && [lightresist] >= 15 && ([ias] >= 15 || [itemreqpercent] <= -15 || [strength] >= 6 || [dexterity] >= 7)
+[type] == jewel && [quality] == magic # [enhanceddamage] >= 20 && ([ias] >= 15 || [itemreqpercent] <= -15 || [strength] >= 6 || [dexterity] >= 7 || [mindamage] >= 8 || [maxdamage] >= 9)
+//[type] == jewel && [quality] == magic # ([fireresist] >= 30 || [coldresist] >= 30 || [lightresist] >= 30 || [fireresist] >= 30 && [lightresist] >= 30) || [maxmana] >= 20) && ([maxhp] >= 20 || [fhr] == 7 || [ias] == 15 || [itemreqpercent] <= -15 || [strength] >= 9 || [dexterity] >= 9)
+[type] == jewel && [quality] == magic # ([enhanceddamage] >= 30 || [tohit] >= 80 || [maxdamage] >= 18) && ([maxhp] >= 8 || [ias] >= 15 || [itemreqpercent] <= -15 || [strength] >= 9 || [dexterity] >= 9)

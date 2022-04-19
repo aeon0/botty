@@ -1,0 +1,3 @@
+// ##### MACES #########################
+([type] == club || [type] == hammer || [type] == mace) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 30
+([type] == club || [type] == hammer || [type] == mace) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30

@@ -1,0 +1,4 @@
+//########## JAVELINS ################
+[name] == ceremonialjavelin && [quality] = unique //titans revenge
+[name] == ceremonialjavelin && [quality] == unique && [flag] == ethereal // titan's revenge eth
+[name] == matriarchaljavelin && [quality] == unique # [enhanceddamage] == 200 && [javelinandspearskilltab] == 4 // thunderstroke

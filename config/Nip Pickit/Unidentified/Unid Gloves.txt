@@ -1,0 +1,7 @@
+//UNIQUE GLOVES
+[Name] == ChainGloves && [Quality] == Unique									//CHANCE GUARDS
+[Name] == LightGauntlets && [Quality] == Unique									//MAGEFIST
+[Name] == Gauntlets && [Quality] == Unique										//FROSTBURN
+[Name] == VampireboneGloves && [Quality] == Unique							//DRACUL'S GRASP
+[Name] == Vambraces && [Quality] == Unique										//SOUL DRAINER
+[Name] == OgreGauntlets && [Quality] == Unique									//STEELREND

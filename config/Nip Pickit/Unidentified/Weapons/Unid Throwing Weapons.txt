@@ -1,0 +1,3 @@
+//UNIQUE THROWING WEAPONS
+//[Name] == WingedKnife && [Quality] == Unique && [Flag] == Ethereal			//WARSHRIKE ETH
+//[Name] == WingedAxe && [Quality] == Unique && [Flag] == Ethereal				//LACERATOR ETH

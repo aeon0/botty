@@ -1,0 +1,4 @@
+//########## PALADIN SHIELDS ################
+[name] == sacredrondache && [quality] == unique # [paladinskills] == 2 && [enhanceddefense] >= 200 && [enhanceddamage] >= 70 && [itemtohitpercent] >= 70 // alma negra
+[name] == gildedshield && [quality] == unique # [enhanceddefense] >= 200 // herald of zakarum
+[name] == gildedshield && [quality] == unique && [flag] == ethereal # [enhanceddefense] >= 190

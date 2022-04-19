@@ -1,0 +1,5 @@
+//UNIQUE DAGGERS
+//[Name] == Dagger && [Quality] == Unique 										//GULL
+//[Name] == BoneKnife && [Quality] == Unique									//WIZARD SPIKE
+//[Name] == FangedKnife && [Quality] == Unique									//FLESHRIPPER
+//[Name] == LegendSpike && [Quality] == Unique									//GHOSTFLAME

@@ -1,0 +1,9 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//under level 18
+//[name] == ancientarmor && [quality] == magic && [flag] == ethereal # [enhanceddefense] >= 40 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 18
+[name] == ancientarmor && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 30 && [itemreplenishdurability] > 0 && [sockets] == 2 && [itemlevelreq] <= 18
+
+// under level 9
+//[name] == ancientarmor && [quality] == magic && [flag] == ethereal # [enhanceddefense] >= 30 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9
+[name] == ancientarmor && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 20 && [itemreplenishdurability] > 0 && [sockets] == 2 && [itemlevelreq] <= 9

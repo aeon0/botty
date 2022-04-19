@@ -1,0 +1,14 @@
+//=================================================================================================================================================================================
+//=== SMALL CHARMS ================================================================================================================================================================
+//=================================================================================================================================================================================
+
+
+//[name] == smallcharm && [quality] == magic # [maxhp] >= 15 && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [maxhp] >= 10 && [maxdamage] >= 3 && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [maxhp] >= 14 && [maxmana] >= 11 && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [maxhp] == 15 && ([poisonmaxdam] == 128 || [maxmana] >= 12 || [maxdamage] >= 3 || [defense] == 20 || [fireresist] >= 9 || [lightresist] >= 9 || [coldresist] >= 9 || [fireresist] >= 5 && [coldresist] >= 5) && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [frw] == 3 && ([poisonmaxdam] == 128 || [maxmana] >= 12 || [maxdamage] >= 3 || [fireresist] >= 9 || [lightresist] >= 9 || [coldresist] >= 9 || [fireresist] >= 5 && [coldresist] >= 5) && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [frw] == 3 && [itemlevelreq] <= 30
+//[name] == smallcharm && [quality] == magic # [frw] == 3 && ([fireresist] >= 5 && [coldresist] >= 5) && [itemlevelreq] <= 30
+[name] == smallcharm && [quality] == magic # [maxdamage] >= 3 && [tohit] >= 10 && [maxhp] >= 13 && [itemlevelreq] <= 30
+

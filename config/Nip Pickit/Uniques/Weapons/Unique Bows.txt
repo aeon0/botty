@@ -1,0 +1,3 @@
+//########## BOWS ################
+//[name] == wardbow && [quality] == unique # [enhanceddamage] == 200 && [skillguidedarrow] == 5 //widowmaker
+//[name] == hydrabow && [quality] == unique # [manaleech] == 8 //windforce

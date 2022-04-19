@@ -1,0 +1,7 @@
+// ##### SCEPTERS ######################
+[type] == scepter && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 30
+[type] == scepter && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 300 && [ias] >= 30
+//[type] == scepter && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 400
+[type] == scepter && [quality] == rare # [skillblessedhammer]+[skillconcentration]+[palicombatskilltab]+[paladinskills] >= 8
+[type] == scepter && [quality] == rare # [skillfistoftheheavens]+[skillconviction]+[palicombatskilltab]+[paladinskills] >= 8
+[type] == scepter && [quality] == rare # [skillholyshield]+[paladinskills]+[palicombatskilltab] >= 5

@@ -1,0 +1,3 @@
+//######### ARMORS #####################
+//[type] == armor && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 150 && [sockets] == 2 && ([itemreplenishdurability] > 0 || [itemreplenishquantity] > 0)
+//[type] == armor && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 150 && [sockets] == 0 && ([itemreplenishdurability] > 1 || [itemreplenishquantity] > 1)

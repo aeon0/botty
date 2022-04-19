@@ -1,0 +1,4 @@
+// # infernal tools #
+[name] == cap && [quality] == set # [fireresist] == 10 && [lightresist] == 10 && [coldresist] == 10 && [poisonresist] == 10 // infernal cranium
+//[name] == grimwand && [quality] == set // infernal touch
+[name] == heavybelt && [quality] == set # [maxhp] == 20 && [enhanceddefense] == 25 // infernal sign

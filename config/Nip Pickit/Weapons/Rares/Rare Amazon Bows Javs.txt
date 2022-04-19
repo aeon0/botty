@@ -1,0 +1,6 @@
+// ##### AMAZON WEAPONS ################
+[type] == amazonbow && [quality] == rare # [sockets] >= 2 && [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [ias] >= 20 && [itemskillonhit] >= 1
+[type] == amazonbow && [quality] == rare # [sockets] >= 2 && [enhanceddamage] >= 350 && [ias] >= 20 && [itemskillonhit] >= 1
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 200 && [itemmaxdamageperlevel] >= 2 && [itemtohitperlevel] >= 25 && [itemreplenishquantity] >= 1
+[type] == amazonjavelin && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 300 && [itemreplenishquantity] >= 1
+[type] == javelin && [quality] == rare && [flag] == ethereal # ([enhanceddamage] >= 200 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 350) && ([itemreplenishdurability] > 0 || [itemreplenishquantity] > 0)

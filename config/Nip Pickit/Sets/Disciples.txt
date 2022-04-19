@@ -1,0 +1,6 @@
+// # the disciple #
+[type] == amulet && [quality] == set # [itemallskills] == 1 && [coldresist] == 18 // telling of beads
+[name] == bramblemitts && [quality] == set // laying of hands
+[name] == duskshroud && [quality] == set // dark adherent
+//[name] == demonhideboots && [quality] == set // rite of passage
+//[name] == mithrilcoil && [quality] == set // credendum

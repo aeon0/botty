@@ -1,0 +1,8 @@
+[name] == monarch && [quality] == magic && [flag] != ethereal # [sockets] == 4 && [fbr] == 30 // jmod
+[name] == monarch && [quality] == magic && [flag] != ethereal # [sockets] == 4 && [fhr] == 17 // jmoe
+[name] == monarch && [quality] == magic && [flag] != ethereal # [sockets] == 4 && [maxhp] >= 41 // jmoc
+[name] == monarch && [quality] == magic && [flag] != ethereal # [sockets] == 4 && [itemreqpercent] == -30 // jmos
+[name] == towershield && [quality] == magic # [sockets] == 3 && [fbr] == 30 && [itemlevelreq] <= 30
+[name] == pavise && [quality] == magic # [sockets] == 3 && [fbr] == 30 && [itemlevelreq] <= 30
+[name] == kiteshield && [quality] == magic # [sockets] == 3 && [fbr] == 30 && [itemlevelreq] <= 30
+[name] == barbedshield && [quality] == magic # [palicombatskilltab] == 2 && [fbr] == 30

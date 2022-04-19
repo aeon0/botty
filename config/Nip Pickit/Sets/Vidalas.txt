@@ -1,0 +1,5 @@
+// # vidala's rig #
+//[type] == amulet && [quality] == set # [coldresist] == 20 && [maxmana] == 15 // vidala's snare
+//[name] == longbattlebow && [quality] == set // vidala's barb
+//[name] == leatherarmor && [quality] == set // vidala's ambush
+//[name] == lightplatedboots && [quality] == set // vidala's fetlock

@@ -1,0 +1,5 @@
+//UNIQUE BOWS
+//[Name] == ShortSiegeBow && [Quality] == Unique								//WITCHWILD STRING
+//[Name] == WardBow && [Quality] == Unique										//WIDOWMAKER
+[Name] == HydraBow && [Quality] == Unique									//WINDFORCE
+//[Name] == Ballista && [Quality] == Unique										//Buriza-Do Kyanon

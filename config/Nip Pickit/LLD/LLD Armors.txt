@@ -1,0 +1,20 @@
+//=================================================================================================================================================================================
+//=== BODY ARMOR ==================================================================================================================================================================
+//=================================================================================================================================================================================
+
+// white armor
+//[name] == ancientarmor && [quality] == superior && [flag] != ethereal # [sockets] == 4 && [enhanceddefense] == 15 && ([itemmaxdurabilitypercent] == 15 || [itemmaxdurabilitypercent] == 0)
+
+//rare armor
+[name] == ornateplate && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 60 && [itemreplenishdurability] > 0 && [sockets] == 2 && [itemlevelreq] <= 30
+
+//unique armor
+//[name] == studdedleather && [quality] == unique && [flag] != ethereal && [flag] != identified # [defense] == 35 // Twitchthroe
+//[name] == ghostarmor && [quality] == unique && [flag] != ethereal # [magicdamagereduction] == 11 // Spirit Shroud
+//[name] == serpentskinarmor && [quality] == unique && [flag] != ethereal # [magicdamagereduction] == 13 && [fireresist] == 35 // Skin of the Vipermagi
+//[name] == fieldplate && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 130 // Rockfleece
+
+// magic armor
+//[name] == ornateplate && [quality] == magic && [flag] != ethereal # [enhanceddefense] == 100 && [itemreqpercent] == -30 && [itemlevelreq] <= 30
+[name] == ornateplate && [quality] == magic && [flag] == ethereal # [enhanceddefense] >= 80 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+([name] == lightplate || [name] == mageplate) && [quality] == magic # [sockets] == 3 && [maxhp] >= 80 && [itemlevelreq] <= 30

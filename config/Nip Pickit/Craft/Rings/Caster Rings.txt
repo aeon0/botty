@@ -1,0 +1,26 @@
+// ##### RINGS #########################
+
+//caster rings
+//[type] == ring && [quality] == crafted # ([fcr] >= 10 || [itemmagicbonus] >= 15) && (([fireresist] >= 14 && [lightresist] >= 14) || [maxmana] >= 110)
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 15 && [maxmana] >= 20 && [strength]+[dexterity] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 15 && [maxmana] >= 20 && [maxhp] >= 10 && ([strength] >= 10 || [dexterity] >= 10)
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [tohit] >= 110 && [strength] + [dexterity] >= 10 && ([maxhp] >= 10 || [maxmana] >= 20)
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [fireresist] >= 0 && [coldresist] >= 0 && [dexterity] >= 10
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [fireresist] >= 0 && [coldresist] >= 0 && [strength] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [coldresist] >= 0 && [lightresist] >= 0 && [strength] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [coldresist] >= 0 && [lightresist] >= 0 && [dexterity] >= 10
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [lightresist] >= 0 && [fireresist] >= 0 && [strength] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [lightresist] >= 0 && [fireresist] >= 0 && [dexterity] >= 10
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 10 && [strength] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 10 && [dexterity] >= 10
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 10) && [hpregen] >= 2
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 10) && ([coldresist] >= 10 || [fireresist] >= 10 || [lightresist] >= 10)
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 10) && (([coldresist]+[fireresist] >= 10) || ([coldresist]+[lightresist] >= 10) || ([fireresist]+[lightresist] >= 10))
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 10) && [mana] >= 40
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 0 && [strength]+[dexterity] >= 20
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [strength] >= 10 && [hpregen] >= 7
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [strength] >= 10 && ([coldresist] >= 10 || [fireresist] >= 10 || [lightresist] >= 10)
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxhp] >= 20 && [strength] >= 10 &&  (([coldresist]+[fireresist] >= 15) || ([coldresist]+[lightresist] >= 15) || ([fireresist]+[lightresist] >= 15))
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [maxmana] >= 0 && [strength] >= 15
+[type] == ring && [quality] == crafted # [fcr] >= 10 && [strength] >= 5 && [dexterity] >= 5 && [maxhp] >= 20
+[type] == ring && [quality] == crafted # [fcr] >= 10 && ([dexterity] >= 18 || [strength] >= 18) && [maxhp] >= 20

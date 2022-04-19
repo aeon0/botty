@@ -1,0 +1,23 @@
+//######### PALADIN SHIELD ################
+[name] == KurastShield && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)	//Sanctuary. Spirit, Phoenix
+[name] == KurastShield && [Quality] < Superior && [Flag] == Ethereal # [FireResist] >= 45 && [Sockets] == 0																		//Exile
+[name] == KurastShield && [Quality] < Superior && [Flag] == Ethereal # [EnhancedDamage] >= 65 && [Sockets] == 0																	//Exile
+[name] == ZakarumShield && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)	//Sanctuary, Spirit, Phoenix
+[name] == ZakarumShield && [Quality] < Superior && [Flag] == Ethereal # [FireResist] >= 45 && [Sockets] == 0																	//Exile
+[name] == ZakarumShield && [Quality] < Superior && [Flag] == Ethereal # [EnhancedDamage] >= 65 && [Sockets] == 0																//Exile
+[name] == VortexShield && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)	//Sanctuary, Spirit, Phoenix
+[name] == VortexShield && [Quality] < Superior && [Flag] == Ethereal # [FireResist] >= 45 && [Sockets] == 0																		//Exile
+[name] == VortexShield && [Quality] < Superior && [Flag] == Ethereal # [EnhancedDamage] >= 65 && [Sockets] == 0																	//Exile
+[name] == CrownShield && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)		//Sanctuary, Spirit, Phoenix
+[name] == RoyalShield && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)		//Sanctuary, Spirit, Phoenix
+[name] == SacredTarge && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)		//Sanctuary, Spirit, Phoenix
+[name] == SacredTarge && [Quality] < Superior && [Flag] == Ethereal # [FireResist] >= 45 && [Sockets] == 0																		//Exile
+[name] == SacredTarge && [Quality] < Superior && [Flag] == Ethereal # [EnhancedDamage] >= 65 && [Sockets] == 0																	//Exile
+[name] == SacredRondache && [Quality] <= Superior && [Flag] != Ethereal # [FireResist] >= 45 && [EnhancedDefense] >= 0 && ([Sockets] == 0 || [Sockets] == 3 || [Sockets] == 4)	//Sanctuary, Spirit, Phoenix
+[name] == SacredRondache && [Quality] < Superior && [Flag] == Ethereal # [FireResist] >= 45 && [Sockets] == 0																	//Exile
+[name] == SacredRondache && [Quality] < Superior && [Flag] == Ethereal # [EnhancedDamage] >= 65 && [Sockets] == 0																//Exile
+[name] == auricshields && [quality] == normal && [class] == elite && [flag] == ethereal # ([enhanceddamage] >= 65 && [tohit] >= 121 || [fireresist] >= 45) && [sockets] == 0 // exile
+[name] == auricshields && [quality] == normal && [class] == elite && [flag] != ethereal # ([enhanceddamage] == 65 && [tohit] >= 121 || [fireresist] >= 45) && [sockets] == 0 // for socketing
+[name] == auricshields && [quality] <= superior && [class] == elite && [flag] != ethereal # ([enhanceddamage] == 65 && [tohit] >= 121 || [fireresist] >= 45) && [sockets] == 3
+[name] == auricshields && [quality] <= superior && [class] == elite && [flag] != ethereal # ([enhanceddamage] >= 65 && [tohit] >= 121 || [fireresist] >= 45) && [sockets] == 4
+[name] == auricshields && [quality] == superior && [class] == elite && [flag] != ethereal # [enhanceddefense] >= 15 && ([itemmaxdurabilitypercent] == 0 || [itemmaxdurabilitypercent] >= 0) && ([enhanceddamage] >= 65 && [tohit] >= 121 || [fireresist] >= 45) && ([sockets] == 0 || [sockets] == 3 || [sockets] == 4)																							//Spirit, Phoenix

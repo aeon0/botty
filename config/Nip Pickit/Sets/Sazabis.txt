@@ -1,0 +1,4 @@
+// # sazabi's grand tribute #
+//[name] == basinet && [quality] == set // sazabi's mental sheath
+//[name] == crypticsword && [quality] == set // sazabi's cobalt redeemer
+//[name] == balrogskin && [quality] == set // sazabi's ghost liberator

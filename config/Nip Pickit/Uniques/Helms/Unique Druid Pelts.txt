@@ -1,0 +1,4 @@
+//########## DRUID PELTS ################
+[name] == totemicmask && [quality] == unique # [enhanceddefense] == 200 // jalal's mane
+[name] == bloodspirit && [quality] == unique && [flag] == identified # [defense] == 477 || [defense] == 714 // jalal's mane x1
+[name] == bloodspirit && [quality] == unique # [enhanceddefense] == 140 && [itemtohitpercent] == 120 && [shapeshiftingskilltab] == 4 && [skillferalrage] == 2 && [lifeleech] == 10 // cerebus' bite

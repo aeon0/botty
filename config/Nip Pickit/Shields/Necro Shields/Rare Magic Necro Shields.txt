@@ -1,0 +1,7 @@
+// ##### NECROMANCER VODOO HEADS ####
+[type] == voodooheads && [class] == exceptional && [quality] == magic && [flag] != ethereal # ([necromancerskills] >= 2 || [poisonandboneskilltab] >= 3) && [skillbonespear]+[skillbonespirit]+[skillpoisonnova] >= 6
+[type] == voodooheads && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [necromancerskills] >= 2 && [skillbonespear]+[skillbonespirit]+[skillpoisonnova] >= 6
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[poisonandboneskilltab]+[skillbonespear]+[skillbonespirit] >= 8
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillbonespear] >= 5 && [fbr] == 30 && [sockets] >=0 
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillbonespirit] >= 5 && [fbr] == 30 && [sockets] >= 0
+[type] == voodooheads && [quality] == rare # [necromancerskills]+[skillpoisonnova] >= 5 && [fbr] == 30 && [sockets] >= 0

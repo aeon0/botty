@@ -1,0 +1,19 @@
+//=================================================================================================================================================================================
+//=== IMBUEABLES ==================================================================================================================================================================
+//=================================================================================================================================================================================
+
+//[name] == bladetalons && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == crown && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == grand crown && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == grim helm && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == winged helm && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == throwingspear && [quality] <= superior && [flag] == ethereal // imbueable
+//[name] == harpoon && [quality] <= superior && [flag] == ethereal // imbueable
+//[name] == warjavelin && [quality] <= superior && [flag] == ethereal // imbueable
+//[name] == ceremonialjavelin && [quality] <= superior && [flag] == ethereal // imbueable
+//[name] == naga && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == ancientarmor && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == ornateplate && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == boneshield && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == grimshield && [quality] <= superior && [flag] == ethereal # [sockets] == 0 // imbueable
+//[name] == warboots && [quality] <= superior && [flag] == ethereal // imbueable

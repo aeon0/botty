@@ -1,0 +1,7 @@
+// ##### SORCERESS ORBS ################
+[type] == orb && [quality] == rare # [skillenchant] >= 2 && [fireskilltab] == 3
+[type] == orb && [quality] == rare # [skillenchant] == 3 && [fireskilltab] >= 2
+[type] == orb && [quality] == rare # [skillenchant] == 3 && [sorceressskills] == 2
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skillfireball]+[skillfiremastery] >= 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skillblizzard]+[skillcoldmastery] >= 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [skilllightning]+[skilllightningmastery] >= 6

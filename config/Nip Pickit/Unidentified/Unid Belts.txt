@@ -1,0 +1,6 @@
+//UNIQUE BELTS
+[Name] == DemonhideSash && [Quality] == Unique								//STRING OF EARS
+[Name] == SpiderwebSash && [Quality] == Unique									//ARACHNID MESH
+[Name] == VampirefangBelt && [Quality] == Unique								//NOSFERATU'S COIL
+[Name] == MithrilCoil && [Quality] == Unique										//VERDUNGO'S HEARTY CORD
+[Name] == HeavyBelt && [Quality] == Unique 										//GOLDWRAP

@@ -1,0 +1,9 @@
+//########## SHIELDS ################
+//[name] == spikedshield && [quality] == unique # [enhanceddefense] == 60 // swordback hold
+//[name] == spikedshield && [quality] == unique && [flag] == ethereal # [enhanceddefense] == 60 // swordback hold eth
+[name] == monarch && [quality] == unique # [defense] == 148 // stormshield
+//[name] == trollnest && [quality] == unique && [flag] == ethereal # [sockets] == 3 // head hunter's glory
+//[name] == defender && [quality] == unique # [enhanceddefense] == 150 // visceratuant
+//[name] == roundshield && [quality] == unique # [enhanceddefense] == 220 // moser
+//[name] == barbedshield && [quality] == unique && [flag] == ethereal # [enhanceddefense] == 120 // lanceguard eth
+//[name] == grimshield && [quality] == unique # [enhanceddefense] == 130 && [itemmanaafterkill] == 5 // lidless wall

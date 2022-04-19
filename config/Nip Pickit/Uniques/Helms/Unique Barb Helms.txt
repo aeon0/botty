@@ -1,0 +1,5 @@
+//########## BARBARIAN HELMS ################
+[name] == slayerguard && [quality] == unique # [enhanceddefense] >= 200 // arreat's face
+[name] == guardiancrown && [quality] == unique # [defense] == 504 || [defense] == 756 // arreat's face x1
+[name] == slayerguard && [quality] == unique && [flag] == ethereal # [enhanceddefense] >= 200 // arreat's face eth
+[name] == furyvisor && [quality] == unique && [flag] != ethereal # [warcriesskilltab] == 3 && [skillwerewolf]+[skilllycanthropy]+[skillferalrage] == 18 && [strength]+[dexterity]+[vitality] >= 45 // wolfhowl

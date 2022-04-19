@@ -1,0 +1,6 @@
+//---SORCERESS--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == orb && [quality] == rare && [class] <= exceptional # [skillenchant] == 3 && [fireskilltab] == 2 && [itemlevelreq] == 30
+[type] == orb && [quality] == rare && [class] <= exceptional # [fcr] == 20 && [skillfireball] == 3 && [fireskilltab] == 2 && [itemlevelreq] == 30
+[type] == orb && [quality] == rare && [class] <= exceptional # [fcr] == 20 && [skillblizzard] == 3 && [coldskilltab] == 2 && [itemlevelreq] == 30
+[type] == orb && [quality] == rare && [class] <= exceptional # [skillenergyshield] == 3 && [lightningskilltab] == 2 && [itemlevelreq] == 30

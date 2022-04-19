@@ -1,0 +1,5 @@
+// ##### DRUID PELTS ###################
+[type] == pelt && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [druidskills] >= 2 && [skilltornado] >= 3
+[type] == pelt && [quality] == rare # [druidskills]+[skilltornado] >= 5
+[type] == pelt && [quality] == rare # [druidskills]+[skillarmageddon]+[skillsummongrizzly] >= 8
+[type] == pelt && [quality] == rare # [druidskills]+[skillfury] >= 5 && [itemtohitpercentperlevel] >= 1

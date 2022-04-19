@@ -1,0 +1,5 @@
+//########## NECROMANCER SHIELDS ################
+[name] == hierophanttrophy && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 200 // homunculus
+[name] == bloodlordskull && [quality] == unique && [flag] != ethereal && [flag] == identified # [defense] == 444 // homunculus x1
+[name] == bloodlordskull && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 150 && [poisonandboneskilltab]+[cursesskilltab]+[necromancersummoningskilltab] == 9 //darkforce spawn
+[name] == succubusskull && [quality] == unique && [flag] != ethereal # [necromancerskills] == 2 && [fireresist] == 30 && [enhanceddefense] == 150 // boneflame

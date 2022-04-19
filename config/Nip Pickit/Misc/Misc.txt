@@ -1,0 +1,4 @@
+[name] == diablo'shorn
+[name] == mephisto'sbrain
+[name] == baal'seye
+[name] == tokenofabsolution

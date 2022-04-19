@@ -1,0 +1,25 @@
+// ####### ASSASSIN CLAWS ###############
+
+// ethereal rare high ed
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 280 && [itemmaxdamageperlevel] >= 4 && [itemtohitperlevel] >= 33 && [ias] >= 30
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [sockets] >= 2 && [enhanceddamage] >= 340 && [ias] >= 30
+
+//+5/+6 ls rare claws
+[type] == handtohand && [quality] <= rare # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [assassinskills] == 2 && [skilllightningsentry] == 3
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 3 && [skilllightningsentry] >= 2
+[type] == handtohand && [quality] <= rare # [itemaddtrapsskilltab] == 2 && [skilllightningsentry] == 3
+
+//rare claws condensed
+([name] == handscythe && [name] <= scissorssuwayyah) && [quality] == rare # [assassinskills]+[skilllightningsentry] >= 5 && ([itemtohitperlevel] > 0 || [ias] >= 30 || [sockets] == 2)
+([name] == greatertalons || [name] == runictalons) && [quality] == rare # [assassinskills]+[skilllightningsentry] == 5
+([name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [assassinskills]+[skilllightningsentry] == 5 && [ias] >= 10
+([name] == greatertalons || [name] == runictalons) && [quality] == rare # ([skillvenom] >= 3 || [skilllightningsentry] >= 3 || [skillweaponblock] >= 3) && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == greaterclaws || [name] == feralclaws) && [quality] == rare # ([skillvenom] >= 3 || [skilllightningsentry] >= 3 || [skillweaponblock] >= 3) && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == bladetalons || [name] == greatertalons || [name] == runictalons) && [quality] == rare # [itemtohitperlevel] > 0 && [ias] >= 30 && [sockets] == 2
+([name] == claws || [name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [itemtohitperlevel] > 0 && [ias] >= 40 && [sockets] == 2
+([name] == bladetalons || [name] == greatertalons || [name] == runictalons) && [quality] == rare # [enhanceddamage] >= 225 && [itemtohitperlevel] > 0 && [ias] >= 30
+([name] == claws || [name] == greaterclaws || [name] == feralclaws) && [quality] == rare # [enhanceddamage] >= 200 && [itemtohitperlevel] > 0 && [ias] >= 30
+([type] == handtohand || [type] == assassinclaw) && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 200 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350

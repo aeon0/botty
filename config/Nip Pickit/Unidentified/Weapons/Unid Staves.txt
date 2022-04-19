@@ -1,0 +1,5 @@
+//UNIQUE STAVES
+//[Name] == Quarterstaff && [Quality] == Unique && [Flag] == Ethereal			//RIBCRACKER ETH
+[Name] == ElderStaff && [Quality] == Unique										//ONDAL'S WISDOM
+[Name] == ElderStaff && [Quality] == Unique && [Flag] == Ethereal				//ONDAL'S WISDOM ETH
+//[Name] == ArchonStaff && [Quality] == Unique									//MANG SONG'S LESSON

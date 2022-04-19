@@ -1,0 +1,21 @@
+//############LARGE CHARMS################
+
+//resist lc
+//[name] == largecharm && [quality] == magic # [coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 28 && [maxhp] >= 25
+//[name] == largecharm && [quality] == magic # [coldresist]+[fireresist]+[lightresist]+[poisonresist] >= 24 && ([maxhp] >= 15 || [fhr] >= 8)
+//[name] == largecharm && [quality] == magic # [fireresist] == 8 && [lightresist] == 8 && [maxhp] == 35
+
+//max damage lc
+//[name] == largecharm && [quality] == magic # [maxdamage] >= 9 && [tohit] >= 30
+[name] == largecharm && [quality] == magic # [maxdamage] == 6 && [maxhp] >= 30
+
+//ar with life lc
+//[name] == largecharm && [quality] == magic # [tohit] >= 75 && [maxhp] >= 33
+
+//life with mana lc
+//[name] == largecharm && [quality] == magic # [maxhp] >= 30 && [mana] >= 30
+//[name] == largecharm && [quality] == magic # [maxmana]+[maxhp] >= 70
+
+//stat lc
+//[name] == largecharm && [quality] == magic # [strength] == 5
+//[name] == largecharm && [quality] == magic # [dexterity] == 5

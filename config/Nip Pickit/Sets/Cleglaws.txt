@@ -1,0 +1,4 @@
+// # cleglaw's brace #
+//[name] == longsword && [quality] == set // cleglaw's tooth
+//[name] == chaingloves && [quality] == set // cleglaw's pincers
+//[name] == smallshield && [quality] == set // cleglaw's claw

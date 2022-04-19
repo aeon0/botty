@@ -1,0 +1,16 @@
+//=================================================================================================================================================================================
+//=== GLOVES ======================================================================================================================================================================
+//=================================================================================================================================================================================
+
+// set gloves
+//[name] == heavygloves && [quality] == set # [defense] == 31 // Sander's Taboo
+//[name] == leathergloves && [quality] == set # [defense] == 3 // Death's Hand, perfect defense
+//[name] == wargauntlets && [quality] == set # [defense] >= 0 // Immortal King's Forge, perfect defense
+
+// unique gloves
+//[name] == heavygloves && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 20 // Bloodfist
+//[name] == lightgauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 30 // Magefist
+//[name] == gauntlets && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 20 // Frostburn
+
+// rare gloves
+[type] == gloves && [quality] == rare && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [ias] == 10 && [hpregen] >= 2 && [itemlevelreq] <= 30

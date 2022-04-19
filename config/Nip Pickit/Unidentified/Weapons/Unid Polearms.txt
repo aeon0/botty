@@ -1,0 +1,8 @@
+//UNIQUE POLEARMS
+//[Name] == OgreAxe && [Quality] == Unique && [Flag] != Ethereal				//BONEHEW
+//[Name] == OgreAxe && [Quality] == Unique && [Flag] == Ethereal				//BONEHEW ETH
+//[Name] == Thresher && [Quality] == Unique && [Flag] != Ethereal				//THE REAPER'S TOLL
+[Name] == Thresher && [Quality] == Unique && [Flag] == Ethereal					//THE REAPER'S TOLL ETH
+//[Name] == CrypticAxe && [Quality] == Unique && [Flag] != Ethereal 				//TOMB REAVER
+[Name] == CrypticAxe && [Quality] == Unique && [Flag] == Ethereal				//TOMB REAVER ETH
+//[Name] == GiantThresher && [Quality] == Unique								//STORMSPIRE

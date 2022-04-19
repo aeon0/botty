@@ -1,0 +1,4 @@
+//UNIQUE SPEARS 
+//[Name] == Fuscina && [Quality] == Unique										//KELPIE SNARE
+//[Name] == Yari && [Quality] == Unique && [Flag] == Ethereal					//HONE SUNDAN ETH
+//[Name] == WarPike && [Quality] == Unique 										//STEEL PILLAR

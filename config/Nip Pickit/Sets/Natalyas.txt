@@ -1,0 +1,5 @@
+// # natalya's odium #
+[name] == grimhelm && [quality] == set // natalya's totem
+[name] == scissorssuwayyah && [quality] == set // natalya's mark
+[name] == loricatedmail && [quality] == set // natalya's shadow
+[name] == meshboots && [quality] == set // natalya's soul

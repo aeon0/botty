@@ -1,0 +1,3 @@
+// ##### HELMS #########################
+[type] == helm && [quality] == crafted # [sockets] >= 2 && [itemdeadlystrike] >= 9 && [lifeleech] >= 3 && [itemtohitpercentperlevel] >= 1 && [fhr] >= 10 && ([enhanceddefense] >= 180 || [maxhp] >= 55)
+[type] == helm && [quality] == crafted # [sockets] >= 2 && [itemdeadlystrike] >= 5 && [maxhp] >= 10 &&  ([itemtohitpercentperlevel] >= 1 || ([palicombatskilltab] >= 1 || [barbcombatskilltab] >= 1))

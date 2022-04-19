@@ -1,0 +1,4 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//[name] == smallcharm && [quality] == magic # [maxhp] >= 15 && ([poisonmaxdam] == 52 && [maxmana] >= 5 || [tohit] >= 10 || [defense] >= 8) && [itemlevelreq] <= 18
+//[name] == smallcharm && [quality] == magic # [poisonmaxdam] == 91 // 62 pdsc level 18

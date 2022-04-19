@@ -1,0 +1,4 @@
+// # berseker's arsenal #
+//[name] == helm && [quality] == set // berserker's headgear
+//[name] == splintmail && [quality] == set // berserker's hauberk
+//[name] == doubleaxe && [quality] == set // berserker's hatchet

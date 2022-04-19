@@ -1,0 +1,3 @@
+//########## ASSASSIN CLAWS ################
+//[name] == greatertalons && [quality] == unique # [enhanceddamage] == 200 && [lifeleech] == 9 // bartuc's cut-throat
+//[name] == wristsword && [quality] == unique && [flag] == ethereal # [fireresist] == 50 && [shadowdisciplinesskilltab] == 2 // jade talon

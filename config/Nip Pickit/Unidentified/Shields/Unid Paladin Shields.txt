@@ -1,0 +1,6 @@
+//UNIQUE PALADIN
+[Name] == GildedShield && [Quality] == Unique && [Flag] != Ethereal			//HERALD OF ZAKARUM
+[Name] == GildedShield && [Quality] == Unique && [Flag] == Ethereal				//HERALD OF ZAKARUM ETH
+//[Name] == SacredRondache && [Quality] == Unique 								//ALMA NEGRA
+[Name] == SacredRondache && [Quality] == Unique && [Flag] == Ethereal			//ALMA NEGRA ETH
+//[Name] == GildedShield && [Quality] == Unique 									//DRAGONSCALE

@@ -1,0 +1,6 @@
+// # m'avina's battle hymn #
+[name] == diadem && [quality] == set // m'avina's true sight
+//[name] == grandmatronbow && [quality] == set // m'avina's caster
+//[name] == krakenshell && [quality] == set // m'avina's embrace
+//[name] == battlegauntlets && [quality] == set // m'avina's icy clutch
+[name] == sharkskinbelt && [quality] == set // m'avina's tenet

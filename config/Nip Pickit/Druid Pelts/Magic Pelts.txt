@@ -1,0 +1,1 @@
+[type] == pelt && [class] == exceptional && [quality] == magic && [flag] != ethereal # ([druidskills] >= 2 || [elementalskilltab] >= 2) && [skilltornado] >= 3

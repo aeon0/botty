@@ -1,0 +1,4 @@
+//########## SCEPTERS ################
+[name] == mightyscepter && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 300 && [paladinskills] == 3 && [sockets] == 2 // heaven's light
+[name] == mightyscepter && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 300 && [itemnormaldamage] == 120 // redeemer
+[name] == caduceus && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 290 && [palicombatskilltab] == 4 && [itemtohitpercent] == 200 // astreon's iron ward

@@ -1,0 +1,7 @@
+// ##### GLOVES ########################
+[type] == gloves && [quality] == crafted # [itemknockback] >= 1 && [itemaddskilltab] >= 2 && [ias] >= 20 && ([strength] >= 1 || [dexterity] >= 1) && ([lifeleech] >= 2 || [manaleech] >= 0)
+[type] == gloves && [quality] == crafted # [itemknockback] >= 1 && [itemaddskilltab] >= 2 && [ias] >= 20 && [strength]+[dexterity] >= 1
+[type] == gloves && [quality] == crafted # [itemcrushingblow] >= 10 && [lifeleech] >= 3 && [ias] >= 10 && ([strength] >= 3 || [dexterity] >= 3)
+[type] == gloves && [quality] == crafted # [itemcrushingblow] >= 10 && [lifeleech] >= 3 && [strength]+[dexterity] >= 10
+//[type] == gloves && [quality] == crafted # [ias] == 20 && [dexterity] >= 5 && [strength] >= 5 && ([itemcrushingblow] >= 6 || [itemknockback] >= 1)
+//[type] == gloves && [quality] == crafted # [ias] == 20 && [dexterity] + [strength] >= 20

@@ -1,0 +1,10 @@
+//########## BELTS ################
+[name] == spiderwebsash && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 120 //arachnid mesh
+[name] == vampirefangbelt && [quality] == unique && [flag] != ethereal # [lifeleech] == 7 && [defense] == 63 // nosferatu's coil
+[name] == mithrilcoil && [quality] == unique && [flag] != ethereal # [damageresist] >= 15 && [vitality] >= 40 // verdungo's hearty cord
+[name] == demonhidesash && [quality] == unique && [flag] != ethereal # [damageresist] >= 15 && [lifeleech] >= 8 && [enhanceddefense] >= 180 && [magicdamagereduction] >= 15 // string of ears
+[name] == battlebelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 170 // snowclash
+[name] == warbelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 200 // thundergod's vigor
+[name] == heavybelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 60 && [itemgoldbonus] >= 80 // goldwrap
+//[name] == battlebelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 0 // && [defense] >= 0 // goldwrap x1
+//[name] == trollbelt && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 0 && [defense] >= 0 // goldwrap x2

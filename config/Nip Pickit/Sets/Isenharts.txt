@@ -1,0 +1,5 @@
+// # isenhart's armory #
+//[name] == broadsword && [quality] == set // isenhart's lightbrand
+//[name] == fullhelm && [quality] == set // isenhart's horns
+//[name] == breastplate && [quality] == set // isenhart's case
+//[name] == gothicshield && [quality] == set // isenhart's parry

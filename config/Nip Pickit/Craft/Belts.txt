@@ -1,0 +1,9 @@
+//########## BELTS ############
+//BLOOD BELTS
+[type] == belt && [quality] == crafted # [itemopenwounds] >= 5 && [maxhp] >= 10 && ([fhr] >= 24 || [strength] >= 15 || [maxmana] >= 30)         
+
+//CASTER BELTS
+[type] == belt && [quality] == crafted # [fcr] >= 0 && (([fhr] >= 24 && [maxmana] >= 30 || ([fhr] >= 24 && [strength] >= 10) || [maxmana] >= 30 && [strength] >= 10))    //caster
+[type] == belt && [quality] == crafted # [fcr] >= 0 && (([fhr] >= 24 || [maxmana] >= 30 || [strength] >= 20))                                                        //caster
+[type] == belt && [quality] == crafted # [fcr] >= 0 && (([fhr] >= 24 && [maxmana] >= 30 || ([fhr] >= 24 && [strength] >= 10) || [maxhp] >= 20))    //caster
+[type] == belt && [quality] == crafted # [itemopenwounds] >= 1 && [lifeleech] >= 1 && [fhr] >= 24 && [strength] >= 1 && ([maxhp] >= 1 || [itemgoldbonus] >= 0)

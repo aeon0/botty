@@ -1,0 +1,4 @@
+//UNIQUE NECROMANCER 
+//[Name] == SuccubusSkull && [Quality] == Unique && [Flag] != Ethereal 			//BONEFLAME
+//[Name] == BloodlordSkull && [Quality] == Unique 								//DARKFORCE SPAWN
+//[Name] ==  HierophantTrophy && [Quality] == Unique							//HOMUNCULUS

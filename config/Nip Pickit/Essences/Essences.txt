@@ -1,0 +1,4 @@
+//[Name] == TwistedEssenceOfSuffering # # [MaxQuantity] == 10
+//[Name] == ChargedEssenceOfHatred # # [MaxQuantity] == 10
+//[Name] == BurningEssenceOfTerror # # [MaxQuantity] == 10
+//[Name] == FesteringEssenceOfDestruction # # [MaxQuantity] == 10 

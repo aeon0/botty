@@ -1,0 +1,5 @@
+//          ==magic==
+[type] == voodooheads && [quality] == magic # [necromancerskills]+[poisonandboneskilltab]+[skillbonespear]+[skillbonespirit] >= 8
+[type] == voodooheads && [quality] == magic # ([necromancerskills]+[skillbonespear] >= 5 || [poisonandboneskilltab]+[skillbonespear] >= 6) && [fbr] >= 0
+[type] == voodooheads && [quality] == magic # ([necromancerskills]+[skillbonespirit] >= 5 || [poisonandboneskilltab]+[skillbonespirit] >= 6) && [fbr] >= 0
+[type] == voodooheads && [quality] == magic # ([necromancerskills]+[skillpoisonnova] >= 5 || [poisonandboneskilltab]+[skillpoisonnova] >= 6) && [fbr] >= 0

@@ -1,0 +1,18 @@
+//########## BOOTS ################
+//[name] == lightplatedboots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 60 // goblin toe
+//[name] == battleboots && [quality] == unique && [flag] == identified // # [defense] == 90 // goblin toe x1
+//[name] == mirroredboots && [quality] == unique && [flag] == identified # [defense] == 123 // goblin toe x2
+[name] == warboots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 200 // gore rider
+//[name] == myrmidongreaves && [quality] == unique && [flag] == identified # [defense] == 213 // gore rider x1
+[name] == scarabshellboots && [quality] == unique && [flag] == ethereal # [strength]+[vitality] == 30 // eth sandstorm trek
+[name] == scarabshellboots && [quality] == unique && [flag] != ethereal # [strength]+[vitality] == 30 // sandstorm trek
+[name] == boneweaveboots && [quality] == unique && [flag] != ethereal # [strength] == 20 && [enhanceddefense] == 200 // marrowwalk
+[name] == myrmidongreaves && [quality] == unique && [flag] != ethereal # [shadowdisciplinesskilltab] == 2 && [dexterity] >= 20 // shadow dancer
+//[name] == demonhideboots && [quality] == unique && [flag] != ethereal # [itemgoldbonus] == 70 && [enhanceddefense] == 150 // infernostride
+//[name] == wyrmhideboots && [quality] == unique && [flag] != ethereal # [defense] == 170 // infernostride x1
+//[name] == sharkskinboots && [quality] == unique && [flag] != ethereal # [maxhp] == 65 && [enhanceddefense] == 210 //waterwalk
+//[name] == scarabshellboots && [quality] == unique && [flag] != ethereal # [maxhp] == 65 && [defense] == 201 // waterwalk x1
+[name] == battleboots && [quality] == unique && [flag] != ethereal # [itemmagicbonus] >= 48 //war traveler
+//[name] == boots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 20 // hotspur
+//[name] == demonhideboots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 20 // && [defense] == 48 //hotspur x1
+//[name] == wyrmhideboots && [quality] == unique && [flag] != ethereal # [defense] == 80 // hotspur x2

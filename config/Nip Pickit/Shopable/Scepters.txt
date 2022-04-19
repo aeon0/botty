@@ -1,0 +1,3 @@
+//[type] == scepter && [quality] == magic # [paladinskills] == 2 && [skillblessedhammer] == 3
+[type] == scepter && [quality] == magic # ([palicombatskilltab] >= 3 || [paladinskills] >= 2) && ([skillblessedhammer]+[skillconcentration] >= 6 || [skillfistoftheheavens]+[skillconviction] >= 6 || [skillholyshield] == 3)
+([name] == caduceus || [name] == divinescepter || [name] == warscepter) && [quality] == magic # [sockets] == 4 && [skillconcentration]+[skillblessedhammer] >= 6

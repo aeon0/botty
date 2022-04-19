@@ -1,0 +1,6 @@
+//---BARBARIAN--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+([name] == avengerguard || [name] == assaulthelmet) && [quality] <= superior && [flag] != ethereal # [skillwhirlwind] >= 2 && ([sockets] == 0 || [sockets] == 3) && [itemlevelreq] <= 30
+[type] == primalhelm && [quality] == magic && [class] <= exceptional # [skillwhirlwind] >= 2 && ([sockets] == 3 || [barbcombatskilltab] == 2 || [barbarianskills] == 1 || [maxhp] >= 50) && [itemlevelreq] <= 30
+[type] == primalhelm && [quality] == rare && [class] <= exceptional # [skillwhirlwind] >= 2 && ([itemtohitpercentperlevel] > 0) && [itemlevelreq] <= 30
+[type] == primalhelm && [quality] == rare && [class] <= exceptional # [warcriesskilltab] == 2 && [skillbattleorders] == 3 && [itemlevelreq] <= 30

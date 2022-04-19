@@ -1,0 +1,3 @@
+// vlld
+[type] == pelt && [quality] >= normal && [flag] != ethereal # [skillmaul] == 3 && [skillwerebear] >= 1 && [itemlevelreq] <= 12
+[type] == pelt && [quality] == rare # [elementalskilltab] == 1 && [skillfissure] == 3 && ([sockets] == 2 || [fhr] == 10) && [itemlevelreq] <= 18

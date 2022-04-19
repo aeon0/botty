@@ -1,0 +1,2 @@
+// ##### BOWS ##########################
+[type] == bow && [quality] == rare # [enhanceddamage] >= 300 && ([ias] == 20 || [sockets] == 2)

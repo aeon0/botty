@@ -1,0 +1,7 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//[name] == largecharm && [quality] == magic # ([frw] == 7 || [fhr] == 17) && [maxmana] == 33
+//[name] == largecharm && [quality] == magic # [maxhp] == 15 && [itemlevelreq] <= 9
+//[name] == largecharm && [quality] == magic # ([strength] == 3 || [dexterity] == 3) && [tohit] >= 12 && [itemlevelreq] <= 9
+//[name] == largecharm && [quality] == magic # [maxhp] >= 15 && ([tohit] >= 10 || [maxmana] >= 5 || [defense] >= 3) && [itemlevelreq] <= 9
+//[name] == largecharm && [quality] == magic # [frw] == 5 && [maxmana] >= 18

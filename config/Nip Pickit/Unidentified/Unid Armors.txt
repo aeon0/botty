@@ -1,0 +1,21 @@
+//UNIQUE ARMOR
+[Name] == SerpentskinArmor && [Quality] == Unique								//SKIN OF THE VIPERMAGI 
+[Name] == SerpentskinArmor && [Quality] == Unique && [Flag] == Ethereal		//SKIN OF THE VIPERMAGI ETH
+[Name] == Cuirass && [Quality] == Unique											//DURIEL'S SHELL
+[Name] == Cuirass && [Quality] == Unique && [Flag] == Ethereal					//DURIEL'S SHELL ETH
+//[Name] == MeshArmor && [Quality] == Unique									//SHAFTSTOP
+[Name] == MeshArmor && [Quality] == Unique && [Flag] == Ethereal				//SHAFTSTOP ETH
+[Name] == RussetArmor && [Quality] == Unique									//SKULLDER'S IRE
+[Name] == RussetArmor && [Quality] == Unique && [Flag] == Ethereal				//SKULLDER'S IRE ETH
+[Name] == TemplarCoat && [Quality] == Unique 									//GUARDIAN ANGEL
+[Name] == TemplarCoat && [Quality] == Unique && [Flag] == Ethereal	 			//GUARDIAN ANGEL ETH
+//[Name] == SharktoothArmor && [Quality] == Unique 								//TOOTHROW
+[Name] == DuskShroud && [Quality] == Unique									//ORMUS' ROBES
+//[Name] == WireFleece && [Quality] == Unique										//THE GLADIATOR'S BANE 
+[Name] == WireFleece && [Quality] == Unique && [Flag] == Ethereal	 			//THE GLADIATOR'S BANE ETH
+//[Name] == BalrogSkin && [Quality] == Unique									//ARKAINE'S VALOR
+//[Name] == BalrogSkin && [Quality] == Unique && [Flag] == Ethereal				//ARKAINE'S VALOR ETH
+//[Name] == KrakenShell && [Quality] == Unique 									//LEVIATHAN
+//[Name] == ShadowPlate && [Quality] == Unique 									//SHADOW KEEPER or STEEL CARAPACE
+[Name] == SacredArmor && [Quality] == Unique									//TEMPLAR'S MIGHT or TYREAL'S MIGHT
+[Name] == SacredArmor && [Quality] == Unique && [Flag] == Ethereal				//TEMPLAR'S MIGHT or TYREAL'S MIGHT ETH

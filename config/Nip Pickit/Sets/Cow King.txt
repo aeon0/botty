@@ -1,0 +1,4 @@
+// # cow king's leathers #
+//[name] == warhat && [quality] == set // cow king's horns
+//[name] == studdedleather && [quality] == set // cow king's hide
+//[name] == heavyboots && [quality] == set # [dexterity] == 20 && [itemmagicbonus] == 25 // cow king

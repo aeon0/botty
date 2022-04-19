@@ -1,0 +1,8 @@
+//########### WHITE BOWS ############
+([Name] == GrandMatronBow || [Name] == MatriarchalBow) && [Quality] <= Superior # [BowAndCrossbowSkillTab] == 3 && [EnhancedDamage] >= 15 && ([Sockets] == 4 || [Sockets] == 5)								//Brand, Faith, Harmony, Ice, Wrath, CtA
+//([Name] == GrandMatronBow || [Name] == MatriarchalBow) && [Quality] <= Superior # [BowAndCrossbowSkillTab] == 3 && ([Sockets] == 4 || [Sockets] == 4)														//Brand, Faith, Harmony, Ice, Wrath, CtA
+//[Name] == GreatBow && [Quality] <= Superior # [EnhancedDamage] >= 15 && ([Sockets] == 0 || [Sockets] == 4)																									//Brand, Faith, Harmony, Ice, Wrath
+//([Name] == CrusaderBow || [Name] == DiamondBow || [Name] == HydraBow || [Name] == ShadowBow || [Name] == WardBow) && [Quality] <= Superior # [EnhancedDamage] >= 15 && [Sockets] == 4						//Brand, Faith, Harmony, Ice, Wrath
+([Name] == CrusaderBow || [Name] == HydraBow || [Name] == ShadowBow) && [Quality] <= Superior # [EnhancedDamage] >= 15 && [Sockets] == 6	
+//[Name] == greatbow && [quality] == superior # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 4)
+//([Name] == diamondbow || [name] == shadowbow || [name] == crusaderbow || [name] == wardbow) && [quality] == superior # [enhanceddamage] >= 15 && [tohit] >= 3 && [sockets] == 4																//BotD

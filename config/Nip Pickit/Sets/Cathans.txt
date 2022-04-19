@@ -1,0 +1,5 @@
+// # cathan's traps #
+[type] == ring && [quality] == set # [lifeleech] == 6 && [normaldamagereduction] == 2 // cathan's seal
+[type] == amulet && [quality] == set # [fhr] == 10 && [lightmaxdam] == 5 // cathan's sigil
+[name] == chainmail && [quality] == set // cathan's mesh
+[name] == mask && [quality] == set // cathan's visage

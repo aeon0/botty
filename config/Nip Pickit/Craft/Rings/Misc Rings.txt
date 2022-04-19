@@ -1,0 +1,9 @@
+//crafted rings other
+[type] == ring && [quality] == crafted # [maxhp] >= 10 && [strength] >= 10 && [itemmagicbonus] >= 25
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [dexterity] >= 10 && [strength] >= 15 
+[type] == ring && [quality] == crafted # [maxhp] >= 20 && [dexterity]+[strength] >= 20
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [dexterity]+[strength] >= 20 && [mana] >= 30
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [dexterity]+[strength] >= 20 && (([coldresist]+[fireresist] >= 10) || ([coldresist]+[lightresist] >= 10) || ([fireresist]+[lightresist] >= 10))
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [dexterity]+[strength] >= 20 && ([coldresist] >= 10 || [fireresist] >= 10 || [lightresist] >= 10)
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 15)
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && ([dexterity] >= 10 || [strength] >= 10) && [hpregen] >= 4

@@ -1,0 +1,28 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// vlld scepter
+[name] == warscepter && [quality] == superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 5) && [skillzeal]+[skillconcentration] >= 6 && [itemlevelreq] <= 18
+[name] == warscepter && [quality] == superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 5) && [skillcharge]+[skillconcentration] >= 6 && [itemlevelreq] <= 18
+//[name] == warscepter && [quality] <= superior && [flag] != ethereal # [skilldefiance] >= 3 && ([sockets] == 0 || [sockets] == 5) && [itemlevelreq] <= 9 // spawns on ilvl < 37; 5 sockets at ilvl > 25
+//[name] == warscepter && [quality] == rare && [flag] != ethereal # ([enhanceddamage] >= 40 || [tohit] >= 80 || [enhanceddamage] >= 30 && [tohit] >= 40) && [itemchargedskill] == 96 && [itemlevelreq] <= 9 // sacrifice
+
+//vlld throwing
+[name] == throwingspear && [quality] == rare && [flag] == ethereal # [itemreplenishquantity] > 1 && [itemlevelreq] <= 9 // basic
+([name] == throwingspear || [name] == pilum) && [quality] == rare && [flag] == ethereal # [itemskillonhit] == 66 && [itemreplenishquantity] > 1 && [itemlevelreq] <= 9
+[name] == throwingspear && [quality] == rare && [flag] == ethereal # ([enhanceddamage] + [tohit]/2 + ([itemskillonhit] == 66)*15 + [ias]) >= 40 && [itemreplenishquantity] > 1 && [itemlevelreq] <= 9
+([name] == throwingspear || [name] == warjavelin) && [quality] <= rare && [flag] == ethereal # [enhanceddamage] > 50 && [itemreplenishquantity] > 0 && [itemlevelreq] <= 18
+
+// vlld wands
+([name] == bonewand || [name] == grimwand) && [quality] == magic # [poisonandboneskilltab] == 1 && [fcr] == 10 && [skillbonespear] == 3 && [itemlevelreq] <= 18
+([name] == bonewand || [name] == grimwand) && [quality] == rare # [poisonandboneskilltab] == 1 && [fcr] == 10 && [skillbonespear] == 3 && [sockets] == 2 && [itemlevelreq] <= 18
+[type] == wand && [class] == normal && [quality] <= rare # [skillamplifydamage]+[skillbonearmor] >= 6 && [itemlevelreq] <= 9 // spawns on ilvl < 25
+
+//vlld other weapons
+//[name] == flail && [quality] == rare && [flag] != ethereal # [ias] >= 20 && [sockets] >= 2 && [itemskillonhit] == 66 && [itemlevelreq] <= 18 // smiter/kicker
+//[name] == flail && [quality] == rare && [flag] == ethereal # [ias] >= 20 && [sockets] >= 2 && [itemskillonhit] == 66 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 18 // smiter/kicker
+//([name] == club || [name] == spikedclub || [name] == cudgel) && [quality] == rare # [elementalskilltab] == 1 && [maxhp] == 10 && [strength] == 5 && [itemlevelreq] <= 18
+[name] == stagbow && [quality] == superior # [enhanceddamage] == 15 && [tohit] == 3 && [bowandcrossbowskilltab] == 3 && ([sockets] == 0 || [sockets] == 5)
+//([name] == waraxe || [name] == militarypick) && [quality] == superior && [flag] != ethereal # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 6)
+[name] == bladetalons && [quality] == rare && [flag] != ethereal # ([enhanceddamage] >= 10 || [tohit] >= 10 || [enhanceddamage] >= 10 && [tohit] >= 10) && [itemskillonhit] >= 10 && [itemlevelreq] <= 9 // BT of amplify damage
+//([name] == warscepter || [name] == flamberge || [name] == bladetalons || [name] == waraxe || [name] == warsword) && [quality] == rare && [flag] == ethereal # ([enhanceddamage]+[plusmaxdamage] >= 60 || [enhanceddamage]+[plusmaxdamage] >= 30 && [sockets] == 2 || [itemskillonhit] == 66) && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9
+//[name] == longsword && [quality] == set

@@ -1,0 +1,5 @@
+// # arctic gear #
+[name] == quiltedarmor && [quality] == set // arctic furs
+[name] == lightbelt && [quality] == set // arctic binding
+[name] == lightgauntlets && [quality] == set # [maxhp] == 20 && [ias] == 10 // arctic mitts
+//[name] == shortwarbow && [quality] == set // arctic horn

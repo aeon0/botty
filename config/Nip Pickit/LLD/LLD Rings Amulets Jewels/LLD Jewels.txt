@@ -1,0 +1,19 @@
+//=================================================================================================================================================================================
+//=== JEWELS ======================================================================================================================================================================
+//=================================================================================================================================================================================
+
+// rare jewels
+[name] == jewel && [quality] == rare # ([enhanceddamage] >= 18) + ([maxdamage] >= 6) * (([maxdamage] >= 14) + 1) + ([mindamage] >= 6) * (([mindamage] >= 8) + 1) + ([tohit] >= 40) >= 3 && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # ([enhanceddamage] >= 18) + ([maxdamage] >= 6) * (([maxdamage] >= 14) + 1) + ([mindamage] >= 6) * (([mindamage] >= 8) + 1) + ([tohit] >= 40) >= 2 && ([dexterity] >= 7) + ([strength] >= 5) + ([defense] >= 20) + ([itemreqpercent] < 0) >= 1 && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # [enhanceddamage] >= 18 && [maxdamage] >= 8 && [dexterity] >= 8 && [itemreqpercent] == -15 && [itemlevelreq] <= 30
+//[name] == jewel && [quality] == rare # ([enhanceddamage] >= 18 && [mindamage]+[maxdamage] >= 5) + ([maxdamage] >= 9 && [enhanceddamage] == 18) * (([maxdamage] >= 16) + 1) + ([mindamage] >= 8 && [enhanceddamage] >= 1) * (([mindamage] >= 10) + 1) + ([tohit] >= 40) + ([dexterity] >= 8) + ([strength] >= 5) + ([defense] >= 30) + ([itemreqpercent] < 0) + ([coldresist] >= 20 && [fireresist]+[lightresist] >= 1 || [lightresist] >= 20 && [fireresist]+[coldresist] >= 1 || [fireresist] >= 20 && [coldresist]+[lightresist] >= 1) + ([coldresist] >= 35 || [lightresist] >= 35 || [fireresist] >= 35) * 2 >= 3 && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # [dexterity] >= 8 && [strength] >= 5 && ([itemdamagetomana] >= 5) + ([maxmana] >= 10) * (([energy] >= 6) + 1) + ([itemreqpercent] < 0) + ([coldresist] >= 20 && [fireresist]+[lightresist] == 0 || [lightresist] >= 20 && [fireresist]+[coldresist] == 0 || [fireresist] >= 20 && [coldresist]+[lightresist] == 0) + ([coldresist] >= 35 || [lightresist] >= 35 || [fireresist] >= 35) * 2 >= 2 && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # [dexterity] >= 8 && [strength] >= 5 && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # ([enhanceddamage] >= 20) && [itemlevelreq] <= 30
+[name] == jewel && [quality] == rare # ([maxdamage] >= 15) && [itemlevelreq] <= 30
+
+
+// magic jewels
+//[name] == jewel && [quality] == magic # [fireresist] == 15 && [coldresist] == 15 && ([itemreqpercent] < 0 || [strength] == 6 || [dexterity] == 9 || [maxdamage] == 15)
+//[name] == jewel && [quality] == magic # [maxdamage] >= 24 && [itemlevelreq] <= 30
+//[name] == jewel && [quality] == magic # [enhanceddamage] == 20 && ([dexterity] == 9 || [strength] == 6 || [maxhp] == 8 || [maxdamage] == 15 || [itemreqpercent] < 0)

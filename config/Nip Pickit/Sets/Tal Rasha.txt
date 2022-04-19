@@ -1,0 +1,6 @@
+// # tal rasha's wrappings #
+[name] == swirlingcrystal && [quality] == set # [skilllightningmastery] >= 2 && [skillcoldmastery] >= 2 && [skillfiremastery] >= 2 //1-2 tal rasha's lidless eye
+[name] == deathmask && [quality] == set # [defense] >= 100 //99-131 tal rasha's horadric crest
+[name] == lacqueredplate && [quality] == set # [defense] >= 833 // 833-941 tal rasha's guardianship
+[type] == amulet && [quality] == set # [sorceressskills] == 2 // tal rasha's adjucation
+[name] == meshbelt && [quality] == set # [itemmagicbonus] >= 10 //10-15 tal rasha's fine-spun cloth

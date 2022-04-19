@@ -1,0 +1,5 @@
+// magic rings
+//[type] == ring && [quality] == magic # ([fcr] >= 10 || [itemmagicbonus] >= 10) && (([fireresist] >= 10 && [lightresist] >= 10) || [maxmana] >= 50)
+//[name] == ring && [quality] == magic # [fcr] == 10 && [fireresist] >= 15 && [coldresist] >= 15
+//[name] == ring && [quality] == magic # [fcr] == 10 && [maxmana] >= 100
+//[name] == ring && [quality] == magic # [itemmagicbonus] == 40

@@ -1,0 +1,4 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+([name] == crownshield || [name] == heraldicshield || [name] == aerinshield) && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 4) && [enhanceddamage] == 65 && [tohit] == 121
+[name] == rondache && [quality] == superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 4) && [enhanceddamage] == 65 && [tohit] == 121

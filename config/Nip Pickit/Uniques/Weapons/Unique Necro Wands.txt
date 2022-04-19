@@ -1,0 +1,3 @@
+//########## NECROMANCER WANDS ################
+[name] == unearthedwand && [quality] == unique //death's web
+//[name] == burntwand && [quality] == unique //suicide branch

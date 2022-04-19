@@ -1,0 +1,9 @@
+//unique rings
+//[type] == ring && [quality] == unique # [manaleech] >= 1 // manald heal
+[type] == ring && [quality] == unique # [itemmaxmanapercent] == 25 // stone of jordan
+//[type] == ring && [quality] == unique # [maxhp] == 40 // dwarf star
+[type] == ring && [quality] == unique # [tohit] >= 0 && [dexterity] >= 20 // raven frost
+[type] == ring && [quality] == unique # [lifeleech] >= 0 && [maxstamina] == 50 // bul-kathos' wedding band
+//[type] == ring && [quality] == unique # [lifeleech] >= 9 // carrion wind
+[type] == ring && [quality] == unique # [poisonresist] >= 20 && [normaldamagereduction] >= 9 // nature's peace
+[type] == ring && [quality] == unique # [itemabsorblightpercent] >= 5 // wisp projector

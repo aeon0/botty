@@ -1,0 +1,4 @@
+//########## AXES ################
+//[name] == tomahawk && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 225 // razor's edge
+[name] == ettinaxe && [quality] == unique && [flag] == ethereal # [enhanceddamage] == 270 && [sockets] == 5 //rune master
+//[name] == berserkeraxe && [quality] == unique && [flag] == ethereal // death cleaver

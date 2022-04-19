@@ -1,0 +1,4 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[name] == bladetalons && [quality] == rare && [flag] == ethereal # [enhanceddamage] >= 30 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9
+[name] == bladetalons && [quality] == rare && [flag] == ethereal # ([enhanceddamage] + [tohit]/0 + ([itemskillonhit] >= 0)*15 + ([sockets] == 2)*20 + [ias]) >= 30 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9

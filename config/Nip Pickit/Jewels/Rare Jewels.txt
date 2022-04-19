@@ -1,0 +1,11 @@
+// jewels rare
+[type] == jewel && [quality] == magic # [maxdamage] >= 28
+[type] == jewel && [quality] == rare # [strength] >= 5 && [dexterity] >= 7
+[type] == jewel && [quality] == rare # [fhr] == 7 && [energy] >= 9 && [maxmana] >= 9
+[type] == jewel && [quality] == rare # [enhanceddamage] >= 20 && [mindamage]+[maxdamage] >= 10
+[type] == jewel && [quality] == rare # [enhanceddamage] >= 20 && [mindamage]+[maxdamage] >= 6 && ([strength] >= 6 || [dexterity] >= 7)
+[type] == jewel && [quality] == rare # [enhanceddamage] >= 20 && ([mindamage] >= 3 || [maxdamage] >= 3) && [strength]+[dexterity] >= 10
+[type] == jewel && [quality] == rare # [enhanceddamage] >= 20 && [fhr] >= 7 && ([mindamage] >= 3 || [maxdamage] >= 5) && ([strength] >= 7 || [dexterity] >= 7)
+[type] == jewel && [quality] == rare # ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 30 || [itemdamagetomana] >= 12) && [fhr] >= 7 && [itemreqpercent] <= -15
+[type] == jewel && [quality] == rare # [fhr] == 7 && ([strength] >= 6 || [dexterity] >= 7 || [itemreqpercent] == -15) && ([maxmana] >= 20 || [fireresist] >= 15 && [coldresist] >= 15 || [fireresist] >= 15 || [coldresist] >= 15 || [lightresist] >= 15)
+[type] == jewel && [quality] == rare # [enhanceddamage] >= 25 && ([strength] >= 6 || [dexterity] >= 7) && ([tohit] >= 30 || [itemreqpercent] == -15 || [defense] >= 40)

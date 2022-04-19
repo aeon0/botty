@@ -1,0 +1,3 @@
+// vlld
+[type] == voodooheads && [quality] == rare && [flag] != ethereal # [poisonandboneskilltab] == 1 && [fbr] == 30 && [skillbonespear] == 3 && [itemlevelreq] <= 18
+([name] == preservedhead || [name] == zombiehead) && [quality] <= rare # [skillamplifydamage]+[skillbonearmor] >= 6 && [itemlevelreq] <= 9 // spawns on ilvl < 25

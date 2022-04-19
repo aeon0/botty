@@ -1,0 +1,5 @@
+// # iratha's finery #
+//[name] == heavybelt && [quality] == set # [mindamage] == 5 // iratha's cord
+[name] == crown && [quality] == set # [fireresist] == 30 && [lightresist] == 30 // iratha's coil
+[type] == amulet && [quality] == set # [poisonresist] == 30 && [poisonlength] == -75 // iratha's collar
+[name] == lightgauntlets && [quality] == set # [coldresist] == 30 // iratha's cuff

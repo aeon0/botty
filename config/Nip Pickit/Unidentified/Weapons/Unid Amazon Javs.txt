@@ -1,0 +1,5 @@
+//UNIQUE AMAZON
+//[Name] == Ceremonial Javelin && [Quality] == Unique							//TITAN'S REVENGE
+[Name] == Ceremonial Javelin && [Quality] == Unique && [Flag] == Ethereal		//Ethereal TITAN'S REVENGE
+//[Name] == MatriarchalJavelin && [Quality] == Unique							//THUNDERSTROKE
+//[Name] == MatriarchalSpear && [Quality] == Unique								//STONERAVEN

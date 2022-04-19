@@ -1,0 +1,28 @@
+//=================================================================================================================================================================================
+//=== SHIELDS =====================================================================================================================================================================
+//=================================================================================================================================================================================
+
+// white shields
+[name] == grimshield && [quality] == superior && [flag] != ethereal # [enhanceddefense] == 15 && [sockets] == 2 // for rhyme runeword
+
+// rare shields
+//[name] == barbedshield && [quality] == rare # [fbr] == 30 && [sockets] == 2 && [palicombatskilltab] == 2 && [itemlevelreq] <= 30
+[name] == spikedshield && [quality] == rare # [fbr] == 30 && [sockets] == 2 && [fhr] == 17 && [itemlevelreq] <= 30
+[name] == barbedshield && [quality] == rare # [fbr] == 30 && [sockets] == 2 && [fhr] == 17 && [itemlevelreq] <= 30
+[name] == boneshield && [quality] == rare # [fbr] == 30 && [sockets] == 2 && [fhr] == 17 && [itemlevelreq] <= 30
+[name] == grimshield && [quality] == rare # [fbr] == 30 && [sockets] == 2 && [fhr] == 17 && [itemlevelreq] <= 30
+[name] == barbedshield && [quality] == rare && [flag] == ethereal # [fbr] == 30 && [enhanceddefense] >= 100 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+[name] == grimshield && [quality] == rare && [flag] == ethereal # [fbr] == 30 && [enhanceddefense] >= 100 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+
+// unique shields
+//[name] == spikedshield && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 60 // Swordback Hold
+//[name] == defender && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 150 // Visceratuant
+//[name] == roundshield && [quality] == unique && [flag] != ethereal # [enhanceddefense] >= 0 // 
+
+// magic shields
+//[name] == barbedshield && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [palicombatskilltab] == 2
+//[name] == kiteshield && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [sockets] == 3
+[//name] == towershield && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [sockets] == 3 && [defense] == 25 && [itemlevelreq] <= 30
+//[name] == pavise && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [sockets] == 3 && [defense] >= 50 && [itemlevelreq] <= 30
+//[name] == scutum && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [sockets] == 3 && [defense] == 61 && [itemlevelreq] <= 30
+//[name] == dragonshield && [quality] == magic && [flag] != ethereal # [fbr] == 30 && [sockets] == 3 && [defense] == 67 && [itemlevelreq] <= 30

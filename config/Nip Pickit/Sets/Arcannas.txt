@@ -1,0 +1,5 @@
+// # arcanna's tricks #
+//[type] == amulet && [quality] == set # [maxmana] == 15 // arcanna's sign
+//[name] == skullcap && [quality] == set // arcanna's head
+//[name] == lightplate && [quality] == set // arcanna's flesh
+//[name] == warstaff && [quality] == set // arcanna's deathwand

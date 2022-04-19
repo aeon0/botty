@@ -1,0 +1,5 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == ring && [quality] == rare # ([dexterity] >= 4 || [strength] >= 4) && ([tohit] >= 70 || [mindamage] == 3) && [maxmana] >= 30 && [hpregen] >= 4 && [itemlevelreq] <= 18
+[type] == ring && [quality] == rare # [fcr] == 10 && [strength] >= 4 && [hpregen] >= 4 && [maxmana] >= 30 && [itemlevelreq] <= 18
+[type] == ring && [quality] == rare # [tohit] >= 60 && [hpregen]+([strength]+[dexterity]+[maxdamage]+[maxmana]/5)*2 >= 10 && [itemlevelreq] <= 9

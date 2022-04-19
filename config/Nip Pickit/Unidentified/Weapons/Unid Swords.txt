@@ -1,0 +1,8 @@
+//UNIQUE SWORDS
+//[Name] == Tulwar && [Quality] == Unique										//BLADE OF ALI BABA
+//[Name] == Ataghan && [Quality] == Unique							 			//DJINN SLAYER
+//[Name] == ChampionSword && [Quality] == Unique								//DOOMBRINGER
+//[Name] == BattleSword && [Quality] == Unique && [Flag] != Ethereal			//HEADSTRIKER
+//[Name] == BattleSword && [Quality] == Unique && [Flag] == Ethereal			//HEADSTRIKER ETH
+//[Name] == ColossusBlade && [Quality] == Unique								//THE GRANDFATHER
+//[Name] == PhaseBlade && [Quality] == Unique									//AZUREWRATH or LIGHTSABRE

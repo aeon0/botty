@@ -1,0 +1,105 @@
+//Combination Stats
+[type] == circlet && [quality] == rare && [flag] != ethereal # [sockets] >= 0 && [itemaddclassskills] >= 2 && [strength]+[dexterity] >= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [sockets] >= 0 && [itemaddclassskills] >= 2 && ([strength] >= 20 || [dexterity] >= 15) && ([frw] == 30 || [fcr] == 20)
+[type] == circlet && [quality] == rare # [necromancerskills]+[druidskills]+[paladinskills]+[sorceressskills]+[assassinskills] == 2 && [fcr] == 20 && [frw] == 30 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [sorceressskills]+[necromancerskills]+[paladinskills]+[assassinskills] == 2 && [fcr] == 20 && ([maxhp] >= 0 || [maxmana] >= 0) && ([strength]+[dexterity] >= 15 || [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [amazonskills] == 2 && [frw] == 30 && ([strength]+[dexterity] >= 20 || [sockets] >= 2 || [maxhp]+[maxmana] >= 0)
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [itemtohitpercentperlevel] >= 1 && [frw] == 30 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0)
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [itemtohitpercentperlevel] >= 1 && [strength]+[dexterity] >= 15 && ([sockets] >= 0 || [maxhp] >= 0)
+[type] == circlet && [quality] == rare # [barbarianskills] == 2 && [fcr] == 20 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [fcr] == 20 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [fcr] == 20 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 2 && [fcr] == 20 && ([strength]+[dexterity] >= 10 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 2 && [frw] == 30 && ([strength]+[dexterity] >= 10 || [maxhp]+[maxmana] >= 0)
+[type] == circlet && [quality] == rare # [amazonskills]+[paladinskills]+[druidskills]+[necromancerskills]+[assassinskills]+[barbarianskills]+[sorceressskills] >= 2 && [fcr] == 20 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0) && ([fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 0 || [sockets] >= 0)
+[type] == circlet && [quality] == rare # [amazonskills]+[paladinskills]+[druidskills]+[necromancerskills]+[assassinskills]+[barbarianskills]+[sorceressskills] >= 2 && [frw] == 30 && ([strength]+[dexterity] >= 15 || [maxhp]+[maxmana] >= 0)
+
+
+//+2 class skill/20 [fcr] circlet
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [druidskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [amazonskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [amazonskills] == 2 && [frw] == 30 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [amazonskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [amazonskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0 
+[type] == circlet && [quality] == rare # [assassinskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0 
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [sorceressskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [necromancerskills] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+
+
+//+2 tree skills/20 [fcr] and frw circlet
+[type] == circlet && [quality] == rare # [lightningskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [coldskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [fireskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [poisonandboneskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [martialartsskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [shapeshiftingskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] == 2 && [fcr] == 20 && [sockets] >= 0
+[type] == circlet && [quality] == rare # [lightningskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [lightningskilltab] == 2 && [fcr] == 20 && [strength] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [coldskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [coldskilltab] == 2 && [fcr] == 20 && [strength] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [fireskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [fireskilltab] == 2 && [fcr] == 20 && [strength] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [poisonandboneskilltab] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [poisonandboneskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [poisonandboneskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [poisonandboneskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [martialartsskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [martialartsskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shapeshiftingskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shapeshiftingskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] == 2 && [fcr] == 20 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] == 2 && [fcr] == 20 && [dexterity] >= 10 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] == 2 && [frw] == 30 && [strength] >= 15 && [maxhp] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] == 2 && [frw] == 30 && [dexterity] >= 10 && [maxhp] >= 0
+
+//visionary circlet
+[type] == circlet && [quality] == rare # [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [strength] >= 1
+[type] == circlet && [quality] == rare # [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [dexterity] >= 1
+[type] == circlet && [quality] == rare # [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [trapsskilltab] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [palicombatskilltab] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [elementalskilltab] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [martialartsskilltab] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 10 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [shadowdisciplinesskilltab] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [assassinskills] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [druidskills] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [paladinskills] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0
+[type] == circlet && [quality] == rare # [amazonskills] >= 2 && [fhr] == 10 && [maxhp] >= 0 && [itemtohitpercentperlevel] > 1 && [sockets] >= 0 && [fireresist] >= 0 && [coldresist] >= 0 && [lightresist] >= 0 && [poisonresist] >= 0

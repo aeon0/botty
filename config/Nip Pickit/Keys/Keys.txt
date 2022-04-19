@@ -1,0 +1,3 @@
+[name] == keyofhate # # [maxquantity] == 10
+[name] == keyofterror # # [maxquantity] == 10
+[name] == keyofdestruction # # [maxquantity] == 10

@@ -1,0 +1,3 @@
+// # bul kathos' children #
+[name] == colossusblade && [quality] == set // bul-kathos' sacred charge
+[name] == mythicalsword && [quality] == set // bul-kathos' tribal guardian

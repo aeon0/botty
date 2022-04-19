@@ -1,0 +1,13 @@
+//########## HELMS ################
+[name] == tiara && [quality] == unique # [fireresist] == 70 && [plusdefense] == 120 //kira's guardian
+[name] == diadem && [quality] == unique // griffon's eye
+//[name] == sallet && [quality] == unique && [flag] == ethereal # [enhanceddefense] >= 210 // rockstopper
+//[name] == grandcrown && [quality] == unique && [flag] != ethereal # [itemgoldbonus] >= 100 && [enhanceddefense] >= 200 && [lifeleech] >= 12 //crown of thieves
+//[name] == grandcrown && [quality] == unique && [flag] == ethereal # [itemgoldbonus] >= 100 // crown of thieves eth
+[name] == grimhelm && [quality] == unique && [flag] == ethereal # [lifeleech] == 8 && [manaleech] == 8 && [magicdamagereduction] == 15 && [damageresist] >= 20 // vampgaze eth
+[name] == shako && [quality] == unique && [flag] != ethereal # [defense] >= 141 // harlequin crest
+[name] == spiredhelm && [quality] == unique # [passivecoldmastery] == 15 // nightwing's veil
+[name] == demonhead && [quality] == unique && [flag] != ethereal # [strength] >= 30 && [enhanceddefense] >= 150 // andariel's visage
+[name] == demonhead && [quality] == unique && [flag] == ethereal // andariel's visage
+[name] == corona && [quality] == unique // crown of ages
+[name] == bonevisage && [quality] == unique # [sockets] == 2 && [strength] == 35 // giant skull

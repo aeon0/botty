@@ -1,0 +1,7 @@
+// # sigon's steel #
+[name] == greathelm && [quality] == set // sigon's visor
+[name] == gothicplate && [quality] == set // sigon's shelter
+[name] == greaves && [quality] == set // sigon's sabot
+[name] == towershield && [quality] == set // sigon's guard
+[name] == platedbelt && [quality] == set // sigon's warp
+[name] == gauntlets && [quality] == set // sigon's gage

@@ -1,0 +1,5 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//[name] == boneshield && [quality] == magic # [fbr] == 30 && [itemdamagetomana] >= 12
+//[name] == boneshield && [quality] <= rare # [fbr] == 30 && [itemdamagetomana] >= 10 && [sockets] == 2 && [itemlevelreq] <= 9
+([name] == boneshield || [name] == gothicshield) && [quality] == rare && [flag] == ethereal # [fbr] == 30 && [enhanceddefense] >= 35 && [sockets] == 2 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9

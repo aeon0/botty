@@ -1,0 +1,8 @@
+//UNIQUE MACES
+//[Name] == DevilStar && [Quality] == Unique										//BARANAR'S STAR
+//[Name] == MartelDeFer && [Quality] == Unique 									//THE GAVEL OF PAIN
+//[Name] == TyrantClub && [Quality] == Unique									//DEMON LIMB
+//[Name] == Scourge && [Quality] == Unique && [Flag] != Ethereal					//STORMLASH or HORIZON'S TORNADO
+//[Name] == Scourge && [Quality] == Unique && [Flag] == Ethereal				//STORMLASH ETH  or HORIZON'S TORNADO ETH
+//[Name] == LegendaryMallet && [Quality] == Unique 								//STONE CRUSHER or SHAEFER'S HAMMER
+//[Name] == ThunderMaul && [Quality] == Unique 								//EARTH SHIFTER or CRANIUM BASHER

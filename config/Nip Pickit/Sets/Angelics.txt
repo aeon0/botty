@@ -1,0 +1,5 @@
+// # angelic raiment #
+//[name] == ringmail && [quality] == set // angelic mantle
+//[name] == sabre && [quality] == set // angelic sickle
+[type] == ring && [quality] == set # [maxhp] == 20 // angelic halo
+[type] == amulet && [quality] == set # [itemlightradius] == 3 && [itemdamagetomana] == 20 // angelic

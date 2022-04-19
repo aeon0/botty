@@ -1,0 +1,5 @@
+//########### BELTS #################
+[type] == belt && [quality] == rare && [flag] != ethereal # [fhr] == 24 && [strength] >= 20 && [maxhp] >= 50
+//[type] == belt && [quality] == rare && [flag] != ethereal # [fhr] == 24 && [strength] >= 10 && [maxhp] >= 30 && [itemgoldbonus] >= 70
+[type] == belt && [quality] == rare && [flag] == ethereal # ([fhr] == 24 || [maxhp] >= 50) && [enhanceddefense] >= 150 && ([itemreplenishdurability] > 0 || [itemreplenishquantity] > 0)
+[type] == belt && [quality] == rare && [flag] == ethereal # [fhr] >= 24 && [strength] >= 25 && ([maxhp] >= 50 || [itemgoldbonus] >= 70) && [itemreplenishdurability] >= 1

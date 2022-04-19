@@ -1,0 +1,5 @@
+// # orphan's call #
+[name] == wingedhelm && [quality] == set // guillaume's face
+[name] == roundshield && [quality] == set // whistan's guard
+[name] == sharkskingloves && [quality] == set // magnus' skin
+[name] == battlebelt && [quality] == set // wilhelm's pride

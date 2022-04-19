@@ -1,0 +1,12 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// under level 18
+[name] == jewel && [quality] == rare # ([maxdamage] >= 20 || [mindamage] >= 4 && [maxdamage] >= 15) && [itemlevelreq] <= 18
+[name] == jewel && [quality] == rare # [enhanceddamage] >= 20 && ([maxdamage] >= 15 || [dexterity] >= 6) && [itemlevelreq] <= 18
+
+// under level 9
+[name] == jewel && [quality] == rare # ([maxdamage] >= 9 || [mindamage] >= 4) && [itemreqpercent] < 0 && [itemlevelreq] <= 9
+[name] == jewel && [quality] == rare # ([maxdamage] >= 14 || [mindamage] >= 8 || [mindamage] >= 4 && [maxdamage] >= 9) && [itemlevelreq] <= 9
+[name] == jewel && [quality] == rare # ([tohit] >= 40 || [enhanceddamage] >= 20 || [defense] >= 8) && ([maxdamage] >= 9 || [mindamage] >= 4) && [itemlevelreq] <= 9
+[name] == jewel && [quality] == rare # ([itemdamagetomana] == 12 || [maxmana] == 10) && ([dexterity] >= 3 || [maxhp] >= 8 || [itemreqpercent] < 0) && [itemlevelreq] <= 9
+[name] == jewel && [quality] == rare # [enhanceddamage]*0.75 + [maxdamage]*1.8 + [mindamage]*2.5 + [tohit]*0.375 + [dexterity]*3.5 + ([maxhp]+[defense])*1.25 + [itemdamagetomana]/1.2 + ([itemreqpercent]/-1.5) >= 30 && [itemlevelreq] <= 9

@@ -1,0 +1,5 @@
+//UNIQUE DRUID
+//[Name] == TotemicMask && [Quality] == Unique 								//JALAL'S MANE
+//[Name] == BloodSpirit && [Quality] == Unique 									//CEREBUS' BITE
+//[Name] == SkySpirit && [Quality] == Unique 							 			//RAVENLORE
+//[Name] == EarthSpirit && [Quality] == Unique 									//SPIRIT KEEPER

@@ -1,0 +1,6 @@
+//---NECROMANCER------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == voodooheads && [quality] == superior # [skillbonespear] >= 3 && [skillbonespirit] >= 3 && [sockets] != 1 && [itemlevelreq] <= 30
+[type] == voodooheads && [quality] == magic # [skillbonespear]+[skillbonespirit] == 6 && [itemlevelreq] <= 30
+[type] == voodooheads && [quality] == rare # [poisonandboneskilltab] >= 2 && [skillbonespirit] >= 3 && [fbr] == 30 && ([sockets] == 2 || [skillbonespear] == 3) && [itemlevelreq] <= 30
+[type] == wand && [quality] == magic # [skillbonespear] == 3 && [skillbonespirit] == 3 && [poisonandboneskilltab] == 2 && [fcr] == 20 && [itemlevelreq] <= 30

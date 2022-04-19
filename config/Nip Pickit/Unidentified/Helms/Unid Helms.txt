@@ -1,0 +1,16 @@
+//UNIQUE HELMS
+//[Name] == SkullCap && [Quality] == Unique && [Flag] != Ethereal				//TARNHELM
+//[Name] == Sallet && [Quality] == Unique 											//ROCK STOPPER
+//[Name] == Casque && [Quality] == Unique 										//STEALSKULL
+//[Name] == GrandCrown && [Quality] == Unique 									//CROWN OF THEIVES
+//[Name] == GrandCrown && [Quality] == Unique && [Flag] == Ethereal			//CROWN OF THEIVES ETH
+[Name] == GrimHelm && [Quality] == Unique 										//VAMPIRE GAZE
+[Name] == GrimHelm && [Quality] == Unique [Flag] != Ethereal					//VAMPIRE GAZE ETH
+[Name] == Shako && [Quality] == Unique											//HARLEQUIN CREST
+[Name] == SpiredHelm && [Quality] == Unique									//NIGHTWING'S VEIL
+[Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal				//ANDARIEL'S VISAGE
+[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal				//ANDARIEL'S VISAGE ETH
+[Name] == BoneVisage && [Quality] == Unique									//GIANT SKULL
+[Name] == Tiara && [Quality] == Unique											//KIRA'S GUARDIAN
+[Name] == Diadem && [Quality] == Unique										//GRIFFON'S EYE
+[Name] == Corona && [Quality] == Unique											//CROWN OF AGES

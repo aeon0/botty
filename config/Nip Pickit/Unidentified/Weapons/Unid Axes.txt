@@ -1,0 +1,7 @@
+//UNIQUE AXES
+//[Name] == Tomahawk && [Quality] == Unique && [Flag] != Ethereal				//RAZOR'S EDGE
+//[Name] == Tomahawk && [Quality] == Unique && [Flag] == Ethereal				//RAZOR'S EDGE ETH
+//[Name] == EttinAxe && [Quality] == Unique && [Flag] != Ethereal				//RUNE MASTER
+[Name] == EttinAxe && [Quality] == Unique && [Flag] == Ethereal					//RUNE MASTER ETH
+//[Name] == BerserkerAxe && [Quality] == Unique 								//DEATH CLEAVER
+//[Name] == GloriousAxe && [Quality] == Unique 									//EXECUTIONER'S JUSTICE

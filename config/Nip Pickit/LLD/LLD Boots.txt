@@ -1,0 +1,16 @@
+//=================================================================================================================================================================================
+//=== BOOTS =======================================================================================================================================================================
+//=================================================================================================================================================================================
+
+//set boots
+//[name] == heavyboots && [quality] == set # [defense] == 6 // Sander's Riprap
+//[name] == heavyboots && [quality] == set # [defense] >= 7 // Cow King's Hooves
+//[name] == meshboots && [quality] == set # [defense] == 169 && [coldresist] == 25 && [lightresist] == 25 // Natalya's Soul, perfect
+
+//unique boots
+//[name] == boots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 20 // Hotspur
+//[name] == lightplatedboots && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 60 // Goblin Toe
+//[name] == greaves && [quality] == unique && [flag] != ethereal # [enhanceddefense] == 80 // Tearhaunch
+
+// rare boots
+[type] == boots && [class] == normal && [quality] == rare && [flag] != ethereal # ([fhr] == 10 || [frw] == 30) && [dexterity] >= 0 && [tohit] >= 0 && [fireresist] >= 25 && [coldresist] >= 25 && [itemlevelreq] <= 30

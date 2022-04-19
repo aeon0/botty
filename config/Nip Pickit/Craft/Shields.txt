@@ -1,0 +1,2 @@
+// ##### SHIELDS #######################
+[name] == monarch && [quality] == crafted # [sockets] >= 2 && [enhanceddefense] >= 210 && [fbr] >= 30 && (([fireresist] >= 19 && [lightresist] >= 19) || [fhr] >= 17)

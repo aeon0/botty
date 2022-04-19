@@ -1,0 +1,11 @@
+//rare fcr rings
+[type] == ring && [quality] == rare # [fcr] == 10 && ([strength] >= 10 || [strength]+[dexterity] >= 10 && ([maxhp] >= 20 || [maxmana] >= 20) || [maxhp] >= 10 && [maxmana] >= 10)
+[type] == ring && [quality] == rare # [fcr] == 10 && [dexterity] >= 8 && [maxhp] >= 0 && ([fireresist] >= 8 || [lightresist] >= 8 || [fireresist] >= 8 && [lightresist] >= 8) //hdin ring
+[type] == ring && [quality] == rare # [fcr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 20 && [maxmana] >= 40 && [strength]+[dexterity] >= 15
+[type] == ring && [quality] == rare # [fcr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 20 && [maxmana] >= 40 && [maxhp] >= 20 && ([strength] >= 10 || [dexterity] >= 8)
+[type] == ring && [quality] == rare # [fcr] == 10 && [tohit] >= 60 && [maxhp] >= 20 && [maxmana] >= 20 //bvc ring
+
+//rare ar rings
+[type] == ring && [quality] == rare # [tohit] >= 0 && [strength]+[dexterity] >= 20 //dual stat melee
+[type] == ring && [quality] == rare # [tohit] >= 100 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 20 && [lifeleech]+[manaleech] >= 10
+[type] == ring && [quality] == rare # [tohit] >= 100 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 20 && ([lifeleech] >= 5 || [manaleech] >= 5) && ([strength] >= 8 || [dexterity] >= 8)

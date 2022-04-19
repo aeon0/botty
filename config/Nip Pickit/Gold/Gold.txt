@@ -1,0 +1,1 @@
+[Type] == Gold # [Gold] >= 1000

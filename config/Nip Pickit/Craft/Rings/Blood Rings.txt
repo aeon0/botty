@@ -1,0 +1,10 @@
+//blood rings
+[type] == ring && [quality] == crafted # [tohit] >= 90 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 15 && [lifeleech]+[manaleech] >= 8
+[type] == ring && [quality] == crafted # [tohit] >= 90 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 15 && ([lifeleech] >= 5 || [manaleech] >= 6) && ([strength] >= 10 || [dexterity] >= 10)
+[type] == ring && [quality] == crafted # [tohit] >= 110 &&  ([lifeleech] >= 5 || [manaleech] >= 5) && [strength] + [dexterity] >= 15
+[type] == ring && [quality] == crafted # [tohit] >= 80 && [lifeleech] >= 7 &&  [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 20 && ([strength] >= 10 || [dexterity] >= 10 || [manaleech] >= 4)
+[type] == ring && [quality] == crafted # [tohit] >= 80 && [strength]+[dexterity] >= 20 && [lifeleech] >= 7 
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [strength]+[dexterity] >= 20 && [manaleech]+[lifeleech] >= 6
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && ([strength] >= 10 || [dexterity] >= 10) && [manaleech]+[lifeleech] >= 6
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [strength] >= 10 && [manaleech]+[lifeleech] >= 6 && (([coldresist]+[fireresist] >= 0) || ([coldresist]+[lightresist] >= 0) || ([fireresist]+[lightresist] >= 0))
+[type] == ring && [quality] == crafted # [maxhp] >= 0 && [strength] >= 10 && [manaleech]+[lifeleech] >= 6

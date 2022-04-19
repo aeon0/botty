@@ -1,0 +1,4 @@
+// # hsaru's defense #
+[name] == buckler && [quality] == set // hsarus' iron fist
+[name] == belt && [quality] == set # [coldresist] == 20 && [maxhp] == 20 // hsarus' iron stay
+[name] == chainboots && [quality] == set // hsarus' iron heel

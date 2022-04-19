@@ -1,0 +1,10 @@
+//UNIQUE SHIELDS
+//[Name] == RoundShield && [Quality] == Unique									//MOSER'S BLESSED CIRCLE
+//[Name] == BarbedShield && [Quality] == Unique && [Flag] != Ethereal			//LANCE GUARD
+//[Name] == Pavise && [Quality] == Unique && [Flag] != Ethereal					//GERKE'S SANCTUARY
+//[Name] == GrimShield && [Quality] == Unique && [Flag] != Ethereal				//LIDLESS WALL
+//[Name] == GrimShield && [Quality] == Unique && [Flag] == Ethereal				//Ethereal LIDLESS WALL
+//[Name] == Luna && [Quality] == Unique && [Flag] != Ethereal					//BLACKOAK SHIELD
+[Name] == Monarch && [Quality] == Unique										//STORMSHIELD
+//[Name] == TrollNest && [Quality] == Unique && [Flag] != Ethereal				//HEAD HUNTER'S GLORY
+//[Name] == Ward && [Quality] == Unique && [Flag] != Ethereal					//SPIRIT WARD

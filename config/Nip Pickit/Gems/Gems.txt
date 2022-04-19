@@ -1,0 +1,9 @@
+//[name] == perfectamethyst || [name] == perfecttopaz || [name] == perfectdiamond || [name] == perfectsapphire || [name] == perfectruby || [name] == perfectskull
+//[name] == perfecttopaz
+
+//[name] == flawlessemerald # # [maxquantity] == 3
+//[name] == flawlessdiamond # # [maxquantity] == 3
+//[name] == flawlessruby # # [maxquantity] == 3
+//[name] == flawlesstopaz # # [maxquantity] == 3
+//[name] == flawlessamethyst # # [maxquantity] == 1
+//[Name] == FlawlessSapphire # # [MaxQuantity] == 3

@@ -1,0 +1,45 @@
+//=================================================================================================================================================================================
+//=== WEAPONS =====================================================================================================================================================================
+//=================================================================================================================================================================================
+
+//swords
+//([name] == broadsword || [name] == longsword || [name] == runesword) && [quality] == superior # ([sockets] == 0 || [sockets] == 4) && [enhanceddamage] == 15 && [tohit] == 3 // spirit
+//[name] == gladius && [quality] == unique && [flag] != ethereal # [skillswordmastery] == 4 && [skillwhirlwind] == 3 // Bloodletter
+//[name] == crystalsword && [quality] == superior # [enhanceddamage] == 15 && [tohit] == 3 && [sockets] == 4 // spirit
+[name] == cutlass && [quality] == rare # [enhanceddamage]+[plusmaxdamage] >= 140 && [ias] == 30 && [sockets] == 2 && [itemlevelreq] <= 30
+[name] == cutlass && [quality] == rare && [flag] == ethereal # ([enhanceddamage]+[plusmaxdamage] >= 100 || [enhanceddamage] >= 50 && [itemskillonhit] == 66) && [ias] == 30 && [sockets] == 2 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+//[name] == executionersword && [quality] == superior # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 5 || [sockets] == 6) // honor/robo
+[name] == executionersword && [quality] == rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 100 && ([ias] == 30 || [ias] >= 10 && [sockets] == 2) && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+
+//scepters
+([name] == warscepter || [name] == divinescepter) && [quality] <= superior # ([sockets] == 0 || [sockets] == 5) && [skillconcentration]+[skillblessedhammer] >= 5
+[name] == divinescepter && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 5) && [skillcharge]+[skillfanaticism] >= 5
+([name] == warscepter || [name] == divinescepter) && [quality] <= superior # ([sockets] == 0 || [sockets] == 5) && [skillfistoftheheavens]+[skillconviction] >= 5
+[name] == divinescepter && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 5) && [skillfanaticism]+[skillzeal] >= 5
+([name] == divinescepter || [name] == warscepter) && [quality] <= superior # ([sockets] == 0 || [sockets] == 5) && [skillholyshield] == 3
+([name] == warscepter || [name] == divinescepter) && [quality] <= rare # ([palicombatskilltab] == 2 || [sockets] == 3) && [skillfanaticism] == 3 && [itemskillonhit] == 66 && [itemlevelreq] <= 30
+
+// bows
+//[name] == ashwoodbow && [quality] == superior # [enhanceddamage] >= 10 && [tohit] >= 0 && [bowandcrossbowskilltab] == 3 && ([sockets] == 0 || [sockets] == 5)
+[name] == ashwoodbow && [quality] == superior # ([sockets] == 0 || [sockets] == 5) && [bowandcrossbowskilltab] == 3 && [enhanceddamage] == 15 && [tohit] == 3
+//([name] == shortsiegebow || [name] == ashwoodbow || [name] == runebow || [name] == doublebow) && [quality] == rare # [enhanceddamage]+[plusmaxdamage] >= 140 && ([sockets] == 2 || [ias] == 20) && [itemlevelreq] <= 30
+//[name] == compositebow && [quality] == unique # [enhanceddamage] == 60 // Rogue Bow
+//[name] == longbattlebow && [quality] == unique # [passivecoldpierce] == 35 // Wizendraw
+
+//flail
+//[name] == knout && [quality] == superior # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 5) // honor
+//[name] == flail && [quality] == magic && [flag] != ethereal # ([sockets] == 3 || [palicombatskilltab] == 2) && [itemskillonhit] == 66 && [itemlevelreq] <= 30 // smiter flail
+//[name] == flail && [quality] == rare && [flag] != ethereal # [palicombatskilltab] == 2 && [sockets] == 2 && [ias] == 30 && [itemskillonhit] == 66 && [itemlevelreq] <= 30 // smiter flail
+//[name] == flail && [quality] == rare && [flag] == ethereal # [palicombatskilltab] == 2 && [sockets] == 2 && [ias] == 30 && [itemskillonhit] == 66 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30 // smiter flail
+
+//Staves
+//[type] == staff && [class] <= exceptional && [quality] == rare # [itemchargedskill] == 54 && [fcr] == 20 && [itemlevelreq] <= 30
+
+//other
+//([name] == crowbill || [name] == naga) && [quality] == superior && [flag] != ethereal # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 5 || [sockets] == 6) // honor/robo
+//[name] == grimscythe && [quality] == superior && [flag] != ethereal # [enhanceddamage] == 15 && [tohit] == 3 && ([sockets] == 0 || [sockets] == 6)
+//([name] == knout || [name] == crowbill || [name] == divinescepter || [name] == runesword || [name] == zweihander) && [quality] <= rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 100 && ([ias] >= 10 || [sockets] == 2) && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+([name] == naga || [name] == ancientsword) && [quality] <= rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 100 && ([ias] >= 20 || [sockets] == 2) && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+[name] == battlehammer && [quality] == rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 140 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+[name] == harpoon && [quality] == rare && [flag] == ethereal # [enhanceddamage]+[plusmaxdamage] >= 100 && [itemreplenishquantity] > 0 && [itemlevelreq] <= 30
+

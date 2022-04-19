@@ -1,0 +1,4 @@
+//UNIQUE BARBARIAN 
+//[Name] == FuryVisor && [Quality] == Unique  && [Flag] != Ethereal				//WOLFHOWL
+[Name] == Slayerguard && [Quality] == Unique  && [Flag]							//Arreats Face
+[Name] == Slayerguard && [Quality] == Unique  && [Flag] == Ethereal				//Arreats Face ETH

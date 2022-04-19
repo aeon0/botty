@@ -1,0 +1,30 @@
+//=================================================================================================================================================================================
+//=== HELMS =======================================================================================================================================================================
+//=================================================================================================================================================================================
+
+//white helms
+//[name] == crown && [quality] == superior && [flag] != ethereal # [enhanceddefense] == 15 && ([itemmaxdurabilitypercent] == 15 || [itemmaxdurabilitypercent] == 0) && [sockets] == 3
+//[name] == grandcrown && [quality] == superior && [flag] != ethereal # [enhanceddefense] == 15 && ([itemmaxdurabilitypercent] == 15 || [itemmaxdurabilitypercent] == 0) && [sockets] == 3
+
+// rare helms
+[type] == circlet && [quality] == rare && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 2 && [fcr] == 20 && [frw] == 30 && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] >= 2 && [fcr] == 20 && [maxhp]+[maxmana] >= 30 && ([sockets] >= 0 || [fireresist] >= 5 && [coldresist] >= 5 || [strength] >= 5 || [hpregen] >= 1) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [fireskilltab] >= 2 && [fcr] == 20 && [maxhp]+[maxmana] >= 5 && ([sockets] >= 0 || [fireresist] >= 5 && [coldresist] >= 5 || [strength] >= 1 || [hpregen] >= 1) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [palicombatskilltab] >= 2 && [fcr] == 20 && [maxhp]+[maxmana] >= 5 && ([sockets] >= 0 || [fireresist] >= 5 && [coldresist] >= 5 || [strength] >= 9 || [hpregen] >= 3) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [coldskilltab] >= 2 && [fcr] == 20 && [maxhp]+[maxmana] >= 5 && ([sockets] >= 0 || [fireresist] >= 5 && [coldresist] >= 5 || [strength] >= 9 || [hpregen] >= 3) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [ShadowdisciplinesSkillTab] >= 2 && [fcr] >= 20 && [maxhp]+[maxmana] >= 30 && ([sockets] >= 0 && [strength] >= 9 || [hpregen] >= 6) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [MartialArtsskilltab] >= 2 && [fcr] >= 20 && [maxhp]+[maxmana] >= 5 && ([sockets] >= 0 || [fireresist] >= 5 && [coldresist] >= 5 || [strength] >= 9 || [hpregen] >= 3) && [itemlevelreq] <= 30
+[type] == circlet && [quality] == rare && [flag] != ethereal # [amazonskills]+[barbarianskills]+[assassinskills] == 1 && [frw] == 30 && ([sockets] >= 0 || [maxhp]+[maxmana] >= 5 || [fireresist] >= 5 && [coldresist] >= 5 || [hpregen] >= 3) && [itemlevelreq] <= 30
+//[name] == wingedhelm || [name] == grandcrown || [name] == deathmask || [name] == grimhelm) && [quality] == rare && [flag] == ethereal # [itemtohitpercentperlevel] > 0 && [enhanceddefense] >= 35 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 30
+([name] == wingedhelm || [name] == grandcrown || [name] == deathmask || [name] == grimhelm) && [quality] == rare # [itemtohitpercentperlevel] > 1 && [enhanceddefense] >= 60 && [sockets] == 2 && [itemlevelreq] <= 30
+
+// unique helms
+//[name] == warhat && [quality] == unique && [flag] != ethereal # [hpregen] >= 10 // Peasant Crown
+
+//magic helms
+//[type] == circlet && [quality] == magic && [flag] != ethereal # [paladinskills] == 1 && [maxhp] >= 80 && [itemlevelreq] <= 30
+[type] == circlet && [quality] == magic && [flag] != ethereal # [amazonskills]+[barbarianskills] == 1 && [frw] == 30 && [itemlevelreq] <= 30
+[type] == circlet && [quality] == magic && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [fcr] == 20 && [itemlevelreq] <= 30
+//[type] == circlet && [quality] == magic && [flag] != ethereal # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [maxhp] >= 50 && [itemlevelreq] <= 30
+//([name] == grandcrown || [name] == grandcrown || [name] == mask || [name] == deathmask) && [quality] == magic && [flag] != ethereal # [sockets] == 3 && [maxhp] >= 20 && [itemlevelreq] <= 30
+

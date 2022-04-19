@@ -1,0 +1,7 @@
+// # immortal king #
+[name] == warbelt && [quality] == set // immortal king's detail
+[name] == avengerguard && [quality] == set // immortal king's will
+[name] == ogremaul && [quality] == set // immortal king's stone crusher
+[name] == sacredarmor && [quality] == set // immortal king's soul cage
+[name] == wargauntlets && [quality] == set // immortal king's forge
+[name] == warboots && [quality] == set // immortal king's pillar

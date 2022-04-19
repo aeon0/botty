@@ -1,0 +1,13 @@
+// unique amulets
+//[type] == amulet && [quality] == unique # [strength] == 12 && [coldresist] >= 25 // saracen's chance
+//[type] == amulet && [quality] == unique # [dexterity] == 25 // the cat's eye
+//[type] == amulet && [quality] == unique # [lifeleech] >= 6 && [manaleech] >= 15 // crescent moon
+//[type] == amulet && [quality] == unique # [poisonresist] == 75 // atma's scarab
+//type] == amulet && [quality] == unique # [hpregen] == 10 // the rising sun
+//[type] == amulet && [quality] == unique # [lightresist] == 35 // highlord's wrath
+//[type] == amulet && [quality] == unique # [strength] == 5 && [coldresist] >= 20 // mara's kaleidoscope
+[type] == amulet && [quality] == unique # [strength] == 5 && [coldresist] >= 0 // mara's kaleidoscope
+//[type] == amulet && [quality] == unique # [defensiveaurasskilltab] >= 2 // seraph's hymn
+//[type] == amulet && [quality] == unique # [defensiveaurasskilltab] >= 1 // seraph's hymn
+//[type] == amulet && [quality] == unique # [tohit] >= 450 && [coldresist] >= 35 // metalgrid
+//[type] == amulet && [quality] == unique # [tohit] >= 350 && [coldresist] >= 35 // metalgrid

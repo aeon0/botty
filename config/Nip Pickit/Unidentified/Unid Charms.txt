@@ -1,0 +1,9 @@
+//MAGIC CHARMS
+[Name] == GrandCharm && [Quality] == Magic										//GRAND CHARMS
+//[Name] == LargeCharm && [Quality] == Magic									//LARGE CHARMS
+[Name] == SmallCharm && [Quality] == Magic										//SMALL CHARMS
+
+//UNIQUE CHARMS
+[Name] == GrandCharm && [Quality] == Unique									//GHEED'S FORTUNE
+[Name] == LargeCharm && [Quality] == Unique 									//Any HELLFIRE TORCH
+[Name] == SmallCharm && [Quality] == Unique									//Any ANNIHILUS

@@ -1,0 +1,5 @@
+// # aldur's watchtower #
+//[name] == huntersguise && [quality] == set // aldur's stony gaze
+[name] == battleboots && [quality] == set // aldur's advance
+//[name] == shadowplate && [quality] == set // aldur's deception
+//[name] == jaggedstar && [quality] == set // aldur's rhythm

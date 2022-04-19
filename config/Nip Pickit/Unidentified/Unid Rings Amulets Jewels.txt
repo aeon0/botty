@@ -1,0 +1,16 @@
+//UNIQUE AMULETS
+[Type] == Amulet && [Quality] == Unique											//Any UNIQUE AMULET
+
+//UNIQUE RINGS
+[Type] == Ring && [Quality] == Unique												//Any UNIQUE RING
+
+//UNIQUE JEWELS
+[Type] == Jewel && [Quality] == Unique											//RAINBOW FACET
+
+//RARE
+[Type] == Ring && [Quality] == Rare												//RARE RING
+[Type] == Amulet && [Quality] == Rare												//RARE AMULET
+[Type] == Jewel && [Quality] == Rare												//RARE JEWEL
+
+//MAGIC
+[Type] == Jewel && [Quality] == magic												//MAGIC JEWELSL CHARMS

@@ -1,0 +1,13 @@
+//RARE
+[Type] == Ring && [Quality] == Rare												//RARE RING
+[Type] == Amulet && [Quality] == Rare												//RARE AMULET
+[Type] == Jewel && [Quality] == Rare												//RARE JEWEL
+[Type] == Jewel && [Quality] == magic												//MAGIC JEWELS
+[Type] == Pelt && [Quality] == Rare												//RARE PELT
+[Type] == Circlet && [Quality] == Rare												//RARE CIRCLET/TIARA/CORONET/DIADEM
+[Type] == PrimalHelm && [Quality] == Rare										//RARE BARB HELMS
+[Type] == Orb && [Quality] == Rare												//RARE SORCERESS ORBS
+[Type] == AmazonJavelin && [Quality] == Rare										//RARE AMAZON JAVELINS
+[Type] == VodooHeads && [Quality] == Rare										//RARE VODOOHEADS
+[Type] == Armor && [Quality] == Rare && [Flag] == Ethereal						//RARE ARMOR ETH
+[Type] == Auricshields && [Quality] == Rare										//RARE PALADIN SHIELDS

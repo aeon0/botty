@@ -1,0 +1,4 @@
+// # naj's ancient vestige #
+[name] == circlet && [quality] == set // naj's circlet
+//[name] == hellforgeplate && [quality] == set // naj's light plate
+//[name] == elderstaff && [quality] == set // naj's puzzler

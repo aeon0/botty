@@ -1,0 +1,6 @@
+// jewels unique
+//[Name] == jewel && [quality] == unique # [passivecoldpierce]+[passivecoldmastery] >= 10 || [passivepoispierce]+[passivepoismastery] >= 10 || [passiveltngpierce]+[passiveltngmastery] >= 10 || [passivefirepierce]+[passivefiremastery] >= 10
+[type] == jewel && [quality] == unique # [passivefiremastery]+[passivefirepierce] >= 10 // rainbow facet
+[type] == jewel && [quality] == unique # [passiveltngmastery]+[passiveltngpierce] >= 10 // rainbow facet
+[type] == jewel && [quality] == unique # [passivecoldmastery]+[passivecoldpierce] >= 10 // rainbow facet
+[type] == jewel && [quality] == unique # [passivepoismastery]+[passivepoispierce] >= 10 // rainbow facet

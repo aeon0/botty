@@ -1,0 +1,5 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == primalhelm && [quality] == superior # [skillthrowingmastery] == 3 && [itemlevelreq] <= 18
+[type] == primalhelm && [quality] == superior # [enhanceddefense] >= 15 && [skillshout] == 3 && ([sockets] == 3 || [sockets] == 0) && [itemlevelreq] <= 9
+[name] == fangedhelm && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 30 && [skillshout] == 3 && [sockets] == 2 && [itemreplenishdurability] > 0 && [itemlevelreq] <= 9

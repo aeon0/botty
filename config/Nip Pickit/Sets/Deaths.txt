@@ -1,0 +1,4 @@
+// # death's disguise #
+//[name] == warsword && [quality] == set // death's touch
+//[name] == leathergloves && [quality] == set // death's hand
+//[name] == sash && [quality] == set // death's guard

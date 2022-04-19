@@ -1,0 +1,12 @@
+//=================================================================================================================================================================================
+//=== AMULETS =====================================================================================================================================================================
+//=================================================================================================================================================================================
+
+[type] == amulet && [quality] == rare # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [fcr] == 10 && [maxhp]+[maxmana] >= 30 && [itemlevelreq] <= 30
+[type] == amulet && [quality] == rare # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[ShadowdisciplinesSkillTab]+[martialartsskilltab]+[trapsskilltab]+[elementalskilltab]+[shapeshiftingskilltab]+[warcriesskilltab]+[lightningskilltab]+[BowandCrossbowskilltab]+[JavelinandSpearSkilltab]+[ColdSkilltab]+[barbcombatskilltab] == 2 && [strength]+[dexterity]+[hpregen] >= 10 && [itemlevelreq] <= 30
+[type] == amulet && [quality] == rare # [amazonskills]+[barbarianskills] == 1 && [maxhp] >= 20 && ([hpregen] >= 6 || [maxmana] >= 20) && [itemlevelreq] <= 30
+
+// amulet set and magic
+//[type] == amulet && [quality] == set # [itemdamagetomana] >= 20 && [itemlightradius] >= 0 // Angelic Wngs
+//[type] == amulet && [quality] == magic # [paladinskills] == 1 && [maxhp] == 80
+//[type] == amulet && [quality] == magic # [palicombatskilltab]+[fireskilltab]+[poisonandboneskilltab]+[trapsskilltab]+[martialartsskilltab]+[shapeshiftingskilltab] == 2 && ([maxhp] >= 70 || [hpregen] >= 5)

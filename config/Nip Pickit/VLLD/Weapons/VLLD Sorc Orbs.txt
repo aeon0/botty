@@ -1,0 +1,5 @@
+//---vlld-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[type] == orb && [class] == normal && [quality] <= rare # [fcr] == 10 && [skilliceblast] == 3 && [coldskilltab] == 1 && [itemlevelreq] <= 18
+[type] == orb && [class] == normal && [quality] <= rare # [fcr] == 10 && [skillfireball] == 3 && [fireskilltab] == 1 && [itemlevelreq] <= 18
+[type] == orb && [class] == normal && [quality] <= rare # [fcr] == 10 && [skilliceblast] == 3 && [skillwarmth] > 0 && [skillfrozenarmor] > 0 && [itemlevelreq] <= 9

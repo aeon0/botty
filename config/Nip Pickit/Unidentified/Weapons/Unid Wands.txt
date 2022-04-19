@@ -1,0 +1,6 @@
+//UNIQUE WANDS 
+//[Name] == BurntWand && [Quality] == Unique									//SUICIDE BRANCH
+//[Name] == BurntWand && [Quality] == Unique && [Flag] == Ethereal			//SUICIDE BRANCH ETH
+//[Name] == TombWand && [Quality] == Unique									//ARM OF KING LEORIC
+//[Name] == LichWand && [Quality] == Unique 									//BONESHADE
+[Name] == UnearthedWand && [Quality] == Unique								//DEATH'S WEB

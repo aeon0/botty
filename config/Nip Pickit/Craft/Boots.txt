@@ -1,0 +1,12 @@
+// ##### BOOTS #########################
+[type] == boots && [quality] == crafted # [lifeleech] >= 3 && [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 70
+[type] == boots && [quality] == crafted # [lifeleech] >= 3 && [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 8 && ([fireresist] >= 30 || [lightresist] >= 30 || [coldresist] >= 30 || [poisonresist] >= 30)
+[type] == boots && [quality] == crafted # [maxmana] >= 3 && [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 70
+
+//blood boots
+[Type] == Boots && [Quality] == Crafted # (([HPRegen] >= 5 && [MaxHP] >= 20) || ([HPRegen] >= 10 && [MaxHP] >= 10)) && ([FRW] >= 20 || [FHR] >= 10) && (([ColdResist]+[FireResist] >= 50) || ([ColdResist]+[LightResist] >= 50) || ([FireResist]+[LightResist] >= 50) || [Dexterity] >= 1)
+[Type] == Boots && [Quality] == Crafted # (([HPRegen] >= 5 && [MaxHP] >= 20) || ([HPRegen] >= 10 && [MaxHP] >= 10)) && ([FRW] >= 20 || [FHR] >= 10) && (([ColdResist]+[FireResist]+[LightResist] >= 60) || ([ColdResist]+[LightResist]+[PoisonResist] >= 70) || ([FireResist]+[LightResist]+[PoisonResist] >= 70))
+
+//caster boots
+[Type] == Boots && [Quality] == Crafted # [ItemMaxManaPercent] >= 4 && [ManaRecovery] >= 8 && [Mana] >= 20 && ([FRW] >= 20 || [FHR] >= 10) && ([ColdResist] >= 10 || [FireResist] >= 10 || [LightResist] >= 10 || [Dexterity] >= 1)
+[Type] == Boots && [Quality] == Crafted # [ItemMaxManaPercent] >= 4 && [ManaRecovery] >= 8 && [Mana] >= 20 && ([FRW] >= 20 || [FHR] >= 10)

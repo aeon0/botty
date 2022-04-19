@@ -1,0 +1,4 @@
+//---PALADIN----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//([name] == akarantarge || [name] == akaranrondache) && [quality] <= superior # [enhanceddamage] == 65 && [tohit] == 121 && ([sockets] == 0 || [sockets] == 4)
+//([name] == akarantarge || [name] == akaranrondache) && [quality] <= superior # [fireresist] == 45 && ([sockets] == 0 || [sockets] == 4)

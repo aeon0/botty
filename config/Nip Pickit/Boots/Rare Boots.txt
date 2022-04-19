@@ -1,0 +1,26 @@
+// ##### BOOTS #########################
+
+//Boots Non Eth
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 60
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [fireresist] >= 20 && [itemgoldbonus] >= 70
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 2 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 60
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 20 && [coldresist] >= 30 && [lightresist] >= 30
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 20 && [coldresist] >= 30 && [fireresist] >= 30
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 10 && [lightresist] >= 30 && [fireresist] >= 30
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [coldresist] >= 20 && [lightresist] >= 20 && [fireresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [coldresist] >= 20 && [fireresist] >= 20 && [poisonresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [coldresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [fireresist] >= 20 && [coldresist] >= 20 && [lightresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [fireresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >= 30 && [fhr] == 10 && [maxmana] >= 20 && [fireresist]+[coldresist]+[lightresist] >= 50
+
+//Boots Eth
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 70 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 5 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 60 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [lightresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [fireresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 10 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=10 && [fhr] >= 10 && [coldresist] >= 20 && [fireresist] >= 20 && [poisonresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=10 && [fhr] >= 10 && [coldresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=10 && [fhr] >= 10 && [fireresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20 && [itemreplenishdurability] >= 1

@@ -1,0 +1,33 @@
+// ##### GLOVES #########################
+
+//Rare gloves non eth
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength]+[dexterity] >= 29
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [fireresist] >= 10 && [coldresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [lightresist] >= 10 && [coldresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [fireresist] >= 10 && [lightresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddshadowdisciplinesskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddmartialartsskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+//[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddskilltab] >= 2 && [strength]+[dexterity] >= 10
+//[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && ([itemaddskilltab] >= 2 || [strength] >= 10 || [dexterity] >= 10) && ([lifeleech] >= 4 || [manaleech] >= 3)
+
+
+// Rare gloves Eth
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [fireresist] >= 15 && [coldresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [lightresist] >= 15 && [coldresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [fireresist] >= 15 && [lightresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddshadowdisciplinesskilltab] == 2 && [strength] >= 5 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddmartialartsskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+//[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddskilltab] >= 2 && [strength]+[dexterity] >= 20 && [itemreplenishdurability] >= 1
+//[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && ([itemaddskilltab] >= 2 || [strength] >= 15 || [dexterity] >= 15) && ([lifeleech] >= 2 || [manaleech] >= 2) && [itemreplenishdurability]

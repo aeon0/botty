@@ -1,0 +1,5 @@
+// # hwanin's majesty #
+//[name] == grandcrown && [quality] == set // hwanin's splendor
+//[name] == bill && [quality] == set // hwanin's justice
+//[name] == tigulatedmail && [quality] == set // hwanin's refuge
+//[name] == belt && [quality] == set # [lightmindam] == 3 && [lightmaxdam] == 33 // hwanin's blessing

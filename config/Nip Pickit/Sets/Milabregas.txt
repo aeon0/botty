@@ -1,0 +1,5 @@
+// # milabrega's regalia #
+//[name] == kiteshield && [quality] == set // milabrega's orb
+//[name] == ancientarmor && [quality] == set // milabrega's robe
+//[name] == warscepter && [quality] == set // milabrega's rod
+//[name] == crown && [quality] == set # [maxhp] == 15 && [maxmana] == 15 // milabrega's diadem

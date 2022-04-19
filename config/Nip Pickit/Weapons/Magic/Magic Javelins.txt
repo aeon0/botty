@@ -1,0 +1,8 @@
+// ##### JAVELINS ######################
+//4-6 jav skills 30+ [ias] javelins
+[name] == maidenjavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == maidenjavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
+[name] == ceremonialjavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == ceremonialjavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
+[name] == matriarchaljavelin && [quality] == magic # [javelinandspearskilltab] >= 2 && [amazonskills] == 2 && [ias] >= 30
+[name] == matriarchaljavelin && [quality] == magic # [javelinandspearskilltab] >= 4 && [ias] >= 30
