@@ -245,40 +245,93 @@ if __name__ == "__main__":
     import keyboard
     import os
     from screen import start_detecting_window, stop_detecting_window
-    start_detecting_window()
+    from utils.misc import wait
     from template_finder import TemplateFinder
+    start_detecting_window()
+    wait(0.1)
+
+    print("\n== Hotkeys ==")
+    print("F11: Start")
+    print("F12: Exit")
+    print("Down arrow: decrease template matching threshold")
+    print("Up arrow: increase template matching threshold")
+    print("Left arrow: decrease template index")
+    print("Right arrow: increase template index")
+    print("F9: toggle all vs. individual template(s)")
+    print("F10: save visible template(s)")
+
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
-    print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
-    _capture_templates = False
-    def _toggle_template_capture():
-        global _capture_templates
-        _capture_templates = not _capture_templates
-        Logger.info(f"_capture_templates = {_capture_templates}")
+    # enter the template names you are trying to detect here
+    _template_list = ["A3_TOWN_0", "A3_TOWN_1", "A3_TOWN_10", "A3_TOWN_11", "A3_TOWN_12", "A3_TOWN_13", "A3_TOWN_14", "A3_TOWN_15", "A3_TOWN_16", "A3_TOWN_17", "A3_TOWN_18", "A3_TOWN_19", "A3_TOWN_2", "A3_TOWN_20", "A3_TOWN_3", "A3_TOWN_4", "A3_TOWN_5", "A3_TOWN_7", "A3_TOWN_8", "A3_TOWN_9"]
 
-    keyboard.add_hotkey('f10', lambda: _toggle_template_capture())
-    print("Press f10 to toggle template recapture")
+    _current_template_idx = -1
+    _last_stored_idx = 0
+    _current_threshold = 0.5
+    _visible_templates = []
 
-    search_templates = ["A3_TOWN_0", "A3_TOWN_1", "A3_TOWN_10", "A3_TOWN_11", "A3_TOWN_12", "A3_TOWN_13", "A3_TOWN_14", "A3_TOWN_15", "A3_TOWN_16", "A3_TOWN_17", "A3_TOWN_18", "A3_TOWN_19", "A3_TOWN_2", "A3_TOWN_20", "A3_TOWN_3", "A3_TOWN_4", "A3_TOWN_5", "A3_TOWN_7", "A3_TOWN_8", "A3_TOWN_9"]
+    def _save_visible_templates():
+        if not os.path.exists("info_screenshots"):
+            os.system("mkdir info_screenshots")
+        for match in _visible_templates:
+            cv2.imwrite(match['filename'], match['img'])
+            Logger.info(f"{match['filename']} saved")
+
+    def _toggle_all_templates():
+        global _current_template_idx
+        _current_template_idx = -1 if _current_template_idx != -1 else _last_stored_idx
+        if _current_template_idx == -1:
+            Logger.info(f"Searching for templates: {_template_list}")
+        else:
+            Logger.info(f"Searching for template: {_template_list[_current_template_idx]}")
+
+    def _incr_template_idx(direction: int = 1):
+        global _current_template_idx, _last_stored_idx
+        if \
+            (-1 < _current_template_idx < len(_template_list) - 1) or \
+            (_current_template_idx == -1 and direction > 0) or \
+            (_current_template_idx  == len(_template_list) - 1 and direction < 0):
+            _current_template_idx += direction
+            _last_stored_idx = _current_template_idx
+        if _current_template_idx == -1:
+            Logger.info(f"Searching for templates: {_template_list}")
+        else:
+            Logger.info(f"Searching for template: {_template_list[_current_template_idx]}")
+
+    def _incr_threshold(direction: int = 1):
+        global _current_threshold
+        if (_current_threshold < 1 and direction > 0) or (_current_threshold > 0 and direction < 0):
+            _current_threshold = round(_current_threshold + direction, 2)
+        Logger.info(f"_current_threshold = {_current_threshold}")
+
+    keyboard.add_hotkey('down', lambda: _incr_threshold(-0.05))
+    keyboard.add_hotkey('up', lambda: _incr_threshold(0.05))
+    keyboard.add_hotkey('left', lambda: _incr_template_idx(-1))
+    keyboard.add_hotkey('right', lambda: _incr_template_idx(1))
+    keyboard.add_hotkey('f9', lambda: _toggle_all_templates())
+    keyboard.add_hotkey('f10', lambda: _save_visible_templates())
 
     while 1:
-        # img = cv2.imread("")
+        _visible_templates = []
         img = grab()
         display_img = img.copy()
-        start = time.time()
-        for key in search_templates:
-            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.6, use_grayscale=True)
+        if _current_template_idx < 0:
+            templates = _template_list
+        else:
+            templates = [_template_list[_current_template_idx]]
+        for key in templates:
+            template_match = TemplateFinder().search(key, img, threshold=_current_threshold)
             if template_match.valid:
                 x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
+                cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
-                if _capture_templates:
-                    if not os.path.exists("info_screenshots"):
-                        os.system("mkdir info_screenshots")
-                    filename=f"./info_screenshots/{key.lower()}.png"
-                    cv2.imwrite(filename, cut_roi(img, template_match.region))
-                    Logger.info("filename saved")
+                match = {
+                    'filename': f"./info_screenshots/{key.lower()}.png",
+                    'img': cut_roi(img, template_match.region)
+                }
+                _visible_templates.append(match)
         cv2.imshow('test', display_img)
         key = cv2.waitKey(3000)
