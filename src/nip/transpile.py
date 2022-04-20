@@ -4,15 +4,37 @@ from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-
+from nip.UniqueAndSetData import UniqueAndSetData
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 import os
 import glob
 
 from nip.lexer import Lexer
 from nip.tokens import TokenType
+import time
 
-def transpile(tokens):
+
+
+def find_unqiue_or_set_base(unique_or_set_name):
+    unique_or_set_name = unique_or_set_name.lower()
+    for key in UniqueAndSetData:
+        if UniqueAndSetData[key].get("uniques"):
+            for uniques in UniqueAndSetData[key]["uniques"]:
+                for unique in uniques:
+                    if unique.lower() == unique_or_set_name:
+                        return key, "unique"
+        if UniqueAndSetData[key].get("sets"):
+            for sets in UniqueAndSetData[key]["sets"]:
+                for set in sets:
+                    if set.lower() == unique_or_set_name:
+                        return key, "set"
+
+
+start = time.time()
+# print(find_unqiue_or_set_base("thestoneofjordan"))  
+# print(f"took {time.time() - start} seconds")
+
+def transpile(tokens, isPickedUpPhase=False):
     expression = ""
     for i, token in enumerate(tokens):
         if token == None:
@@ -47,7 +69,8 @@ def transpile(tokens):
         elif token.type == TokenType.NTIPAliasType:
             expression += f"(int(NTIPAliasType['{token.value}']))"
         elif token.type == TokenType.IDNAME:
-             expression += "(str(item_data['NTIPAliasIdName']).lower())"
+            if not isPickedUpPhase:
+                expression += "(str(item_data['NTIPAliasIdName']).lower())"
         elif token.type == TokenType.NAME:
             expression += "(int(item_data['NTIPAliasClassID']))"
         elif token.type == TokenType.CLASS:
@@ -66,7 +89,11 @@ def transpile(tokens):
             expression += "(int(item_data['NTIPAliasType']))"
         elif token.type == TokenType.EQ:
             if tokens[i + 1].type != TokenType.NTIPAliasFlag:
-                expression += "=="
+                if not isPickedUpPhase:
+                    expression += "=="
+                else:
+                    if not tokens[i - 1].type == TokenType.IDNAME:
+                        expression += "=="
         elif token.type == TokenType.NE:
             if tokens[i + 1].type != TokenType.NTIPAliasFlag:
                 expression += "!="
@@ -93,10 +120,12 @@ def transpile(tokens):
             if tokens[i - 1].type != TokenType.SECTIONAND:
                 expression += "and"
         elif token.type == TokenType.UNKNOWN:
-            print(1111)
-            print(tokens[i-2] ,token)
             if tokens[i - 2].type == TokenType.IDNAME:
-                expression += f"(str('{token.value}').lower())"
+                if isPickedUpPhase:
+                    base, quality = find_unqiue_or_set_base(token.value)
+                    expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
+                else:
+                    expression += f"(str('{token.value}').lower())"
             else:
                 expression += "(-1)"
         else:
@@ -169,11 +198,11 @@ def prepare_nip_expression(expression):
         if validate_nip_expression(expression):
             return expression
 
-def transpile_nip_expression(expression: str):
+def transpile_nip_expression(expression: str, isPickedUpPhase=False):
     expression = prepare_nip_expression(expression)
     if expression:
         tokens = list(Lexer().create_tokens(expression))
-        transpiled_expression = transpile(tokens)
+        transpiled_expression = transpile(tokens, isPickedUpPhase=isPickedUpPhase)
         if transpiled_expression:
             return transpiled_expression
 
@@ -189,16 +218,18 @@ def load_nip_expression(nip_expression):
         if not already_loaded:
             nip_expressions.append({
                 "raw": nip_expression,
+                "should_id_transpiled": transpile_nip_expression(nip_expression.split("#")[0]),
                 "transpiled": transpiled_expression,
-                "should_id_transpiled": transpile_nip_expression(nip_expression.split("#")[0])
+                "should_pickup": transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
             })
-
+            # print("nip_expressions" , nip_expressions)
 
 def should_keep(item_data):
-    # print(item_data["NTIPAliasIdName"])
+    
     for expression in nip_expressions:
+        # print(expression["raw"])
         if expression["transpiled"]:
-            print(expression["transpiled"])
+            print("-" * 30, expression["transpiled"], (str(item_data['NTIPAliasIdName']).lower()))
             try:
                 if eval(expression["transpiled"]):
                     # print(expression["raw"])
@@ -223,16 +254,23 @@ def should_pickup(item_data):
     # * Handle the gold pickup.
     if item_data["BaseItem"]["DisplayName"] == "Gold":
         return gold_pickup(item_data)
-
+    # print(1)
 
     wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
+        # print(2)
         if expression["raw"]:
-            expression = prepare_nip_expression(expression["raw"])
-            nip_expression_split = expression.replace("\n", "").split("#")
+            # print(3)
+            expression_raw = prepare_nip_expression(expression["raw"])
+            nip_expression_split = expression_raw.replace("\n", "").split("#")
             property_condition = None
             try:
-                property_condition = eval(transpile_nip_expression(nip_expression_split[0])) # * This string in the eval uses the item_data that is being passed in
+
+                # print("item_data['NTIPAliasClass']", item_data['NTIPAliasClassID'], "NTPIAliasClass['amulet']", NTIPAliasClassID['amulet'])
+                # print(expression["should_pickup"])
+
+                property_condition = eval(expression["should_pickup"]) # * This string in the eval uses the item_data that is being passed in
+                
             except:
                 pass
                 #print(f"Error: {expression}")
@@ -278,8 +316,10 @@ def should_id(item_data):
     id = False
     for expression in nip_expressions:
         try:
+            if "[idname]" in expression["raw"].lower():
+                id = True
+                return id
             if eval(expression["should_id_transpiled"]):
-                # #print(expression["raw"])
                 if len(expression["raw"].split("#")) > 1:
                     id = True
                     break
@@ -312,10 +352,41 @@ for filepath in nip_file_paths:
             nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.startswith(remove)]
 
 for nip_file_path in nip_file_paths:
-    print(nip_file_path)
     load_nip_expressions(nip_file_path)
 
+# print("\n\n")
+# print(nip_expressions[0]["transpiled"])
+# print(nip_expressions[0]["should_pickup"])
+# print("\n\n")
+# tokens = list(Lexer().create_tokens("[idname] == thestoneofjordan"))
 
-print(transpile_nip_expression("[idname]"))
+# print("\n")
+# print(1, transpile_nip_expression("[name] == ring && [quality] == unique"))
+
+item = {
+	'Name': 'Amulet',
+	'Quality': 'unique',
+	'Text': 'AMULET',
+	'BaseItem': {
+		'DisplayName': 'Amulet',
+		'NTIPAliasClassID': 520,
+		'NTIPAliasType': 12,
+		'dimensions': [1, 1],
+		'sets': ['ANGELICWINGS', 'ARCANNASSIGN', 'CATHANSSIGIL', 'CIVERBSICON', 'IRATHASCOLLAR', 'TALRASHASADJUDICATION', 'TANCREDSWEIRD', 'TELLINGOFBEADS', 'VIDALASSNARE'],
+		'uniques': ['NOKOZANRELIC', 'THEEYEOFETLICH', 'THEMAHIMOAKCURIO', 'THECATSEYE', 'THERISINGSUN', 'CRESCENTMOON', 'MARASKALEIDOSCOPE', 'ATMASSCARAB', 'HIGHLORDSWRATH', 'SARACENSCHANCE', 'SERAPHSHYMN', 'METALGRID']
+	},
+	'Item': None,
+	'NTIPAliasType': 12,
+	'NTIPAliasClassID': 520,
+	'NTIPAliasClass': None,
+	'NTIPAliasQuality': 7,
+	'NTIPAliasFlag': {
+		'0x10': False,
+		'0x4000000': True
+	}
+}
+
+# print(
+#     should_pickup(item)
+# )
 print(f"Loaded {len(nip_expressions)} nip expressions.")
-
