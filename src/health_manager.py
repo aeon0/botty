@@ -91,13 +91,13 @@ class HealthManager:
             if is_visible(ScreenObjects.InGame, img):
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
-                # check rejuv
 
-                if health_percentage == 1:
+                if health_percentage == 0.997171: # * The lowest number that will be considered "full"
                     lp_hp_potion_delay = 0
-                if mana_percentage == 1:
+                if mana_percentage >= 0.991513: # * The lowest number that will be considered "full"
                     lp_mp_potion_delay = 0
 
+                # check rejuv
                 success_drink_rejuv = False
                 last_drink = time.time() - self._last_rejuv
                 if (health_percentage <= Config().char["take_rejuv_potion_health"] and last_drink > 1) or \
@@ -125,7 +125,8 @@ class HealthManager:
                 # check merc
                 if is_visible(ScreenObjects.MercIcon, img):
                     merc_health_percentage = meters.get_merc_health(img)
-                    if merc_health_percentage == 100:
+                    print(merc_health_percentage)
+                    if merc_health_percentage == 1:
                         merc_hp_potion_delay = 0
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage <= Config().char["merc_chicken"]:
