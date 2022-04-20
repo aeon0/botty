@@ -88,9 +88,8 @@ class HealthManager:
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
 
-                # reset delay if at any point a meter becomes full
-                lp_hp_potion_delay = 0 if health_percentage == 1 else uniform(9, 10)
-                lp_mp_potion_delay = 0 if mana_percentage == 1 else uniform(9, 10)
+                lp_hp_potion_delay = 0 if health_percentage >= 0.99 else uniform(9, 10)
+                lp_mp_potion_delay = 0 if mana_percentage >= 0.99 else uniform(9, 10)
 
                 # check rejuv
                 success_drink_rejuv = False
