@@ -105,7 +105,7 @@ class PickIt:
                 return PickedUpResults.InventoryFull
             elif self.fail_pickup_count >= 1:
                 # * +1 because we failed at picking it up once already, we just can't detect the first failure (unless it is due to full inventory)
-                if char.capabilities.can_teleport_natively:
+                if char.capabilities.can_teleport_natively or char.capabilities.can_teleport_with_charges:
                     Logger.warning(f"Failed to pick up '{item.Name}' {self.fail_pickup_count + 1} times in a row, trying to teleport")
                     return self.yoink_item(item, char, force_tp=True)
                 else:
