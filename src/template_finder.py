@@ -264,7 +264,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
 
     # enter the template names you are trying to detect here
-    _template_list = ["ELDRITCH_0", "ELDRITCH_1", "ELDRITCH_2", "ELDRITCH_3", "ELDRITCH_4", "ELDRITCH_5", "ELDRITCH_6", "ELDRITCH_7", "ELDRITCH_8", "ELDRITCH_9", "ELDRITCH_START"]
+    _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_2","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
 
     _current_template_idx = -1
     _last_stored_idx = 0
