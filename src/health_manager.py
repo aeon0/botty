@@ -92,11 +92,9 @@ class HealthManager:
                 health_percentage = meters.get_health(img)
                 mana_percentage = meters.get_mana(img)
 
-                if health_percentage == 0.997171: # * The lowest number that will be considered "full"
-                    lp_hp_potion_delay = 0
-                if mana_percentage >= 0.991513: # * The lowest number that will be considered "full"
-                    lp_mp_potion_delay = 0
-
+                lp_hp_potion_delay = 0 if health_percentage >= 0.99 else uniform(9, 10)
+                lp_mp_potion_delay = 0 if mana_percentage >= 0.99 else uniform(9, 10)
+                    
                 # check rejuv
                 success_drink_rejuv = False
                 last_drink = time.time() - self._last_rejuv
@@ -111,7 +109,7 @@ class HealthManager:
                     if health_percentage <= Config().char["take_health_potion"] and last_drink > lp_hp_potion_delay:
                         belt.drink_potion("health", stats=[health_percentage, mana_percentage])
                         self._last_health = time.time()
-                        lp_hp_potion_delay = 9 + uniform(0, 1)
+                        lp_hp_potion_delay = health_percentage == 0.997171 and uniform(9, 10) or 0
                     # give the chicken a 6 sec delay to give time for a healing pot and avoid endless loop of chicken
                     elif health_percentage <= Config().char["chicken"] and (time.time() - start) > 6:
                         Logger.warning(f"Trying to chicken, player HP {(health_percentage*100):.1f}%!")
@@ -121,13 +119,11 @@ class HealthManager:
                     if mana_percentage <= Config().char["take_mana_potion"] and last_drink > lp_mp_potion_delay:
                         belt.drink_potion("mana", stats=[health_percentage, mana_percentage])
                         self._last_mana = time.time()
-                        lp_mp_potion_delay = 9 + uniform(0, 1)
+                        lp_mp_potion_delay = mana_percentage == 0.991513 and 0 or uniform(9, 10)
                 # check merc
                 if is_visible(ScreenObjects.MercIcon, img):
                     merc_health_percentage = meters.get_merc_health(img)
-                    print(merc_health_percentage)
-                    if merc_health_percentage == 1:
-                        merc_hp_potion_delay = 0
+                    merc_hp_potion_delay = 0 if merc_health_percentage == 1 else uniform(9, 10)
                     last_drink = time.time() - self._last_merc_heal
                     if merc_health_percentage <= Config().char["merc_chicken"]:
                         Logger.warning(f"Trying to chicken, merc HP {(merc_health_percentage*100):.1f}%!")
