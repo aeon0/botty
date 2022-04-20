@@ -41,6 +41,7 @@ from utils.misc import kill_thread, wait
 from memread.baal import Baal
 from memread.meph import Meph
 from memread.andy import Andy
+from memread.countess import Countess
 import threading
 
 # Added for dclone ip hunt
@@ -105,6 +106,7 @@ class Bot:
             "run_andy": Config().routes["run_andy"],
             "run_meph": Config().routes["run_meph"],
             "run_baal": Config().routes["run_baal"],
+            "run_countess": Config().routes["run_countess"],
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
@@ -122,6 +124,7 @@ class Bot:
         self._baal = Baal(self._pather, self._town_manager, self._char, self._pickit)
         self._meph = Meph(self._pather, self._town_manager, self._char, self._pickit)
         self._andy = Andy(self._pather, self._town_manager, self._char, self._pickit)
+        self._countess = Countess(self._pather, self._town_manager, self._char, self._pickit)
 
         # Create member variables
         self._picked_up_items = False
@@ -137,7 +140,7 @@ class Bot:
         self._timer = time.time()
 
         # Create State Machine
-        self._states=['initialization', 'hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo', 'andy', 'meph', 'baal']
+        self._states=['initialization', 'hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo', 'andy', 'meph', 'baal','countess']
         self._transitions = [
             { 'trigger': 'init', 'source': 'initialization', 'dest': '=','before': "on_init"},
             { 'trigger': 'select_character', 'source': 'initialization', 'dest': 'hero_selection', 'before': "on_select_character"},
@@ -156,10 +159,11 @@ class Bot:
             { 'trigger': 'run_andy', 'source': 'town', 'dest': 'andy', 'before': "on_run_andy"},
             { 'trigger': 'run_meph', 'source': 'town', 'dest': 'meph', 'before': "on_run_meph"},
             { 'trigger': 'run_baal', 'source': 'town', 'dest': 'baal', 'before': "on_run_baal"},
+            { 'trigger': 'run_countess', 'source': 'town', 'dest': 'countess', 'before': "on_run_countess"},
             # ---------------- #
             # End run / game
-            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy'], 'dest': 'town', 'before': "on_end_run"},
-            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy', 'end_run'], 'dest': 'initialization', 'before': "on_end_game"},
+            { 'trigger': 'end_run', 'source': ['shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy','countess'], 'dest': 'town', 'before': "on_end_run"},
+            { 'trigger': 'end_game', 'source': ['town', 'shenk', 'pindle', 'nihlatak', 'trav', 'arcane', 'diablo', 'baal', 'meph', 'andy', 'countess', 'end_run'], 'dest': 'initialization', 'before': "on_end_game"},
         ]
         self.machine = Machine(model=self, states=self._states, initial="initialization", transitions=self._transitions, queued=True)
         self._transmute = Transmute(self._game_stats)
@@ -582,5 +586,15 @@ class Bot:
         if self._curr_loc:
             set_pause_state(False)
             res = self._andy.battle(not self._pre_buffed)
+        self._ending_run_helper(res)
+
+    def on_run_countess(self):
+        res = False
+        self._do_runs["run_countess"] = False
+        self._game_stats.update_location("Countess")
+        self._curr_loc = self._countess.approach(self._curr_loc)
+        if self._curr_loc:
+            set_pause_state(False)
+            res = self._countess.battle(not self._pre_buffed)
         self._ending_run_helper(res)
     # --------------------------------------------- #

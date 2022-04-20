@@ -1358,6 +1358,9 @@ class Hammerdin(IChar):
 
     def kill_andy(self) -> bool:
         return self._kill_mobs(["Andariel"])
+
+    def kill_countess(self) -> bool:
+        return self._kill_mobs(["DarkStalker"])
     # ----------------------- memread -------------------------------#
 
 

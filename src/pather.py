@@ -93,6 +93,9 @@ class Location:
     # Baal
     A5_BAAL_WORLDSTONE_KEEP_LVL2 = "a5_baal_worldstone_keep_lvl2"
     A5_BAAL_WORLDSTONE_CHAMBER = "a5_baal_worldstone_chamber"
+    # Countess
+    A1_COUNTESS_START = "a1_countess_start"
+    A1_COUNTESS_END = "a1_countess_end"
     # ----------------------------------- #
 
 class Pather:

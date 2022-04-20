@@ -258,6 +258,8 @@ def specific_inventory_roi(desired: str = "reserved"):
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not is_visible(ScreenObjects.RightPanel, img):
+        if is_visible(ScreenObjects.SaveAndExit,img):
+            keyboard.send("esc")
         keyboard.send(Config().char["inventory_screen"])
         if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():

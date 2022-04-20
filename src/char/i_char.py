@@ -325,6 +325,9 @@ class IChar:
 
     def kill_andy(self) -> bool:
         raise ValueError("Kill andy is not implemented")
+        
+    def kill_countess(self) -> bool:
+        raise ValueError("Kill countess is not implemented")
     # -----------------------------------------------------#
 
 
