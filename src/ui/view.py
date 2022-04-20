@@ -81,7 +81,7 @@ def return_to_play() -> bool:
     substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()
     start=time.time()
-    while (elapsed := (time.time() - start) < 5):
+    while (elapsed := (time.time() - start) < 8):
         need_escape = False
         match = detect_screen_object(ScreenObjects.InGame, img)
         if match.valid and "DARK" in match.name:
@@ -92,7 +92,7 @@ def return_to_play() -> bool:
                     break
         if need_escape:
             keyboard.send("esc")
-            wait(1)
+            wait(1.7)
             img=grab()
         else:
             break
@@ -113,9 +113,4 @@ if __name__ == "__main__":
     from config import Config
     from template_finder import TemplateFinder
 
-    while True:
-        img = grab()
-        if (result := TemplateFinder().search(["YOU_HAVE_DIED", "NOT_ENOUGH_GOLD"], img, color_match=Config().colors["red"], use_grayscale=True, best_match=True)).valid:
-            print(f"match: {result.score}")
-        else:
-            print("no match")
+    return_to_play()
