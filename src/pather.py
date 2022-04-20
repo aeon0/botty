@@ -119,10 +119,10 @@ class Pather:
             103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)},
             104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)},
             # Eldritch
-            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
-            121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_3': (-91, 198), 'ELDRITCH_7': (409, 180), 'ELDRITCH_8': (465, 345)},
-            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_3': (-149, -119), 'ELDRITCH_9': (-253, -118), 'ELDRITCH_7': (352, -134), 'ELDRITCH_8': (404, 29)},
-            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (400, -267), 'ELDRITCH_8': (454, -104)},
+            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_0_V2': (293, 24), 'ELDRITCH_0_V3': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_1_V2': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
+            121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_1_V2': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_2_V2': (411, 171), 'ELDRITCH_3': (-91, 198), 'ELDRITCH_7': (409, 180), 'ELDRITCH_7_V2': (409, 180), 'ELDRITCH_8': (465, 345), 'ELDRITCH_8_V2': (465, 345)},
+            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_2_V2': (353, -145), 'ELDRITCH_3': (-149, -119), 'ELDRITCH_9': (-253, -118), 'ELDRITCH_7': (352, -134), 'ELDRITCH_7_V2': (352, -134), 'ELDRITCH_8': (404, 29), 'ELDRITCH_8_V2': (404, 29)},
+            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
             # Shenk
             141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
             142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
@@ -732,7 +732,7 @@ if __name__ == "__main__":
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         wrt_origin = (-ref_pos_abs[0], -ref_pos_abs[1])
-                        # print(f'"{template_type}": {wrt_origin}')
+                        print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             # if round(time.time() - start) % 3 == 0:
             #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
@@ -749,6 +749,6 @@ if __name__ == "__main__":
     from char.hammerdin import Hammerdin
     pather = Pather()
 
-    display_all_nodes(pather, "A2_TOWN")
+    display_all_nodes(pather, "ELDRITCH")
 
     stop_detecting_window()
