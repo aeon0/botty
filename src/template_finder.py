@@ -9,7 +9,7 @@ from logger import Logger
 import time
 import os
 from config import Config
-from utils.misc import load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
+from utils.misc import cut_roi, load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
 
 template_finder_lock = threading.Lock()
 
@@ -244,29 +244,94 @@ class TemplateFinder:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import start_detecting_window
-    start_detecting_window()
+    from screen import start_detecting_window, stop_detecting_window
+    from utils.misc import wait
     from template_finder import TemplateFinder
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
-    print("Move to d2r window and press f11")
+    start_detecting_window()
+    wait(0.1)
+
+    print("\n== Hotkeys ==")
+    print("F11: Start")
+    print("F12: Exit")
+    print("Down arrow: decrease template matching threshold")
+    print("Up arrow: increase template matching threshold")
+    print("Left arrow: decrease template index")
+    print("Right arrow: increase template index")
+    print("F9: toggle all vs. individual template(s)")
+    print("F10: save visible template(s)")
+
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     keyboard.wait("f11")
 
-    search_templates = ["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"]
+    # enter the template names you are trying to detect here
+    _template_list = ["TRAV_0","TRAV_1","TRAV_3","TRAV_4","TRAV_5","TRAV_7","TRAV_8","TRAV_10","TRAV_11","TRAV_12","TRAV_13","TRAV_16","TRAV_17","TRAV_18","TRAV_19","TRAV_2","TRAV_20","TRAV_21","TRAV_22","TRAV_23","TRAV_24","TRAV_25","TRAV_27","TRAV_28","TRAV_29","TRAV_V2_0","TRAV_V2_1","TRAV_V2_2","TRAV_V2_3","TRAV_V2_4","TRAV_V3_0","TRAV_V3_1","TRAV_V3_11","TRAV_V3_3","TRAV_V3_4","TRAV_V3_5","TRAV_V3_6","TRAV_V3_7","TRAV_V3_8"]
+
+    _current_template_idx = -1
+    _last_stored_idx = 0
+    _current_threshold = 0.5
+    _visible_templates = []
+
+    def _save_visible_templates():
+        if not os.path.exists("info_screenshots"):
+            os.system("mkdir info_screenshots")
+        for match in _visible_templates:
+            cv2.imwrite(match['filename'], match['img'])
+            Logger.info(f"{match['filename']} saved")
+
+    def _toggle_all_templates():
+        global _current_template_idx
+        _current_template_idx = -1 if _current_template_idx != -1 else _last_stored_idx
+        if _current_template_idx == -1:
+            Logger.info(f"Searching for templates: {_template_list}")
+        else:
+            Logger.info(f"Searching for template: {_template_list[_current_template_idx]}")
+
+    def _incr_template_idx(direction: int = 1):
+        global _current_template_idx, _last_stored_idx
+        if \
+            (-1 < _current_template_idx < len(_template_list) - 1) or \
+            (_current_template_idx == -1 and direction > 0) or \
+            (_current_template_idx  == len(_template_list) - 1 and direction < 0):
+            _current_template_idx += direction
+            _last_stored_idx = _current_template_idx
+        if _current_template_idx == -1:
+            Logger.info(f"Searching for templates: {_template_list}")
+        else:
+            Logger.info(f"Searching for template: {_template_list[_current_template_idx]}")
+
+    def _incr_threshold(direction: int = 1):
+        global _current_threshold
+        if (_current_threshold < 1 and direction > 0) or (_current_threshold > 0 and direction < 0):
+            _current_threshold = round(_current_threshold + direction, 2)
+        Logger.info(f"_current_threshold = {_current_threshold}")
+
+    keyboard.add_hotkey('down', lambda: _incr_threshold(-0.05))
+    keyboard.add_hotkey('up', lambda: _incr_threshold(0.05))
+    keyboard.add_hotkey('left', lambda: _incr_template_idx(-1))
+    keyboard.add_hotkey('right', lambda: _incr_template_idx(1))
+    keyboard.add_hotkey('f9', lambda: _toggle_all_templates())
+    keyboard.add_hotkey('f10', lambda: _save_visible_templates())
 
     while 1:
-        # img = cv2.imread("")
+        _visible_templates = []
         img = grab()
         display_img = img.copy()
-        start = time.time()
-        for key in search_templates:
-            template_match = TemplateFinder().search(key, img, best_match=True, threshold=0.5, use_grayscale=True)
+        if _current_template_idx < 0:
+            templates = _template_list
+        else:
+            templates = [_template_list[_current_template_idx]]
+        for key in templates:
+            template_match = TemplateFinder().search(key, img, threshold=_current_threshold)
             if template_match.valid:
                 x, y = template_match.center
                 cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
+                cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
-
-        # print(time.time() - start)
-        # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_NEAREST)
+                match = {
+                    'filename': f"./info_screenshots/{key.lower()}.png",
+                    'img': cut_roi(img, template_match.region)
+                }
+                _visible_templates.append(match)
         cv2.imshow('test', display_img)
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(3000)
