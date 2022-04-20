@@ -40,7 +40,7 @@ class PickIt:
 
     def move_cursor_to_hud(self): # * Avoid highlighting the items
         pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
-        mouse.move(*pos_m) 
+        mouse.move(*pos_m, delay_factor=(0.1, 0.2))
 
     def grab_items(self) -> list:
         def sort_by_distance(item): # * sets some extra item data since we already looping
