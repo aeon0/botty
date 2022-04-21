@@ -219,6 +219,7 @@ class Config:
             "difficulty": self._select_val("general", "difficulty"),
             "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
+            "custom_loot_message_hook": self._select_val("general", "custom_loot_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
