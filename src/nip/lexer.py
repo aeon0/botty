@@ -25,6 +25,8 @@ class NipSections(Enum):
 class Lexer:
     def __init__(self):
         self.current_section = NipSections.PROP
+        self.text_i = -1
+        self.tokens = []
 
     def increment_section(self):
         if self.current_section == NipSections.PROP:
@@ -32,32 +34,34 @@ class Lexer:
         elif self.current_section == NipSections.STAT:
             self.current_section = NipSections.MAXQUANTITY
 
-    def create_tokens(self, nip_expression):
-        self.text = iter(nip_expression)
-        self._advance()
-        while self.current_token != None:
-            if self.current_token in DIGITS:
-                yield self._create_digits()
-            elif self.current_token in WHITESPACE:
-                self._advance()
-                # yield Token(TokenType.WHITESPACE, " ")
-            elif self.current_token in SYMBOLS:
-                yield self._create_logical_operator()
-            elif self.current_token in MATH_SYMBOLS:
-                yield self._create_math_operator()
-                # self.advance()
-            elif self.current_token == "[":
-                yield self._create_nip_lookup()
-            elif self.current_token in CHARS:
-                yield self._create_d2r_image_data_lookup()
 
-    
     def _advance(self):
         try:
-            self.current_token = next(self.text)
-        except StopIteration:
+            self.text_i += 1
+            self.current_token = self.text2[self.text_i]
+        except IndexError:
             self.current_token = None
 
+
+    def create_tokens(self, nip_expression):
+        self.text2 = list(nip_expression)
+        self._advance()
+        self.tokens = []
+        while self.current_token != None:
+            if self.current_token in DIGITS:
+                self.tokens.append(self._create_digits())
+            elif self.current_token in WHITESPACE:
+                self._advance()
+            elif self.current_token in SYMBOLS:
+                self.tokens.append(self._create_logical_operator())
+            elif self.current_token in MATH_SYMBOLS:
+                self.tokens.append(self._create_math_operator())
+                # self.advance()
+            elif self.current_token == "[":
+                self.tokens.append(self._create_nip_lookup())
+            elif self.current_token in CHARS:
+                self.tokens.append(self._create_d2r_image_data_lookup())
+        return self.tokens
 
     def _create_digits(self):
         dot_count = 0
