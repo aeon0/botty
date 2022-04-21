@@ -121,6 +121,9 @@ class Lexer:
 
 
     def _create_nip_lookup(self):
+        """
+            item data lookup i.e [name]
+        """
         self._advance()
         lookup_key = self.current_token
         while self.current_token != None:
@@ -181,7 +184,7 @@ class Lexer:
                 return Token(TokenType.NTIPAliasClass, lookup_key)
             elif lookup_key in NTIPAliasQuality:
                 return Token(TokenType.NTIPAliasQuality, lookup_key)
-            elif lookup_key in NTIPAliasClassID:
+            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.NTIPAliasClassID:
                 return Token(TokenType.NTIPAliasClassID, lookup_key)
             elif lookup_key in NTIPAliasFlag:
                 return Token(TokenType.NTIPAliasFlag, lookup_key)
