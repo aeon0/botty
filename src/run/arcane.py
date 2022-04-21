@@ -12,6 +12,7 @@ from chest import Chest
 from ui import waypoint
 from health_manager import set_pause_state
 
+
 class Arcane:
     def __init__(
         self,
@@ -97,6 +98,7 @@ class Arcane:
                     return False
                 set_pause_state(True)
                 if not self._town_manager.wait_for_tp(Location.A2_TP):
+                    self.inspect_items()  
                     return False
                 if not self.approach(Location.A2_FARA_STASH):
                     return False
