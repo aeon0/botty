@@ -1,0 +1,45 @@
+{
+    "x": 669,
+    "y": 432,
+    "w": 58,
+    "h": 21,
+
+    "Name": "Club",
+    "Quality": "gray", 
+    "Text": "CLUB", 
+
+    "BaseItem": {
+        "DisplayName": "Club",
+        "NTIPAliasClassID": 14,
+        "NTIPAliasType": 29,
+        "NTIPAliasStatProps": {
+            "194": {
+                "min": 0,
+                "max": 2
+            },
+            "72": 24,
+            "73": 24,
+            "21": 1,
+            "22": 6,
+            "0x400000": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "dimensions": [1, 3],
+        "uniques": ["FELLOAK"],
+        "NTIPAliasClass": 0
+}, 
+    "Item": false, 
+    "NTIPAliasType" : 29, 
+    "NTIPAliasClassID" : 14, 
+    "NTIPAliasClass" : 0, 
+    "NTIPAliasQuality" : 2, 
+
+    "NTIPAliasFlag" : {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+    }
+}
+

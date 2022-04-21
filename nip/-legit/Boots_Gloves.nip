@@ -1,0 +1,71 @@
+//Rares
+
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] >= 20 && [strength]+[dexterity] >= 29
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] >= 20 && ([itemaddskilltab] >= 2 || [strength] >= 10 || [dexterity] >= 10) && ([lifeleech] >= 4 || [manaleech] >= 3)
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] >= 20 && [itemaddskilltab] >= 2 && [strength]+[dexterity] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [fireresist] >= 10 && [coldresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [lightresist] >= 10 && [coldresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [strength] >= 15 && [dexterity] >= 15 && [fireresist] >= 10 && [lightresist] >= 10
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddshadowdisciplinesskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+[type] == gloves && [flag] != ethereal && [quality] == rare # [ias] == 20 && [itemaddmartialartsskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15 
+
+[type] == gloves && [quality] == rare && [flag] == ethereal # [ias] >= 20 && [strength]+[dexterity] >= 15
+[type] == gloves && [quality] == rare && [flag] == ethereal # [ias] >= 20 && ([itemaddskilltab] >= 2 || [strength] >= 15 || [dexterity] >= 15) && ([lifeleech] >= 2 || [manaleech] >= 2) && [itemreplenishdurability] >= 1
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] >= 20 && [itemaddskilltab] >= 2 && [strength]+[dexterity] >= 20 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [fireresist] >= 15 && [coldresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [lightresist] >= 15 && [coldresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [strength] >= 5 && [dexterity] >= 15 && [fireresist] >= 15 && [lightresist] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [dexterity] >= 15 && [strength] >= 15 && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddbowandcrossbowskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddpassiveandmagicskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddjavelinandspearskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddshadowdisciplinesskilltab] == 2 && [strength] >= 5 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+[type] == gloves && [flag] == ethereal && [quality] == rare # [ias] == 20 && [itemaddmartialartsskilltab] == 2 && [strength] >= 15 && [dexterity] >= 15  && [itemreplenishdurability] >= 1
+
+// ##### boots #########################
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 60
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 2 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 60
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [lightresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [fireresist] >= 20
+[type] == boots && [flag] != ethereal && [quality] == rare # [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 30
+[type] == boots && [flag] != ethereal && [quality] == rare # [coldresist] >= 20 && [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 10
+[type] == boots && [flag] != ethereal && [quality] == rare # [coldresist] >= 20 && [fireresist] >= 20 && [poisonresist] >= 10 && [fhr] >= 10 && [frw] >= 10
+[type] == boots && [flag] != ethereal && [quality] == rare # [fireresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 10 && [fhr] >= 10 && [frw] >= 10
+[type] == boots && [flag] != ethereal && [quality] == rare # [coldresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 10 && [fhr] >= 10 && [frw] >= 10
+[type] == boots && [flag] != ethereal && [quality] == rare # [strength] >= 5 && [dexterity] >= 5 && [fhr] >= 10 && [frw] >= 30
+
+[type] == boots && [quality] == rare && [flag] == ethereal # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 70 && [itemreplenishdurability] >= 1
+[type] == boots && [quality] == rare && [flag] == ethereal # [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 5 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 70 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [lightresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [frw] >=20 && [fhr] >= 20 && [coldresist] >= 20 && [fireresist] >= 20 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 10 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [coldresist] >= 20 && [lightresist] >= 20 && [fireresist] >= 20 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [coldresist] >= 20 && [fireresist] >= 20 && [poisonresist] >= 20 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [fireresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [coldresist] >= 20 && [lightresist] >= 20 && [poisonresist] >= 20 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+[type] == boots && [flag] == ethereal && [quality] == rare # [strength] >= 5 && [dexterity] >= 5 && [fhr] >= 10 && [frw] >= 30 && [itemreplenishdurability] >= 1
+
+// ##### belts #########################
+[type] == belt && [quality] == rare && [flag] != ethereal # [fhr] >= 24 && [strength] >= 25 && ([maxhp] >= 50 || [itemgoldbonus] >= 70)
+[type] == belt && [quality] == rare && [flag] == ethereal # [fhr] >= 24 && [strength] >= 25 && ([maxhp] >= 50 || [itemgoldbonus] >= 70) && [itemreplenishdurability] >= 1
+
+//          ==rare==
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] == 20 && [strength]+[dexterity] >= 30
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] == 20 && [javelinandspearskilltab]+[passiveandmagicskilltab] >= 2 && ([strength] >= 15 || [dexterity] >= 15)
+[type] == gloves && [quality] == rare && [flag] == ethereal # [ias] == 20 && [enhanceddefense] >= 100 && ([itemreplenishdurability] > 1 || [itemreplenishquantity] > 1)
+[type] == gloves && [quality] == rare && [flag] != ethereal # [ias] == 20 && [shadowdisciplinesskilltab]+[MartialArtsskilltab] >= 2 && ([strength] >= 15 || [dexterity] >= 15)
+
+//          ==rare==
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] == 10 && [fireresist] >= 20 && [coldresist] >= 20 && [lightresist] >= 20
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] == 10 && [fireresist] >= 20 && [itemgoldbonus] >= 20
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] == 10 && [maxmana] >= 20 && [fireresist]+[coldresist]+[lightresist] >= 50
+[type] == boots && [quality] == rare && [flag] == ethereal # [enhanceddefense] >= 175 && ([itemreplenishdurability] > 1 || [itemreplenishquantity] > 1)
+

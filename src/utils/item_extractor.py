@@ -49,8 +49,8 @@ if __name__ == "__main__":
                     time.sleep(0.1)
                     cv2.destroyAllWindows()
                 else:
-                    avg = int(np.average(cv2.cvtColor(cluster.data, cv2.COLOR_BGR2GRAY)))
-                    cv2.imwrite(f"./generated/z_{filename}_{key}_{count}_{avg}.png", cluster.data)
+                    avg = int(np.average(cv2.cvtColor(cluster.img, cv2.COLOR_BGR2GRAY)))
+                    cv2.imwrite(f"./generated/z_{filename}_{key}_{count}_{avg}.png", cluster.img)
                     cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
                     cv2.putText(inp_img, key, (x+5, y+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 

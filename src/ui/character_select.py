@@ -5,7 +5,7 @@ from screen import convert_screen_to_monitor, grab
 from template_finder import TemplateFinder
 from utils.misc import wait
 from logger import Logger
-from ocr import Ocr
+from d2r_image import ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
 last_char_template = None
@@ -48,7 +48,7 @@ def save_char_template():
         x, y, w, h = Config().ui_roi["character_name_sub_roi"]
         x, y = x + match.region[0], y + match.region[1]
         char_template = cut_roi(img, [x, y, w, h])
-        ocr_result = Ocr().image_to_text(
+        ocr_result = ocr.image_to_text(
             images = char_template,
             model = "engd2r_ui",
             psm = 6,

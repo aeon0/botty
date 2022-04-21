@@ -7,10 +7,12 @@ from dataclasses import dataclass
 import math
 
 from config import Config
+from nip.transpile import should_pickup
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
 from template_finder import TemplateFinder
-from ocr import OcrResult, Ocr
+from d2r_image import ocr
+from d2r_image.data_models import OcrResult
 
 
 @dataclass
@@ -82,7 +84,7 @@ class ItemFinder:
         for cluster in item_text_clusters:
             x, y, w, h = cluster.roi
             # cv2.rectangle(inp_img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-            cropped_input  = cluster.data
+            cropped_input  = cluster.img
             best_score = None
             item = None
             for key in self._templates:
@@ -118,7 +120,7 @@ class ItemFinder:
                                     # if ocr_during_pickit is off, min_gold_to_pick is set, and matched template is gold, OCR the image
                                     if not Config().advanced_options['ocr_during_pickit'] \
                                         and Config().char['min_gold_to_pick'] and 'misc_gold' == key:
-                                        results = Ocr().image_to_text([cluster["clean_img"]], model = "engd2r_inv_th_fast", psm = 7)
+                                        results = ocr.image_to_text([cluster["clean_img"]], model = "engd2r_inv_th_fast", psm = 7)
                                         setattr(cluster, "ocr_result", results[0])
                                     if same_type:
                                         item = Item()
@@ -138,20 +140,46 @@ class ItemFinder:
 
 
 # Testing: Throw some stuff on the ground see if it is found
-if __name__ == "__main__":
-    from screen import grab
-    from config import Config
 
-    item_finder = ItemFinder()
+# {'x': 402, 'y': 277, 'w': 130, 'h': 42}, Name='GHOUL TURN', Quality='rare', Text='GHOUL TURN', 
+# BaseItem={'DisplayName': 'Ring', 'NTIPAliasClassID': 522, 'NTIPAliasType': 10, 'dimensions': [1, 1], 'sets': ['ANGELICHALO', 'CATHANSSEAL'], 
+# 'uniques': ['NAGELRING', 'MANALDHEAL', 'THESTONEOFJORDAN', 'CONSTRICTINGRING', 'BULKATHOSWEDDINGBAND', 'DWARFSTAR', 'RAVENFROST', 'NATURESPEACE', 'WISPPROJECTOR', 'CARRIONWIND']}, 
+# Item=None, NTIPAliasType=10, NTIPAliasClassID=522, NTIPAliasClass=None, NTIPAliasQuality=6, NTIPAliasFlag={'0x10': True, '0x4000000': True}
+
+
+if __name__ == "__main__":
+    import keyboard
+    import os
+    from screen import start_detecting_window, grab
+    from logger import Logger
+    from d2r_image import processing as d2r_image
+    from d2r_image.demo import draw_items_on_image_data
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    print("Move to d2r window and press f11")
+    keyboard.wait("f11")
+
     while 1:
-        # img = cv2.imread("")
-        img = grab().copy()
-        item_list = item_finder.search(img)
-        for item in item_list:
-            # print(item.name + " " + str(item.score))
-            cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
-            cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
-            cv2.putText(img, item.ocr_result["text"], item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        # img = cv2.resize(img, None, fx=0.5, fy=0.5)
+        img=grab().copy()
+        all_loot = d2r_image.get_ground_loot(img)
+        for item in all_loot.items:
+            print(should_pickup(item.as_dict()))
+
+        draw_items_on_image_data(all_loot.items, img)
         cv2.imshow('test', img)
-        cv2.waitKey(1)
+        cv2.waitKey(5000)
+
+# cd C:\Users\Owner\Desktop\botty_v0.7.1\botty && conda activate botty && python src/item/item_finder.py
+    # item_finder = ItemFinder()
+    # while 1:
+    #     # img = cv2.imread("")
+    #     img = grab().copy()
+    #     item_list = item_finder.search(img)
+    #     for item in item_list:
+    #         # print(item.name + " " + str(item.score))
+    #         cv2.circle(img, item.center, 5, (255, 0, 255), thickness=3)
+    #         cv2.rectangle(img, item.roi[:2], (item.roi[0] + item.roi[2], item.roi[1] + item.roi[3]), (0, 0, 255), 1)
+    #         cv2.putText(img, item.ocr_result["text"], item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    #     # img = cv2.resize(img, None, fx=0.5, fy=0.5)
+    #     cv2.imshow('test', img)
+    #     cv2.waitKey(1)

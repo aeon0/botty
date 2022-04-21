@@ -4,17 +4,17 @@ from dataclasses import dataclass
 import time
 
 from utils.misc import color_filter, erode_to_black
-from template_finder import TemplateFinder
-from ocr import Ocr, OcrResult
 from config import Config
 from logger import Logger
+from d2r_image import ocr
+from d2r_image.data_models import OcrResult
 
 # TODO: With OCR we can then add a "text" field to this class
 @dataclass
 class ItemText:
     color: str = None
     roi: list[int] = None
-    data: np.ndarray = None
+    img: np.ndarray = None
     ocr_result: OcrResult = None
     clean_img: np.ndarray = None
     valid: bool = False
@@ -23,8 +23,6 @@ class ItemText:
 
 class ItemCropper:
     def __init__(self):
-        self._ocr = Ocr()
-
         self._gaus_filter = (19, 1)
         self._expected_height_range = [round(num) for num in [x / 1.5 for x in [14, 40]]]
         self._expected_width_range = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
@@ -84,14 +82,14 @@ class ItemCropper:
                         item_clusters.append(ItemText(
                             color = key,
                             roi = [x, y, w, h],
-                            data = cropped_item,
+                            img = cropped_item,
                             clean_img = cleaned_img[y:y+h, x:x+w]
                         ))
         debug_str += f" | cluster: {time.time() - start}"
         # print(debug_str)
         if Config().advanced_options["ocr_during_pickit"]:
             cluster_images = [ key["clean_img"] for key in item_clusters ]
-            results = self._ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
+            results = ocr.image_to_text(cluster_images, model = "engd2r_inv_th_fast", psm = 7)
             for count, cluster in enumerate(item_clusters):
                 setattr(cluster, "ocr_result", results[count])
         return item_clusters
@@ -141,34 +139,32 @@ if __name__ == "__main__":
     import keyboard
     import os
     from screen import start_detecting_window, grab
+    from d2r_image import processing as d2r_image
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
-    keyboard.add_hotkey('f12', lambda: os._exit(1))
-    cropper = ItemCropper()
-
     while 1:
         img = grab().copy()
-        res = cropper.crop_item_descr(img, model="engd2r_inv_th_fast")
-        if res.valid:
+        item_properties, res = d2r_image.get_hovered_item(img)
+        if res.roi is not None:
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
             #Logger.debug(f"{res.ocr_result['text']}")
 
+            Logger.debug(item_properties)
             Logger.debug(f"OCR ITEM DESCR: Mean conf: {res.ocr_result.mean_confidence}")
             for i, line in enumerate(list(filter(None, res.ocr_result.text.splitlines()))):
                 Logger.debug(f"OCR LINE{i}: {line}")
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             found_low_confidence = False
-            for cnt, x in enumerate(res.ocr_result['word_confidences']):
+            for cnt, x in enumerate(res.ocr_result["word_confidences"]):
                 if x <= 88:
                     try:
                         Logger.debug(f"Low confidence word #{cnt}: {res.ocr_result['original_text'].split()[cnt]} -> {res.ocr_result['text'].split()[cnt]}, Conf: {x}")
                         found_low_confidence = True
                     except: pass
 
-
         cv2.imshow("res", img)
-        cv2.waitKey(5000)
+        cv2.waitKey(1)

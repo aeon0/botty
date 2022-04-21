@@ -11,8 +11,8 @@ from inventory import consumables
 from ui import view
 from screen import convert_screen_to_monitor, grab
 from logger import Logger
-from ocr import Ocr
 from template_finder import TemplateMatch
+from d2r_image import ocr
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """
@@ -110,7 +110,7 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
     img = cut_roi(img, Config().ui_roi[f"{type}_gold_digits"])
     # _, img = color_filter(img, Config().colors["gold_numbers"])
     img = np.pad(img, pad_width=[(8, 8),(8, 8),(0, 0)], mode='constant')
-    ocr_result = Ocr().image_to_text(
+    ocr_result = ocr.image_to_text(
         images = img,
         model = "engd2r_inv_th_fast",
         psm = 13,
