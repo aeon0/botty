@@ -29,5 +29,5 @@ stats/
 htmlcov/
 coverage.xml
 utils/live-view/
-nip/*
-!nip/default.nip
+config/nip/*
+!config/nip/.gitkeep

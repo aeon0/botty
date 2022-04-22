@@ -19,8 +19,7 @@ from config import Config
 from screen import grab
 from template_finder import TemplateFinder
 from char import IChar
-from item import ItemFinder
-from item.pickit import PickIt
+from pickit import PickIt
 from pather import Pather, Location
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
@@ -47,9 +46,8 @@ class Bot:
     def __init__(self, game_stats: GameStats):
         self._game_stats = game_stats
         self._messenger = Messenger()
-        self._item_finder = ItemFinder()
         self._pather = Pather()
-        self._pickit = PickIt(self._item_finder)
+        self._pickit = PickIt()
 
         # Create Character
         if Config().char["type"] in ["sorceress", "light_sorc"]:

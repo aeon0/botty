@@ -11,14 +11,6 @@ config_lock = threading.Lock()
 def _default_iff(value, iff, default = None):
     return default if value == iff else value
 
-@dataclass
-class ItemProps:
-    pickit_type: int = 0
-    include: list[str] = None
-    exclude: list[str] = None
-    include_type: str = "OR"
-    exclude_type: str = "OR"
-
 class Config:
     data_loaded = False
 
@@ -34,7 +26,6 @@ class Config:
     routes = {}
     routes_order = []
     char = {}
-    items = {}
     colors = {}
     shop = {}
     path = {}
@@ -74,9 +65,6 @@ class Config:
         elif section in self.configs["config"]["parser"]:
             found_val = self.configs["config"]["parser"][section][key]
             found_in = "config"
-        elif section in self.configs["pickit"]["parser"]:
-            found_val = self.configs["pickit"]["parser"][section][key]
-            found_in = "pickit"
         elif section in self.configs["shop"]["parser"]:
             found_val = self.configs["shop"]["parser"][section][key]
             found_in = "shop"
@@ -90,105 +78,26 @@ class Config:
                 found_val = found_val.replace(var_name, var_val)
         return found_val
 
-    def parse_item_config_string(self, key: str = None) -> ItemProps:
-        string = self._select_val("items", key).upper()
-        return self.string_to_item_prop (string)
-
-    def string_to_item_prop (self, string: str) -> ItemProps:
-        item_props = ItemProps()
-        brk_on = 0
-        brk_off = 0
-        section = 0
-        counter = 0
-        start_section = 0
-        start_item = 0
-        include_list = []
-        exclude_list = []
-        for char in string:
-            new_section = False
-            counter+=1
-            if char == "(":
-                brk_on +=1
-            elif char == ")":
-                brk_off += 1
-            if ((char == "," and brk_on==brk_off)):
-                new_section = True
-                if  (counter == len (string)):
-                    string_section = string [start_section:counter]
-                else:
-                    string_section = string [start_section:counter-1]
-                if section == 0:
-                    item_props.pickit_type = int (string_section)
-                section +=1
-                start_section = counter
-            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
-                if new_section:
-                    section -=1
-                if start_item ==0:
-                    start_item = start_section
-                if  (counter == len (string)):
-                    item = string [start_item:counter]
-                else:
-                    item = string [start_item:counter-1]
-                if section == 0 and counter == len (string):
-                    item_props.pickit_type = int (item)
-                    pass
-                if section ==1:
-                    include_list.append (item)
-                    start_item = counter +1
-                elif section ==2:
-                    exclude_list.append (item)
-                    start_item = counter +1
-                if new_section:
-                    section +=1
-        if (len (include_list)>0 and (len (include_list[0]) >=6)):
-            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
-                item_props.include_type = "AND"
-            else:
-                item_props.include_type = "OR"
-        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
-            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
-                item_props.exclude_type = "AND"
-            else:
-                item_props.exclude_type = "OR"
-        for i in range (len(include_list)):
-            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            include_list[i]  = include_list[i].split (",")
-        for l in range (len (exclude_list)):
-            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            exclude_list[l] = exclude_list[l].split (",")
-        item_props.include = include_list
-        item_props.exclude = exclude_list
-        return item_props
-
     def turn_off_goldpickup(self):
         Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
         with config_lock:
             self.char["stash_gold"] = False
-            self.items["misc_gold"].pickit_type = 0
 
     def turn_on_goldpickup(self):
         Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
         self.char["stash_gold"] = True
-        # if gold pickup in pickit config was originally on but turned off, turn back on
-        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
-            Logger.info("Turn gold pickup back on")
-            with config_lock:
-                self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
         Logger.debug("Loading config")
         self.configs = {
             "config": {"parser": configparser.ConfigParser(), "vars": {}},
             "game": {"parser": configparser.ConfigParser(), "vars": {}},
-            "pickit": {"parser": configparser.ConfigParser(), "vars": {}},
             "shop": {"parser": configparser.ConfigParser(), "vars": {}},
             "transmute": {"parser": configparser.ConfigParser(), "vars": {}},
             "custom": {"parser": configparser.ConfigParser(), "vars": {}},
         }
         self.configs["config"]["parser"].read('config/params.ini')
         self.configs["game"]["parser"].read('config/game.ini')
-        self.configs["pickit"]["parser"].read('config/pickit.ini')
         self.configs["shop"]["parser"].read('config/shop.ini')
         self.configs["transmute"]["parser"].read('config/transmute.ini')
 
@@ -372,15 +281,6 @@ class Config:
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
-        self.items = {}
-        for key in self.configs["pickit"]["parser"]["items"]:
-            try:
-                self.items[key] = self.parse_item_config_string(key)
-                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png"):
-                    Logger.warning(f"You activated {key} in pickit, but there is no img available in assets/items")
-            except ValueError as e:
-                Logger.error(f"Error with pickit config: {key} ({e})")
-
         self.colors = {}
         for key in self.configs["game"]["parser"]["colors"]:
             self.colors[key] = np.split(np.array([int(x) for x in self._select_val("colors", key).split(",")]), 2)
@@ -425,17 +325,3 @@ class Config:
 if __name__ == "__main__":
     from copy import deepcopy
     config = Config()
-
-    # Check if any added items miss templates
-    for k in config.items:
-        if not os.path.exists(f"./assets/items/{k}.png"):
-            Logger.warning(f"Template not found: {k}")
-
-    # Check if any item templates miss a config
-    for filename in os.listdir(f'assets/items'):
-        filename = filename.lower()
-        if filename.endswith('.png'):
-            item_name = filename[:-4]
-            blacklist_item = item_name.startswith("bl__")
-            if item_name not in config.items and not blacklist_item:
-                Logger.warning(f"Config not found for: " + filename)
