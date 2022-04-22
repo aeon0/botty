@@ -34812,7 +34812,7 @@ REF_PATTERNS = {
     "One-Hand Damage: {:d} to {:d}": [
         "damage-1hand"
     ],
-    "Piercing Attack": [
+    "{:d}% Piercing Attack": [
         "pierce",
         "item_pierce",
         "itempierce"

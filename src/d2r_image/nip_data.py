@@ -171,7 +171,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "21",
 		"22"
     ],
-    "Piercing Attack": [
+    "{:d} Piercing Attack": [
         "156"
     ],
     "Poison Length Reduced by {:d}": [
