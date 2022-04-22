@@ -12,9 +12,6 @@ import glob
 
 from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
-import time
-
-
 
 def find_unqiue_or_set_base(unique_or_set_name):
     unique_or_set_name = unique_or_set_name.lower()
@@ -31,9 +28,6 @@ def find_unqiue_or_set_base(unique_or_set_name):
                         return key, "set"
 
 
-start = time.time()
-# print(find_unqiue_or_set_base("thestoneofjordan"))  
-# print(f"took {time.time() - start} seconds")
 
 def transpile(tokens, isPickedUpPhase=False):
     expression = ""
@@ -172,7 +166,6 @@ def validate_nip_expression(nip_expression):
             )
 
             if is_invalid_stat_lookup:
-                #print("-" * 30)
                 raise NipValidationError("stats", token)
 
     if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
@@ -223,17 +216,14 @@ def load_nip_expression(nip_expression):
                 "transpiled": transpiled_expression,
                 "should_pickup": transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
             })
-            # print("nip_expressions" , nip_expressions)
 
 def should_keep(item_data):
     
     for expression in nip_expressions:
-        # print(expression["raw"])
         if expression["transpiled"]:
             print("-" * 30, expression["transpiled"], (str(item_data['NTIPAliasIdName']).lower()))
             try:
                 if eval(expression["transpiled"]):
-                    # print(expression["raw"])
                     return True
             except:
                 pass
@@ -255,26 +245,17 @@ def should_pickup(item_data):
     # * Handle the gold pickup.
     if item_data["BaseItem"]["DisplayName"] == "Gold":
         return gold_pickup(item_data)
-    # print(1)
 
     wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
-        # print(2)
         if expression["raw"]:
-            # print(3)
             expression_raw = prepare_nip_expression(expression["raw"])
             nip_expression_split = expression_raw.replace("\n", "").split("#")
             property_condition = None
             try:
-
-                # print("item_data['NTIPAliasClass']", item_data['NTIPAliasClassID'], "NTPIAliasClass['amulet']", NTIPAliasClassID['amulet'])
-                # print(expression["should_pickup"])
-
                 property_condition = eval(expression["should_pickup"]) # * This string in the eval uses the item_data that is being passed in
-                
             except:
                 pass
-                #print(f"Error: {expression}")
             if property_condition:
                 return True
 
@@ -303,7 +284,6 @@ def should_pickup(item_data):
                                     wants_open_socket = True
                                     break
                                 else:
-                                    # #print(1)
                                     wants_open_socket = False
                                     break
     
@@ -360,20 +340,6 @@ for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
 print(f"Loaded {len(nip_expressions)} nip expressions.")
-
-
-x = """[name] == pulrune # # [MaxQuantity] == 3
-[name] == umrune # # [MaxQuantity] == 3
-[name] == malrune # # [MaxQuantity] == 10
-[name] == istrune # # [MaxQuantity] == 10
-
-[name] >= gulrune && [name] <= zodrune
-
-[name] == keyofhate # # [maxquantity] == 10
-[name] == keyofterror # # [maxquantity] == 10
-[name] == keyofdestruction # # [maxquantity] == 10
-""".split("\n")
-
 
 
 if __name__ == "__main__":
@@ -445,6 +411,15 @@ if __name__ == "__main__":
         {
             "expression": "[name] ==> ring",
             "should_fail": True,
+        },
+        
+        {
+            "expression": "[name] != ring",
+            "should_fail": False,
+        },
+        {
+            "expression": "[name] =! ring",
+            "should_fail": True,
         }
     ]
 
@@ -452,8 +427,8 @@ if __name__ == "__main__":
         try:
             assert transpile_nip_expression(test["raw"]) == test["transpiled"]
         except:
-            print(f"{test['raw']} failed")
-            print(transpile_nip_expression(test["raw"]))
+            print("Failed to transpile:", test["raw"])
+            print(transpile_nip_expression(test["raw"]), end="\n\n")
 
             
     for test in syntax_error_tests:
@@ -461,4 +436,4 @@ if __name__ == "__main__":
             transpile_nip_expression(test["expression"])
         except NipSyntaxError:
             if not test["should_fail"]:
-                print(f"{test['expression']} failed (unexpectedly failed)")
+                print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
