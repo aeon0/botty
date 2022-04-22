@@ -20,18 +20,23 @@ def correct_item_name(name):
     return name
 
 
+
+
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
     item_is_ethereal = False
     item_modifiers = {}
     lines = item.split('\n')
     cleaned_lines = []
+
+
     for line in lines:
         if line and 'SELL VALUE' not in line and 'COST' not in line:
             cleaned_lines.append(line)
     lines = cleaned_lines
     for line in lines:
-        if line == 'UNIDENTIFIED':
+        
+        if lev(line, 'UNIDENTIFIED') < 3:
             item_is_identified = False
         if 'ETHEREAL' in line:
             item_is_ethereal = True
@@ -50,6 +55,7 @@ def parse_item(quality, item, _call_count=1):
     # parsed_item["display_name"] = item[0]
     # The second line is usually the type. Map it to be sure, (for now just setting to base_type)
     # parsed_item["base_item"] = item[1]
+    print(lines, item_is_identified)
     base_name = lines[1] if item_is_identified and quality not in [ItemQuality.Superior.value, ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Magic.value, ItemQuality.Crafted.value] else lines[0]
     base_name = base_name.upper().replace(' ', '')
     base_item = None
