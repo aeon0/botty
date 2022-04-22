@@ -277,6 +277,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                 # * Check if the item is unidentified, and if it needs to be identified.
                 need_id = None
+                tome_state = None
                 if (is_unidentified and should_id(item_properties.as_dict())):
                     need_id = True
                     center_mouse()
