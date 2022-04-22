@@ -22,6 +22,16 @@ class NipSections(Enum):
     MAXQUANTITY = 3
 
 
+class NipSyntaxError(Exception):
+    def __init__(self, message):
+        self.message = message
+    
+    def __str__(self):
+        return self.message
+
+
+
+
 class Lexer:
     def __init__(self):
         self.current_section = NipSections.PROP
@@ -211,7 +221,7 @@ class Lexer:
                 elif char == " ":
                     return Token(TokenType.GT, ">")
                 else:
-                    raise Exception(f"'>' was found without a following operator {''.join(self.text)}")
+                    raise NipSyntaxError(f"'>' was found without a following operator {''.join(self.text)}")
             elif char == "<":
                 if self.current_token == "=":
                     self._advance()
@@ -219,17 +229,17 @@ class Lexer:
                 elif char == " ":
                     return Token(TokenType.LT, "<")
                 else:
-                    raise Exception(f"'<' was found without a following operator {''.join(self.text)}")
+                    raise NipSyntaxError(f"'<' was found without a following operator {''.join(self.text)}")
             elif char == "=":
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.EQ, "==")
                 else:
-                    raise Exception(f"'=' was found without a following operator {''.join(self.text)}")
+                    raise NipSyntaxError(f"'=' was found without a following operator {''.join(self.text)}")
             elif char == "!":
                 if self.current_token == "=":
                     self._advance()
-                    return Token(TokenType.NE, "!=")
+                    return NipSyntaxError(TokenType.NE, "!=")
                 else:
                     raise Exception(f"'!' was found without a following operator {''.join(self.text)}")
             elif char == "&":
@@ -237,7 +247,7 @@ class Lexer:
                     self._advance()
                     return Token(TokenType.AND, "and")
                 else:
-                    raise Exception(f"'&' was found without a following operator {''.join(self.text)}")
+                    raise NipSyntaxError(f"'&' was found without a following operator {''.join(self.text)}")
             elif char == "#":
                 # Increment the section.
                 self.increment_section()
