@@ -30,3 +30,4 @@ htmlcov/
 coverage.xml
 utils/live-view/
 config/nip/*
+!config/nip/.gitkeep
