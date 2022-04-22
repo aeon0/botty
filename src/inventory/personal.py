@@ -243,14 +243,13 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             # determine the item's ROI in inventory
             cnt=0
             while True:
-                print("-" * 50)
                 pre = mask_by_roi(img, Config().ui_roi["open_inventory_area"])
                 post = mask_by_roi(hovered_item, Config().ui_roi["open_inventory_area"])
                 # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
                 if not np.array_equal(pre, post):
                     break
                 Logger.debug(f"inspect_items: pre=post, try again. slot {slot[0]}")
-                center_mouse(delay_factor=0.02)
+                center_mouse(delay_factor=[0.05, 0.1])
                 img = grab()
                 mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
                 wait(0.05, 0.1)
@@ -320,9 +319,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                     if game_stats is not None and (keep and not need_id):
                         Logger.debug(f"Stashing {item_name}")
-                        # TODO - think of a solution on how to label an item that should be sent to discord hook.
-                        game_stats.log_item_keep(item_box.img, True, item_box.img, item_box.ocr_result.text)
-                        # game_stats.log_item_keep(item_box.img, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
+                        game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text)
                     # if item is to be kept or still needs to be sold or identified, append to list
                     if keep or sell or need_id:
                         # save item info
