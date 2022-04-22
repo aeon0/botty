@@ -1,3 +1,4 @@
+from fnmatch import translate
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -354,39 +355,57 @@ for filepath in nip_file_paths:
 for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
-# print("\n\n")
-# print(nip_expressions[0]["transpiled"])
-# print(nip_expressions[0]["should_pickup"])
-# print("\n\n")
-# tokens = list(Lexer().create_tokens("[idname] == thestoneofjordan"))
 
-# print("\n")
-# print(1, transpile_nip_expression("[name] == ring && [quality] == unique"))
 
-item = {
-	'Name': 'Amulet',
-	'Quality': 'unique',
-	'Text': 'AMULET',
-	'BaseItem': {
-		'DisplayName': 'Amulet',
-		'NTIPAliasClassID': 520,
-		'NTIPAliasType': 12,
-		'dimensions': [1, 1],
-		'sets': ['ANGELICWINGS', 'ARCANNASSIGN', 'CATHANSSIGIL', 'CIVERBSICON', 'IRATHASCOLLAR', 'TALRASHASADJUDICATION', 'TANCREDSWEIRD', 'TELLINGOFBEADS', 'VIDALASSNARE'],
-		'uniques': ['NOKOZANRELIC', 'THEEYEOFETLICH', 'THEMAHIMOAKCURIO', 'THECATSEYE', 'THERISINGSUN', 'CRESCENTMOON', 'MARASKALEIDOSCOPE', 'ATMASSCARAB', 'HIGHLORDSWRATH', 'SARACENSCHANCE', 'SERAPHSHYMN', 'METALGRID']
-	},
-	'Item': None,
-	'NTIPAliasType': 12,
-	'NTIPAliasClassID': 520,
-	'NTIPAliasClass': None,
-	'NTIPAliasQuality': 7,
-	'NTIPAliasFlag': {
-		'0x10': False,
-		'0x4000000': True
-	}
-}
+if __name__ == "__main__":
+    transpile_tests = [
+        {
+            "raw": "[name] == ring && [quality] == rare",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
+        },
+        {
+            "raw": "[type] == ring && [quality] == rare",
+            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
+        },
 
-# print(
-#     should_pickup(item)
-# )
+        {
+            "raw": "[name] == ring && [quality] == rare # [strength] == 5",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+
+        {
+            "raw": "[type] == ring && [quality] == rare # [strength] == 5",
+            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+
+        {
+            "raw": "[name] == ring && [quality] == rare # [strength] == 5 && [sockets] == 2",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)and(int(item_data['NTIPAliasStat'].get('194', -1)))==(2.0)",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan && [quality] == unique",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+        
+    ]
+
+    for test in transpile_tests:
+        try:
+            assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+        except:
+            print(f"{test['raw']} failed")
+            print(transpile_nip_expression(test["raw"]))
+
+
 print(f"Loaded {len(nip_expressions)} nip expressions.")
