@@ -215,6 +215,10 @@ def _check_wordlist(text: str = None, word_list: str = None, confidences: list =
     word_count = 0
     new_string = ""
     text = text.replace('\n', ' NEWLINEHERE ')
+
+    with open(word_list, 'r') as f:
+        word_list = f.read().splitlines()
+
     for word in word_list:
         try:
             if confidences[word_count] <= 90:
