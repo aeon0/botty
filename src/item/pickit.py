@@ -163,10 +163,11 @@ class PickIt:
                         item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
                     except ValueError:
                         item_dict["NTIPAliasStat"] = {'14': 0}
-                pickup = should_pickup(item_dict)
+                pickup, raw_expression = should_pickup(item_dict)
                 self.cached_pickit_items[item.ID] = pickup
                 if pickup:
-                    pick_up_res = self.pick_up_item(char, item, )             
+                    pick_up_res = self.pick_up_item(char, item)
+                    Logger.debug(f"Pick up expression: {raw_expression}")
             if pick_up_res == PickedUpResults.InventoryFull:
                 break
             else:

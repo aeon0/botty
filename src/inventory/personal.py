@@ -295,8 +295,9 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 if item_box is not None:
                     log_item(item_box)
                     # decide whether to keep item
-                    keep = should_keep(item_properties.as_dict())
+                    keep, expression = should_keep(item_properties.as_dict())
                     if keep:
+                        Logger.debug(f"Keep item expression: {expression}") 
                         sell = False
 
                     box = BoxInfo(
@@ -320,6 +321,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     if game_stats is not None and (keep and not need_id):
                         Logger.debug(f"Stashing {item_name}")
                         # TODO - think of a solution on how to label an item that should be sent to discord hook.
+                        game_stats.log_item_keep(item_box.img, True, item_box.img, item_box.ocr_result.text)
                         # game_stats.log_item_keep(item_box.img, Config().items[found_item.name].pickit_type == 2, item_box.img, item_box.ocr_result.text)
                     # if item is to be kept or still needs to be sold or identified, append to list
                     if keep or sell or need_id:
