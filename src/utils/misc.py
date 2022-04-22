@@ -220,6 +220,17 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         Logger.debug("image_is_equal: Image shape is not equal")
         return False
     return not(np.bitwise_xor(img1, img2).any())
+    
+def arc_spread(cast_dir: Tuple[float,float], spread_deg: float=10, radius_spread: Tuple[float, float] = [.95, 1.05]):
+    """
+        Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
+    """
+    cast_dir = np.array(cast_dir)
+    length = dist(cast_dir, (0, 0))
+    adj = (radius_spread[1] - radius_spread[0])*random.random() + radius_spread[0]
+    rot = spread_deg*(random.random() - .5)
+    return rotate_vec(unit_vector(cast_dir)*(length+adj), rot)
+
 
 # if __name__ == "__main__":
     # print(find_d2r_window())
