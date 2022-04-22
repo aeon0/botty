@@ -6,7 +6,6 @@ import numpy as np
 from utils import mttkinter
 from utils.misc import color_filter, kill_thread
 from screen import grab
-from item import ItemFinder
 from config import Config
 import tkinter as tk
 from template_finder import TemplateFinder
@@ -26,7 +25,6 @@ class GraphicDebuggerController:
     window_name_images = "Graphic Debugger - Images"
 
     def __init__(self):
-        self.item_finder = None
         self.debugger_thread = None
         self.ui_thread = None
         self.app = None
@@ -39,7 +37,6 @@ class GraphicDebuggerController:
         self.is_running = False
 
     def start(self):
-        self.item_finder = ItemFinder()
         if Config().advanced_options['graphic_debugger_layer_creator']:
             self.debugger_thread = threading.Thread(target=self.run_debugger_processor, daemon=False, name="Debugger-processor")
             self.debugger_thread.start()
@@ -74,7 +71,6 @@ class GraphicDebuggerController:
 
         ########### Variables ###########
         self.display_only_current_layer = tk.IntVar(value=0)
-        self.item_finder_enabled = tk.IntVar(value=1)
         self.h_l = tk.IntVar(value=0)
         self.s_l = tk.IntVar(value=0)
         self.v_l = tk.IntVar(value=0)
@@ -140,11 +136,6 @@ class GraphicDebuggerController:
             variable=self.display_only_current_layer,
             command=self.update_displayed_layers)
         display_only_current_layer_button.grid(column=0, row=7, sticky=tk.N+tk.W)
-        enable_item_finder_button = tk.Checkbutton(
-            frame,
-            text="Enable Item Finder (performance will be impacted)",
-            variable=self.item_finder_enabled)
-        enable_item_finder_button.grid(column=0, row=8, sticky=tk.N+tk.W)
         self.update_text_box()
         frame.grid(column=3, row=0)
 
@@ -287,25 +278,6 @@ class GraphicDebuggerController:
                 mask, filtered_img = color_filter(img, layer)
                 combined_img = cv2.bitwise_or(filtered_img, combined_img)
 
-            # Show item detections
-            if self.item_finder_enabled.get():
-                item_list = self.item_finder.search(img)
-                for item in item_list:
-                    cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
-                    cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-                if len(item_list) > 0:
-                    print(item_list)
-                # Show Town A5 template matches
-                scores = {}
-                for template_name in search_templates:
-                    template_match = TemplateFinder().search(template_name, img, threshold=0.65)
-                    if template_match.valid:
-                        scores[template_match.name] = template_match.score
-                        cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-                        cv2.circle(combined_img, template_match.center, 7, (255, 0, 0), thickness=5)
-                if len(scores) > 0:
-                    print(scores)
-
             if self.image_resize_ratio.get() != 1:
                 combined_img = cv2.resize(combined_img, None, fx=self.image_resize_ratio.get(), fy=self.image_resize_ratio.get())
             # The processing was done in this thread, now pass it to the ui to display it on the window
@@ -315,17 +287,6 @@ class GraphicDebuggerController:
         search_templates = ["A5_TOWN_0", "A5_TOWN_1", "A5_TOWN_2", "A5_TOWN_3"]
         while 1:
             img = grab()
-            # Show item detections
-            combined_img = np.zeros(img.shape, dtype="uint8")
-            for key in Config().colors:
-                _, filterd_img = color_filter(img, Config().colors[key])
-                combined_img = cv2.bitwise_or(filterd_img, combined_img)
-            item_list = self.item_finder.search(img)
-            for item in item_list:
-                cv2.circle(combined_img, item.center, 7, (0, 0, 255), 4)
-                cv2.putText(combined_img, item.name, item.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            if len(item_list) > 0:
-                print(item_list)
             # Show Town A5 template matches
             scores = {}
             for template_name in search_templates:

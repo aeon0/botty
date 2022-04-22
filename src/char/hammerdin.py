@@ -11,7 +11,7 @@ from utils.misc import wait
 import time
 from pather import Pather, Location
 import cv2 #for Diablo
-from item.pickit import PickIt #for Diablo
+from pickit import PickIt #for Diablo
 
 
 class Hammerdin(IChar):

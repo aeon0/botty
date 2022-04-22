@@ -1,17 +1,13 @@
 import itertools
-import os
 from game_stats import GameStats
-from item import ItemFinder, Item
 from logger import Logger
 from screen import grab, convert_screen_to_monitor
 import keyboard
 import cv2
 import time
 import numpy as np
-import glob
 from dataclasses import dataclass
 
-from template_finder import TemplateFinder
 from config import Config
 from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
@@ -24,7 +20,6 @@ from nip.transpile import should_id, should_keep
 
 inv_gold_full = False
 messenger = Messenger()
-item_finder = ItemFinder()
 
 nontradable_items = ["key of ", "essense of", "wirt's", "jade figurine"]
 
@@ -154,20 +149,6 @@ def stash_all_items(items: list = None):
     Logger.debug("Done stashing")
     return items
 
-def specific_inventory_roi(desired: str = "reserved"):
-    #roi spec: left, top, W, H
-    roi = Config().ui_roi["right_inventory"].copy()
-    open_width = Config().ui_pos["slot_width"] * Config().char["num_loot_columns"]
-    if desired == "reserved":
-        roi[0]=roi[0] + open_width
-        roi[2]=roi[2] - open_width
-    elif desired == "open":
-        roi[2]=open_width
-    else:
-        Logger.error(f"set_inventory_rois: unsupported desired={desired}")
-        return None
-    return roi
-
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not is_visible(ScreenObjects.RightPanel, img):
@@ -274,14 +255,13 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 sell = Config().char["sell_junk"] and item_can_be_traded
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
 
-
                 # * Check if the item is unidentified, and if it needs to be identified.
                 need_id = None
                 tome_state = None
                 if (is_unidentified and should_id(item_properties.as_dict())):
                     need_id = True
                     center_mouse()
-                    tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = specific_inventory_roi("reserved"))
+                    tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
                 if is_unidentified and tome_state is not None and tome_state == "ok":
                     common.id_item_with_tome([x_m, y_m], tome_pos)
                     need_id = False
@@ -297,7 +277,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     # decide whether to keep item
                     keep, expression = should_keep(item_properties.as_dict())
                     if keep:
-                        Logger.debug(f"Keep item expression: {expression}") 
+                        Logger.debug(f"Keep item expression: {expression}")
                         sell = False
 
                     box = BoxInfo(
