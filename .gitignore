@@ -29,3 +29,5 @@ stats/
 htmlcov/
 coverage.xml
 utils/live-view/
+nip/*
+!nip/default.nip

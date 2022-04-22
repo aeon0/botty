@@ -13,7 +13,7 @@ def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
     model: str = "engd2r_inv_th",
     psm: int = 3,
-    word_list: str = "all_strings.txt",
+    word_list: str = "assets/tessdata/word_lists/all_strings.txt",
     scale: float = 1.0,
     crop_pad: bool = True,
     erode: bool = True,
@@ -215,6 +215,10 @@ def _check_wordlist(text: str = None, word_list: str = None, confidences: list =
     word_count = 0
     new_string = ""
     text = text.replace('\n', ' NEWLINEHERE ')
+
+    with open(word_list, 'r') as f:
+        word_list = f.read().splitlines()
+
     for word in word_list:
         try:
             if confidences[word_count] <= 90:

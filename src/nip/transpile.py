@@ -1,3 +1,4 @@
+from fnmatch import translate
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -8,12 +9,10 @@ from nip.UniqueAndSetData import UniqueAndSetData
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 import os
 import glob
+from logger import Logger
 
-from nip.lexer import Lexer
+from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
-import time
-
-
 
 def find_unqiue_or_set_base(unique_or_set_name):
     unique_or_set_name = unique_or_set_name.lower()
@@ -30,9 +29,6 @@ def find_unqiue_or_set_base(unique_or_set_name):
                         return key, "set"
 
 
-start = time.time()
-# print(find_unqiue_or_set_base("thestoneofjordan"))  
-# print(f"took {time.time() - start} seconds")
 
 def transpile(tokens, isPickedUpPhase=False):
     expression = ""
@@ -171,7 +167,6 @@ def validate_nip_expression(nip_expression):
             )
 
             if is_invalid_stat_lookup:
-                #print("-" * 30)
                 raise NipValidationError("stats", token)
 
     if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
@@ -222,22 +217,18 @@ def load_nip_expression(nip_expression):
                 "transpiled": transpiled_expression,
                 "should_pickup": transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
             })
-            # print("nip_expressions" , nip_expressions)
 
 def should_keep(item_data):
     
     for expression in nip_expressions:
-        # print(expression["raw"])
         if expression["transpiled"]:
-            print("-" * 30, expression["transpiled"], (str(item_data['NTIPAliasIdName']).lower()))
             try:
                 if eval(expression["transpiled"]):
-                    # print(expression["raw"])
-                    return True
+                    return True, expression["raw"]
             except:
                 pass
                 #print(f"Error: {expression['raw']}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
-    return False
+    return False, ""
 
 
 def gold_pickup(item_data):
@@ -246,36 +237,29 @@ def gold_pickup(item_data):
             if "[gold]" in expression["raw"].lower():
                 res = eval(expression["transpiled"])
                 if res:
-                    return True
-    return False
+                    return True, expression["raw"]
+    return False, ""
 
 
 def should_pickup(item_data):
+
     # * Handle the gold pickup.
+    raw_expression = ""
     if item_data["BaseItem"]["DisplayName"] == "Gold":
         return gold_pickup(item_data)
-    # print(1)
 
     wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
-        # print(2)
         if expression["raw"]:
-            # print(3)
             expression_raw = prepare_nip_expression(expression["raw"])
             nip_expression_split = expression_raw.replace("\n", "").split("#")
             property_condition = None
             try:
-
-                # print("item_data['NTIPAliasClass']", item_data['NTIPAliasClassID'], "NTPIAliasClass['amulet']", NTIPAliasClassID['amulet'])
-                # print(expression["should_pickup"])
-
                 property_condition = eval(expression["should_pickup"]) # * This string in the eval uses the item_data that is being passed in
-                
             except:
                 pass
-                #print(f"Error: {expression}")
             if property_condition:
-                return True
+                return True, expression["raw"]
 
             if item_data["Quality"] == "gray":
                 if len(nip_expression_split) >= 2:
@@ -288,25 +272,30 @@ def should_pickup(item_data):
                             if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                                 if tokens[i + 1].value == ">" and tokens[i + 2].value >= 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "==" and tokens[i + 2].value > 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "<" and tokens[i + 2].value > 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "<=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == ">=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 else:
-                                    # #print(1)
                                     wants_open_socket = False
+                                    raw_expression = ""
                                     break
     
-    return wants_open_socket
+    return wants_open_socket, raw_expression
     
 def should_id(item_data):
     """
@@ -343,50 +332,118 @@ nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirnam
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 
-# * Removes folders and files that begin with -
-for filepath in nip_file_paths:
-    split_filepath = filepath.split("\\")
-    for i,dir in enumerate(split_filepath):
-        if dir.startswith("-"):
-            remove = "\\".join(split_filepath[:i + 1])
-            nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.startswith(remove)]
+# * Remove all directories or files that are in the .nipignore file from nip_file_paths. (accepts glob patterns)
+if os.path.isfile(os.path.join(nip_path, '.nipignore')):
+    with open(os.path.join(nip_path, '.nipignore'), "r") as f:
+        for line in f:
+            line = line.strip()
+            line = line.replace("/", "\\")
+            remove_files = glob.glob(os.path.join(nip_path, line), recursive=True)
+            for remove_file in remove_files:
+                if remove_file in nip_file_paths:
+                    nip_file_paths.remove(remove_file)
+
 
 for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
-# print("\n\n")
-# print(nip_expressions[0]["transpiled"])
-# print(nip_expressions[0]["should_pickup"])
-# print("\n\n")
-# tokens = list(Lexer().create_tokens("[idname] == thestoneofjordan"))
+Logger.info(f"Loaded {len(nip_expressions)} nip expressions.")
 
-# print("\n")
-# print(1, transpile_nip_expression("[name] == ring && [quality] == unique"))
 
-item = {
-	'Name': 'Amulet',
-	'Quality': 'unique',
-	'Text': 'AMULET',
-	'BaseItem': {
-		'DisplayName': 'Amulet',
-		'NTIPAliasClassID': 520,
-		'NTIPAliasType': 12,
-		'dimensions': [1, 1],
-		'sets': ['ANGELICWINGS', 'ARCANNASSIGN', 'CATHANSSIGIL', 'CIVERBSICON', 'IRATHASCOLLAR', 'TALRASHASADJUDICATION', 'TANCREDSWEIRD', 'TELLINGOFBEADS', 'VIDALASSNARE'],
-		'uniques': ['NOKOZANRELIC', 'THEEYEOFETLICH', 'THEMAHIMOAKCURIO', 'THECATSEYE', 'THERISINGSUN', 'CRESCENTMOON', 'MARASKALEIDOSCOPE', 'ATMASSCARAB', 'HIGHLORDSWRATH', 'SARACENSCHANCE', 'SERAPHSHYMN', 'METALGRID']
-	},
-	'Item': None,
-	'NTIPAliasType': 12,
-	'NTIPAliasClassID': 520,
-	'NTIPAliasClass': None,
-	'NTIPAliasQuality': 7,
-	'NTIPAliasFlag': {
-		'0x10': False,
-		'0x4000000': True
-	}
-}
+if __name__ == "__main__":
+    transpile_tests = [
+        {
+            "raw": "[name] == ring && [quality] == rare",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
+        },
+        {
+            "raw": "[type] == ring && [quality] == rare",
+            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
+        },
 
-# print(
-#     should_pickup(item)
-# )
-print(f"Loaded {len(nip_expressions)} nip expressions.")
+        {
+            "raw": "[name] == ring && [quality] == rare # [strength] == 5",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+
+        {
+            "raw": "[type] == ring && [quality] == rare # [strength] == 5",
+            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+
+        {
+            "raw": "[name] == ring && [quality] == rare # [strength] == 5 && [sockets] == 2",
+            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)and(int(item_data['NTIPAliasStat'].get('194', -1)))==(2.0)",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan && [quality] == unique",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))",
+        },
+
+        {
+            "raw": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
+            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
+        },
+        
+    ]
+
+    syntax_error_tests = [
+        {
+            "expression": "[name] == ring",
+            "should_fail": False,
+        },
+        {
+            "expression": "[name] = ring",
+            "should_fail": True,
+        },
+
+
+        {
+            "expression": "[name] >= ring",
+            "should_fail": False
+        },
+        {
+            "expression": "[name] => ring",
+            "should_fail": True,
+        },
+        {
+            "expression": "[name] >== ring",
+            "should_fail": True,
+        },
+        {
+            "expression": "[name] ==> ring",
+            "should_fail": True,
+        },
+        
+        {
+            "expression": "[name] != ring",
+            "should_fail": False,
+        },
+        {
+            "expression": "[name] =! ring",
+            "should_fail": True,
+        }
+    ]
+
+
+
+    for test in transpile_tests:
+        try:
+            assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+        except:
+            print("Failed to transpile:", test["raw"])
+            print(transpile_nip_expression(test["raw"]), end="\n\n")
+
+            
+    for test in syntax_error_tests:
+        try:
+            transpile_nip_expression(test["expression"])
+        except NipSyntaxError:
+            if not test["should_fail"]:
+                print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
