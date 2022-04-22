@@ -344,18 +344,22 @@ nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirnam
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 
-# * Removes folders and files that begin with -
-for filepath in nip_file_paths:
-    split_filepath = filepath.split("\\")
-    for i,dir in enumerate(split_filepath):
-        if dir.startswith("-"):
-            remove = "\\".join(split_filepath[:i + 1])
-            nip_file_paths = [filepath for filepath in nip_file_paths if not filepath.startswith(remove)]
+# * Remove all directories or files that are in the .nipignore file from nip_file_paths. (accepts glob patterns)
+if os.path.isfile(os.path.join(nip_path, '.nipignore')):
+    with open(os.path.join(nip_path, '.nipignore'), "r") as f:
+        for line in f:
+            line = line.strip()
+            line = line.replace("/", "\\")
+            remove_files = glob.glob(os.path.join(nip_path, line), recursive=True)
+            for remove_file in remove_files:
+                if remove_file in nip_file_paths:
+                    nip_file_paths.remove(remove_file)
+
 
 for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
-
+print(f"Loaded {len(nip_expressions)} nip expressions.")
 
 if __name__ == "__main__":
     transpile_tests = [
@@ -407,5 +411,3 @@ if __name__ == "__main__":
             print(f"{test['raw']} failed")
             print(transpile_nip_expression(test["raw"]))
 
-
-print(f"Loaded {len(nip_expressions)} nip expressions.")
