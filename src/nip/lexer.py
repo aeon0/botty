@@ -239,7 +239,7 @@ class Lexer:
             elif char == "!":
                 if self.current_token == "=":
                     self._advance()
-                    return NipSyntaxError(TokenType.NE, "!=")
+                    return Token(TokenType.NE, "!=")
                 else:
                     raise Exception(f"'!' was found without a following operator {''.join(self.text)}")
             elif char == "&":
