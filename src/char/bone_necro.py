@@ -169,12 +169,13 @@ class Bone_Necro(IChar):
         #moat on right side, encircle with bone walls on the other 3 sides
         for pos in [[100,-100], [-125,-25], [-50,100]]:
             self.bone_wall(pos, spray=10)
-        self.cast_in_arc(ability='teeth', cast_pos_abs=[25,-100], spread_deg=270, time_in_s=self.damage_scaling*5)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[25,-100], spread_deg=120, time_in_s=self.damage_scaling*8)
-        self._corpse_explosion([25,-100], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=180, time_in_s=self.damage_scaling*6)
-        self._corpse_explosion([25,-100], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=360, time_in_s=self.damage_scaling*5)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[40,-100], spread_deg=180, time_in_s=self.damage_scaling*5)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[40,-100], spread_deg=120, time_in_s=self.damage_scaling*8)
+        
+        self._corpse_explosion([40,-100], spray=200, cast_count=8)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[20,-50], spread_deg=180, time_in_s=self.damage_scaling*5)
+        self._corpse_explosion([40,-100], spray=200, cast_count=8)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[20,-50], spread_deg=360, time_in_s=self.damage_scaling*4)
         
         return True
 
@@ -204,11 +205,10 @@ class Bone_Necro(IChar):
 
     def kill_summoner(self) -> bool:
         # Attack
-        for i in range(2):
-            self.cast_in_arc(ability='teeth', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*3)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*2)
         self._corpse_explosion([0,0], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*2)
             
         return True               
 
