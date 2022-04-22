@@ -141,9 +141,9 @@ class ItemFinder:
 
 # Testing: Throw some stuff on the ground see if it is found
 
-# {'x': 402, 'y': 277, 'w': 130, 'h': 42}, Name='GHOUL TURN', Quality='rare', Text='GHOUL TURN', 
-# BaseItem={'DisplayName': 'Ring', 'NTIPAliasClassID': 522, 'NTIPAliasType': 10, 'dimensions': [1, 1], 'sets': ['ANGELICHALO', 'CATHANSSEAL'], 
-# 'uniques': ['NAGELRING', 'MANALDHEAL', 'THESTONEOFJORDAN', 'CONSTRICTINGRING', 'BULKATHOSWEDDINGBAND', 'DWARFSTAR', 'RAVENFROST', 'NATURESPEACE', 'WISPPROJECTOR', 'CARRIONWIND']}, 
+# {'x': 402, 'y': 277, 'w': 130, 'h': 42}, Name='GHOUL TURN', Quality='rare', Text='GHOUL TURN',
+# BaseItem={'DisplayName': 'Ring', 'NTIPAliasClassID': 522, 'NTIPAliasType': 10, 'dimensions': [1, 1], 'sets': ['ANGELICHALO', 'CATHANSSEAL'],
+# 'uniques': ['NAGELRING', 'MANALDHEAL', 'THESTONEOFJORDAN', 'CONSTRICTINGRING', 'BULKATHOSWEDDINGBAND', 'DWARFSTAR', 'RAVENFROST', 'NATURESPEACE', 'WISPPROJECTOR', 'CARRIONWIND']},
 # Item=None, NTIPAliasType=10, NTIPAliasClassID=522, NTIPAliasClass=None, NTIPAliasQuality=6, NTIPAliasFlag={'0x10': True, '0x4000000': True}
 
 
@@ -163,8 +163,8 @@ if __name__ == "__main__":
         img=grab().copy()
         all_loot = d2r_image.get_ground_loot(img)
         for item in all_loot.items:
-            print(should_pickup(item.as_dict()))
-
+            print(f"Pick {item.Quality} {item.BaseItem['DisplayName']}?: {should_pickup(item.as_dict())}")
+            #print(item)
         draw_items_on_image_data(all_loot.items, img)
         cv2.imshow('test', img)
         cv2.waitKey(5000)

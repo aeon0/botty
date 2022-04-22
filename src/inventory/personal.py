@@ -20,8 +20,6 @@ from ui import view
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse, wait_for_update
 from messages import Messenger
 from d2r_image import processing as d2r_image
-# from d2_nip_eval import lexer
-
 from nip.transpile import should_id, should_keep
 
 inv_gold_full = False
@@ -271,14 +269,14 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                 # determine whether the item can be sold
                 ocr_result_split = item_box.ocr_result.text.splitlines()
-                
+
                 item_name = vendor_open and ocr_result_split[1] or ocr_result_split[0]
                 item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
                 sell = Config().char["sell_junk"] and item_can_be_traded
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
 
 
-                # * Check if the item is unidentified, and if it needs to be identified.                
+                # * Check if the item is unidentified, and if it needs to be identified.
                 need_id = None
                 if (is_unidentified and should_id(item_properties.as_dict())):
                     need_id = True
@@ -293,14 +291,14 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     wait(0.05, 0.1)
                     hovered_item = grab()
                     item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
-               
+
                 if item_box is not None:
                     log_item(item_box)
                     # decide whether to keep item
                     keep = should_keep(item_properties.as_dict())
                     if keep:
                         sell = False
-                
+
                     box = BoxInfo(
                         img = item_box.img,
                         pos = (x_m, y_m),
@@ -310,14 +308,14 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         sell = sell,
                         keep = keep
                     )
-                    
+
                     # sell if not keeping item, vendor is open, and item type can be traded
                     if vendor_open and item_can_be_traded and not (keep or need_id):
                         Logger.info(f"Selling {item_name}")
                         box.sell = True
                         transfer_items([box], action = "sell")
                         continue
-                    
+
                     # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                     if game_stats is not None and (keep and not need_id):
                         Logger.debug(f"Stashing {item_name}")

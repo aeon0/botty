@@ -221,6 +221,22 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         return False
     return not(np.bitwise_xor(img1, img2).any())
 
+def lev(s1, s2):
+    if len(s1) == 0:
+        return len(s2)
+    if len(s2) == 0:
+        return len(s1)
+
+    v0 = range(len(s2) + 1)
+    v1 = [0] * (len(s2) + 1)
+    for i in range(len(s1)):
+        v1[0] = i + 1
+        for j in range(len(s2)):
+            cost = 0 if s1[i] == s2[j] else 1
+            v1[j + 1] = min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
+        v0 = v1[:]
+    return v1[len(s2)]
+
 # if __name__ == "__main__":
     # print(find_d2r_window())
     # print(find_d2r_window())

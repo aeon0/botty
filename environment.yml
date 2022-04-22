@@ -30,6 +30,7 @@ dependencies:
     - discord.py
     - parse
     - typing_extensions
-    - d2r-image
-    - d2-nip-eval
+    - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
     - colorama
+    - dataclasses-json
+    - rapidfuzz
