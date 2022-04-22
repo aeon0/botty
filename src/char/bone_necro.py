@@ -22,6 +22,7 @@ class Bone_Necro(IChar):
         Logger.info("\033[94m<<Setting up Necro>>\033[0m")
         super().__init__(skill_hotkeys)
         self._pather = pather
+        self.damage_scaling = float(Config().bone_necro.get("damage_scaling", 1.0))
     
     def bone_wall(self, cast_pos_abs: Tuple[float, float], spray: int):
         if not self._skill_hotkeys["bone_wall"]:
@@ -129,9 +130,9 @@ class Bone_Necro(IChar):
     def kill_pindle(self) -> bool:
         for pos in [[200,-100], [-150,100] ]:
             self.bone_wall(pos, spray=10)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[110,-50], spread_deg=15, time_in_s=5)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[110,-50], spread_deg=15, time_in_s=self.damage_scaling*5)
         self._corpse_explosion([165,-75], spray=100, cast_count=5)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[110,-50], spread_deg=15, time_in_s=2.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[110,-50], spread_deg=15, time_in_s=self.damage_scaling*2.5)
         self._pather.traverse_nodes_fixed("pindle_end", self)
         return True
 
@@ -139,10 +140,10 @@ class Bone_Necro(IChar):
         #build an arc of bone walls
         for pos in [[50,-200], [-200,-175], [-350,50]]:
             self.bone_wall(pos, spray=10)
-        self.cast_in_arc(ability='teeth', cast_pos_abs=[-20,-150], spread_deg=15, time_in_s=3)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[-20,-150], spread_deg=15, time_in_s=2)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[-20,-150], spread_deg=15, time_in_s=self.damage_scaling*3)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[-20,-150], spread_deg=15, time_in_s=self.damage_scaling*2)
         self._corpse_explosion([-20,-240], spray=100, cast_count=5)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[0,-80], spread_deg=60, time_in_s=2.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[0,-80], spread_deg=60, time_in_s=self.damage_scaling*2.5)
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         self.bone_armor()
         return True
@@ -150,12 +151,12 @@ class Bone_Necro(IChar):
 
     def kill_shenk(self) -> bool:
         self._cast_circle(cast_dir=[1,1],cast_start_angle=0,cast_end_angle=360,cast_div=5,cast_spell='bone_wall',delay=.8,radius=100, hold=False)
-        self.cast_in_arc(ability='teeth', cast_pos_abs=[160,75], spread_deg=360, time_in_s=6)
-        self.cast_in_arc(ability='teeth', cast_pos_abs=[160,75], spread_deg=30, time_in_s=2)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[160,75], spread_deg=360, time_in_s=self.damage_scaling*6)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[160,75], spread_deg=30, time_in_s=self.damage_scaling*2)
         self._corpse_explosion([0,0], spray=200, cast_count=4)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[160,75], spread_deg=30, time_in_s=3)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[160,75], spread_deg=30, time_in_s=self.damage_scaling*3)
         self._corpse_explosion([240,112], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[80,37], spread_deg=60, time_in_s=3)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[80,37], spread_deg=60, time_in_s=self.damage_scaling*3)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
         return True
 
@@ -168,12 +169,12 @@ class Bone_Necro(IChar):
         #moat on right side, encircle with bone walls on the other 3 sides
         for pos in [[100,-100], [-125,-25], [-50,100]]:
             self.bone_wall(pos, spray=10)
-        self.cast_in_arc(ability='teeth', cast_pos_abs=[25,-100], spread_deg=270, time_in_s=5)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[25,-100], spread_deg=120, time_in_s=8)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=[25,-100], spread_deg=270, time_in_s=self.damage_scaling*5)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=[25,-100], spread_deg=120, time_in_s=self.damage_scaling*8)
         self._corpse_explosion([25,-100], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=180, time_in_s=6)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=180, time_in_s=self.damage_scaling*6)
         self._corpse_explosion([25,-100], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=360, time_in_s=5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[10,-50], spread_deg=360, time_in_s=self.damage_scaling*5)
         
         return True
 
@@ -187,14 +188,14 @@ class Bone_Necro(IChar):
         cast_pos_abs = np.array(nihlathak_pos_abs)*.2
         self._cast_circle(cast_dir=[1,1],cast_start_angle=0,cast_end_angle=360,cast_div=5,cast_spell='bone_wall',delay=.8,radius=100, hold=False)
         self._bone_armor()
-        self.cast_in_arc(ability='teeth', cast_pos_abs=cast_pos_abs, spread_deg=150, time_in_s=5)
+        self.cast_in_arc(ability='teeth', cast_pos_abs=cast_pos_abs, spread_deg=150, time_in_s=self.damage_scaling*5)
         self._bone_armor()
         self._corpse_explosion(cast_pos_abs, spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spear', cast_pos_abs=cast_pos_abs, spread_deg=10, time_in_s=5)
+        self.cast_in_arc(ability='bone_spear', cast_pos_abs=cast_pos_abs, spread_deg=10, time_in_s=self.damage_scaling*5)
         self._bone_armor()
 
         self._corpse_explosion(np.array(nihlathak_pos_abs)*.75, spray=200, cast_count=10)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=cast_pos_abs, spread_deg=30, time_in_s=2.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=cast_pos_abs, spread_deg=30, time_in_s=self.damage_scaling*2.5)
 
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
@@ -204,10 +205,10 @@ class Bone_Necro(IChar):
     def kill_summoner(self) -> bool:
         # Attack
         for i in range(2):
-            self.cast_in_arc(ability='teeth', cast_pos_abs=[30,30], spread_deg=360, time_in_s=1.5)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=1.5)
+            self.cast_in_arc(ability='teeth', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
         self._corpse_explosion([0,0], spray=200, cast_count=8)
-        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=1.5)
+        self.cast_in_arc(ability='bone_spirit', cast_pos_abs=[30,30], spread_deg=360, time_in_s=self.damage_scaling*1.5)
             
         return True               
 
