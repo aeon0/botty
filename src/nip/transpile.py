@@ -404,10 +404,12 @@ if __name__ == "__main__":
         
     ]
 
+    # print(transpile_nip_expression("[name] == ceremonialjavelin && [quality] = unique"))
+
+
     for test in transpile_tests:
         try:
             assert transpile_nip_expression(test["raw"]) == test["transpiled"]
         except:
             print(f"{test['raw']} failed")
             print(transpile_nip_expression(test["raw"]))
-
