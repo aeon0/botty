@@ -184,7 +184,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
 
 
 def log_item(item_box):
-    if item_box is not None:
+    if item_box is not None and item_box.ocr_result:
         Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
         for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
             Logger.debug(f"OCR LINE{i}: {line}")
