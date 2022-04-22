@@ -74,7 +74,7 @@ def transpile(tokens, isPickedUpPhase=False):
         elif token.type == TokenType.QUALITY:
             expression += "(int(item_data['NTIPAliasQuality']))"
         elif token.type == TokenType.FLAG:
-            if tokens[i + 2].type == TokenType.NTIPAliasFlag: 
+            if tokens[i + 2].type == TokenType.NTIPAliasFlag:
                 condition_type = tokens[i + 1]
                 if condition_type.type == TokenType.EQ:
                     expression += f"(item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
@@ -134,7 +134,7 @@ class NipValidationError(Exception):
     def __init__(self, section, token_errored_on):
         self.section_errored_on = section
         self.token_errored_on = token_errored_on
-    
+
     def __str__(self):
         return f"[ {self.token_errored_on.type} : {self.token_errored_on.value} ] can not be used in section [ {self.section_errored_on} ]."
 
@@ -145,7 +145,7 @@ def validate_nip_expression(nip_expression):
     tokens = None
 
     if not nip_expression:
-        return 
+        return
 
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
@@ -161,8 +161,8 @@ def validate_nip_expression(nip_expression):
             is_invalid_stat_lookup = (
                 token.type == TokenType.NTIPAliasClass or
                 token.type == TokenType.NTIPAliasClassID and token.value != '523' or # 523 refers to gold
-                token.type == TokenType.NTIPAliasFlag or 
-                token.type == TokenType.NTIPAliasType or 
+                token.type == TokenType.NTIPAliasFlag or
+                token.type == TokenType.NTIPAliasType or
                 token.type == TokenType.NTIPAliasQuality
             )
 
@@ -219,7 +219,7 @@ def load_nip_expression(nip_expression):
             })
 
 def should_keep(item_data):
-    
+
     for expression in nip_expressions:
         if expression["transpiled"]:
             try:
@@ -294,9 +294,9 @@ def should_pickup(item_data):
                                     wants_open_socket = False
                                     raw_expression = ""
                                     break
-    
+
     return wants_open_socket, raw_expression
-    
+
 def should_id(item_data):
     """
         [name] == ring && [quality] == rare                     Don't ID.
@@ -327,8 +327,8 @@ def load_nip_expressions(filepath):
                 # #print(e, "Errored on line:", line) # TODO look at these errors
 
 
-
-nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'nip')
+default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'assets/default.nip')
+nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 
@@ -343,11 +343,18 @@ if os.path.isfile(os.path.join(nip_path, '.nipignore')):
                 if remove_file in nip_file_paths:
                     nip_file_paths.remove(remove_file)
 
-
-for nip_file_path in nip_file_paths:
-    load_nip_expressions(nip_file_path)
-
-Logger.info(f"Loaded {len(nip_expressions)} nip expressions.")
+num_files = 0
+# load all nip expressions
+if len(nip_file_paths) > 0:
+    num_files = len(nip_file_paths)
+    for nip_file_path in nip_file_paths:
+        load_nip_expressions(nip_file_path)
+# fallback to default nip file if no custom nip files specified or existing files are excluded
+else:
+    num_files = 1
+    load_nip_expressions(default_nip_file_path)
+    Logger.warning("No .nip files in config/nip/, fallback to default.nip")
+Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
 
 
 if __name__ == "__main__":
@@ -390,7 +397,7 @@ if __name__ == "__main__":
             "raw": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
             "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
         },
-        
+
     ]
 
     syntax_error_tests = [
@@ -420,7 +427,7 @@ if __name__ == "__main__":
             "expression": "[name] ==> ring",
             "should_fail": True,
         },
-        
+
         {
             "expression": "[name] != ring",
             "should_fail": False,
@@ -440,7 +447,7 @@ if __name__ == "__main__":
             print("Failed to transpile:", test["raw"])
             print(transpile_nip_expression(test["raw"]), end="\n\n")
 
-            
+
     for test in syntax_error_tests:
         try:
             transpile_nip_expression(test["expression"])
