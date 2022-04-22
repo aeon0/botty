@@ -9,6 +9,7 @@ from nip.UniqueAndSetData import UniqueAndSetData
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 import os
 import glob
+from logger import Logger
 
 from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
@@ -221,14 +222,13 @@ def should_keep(item_data):
     
     for expression in nip_expressions:
         if expression["transpiled"]:
-            print("-" * 30, expression["transpiled"], (str(item_data['NTIPAliasIdName']).lower()))
             try:
                 if eval(expression["transpiled"]):
-                    return True
+                    return True, expression["raw"]
             except:
                 pass
                 #print(f"Error: {expression['raw']}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
-    return False
+    return False, ""
 
 
 def gold_pickup(item_data):
@@ -237,12 +237,14 @@ def gold_pickup(item_data):
             if "[gold]" in expression["raw"].lower():
                 res = eval(expression["transpiled"])
                 if res:
-                    return True
-    return False
+                    return True, expression["raw"]
+    return False, ""
 
 
 def should_pickup(item_data):
+
     # * Handle the gold pickup.
+    raw_expression = ""
     if item_data["BaseItem"]["DisplayName"] == "Gold":
         return gold_pickup(item_data)
 
@@ -257,7 +259,7 @@ def should_pickup(item_data):
             except:
                 pass
             if property_condition:
-                return True
+                return True, expression["raw"]
 
             if item_data["Quality"] == "gray":
                 if len(nip_expression_split) >= 2:
@@ -270,24 +272,30 @@ def should_pickup(item_data):
                             if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                                 if tokens[i + 1].value == ">" and tokens[i + 2].value >= 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "==" and tokens[i + 2].value > 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "<" and tokens[i + 2].value > 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == "<=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 elif tokens[i + 1].value == ">=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
+                                    raw_expression = expression["raw"]
                                     break
                                 else:
                                     wants_open_socket = False
+                                    raw_expression = ""
                                     break
     
-    return wants_open_socket
+    return wants_open_socket, raw_expression
     
 def should_id(item_data):
     """
@@ -339,7 +347,7 @@ if os.path.isfile(os.path.join(nip_path, '.nipignore')):
 for nip_file_path in nip_file_paths:
     load_nip_expressions(nip_file_path)
 
-print(f"Loaded {len(nip_expressions)} nip expressions.")
+Logger.info(f"Loaded {len(nip_expressions)} nip expressions.")
 
 
 if __name__ == "__main__":
@@ -422,6 +430,8 @@ if __name__ == "__main__":
             "should_fail": True,
         }
     ]
+
+
 
     for test in transpile_tests:
         try:
