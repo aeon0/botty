@@ -138,11 +138,11 @@ class ItemCropper:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import start_detecting_window, grab
+    from screen import start_detecting_window, stop_detecting_window, grab
     from d2r_image import processing as d2r_image
     from nip.transpile import should_keep
     start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 

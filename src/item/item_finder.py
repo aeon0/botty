@@ -150,12 +150,12 @@ class ItemFinder:
 if __name__ == "__main__":
     import keyboard
     import os
-    from screen import start_detecting_window, grab
+    from screen import start_detecting_window, grab, stop_detecting_window
     from logger import Logger
     from d2r_image import processing as d2r_image
     from d2r_image.demo import draw_items_on_image_data
     start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
 
