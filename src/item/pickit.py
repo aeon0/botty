@@ -101,7 +101,6 @@ class PickIt:
             time.sleep(0.2)
             if is_visible(ScreenObjects.Overburdened):
                 Logger.warning("Inventory is full, creating creating next game.") #TODO Create logic that will go to the next game, sense you can possible have other runs the bot wants to do
-                view.save_and_exit()
                 return PickedUpResults.InventoryFull
             elif self.fail_pickup_count >= 1:
                 # * +1 because we failed at picking it up once already, we just can't detect the first failure (unless it is due to full inventory)
