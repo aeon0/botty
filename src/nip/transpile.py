@@ -10,7 +10,7 @@ from nip.UniqueAndSetData import UniqueAndSetData
 import os
 import glob
 
-from nip.lexer import Lexer
+from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
 import time
 
@@ -361,6 +361,21 @@ for nip_file_path in nip_file_paths:
 
 print(f"Loaded {len(nip_expressions)} nip expressions.")
 
+
+x = """[name] == pulrune # # [MaxQuantity] == 3
+[name] == umrune # # [MaxQuantity] == 3
+[name] == malrune # # [MaxQuantity] == 10
+[name] == istrune # # [MaxQuantity] == 10
+
+[name] >= gulrune && [name] <= zodrune
+
+[name] == keyofhate # # [maxquantity] == 10
+[name] == keyofterror # # [maxquantity] == 10
+[name] == keyofdestruction # # [maxquantity] == 10
+""".split("\n")
+
+
+
 if __name__ == "__main__":
     transpile_tests = [
         {
@@ -404,8 +419,34 @@ if __name__ == "__main__":
         
     ]
 
-    # print(transpile_nip_expression("[name] == ceremonialjavelin && [quality] = unique"))
+    syntax_error_tests = [
+        {
+            "expression": "[name] == ring",
+            "should_fail": False,
+        },
+        {
+            "expression": "[name] = ring",
+            "should_fail": True,
+        },
 
+
+        {
+            "expression": "[name] >= ring",
+            "should_fail": False
+        },
+        {
+            "expression": "[name] => ring",
+            "should_fail": True,
+        },
+        {
+            "expression": "[name] >== ring",
+            "should_fail": True,
+        },
+        {
+            "expression": "[name] ==> ring",
+            "should_fail": True,
+        }
+    ]
 
     for test in transpile_tests:
         try:
@@ -413,3 +454,11 @@ if __name__ == "__main__":
         except:
             print(f"{test['raw']} failed")
             print(transpile_nip_expression(test["raw"]))
+
+            
+    for test in syntax_error_tests:
+        try:
+            transpile_nip_expression(test["expression"])
+        except NipSyntaxError:
+            if not test["should_fail"]:
+                print(f"{test['expression']} failed (unexpectedly failed)")
