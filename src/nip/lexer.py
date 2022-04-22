@@ -38,13 +38,13 @@ class Lexer:
     def _advance(self):
         try:
             self.text_i += 1
-            self.current_token = self.text2[self.text_i]
+            self.current_token = self.text[self.text_i]
         except IndexError:
             self.current_token = None
 
 
     def create_tokens(self, nip_expression):
-        self.text2 = list(nip_expression)
+        self.text = list(nip_expression)
         self._advance()
         self.tokens = []
         while self.current_token != None:
@@ -208,26 +208,36 @@ class Lexer:
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.GE, ">=")
-                else:
+                elif char == " ":
                     return Token(TokenType.GT, ">")
+                else:
+                    raise Exception(f"'>' was found without a following operator {''.join(self.text)}")
             elif char == "<":
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.LE, "<=")
-                else:
+                elif char == " ":
                     return Token(TokenType.LT, "<")
+                else:
+                    raise Exception(f"'<' was found without a following operator {''.join(self.text)}")
             elif char == "=":
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.EQ, "==")
+                else:
+                    raise Exception(f"'=' was found without a following operator {''.join(self.text)}")
             elif char == "!":
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.NE, "!=")
+                else:
+                    raise Exception(f"'!' was found without a following operator {''.join(self.text)}")
             elif char == "&":
                 if self.current_token == "&":
                     self._advance()
                     return Token(TokenType.AND, "and")
+                else:
+                    raise Exception(f"'&' was found without a following operator {''.join(self.text)}")
             elif char == "#":
                 # Increment the section.
                 self.increment_section()
