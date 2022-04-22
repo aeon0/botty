@@ -184,7 +184,7 @@ class Lexer:
                 return Token(TokenType.NTIPAliasClass, lookup_key)
             elif lookup_key in NTIPAliasQuality:
                 return Token(TokenType.NTIPAliasQuality, lookup_key)
-            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.NTIPAliasClassID:
+            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.NAME:
                 return Token(TokenType.NTIPAliasClassID, lookup_key)
             elif lookup_key in NTIPAliasFlag:
                 return Token(TokenType.NTIPAliasFlag, lookup_key)
