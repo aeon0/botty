@@ -150,6 +150,11 @@ order=run_pindle, run_eldritch
 | ------------- | ----------------------------------------------------------------------------- |
 | nova          | Required Hotkey for Nova (must be bound to right skill)                       |
 
+| [hydra_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| fire_ball     | Optional Hotkey for (must be bound to left skill)                             |
+| hydra         | Required Hotkey for Hydra (must be bound to right skill)                      |
+
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
 | teleport       | Optional Hotkey for teleport. If left empty hammerdin will run instead of teleport. |
