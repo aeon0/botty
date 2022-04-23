@@ -4,10 +4,10 @@ from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-
 from nip.tokens import Token, TokenType
-import json
 from enum import Enum
+import re
+
 
 WHITESPACE = " \t\n\r\v\f"
 DIGITS = "0123456789.%"
@@ -213,6 +213,50 @@ class Lexer:
     def _create_logical_operator(self):
         char = self.current_token
         self._advance()
+        logical_operator_map = {
+            ">": TokenType.GT,
+            "<": TokenType.LT,
+
+            ">=": TokenType.GE,
+            "<=": TokenType.LE,
+
+            "==": TokenType.EQ,
+            "!=": TokenType.NE,
+       
+            "&&": TokenType.AND,
+            "||": TokenType.OR,
+
+            "#": TokenType.SECTIONAND
+        }
+
+        pattern = "(>=|<=|==|!=|&&|\|\||>|<|\#)"
+        get_text = "".join(self.text[self.text_i - 2:])
+
+        res = re.search(pattern, get_text)
+
+        if res == None:
+            raise NipSyntaxError(f"Invalid logical operator: {char}")
+
+        start, stop = res.span()
+
+        is_valid_relation_operator = not (get_text[start - 1] in SYMBOLS or get_text[stop] in SYMBOLS)
+
+        if is_valid_relation_operator:
+            operator = res.group()
+            for _ in range(start, stop):
+                self._advance()
+            if operator == "#":
+                self.increment_section()
+            
+            pythonic_relation_operator = operator.replace("&&", "and").replace("||", "or")
+
+            return Token(logical_operator_map[operator], pythonic_relation_operator)
+        else:
+            raise NipSyntaxError(f"Unexpected logical operator {char}")
+
+
+
+
         while self.current_token != None:
             if char == ">":
                 if self.current_token == "=":
@@ -229,6 +273,7 @@ class Lexer:
                 elif char == " ":
                     return Token(TokenType.LT, "<")
                 else:
+                    print("self.current_token", self.current_token, "char", ord(char), ord(" "))
                     raise NipSyntaxError(f"'<' was found without a following operator {''.join(self.text)}")
             elif char == "=":
                 if self.current_token == "=":
@@ -269,3 +314,5 @@ class Lexer:
             self.increment_section()
             return Token(TokenType.AND, "and")
         self._advance()
+
+        
