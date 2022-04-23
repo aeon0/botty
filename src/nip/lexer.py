@@ -1,4 +1,3 @@
-from regex import P
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
