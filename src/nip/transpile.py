@@ -342,10 +342,8 @@ def load_nip_expressions(filepath):
             try:
                 load_nip_expression(line.strip())
             except Exception as e:
-                file = filepath.split('\\botty\\')[1]
-                print(f"{file}:{e}:line {i}") # TODO look at these errors
-                return
-
+                file = filepath.split('\\botty\\')[1].replace("/", "\\")
+                print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
 
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
 nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
@@ -471,7 +469,7 @@ if __name__ == "__main__":
         }
     ]
 
-    # print(transpile_nip_expression("[idname] =="))
+    # print(transpile_nip_expression("[type] == ring & [quality] == rare"))
 
     # for i, test in enumerate(transpile_tests):
     #     try:

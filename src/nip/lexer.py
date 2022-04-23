@@ -1,3 +1,4 @@
+from regex import P
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -71,6 +72,8 @@ class Lexer:
                 self.tokens.append(self._create_nip_lookup())
             elif self.current_token in CHARS:
                 self.tokens.append(self._create_d2r_image_data_lookup())
+            else:
+                raise NipSyntaxError("Unknown token: " + self.current_token)
         return self.tokens
 
     def _create_digits(self):
@@ -108,6 +111,7 @@ class Lexer:
             '^': TokenType.POW
         }
         while self.current_token != None:
+
             if symbol == "+":
                 return Token(TokenType.PLUS, symbol)
             elif symbol == "-":
@@ -137,6 +141,7 @@ class Lexer:
         self._advance()
         lookup_key = self.current_token
         while self.current_token != None:
+
             self._advance()
             if self.current_token == "]":
                 break
@@ -233,9 +238,8 @@ class Lexer:
         get_text = "".join(self.text[self.text_i - 2:])
 
         res = re.search(pattern, get_text)
-
-        if res == None:
-            raise NipSyntaxError(f"Invalid logical operator: {char}")
+        if res == None or char not in res.group(0):
+            raise NipSyntaxError(f"Invalid logical operator: '{char}'")
             
         start, stop = res.span()
         
