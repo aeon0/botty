@@ -62,10 +62,10 @@ class Lexer:
                 self.tokens.append(self._create_digits())
             elif self.current_token in WHITESPACE:
                 self._advance()
-            elif self.current_token in SYMBOLS:
-                self.tokens.append(self._create_logical_operator())
             elif self.current_token in MATH_SYMBOLS:
                 self.tokens.append(self._create_math_operator())
+            elif self.current_token in SYMBOLS:
+                self.tokens.append(self._create_logical_operator())
                 # self.advance()
             elif self.current_token == "[":
                 self.tokens.append(self._create_nip_lookup())
@@ -236,10 +236,18 @@ class Lexer:
 
         if res == None:
             raise NipSyntaxError(f"Invalid logical operator: {char}")
-
+            
         start, stop = res.span()
+        
+        is_valid_relation_operator = True
+        invalid_char = ''
 
-        is_valid_relation_operator = not (get_text[start - 1] in SYMBOLS or get_text[stop] in SYMBOLS)
+        if get_text[start - 1] in SYMBOLS:
+            is_valid_relation_operator = False
+            invalid_char = get_text[start - 1]
+        elif get_text[stop] in SYMBOLS:
+            is_valid_relation_operator = False
+            invalid_char = get_text[stop]
 
         if is_valid_relation_operator:
             operator = res.group()
@@ -252,67 +260,5 @@ class Lexer:
 
             return Token(logical_operator_map[operator], pythonic_relation_operator)
         else:
-            raise NipSyntaxError(f"Unexpected logical operator {char}")
-
-
-
-
-        while self.current_token != None:
-            if char == ">":
-                if self.current_token == "=":
-                    self._advance()
-                    return Token(TokenType.GE, ">=")
-                elif char == " ":
-                    return Token(TokenType.GT, ">")
-                else:
-                    raise NipSyntaxError(f"'>' was found without a following operator {''.join(self.text)}")
-            elif char == "<":
-                if self.current_token == "=":
-                    self._advance()
-                    return Token(TokenType.LE, "<=")
-                elif char == " ":
-                    return Token(TokenType.LT, "<")
-                else:
-                    print("self.current_token", self.current_token, "char", ord(char), ord(" "))
-                    raise NipSyntaxError(f"'<' was found without a following operator {''.join(self.text)}")
-            elif char == "=":
-                if self.current_token == "=":
-                    self._advance()
-                    return Token(TokenType.EQ, "==")
-                else:
-                    raise NipSyntaxError(f"'=' was found without a following operator {''.join(self.text)}")
-            elif char == "!":
-                if self.current_token == "=":
-                    self._advance()
-                    return Token(TokenType.NE, "!=")
-                else:
-                    raise Exception(f"'!' was found without a following operator {''.join(self.text)}")
-            elif char == "&":
-                if self.current_token == "&":
-                    self._advance()
-                    return Token(TokenType.AND, "and")
-                else:
-                    raise NipSyntaxError(f"'&' was found without a following operator {''.join(self.text)}")
-            elif char == "#":
-                # Increment the section.
-                self.increment_section()
-                return Token(TokenType.SECTIONAND, "and")
-            elif char == "|":
-                if self.current_token == "|":
-                    self._advance()
-                    return Token(TokenType.OR, "or")
-            elif char == "/":
-                if self.current_token == "/":
-                    self._advance()
-                    return Token(TokenType.COMMENT, "") # We don't really need comments in the transpiled version...
-                else:
-                    return Token(TokenType.DIVIDE, "/")
-            else:
-                # print("Unknown operator", char)
-                break
-        if char == "#":
-            self.increment_section()
-            return Token(TokenType.AND, "and")
-        self._advance()
-
+            raise NipSyntaxError(f"Unexpected logical operator {invalid_char}")
         
