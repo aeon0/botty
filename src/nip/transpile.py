@@ -1,4 +1,3 @@
-from fnmatch import translate
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -13,6 +12,14 @@ from logger import Logger
 
 from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
+
+
+class NipSyntaxError(Exception):
+    def __init__(self, message):
+        self.message = message
+    
+    def __str__(self):
+        return self.message
 
 def find_unqiue_or_set_base(unique_or_set_name):
     unique_or_set_name = unique_or_set_name.lower()
@@ -302,20 +309,21 @@ def should_id(item_data):
         [name] == ring && [quality] == rare                     Don't ID.
         [name] == ring && [quality] == rare # [strength] == 5   Do ID.
     """
-    id = False
+    id = True
+
     for expression in nip_expressions:
+        split_expression = expression["raw"].split("#")
         try:
             if "[idname]" in expression["raw"].lower():
-                id = True
-                return id
-            if eval(expression["should_id_transpiled"]):
-                if len(expression["raw"].split("#")) > 1:
                     id = True
-                    break
+                    return id
+            if eval(expression["should_id_transpiled"]):
+                if len(split_expression) == 1:
+                    id = False
+                    return id
         except Exception as e:
-            pass
-            # #print(f"Error: {expression['raw']} {e}\n\n") # TODO look at these errors
-    return id
+                print(f"Error: {expression['raw']} {e}\n\n") # TODO look at these errors
+        return id
 
 def load_nip_expressions(filepath):
     with open(filepath, "r") as f:
@@ -323,8 +331,8 @@ def load_nip_expressions(filepath):
             try:
                 load_nip_expression(line.strip())
             except Exception as e:
-                pass
-                # #print(e, "Errored on line:", line) # TODO look at these errors
+                # pass
+                print(e, "Errored on line:", line) # TODO look at these errors
 
 
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
@@ -397,6 +405,7 @@ if __name__ == "__main__":
             "raw": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
             "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
         },
+        
 
     ]
 
@@ -410,15 +419,27 @@ if __name__ == "__main__":
             "should_fail": True,
         },
 
+        {
+            "expression": "[name] > ring",
+            "should_fail": False,
+        },
+
+        {
+            "expression": "[name] < ring",
+            "should_fail": False,
+        },
+
 
         {
             "expression": "[name] >= ring",
             "should_fail": False
         },
         {
-            "expression": "[name] => ring",
-            "should_fail": True,
+            "expression": "[name] <= ring",
+            "should_fail": False,
         },
+
+
         {
             "expression": "[name] >== ring",
             "should_fail": True,
@@ -439,18 +460,22 @@ if __name__ == "__main__":
     ]
 
 
-
-    for test in transpile_tests:
+    for i, test in enumerate(transpile_tests):
         try:
             assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+            print(f"transpile_test {i} passed.")
         except:
             print("Failed to transpile:", test["raw"])
             print(transpile_nip_expression(test["raw"]), end="\n\n")
 
+    print(transpile_nip_expression("[name] == ring && [quality] == rare"))
+    
+    print("\n")
 
-    for test in syntax_error_tests:
+    for i, test in enumerate(syntax_error_tests):
         try:
             transpile_nip_expression(test["expression"])
-        except NipSyntaxError:
+            print(f"syntax_error_test {i} passed.")
+        except:
             if not test["should_fail"]:
                 print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
