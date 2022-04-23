@@ -204,10 +204,22 @@ def validate_nip_expression(nip_expression):
 
     return True
 
+
+def remove_quantity(expression): # ! This is a bit ghetto, but since we're not using the maxquantity, we can just remove it.
+    split_expression = expression.split("#")
+    if len(split_expression) == 3:
+        split_expression = (split_expression[0] + "#" + split_expression[1]).split("#")
+        if len(split_expression[1]) <= 1:
+            return split_expression[0]
+        else:
+            return "#".join(split_expression)
+    return expression
+
 def prepare_nip_expression(expression):
     if not expression.startswith("//") and not expression.startswith("-"):
         expression = expression.lower()
         expression = expression.split("//")[0] # * Ignore the comments inside the nip expression
+        expression = remove_quantity(expression)
         if validate_nip_expression(expression):
             return expression
 
@@ -218,6 +230,8 @@ def transpile_nip_expression(expression: str, isPickedUpPhase=False):
         transpiled_expression = transpile(tokens, isPickedUpPhase=isPickedUpPhase)
         if transpiled_expression:
             return transpiled_expression
+
+
 
 
 nip_expressions = []
@@ -469,23 +483,26 @@ if __name__ == "__main__":
         }
     ]
 
-    # print(transpile_nip_expression("[type] == ring & [quality] == rare"))
+    # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
+    print(transpile_nip_expression("[name] == keyofterror # # [maxquantity] == 1"))
+    print(transpile_nip_expression("[name] == keyofterror"))
+    print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
 
-    # for i, test in enumerate(transpile_tests):
-    #     try:
-    #         assert transpile_nip_expression(test["raw"]) == test["transpiled"]
-    #         print(f"transpile_test {i} passed.")
-    #     except:
-    #         print("Failed to transpile:", test["raw"])
-    #         print(transpile_nip_expression(test["raw"]), end="\n\n")
+    for i, test in enumerate(transpile_tests):
+        try:
+            assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+            print(f"transpile_test {i} passed.")
+        except:
+            print("Failed to transpile:", test["raw"])
+            print(transpile_nip_expression(test["raw"]), end="\n\n")
 
     
-    # print("\n")
+    print("\n")
 
-    # for i, test in enumerate(syntax_error_tests):
-    #     try:
-    #         transpile_nip_expression(test["expression"])
-    #         print(f"syntax_error_test {i} passed.")
-    #     except:
-    #         if not test["should_fail"]:
-    #             print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
+    for i, test in enumerate(syntax_error_tests):
+        try:
+            transpile_nip_expression(test["expression"])
+            print(f"syntax_error_test {i} passed.")
+        except:
+            if not test["should_fail"]:
+                print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
