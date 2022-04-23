@@ -16,6 +16,7 @@ detect_window = True
 detect_window_thread = None
 last_grab = None
 cached_img = None
+cached_img_lock = threading.Lock()
 
 FIND_WINDOW = WindowSpec(
     title_regex=Config().advanced_options["hwnd_window_title"],
@@ -74,12 +75,14 @@ def grab() -> np.ndarray:
     global last_grab
     # with 25fps we have 40ms per frame. If we check for 20ms range to make sure we can still get each frame if we want.
     if cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.02:
-        return cached_img
+        with cached_img_lock:
+            return cached_img
     else:
         last_grab = time.perf_counter()
         img = np.array(sct.grab(monitor_roi))
-        cached_img = img[:, :, :3]
-        return cached_img
+        with cached_img_lock:
+            cached_img = img[:, :, :3]
+            return cached_img
 
 # TODO: Move the below funcs to utils(?)
 
