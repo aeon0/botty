@@ -342,7 +342,7 @@ def load_nip_expressions(filepath):
             try:
                 load_nip_expression(line.strip())
             except Exception as e:
-                file = filepath.split('\\botty\\')[1].replace("/", "\\")
+                file = filepath.split('\\config/')[1].replace("/", "\\")
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
 
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
