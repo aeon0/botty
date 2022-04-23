@@ -4,7 +4,6 @@ from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-
 from nip.tokens import Token, TokenType
 import json
 from enum import Enum
@@ -218,7 +217,7 @@ class Lexer:
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.GE, ">=")
-                elif char == " ":
+                elif char == " " or self.current_token == " ":
                     return Token(TokenType.GT, ">")
                 else:
                     raise NipSyntaxError(f"'>' was found without a following operator {''.join(self.text)}")
@@ -226,9 +225,10 @@ class Lexer:
                 if self.current_token == "=":
                     self._advance()
                     return Token(TokenType.LE, "<=")
-                elif char == " ":
+                elif char == " " or self.current_token == " ":
                     return Token(TokenType.LT, "<")
                 else:
+                    print("self.current_token", self.current_token, "char", ord(char), ord(" "))
                     raise NipSyntaxError(f"'<' was found without a following operator {''.join(self.text)}")
             elif char == "=":
                 if self.current_token == "=":
