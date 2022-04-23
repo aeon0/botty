@@ -35,7 +35,7 @@ def parse_item(quality, item, _call_count=1):
             cleaned_lines.append(line)
     lines = cleaned_lines
     for line in lines:
-        
+
         if lev(line, 'UNIDENTIFIED') < 3:
             item_is_identified = False
         if 'ETHEREAL' in line:
@@ -84,7 +84,7 @@ def parse_item(quality, item, _call_count=1):
             found_item = find_unique_item_by_name(lines[0].replace(' ', ''))
         elif quality == ItemQuality.Set.value:
             found_item = find_set_item_by_name(lines[0].replace(' ', ''))
-        elif quality in [ItemQuality.Superior.value, ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Rune.value]:
+        elif quality in [ItemQuality.Superior.value, ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Rune.value, ItemQuality.Crafted.value]:
             found_item = base_item
         if not found_item and quality not in [ItemQuality.Magic.value, ItemQuality.Rare.value]:
             if quality == ItemQuality.Unique.value:
