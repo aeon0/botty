@@ -264,7 +264,8 @@ if __name__ == "__main__":
     keyboard.wait("f11")
 
     # enter the template names you are trying to detect here
-    _template_list = ["TRAV_0","TRAV_1","TRAV_3","TRAV_4","TRAV_5","TRAV_7","TRAV_8","TRAV_10","TRAV_11","TRAV_12","TRAV_13","TRAV_16","TRAV_17","TRAV_18","TRAV_19","TRAV_2","TRAV_20","TRAV_21","TRAV_22","TRAV_23","TRAV_24","TRAV_25","TRAV_27","TRAV_28","TRAV_29","TRAV_V2_0","TRAV_V2_1","TRAV_V2_2","TRAV_V2_3","TRAV_V2_4","TRAV_V3_0","TRAV_V3_1","TRAV_V3_11","TRAV_V3_3","TRAV_V3_4","TRAV_V3_5","TRAV_V3_6","TRAV_V3_7","TRAV_V3_8"]
+
+    _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
 
     _current_template_idx = -1
     _last_stored_idx = 0
