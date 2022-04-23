@@ -5,6 +5,7 @@ from typing import Tuple
 from utils.misc import WindowSpec, find_d2r_window, wait
 from config import Config
 import threading
+import time
 
 sct = mss()
 monitor_roi = sct.monitors[0]
@@ -13,6 +14,8 @@ monitor_x_range = None
 monitor_y_range = None
 detect_window = True
 detect_window_thread = None
+last_grab = None
+cached_img = None
 
 FIND_WINDOW = WindowSpec(
     title_regex=Config().advanced_options["hwnd_window_title"],
@@ -67,8 +70,16 @@ def stop_detecting_window():
 
 def grab() -> np.ndarray:
     global monitor_roi
-    img = np.array(sct.grab(monitor_roi))
-    return img[:, :, :3]
+    global cached_img
+    global last_grab
+    # with 25fps we have 40ms per frame. If we check for 20ms range to make sure we can still get each frame if we want.
+    if cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.02:
+        return cached_img
+    else:
+        last_grab = time.perf_counter()
+        img = np.array(sct.grab(monitor_roi))
+        cached_img = img[:, :, :3]
+        return cached_img
 
 # TODO: Move the below funcs to utils(?)
 
