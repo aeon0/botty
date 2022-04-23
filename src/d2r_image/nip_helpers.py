@@ -113,7 +113,8 @@ def parse_item(quality, item, _call_count=1):
         ItemQuality.Set.value: 5,
         ItemQuality.Magic.value: 4,
         ItemQuality.Superior.value: 3,
-        ItemQuality.Normal.value: 2
+        ItemQuality.Normal.value: 2,
+        ItemQuality.Gray.value: 1
         # TODO Add support for lowquality
     }
 
