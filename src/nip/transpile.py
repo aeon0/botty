@@ -154,16 +154,20 @@ def validate_nip_expression(nip_expression):
     if not nip_expression:
         return
 
+    all_tokens = []
+
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
 
     if split_nip_expression_len >= 1 and split_nip_expression[0]: # property
         tokens = Lexer().create_tokens(split_nip_expression[0])
+        all_tokens.extend(tokens)
         for token in tokens:
             if token.type == TokenType.NTIPAliasStat:
                 raise NipValidationError("property", token)
     if split_nip_expression_len >= 2 and split_nip_expression[1]: # stats
         tokens = Lexer().create_tokens(split_nip_expression[1])
+        all_tokens.extend(tokens)
         for token in tokens:
             is_invalid_stat_lookup = (
                 token.type == TokenType.NTIPAliasClass or
@@ -178,7 +182,7 @@ def validate_nip_expression(nip_expression):
 
     if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
         tokens = Lexer().create_tokens(split_nip_expression[2])
-
+        all_tokens.extend(tokens)
         for token in tokens:
             is_invalid_maxquantity_lookup = (
                 token.type == TokenType.NTIPAliasClass or
@@ -191,6 +195,13 @@ def validate_nip_expression(nip_expression):
 
             if is_invalid_maxquantity_lookup:
                 raise NipValidationError("maxquantity", token)
+
+    # * Further syntax validation
+    for i, token in enumerate(all_tokens):
+        if token.type == TokenType.EQ:
+            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
+                raise NipSyntaxError("No value after equal sign")
+
     return True
 
 def prepare_nip_expression(expression):
@@ -327,12 +338,13 @@ def should_id(item_data):
 
 def load_nip_expressions(filepath):
     with open(filepath, "r") as f:
-        for line in f:
+        for i, line in enumerate(f):
             try:
                 load_nip_expression(line.strip())
             except Exception as e:
-                # pass
-                print(e, "Errored on line:", line) # TODO look at these errors
+                file = filepath.split('\\botty\\')[1]
+                print(f"{file}:{e}:line {i}") # TODO look at these errors
+                return
 
 
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
@@ -459,23 +471,23 @@ if __name__ == "__main__":
         }
     ]
 
+    # print(transpile_nip_expression("[idname] =="))
 
-    for i, test in enumerate(transpile_tests):
-        try:
-            assert transpile_nip_expression(test["raw"]) == test["transpiled"]
-            print(f"transpile_test {i} passed.")
-        except:
-            print("Failed to transpile:", test["raw"])
-            print(transpile_nip_expression(test["raw"]), end="\n\n")
+    # for i, test in enumerate(transpile_tests):
+    #     try:
+    #         assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+    #         print(f"transpile_test {i} passed.")
+    #     except:
+    #         print("Failed to transpile:", test["raw"])
+    #         print(transpile_nip_expression(test["raw"]), end="\n\n")
 
-    print(transpile_nip_expression("[name] == ring && [quality] == rare"))
     
-    print("\n")
+    # print("\n")
 
-    for i, test in enumerate(syntax_error_tests):
-        try:
-            transpile_nip_expression(test["expression"])
-            print(f"syntax_error_test {i} passed.")
-        except:
-            if not test["should_fail"]:
-                print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
+    # for i, test in enumerate(syntax_error_tests):
+    #     try:
+    #         transpile_nip_expression(test["expression"])
+    #         print(f"syntax_error_test {i} passed.")
+    #     except:
+    #         if not test["should_fail"]:
+    #             print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
