@@ -144,7 +144,8 @@ def parse_item(quality, item, _call_count=1):
             name = lines[0]
         else:
             name = base_item['DisplayName']
-
+    
+    
     return HoveredItem(
         Name=name,
         NTIPAliasIdName=lines[0].replace(" ", "").replace("\"", "").replace("'", ""),
@@ -203,4 +204,10 @@ def find_nip_pattern_match(item_lines):
                             nip_alias_stat[key] = result.fixed[i]
                         else:
                             nip_alias_stat[key] = True
+    for key in nip_alias_stat:
+        if "188," in key: # * There is a mod with the tabskill mod (tab skill means a + to skills of one of the chars skill I.E sorc has Fire skills, paladins have Combat skills, and druids have Summoning skills)
+            print(40769)
+            nip_alias_stat['188'] = nip_alias_stat[key]
+            break
+
     return nip_alias_stat

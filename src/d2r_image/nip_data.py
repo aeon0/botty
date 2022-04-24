@@ -518,6 +518,288 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d} to Elemental Skills (Druid only)": [
         "188,42"
     ],
+    
+
+    "{:d} to Bash (Barbarian only)": [
+    "107, 126"
+],
+# "{:d} to Sword Mastery (Barbarian only)": [
+#     "107, 127" 
+#],
+# "{:d} to Axe Mastery (Barbarian only)": [
+#     "107, 128" 
+#],
+# "{:d} to Mace Mastery (Barbarian only)": [
+#     "107, 129" 
+#],
+#"{:d} to General Mastery (Barbarian only)": [],
+"{:d} to Howl (Barbarian only)": [
+    "107, 130"
+],
+"{:d} to Find Potion (Barbarian only)": [
+    "107, 131"
+],
+"{:d} to Leap (Barbarian only)": [
+    "107, 132"
+],
+"{:d} to Double Swing (Barbarian only)": [
+    "107, 133"
+],
+"{:d} to Polearm and Spear Mastery (Barbarian only)": [
+    "107, 134"
+],
+#"{:d} to Throwing Mastery (Barbarian only)": [
+#     "107, 135"
+#],
+#"{:d} to Spear Mastery (Barbarian only)": [
+#     "107, 136"
+"{:d} to Taunt (Barbarian only)": [
+    "107, 137"
+],
+"{:d} to Shout (Barbarian only)": [
+    "107, 138"
+],
+"{:d} to Stun (Barbarian only)": [
+    "107, 139"
+],
+"{:d} to Double Throw (Barbarian only)": [
+    "107, 140"
+],
+#"{:d} to Combat Reflexes (Barbarian only)": [],
+#"{:d} to Increased Stamina (Barbarian only)": [
+#     "107, 141"
+#],
+"{:d} to Find Item (Barbarian only)": [
+    "107, 142"
+],
+"{:d} to Leap Attack (Barbarian only)": [
+    "107, 143"
+],
+"{:d} to Concentrate (Barbarian only)": [
+    "107, 144"
+],
+"{:d} to Iron Skin (Barbarian only)": [
+    "107, 145"
+],
+"{:d} to Battle Cry (Barbarian only)": [
+    "107, 146"
+],
+"{:d} to Frenzy (Barbarian only)": [
+    "107, 147"
+],
+"{:d} to Increased Speed (Barbarian only)": [
+    "107, 148"
+],
+"{:d} to Battle Orders (Barbarian only)": [
+    "107, 149"
+],
+"{:d} to Grim Ward (Barbarian only)": [
+    "107, 150"
+],
+"{:d} to Whirlwind (Barbarian only)": [
+    "107, 151"
+],
+"{:d} to Berserk (Barbarian only)": [
+    "107, 152"
+],
+"{:d} to Natural Resistance (Barbarian only)": [
+    "107, 153"
+],
+"{:d} to War Cry (Barbarian only)": [
+    "107, 154"
+],
+"{:d} to Battle Command (Barbarian only)": [
+    "107, 155"
+],
+"{:d} to Raven (Druid only)": [
+    "107, 221"
+],
+"{:d} to Poison Creeper (Druid only)": [
+    "107, 222"
+],
+"{:d} to Werewolf (Druid only)": [
+    "107, 223"
+],
+"{:d} to Lycanthropy (Druid only)": [
+    "107, 224"
+],
+"{:d} to Firestorm (Druid only)": [
+    "107, 225"
+],
+"{:d} to Oak Sage (Druid only)": [
+    "107, 226"
+],
+"{:d} to Summon Spirit Wolf (Druid only)": [
+    "107, 227"
+],
+"{:d} to Werebear (Druid only)": [
+    "107, 228"
+],
+"{:d} to Molten Boulder (Druid only)": [
+    "107, 229"
+],
+"{:d} to Arctic Blast (Druid only)": [
+    "107, 230"
+],
+"{:d} to Fissure (Druid only)": [
+    "107, 231"
+],
+"{:d} to Feral Rage (Druid only)": [
+    "107, 232"
+],
+"{:d} to Maul (Druid only)": [
+    "107, 233"
+],
+"{:d} to Carrion Vine (Druid only)": [ 
+    "107, 234"
+],
+"{:d} to Cyclone Armor (Druid only)": [ 
+    "107, 235"
+],
+"{:d} to Heart of Wolverine (Druid only)": [ 
+    "107, 236"
+],
+"{:d} to Summon Dire Wolf (Druid only)": [ 
+    "107, 237"
+],
+"{:d} to Rabies (Druid only)": [ 
+    "107, 238"
+],
+"{:d} to Fire Claws (Druid only)": [ 
+    "107, 239"
+],
+"{:d} to Twister (Druid only)": [ 
+    "107, 240"
+],
+"{:d} to Solar Creeper (Druid only)": [ 
+    "107, 241"
+],
+"{:d} to Hunger (Druid only)": [ 
+    "107, 242"
+],
+"{:d} to Shock Wave (Druid only)": [ 
+    "107, 243"
+],
+"{:d} to Volcano (Druid only)": [ 
+    "107, 244"
+],
+"{:d} to Tornado (Druid only)": [ 
+    "107, 245"
+],
+"{:d} to Spirit of Barbs (Druid only)": [ 
+    "107, 246"
+],
+"{:d} to Summon Grizzly (Druid only)": [ 
+    "107, 247"
+],
+"{:d} to Fury (Druid only)": [ 
+    "107, 248"
+],
+"{:d} to Armageddon (Druid only)": [ 
+    "107, 249"
+],
+"{:d} to Hurricane (Druid only)": [ 
+    "107, 250"
+],
+#"{:d} to Gust": [],
+"{:d} to Fire Blast (Assassin only)": [ 
+    "107, 251"
+],
+"{:d} to Claw Mastery (Assassin only)": [ 
+    "107, 252"
+],
+"{:d} to Psychic Hammer (Assassin only)": [ 
+    "107, 253"
+],
+"{:d} to Tiger Strike (Assassin only)": [ 
+    "107, 254"
+],
+"{:d} to Dragon Talon (Assassin only)": [ 
+    "107, 255"
+],
+"{:d} to Shock Web (Assassin only)": [ 
+    "107, 256"
+],
+"{:d} to Blade Sentinel (Assassin only)": [ 
+    "107, 257"
+],
+"{:d} to Burst of Speed (Assassin only)": [ 
+    "107, 258"
+],
+"{:d} to Fists of Fire (Assassin only)": [ 
+    "107, 259"
+],
+"{:d} to Dragon Claw (Assassin only)": [ 
+    "107, 260"
+],
+"{:d} to Charged Bolt Sentry (Assassin only)": [ 
+    "107, 261"
+],
+"{:d} to Wake of Fire (Assassin only)": [ 
+    "107, 262"
+],
+"{:d} to Weapon Block (Assassin only)": [ 
+    "107, 263"
+],
+"{:d} to Cloak of Shadows (Assassin only)": [ 
+    "107, 264"
+],
+"{:d} to Cobra Strike (Assassin only)": [ 
+    "107, 265"
+],
+"{:d} to Blade Fury (Assassin only)": [ 
+    "107, 266"
+],
+"{:d} to Fade (Assassin only)": [ 
+    "107, 267"
+],
+"{:d} to Shadow Warrior (Assassin only)": [ 
+    "107, 268"
+],
+"{:d} to Claws of Thunder (Assassin only)": [ 
+    "107, 269"
+],
+"{:d} to Dragon Tail (Assassin only)": [ 
+    "107, 270"
+],
+"{:d} to Chain Lightning Sentry (Assassin only)": [ 
+    "107, 271"
+],
+"{:d} to Wake of Inferno (Assassin only)": [ 
+    "107, 272"
+],
+"{:d} to Mind Blast (Assassin only)": [ 
+    "107, 273"
+],
+"{:d} to Blades of Ice (Assassin only)": [ 
+    "107, 274"
+],
+"{:d} to Dragon Flight (Assassin only)": [ 
+    "107, 275"
+],
+"{:d} to Death Sentry (Assassin only)": [ 
+    "107, 276"
+],
+"{:d} to Blade Shield (Assassin only)": [ 
+    "107, 277"
+],
+"{:d} to Venom (Assassin only)": [ 
+    "107, 278"
+],
+"{:d} to Shadow Master (Assassin only)": [ 
+    "107, 279"
+],
+"{:d} to Phoenix Strike (Assassin only)": [ 
+    "107, 280"
+],
+#"{:d} to Lightning Sentry (Assassin only)": [],
+#"{:d} to Wake Of Destruction Sentry (Assassin only)": [],
+#"{:d} to Blink (Assassin only)": [],
+#"{:d} to Inferno Sentry (Assassin only)": [],
+#"{:d} to Death Sentry (Assassin only)": [],
+#"{:d} to Sentry Lightning (Assassin only)": [],
+
+    
     "{:d} to Traps (Assassin only)": [
         "188,48"
     ],
