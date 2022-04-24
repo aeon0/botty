@@ -457,6 +457,7 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
     d2_items = ground_item_list.items
     for quality in items_by_quality:
         for item in items_by_quality[quality]:
+            print("QUALITY", quality)
             try:
                 new_item = GroundItem(
                     BoundingBox={
@@ -476,7 +477,8 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
                     NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[item['quality'].value],
                     NTIPAliasFlag={
                         '0x10': item['identified'],
-                        '0x4000000': item['quality'] == ItemQuality.Runeword
+                        '0x4000000': item['quality'] == ItemQuality.Runeword,
+                        "0x400000": item['quality'] == ItemQuality.Gray,
                     }
                 )
                 if d2_items is None:
