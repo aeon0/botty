@@ -10,7 +10,7 @@ def correct_item_name(name):
     best_match = None
     best_lev = 0
     for item in ITEM_NAMES:
-        lev_num = lev(name, item)
+        lev_num = lev(name.lower(), item.lower())
         if lev_num < 3:
             if best_match is None or lev_num < best_lev:
                 best_match = item
@@ -18,9 +18,6 @@ def correct_item_name(name):
     if best_match is not None:
         return best_match
     return name
-
-
-
 
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
@@ -60,9 +57,7 @@ def parse_item(quality, item, _call_count=1):
     base_name = base_name.upper().replace(' ', '')
     base_item = None
     if quality == ItemQuality.Magic.value:
-        print("cleaned_lines[0]", cleaned_lines[0])
         corrected_name = correct_item_name(cleaned_lines[0]).replace(" ", "")
-        print(corrected_name)
         base_item = find_base_item_from_magic_item_text(corrected_name, item_is_identified)
     else:
         if quality == ItemQuality.Crafted.value and is_rune(base_name):
