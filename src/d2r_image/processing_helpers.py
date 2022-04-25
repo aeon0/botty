@@ -457,7 +457,6 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
     d2_items = ground_item_list.items
     for quality in items_by_quality:
         for item in items_by_quality[quality]:
-            print("QUALITY", quality)
             try:
                 new_item = GroundItem(
                     BoundingBox={

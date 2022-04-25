@@ -1,15 +1,11 @@
-import pkgutil
+from copy import deepcopy
 import time
 import cv2
 import keyboard
-import io
-from PIL import Image
 import os
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
 from d2r_image.data_models import ItemQuality, ItemQualityKeyword
-from pkg_resources import resource_listdir
-import numpy as np
 
 
 debug_line_map = {}
@@ -34,16 +30,14 @@ def get_ground_loot():
     all_images = []
     total_elapsed_time = 0
     demo_image_count = 0
-    resource_paths = ['ground']
+    resource_paths = ['get_ground_loot']
     for resource_path in resource_paths:
-        for image_name in resource_listdir(f'd2r_image.resources.demo_images.{resource_path}', ''):
+        base_dir = f'test/d2r_image/resources/{resource_path}'
+        for image_name in os.listdir(base_dir):
             if not image_name.lower().endswith('.png'):
                 continue
-            image_bytes = pkgutil.get_data(
-                __name__,
-                f'resources/demo_images/{resource_path}/{image_name}')
-            image = Image.open(io.BytesIO(image_bytes))
-            image_data = cv2.cvtColor(np.asarray(image), cv2.COLOR_RGB2BGR)
+            image_data = cv2.imread(f"{base_dir}/{image_name}")
+            image = deepcopy(image_data)
             start = time.time()
             ground_loot_list = processing.get_ground_loot(image_data)
             end = time.time()
@@ -52,7 +46,7 @@ def get_ground_loot():
             total_elapsed_time += elapsed
             if ground_loot_list.items:
                 draw_items_on_image_data(ground_loot_list.items, image_data)
-                cv2.imwrite(f"output/{image_name.lower()}.png", image_data)
+                cv2.imwrite(f"info_screenshots/{image_name.lower()}", image_data)
             all_image_data.append(image_data)
             all_images.append(image)
             demo_image_count += 1
@@ -67,21 +61,16 @@ def get_ground_loot():
 
 def get_hovered_items():
     print('Loading demo hover images. This may take a few seconds...\n')
-    resource_paths = ['hover_right']
+    resource_paths = ['get_hovered_item']
     for resource_path in resource_paths:
-        for image_name in resource_listdir(f'd2r_image.resources.demo_images.{resource_path}', ''):
+        base_dir = f'test/d2r_image/resources/{resource_path}'
+        for image_name in os.listdir(base_dir):
             if not image_name.lower().endswith('.png'):
                 continue
-            image_bytes = pkgutil.get_data(
-                __name__,
-                f'resources/demo_images/{resource_path}/{image_name}')
-            image = Image.open(io.BytesIO(image_bytes))
-            image_data = cv2.cvtColor(np.asarray(image), cv2.COLOR_RGB2BGR)
+            image_data = cv2.imread(f"{base_dir}/{image_name}")
             item, _ = get_hovered_item(image_data, 'right' if resource_path == 'hover_right' else 'left')
-            print(item)
             cv2.imshow('Hovered Item', image_data)
             cv2.waitKey()
-            print()
     cv2.destroyAllWindows()
 
 def draw_items_on_image_data(items, image):

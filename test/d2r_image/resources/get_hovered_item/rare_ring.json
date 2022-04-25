@@ -1,0 +1,34 @@
+{
+    "Name": "RUNE LOOP",
+    "Quality": "rare",
+    "Text": "RUNE LOOP|RING|REQUIRED LEVEL: 15|+1 TO MAXIMUM DAMAGE|3% LIFE STOLEN PER HIT|+5 TO STRENGTH|COLD RESIST +11%|FIRE RESIST +23%|9% BETTER CHANCE OF GETTING MAGIC ITEMS",
+    "BaseItem":
+    {
+        "DisplayName": "Ring",
+        "NTIPAliasClassID": 522,
+        "NTIPAliasType": 10,
+        "dimensions": [1, 1],
+        "sets": ["ANGELICHALO", "CATHANSSEAL"],
+        "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+    },
+    "Item": null,
+    "NTIPAliasType": 10,
+    "NTIPAliasClassID": 522,
+    "NTIPAliasClass": null,
+    "NTIPAliasQuality": 6,
+    "NTIPAliasStat":
+    {
+        "43": 11,
+        "39": 23,
+        "80": 9,
+        "22": 1,
+        "0": 5,
+        "60": 3
+    },
+    "NTIPAliasFlag":
+    {
+        "0x10": true,
+        "0x400000": false,
+        "0x4000000": false
+    }
+}

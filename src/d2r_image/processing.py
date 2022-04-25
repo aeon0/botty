@@ -120,8 +120,9 @@ if __name__ == "__main__":
             all_loot = d2r_image.get_ground_loot(img)
             if all_loot.items and len(all_loot.items) > 0:
                 for item in all_loot.items:
-                    Logger.debug(f"Pick {item.Quality} {item.BaseItem['DisplayName']}?: {should_pickup(item.as_dict())}")
-                    Logger.debug(item)
+                    if item:
+                        Logger.debug(f"Pick {item.Quality} {item.BaseItem['DisplayName']}?: {should_pickup(item.as_dict())}")
+                        Logger.debug(item)
                 draw_items_on_image_data(all_loot.items, img)
         cv2.imshow("res", img)
         cv2.waitKey(3000)

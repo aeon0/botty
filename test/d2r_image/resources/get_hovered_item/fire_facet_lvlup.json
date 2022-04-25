@@ -1,0 +1,137 @@
+{
+    "Name": "Rainbow Facet",
+    "Quality": "unique",
+    "Text": "RAINBOW FACET|JEWEL|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 49|100% CHANCE TO CAST LEVEL 29 BLAZE WHEN YOU LEVEL-UP|ADDS 17-45 FIRE DAMAGE|-5% TO ENEMY FIRE RESISTANCE|+5% TO FIRE SKILL DAMAGE",
+    "BaseItem":
+    {
+        "DisplayName": "Jewel",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "dimensions": [1, 1],
+        "uniques": ["RAINBOWFACET"]
+    },
+    "Item":
+    {
+        "DisplayName": "Rainbow Facet",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "NTIPAliasStatProps":
+        {
+            "57": 37,
+            "58": 37,
+            "336":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "332":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "199": [
+                {
+                    "chance": 100,
+                    "level": 43,
+                    "skill": "Frost Nova"
+                },
+                {
+                    "chance": 100,
+                    "level": 29,
+                    "skill": "Blaze"
+                },
+                {
+                    "chance": 100,
+                    "level": 41,
+                    "skill": "Nova"
+                },
+                {
+                    "chance": 100,
+                    "level": 23,
+                    "skill": "Venom"
+                }
+            ],
+            "197": [
+                {
+                    "min": 100,
+                    "max": 37,
+                    "par": "Blizzard"
+                },
+                {
+                    "min": 100,
+                    "max": 31,
+                    "par": "Meteor"
+                },
+                {
+                    "min": 100,
+                    "max": 47,
+                    "par": "Chain Lightning"
+                },
+                {
+                    "min": 100,
+                    "max": 51,
+                    "par": "Poison Nova"
+                }
+            ],
+            "50": 1,
+            "51": 74,
+            "334":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "330":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "54": 24,
+            "55": 38,
+            "335":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "331":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "48": 17,
+            "49": 45,
+            "333":
+            {
+                "min": 3,
+                "max": 5
+            },
+            "329":
+            {
+                "min": 3,
+                "max": 5
+            }
+        }
+    },
+    "NTIPAliasType": 58,
+    "NTIPAliasClassID": 643,
+    "NTIPAliasClass": null,
+    "NTIPAliasQuality": 7,
+    "NTIPAliasStat":
+    {
+        "48": 17,
+        "49": 45,
+        "199":
+        {
+            "chance": 100,
+            "level": 29,
+            "skill": "BLAZE"
+        },
+        "333": -5,
+        "329": 5
+    },
+    "NTIPAliasFlag":
+    {
+        "0x10": true,
+        "0x400000": false,
+        "0x4000000": false
+    }
+}

@@ -1,0 +1,358 @@
+{
+    "items": [
+        {
+            "BoundingBox":
+            {
+                "x": 576,
+                "y": 372,
+                "w": 159,
+                "h": 21
+            },
+            "Name": "Aldur's Stony Gaze",
+            "Quality": "set",
+            "Text": "HUNTER'S GUISE",
+            "BaseItem":
+            {
+                "DisplayName": "Hunter's Guise",
+                "NTIPAliasClassID": 470,
+                "NTIPAliasType": 72,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 3
+                    },
+                    "72": 20,
+                    "73": 20,
+                    "31":
+                    {
+                        "min": 67,
+                        "max": 81
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 2],
+                "sets": ["ALDURSSTONYGAZE"],
+                "NTIPAliasClass": 1
+            },
+            "Item":
+            {
+                "DisplayName": "Aldur's Stony Gaze",
+                "NTIPAliasClassID": 470,
+                "NTIPAliasType": 72,
+                "NTIPAliasStatProps":
+                {
+                    "31":
+                    {
+                        "min": 90,
+                        "max": 90
+                    },
+                    "27":
+                    {
+                        "min": 17,
+                        "max": 17
+                    },
+                    "89":
+                    {
+                        "min": 5,
+                        "max": 5
+                    },
+                    "99":
+                    {
+                        "min": 25,
+                        "max": 25
+                    },
+                    "43":
+                    {
+                        "min": 40,
+                        "max": 50
+                    },
+                    "194":
+                    {
+                        "min": 2,
+                        "max": 2
+                    }
+                }
+            },
+            "NTIPAliasType": 72,
+            "NTIPAliasClassID": 470,
+            "NTIPAliasClass": 1,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 615,
+                "y": 336,
+                "w": 89,
+                "h": 21
+            },
+            "Name": "Hsarus' Iron Fist",
+            "Quality": "set",
+            "Text": "BUCKLER",
+            "BaseItem":
+            {
+                "DisplayName": "Buckler",
+                "NTIPAliasClassID": 328,
+                "NTIPAliasType": 2,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "72": 12,
+                    "73": 12,
+                    "31":
+                    {
+                        "min": 4,
+                        "max": 6
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 2],
+                "sets": ["HSARUSIRONFIST"],
+                "uniques": ["PELTALUNATA"],
+                "NTIPAliasClass": 0
+            },
+            "Item":
+            {
+                "DisplayName": "Hsarus' Iron Fist",
+                "NTIPAliasClassID": 328,
+                "NTIPAliasType": 2,
+                "NTIPAliasStatProps":
+                {
+                    "34":
+                    {
+                        "min": 2,
+                        "max": 2
+                    },
+                    "0":
+                    {
+                        "min": 10,
+                        "max": 10
+                    }
+                }
+            },
+            "NTIPAliasType": 2,
+            "NTIPAliasClassID": 328,
+            "NTIPAliasClass": 0,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 515,
+                "y": 313,
+                "w": 136,
+                "h": 22
+            },
+            "Name": "Cerebus' Bite",
+            "Quality": "unique",
+            "Text": "BLOOD SPIRIT",
+            "BaseItem":
+            {
+                "DisplayName": "Blood Spirit",
+                "NTIPAliasClassID": 488,
+                "NTIPAliasType": 72,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 3
+                    },
+                    "72": 20,
+                    "73": 20,
+                    "31":
+                    {
+                        "min": 101,
+                        "max": 145
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 2],
+                "uniques": ["CEREBUSBITE"],
+                "NTIPAliasClass": 2
+            },
+            "Item":
+            {
+                "DisplayName": "Cerebus' Bite",
+                "NTIPAliasClassID": 488,
+                "NTIPAliasType": 72,
+                "NTIPAliasStatProps":
+                {
+                    "16,0":
+                    {
+                        "min": 130,
+                        "max": 140
+                    },
+                    "188,41":
+                    {
+                        "min": 2,
+                        "max": 4,
+                        "par": "Shape Shifting Skills"
+                    },
+                    "60":
+                    {
+                        "min": 7,
+                        "max": 10
+                    },
+                    "119":
+                    {
+                        "min": 60,
+                        "max": 120
+                    },
+                    "135":
+                    {
+                        "min": 33,
+                        "max": 33
+                    },
+                    "107,232":
+                    {
+                        "min": 1,
+                        "max": 2
+                    }
+                }
+            },
+            "NTIPAliasType": 72,
+            "NTIPAliasClassID": 488,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 570,
+                "y": 292,
+                "w": 102,
+                "h": 21
+            },
+            "Name": "Stormshield",
+            "Quality": "unique",
+            "Text": "MONARCH",
+            "BaseItem":
+            {
+                "DisplayName": "Monarch",
+                "NTIPAliasClassID": 447,
+                "NTIPAliasType": 2,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 86,
+                    "73": 86,
+                    "31":
+                    {
+                        "min": 133,
+                        "max": 148
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "uniques": ["STORMSHIELD"],
+                "NTIPAliasClass": 2
+            },
+            "Item":
+            {
+                "DisplayName": "Stormshield",
+                "NTIPAliasClassID": 447,
+                "NTIPAliasType": 2,
+                "NTIPAliasStatProps":
+                {
+                    "214":
+                    {
+                        "min": null,
+                        "max": null,
+                        "par": 30
+                    },
+                    "36":
+                    {
+                        "min": 35,
+                        "max": 35
+                    },
+                    "0":
+                    {
+                        "min": 30,
+                        "max": 30
+                    },
+                    "152":
+                    {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "102":
+                    {
+                        "min": 35,
+                        "max": 35
+                    },
+                    "41":
+                    {
+                        "min": 25,
+                        "max": 25
+                    },
+                    "20":
+                    {
+                        "min": 25,
+                        "max": 25
+                    },
+                    "43":
+                    {
+                        "min": 60,
+                        "max": 60
+                    },
+                    "128":
+                    {
+                        "min": 10,
+                        "max": 10
+                    }
+                }
+            },
+            "NTIPAliasType": 2,
+            "NTIPAliasClassID": 447,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        }
+    ]
+}

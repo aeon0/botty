@@ -1,0 +1,1264 @@
+{
+    "items": [
+        {
+            "BoundingBox":
+            {
+                "x": 364,
+                "y": 195,
+                "w": 246,
+                "h": 22
+            },
+            "Name": "Sacred Armor",
+            "Quality": "SUPERIOR",
+            "Text": "SUPERIOR SACRED ARMOR",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item": null,
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 3,
+            "NTIPAliasFlag":
+            {
+                "0x10": true,
+                "0x4000000": false
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 707,
+                "y": 336,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "magic",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 4,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 410,
+                "y": 326,
+                "w": 153,
+                "h": 22
+            },
+            "Name": "Sacred Armor",
+            "Quality": "magic",
+            "Text": "SACRED ARMOR",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item": null,
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 4,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 669,
+                "y": 266,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "magic",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 4,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 592,
+                "y": 240,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "magic",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 4,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 631,
+                "y": 218,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "magic",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 4,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 439,
+                "y": 356,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 784,
+                "y": 336,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 650,
+                "y": 288,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 333,
+                "y": 287,
+                "w": 153,
+                "h": 22
+            },
+            "Name": "Sacred Armor",
+            "Quality": "rare",
+            "Text": "SACRED ARMOR",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item": null,
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 477,
+                "y": 235,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 554,
+                "y": 218,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 554,
+                "y": 174,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 400,
+                "y": 174,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "rare",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 6,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 515,
+                "y": 356,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 515,
+                "y": 279,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 746,
+                "y": 276,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 371,
+                "y": 256,
+                "w": 153,
+                "h": 22
+            },
+            "Name": "Immortal King's Soul Cage",
+            "Quality": "set",
+            "Text": "SACRED ARMOR",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item":
+            {
+                "DisplayName": "Immortal King's Soul Cage",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "31":
+                    {
+                        "min": 400,
+                        "max": 400
+                    },
+                    "201":
+                    {
+                        "chance": 5,
+                        "level": 5,
+                        "skill": "Enchant"
+                    },
+                    "188,32":
+                    {
+                        "min": 2,
+                        "max": 2,
+                        "par": "Combat Skills"
+                    },
+                    "45":
+                    {
+                        "min": 50,
+                        "max": 50
+                    }
+                }
+            },
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 669,
+                "y": 244,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 400,
+                "y": 235,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 641,
+                "y": 109,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "set",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 5,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 784,
+                "y": 375,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 631,
+                "y": 375,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 631,
+                "y": 336,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 554,
+                "y": 305,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 707,
+                "y": 298,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 445,
+                "y": 131,
+                "w": 165,
+                "h": 43
+            },
+            "Name": "Tyrael's Might",
+            "Quality": "unique",
+            "Text": "TYRAEL'S MIGHT",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item":
+            {
+                "DisplayName": "Tyrael's Might",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "91":
+                    {
+                        "min": -100,
+                        "max": -100
+                    },
+                    "152":
+                    {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "16,0":
+                    {
+                        "min": 120,
+                        "max": 150
+                    },
+                    "108":
+                    {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "121":
+                    {
+                        "min": 50,
+                        "max": 100
+                    },
+                    "153":
+                    {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "96":
+                    {
+                        "min": 20,
+                        "max": 20
+                    },
+                    "39":
+                    {
+                        "min": 20,
+                        "max": 30
+                    },
+                    "43":
+                    {
+                        "min": 20,
+                        "max": 30
+                    },
+                    "41":
+                    {
+                        "min": 20,
+                        "max": 30
+                    },
+                    "45":
+                    {
+                        "min": 20,
+                        "max": 30
+                    },
+                    "0":
+                    {
+                        "min": 20,
+                        "max": 30
+                    }
+                }
+            },
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": true,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 592,
+                "y": 109,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "unique",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 304,
+                "y": 88,
+                "w": 180,
+                "h": 43
+            },
+            "Name": "Templar's Might",
+            "Quality": "unique",
+            "Text": "TEMPLAR'S MIGHT",
+            "BaseItem":
+            {
+                "DisplayName": "Sacred Armor",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "194":
+                    {
+                        "min": 0,
+                        "max": 4
+                    },
+                    "72": 60,
+                    "73": 60,
+                    "31":
+                    {
+                        "min": 487,
+                        "max": 600
+                    },
+                    "0x400000":
+                    {
+                        "min": 0,
+                        "max": 1
+                    }
+                },
+                "dimensions": [2, 3],
+                "sets": ["IMMORTALKINGSSOULCAGE"],
+                "uniques": ["TYRAELSMIGHT", "TEMPLARSMIGHT"],
+                "NTIPAliasClass": 2
+            },
+            "Item":
+            {
+                "DisplayName": "Templar's Might",
+                "NTIPAliasClassID": 442,
+                "NTIPAliasType": 3,
+                "NTIPAliasStatProps":
+                {
+                    "16,0":
+                    {
+                        "min": 170,
+                        "max": 220
+                    },
+                    "99":
+                    {
+                        "min": 20,
+                        "max": 20
+                    },
+                    "32":
+                    {
+                        "min": 250,
+                        "max": 300
+                    },
+                    "10":
+                    {
+                        "min": 40,
+                        "max": 50
+                    },
+                    "0":
+                    {
+                        "min": 10,
+                        "max": 15
+                    },
+                    "3":
+                    {
+                        "min": 10,
+                        "max": 15
+                    },
+                    "188,25":
+                    {
+                        "min": 1,
+                        "max": 2,
+                        "par": "Offensive Auras"
+                    }
+                }
+            },
+            "NTIPAliasType": 3,
+            "NTIPAliasClassID": 442,
+            "NTIPAliasClass": 2,
+            "NTIPAliasQuality": 7,
+            "NTIPAliasFlag":
+            {
+                "0x10": true,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 707,
+                "y": 375,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "crafted",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 8,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 592,
+                "y": 279,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "crafted",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 8,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        },
+        {
+            "BoundingBox":
+            {
+                "x": 746,
+                "y": 254,
+                "w": 57,
+                "h": 21
+            },
+            "Name": "Ring",
+            "Quality": "crafted",
+            "Text": "RING",
+            "BaseItem":
+            {
+                "DisplayName": "Ring",
+                "NTIPAliasClassID": 522,
+                "NTIPAliasType": 10,
+                "dimensions": [1, 1],
+                "sets": ["ANGELICHALO", "CATHANSSEAL"],
+                "uniques": ["NAGELRING", "MANALDHEAL", "THESTONEOFJORDAN", "CONSTRICTINGRING", "BULKATHOSWEDDINGBAND", "DWARFSTAR", "RAVENFROST", "NATURESPEACE", "WISPPROJECTOR", "CARRIONWIND"]
+            },
+            "Item": null,
+            "NTIPAliasType": 10,
+            "NTIPAliasClassID": 522,
+            "NTIPAliasClass": null,
+            "NTIPAliasQuality": 8,
+            "NTIPAliasFlag":
+            {
+                "0x10": false,
+                "0x4000000": true
+            }
+        }
+    ]
+}
