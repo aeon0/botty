@@ -13,8 +13,7 @@ class HydraSorc(Sorceress):
     def __init__(self, *args, **kwargs):
         Logger.info("Setting up HydraSorc Sorc")
         super().__init__(*args, **kwargs)
-        self._hydra_time = None
-        
+        self._hydra_time = None        
 
     def _alt_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
@@ -48,7 +47,7 @@ class HydraSorc(Sorceress):
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_pindle"])):
-            self._hydra(cast_pos_abs, spray=11)
+            self._hydra(cast_pos_abs, spray=0)
             self._alt_attack(cast_pos_abs, spray=11)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
@@ -60,7 +59,7 @@ class HydraSorc(Sorceress):
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_eldritch"])):
-            self._hydra(cast_pos_abs, spray=50)
+            self._hydra(cast_pos_abs, spray=0)
             self._alt_attack(cast_pos_abs, spray=90)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
@@ -74,7 +73,7 @@ class HydraSorc(Sorceress):
             shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
-            self._hydra(cast_pos_abs, spray=60)
+            self._hydra(cast_pos_abs, spray=0)
             self._alt_attack(cast_pos_abs, spray=90)
         pos_m = convert_abs_to_monitor((150, 50))
         self.pre_move()
@@ -82,7 +81,7 @@ class HydraSorc(Sorceress):
         shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_shenk"] * 0.5)):
-            self._hydra(cast_pos_abs, spray=60)
+            self._hydra(cast_pos_abs, spray=0)
             self._alt_attack(cast_pos_abs, spray=90)
         pos_m = convert_abs_to_monitor((150, 50))
         self.pre_move()
@@ -90,7 +89,7 @@ class HydraSorc(Sorceress):
         shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         for _ in range(int(Config().char["atk_len_shenk"])):
-            self._hydra(cast_pos_abs, spray=60)
+            self._hydra(cast_pos_abs, spray=0)
             self._alt_attack(cast_pos_abs, spray=90)
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -99,17 +98,3 @@ class HydraSorc(Sorceress):
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.4, force_tp=True)
         self._hydra_time = None
         return True
-
-
-
-if __name__ == "__main__":
-    import os
-    import keyboard
-    from template_finder import TemplateFinder
-    from pather import Pather
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
-    keyboard.wait("f11")
-    from config import Config
-    pather = Pather()
-    char = HydraSorc(Config().hydra_sorc, Config().char, pather)
-    char.kill_eldritch()
