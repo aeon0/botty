@@ -206,7 +206,6 @@ def find_nip_pattern_match(item_lines):
                             nip_alias_stat[key] = True
     for key in nip_alias_stat:
         if "188," in key: # * There is a mod with the tabskill mod (tab skill means a + to skills of one of the chars skill I.E sorc has Fire skills, paladins have Combat skills, and druids have Summoning skills)
-            print(40769)
             nip_alias_stat['188'] = nip_alias_stat[key]
             break
 
