@@ -4,8 +4,8 @@ import sys
 from parse import compile as compile_pattern
 from d2r_image.data_models import ItemQuality
 from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS, MAGIC_PREFIXES, MAGIC_SUFFIXES
-import difflib
-from utils.misc import lev
+from utils.misc import find_best_match, lev
+from logger import Logger
 
 item_lookup: dict = {
     "armor": ITEM_ARMOR,
@@ -38,15 +38,8 @@ d2data_path = os.path.join(application_path, 'd2data')
 magic_regex = re.compile(r"(^[\w+|']+\s).*(\sOF.*)")
 
 def magic_name(name: str):
-    best_similarity = 0
-    best_match = None
-    for base_item_name in bases_by_name:
-        similarity = difflib.SequenceMatcher(None, name, base_item_name).ratio()
-        if similarity > best_similarity:
-            best_similarity = similarity
-            best_match = base_item_name
-    return best_match
-
+    magic_names = [base_item_name for base_item_name in bases_by_name if base_item_name in name]
+    return find_best_match(name, magic_names).match
 
 def load_lookup():
     for key, val in item_lookup.items():
@@ -131,9 +124,8 @@ def find_unique_item_by_name(name, fuzzy=False):
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]
     else:
-        for item_key in item_lookup_by_quality_and_display_name[quality]:
-            if lev(normalized_name, item_key) < 3:
-                return item_lookup_by_quality_and_display_name[quality][item_key]
+        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality]).match
+        return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_set_item_by_name(name, fuzzy=False):
     # Print where this function gets called from.
@@ -143,9 +135,8 @@ def find_set_item_by_name(name, fuzzy=False):
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]
     else:
-        for item_key in item_lookup_by_quality_and_display_name[quality]:
-            if lev(normalized_name, item_key) < 3:
-                return item_lookup_by_quality_and_display_name[quality][item_key]
+        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality]).match
+        return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     """
@@ -163,6 +154,9 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     for base_item_name in bases_by_name:
         if base_item_name in normalized_name:
             matches.append(base_item_name)
+    
+    Logger.error(f"Could not find base item for {magic_item_text}")
+
     return None
 
 def magic_item_is_identified(magic_item_name):
@@ -263,18 +257,8 @@ def normalize_name(name: str):
 
 def correct_name(name: str):
     items = bases_by_name | consumables_by_name | gems_by_name | runes_by_name
-    best_match = None
-    best_lev = 0
-    for item in items:
-        lev_num = lev(name, item)
-        if lev_num < 3:
-            if best_match is None or lev_num < best_lev:
-                best_match = item
-                best_lev = lev_num
-    if best_match is not None:
-        return best_match
-    return name
-
+    return find_best_match(name, items).match
+    
 
 load_lookup()
 load_parsers()

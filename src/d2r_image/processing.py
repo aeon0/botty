@@ -101,6 +101,7 @@ if __name__ == "__main__":
     from d2r_image import processing as d2r_image
     from d2r_image.demo import draw_items_on_image_data
     from nip.transpile import should_keep, should_pickup
+    import json
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     print("Move to d2r window and press f11")
@@ -114,7 +115,7 @@ if __name__ == "__main__":
             Logger.debug(f"Keep {item.Quality} {item.BaseItem['DisplayName']}?: {should_keep(item.as_dict())}")
             x, y, w, h = res.roi
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 1)
-            Logger.debug(item)
+            Logger.debug(f"{json.dumps(item.as_dict(), indent=4)}\n")
         else:
             # look for dropped items
             all_loot = d2r_image.get_ground_loot(img)

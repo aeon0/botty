@@ -237,6 +237,21 @@ def lev(s1, s2):
         v0 = v1[:]
     return v1[len(s2)]
 
+@dataclass
+class best_match_result:
+    match: str
+    score: float
+
+def find_best_match(in_str: str, str_list: list[str]) -> best_match_result:
+    best_match = in_str
+    best_lev = float('inf')
+    for str_item in str_list:
+        lev_dist = lev(in_str, str_item)
+        if lev_dist < best_lev:
+            best_lev = lev_dist
+            best_match = str_item
+    return best_match_result(best_match, best_lev)
+
 # if __name__ == "__main__":
     # print(find_d2r_window())
     # print(find_d2r_window())

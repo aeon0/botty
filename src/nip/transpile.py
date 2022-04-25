@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from distutils.log import error
+from xmlrpc.client import Boolean
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -9,19 +12,24 @@ from nip.UniqueAndSetData import UniqueAndSetData
 import os
 import glob
 from logger import Logger
+from typing import List, Tuple
 
 from nip.lexer import Lexer, NipSyntaxError
 from nip.tokens import TokenType
 
+class NipSyntaxErrorSection(NipSyntaxError):
+    def __init__(self, token, section):
+        super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
 
-class NipSyntaxError(Exception):
-    def __init__(self, message):
-        self.message = message
-    
-    def __str__(self):
-        return self.message
 
-def find_unqiue_or_set_base(unique_or_set_name):
+@dataclass
+class NIPExpression:
+    raw: str
+    should_id_transpiled: str
+    transpiled: str
+    should_pickup: str
+
+def find_unqiue_or_set_base(unique_or_set_name) -> Tuple[str, str]:
     unique_or_set_name = unique_or_set_name.lower()
     for key in UniqueAndSetData:
         if UniqueAndSetData[key].get("uniques"):
@@ -34,10 +42,11 @@ def find_unqiue_or_set_base(unique_or_set_name):
                 for set in sets:
                     if set.lower() == unique_or_set_name:
                         return key, "set"
-
+    return "", ""
 
 
 def transpile(tokens, isPickedUpPhase=False):
+    print(tokens)
     expression = ""
     for i, token in enumerate(tokens):
         if token == None:
@@ -145,10 +154,8 @@ class NipValidationError(Exception):
     def __str__(self):
         return f"[ {self.token_errored_on.type} : {self.token_errored_on.value} ] can not be used in section [ {self.section_errored_on} ]."
 
-def validate_nip_expression(nip_expression):
-    """
-        enforces that {property} # {stats} # {maxquantity}
-    """
+
+def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
     tokens = None
 
     if not nip_expression:
@@ -159,12 +166,13 @@ def validate_nip_expression(nip_expression):
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
 
+
     if split_nip_expression_len >= 1 and split_nip_expression[0]: # property
         tokens = Lexer().create_tokens(split_nip_expression[0])
         all_tokens.extend(tokens)
         for token in tokens:
             if token.type == TokenType.NTIPAliasStat:
-                raise NipValidationError("property", token)
+                raise NipSyntaxErrorSection(token, "property")
     if split_nip_expression_len >= 2 and split_nip_expression[1]: # stats
         tokens = Lexer().create_tokens(split_nip_expression[1])
         all_tokens.extend(tokens)
@@ -178,7 +186,7 @@ def validate_nip_expression(nip_expression):
             )
 
             if is_invalid_stat_lookup:
-                raise NipValidationError("stats", token)
+                raise NipSyntaxErrorSection(token, "stats")
 
     if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
         tokens = Lexer().create_tokens(split_nip_expression[2])
@@ -194,8 +202,8 @@ def validate_nip_expression(nip_expression):
             )
 
             if is_invalid_maxquantity_lookup:
-                raise NipValidationError("maxquantity", token)
-
+                raise NipSyntaxErrorSection(token, "maxquantity")
+    
     # * Further syntax validation
     for i, token in enumerate(all_tokens):
         if token.type == TokenType.EQ:
@@ -215,13 +223,14 @@ def remove_quantity(expression): # ! This is a bit ghetto, but since we're not u
             return "#".join(split_expression)
     return expression
 
-def prepare_nip_expression(expression):
+def prepare_nip_expression(expression: str) -> str:
     if not expression.startswith("//") and not expression.startswith("-"):
         expression = expression.lower()
         expression = expression.split("//")[0] # * Ignore the comments inside the nip expression
         expression = remove_quantity(expression)
-        if validate_nip_expression(expression):
+        if validate_nip_expression_syntax(expression):
             return expression
+    return ''
 
 def transpile_nip_expression(expression: str, isPickedUpPhase=False):
     expression = prepare_nip_expression(expression)
@@ -234,42 +243,41 @@ def transpile_nip_expression(expression: str, isPickedUpPhase=False):
 
 
 
-nip_expressions = []
+nip_expressions: List[NIPExpression] = []
+
 def load_nip_expression(nip_expression):
     transpiled_expression = transpile_nip_expression(nip_expression)
     if transpiled_expression:
-        already_loaded = False
-        for expression in nip_expressions:
-            if expression["raw"] == nip_expression:
-                already_loaded = True
+        already_loaded = nip_expression in nip_expressions
         if not already_loaded:
-            nip_expressions.append({
-                "raw": nip_expression,
-                "should_id_transpiled": transpile_nip_expression(nip_expression.split("#")[0]),
-                "transpiled": transpiled_expression,
-                "should_pickup": transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
-            })
+            nip_expressions.append(
+                NIPExpression(
+                    raw=nip_expression,
+                    should_id_transpiled=transpile_nip_expression(nip_expression.split("#")[0]),
+                    transpiled=transpiled_expression,
+                    should_pickup=transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
+                )
+            )
 
 def should_keep(item_data):
 
     for expression in nip_expressions:
-        if expression["transpiled"]:
-            try:
-                if eval(expression["transpiled"]):
-                    return True, expression["raw"]
-            except:
-                pass
-                #print(f"Error: {expression['raw']}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
+        try:
+            if eval(expression.transpiled):
+                return True, expression.raw
+        except:
+            pass
+            #print(f"Error: {expression.raw}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
     return False, ""
 
 
 def gold_pickup(item_data):
     for expression in nip_expressions:
-        if expression["raw"]:
-            if "[gold]" in expression["raw"].lower():
-                res = eval(expression["transpiled"])
+        if expression.raw:
+            if "[gold]" in expression.raw.lower():
+                res = eval(expression.transpiled)
                 if res:
-                    return True, expression["raw"]
+                    return True, expression.raw
     return False, ""
 
 
@@ -282,16 +290,16 @@ def should_pickup(item_data):
 
     wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
-        if expression["raw"]:
-            expression_raw = prepare_nip_expression(expression["raw"])
+        if expression.raw:
+            expression_raw = prepare_nip_expression(expression.raw)
             nip_expression_split = expression_raw.replace("\n", "").split("#")
             property_condition = None
             try:
-                property_condition = eval(expression["should_pickup"]) # * This string in the eval uses the item_data that is being passed in
+                property_condition = eval(expression.should_pickup) # * This string in the eval uses the item_data that is being passed in
             except:
                 pass
             if property_condition:
-                return True, expression["raw"]
+                return True, expression.raw
 
             if item_data["Quality"] == "gray":
                 if len(nip_expression_split) >= 2:
@@ -304,23 +312,23 @@ def should_pickup(item_data):
                             if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                                 if tokens[i + 1].value == ">" and tokens[i + 2].value >= 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
-                                    raw_expression = expression["raw"]
+                                    raw_expression = expression.raw
                                     break
                                 elif tokens[i + 1].value == "==" and tokens[i + 2].value > 0 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
-                                    raw_expression = expression["raw"]
+                                    raw_expression = expression.raw
                                     break
                                 elif tokens[i + 1].value == "<" and tokens[i + 2].value > 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
-                                    raw_expression = expression["raw"]
+                                    raw_expression = expression.raw
                                     break
                                 elif tokens[i + 1].value == "<=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
-                                    raw_expression = expression["raw"]
+                                    raw_expression = expression.raw
                                     break
                                 elif tokens[i + 1].value == ">=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
                                     wants_open_socket = True
-                                    raw_expression = expression["raw"]
+                                    raw_expression = expression.raw
                                     break
                                 else:
                                     wants_open_socket = False
@@ -337,17 +345,17 @@ def should_id(item_data):
     id = True
 
     for expression in nip_expressions:
-        split_expression = expression["raw"].split("#")
+        split_expression = expression.raw.split("#")
         try:
-            if "[idname]" in expression["raw"].lower():
+            if "[idname]" in expression.raw.lower():
                     id = True
                     return id
-            if eval(expression["should_id_transpiled"]):
+            if eval(expression.should_id_transpiled):
                 if len(split_expression) == 1:
                     id = False
                     return id
         except Exception as e:
-                print(f"Error: {expression['raw']} {e}\n\n") # TODO look at these errors
+                print(f"Error: {expression.raw} {e}\n\n") # TODO look at these errors
         return id
 
 def load_nip_expressions(filepath):
@@ -358,6 +366,16 @@ def load_nip_expressions(filepath):
             except Exception as e:
                 file = filepath.split('\\config/')[1].replace("/", "\\")
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
+
+
+def _test_nip_expression(item_data, raw_nip_expression):
+    try:
+        if eval(transpile_nip_expression(raw_nip_expression)):
+            return True
+    except:
+        pass
+    return False
+
 
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
 nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
@@ -390,119 +408,33 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 if __name__ == "__main__":
-    transpile_tests = [
-        {
-            "raw": "[name] == ring && [quality] == rare",
-            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
-        },
-        {
-            "raw": "[type] == ring && [quality] == rare",
-            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))",
-        },
-
-        {
-            "raw": "[name] == ring && [quality] == rare # [strength] == 5",
-            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
-        },
-
-        {
-            "raw": "[type] == ring && [quality] == rare # [strength] == 5",
-            "transpiled": "(int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
-        },
-
-        {
-            "raw": "[name] == ring && [quality] == rare # [strength] == 5 && [sockets] == 2",
-            "transpiled": "(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)and(int(item_data['NTIPAliasStat'].get('194', -1)))==(2.0)",
-        },
-
-        {
-            "raw": "[idname] == thestoneofjordan",
-            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())",
-        },
-
-        {
-            "raw": "[idname] == thestoneofjordan && [quality] == unique",
-            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))",
-        },
-
-        {
-            "raw": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
-            "transpiled": "(str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique']))and(int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0)",
-        },
-        
-
-    ]
-
-    syntax_error_tests = [
-        {
-            "expression": "[name] == ring",
-            "should_fail": False,
-        },
-        {
-            "expression": "[name] = ring",
-            "should_fail": True,
-        },
-
-        {
-            "expression": "[name] > ring",
-            "should_fail": False,
-        },
-
-        {
-            "expression": "[name] < ring",
-            "should_fail": False,
-        },
-
-
-        {
-            "expression": "[name] >= ring",
-            "should_fail": False
-        },
-        {
-            "expression": "[name] <= ring",
-            "should_fail": False,
-        },
-
-
-        {
-            "expression": "[name] >== ring",
-            "should_fail": True,
-        },
-        {
-            "expression": "[name] ==> ring",
-            "should_fail": True,
-        },
-
-        {
-            "expression": "[name] != ring",
-            "should_fail": False,
-        },
-        {
-            "expression": "[name] =! ring",
-            "should_fail": True,
-        }
-    ]
-
-    # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
-    print(transpile_nip_expression("[name] == keyofterror # # [maxquantity] == 1"))
-    print(transpile_nip_expression("[name] == keyofterror"))
-    print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
-
-    for i, test in enumerate(transpile_tests):
-        try:
-            assert transpile_nip_expression(test["raw"]) == test["transpiled"]
-            print(f"transpile_test {i} passed.")
-        except:
-            print("Failed to transpile:", test["raw"])
-            print(transpile_nip_expression(test["raw"]), end="\n\n")
+    pass
 
     
-    print("\n")
+    
+    
 
-    for i, test in enumerate(syntax_error_tests):
-        try:
-            transpile_nip_expression(test["expression"])
-            print(f"syntax_error_test {i} passed.")
-        except:
-            if not test["should_fail"]:
-                print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
+    # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
+    print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
+    # print(transpile_nip_expression("[name] == keyofterror"))
+    # print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
+    
+
+    # for i, test in enumerate(transpile_tests):
+    #     try:
+    #         assert transpile_nip_expression(test["raw"]) == test["transpiled"]
+    #         print(f"transpile_test {i} passed.")
+    #     except:
+    #         print("Failed to transpile:", test["raw"])
+    #         print(transpile_nip_expression(test["raw"]), end="\n\n")
+
+    
+    # print("\n")
+
+    # for i, test in enumerate(syntax_error_tests):
+    #     try:
+    #         transpile_nip_expression(test["expression"])
+    #         print(f"syntax_error_test {i} passed.")
+    #     except:
+    #         if not test["should_fail"]:
+    #             print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
