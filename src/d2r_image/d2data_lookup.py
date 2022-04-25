@@ -4,7 +4,6 @@ import sys
 from parse import compile as compile_pattern
 from d2r_image.data_models import ItemQuality
 from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS, MAGIC_PREFIXES, MAGIC_SUFFIXES
-import difflib
 from utils.misc import lev
 
 item_lookup: dict = {
@@ -38,15 +37,16 @@ d2data_path = os.path.join(application_path, 'd2data')
 magic_regex = re.compile(r"(^[\w+|']+\s).*(\sOF.*)")
 
 def magic_name(name: str):
-    best_similarity = 0
     best_match = None
+    best_score = 9999
     for base_item_name in bases_by_name:
-        similarity = difflib.SequenceMatcher(None, name, base_item_name).ratio()
-        if similarity > best_similarity:
-            best_similarity = similarity
-            best_match = base_item_name
+        if base_item_name in name:
+            score = lev(base_item_name, name)
+            if score < best_score:
+                best_score = score
+                best_match = base_item_name
     return best_match
-
+    
 
 def load_lookup():
     for key, val in item_lookup.items():
