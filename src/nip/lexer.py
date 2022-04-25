@@ -176,16 +176,16 @@ class Lexer:
                     return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
                 else:
                     return Token(TokenType.UNKNOWN, "-1")
-            elif self.current_section == NipSections.STAT:
-                if lookup_key in NTIPAliasStat:
-                    return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
-                else:
-                    return Token(TokenType.UNKNOWN, "-1")
-            elif self.current_section == NipSections.MAXQUANTITY:
-                if lookup_key == "maxquanity":
-                    return Token(TokenType.MAXQUANITY, lookup_key)
-                else:
-                    return Token(TokenType.UNKNOWN, "-1")
+        elif self.current_section == NipSections.STAT:
+            if lookup_key in NTIPAliasStat:
+                return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
+            else:
+                return Token(TokenType.UNKNOWN, "-1")
+        elif self.current_section == NipSections.MAXQUANTITY:
+            if lookup_key == "maxquanity":
+                return Token(TokenType.MAXQUANITY, lookup_key)
+            else:
+                return Token(TokenType.UNKNOWN, "-1")
 
     def _create_d2r_image_data_lookup(self):
         lookup_key = self.current_token
@@ -245,10 +245,8 @@ class Lexer:
         if char:
             if res == None or char not in res.group(0):
                 raise NipSyntaxError(f"Invalid logical operator: '{char}'")
-
-        start, stop = 0, 0
-        if res:
-            start, stop = res.span()
+                
+        start, stop = res.span()
         
         is_valid_relation_operator = True
         invalid_char = ''

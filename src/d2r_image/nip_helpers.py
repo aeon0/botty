@@ -3,20 +3,13 @@ from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pa
 from d2r_image.data_models import HoveredItem, ItemQuality
 from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
 from d2r_image.processing_data import Runeword
-from utils.misc import lev
+from utils.misc import lev, find_best_match
 from d2r_image.d2data_data import ITEM_NAMES
 
 def correct_item_name(name):
-    best_match = None
-    best_lev = 0
-    for item in ITEM_NAMES:
-        lev_num = lev(name.lower(), item.lower())
-        if lev_num < 3:
-            if best_match is None or lev_num < best_lev:
-                best_match = item
-                best_lev = lev_num
-    if best_match is not None:
-        return best_match
+    res = find_best_match(name.lower(), list(map(str.lower,ITEM_NAMES)))
+    if res.score < 3:
+        return res.match
     return name
 
 def parse_item(quality, item, _call_count=1):
@@ -112,6 +105,7 @@ def parse_item(quality, item, _call_count=1):
         ItemQuality.Gray.value: 1
         # TODO Add support for lowquality
     }
+    print("base_item", base_item)
 
     # nip_item = Nip(
     #     NTIPAliasType=base_item['NTIPAliasType'],
@@ -144,7 +138,6 @@ def parse_item(quality, item, _call_count=1):
             name = lines[0]
         else:
             name = base_item['DisplayName']
-    
     
     return HoveredItem(
         Name=name,

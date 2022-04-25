@@ -46,6 +46,7 @@ def find_unqiue_or_set_base(unique_or_set_name) -> Tuple[str, str]:
 
 
 def transpile(tokens, isPickedUpPhase=False):
+    print(tokens)
     expression = ""
     for i, token in enumerate(tokens):
         if token == None:
@@ -153,13 +154,9 @@ class NipValidationError(Exception):
     def __str__(self):
         return f"[ {self.token_errored_on.type} : {self.token_errored_on.value} ] can not be used in section [ {self.section_errored_on} ]."
 
-def validate_nip_expression_syntax(nip_expression):
-    """
-        enforces that {property} # {stats} # {maxquantity}
-    """
-    tokens = None
 
-    error_msg = "[ {} ] : {} can not be used in section [ {} ]."
+def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
+    tokens = None
 
     if not nip_expression:
         return
@@ -168,7 +165,6 @@ def validate_nip_expression_syntax(nip_expression):
 
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
-
 
 
     if split_nip_expression_len >= 1 and split_nip_expression[0]: # property
@@ -419,7 +415,7 @@ if __name__ == "__main__":
     
 
     # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
-    # print(transpile_nip_expression("[name] == keyofterror # # [maxquantity] == 1"))
+    print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
     # print(transpile_nip_expression("[name] == keyofterror"))
     # print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
     
