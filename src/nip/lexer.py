@@ -5,7 +5,9 @@ from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
 from nip.tokens import Token, TokenType
+
 from enum import Enum
+from typing import Union, List
 import re
 
 
@@ -21,22 +23,21 @@ class NipSections(Enum):
     STAT = 2
     MAXQUANTITY = 3
 
-
 class NipSyntaxError(Exception):
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
+        self.type = type
     
     def __str__(self):
         return self.message
 
 
-
-
 class Lexer:
     def __init__(self):
-        self.current_section = NipSections.PROP
-        self.text_i = -1
-        self.tokens = []
+        self.current_section: NipSections = NipSections.PROP
+        self.current_token: Union[str, None] = ""
+        self.text_i: int = -1
+        self.tokens: List = []
 
     def increment_section(self):
         if self.current_section == NipSections.PROP:
@@ -94,7 +95,8 @@ class Lexer:
         elif n_str.endswith("."):
             n_str = n_str + "0"
         elif n_str.endswith("%"):
-            return Token(TokenType.NUMBERPERCENT, n_str[:-1])
+            if n_str != None:
+                return Token(TokenType.NUMBERPERCENT, n_str[:-1])
         return Token(TokenType.NUMBER, float(n_str))
 
 
@@ -144,44 +146,46 @@ class Lexer:
             self._advance()
             if self.current_token == "]":
                 break
-            lookup_key += self.current_token
+            if lookup_key and self.current_token:
+                lookup_key += self.current_token
         self._advance()
 
         if self.current_section == NipSections.PROP:
-            if lookup_key in "name":
-                return Token(TokenType.NAME, lookup_key)
-            elif lookup_key == "flag":
-                return Token(TokenType.FLAG, lookup_key)
-            elif lookup_key == "class":
-                return Token(TokenType.CLASS, lookup_key)
-            elif lookup_key == "quality":
-                return Token(TokenType.QUALITY, lookup_key)
-            elif lookup_key == "type":
-                return Token(TokenType._TYPE, lookup_key)
-            elif lookup_key == "idname":
-                return Token(TokenType.IDNAME, lookup_key)
-            elif lookup_key in NTIPAliasClass:
-                return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
-            elif lookup_key in NTIPAliasQuality:
-                return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
-            elif lookup_key in NTIPAliasClassID:
-                return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
-            elif lookup_key in NTIPAliasFlag:
-                return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
-            elif lookup_key in NTIPAliasType:
-                return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
-            else:
-                return Token(TokenType.UNKNOWN, "-1")
-        elif self.current_section == NipSections.STAT:
-            if lookup_key in NTIPAliasStat:
-                return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
-            else:
-                return Token(TokenType.UNKNOWN, "-1")
-        elif self.current_section == NipSections.MAXQUANTITY:
-            if lookup_key == "maxquanity":
-                return Token(TokenType.MAXQUANITY, lookup_key)
-            else:
-                return Token(TokenType.UNKNOWN, "-1")
+            if lookup_key:
+                if lookup_key in "name":
+                    return Token(TokenType.NAME, lookup_key)
+                elif lookup_key == "flag":
+                    return Token(TokenType.FLAG, lookup_key)
+                elif lookup_key == "class":
+                    return Token(TokenType.CLASS, lookup_key)
+                elif lookup_key == "quality":
+                    return Token(TokenType.QUALITY, lookup_key)
+                elif lookup_key == "type":
+                    return Token(TokenType._TYPE, lookup_key)
+                elif lookup_key == "idname":
+                    return Token(TokenType.IDNAME, lookup_key)
+                elif lookup_key in NTIPAliasClass:
+                    return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
+                elif lookup_key in NTIPAliasQuality:
+                    return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
+                elif lookup_key in NTIPAliasClassID:
+                    return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
+                elif lookup_key in NTIPAliasFlag:
+                    return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
+                elif lookup_key in NTIPAliasType:
+                    return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
+                else:
+                    return Token(TokenType.UNKNOWN, "-1")
+            elif self.current_section == NipSections.STAT:
+                if lookup_key in NTIPAliasStat:
+                    return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
+                else:
+                    return Token(TokenType.UNKNOWN, "-1")
+            elif self.current_section == NipSections.MAXQUANTITY:
+                if lookup_key == "maxquanity":
+                    return Token(TokenType.MAXQUANITY, lookup_key)
+                else:
+                    return Token(TokenType.UNKNOWN, "-1")
 
     def _create_d2r_image_data_lookup(self):
         lookup_key = self.current_token
@@ -191,7 +195,8 @@ class Lexer:
                 break
             if self.current_token == "'":
                 self.current_token = "\\'" # TODO FIX THIS (make stuff like diablo'shorn work..)
-            lookup_key += self.current_token
+            if lookup_key and self.current_token:
+                lookup_key += self.current_token
         # Converts stuff like ethereal to NTIPAliasFlag['ethereal']
         if self.current_section == NipSections.PROP:
             if lookup_key in NTIPAliasClass:
@@ -237,10 +242,13 @@ class Lexer:
         get_text = "".join(self.text[self.text_i - 2:])
 
         res = re.search(pattern, get_text)
-        if res == None or char not in res.group(0):
-            raise NipSyntaxError(f"Invalid logical operator: '{char}'")
-            
-        start, stop = res.span()
+        if char:
+            if res == None or char not in res.group(0):
+                raise NipSyntaxError(f"Invalid logical operator: '{char}'")
+
+        start, stop = 0, 0
+        if res:
+            start, stop = res.span()
         
         is_valid_relation_operator = True
         invalid_char = ''
@@ -253,15 +261,16 @@ class Lexer:
             invalid_char = get_text[stop]
 
         if is_valid_relation_operator:
-            operator = res.group()
-            for _ in range(start, stop):
-                self._advance()
-            if operator == "#":
-                self.increment_section()
-            
-            pythonic_relation_operator = operator.replace("&&", "and").replace("||", "or")
+            if res:
+                operator = res.group()
+                for _ in range(start, stop):
+                    self._advance()
+                if operator == "#":
+                    self.increment_section()
+                
+                pythonic_relation_operator = operator.replace("&&", "and").replace("||", "or")
 
-            return Token(logical_operator_map[operator], pythonic_relation_operator)
+                return Token(logical_operator_map[operator], pythonic_relation_operator)
         else:
             raise NipSyntaxError(f"Unexpected logical operator {invalid_char}")
         
