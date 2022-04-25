@@ -25,6 +25,7 @@ from pather import Pather, Location
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
+from char.paladin import FoHdin
 from char.barbarian import Barbarian
 from char.necro import Necro
 from char.poison_necro import Poison_Necro
@@ -60,6 +61,8 @@ class Bot:
             self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
         elif Config().char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
+        elif Config().char["type"] == "fohdin":
+            self._char: IChar = FoHdin(Config().fohdin, self._pather)
         elif Config().char["type"] == "trapsin":
             self._char: IChar = Trapsin(Config().trapsin, self._pather)
         elif Config().char["type"] == "barbarian":
