@@ -27,6 +27,7 @@ class IChar:
         self._ocr = Ocr()
         # Add a bit to be on the save side
         self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
+        self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
@@ -281,6 +282,8 @@ class IChar:
         return convert_abs_to_monitor(circle_pos_screen)
         
     def cast_in_arc(self, ability: str, cast_pos_abs: Tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+        #scale cast time by damage_scaling
+        time_in_s *= self.damage_scaling
         Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
         if not self._skill_hotkeys[ability]:
             raise ValueError(f"You did not set {ability} hotkey!")

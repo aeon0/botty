@@ -191,6 +191,7 @@ order=run_pindle, run_eldritch
 | amp_dmg        | Required Hotkey for Amplify Damage                                                  |
 | corpse_explosion | Required Hotkey Corpse Explosion                                                  |
 | raise_revive   | Required Hotkey revive                                                              |
+| damage_scaling   | Adjusts time spent casting attack skills. Ex: 2 will cast twice as long           |
 | clear_pindle_packs | clears mobs before pindle                                                       |
 
 | [dclone]             | Descriptions                                                          |
