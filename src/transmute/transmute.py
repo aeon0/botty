@@ -37,14 +37,14 @@ FLAWED_GEMS = [
     "INVENTORY_SKULL_FLAWED"
 ]
 
-STD_GEMS = [
-    "INVENTORY_TOPAZ_STD",
-    "INVENTORY_AMETHYST_STD",
-    "INVENTORY_SAPPHIRE_STD",
-    "INVENTORY_DIAMOND_STD",
-    "INVENTORY_RUBY_STD",
-    "INVENTORY_EMERALD_STD",
-    "INVENTORY_SKULL_STD"
+STANDARD_GEMS = [
+    "INVENTORY_TOPAZ_STANDARD",
+    "INVENTORY_AMETHYST_STANDARD",
+    "INVENTORY_SAPPHIRE_STANDARD",
+    "INVENTORY_DIAMOND_STANDARD",
+    "INVENTORY_RUBY_STANDARD",
+    "INVENTORY_EMERALD_STANDARD",
+    "INVENTORY_SKULL_STANDARD"
 ]
 
 FLAWLESS_GEMS = [
@@ -206,18 +206,16 @@ class Transmute:
         if not force and not self.should_transmute():
             Logger.info(f"Skipping transmutes. Force: {force}, Game#: {self._game_stats._game_counter}")
             return None
-        transmute_chipped=Config().configs["transmute"]["parser"]["transmute_chipped"]
-        transmute_flawed=Config().configs["transmute"]["parser"]["transmute_flawed"]
-        transmute_std=Config().configs["transmute"]["parser"]["transmute_std"]
-        transmute_flawless=Config().configs["transmute"]["parser"]["transmute_flawless"]
-        if int(transmute_chipped) >=1:
-            self._run_gem_transmutes(CHIPPED_GEMS,FLAWED_GEMS,"chipped")
-        if int(transmute_flawed) >=1:
-            self._run_gem_transmutes(FLAWED_GEMS,STD_GEMS,"flawed")
-        if int(transmute_std) >=1:
-            self._run_gem_transmutes(STD_GEMS,FLAWLESS_GEMS,"standard")
-        if int(transmute_flawless) >=1:
-            self._run_gem_transmutes(FLAWLESS_GEMS,PERFECT_GEMS,"flawless")
+        transmute_gems=Config().configs["transmute"]["parser"]["transmute"]
+        for gem in transmute_gems:
+            if gem == "chipped":
+                self._run_gem_transmutes(CHIPPED_GEMS,FLAWED_GEMS,"chipped")
+            if gem == "flawed":
+                self._run_gem_transmutes(FLAWED_GEMS,STANDARD_GEMS,"flawed")
+            if gem == "standard":
+                self._run_gem_transmutes(STANDARD_GEMS,FLAWLESS_GEMS,"standard")
+            if gem == "flawless":
+                self._run_gem_transmutes(FLAWLESS_GEMS,PERFECT_GEMS,"flawless")
 
     def check_cube_empty(self,gemsToTransmute) -> bool:
         self.open_cube()

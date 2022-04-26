@@ -417,13 +417,11 @@ class Config:
             "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
         }
         stash_destination_str = self._select_val("transmute","stash_destination")
+        transmute_str = self._select_val("transmute","transmute")
         self.configs["transmute"]["parser"] = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
             "transmute_every_x_game": self._select_val("transmute","transmute_every_x_game"),
-            "transmute_chipped": self._select_val("transmute","transmute_chipped"),
-            "transmute_flawed": self._select_val("transmute","transmute_flawed"),
-            "transmute_std": self._select_val("transmute","transmute_std"),
-            "transmute_flawless": self._select_val("transmute","transmute_flawless"),
+            "transmute": [x.strip() for x in transmute_str.split(",")],
         }
 
 if __name__ == "__main__":
