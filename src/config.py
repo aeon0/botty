@@ -420,6 +420,10 @@ class Config:
         self.configs["transmute"]["parser"] = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
             "transmute_every_x_game": self._select_val("transmute","transmute_every_x_game"),
+            "transmute_chipped": self._select_val("transmute","transmute_chipped"),
+            "transmute_flawed": self._select_val("transmute","transmute_flawed"),
+            "transmute_std": self._select_val("transmute","transmute_std"),
+            "transmute_flawless": self._select_val("transmute","transmute_flawless"),
         }
 
 if __name__ == "__main__":
