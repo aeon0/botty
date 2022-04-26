@@ -227,7 +227,7 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
 class BestMatchResult:
     match: str
     score: float
-    normalized_score: float
+    score_normalized: float
 
 def find_best_match(in_str: str, str_list: list[str]) -> BestMatchResult:
     best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
