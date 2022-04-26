@@ -9,7 +9,7 @@ from rapidfuzz.string_metric import levenshtein
 
 def correct_item_name(name):
     res = find_best_match(name.lower(), list(map(str.lower, list(base_items().keys()))))
-    if res.score < 3:
+    if res.score_normalized >= 0.6:
         return res.match
     return name
 

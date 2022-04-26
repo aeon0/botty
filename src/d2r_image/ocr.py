@@ -233,10 +233,10 @@ def _ocr_result_dictionary_check(
                     #print(alphanumeric)
                     if not alphanumeric.isnumeric() and not word_list.get(word) and not word_list.get(alphanumeric):
                         print(1111)
-                        result = find_best_match(word, list(word_list.keys()), True)
-                        if (result.score) >= (normalized_lev_threshold):
+                        result = find_best_match(word, list(word_list.keys()))
+                        if (result.score_normalized) >= (normalized_lev_threshold):
                             corrected_text += f"{result.match} "
-                            Logger.debug(f"_ocr_result_dictionary_check: Replacing {word} (OCR confidence {round(confidences[word_count]*100)}%) with {result.match}, similarity={result.score*100:.1f}%")
+                            Logger.debug(f"_ocr_result_dictionary_check: Replacing {word} (OCR confidence {round(confidences[word_count]*100)}%) with {result.match}, similarity={result.score_normalized*100:.1f}%")
                         else:
                             corrected_text += f"{word} "
                     else:

@@ -224,15 +224,15 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
     return not(np.bitwise_xor(img1, img2).any())
 
 @dataclass
-class best_match_result:
+class BestMatchResult:
     match: str
     score: float
+    normalized_score: float
 
-def find_best_match(in_str: str, str_list: list[str], normalize: bool = False) -> best_match_result:
+def find_best_match(in_str: str, str_list: list[str]) -> BestMatchResult:
     best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
-    if normalize:
-        best_lev = 1 - best_lev / len(in_str)
-    return best_match_result(best_match, best_lev)
+    best_lev_normalized = 1 - best_lev / len(in_str)
+    return BestMatchResult(best_match, best_lev, best_lev_normalized)
 
 # if __name__ == "__main__":
     # print(find_d2r_window())
