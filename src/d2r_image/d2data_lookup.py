@@ -125,7 +125,7 @@ def find_unique_item_by_name(name, fuzzy=False):
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]
     else:
-        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality]).match
+        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality].keys()).match
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_set_item_by_name(name, fuzzy=False):
