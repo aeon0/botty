@@ -144,19 +144,11 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     modifed_magic_item_text = magic_item_text.upper().replace("-", "").replace("'", "")
     if item_is_identified:
         split_name = modifed_magic_item_text.split(" ")
-        of_index = None
-
-        try:
-            of_index = split_name.index("OF")
-        except ValueError:
-            Logger.error(f"Could not find base of {magic_item_text}, {modifed_magic_item_text}, {item_is_identified}, this is most likely do to it being obscured by HUD.")
-            return
-
-        temp_name = ""
-        for i in range(of_index):
-            temp_name = "".join(split_name[i:of_index])
-            if temp_name in bases_by_name:
-                return bases_by_name[temp_name]
+        for i in range(len(split_name)):
+            for j in range(len(split_name)):
+                temp_name = "".join(split_name[i:j+1])
+                if temp_name in bases_by_name:
+                    return bases_by_name[temp_name]
     else:
         modifed_magic_item_text = modifed_magic_item_text.replace(" ", "")
         if modifed_magic_item_text in bases_by_name:
