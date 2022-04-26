@@ -15,7 +15,7 @@ def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
     model: str = "engd2r_inv_th",
     psm: int = 3,
-    word_list: str = "assets/tessdata/word_lists/all_strings.txt",
+    word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,
     crop_pad: bool = True,
     erode: bool = True,
