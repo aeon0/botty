@@ -21,6 +21,8 @@ from win32api import GetMonitorInfo, MonitorFromWindow
 from win32process import GetWindowThreadProcessId
 import psutil
 
+from rapidfuzz.process import extractOne
+from rapidfuzz.string_metric import levenshtein
 
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
@@ -221,35 +223,15 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         return False
     return not(np.bitwise_xor(img1, img2).any())
 
-def lev(s1, s2):
-    if len(s1) == 0:
-        return len(s2)
-    if len(s2) == 0:
-        return len(s1)
-
-    v0 = range(len(s2) + 1)
-    v1 = [0] * (len(s2) + 1)
-    for i in range(len(s1)):
-        v1[0] = i + 1
-        for j in range(len(s2)):
-            cost = 0 if s1[i] == s2[j] else 1
-            v1[j + 1] = min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
-        v0 = v1[:]
-    return v1[len(s2)]
-
 @dataclass
 class best_match_result:
     match: str
     score: float
 
-def find_best_match(in_str: str, str_list: list[str]) -> best_match_result:
-    best_match = in_str
-    best_lev = float('inf')
-    for str_item in str_list:
-        lev_dist = lev(in_str, str_item)
-        if lev_dist < best_lev:
-            best_lev = lev_dist
-            best_match = str_item
+def find_best_match(in_str: str, str_list: list[str], normalize: bool = False) -> best_match_result:
+    best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
+    if normalize:
+        best_lev = 1 - best_lev / len(in_str)
     return best_match_result(best_match, best_lev)
 
 # if __name__ == "__main__":

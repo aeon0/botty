@@ -60,7 +60,7 @@ def save_char_template():
             digits_only = False,
             fix_regexps = False,
             check_known_errors = False,
-            check_wordlist = False,
+            correct_words = False,
         )[0]
         Logger.debug(f"Saved character template: {ocr_result.text.splitlines()[0]}")
     else:
