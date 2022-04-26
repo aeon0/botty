@@ -46,7 +46,6 @@ def find_unqiue_or_set_base(unique_or_set_name) -> Tuple[str, str]:
 
 
 def transpile(tokens, isPickedUpPhase=False):
-    print(tokens)
     expression = ""
     for i, token in enumerate(tokens):
         if token == None:

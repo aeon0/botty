@@ -245,8 +245,10 @@ class Lexer:
         if char:
             if res == None or char not in res.group(0):
                 raise NipSyntaxError(f"Invalid logical operator: '{char}'")
-                
-        start, stop = res.span()
+        
+        start, stop = 0, 0
+        if res:
+            start, stop = res.span()
         
         is_valid_relation_operator = True
         invalid_char = ''
