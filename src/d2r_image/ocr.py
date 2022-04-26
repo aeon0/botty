@@ -6,9 +6,7 @@ from utils.misc import erode_to_black, find_best_match
 from typing import List, Union
 from d2r_image.data_models import OcrResult
 from d2r_image.ocr_data import ERROR_RESOLUTION_MAP, I_1, II_U, ONE_I, ONEONE_U
-from rapidfuzz.process import extractOne
-from rapidfuzz.string_metric import levenshtein
-from d2r_image.strings_store import WordLists
+from d2r_image.strings_store import all_words
 from logger import Logger
 
 def image_to_text(
@@ -214,7 +212,7 @@ def _check_known_errors(text):
 def _ocr_result_dictionary_check(
     original_text: str,
     confidences: list,
-    word_list: list = WordLists().all_words,
+    word_list: list = all_words(),
     normalized_lev_threshold: float = 0.6,
     ocr_confidence_threshold: float = 0.9
     ) -> str:

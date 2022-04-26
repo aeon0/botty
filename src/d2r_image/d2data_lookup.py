@@ -4,7 +4,7 @@ import sys
 from parse import compile as compile_pattern
 from d2r_image.data_models import ItemQuality
 from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS
-from d2r_image.strings_store import WordLists
+from d2r_image.strings_store import magic_prefixes, magic_suffixes
 from utils.misc import find_best_match
 from logger import Logger
 
@@ -162,10 +162,10 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     return None
 
 def magic_item_is_identified(magic_item_name):
-    for affix in WordLists().magic_prefixes:
+    for affix in magic_prefixes():
         if affix in magic_item_name:
             return True
-    for affix in WordLists().magic_suffixes:
+    for affix in magic_suffixes():
         if affix in magic_item_name:
             return True
     return False

@@ -4,11 +4,11 @@ from d2r_image.data_models import HoveredItem, ItemQuality
 from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
 from d2r_image.processing_data import Runeword
 from utils.misc import find_best_match
-from d2r_image.strings_store import WordLists
+from d2r_image.strings_store import base_items
 from rapidfuzz.string_metric import levenshtein
 
 def correct_item_name(name):
-    res = find_best_match(name.lower(), list(map(str.lower, WordLists().base_items)))
+    res = find_best_match(name.lower(), list(map(str.lower, base_items())))
     if res.score < 3:
         return res.match
     return name
