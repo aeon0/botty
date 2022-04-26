@@ -213,7 +213,7 @@ def _ocr_result_dictionary_check(
     original_text: str,
     confidences: list,
     word_list: list = all_words(),
-    normalized_lev_threshold: float = 0.1,
+    normalized_lev_threshold: float = 0.6,
     ocr_confidence_threshold: float = 0.925
     ) -> str:
     confidences = [x/100 for x in confidences]
