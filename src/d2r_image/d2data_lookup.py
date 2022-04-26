@@ -160,7 +160,6 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     else:
         modifed_magic_item_text = modifed_magic_item_text.replace(" ", "")
         if modifed_magic_item_text in bases_by_name:
-            print(f"found base item: {bases_by_name[modifed_magic_item_text]}")
             return bases_by_name[modifed_magic_item_text]
 
     Logger.error(f"Could not find base item for {magic_item_text}, {modifed_magic_item_text}, {item_is_identified}")
