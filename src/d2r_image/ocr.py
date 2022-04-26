@@ -213,8 +213,8 @@ def _ocr_result_dictionary_check(
     original_text: str,
     confidences: list,
     word_list: list = all_words(),
-    normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.9
+    normalized_lev_threshold: float = 0.1,
+    ocr_confidence_threshold: float = 0.925
     ) -> str:
     confidences = [x/100 for x in confidences]
     if all(x >= ocr_confidence_threshold for x in confidences):
@@ -227,7 +227,7 @@ def _ocr_result_dictionary_check(
         word = word.strip()
         if word and word != "NEWLINEHERE":
             try:
-                #print(confidences[word_count])
+                # print(word, confidences[word_count])
                 if confidences[word_count] <= ocr_confidence_threshold:
                     alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
                     #print(alphanumeric)
