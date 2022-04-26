@@ -50,7 +50,7 @@ def parse_item(quality, item, _call_count=1):
     base_name = base_name.upper().replace(' ', '')
     base_item = None
     if quality == ItemQuality.Magic.value:
-        corrected_name = correct_item_name(cleaned_lines[0]).replace(" ", "")
+        corrected_name = correct_item_name(cleaned_lines[0])
         base_item = find_base_item_from_magic_item_text(corrected_name, item_is_identified)
     else:
         if quality == ItemQuality.Crafted.value and is_rune(base_name):

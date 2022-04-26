@@ -142,20 +142,26 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     """
         Unidentified Military Pick is not getting found by this function
     """
+    print(magic_item_text)
     name_to_normalize = magic_item_text
     if item_is_identified:
-        name_to_normalize = magic_name(magic_item_text)
+        name_to_normalize = magic_item_text.upper().replace("-", "").replace("'", "")
+        split_name = name_to_normalize.split(" ")
+        of_index = split_name.index("OF")
 
-    normalized_name = normalize_name(name_to_normalize)
-    if normalized_name in bases_by_name:
-        return bases_by_name[normalized_name]
+        temp_name = ""
+        for i in range(of_index):
+            temp_name = "".join(split_name[i:of_index])
+            if temp_name in bases_by_name:
+                return bases_by_name[temp_name]
+    else:
+        if name_to_normalize in bases_by_name:
+            return bases_by_name[name_to_normalize]
 
-    matches = []
-    for base_item_name in bases_by_name:
-        if base_item_name in normalized_name:
-            matches.append(base_item_name)
+
+   
     
-    Logger.error(f"Could not find base item for {magic_item_text}")
+    # Logger.error(f"Could not find base item for {magic_item_text} {magic_item_text} {normalized_name}")
 
     return None
 
