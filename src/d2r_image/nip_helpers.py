@@ -8,7 +8,7 @@ from d2r_image.strings_store import base_items
 from rapidfuzz.string_metric import levenshtein
 
 def correct_item_name(name):
-    res = find_best_match(name.lower(), list(map(str.lower, base_items())))
+    res = find_best_match(name.lower(), list(map(str.lower, list(base_items().keys()))))
     if res.score < 3:
         return res.match
     return name
