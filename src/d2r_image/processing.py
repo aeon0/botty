@@ -102,9 +102,10 @@ if __name__ == "__main__":
     from d2r_image.demo import draw_items_on_image_data
     from nip.transpile import should_keep, should_pickup
     import json
+    from logger import Logger
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
-    print("Move to d2r window and press f11")
+    Logger.info("Move to d2r window and press f11")
     keyboard.wait("f11")
 
     while 1:

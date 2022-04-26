@@ -8,6 +8,7 @@ dependencies:
   - leptonica
   - tesseract>=5.0.1
   - pkg-config
+  - rapidfuzz
   - pip:
     - pyinstaller
     - opencv-python
@@ -33,4 +34,3 @@ dependencies:
     - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
     - colorama
     - dataclasses-json
-    - rapidfuzz

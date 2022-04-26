@@ -2,18 +2,20 @@ from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
 import re
-from utils.misc import erode_to_black
+from utils.misc import erode_to_black, find_best_match
 from typing import List, Union
 from d2r_image.data_models import OcrResult
 from d2r_image.ocr_data import ERROR_RESOLUTION_MAP, I_1, II_U, ONE_I, ONEONE_U
 from rapidfuzz.process import extractOne
 from rapidfuzz.string_metric import levenshtein
+from d2r_image.strings_store import WordLists
+from logger import Logger
 
 def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
     model: str = "engd2r_inv_th",
     psm: int = 3,
-    word_list: str = "assets/tessdata/word_lists/all_strings.txt",
+    word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,
     crop_pad: bool = True,
     erode: bool = True,
@@ -22,7 +24,7 @@ def image_to_text(
     digits_only: bool = False,
     fix_regexps: bool = True,
     check_known_errors: bool = True,
-    check_wordlist: bool = True,
+    correct_words: bool = True,
     word_match_threshold: float = 0.5
 ) -> list[str]:
     """
@@ -41,8 +43,8 @@ def image_to_text(
     :param digits_only: only look for digits
     :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
     :param check_known_errors: check for predefined common errors and replace
-    :param check_wordlist: check dictionary of words and match closest match if proximity is greater than word_match_threshold
-    :param word_match_threshold: (see check_wordlist)
+    :param correct_words: check dictionary of words and match closest match if proximity is greater than word_match_threshold
+    :param word_match_threshold: (see correct_words)
     :return: Returns an OcrResult object
     """
     if type(images) == np.ndarray:
@@ -90,9 +92,8 @@ def image_to_text(
                 text = _fix_regexps(text)
             if check_known_errors:
                 text = _check_known_errors(text)
-            if check_wordlist and any([x <= 90 for x in word_confidences]):
-                text = _check_wordlist(
-                    text, word_list, word_confidences, word_match_threshold)
+            if correct_words:
+                text = _ocr_result_dictionary_check(text, word_confidences)
                 text = text.replace(' NEWLINEHERE ', '\n')
             results.append(OcrResult(
                 original_text=original_text,
@@ -210,40 +211,47 @@ def _check_known_errors(text):
             text = text.replace(key, ERROR_RESOLUTION_MAP[key])
     return text
 
-
-def _check_wordlist(text: str = None, word_list: str = None, confidences: list = [], match_threshold: float = 0.5) -> str:
+def _ocr_result_dictionary_check(
+    original_text: str,
+    confidences: list,
+    word_list: list = WordLists().all_words,
+    normalized_lev_threshold: float = 0.6,
+    ocr_confidence_threshold: float = 0.9
+    ) -> str:
+    confidences = [x/100 for x in confidences]
+    if all(x >= ocr_confidence_threshold for x in confidences):
+        return original_text
+    #print(f"{original_text} {confidences}")
+    text = original_text.replace('\n', ' NEWLINEHERE ')
+    corrected_text = ""
     word_count = 0
-    new_string = ""
-    text = text.replace('\n', ' NEWLINEHERE ')
-
-    with open(word_list, 'r') as f:
-        word_list = f.read().splitlines()
-
-    for word in word_list:
-        try:
-            if confidences[word_count] <= 90:
-                alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
-                if not alphanumeric.isnumeric() and (word not in word_list) and alphanumeric not in word_list:
-                    closest_match, similarity, _ = extractOne(word, word_list, scorer=levenshtein)
-                    normalized_similarity = 1 - similarity / len(word)
-                    if (normalized_similarity) >= (match_threshold):
-                        new_string += f"{closest_match} "
-                        # logging.debug(
-                        #     f"check_wordlist: Replacing {word} ({confidences[word_count]}%) with {closest_match}, similarity={normalized_similarity*100:.1f}%")
+    for word in text.split(' '):
+        word = word.strip()
+        if word and word != "NEWLINEHERE":
+            try:
+                #print(confidences[word_count])
+                if confidences[word_count] <= ocr_confidence_threshold:
+                    alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
+                    #print(alphanumeric)
+                    if not alphanumeric.isnumeric() and (word not in word_list) and alphanumeric not in word_list:
+                        result = find_best_match(word, word_list, True)
+                        if (result.score) >= (normalized_lev_threshold):
+                            corrected_text += f"{result.match} "
+                            Logger.debug(f"_ocr_result_dictionary_check: Replacing {word} (OCR confidence {round(confidences[word_count]*100)}%) with {result.match}, similarity={result.score*100:.1f}%")
+                        else:
+                            corrected_text += f"{word} "
                     else:
-                        new_string += f"{word} "
+                        corrected_text += f"{word} "
                 else:
-                    new_string += f"{word} "
-            else:
-                new_string += f"{word} "
-            word_count += 1
-        except IndexError:
-            # bizarre word_count index exceeded sometimes... can't reproduce and words otherwise seem to match up
-            # logging.error(
-            #     f"check_wordlist: IndexError for word: {word}, index: {word_count}, text: {text}")
-            return text
-        except Exception as e:
-            # logging.error(
-            #     f"check_wordlist: Unknown error for word: {word}, index: {word_count}, text: {text}, exception: {e}")
-            return text
-    return new_string.strip()
+                    corrected_text += f"{word} "
+                word_count += 1
+            except IndexError:
+                # bizarre word_count index exceeded sometimes... can't reproduce and words otherwise seem to match up
+                Logger.error(f"_ocr_result_dictionary_check: IndexError for word: {word}, index: {word_count}, text: {text}")
+                return text
+            except Exception as e:
+                Logger.error(f"_ocr_result_dictionary_check: Exception on word: {word}, index: {word_count}, text: {text}, exception: {e}")
+                return text
+        elif word == "NEWLINEHERE":
+            corrected_text += "\n"
+    return corrected_text.strip()
