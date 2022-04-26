@@ -141,15 +141,16 @@ def find_set_item_by_name(name, fuzzy=False):
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
-    """
-        Unidentified Military Pick is not getting found by this function
-    """
-    print(magic_item_text)
-    name_to_normalize = magic_item_text
+    modifed_magic_item_text = magic_item_text.upper().replace("-", "").replace("'", "")
     if item_is_identified:
-        name_to_normalize = magic_item_text.upper().replace("-", "").replace("'", "")
-        split_name = name_to_normalize.split(" ")
-        of_index = split_name.index("OF")
+        split_name = modifed_magic_item_text.split(" ")
+        of_index = None
+
+        try:
+            of_index = split_name.index("OF")
+        except ValueError:
+            Logger.error(f"Could not find base of {magic_item_text}, {modifed_magic_item_text}, {item_is_identified}, this is most likely do to it being obscured by HUD.")
+            return
 
         temp_name = ""
         for i in range(of_index):
@@ -157,24 +158,20 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
             if temp_name in bases_by_name:
                 return bases_by_name[temp_name]
     else:
-        if name_to_normalize in bases_by_name:
-            return bases_by_name[name_to_normalize]
+        modifed_magic_item_text = modifed_magic_item_text.replace(" ", "")
+        if modifed_magic_item_text in bases_by_name:
+            print(f"found base item: {bases_by_name[modifed_magic_item_text]}")
+            return bases_by_name[modifed_magic_item_text]
 
+    Logger.error(f"Could not find base item for {magic_item_text}, {modifed_magic_item_text}, {item_is_identified}")
 
-   
-    
-    # Logger.error(f"Could not find base item for {magic_item_text} {magic_item_text} {normalized_name}")
-
-    return None
 
 def magic_item_is_identified(magic_item_name):
-    for affix in magic_prefixes():
-        if affix in magic_item_name:
-            return True
-    for affix in magic_suffixes():
-        if affix in magic_item_name:
-            return True
-    return False
+    magic_item_name = magic_item_name.upper().replace("-", "").replace("'", "").replace(" ", "")
+    for base_by_name in bases_by_name:
+        if magic_item_name.upper() == base_by_name:
+            return False
+    return True
 
 def is_base(name: str) -> bool:
     return normalize_name(name) in bases_by_name
