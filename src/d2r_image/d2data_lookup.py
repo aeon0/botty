@@ -3,8 +3,9 @@ import re
 import sys
 from parse import compile as compile_pattern
 from d2r_image.data_models import ItemQuality
-from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS, MAGIC_PREFIXES, MAGIC_SUFFIXES
-from utils.misc import find_best_match, lev
+from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS
+from d2r_image.strings_store import magic_prefixes, magic_suffixes
+from utils.misc import find_best_match
 from logger import Logger
 
 item_lookup: dict = {
@@ -124,18 +125,19 @@ def find_unique_item_by_name(name, fuzzy=False):
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]
     else:
-        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality]).match
+        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality].keys()).match
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_set_item_by_name(name, fuzzy=False):
-    # Print where this function gets called from.
     quality = ItemQuality.Set.value
+    print(f"name: {name}")
     normalized_name = normalize_name(name)
+    print(f"normalized_name: {normalized_name}")
     if not fuzzy:
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]
     else:
-        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality]).match
+        best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality].keys()).match
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
@@ -166,10 +168,10 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
     return None
 
 def magic_item_is_identified(magic_item_name):
-    for affix in MAGIC_PREFIXES:
+    for affix in magic_prefixes():
         if affix in magic_item_name:
             return True
-    for affix in MAGIC_SUFFIXES:
+    for affix in magic_suffixes():
         if affix in magic_item_name:
             return True
     return False
@@ -264,7 +266,7 @@ def normalize_name(name: str):
 def correct_name(name: str):
     items = bases_by_name | consumables_by_name | gems_by_name | runes_by_name
     return find_best_match(name, items).match
-    
+
 
 load_lookup()
 load_parsers()

@@ -122,7 +122,7 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
         digits_only = True,
         fix_regexps = False,
         check_known_errors = False,
-        check_wordlist = False,
+        correct_words = False,
     )[0]
     number=int(ocr_result.text.strip())
     Logger.debug(f"{type.upper()} gold: {number}")

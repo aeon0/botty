@@ -3,11 +3,12 @@ from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pa
 from d2r_image.data_models import HoveredItem, ItemQuality
 from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
 from d2r_image.processing_data import Runeword
-from utils.misc import lev, find_best_match
-from d2r_image.d2data_data import ITEM_NAMES
+from utils.misc import find_best_match
+from d2r_image.strings_store import base_items
+from rapidfuzz.string_metric import levenshtein
 
 def correct_item_name(name):
-    res = find_best_match(name.lower(), list(map(str.lower,ITEM_NAMES)))
+    res = find_best_match(name.lower(), list(map(str.lower, base_items())))
     if res.score < 3:
         return res.match
     return name
@@ -25,11 +26,12 @@ def parse_item(quality, item, _call_count=1):
             cleaned_lines.append(line)
     lines = cleaned_lines
     for line in lines:
-
-        if lev(line, 'UNIDENTIFIED') < 3:
+        if levenshtein(line, 'UNIDENTIFIED') < 3:
             item_is_identified = False
         if 'ETHEREAL' in line:
             item_is_ethereal = True
+        if item_is_ethereal and not item_is_identified:
+            break
     if item_is_identified:
         for line in lines:
             match = find_pattern_match(line)
@@ -45,7 +47,7 @@ def parse_item(quality, item, _call_count=1):
     # parsed_item["display_name"] = item[0]
     # The second line is usually the type. Map it to be sure, (for now just setting to base_type)
     # parsed_item["base_item"] = item[1]
-    print(lines, item_is_identified)
+    # print(lines, item_is_identified)
     base_name = lines[1] if item_is_identified and quality not in [ItemQuality.Superior.value, ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Magic.value, ItemQuality.Crafted.value] else lines[0]
     base_name = base_name.upper().replace(' ', '')
     base_item = None
@@ -105,7 +107,7 @@ def parse_item(quality, item, _call_count=1):
         ItemQuality.Gray.value: 1
         # TODO Add support for lowquality
     }
-    print("base_item", base_item)
+    # print("base_item", base_item)
 
     # nip_item = Nip(
     #     NTIPAliasType=base_item['NTIPAliasType'],
@@ -138,7 +140,7 @@ def parse_item(quality, item, _call_count=1):
             name = lines[0]
         else:
             name = base_item['DisplayName']
-    
+
     return HoveredItem(
         Name=name,
         NTIPAliasIdName=lines[0].replace(" ", "").replace("\"", "").replace("'", ""),

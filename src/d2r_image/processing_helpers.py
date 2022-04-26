@@ -13,6 +13,7 @@ import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK
 from utils.misc import color_filter, erode_to_black
 
+from logger import Logger
 from config import Config
 
 gold_regex = re.compile(r'(^[0-9]+)\sGOLD')
@@ -484,5 +485,5 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
                     d2_items = []
                 d2_items.append(new_item)
             except Exception as e:
-                print(f'failed on item: {item} with error {e}')
+                Logger.error(f'failed on item: {item} with error {e}')
     return ground_item_list
