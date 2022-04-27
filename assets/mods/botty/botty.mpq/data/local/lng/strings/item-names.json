@@ -5816,7 +5816,7 @@
     {
         "id": 2284,
         "Key": "Raven",
-        "enUS": "Raven    ",
+        "enUS": "Raven",
         "zhTW": "掠鴉",
         "deDE": "Rabe",
         "esES": "[fs]del cuervo[ms]del cuervo[fp]del cuervo[mp]del cuervo",
@@ -5833,7 +5833,7 @@
     {
         "id": 2308,
         "Key": "Imp",
-        "enUS": "Imp    ",
+        "enUS": "Imp",
         "zhTW": "小惡魔",
         "deDE": "der Kobolde",
         "esES": "de diablillo",
@@ -5850,7 +5850,7 @@
     {
         "id": 2317,
         "Key": "Holocaust",
-        "enUS": "Armageddon    ",
+        "enUS": "Armageddon",
         "zhTW": "末世",
         "deDE": "von Armageddon",
         "esES": "de armagedón",
@@ -7890,7 +7890,7 @@
     {
         "id": 2519,
         "Key": "Rule",
-        "enUS": "Rule    ",
+        "enUS": "Rule",
         "zhTW": "尺杖",
         "deDE": "Regel",
         "esES": "[ms]Mando",
