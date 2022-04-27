@@ -214,7 +214,7 @@ def _ocr_result_dictionary_check(
     confidences: list,
     word_list: dict = all_words(),
     normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.925
+    ocr_confidence_threshold: float = 0.90
     ) -> str:
     confidences = [x/100 for x in confidences]
     if all(x >= ocr_confidence_threshold for x in confidences):
@@ -229,10 +229,8 @@ def _ocr_result_dictionary_check(
             try:
                 # print(word, confidences[word_count])
                 if confidences[word_count] <= ocr_confidence_threshold:
-                    alphanumeric = re.sub(r"[^a-zA-Z0-9]", "", word)
-                    #print(alphanumeric)
-                    if not alphanumeric.isnumeric() and not word_list.get(word) and not word_list.get(alphanumeric):
-                        print(1111)
+                    contains_characters = any(c.isalpha() for c in word)
+                    if contains_characters and not word_list.get(word):
                         result = find_best_match(word, list(word_list.keys()))
                         if (result.score_normalized) >= (normalized_lev_threshold):
                             corrected_text += f"{result.match} "
