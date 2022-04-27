@@ -14,7 +14,7 @@ import glob
 from logger import Logger
 from typing import List, Tuple
 
-from nip.lexer import Lexer, NipSyntaxError
+from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import TokenType
 
 class NipSyntaxErrorSection(NipSyntaxError):
@@ -47,7 +47,11 @@ def find_unqiue_or_set_base(unique_or_set_name) -> Tuple[str, str]:
 
 def transpile(tokens, isPickedUpPhase=False):
     expression = ""
+    section_start = True
     for i, token in enumerate(tokens):
+        if section_start:
+            expression += "("
+            section_start = False
         if token == None:
             continue
         if token.type == TokenType.NTIPAliasStat:
@@ -129,7 +133,9 @@ def transpile(tokens, isPickedUpPhase=False):
                 expression += "and"
         elif token.type == TokenType.SECTIONAND:
             if tokens[i - 1].type != TokenType.SECTIONAND:
+                expression += ")"
                 expression += "and"
+                section_start = True
         elif token.type == TokenType.UNKNOWN:
             if tokens[i - 2].type == TokenType.IDNAME:
                 if isPickedUpPhase:
@@ -142,6 +148,7 @@ def transpile(tokens, isPickedUpPhase=False):
         else:
             expression += f"{token.value}"
         expression += "" # add space if spaces are needed
+    expression += ")" # * Close the last bracket since there is no other section and to close it.
     return expression
 
 
@@ -407,14 +414,65 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 if __name__ == "__main__":
-    pass
+    item_data = {
+        "Name": "IMP STINGER",
+        "Quality": "rare",
+        "Text": "IMP STINGER|BLADE BOW|TWO-HAND DAMAGE: 36 TO 76|REQUIRED DEXTERITY: 119|REQUIRED STRENGTH: 76|REQUIRED LEVEL: 45|BOW CLASS - VERY FAST ATTACK SPEED|+10% INCREASED ATTACK SPEED|+75% ENHANCED DAMAGE|+5 TO MAXIMUM DAMAGE|+113 TO ATTACK RATING|+191% DAMAGE TO UNDEAD|+186 TO ATTACK RATING AGAINST UNDEAD|4% LIFE STOLEN PER HIT",
+        "BaseItem": {
+            "DisplayName": "Blade Bow",
+            "NTIPAliasClassID": 265,
+            "NTIPAliasType": 27,
+            "NTIPAliasStatProps": {
+                "194": {
+                    "min": 0,
+                    "max": 4
+                },
+                "72": 32,
+                "73": 32,
+                "23": 21,
+                "24": 41
+            },
+            "dimensions": [
+                2,
+                3
+            ],
+            "NTIPAliasClass": 2
+        },
+        "Item": None,
+        "NTIPAliasIdName": "IMPSTINGER",
+        "NTIPAliasType": 27,
+        "NTIPAliasClassID": 265,
+        "NTIPAliasClass": None,
+        "NTIPAliasQuality": 6,
+        "NTIPAliasStat": {
+            "21": 36,
+            "22": 5,
+            "122": 191,
+            "19": 113,
+            "124": 186,
+            "18": 75,
+            "93": 10,
+            "60": 4
+        },
+        "NTIPAliasFlag": {
+            "0x10": 1,
+            "0x400000": 0,
+            "0x4000000": 0
+        }
+    }
+    # print(eval("(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))or(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['shadowbow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('93', 0)))>=(20.0)"))
 
-    
-    
-    
+    ex = '[name] == matriarchalbow || [name] == grandmatronbow || [name] == spiderbow || [name] == bladebow || [name] == shadowbow && [quality] == rare # [ias] >= 10'
+    print(transpile_nip_expression(ex))
+    print(
+            _test_nip_expression(item_data, ex)
 
+    )
+    # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(11.0)))
+
+    # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(1.0)))
     # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
-    print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
+    # print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
     # print(transpile_nip_expression("[name] == keyofterror"))
     # print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
     
