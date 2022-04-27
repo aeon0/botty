@@ -21,6 +21,7 @@ config/custom.*.ini
 .vscode
 .vs/
 info_screenshots/
+item_error_screenshots/
 loot_screenshots/
 stats/
 .venv
