@@ -121,7 +121,7 @@ class PickIt:
             TODO :return: return a list of the items that were picked up
         """
         self.reset_state()
-        self.move_cursor_to_hud()
+        #self.move_cursor_to_hud()
         keyboard.send(Config().char["show_items"])
         time.sleep(0.2)
         pickit_phase_start = time.time()
@@ -130,7 +130,7 @@ class PickIt:
         i = 0
         while i < len(items) and time.time() - pickit_phase_start < self.timeout:
             if self.picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
-                self.move_cursor_to_hud()
+                #self.move_cursor_to_hud()
                 time.sleep(0.5)
                 items = self.grab_items()
                 i=0
