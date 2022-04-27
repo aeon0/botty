@@ -48,7 +48,7 @@ class GameStats:
         if self._location not in self._location_stats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
-    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = None):
+    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = '', expression: str = ''):
         Logger.debug(f"Stashed and logged: {item_name}")
         filtered_items = ["_potion", "misc_gold", "_amethyst", "_ruby", "misc_chipped_diamond", "misc_flawed_diamond", "misc_diamond", "misc_flawless_diamond", "_topaz", "_emerald", "_sapphire", "misc_chipped_skull", "misc_flawed_skull", "misc_skull", "misc_flawless_skull"]
         if self._location is not None and not any(substring in item_name for substring in filtered_items):
@@ -56,7 +56,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message:
-            self._messenger.send_item(item_name, img, self._location, ocr_text)
+            self._messenger.send_item(item_name, img, self._location, ocr_text, expression)
 
     def log_death(self, img: str):
         self._death_counter += 1

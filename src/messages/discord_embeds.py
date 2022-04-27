@@ -20,7 +20,7 @@ class DiscordEmbeds(GenericApi):
                 self._webhook = None
                 Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = ''):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
@@ -34,6 +34,8 @@ class DiscordEmbeds(GenericApi):
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
         e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
+
+        e.add_field(name="NIP", value=f"{nip_keep_expression}", inline=False)
         self._send_embed(e, file)
 
     def send_death(self, location, image_path):
