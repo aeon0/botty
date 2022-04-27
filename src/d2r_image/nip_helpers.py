@@ -56,10 +56,12 @@ def parse_item(quality, item, _call_count=1):
         all = all_words()
         corrected_name = ""
         for word in cleaned_lines[0].split(" "):
+            if len(word) <= 1: continue
             if all.get(word):
-                corrected_name += f"{cleaned_lines[0]} "
+                corrected_name += f"{word} "
             else:
-                corrected_name += f"{correct_item_name(cleaned_lines[0])} "
+                print(f"{word} not found in all_words")
+                corrected_name += f"{correct_item_name(word)} "
         base_item = find_base_item_from_magic_item_text(corrected_name, item_is_identified)
     else:
         if quality == ItemQuality.Crafted.value and is_rune(base_name):
