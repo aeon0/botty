@@ -9,14 +9,14 @@ from colorama import Fore, Back, Style, init
 init()
 
 class CustomFormatter(logging.Formatter):
-    format = f'[{__version__} %(asctime)s] %(levelname)-10s %(message)s'
+    _format = f'[{__version__} %(asctime)s] %(levelname)-10s %(message)s'
 
     FORMATS = {
-        logging.DEBUG:    Fore.WHITE          + format + Fore.WHITE,
-        logging.INFO:     Fore.LIGHTBLUE_EX   + format + Fore.WHITE,
-        logging.WARNING:  Fore.LIGHTYELLOW_EX + format + Fore.WHITE,
-        logging.ERROR:    Fore.LIGHTRED_EX    + format + Fore.WHITE,
-        logging.CRITICAL: Fore.RED            + format + Fore.WHITE
+        logging.DEBUG:    Fore.WHITE          + _format + Fore.WHITE,
+        logging.INFO:     Fore.LIGHTBLUE_EX   + _format + Fore.WHITE,
+        logging.WARNING:  Fore.LIGHTYELLOW_EX + _format + Fore.WHITE,
+        logging.ERROR:    Fore.LIGHTRED_EX    + _format + Fore.WHITE,
+        logging.CRITICAL: Fore.RED            + _format + Fore.WHITE
     }
 
 
@@ -96,7 +96,7 @@ class Logger:
         _format = CustomFormatter()
         Logger.string_handler.setFormatter(_format)
         Logger.console_handler.setFormatter(_format)
-        Logger.file_handler.setFormatter(_format)
+        Logger.file_handler.setFormatter(logging.Formatter(_format._format))
 
         # Add the handler to the logger
         Logger.logger.addHandler(Logger.string_handler)
