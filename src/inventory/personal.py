@@ -38,7 +38,6 @@ class BoxInfo:
         setattr(self, key, value)
 
 def get_inventory_gold_full():
-    global inv_gold_full
     return inv_gold_full
 
 def set_inventory_gold_full(bool):

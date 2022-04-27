@@ -10,7 +10,7 @@ from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from char import IChar
 from inventory import consumables
 from math import dist
-from ui import view
+from inventory import personal
 
 from d2r_image import processing as d2r_image
 from nip.transpile import should_pickup
@@ -24,7 +24,7 @@ class PickedUpResults(Enum):
 
 class PickIt:
     def __init__(self):
-        self.cached_pickit_items = {} # * Cache the result of weather or not we should pick up the item. this should save some time
+        self.cached_pickit_items = {} # * Cache the result of whether or not we should pick up the item. this should save some time
 
         self.last_action = None
 
@@ -151,6 +151,10 @@ class PickIt:
             else:
                 item_dict = item.as_dict()
                 if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image
+                    if personal.get_inventory_gold_full():
+                        Logger.debug("Gold is full, skip gold")
+                        i+=1
+                        continue
                     """
                     TODO FIX THE ERROR WITH GOLD PADDING OR SOMETHING! BELOW TRY EXCEPT STATEMENT WILL DO FOR NOW.
                         item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
