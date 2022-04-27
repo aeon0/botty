@@ -223,9 +223,12 @@ def _ocr_result_dictionary_check(
     text = original_text.replace('\n', ' NEWLINEHERE ')
     corrected_text = ""
     word_count = 0
-    for word in text.split(' '):
-        word = word.strip()
-        if word and word != "NEWLINEHERE":
+    for word in map(str.strip, text.split(' ')):
+        if not word:
+            continue
+        elif word == "NEWLINEHERE":
+            corrected_text += "\n"
+        else:
             try:
                 # print(word, confidences[word_count])
                 if confidences[word_count] <= ocr_confidence_threshold:
@@ -249,6 +252,4 @@ def _ocr_result_dictionary_check(
             except Exception as e:
                 Logger.error(f"_ocr_result_dictionary_check: Exception on word: {word}, index: {word_count}, text: {text}, exception: {e}")
                 return text
-        elif word == "NEWLINEHERE":
-            corrected_text += "\n"
     return corrected_text.strip()
