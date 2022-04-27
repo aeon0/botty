@@ -1,3 +1,5 @@
+import traceback
+import random
 import itertools
 from game_stats import GameStats
 from logger import Logger
@@ -257,60 +259,69 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 # * Check if the item is unidentified, and if it needs to be identified.
                 need_id = None
                 tome_state = None
-                if (is_unidentified and should_id(item_properties.as_dict())):
-                    need_id = True
-                    center_mouse()
-                    tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
-                if is_unidentified and tome_state is not None and tome_state == "ok":
-                    common.id_item_with_tome([x_m, y_m], tome_pos)
-                    need_id = False
-                    is_unidentified = True
-                    # recapture box after ID
-                    mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
-                    wait(0.05, 0.1)
-                    hovered_item = grab()
-                    item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+                try:
+                    if (is_unidentified and should_id(item_properties.as_dict())):
+                        need_id = True
+                        center_mouse()
+                        tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
+                    if is_unidentified and tome_state is not None and tome_state == "ok":
+                        common.id_item_with_tome([x_m, y_m], tome_pos)
+                        need_id = False
+                        is_unidentified = True
+                        # recapture box after ID
+                        mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
+                        wait(0.05, 0.1)
+                        hovered_item = grab()
+                        item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
 
-                if item_box is not None:
-                    log_item(item_box)
-                    # decide whether to keep item
-                    keep, expression = should_keep(item_properties.as_dict())
-                    if keep:
-                        Logger.debug(f"Keep item expression: {expression}")
-                        sell = False
+                    if item_box is not None:
+                        log_item(item_box)
+                        # decide whether to keep item
+                        keep, expression = should_keep(item_properties.as_dict())
+                        if keep:
+                            Logger.debug(f"Keep item expression: {expression}")
+                            sell = False
 
-                    box = BoxInfo(
-                        img = item_box.img,
-                        pos = (x_m, y_m),
-                        column = slot[2],
-                        row = slot[1],
-                        need_id = need_id,
-                        sell = sell,
-                        keep = keep
-                    )
+                        box = BoxInfo(
+                            img = item_box.img,
+                            pos = (x_m, y_m),
+                            column = slot[2],
+                            row = slot[1],
+                            need_id = need_id,
+                            sell = sell,
+                            keep = keep
+                        )
 
-                    # sell if not keeping item, vendor is open, and item type can be traded
-                    if vendor_open and item_can_be_traded and not (keep or need_id):
-                        Logger.info(f"Selling {item_name}")
-                        box.sell = True
-                        transfer_items([box], action = "sell")
-                        continue
+                        # sell if not keeping item, vendor is open, and item type can be traded
+                        if vendor_open and item_can_be_traded and not (keep or need_id):
+                            Logger.info(f"Selling {item_name}")
+                            box.sell = True
+                            transfer_items([box], action = "sell")
+                            continue
 
-                    # if item is to be kept and is already ID'd or doesn't need ID, log and stash
-                    if game_stats is not None and (keep and not need_id):
-                        Logger.debug(f"Stashing {item_name}")
-                        game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression)
-                    # if item is to be kept or still needs to be sold or identified, append to list
-                    if keep or sell or need_id:
-                        # save item info
-                        boxes.append(box)
+                        # if item is to be kept and is already ID'd or doesn't need ID, log and stash
+                        if game_stats is not None and (keep and not need_id):
+                            Logger.debug(f"Stashing {item_name}")
+                            game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression)
+                        # if item is to be kept or still needs to be sold or identified, append to list
+                        if keep or sell or need_id:
+                            # save item info
+                            boxes.append(box)
+                        else:
+                            # if item isn't going to be kept (or sold if vendor window not open), trash it
+                            Logger.info(f"Dropping {item_name}")
+                            transfer_items([box], action = "drop")
+                        wait(0.05, 0.2)
                     else:
-                        # if item isn't going to be kept (or sold if vendor window not open), trash it
-                        Logger.info(f"Dropping {item_name}")
-                        transfer_items([box], action = "drop")
-                    wait(0.05, 0.2)
-                else:
+                        failed = True
+                except AttributeError:
                     failed = True
+                    # * Drop item.
+                    Logger.info(f"Dropping {item_name}")
+                    # Press CTRL on the keyboard, click the left mouse button, release CTRL.
+                    keyboard.send("ctrl", do_release=False)
+                    mouse.press(button="left")
+                    keyboard.send("ctrl", do_release=True)
         else:
             failed = True
         if failed:

@@ -1,3 +1,5 @@
+import cv2
+import time
 import copy
 from typing import Union
 import cv2
@@ -13,6 +15,13 @@ import numpy as np
 from logger import Logger
 from template_finder import TemplateFinder
 from config import Config
+
+import os
+
+# Check if tem_error_screenshots directory exists, if not create it
+if not os.path.exists("./item_error_screenshots"):
+    os.makedirs("./item_error_screenshots")
+
 
 def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> Union[GroundItemList, None]:
     crop_result = crop_text_clusters(image)
@@ -40,7 +49,7 @@ def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "
     contours = contours[0] if len(contours) == 2 else contours[1]
     for cntr in contours:
         x, y, w, h = cv2.boundingRect(cntr)
-        cropped_item = image[y:y+h, x:x+w]
+        cropped_item = image[y:y+h + 30, x:x+w] # * + 30 so we can see the bottom text, and open the image in and hold it in front of processing.py and see how it does..
         avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
         mostly_dark = 0 < avg < 20
         contains_black = np.min(cropped_item) < 14
@@ -91,6 +100,16 @@ def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "
             parsed_item = parse_item(quality, res.ocr_result.text)
         except Exception as e:
             Logger.warning(f"\nparsed_item ERROR {e}\n {traceback.format_exc()}")
+            # * Log the screenshot to item_error_screenshot directory.
+            t = time.time()
+            cv2.imwrite(f"item_error_screenshots/02_{t}.png", res.img)
+            with open("item_error_screenshots/02_error_log.txt", "a") as f:
+                f.write(f"""--------------------------------------------------------------------------------
+[{t}]
+{res.ocr_result.text}
+
+{traceback.format_exc()}
+--------------------------------------------------------------------------------""")
     return parsed_item, res
 
 
