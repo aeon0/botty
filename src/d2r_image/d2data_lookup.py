@@ -130,9 +130,7 @@ def find_unique_item_by_name(name, fuzzy=False):
 
 def find_set_item_by_name(name, fuzzy=False):
     quality = ItemQuality.Set.value
-    print(f"name: {name}")
     normalized_name = normalize_name(name)
-    print(f"normalized_name: {normalized_name}")
     if not fuzzy:
         if normalized_name in item_lookup_by_quality_and_display_name[quality]:
             return item_lookup_by_quality_and_display_name[quality][normalized_name]

@@ -1,0 +1,1119 @@
+{
+  "items": [
+    {
+      "BoundingBox": {
+        "x": 465,
+        "y": 394,
+        "w": 163,
+        "h": 21
+      },
+      "Name": "Healing Potion",
+      "Quality": "normal",
+      "Text": "HEALING POTION",
+      "BaseItem": {
+        "DisplayName": "Healing Potion",
+        "NTIPAliasClassID": 589,
+        "NTIPAliasType": 76,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 76,
+      "NTIPAliasClassID": 589,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 585,
+        "y": 307,
+        "w": 191,
+        "h": 22
+      },
+      "Name": "Flawless Sapphire",
+      "Quality": "normal",
+      "Text": "FLAWLESS SAPPHIRE",
+      "BaseItem": {
+        "DisplayName": "Flawless Sapphire",
+        "NTIPAliasClassID": 570,
+        "NTIPAliasType": 100,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 100,
+      "NTIPAliasClassID": 570,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 504,
+        "y": 270,
+        "w": 47,
+        "h": 21
+      },
+      "Name": "Key",
+      "Quality": "normal",
+      "Text": "KEY",
+      "BaseItem": {
+        "DisplayName": "Key",
+        "NTIPAliasClassID": 543,
+        "NTIPAliasType": 41,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 41,
+      "NTIPAliasClassID": 543,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 457,
+        "y": 248,
+        "w": 62,
+        "h": 21
+      },
+      "Name": "Gold",
+      "Quality": "normal",
+      "Text": "GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 483,
+        "y": 204,
+        "w": 166,
+        "h": 21
+      },
+      "Name": "Flawless Topaz",
+      "Quality": "normal",
+      "Text": "FLAWLESS TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Flawless Topaz",
+        "NTIPAliasClassID": 565,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 565,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 432,
+        "y": 182,
+        "w": 192,
+        "h": 21
+      },
+      "Name": "Flawless Emerald",
+      "Quality": "normal",
+      "Text": "FLAWLESS EMERALD",
+      "BaseItem": {
+        "DisplayName": "Flawless Emerald",
+        "NTIPAliasClassID": 575,
+        "NTIPAliasType": 98,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 98,
+      "NTIPAliasClassID": 575,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 907,
+        "y": 160,
+        "w": 229,
+        "h": 21
+      },
+      "Name": "Greater Mana Potion",
+      "Quality": "normal",
+      "Text": "GREATER MANA POTION",
+      "BaseItem": {
+        "DisplayName": "Greater Mana Potion",
+        "NTIPAliasClassID": 595,
+        "NTIPAliasType": 77,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 77,
+      "NTIPAliasClassID": 595,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1007,
+        "y": 138,
+        "w": 194,
+        "h": 21
+      },
+      "Name": "Flawless Diamond",
+      "Quality": "normal",
+      "Text": "FLAWLESS DIAMOND",
+      "BaseItem": {
+        "DisplayName": "Flawless Diamond",
+        "NTIPAliasClassID": 585,
+        "NTIPAliasType": 97,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 97,
+      "NTIPAliasClassID": 585,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 829,
+        "y": 138,
+        "w": 154,
+        "h": 21
+      },
+      "Name": "Flawless Ruby",
+      "Quality": "normal",
+      "Text": "FLAWLESS RUBY",
+      "BaseItem": {
+        "DisplayName": "Flawless Ruby",
+        "NTIPAliasClassID": 580,
+        "NTIPAliasType": 99,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 99,
+      "NTIPAliasClassID": 580,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 643,
+        "y": 137,
+        "w": 162,
+        "h": 22
+      },
+      "Name": "Flawless Skull",
+      "Quality": "normal",
+      "Text": "FLAWLESS SKULL",
+      "BaseItem": {
+        "DisplayName": "Flawless Skull",
+        "NTIPAliasClassID": 600,
+        "NTIPAliasType": 102,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 102,
+      "NTIPAliasClassID": 600,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 827,
+        "y": 116,
+        "w": 223,
+        "h": 22
+      },
+      "Name": "Light Healing Potion",
+      "Quality": "normal",
+      "Text": "LIGHT HEALING POTION",
+      "BaseItem": {
+        "DisplayName": "Light Healing Potion",
+        "NTIPAliasClassID": 588,
+        "NTIPAliasType": 76,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 76,
+      "NTIPAliasClassID": 588,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 653,
+        "y": 116,
+        "w": 150,
+        "h": 21
+      },
+      "Name": "Flawed Topaz",
+      "Quality": "normal",
+      "Text": "FLAWED TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Flawed Topaz",
+        "NTIPAliasClassID": 563,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 563,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 426,
+        "y": 116,
+        "w": 204,
+        "h": 21
+      },
+      "Name": "Flawless Amethyst",
+      "Quality": "normal",
+      "Text": "FLAWLESS AMETHYST",
+      "BaseItem": {
+        "DisplayName": "Flawless Amethyst",
+        "NTIPAliasClassID": 560,
+        "NTIPAliasType": 96,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 96,
+      "NTIPAliasClassID": 560,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 687,
+        "y": 257,
+        "w": 66,
+        "h": 23
+      },
+      "Name": "Jewel",
+      "Quality": "magic",
+      "Text": "JEWEL",
+      "BaseItem": {
+        "DisplayName": "Jewel",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "dimensions": [
+          1,
+          1
+        ],
+        "uniques": [
+          "RAINBOWFACET"
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 58,
+      "NTIPAliasClassID": 643,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 737,
+        "y": 160,
+        "w": 146,
+        "h": 21
+      },
+      "Name": "Grand Charm",
+      "Quality": "magic",
+      "Text": "GRAND CHARM",
+      "BaseItem": {
+        "DisplayName": "Grand Charm",
+        "NTIPAliasClassID": 605,
+        "NTIPAliasType": 84,
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "GHEEDSFORTUNE"
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 84,
+      "NTIPAliasClassID": 605,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 573,
+        "y": 160,
+        "w": 139,
+        "h": 21
+      },
+      "Name": "Large Charm",
+      "Quality": "magic",
+      "Text": "LARGE CHARM",
+      "BaseItem": {
+        "DisplayName": "Large Charm",
+        "NTIPAliasClassID": 604,
+        "NTIPAliasType": 83,
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "HELLFIRETORCH"
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 83,
+      "NTIPAliasClassID": 604,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 687,
+        "y": 204,
+        "w": 66,
+        "h": 23
+      },
+      "Name": "Jewel",
+      "Quality": "rare",
+      "Text": "JEWEL",
+      "BaseItem": {
+        "DisplayName": "Jewel",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "dimensions": [
+          1,
+          1
+        ],
+        "uniques": [
+          "RAINBOWFACET"
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 58,
+      "NTIPAliasClassID": 643,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 645,
+        "y": 226,
+        "w": 147,
+        "h": 21
+      },
+      "Name": "Gheed's Fortune",
+      "Quality": "unique",
+      "Text": "GRAND CHARM",
+      "BaseItem": {
+        "DisplayName": "Grand Charm",
+        "NTIPAliasClassID": 605,
+        "NTIPAliasType": 84,
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "GHEEDSFORTUNE"
+        ]
+      },
+      "Item": {
+        "DisplayName": "Gheed's Fortune",
+        "NTIPAliasClassID": 605,
+        "NTIPAliasType": 84,
+        "NTIPAliasStatProps": {
+          "80": {
+            "min": 20,
+            "max": 40
+          },
+          "79": {
+            "min": 80,
+            "max": 160
+          },
+          "87": {
+            "min": 10,
+            "max": 15
+          }
+        }
+      },
+      "NTIPAliasType": 84,
+      "NTIPAliasClassID": 605,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 456,
+        "y": 160,
+        "w": 66,
+        "h": 23
+      },
+      "Name": "Rainbow Facet",
+      "Quality": "unique",
+      "Text": "JEWEL",
+      "BaseItem": {
+        "DisplayName": "Jewel",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "dimensions": [
+          1,
+          1
+        ],
+        "uniques": [
+          "RAINBOWFACET"
+        ]
+      },
+      "Item": {
+        "DisplayName": "Rainbow Facet",
+        "NTIPAliasClassID": 643,
+        "NTIPAliasType": 58,
+        "NTIPAliasStatProps": {
+          "57": 37,
+          "58": 37,
+          "336": {
+            "min": 3,
+            "max": 5
+          },
+          "332": {
+            "min": 3,
+            "max": 5
+          },
+          "199": [
+            {
+              "chance": 100,
+              "level": 43,
+              "skill": "Frost Nova"
+            },
+            {
+              "chance": 100,
+              "level": 29,
+              "skill": "Blaze"
+            },
+            {
+              "chance": 100,
+              "level": 41,
+              "skill": "Nova"
+            },
+            {
+              "chance": 100,
+              "level": 23,
+              "skill": "Venom"
+            }
+          ],
+          "197": [
+            {
+              "min": 100,
+              "max": 37,
+              "par": "Blizzard"
+            },
+            {
+              "min": 100,
+              "max": 31,
+              "par": "Meteor"
+            },
+            {
+              "min": 100,
+              "max": 47,
+              "par": "Chain Lightning"
+            },
+            {
+              "min": 100,
+              "max": 51,
+              "par": "Poison Nova"
+            }
+          ],
+          "50": 1,
+          "51": 74,
+          "334": {
+            "min": 3,
+            "max": 5
+          },
+          "330": {
+            "min": 3,
+            "max": 5
+          },
+          "54": 24,
+          "55": 38,
+          "335": {
+            "min": 3,
+            "max": 5
+          },
+          "331": {
+            "min": 3,
+            "max": 5
+          },
+          "48": 17,
+          "49": 45,
+          "333": {
+            "min": 3,
+            "max": 5
+          },
+          "329": {
+            "min": 3,
+            "max": 5
+          }
+        }
+      },
+      "NTIPAliasType": 58,
+      "NTIPAliasClassID": 643,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1075,
+        "y": 116,
+        "w": 139,
+        "h": 22
+      },
+      "Name": "Hellfire Torch",
+      "Quality": "unique",
+      "Text": "LARGE CHARM",
+      "BaseItem": {
+        "DisplayName": "Large Charm",
+        "NTIPAliasClassID": 604,
+        "NTIPAliasType": 83,
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "HELLFIRETORCH"
+        ]
+      },
+      "Item": {
+        "DisplayName": "Hellfire Torch",
+        "NTIPAliasClassID": 604,
+        "NTIPAliasType": 83,
+        "NTIPAliasStatProps": {
+          "83": {
+            "min": 3,
+            "max": 3
+          },
+          "0": {
+            "min": 10,
+            "max": 20
+          },
+          "1": {
+            "min": 10,
+            "max": 20
+          },
+          "2": {
+            "min": 10,
+            "max": 20
+          },
+          "3": {
+            "min": 10,
+            "max": 20
+          },
+          "39": {
+            "min": 10,
+            "max": 20
+          },
+          "43": {
+            "min": 10,
+            "max": 20
+          },
+          "41": {
+            "min": 10,
+            "max": 20
+          },
+          "45": {
+            "min": 10,
+            "max": 20
+          },
+          "89": {
+            "min": 8,
+            "max": 8
+          },
+          "198": {
+            "chance": 25,
+            "level": 10,
+            "skill": "Firestorm"
+          },
+          "204": {
+            "charges": 10,
+            "level": 30,
+            "skill": "Hydra"
+          }
+        }
+      },
+      "NTIPAliasType": 83,
+      "NTIPAliasClassID": 604,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 604,
+        "y": 431,
+        "w": 154,
+        "h": 21
+      },
+      "Name": "Key of Terror",
+      "Quality": "crafted",
+      "Text": "KEY OF TERROR",
+      "BaseItem": {
+        "DisplayName": "Key of Terror",
+        "NTIPAliasClassID": 647,
+        "NTIPAliasType": 39,
+        "dimensions": [
+          1,
+          2
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 39,
+      "NTIPAliasClassID": 647,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 8,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 655,
+        "y": 385,
+        "w": 205,
+        "h": 21
+      },
+      "Name": "Key of Destruction",
+      "Quality": "crafted",
+      "Text": "KEY OF DESTRUCTION",
+      "BaseItem": {
+        "DisplayName": "Key of Destruction",
+        "NTIPAliasClassID": 649,
+        "NTIPAliasType": 39,
+        "dimensions": [
+          1,
+          2
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 39,
+      "NTIPAliasClassID": 649,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 8,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 385,
+        "y": 308,
+        "w": 132,
+        "h": 21
+      },
+      "Name": "Key of Hate",
+      "Quality": "crafted",
+      "Text": "KEY OF HATE",
+      "BaseItem": {
+        "DisplayName": "Key of Hate",
+        "NTIPAliasClassID": 648,
+        "NTIPAliasType": 39,
+        "dimensions": [
+          1,
+          2
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 39,
+      "NTIPAliasClassID": 648,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 8,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 519,
+        "y": 366,
+        "w": 94,
+        "h": 21
+      },
+      "Name": "KO RUNE",
+      "Quality": "rune",
+      "Text": "KO RUNE",
+      "BaseItem": {
+        "DisplayName": "Ko Rune",
+        "NTIPAliasClassID": 627,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 627,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 706,
+        "y": 346,
+        "w": 103,
+        "h": 21
+      },
+      "Name": "HEL RUNE",
+      "Quality": "rune",
+      "Text": "HEL RUNE",
+      "BaseItem": {
+        "DisplayName": "Hel Rune",
+        "NTIPAliasClassID": 624,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 624,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 574,
+        "y": 344,
+        "w": 100,
+        "h": 21
+      },
+      "Name": "ITH RUNE",
+      "Quality": "rune",
+      "Text": "ITH RUNE",
+      "BaseItem": {
+        "DisplayName": "Ith Rune",
+        "NTIPAliasClassID": 615,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 615,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 383,
+        "y": 337,
+        "w": 97,
+        "h": 21
+      },
+      "Name": "IST RUNE",
+      "Quality": "rune",
+      "Text": "IST RUNE",
+      "BaseItem": {
+        "DisplayName": "Ist Rune",
+        "NTIPAliasClassID": 633,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 633,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 617,
+        "y": 279,
+        "w": 89,
+        "h": 21
+      },
+      "Name": "IO RUNE",
+      "Quality": "rune",
+      "Text": "IO RUNE",
+      "BaseItem": {
+        "DisplayName": "Io Rune",
+        "NTIPAliasClassID": 625,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 625,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 551,
+        "y": 248,
+        "w": 105,
+        "h": 21
+      },
+      "Name": "GUL RUNE",
+      "Quality": "rune",
+      "Text": "GUL RUNE",
+      "BaseItem": {
+        "DisplayName": "Gul Rune",
+        "NTIPAliasClassID": 634,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 634,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 438,
+        "y": 226,
+        "w": 101,
+        "h": 23
+      },
+      "Name": "JAH RUNE",
+      "Quality": "rune",
+      "Text": "JAH RUNE",
+      "BaseItem": {
+        "DisplayName": "Jah Rune",
+        "NTIPAliasClassID": 640,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 640,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 513,
+        "y": 138,
+        "w": 106,
+        "h": 21
+      },
+      "Name": "LEM RUNE",
+      "Quality": "rune",
+      "Text": "LEM RUNE",
+      "BaseItem": {
+        "DisplayName": "Lem Rune",
+        "NTIPAliasClassID": 629,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 629,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": true,
+        "0x400000": true
+      }
+    }
+  ]
+}

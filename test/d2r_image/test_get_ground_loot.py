@@ -6,12 +6,10 @@ from d2r_image.data_models import D2ItemList, GroundItemList
 
 
 @pytest.mark.parametrize("filename, expected_items_file", [
-    ("ground1.png", 'ground1.json'),
-    ("ground2.png", 'ground2.json'),
-    ("ground3.png", 'ground3.json'),
-    ('ground7.png', 'ground7.json'),
-    ("ground13.png", 'ground13.json'),
-    ("ground14.png", "ground14.json")
+    ("023.png", '023.json'),
+    ("037.png", '037.json'),
+    ("072.png", '072.json'),
+    ('074.png', '074.json')
 ])
 def test_ground_loot(filename, expected_items_file):
     image_path = os.path.join(

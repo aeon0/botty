@@ -3,10 +3,18 @@ import time
 import cv2
 import keyboard
 import os
+import json
+import dataclasses
+
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
 from d2r_image.data_models import ItemQuality, ItemQualityKeyword
 
+class EnhancedJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if dataclasses.is_dataclass(o):
+            return dataclasses.asdict(o)
+        return super().default(o)
 
 debug_line_map = {}
 debug_line_map[ItemQualityKeyword.LowQuality.value] = (123, 123, 123)
@@ -46,7 +54,10 @@ def get_ground_loot():
             total_elapsed_time += elapsed
             if ground_loot_list.items:
                 draw_items_on_image_data(ground_loot_list.items, image_data)
-                cv2.imwrite(f"info_screenshots/{image_name.lower()}", image_data)
+                filename_base=image_name.lower()[:-4]
+                cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
+                with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
+                    json.dump(ground_loot_list, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)
             all_image_data.append(image_data)
             all_images.append(image)
             demo_image_count += 1
