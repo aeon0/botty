@@ -6,16 +6,16 @@ from d2r_image.data_models import HoveredItem
 
 
 @pytest.mark.parametrize("filename, inventory_side, expected_file", [
-    ('war_travs.png', 'right', 'war_travs.json'),
-    ('unid_hsarus_iron_heel.png', 'right', 'unid_hsarus_iron_heel.json'),
-    ('unid_rare_dagger.png', 'right', 'unid_rare_dagger.json'),
-    ('cold_skiller.png', 'right', 'cold_skiller.json'),
-    ('torch.png', 'right', 'torch.json'),
-    ('spirit.png', 'right', 'spirit.json'),
-    ('zod.png', 'right', 'zod.json'),
-    ('rare_ring.png', 'right', 'rare_ring.json'),
+    ('cold_facet_die.png', 'right', 'cold_facet_die.json'),
+    ('fire_facet_die.png', 'right', 'fire_facet_die.json'),
+    ('psn_facet_lvlup.png', 'right', 'psn_facet_lvlup.json'),
     ('rare_orb_sell_larzuk.png', 'right', 'rare_orb_sell_larzuk.json'),
-    ('rare_orb_buy_larzuk.png', 'left', 'rare_orb_buy_larzuk.json'),
+    ('rare_ring.png', 'right', 'rare_ring.json'),
+    ('spirit.png', 'right', 'spirit.json'),
+    ('torch.png', 'right', 'torch.json'),
+    ('unid_rare_dagger.png', 'right', 'unid_rare_dagger.json'),
+    ('war_travs.png', 'right', 'war_travs.json'),
+    ('zod.png', 'right', 'zod.json'),
 ])
 def test_hovered_item(filename: str, inventory_side: str, expected_file: str):
     image_path = os.path.join(

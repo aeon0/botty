@@ -78,14 +78,14 @@ def parse_item(quality, item, _call_count=1):
             found_item = base_item
         if not found_item and quality not in [ItemQuality.Magic.value, ItemQuality.Rare.value]:
             if quality == ItemQuality.Unique.value:
-                if not Runeword(lines[0]):
-                    raise Exception('0x1 Unable to find item for: ' + lines[0])
+                if not Runeword(lines[0].replace(' ', '')):
+                    raise Exception('0x1 Unable to find item for: ' + lines[0].replace(' ', ''))
                 quality = ItemQuality.Runeword.value
                 found_item = {
-                    'DisplayName': lines[0]
+                    'DisplayName': lines[0].replace(' ', '')
                 }
             else:
-                raise Exception('0x2 Unable to find item for: ' + lines[0])
+                raise Exception('0x2 Unable to find item for: ' + lines[0].replace(' ', ''))
         # parsed_item["item_data_matches"] = find_unique_item_by_name(parsed_item["display_name"]) | find_set_item_by_name(parsed_item["display_name"]) | get_base(parsed_item["base_item"])
         # The next few lines help us determine
         ntip_alias_stat = find_nip_pattern_match(lines)
