@@ -9,7 +9,7 @@ from rapidfuzz.string_metric import levenshtein
 
 def correct_item_name(name):
     res = find_best_match(name.lower(), list(map(str.lower, list(base_items().keys()))))
-    if res.score_normalized >= 0.6:
+    if res.score_normalized >= 0.65:
         return res.match
     return name
 
@@ -140,7 +140,6 @@ def parse_item(quality, item, _call_count=1):
             name = lines[0]
         else:
             name = base_item['DisplayName']
-
     return HoveredItem(
         Name=name,
         NTIPAliasIdName=lines[0].replace(" ", "").replace("\"", "").replace("'", ""),
