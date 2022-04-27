@@ -43,6 +43,8 @@ class Basic(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
     def pre_buff(self):
+        if Config().char["cta_available"]:
+            self._pre_buff_cta()
         if self._skill_hotkeys["buff_1"]:
             keyboard.send(self._skill_hotkeys["buff_1"])
             wait(0.5, 0.15)
