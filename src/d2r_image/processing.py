@@ -77,7 +77,7 @@ def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "
                     quality = ItemQuality.Gray.value
                 else:
                     quality = ItemQuality.Normal.value
-                Logger.error("HITTTT")
+                # Logger.error("HITTTT")
                 res.ocr_result = image_to_text(cropped_item, psm=6, model=model)[0]
                 res.roi = [x, y, w, h]
                 res.img = cropped_item
