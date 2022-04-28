@@ -46,6 +46,10 @@ NIP_ALIAS_STAT_PATTERNS = {
         "58",
 		"59"
     ],
+
+    "{:d} to Maximum Damage": [
+        "21,1"
+    ],
     "All Resistances {:d}": [
         ["39", "41", "43", "45"]
     ],
@@ -518,7 +522,372 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d} to Elemental Skills (Druid only)": [
         "188,42"
     ],
-    
+    "{:d} to Magic Arrow (Amazon only)": [
+    "107,6"
+],
+"{:d} to Fire Arrow (Amazon only)": [
+    "107,7"
+],
+"{:d} to Inner Sight (Amazon only)": [
+    "107,8"
+],
+"{:d} to Critical Strike (Amazon only)": [
+    "107,9"
+],
+"{:d} to Jab (Amazon only)": [
+    "107,10"
+],
+"{:d} to Cold Arrow (Amazon only)": [
+    "107,11"
+],
+"{:d} to Multiple Shot (Amazon only)": [
+    "107,12"
+],
+"{:d} to Dodge (Amazon only)": [
+    "107,13"
+],
+"{:d} to Power Strike (Amazon only)": [
+    "107,14"
+],
+"{:d} to Poison Javelin (Amazon only)": [
+    "107,15"
+],
+"{:d} to Exploding Arrow (Amazon only)": [
+    "107,16"
+],
+"{:d} to Slow Missiles (Amazon only)": [
+    "107,17"
+],
+"{:d} to Avoid (Amazon only)": [
+    "107,18"
+],
+"{:d} to Javelin and Spear Mastery (Amazon only)": [
+    "107,19"
+],
+"{:d} to Lightning Bolt (Amazon only)": [
+    "107,20"
+],
+"{:d} to Ice Arrow (Amazon only)": [
+    "107,21"
+],
+"{:d} to Guided Arrow (Amazon only)": [
+    "107,22"
+],
+"{:d} to Penetrate (Amazon only)": [
+    "107,23"
+],
+"{:d} to Charged Strike (Amazon only)": [
+    "107,24"
+],
+"{:d} to Plague Javelin (Amazon only)": [
+    "107,25"
+],
+"{:d} to Strafe (Amazon only)": [
+    "107,26"
+],
+"{:d} to Immolation Arrow (Amazon only)": [
+    "107,27"
+],
+"{:d} to Decoy (Amazon only)": [
+    "107,28"
+],
+"{:d} to Evade (Amazon only)": [
+    "107,29"
+],
+"{:d} to Fend (Amazon only)": [
+    "107,30"
+],
+"{:d} to Freezing Arrow (Amazon only)": [
+    "107,31"
+],
+"{:d} to Valkyrie (Amazon only)": [
+    "107,32"
+],
+"{:d} to Pierce (Amazon only)": [
+    "107,33"
+],
+"{:d} to Lightning Strike (Amazon only)": [
+    "107,34"
+],
+"{:d} to Lightning Fury (Amazon only)": [
+    "107,35"
+],
+"{:d} to Fire Bolt (Sorceress only)": [
+    "107,36"
+],
+"{:d} to Warmth (Sorceress only)": [
+    "107,37"
+],
+"{:d} to Charged Bolt (Sorceress only)": [
+    "107,38"
+],
+"{:d} to Ice Bolt (Sorceress only)": [
+    "107,39"
+],
+"{:d} to Cold Enchant (Sorceress only)": [
+    "107,40"
+],
+"{:d} to Inferno (Sorceress only)": [
+    "107,41"
+],
+"{:d} to Static Field (Sorceress only)": [
+    "107,42"
+],
+"{:d} to Telekinesis (Sorceress only)": [
+    "107,43"
+],
+"{:d} to Frost Nova (Sorceress only)": [
+    "107,44"
+],
+"{:d} to Ice Blast (Sorceress only)": [
+    "107,45"
+],
+"{:d} to Blaze (Sorceress only)": [
+    "107,46"
+],
+"{:d} to Fire Ball (Sorceress only)": [
+    "107,47"
+],
+"{:d} to Nova (Sorceress only)": [
+    "107,48"
+],
+"{:d} to Lightning (Sorceress only)": [
+    "107,49"
+],
+"{:d} to Shiver Armor (Sorceress only)": [
+    "107,50"
+],
+"{:d} to Fire Wall (Sorceress only)": [
+    "107,51"
+],
+"{:d} to Enchant Fire (Sorceress only)": [
+    "107,52"
+],
+"{:d} to Chain Lightning (Sorceress only)": [
+    "107,53"
+],
+"{:d} to Teleport (Sorceress only)": [
+    "107,54"
+],
+"{:d} to Glacial Spike (Sorceress only)": [
+    "107,55"
+],
+"{:d} to Meteor (Sorceress only)": [
+    "107,56"
+],
+"{:d} to Thunder Storm (Sorceress only)": [
+    "107,57"
+],
+"{:d} to Energy Shield (Sorceress only)": [
+    "107,58"
+],
+"{:d} to Blizzard (Sorceress only)": [
+    "107,59"
+],
+"{:d} to Chilling Armor (Sorceress only)": [
+    "107,60"
+],
+"{:d} to Fire Mastery (Sorceress only)": [
+    "107,61"
+],
+"{:d} to Hydra (Sorceress only)": [
+    "107,62"
+],
+"{:d} to Lightning Mastery (Sorceress only)": [
+    "107,63"
+],
+"{:d} to Frozen Orb (Sorceress only)": [
+    "107,64"
+],
+"{:d} to Cold Mastery (Sorceress only)": [
+    "107,65"
+],
+#"{:d} to Ice Barrage": [],
+#"{:d} to Lesser Hyrdra": [],
+#"{:d} to Combustion": [],
+"{:d} to Amplify Damage (Necromancer only)": [
+    "107,66"
+],
+"{:d} to Teeth (Necromancer only)": [
+    "107,67"
+],
+"{:d} to Bone Armor (Necromancer only)": [
+    "107,68"
+],
+"{:d} to Skeleton Mastery (Necromancer only)": [
+    "107,69"
+],
+"{:d} to Raise Skeleton Warrior (Necromancer only)": [
+    "107,70"
+],
+"{:d} to Dim Vision (Necromancer only)": [
+    "107,71"
+],
+"{:d} to Weaken (Necromancer only)": [
+    "107,72"
+],
+"{:d} to Poison Dagger (Necromancer only)": [
+    "107,73"
+],
+"{:d} to Corpse Explosion (Necromancer only)": [
+    "107,74"
+],
+"{:d} to Clay Golem (Necromancer only)": [
+    "107,75"
+],
+"{:d} to Iron Maiden (Necromancer only)": [
+    "107,76"
+],
+"{:d} to Terror (Necromancer only)": [
+    "107,77"
+],
+"{:d} to Bone Wall (Necromancer only)": [
+    "107,78"
+],
+"{:d} to Golem Mastery (Necromancer only)": [
+    "107,79"
+],
+"{:d} to Raise Skeletal Mage (Necromancer only)": [
+    "107,80"
+],
+"{:d} to Confuse (Necromancer only)": [
+    "107,81"
+],
+"{:d} to Life Tap (Necromancer only)": [
+    "107,82"
+],
+"{:d} to Desecrate (Necromancer only)": [
+    "107,83"
+],
+"{:d} to Bone Spear (Necromancer only)": [
+    "107,84"
+],
+"{:d} to Blood Golem (Necromancer only)": [
+    "107,85"
+],
+"{:d} to Attract (Necromancer only)": [
+    "107,86"
+],
+"{:d} to Decrepify (Necromancer only)": [
+    "107,87"
+],
+"{:d} to Bone Prison (Necromancer only)": [
+    "107,88"
+],
+#{:d} to Summon Resist (Necromancer only)": [
+#    "107,89"
+#],
+"{:d} to Iron Golem (Necromancer only)": [
+    "107,90"
+],
+"{:d} to Lower Resist (Necromancer only)": [
+    "107,91"
+],
+"{:d} to Poison Nova (Necromancer only)": [
+    "107,92"
+],
+"{:d} to Bone Spirit (Necromancer only)": [
+    "107,93"
+],
+"{:d} to Fire Golem (Necromancer only)": [
+    "107,94"
+],
+"{:d} to Revive (Necromancer only)": [
+    "107,95"
+],
+#"{:d} to Blood Warp": [],
+#"{:d} to Dark Pact": [],
+#"{:d} to Curse Mastery (Necromancer only)": [],
+"{:d} to Sacrifice (Paladin only)": [
+    "107,96"
+],
+"{:d} to Smite (Paladin only)": [
+    "107,97"
+],
+"{:d} to Might (Paladin only)": [
+    "107,98"
+],
+"{:d} to Prayer (Paladin only)": [
+    "107,99"
+],
+"{:d} to Resist Fire (Paladin only)": [
+    "107,100"
+],
+"{:d} to Holy Bolt (Paladin only)": [
+    "107,101"
+],
+"{:d} to Holy Fire (Paladin only)": [
+    "107,102"
+],
+"{:d} to Thorns (Paladin only)": [
+    "107,103"
+],
+"{:d} to Defiance (Paladin only)": [
+    "107,104"
+],
+"{:d} to Resist Cold (Paladin only)": [
+    "107,105"
+],
+"{:d} to Zeal (Paladin only)": [
+    "107,106"
+],
+"{:d} to Charge (Paladin only)": [
+    "107,107"
+],
+"{:d} to Blessed Aim (Paladin only)": [
+    "107,108"
+],
+"{:d} to Cleansing (Paladin only)": [
+    "107,109"
+],
+"{:d} to Resist Lightning (Paladin only)": [
+    "107,110"
+],
+"{:d} to Vengeance (Paladin only)": [
+    "107,111"
+],
+"{:d} to Blessed Hammer (Paladin only)": [
+    "107,112"
+],
+"{:d} to Concentration (Paladin only)": [
+    "107,113"
+],
+"{:d} to Holy Freeze (Paladin only)": [
+    "107,114"
+],
+"{:d} to Vigor (Paladin only)": [
+    "107,115"
+],
+"{:d} to Conversion (Paladin only)": [
+    "107,116"
+],
+"{:d} to Holy Shield (Paladin only)": [
+    "107,117"
+],
+"{:d} to Holy Shock (Paladin only)": [
+    "107,118"
+],
+"{:d} to Sanctuary (Paladin only)": [
+    "107,119"
+],
+"{:d} to Meditation (Paladin only)": [
+    "107,120"
+],
+"{:d} to Fist of the Heavens (Paladin only)": [
+    "107,121"
+],
+"{:d} to Fanaticism (Paladin only)": [
+    "107,122"
+],
+"{:d} to Conviction (Paladin only)": [
+    "107,123"
+],
+"{:d} to Redemption (Paladin only)": [
+    "107,124"
+],
+"{:d} to Salvation (Paladin only)": [
+    "107,125"
+],
 
     "{:d} to Bash (Barbarian only)": [
     "107,126"
