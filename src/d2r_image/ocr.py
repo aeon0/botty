@@ -213,7 +213,7 @@ def _check_known_errors(text):
 def _ocr_result_dictionary_check(
     original_text: str,
     confidences: list,
-    word_list: dict = all_words(),
+    word_list: set = all_words(),
     normalized_lev_threshold: float = 0.6,
     ocr_confidence_threshold: float = 0.99
     ) -> str:
@@ -234,8 +234,8 @@ def _ocr_result_dictionary_check(
                 # print(word, confidences[word_count])
                 if confidences[word_count] <= ocr_confidence_threshold:
                     contains_characters = any(c.isalpha() for c in word)
-                    if contains_characters and not word_list.get(word):
-                        result = find_best_match(word, list(word_list.keys()))
+                    if contains_characters and not word in word_list:
+                        result = find_best_match(word, list(word_list))
                         if (result.score_normalized) >= (normalized_lev_threshold):
                             corrected_text += f"{result.match} "
                             Logger.debug(f"_ocr_result_dictionary_check: Replacing {word} (OCR confidence {round(confidences[word_count]*100)}%) with {result.match}, similarity={result.score_normalized*100:.1f}%")

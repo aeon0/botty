@@ -137,14 +137,15 @@ def find_set_item_by_name(name, fuzzy=False):
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
 def fuzzy_base_item_match(item_name: str, normalized_threshold: float = 0.7):
-    fuzzy_res = find_best_match(item_name, list(map(str.upper, list(base_items().keys()))))
-    if fuzzy_res.match != item_name:
-        if fuzzy_res.score_normalized > normalized_threshold and base_items().get(fuzzy_res.match):
-            Logger.debug(f"fuzzy_base_item_match: change {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%)")
-            return fuzzy_res.match
-        else:
-            # Logger.debug(f"fuzzy_base_item_match: proposed {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%) doesn't meet threshold of {normalized_threshold*100:.1f}% or doesn't exist in base items, ignore.")
-            pass
+    if not item_name in base_items():
+        fuzzy_res = find_best_match(item_name, list(base_items()))
+        if fuzzy_res.match != item_name:
+            if fuzzy_res.score_normalized > normalized_threshold and fuzzy_res.match in base_items():
+                Logger.debug(f"fuzzy_base_item_match: change {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%)")
+                return fuzzy_res.match
+            else:
+                # Logger.debug(f"fuzzy_base_item_match: proposed {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%) doesn't meet threshold of {normalized_threshold*100:.1f}% or doesn't exist in base items, ignore.")
+                pass
     return item_name
 
 def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
@@ -160,7 +161,7 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
         # iterate through item name by sequentially stripping first word and checking for existence in item bases
         for i in range(len(words)):
             temp_name = ' '.join(words[i:]).strip()
-            if base_items().get(temp_name):
+            if temp_name in base_items():
                 base_item_str = temp_name
                 break
         # failed to find, now try with string correction
@@ -171,7 +172,7 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
                     base_item_str = res
                     break
     else:
-        if base_items().get(magic_item_text):
+        if magic_item_text in base_items():
             base_item_str = magic_item_text
         elif (res := fuzzy_base_item_match(magic_item_text)) != magic_item_text:
             base_item_str = res

@@ -1,6 +1,7 @@
 import traceback
 import random
 import itertools
+from d2r_image.data_models import HoveredItem, ItemText
 from game_stats import GameStats
 from logger import Logger
 from screen import grab, convert_screen_to_monitor
@@ -165,12 +166,11 @@ def open(img: np.ndarray = None) -> np.ndarray:
     return img
 
 
-def log_item(item_box):
+def log_item(item_box: HoveredItem, item_properties: ItemText):
     if item_box is not None and item_box.ocr_result:
-        Logger.debug(f"OCR ITEM DESCR: Mean conf: {item_box.ocr_result.mean_confidence}")
-        for i, line in enumerate(list(filter(None, item_box.ocr_result.text.splitlines()))):
-            Logger.debug(f"OCR LINE{i}: {line}")
-        if Config().general["loot_screenshots"]:
+        Logger.debug(f"OCR mean confidence: {item_box.ocr_result.mean_confidence}")
+        Logger.debug(item_properties.as_dict()['Text'])
+        if Config().general["info_screenshots"]:
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             found_low_confidence = False
             for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
@@ -180,7 +180,7 @@ def log_item(item_box):
                         found_low_confidence = True
                     except: pass
             if found_low_confidence:
-                cv2.imwrite(f"./loot_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
+                cv2.imwrite(f"./info_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
 
 def log_item_fail(hovered_item, slot):
     Logger.error(f"item segmentation failed for slot_pos: {slot[0]}")
@@ -275,12 +275,16 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
 
                     if item_box is not None:
-                        log_item(item_box)
+                        log_item(item_box, item_properties)
                         # decide whether to keep item
                         keep, expression = should_keep(item_properties.as_dict())
                         if keep:
-                            Logger.debug(f"Keep item expression: {expression}")
+                            Logger.debug(f"Keep {item_name}. Expression: {expression}")
                             sell = False
+                        elif need_id:
+                            Logger.debug(f"Need to ID {item_name}")
+                        else:
+                            Logger.debug(f"Discarding {item_name}")
 
                         box = BoxInfo(
                             img = item_box.img,
@@ -294,34 +298,29 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                         # sell if not keeping item, vendor is open, and item type can be traded
                         if vendor_open and item_can_be_traded and not (keep or need_id):
-                            Logger.info(f"Selling {item_name}")
                             box.sell = True
                             transfer_items([box], action = "sell")
                             continue
 
                         # if item is to be kept and is already ID'd or doesn't need ID, log and stash
-                        if game_stats is not None and (keep and not need_id):
-                            Logger.debug(f"Stashing {item_name}")
-                            game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression)
+                        if (keep and not need_id):
+                            if game_stats is not None:
+                                game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression)
                         # if item is to be kept or still needs to be sold or identified, append to list
                         if keep or sell or need_id:
                             # save item info
                             boxes.append(box)
                         else:
                             # if item isn't going to be kept (or sold if vendor window not open), trash it
-                            Logger.info(f"Dropping {item_name}")
                             transfer_items([box], action = "drop")
                         wait(0.05, 0.2)
                     else:
                         failed = True
-                except AttributeError:
+                except AttributeError as e:
                     failed = True
                     # * Drop item.
-                    Logger.info(f"Dropping {item_name}")
-                    # Press CTRL on the keyboard, click the left mouse button, release CTRL.
-                    keyboard.send("ctrl", do_release=False)
-                    mouse.press(button="left")
-                    keyboard.send("ctrl", do_release=True)
+                    Logger.info(f"Dropping {item_name}. Failed with AttributeError {e}")
+                    transfer_items([box], action = "drop")
         else:
             failed = True
         if failed:

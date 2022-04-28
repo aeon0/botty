@@ -267,7 +267,7 @@ def find_base_and_remove_items_without_a_base(items_by_quality) -> dict:
         if quality in [ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Magic]:
             gray_normal_magic_removed.update(set_gray_and_normal_and_magic_base_items(items_by_quality))
         for item in items_by_quality[quality]:
-            if not base_items().get(item['text']) and not any(chr.isdigit() for chr in item['text']) and not gold_regex.search(item['text']):
+            if not item['text'] in base_items() and not any(chr.isdigit() for chr in item['text']) and not gold_regex.search(item['text']):
                 item['text'] = fuzzy_base_item_match(item['text'])
             if 'base' not in item:
                 if quality == ItemQuality.Magic.value:
