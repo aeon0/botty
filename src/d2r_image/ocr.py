@@ -215,7 +215,7 @@ def _ocr_result_dictionary_check(
     confidences: list,
     word_list: set = all_words(),
     normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.99
+    ocr_confidence_threshold: float = 0.90
     ) -> str:
     confidences = [x/100 for x in confidences]
     if all(x >= ocr_confidence_threshold for x in confidences):
