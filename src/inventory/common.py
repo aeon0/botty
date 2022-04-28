@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import keyboard
 import time
+import itertools
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
@@ -77,6 +78,16 @@ def calc_item_roi(img_pre, img_post):
     except BaseException as err:
         Logger.error(f"_calc_item_roi: Unexpected {err=}, {type(err)=}")
         return None
+
+def dimensions_to_slots(dimensions: list, row_col: tuple) -> list:
+    row_min = row_col[0]
+    row_max = row_min + dimensions[1]
+    col_min = row_col[1]
+    col_max = col_min + dimensions[0]
+    slots = set()
+    for row, col in itertools.product(range(row_min, row_max), range(col_min, col_max)):
+        slots.add((row, col))
+    return slots
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()

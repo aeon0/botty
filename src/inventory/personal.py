@@ -204,9 +204,12 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
     boxes = []
     # iterate over slots with items
     item_rois = []
+    already_detected_slots = set()
     for count, slot in enumerate(slots):
         failed = False
-        # ignore this slot if it lies within in a previous item's ROI
+        # ignore this slot if it lies within the range of a previous item's dimension property
+        if (slot[1], slot[2]) in already_detected_slots: continue
+        # ignore this slot if it lies within in a previous item's ROI (no dimension property)
         if any(is_in_roi(item_roi, slot[0]) for item_roi in item_rois): continue
         img = grab()
         x_m, y_m = convert_screen_to_monitor(slot[0])
@@ -221,32 +224,37 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         except Exception as e:
             Logger.error(f"personal.inspect_items(): Failed to get item properties for slot {slot}")
             failed = True
-        if item_box is not None:
-            # determine the item's ROI in inventory
-            cnt=0
-            while True:
-                pre = mask_by_roi(img, Config().ui_roi["open_inventory_area"])
-                post = mask_by_roi(hovered_item, Config().ui_roi["open_inventory_area"])
-                # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
-                if not np.array_equal(pre, post):
-                    break
-                Logger.debug(f"inspect_items: pre=post, try again. slot {slot[0]}")
-                center_mouse(delay_factor=[0.05, 0.1])
-                img = grab()
-                mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
-                wait(0.05, 0.1)
-                hovered_item = grab()
-                cnt += 1
-                if cnt >= 2:
-                    Logger.error(f"inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
-                    break
+        if item_box is None:
+            failed = True
+        else:
             if item_box.ocr_result:
-
-                extend_roi = item_box.roi[:]
-                extend_roi[3] = extend_roi[3] + 30
-                item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
-                if item_roi:
-                    item_rois.append(item_roi)
+                if "dimensions" in item_properties.BaseItem:
+                    positions = common.dimensions_to_slots(item_properties.BaseItem["dimensions"], (slot[1], slot[2]))
+                    already_detected_slots.update(positions)
+                else:
+                    # determine the item's ROI in inventory
+                    cnt=0
+                    while True:
+                        pre = mask_by_roi(img, Config().ui_roi["open_inventory_area"])
+                        post = mask_by_roi(hovered_item, Config().ui_roi["open_inventory_area"])
+                        # will sometimes have equivalent diff if mouse ends up in an inconvenient place.
+                        if not np.array_equal(pre, post):
+                            break
+                        Logger.debug(f"inspect_items: pre=post, try again. slot {slot[0]}")
+                        center_mouse(delay_factor=[0.05, 0.1])
+                        img = grab()
+                        mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
+                        wait(0.05, 0.1)
+                        hovered_item = grab()
+                        cnt += 1
+                        if cnt >= 2:
+                            Logger.error(f"inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
+                            break
+                    extend_roi = item_box.roi[:]
+                    extend_roi[3] = extend_roi[3] + 30
+                    item_roi = common.calc_item_roi(mask_by_roi(pre, extend_roi, type = "inverse"), mask_by_roi(post, extend_roi, type = "inverse"))
+                    if item_roi:
+                        item_rois.append(item_roi)
 
                 # determine whether the item can be sold
                 ocr_result_split = item_box.ocr_result.text.splitlines()
@@ -321,8 +329,6 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     # * Drop item.
                     Logger.info(f"Dropping {item_name}. Failed with AttributeError {e}")
                     transfer_items([box], action = "drop")
-        else:
-            failed = True
         if failed:
             log_item_fail(hovered_item, slot)
 
