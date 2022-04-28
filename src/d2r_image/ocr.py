@@ -215,7 +215,7 @@ def _ocr_result_dictionary_check(
     confidences: list,
     word_list: set = all_words(),
     normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.90
+    ocr_confidence_threshold: float = 0.99
     ) -> str:
     confidences = [x/100 for x in confidences]
     if all(x >= ocr_confidence_threshold for x in confidences):
@@ -253,4 +253,4 @@ def _ocr_result_dictionary_check(
             except Exception as e:
                 Logger.error(f"_ocr_result_dictionary_check: Exception on word: {word}, index: {word_count}, text: {text}, exception: {e}")
                 return text
-    return corrected_text.strip()
+    return corrected_text.strip().replace(" \n", "\n")
