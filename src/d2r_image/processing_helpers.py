@@ -10,7 +10,9 @@ from d2r_image.nip_data import NTIP_ALIAS_QUALITY_MAP
 from d2r_image.ocr import image_to_text
 from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
+from d2r_image.d2data_lookup import fuzzy_base_item_match
 from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK
+from d2r_image.strings_store import base_items
 from utils.misc import color_filter, erode_to_black
 
 from logger import Logger
@@ -265,6 +267,8 @@ def find_base_and_remove_items_without_a_base(items_by_quality) -> dict:
         if quality in [ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Magic]:
             gray_normal_magic_removed.update(set_gray_and_normal_and_magic_base_items(items_by_quality))
         for item in items_by_quality[quality]:
+            if not base_items().get(item['text']) and not any(chr.isdigit() for chr in item['text']) and not gold_regex.search(item['text']):
+                item['text'] = fuzzy_base_item_match(item['text'])
             if 'base' not in item:
                 if quality == ItemQuality.Magic.value:
                     base = d2data_lookup.get_base(item['text'])
@@ -382,6 +386,17 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
             for item in items_by_quality[quality]:
                 quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
                 result = d2data_lookup.get_base(normalized_text)
+                if not result:
+                    gold_match = gold_regex.search(item['text'])
+                    if gold_match:
+                        item['base'] = d2data_lookup.get_consumable('GOLD')
+                        item['amount'] = gold_match.group(1)
+                        break
+                    else:
+                        # fuzzy match
+                        item['text'] = fuzzy_base_item_match(item['text'])
+                        quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
+                        result = d2data_lookup.get_base(normalized_text)
                 if result:
                     item['base'] = result
                     item['item'] = result
@@ -390,11 +405,7 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
                     if quality_keyword:
                         item['quality'] = quality_keyword
                 else:
-                    gold_match = gold_regex.search(item['text'])
-                    if gold_match:
-                        item['base'] = d2data_lookup.get_consumable('GOLD')
-                        item['amount'] = gold_match.group(1)
-                    elif d2data_lookup.is_consumable(item['text']):
+                    if d2data_lookup.is_consumable(item['text']):
                         item['base'] = d2data_lookup.get_consumable(item['text'])
                         item['name'] = item['base']['DisplayName']
                     elif d2data_lookup.is_gem(item['text']):

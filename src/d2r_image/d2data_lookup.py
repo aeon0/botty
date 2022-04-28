@@ -1,10 +1,9 @@
 import os
-import re
 import sys
 from parse import compile as compile_pattern
 from d2r_image.data_models import ItemQuality
 from d2r_image.d2data_data import ITEM_ARMOR, ITEM_MISC, ITEM_SET_ITEMS, ITEM_TYPES, ITEM_UNIQUE_ITEMS, ITEM_WEAPONS, REF_PATTERNS
-from d2r_image.strings_store import magic_prefixes, magic_suffixes
+from d2r_image.strings_store import base_items
 from utils.misc import find_best_match
 from logger import Logger
 
@@ -36,7 +35,6 @@ elif __file__:
     application_path = os.path.dirname(__file__)
 
 d2data_path = os.path.join(application_path, 'd2data')
-magic_regex = re.compile(r"(^[\w+|']+\s).*(\sOF.*)")
 
 def magic_name(name: str):
     magic_names = [base_item_name for base_item_name in bases_by_name if base_item_name in name]
@@ -138,21 +136,50 @@ def find_set_item_by_name(name, fuzzy=False):
         best_match = find_best_match(normalized_name, item_lookup_by_quality_and_display_name[quality].keys()).match
         return item_lookup_by_quality_and_display_name[quality][best_match]
 
-def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
-    modifed_magic_item_text = magic_item_text.upper().replace("-", "").replace("'", "")
-    if item_is_identified:
-        split_name = modifed_magic_item_text.split(" ")
-        for i in range(len(split_name)):
-            for j in range(len(split_name)):
-                temp_name = "".join(split_name[i:j+1])
-                if temp_name in bases_by_name:
-                    return bases_by_name[temp_name]
-    else:
-        modifed_magic_item_text = modifed_magic_item_text.replace(" ", "")
-        if modifed_magic_item_text in bases_by_name:
-            return bases_by_name[modifed_magic_item_text]
+def fuzzy_base_item_match(item_name: str, normalized_threshold: float = 0.7):
+    fuzzy_res = find_best_match(item_name, list(map(str.upper, list(base_items().keys()))))
+    if fuzzy_res.match != item_name:
+        if fuzzy_res.score_normalized > normalized_threshold and base_items().get(fuzzy_res.match):
+            Logger.debug(f"fuzzy_base_item_match: change {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%)")
+            return fuzzy_res.match
+        else:
+            # Logger.debug(f"fuzzy_base_item_match: proposed {item_name} -> {fuzzy_res.match} (similarity: {fuzzy_res.score_normalized*100:.1f}%) doesn't meet threshold of {normalized_threshold*100:.1f}% or doesn't exist in base items, ignore.")
+            pass
+    return item_name
 
-    Logger.error(f"Could not find base item for {magic_item_text}, {modifed_magic_item_text}, {item_is_identified}")
+def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
+    base_item_str = None
+    magic_item_text = magic_item_text.strip()
+    if item_is_identified:
+        # strip suffix
+        of_index = magic_item_text.find(" OF ")
+        if of_index > 0:
+            words = magic_item_text[:of_index].split()
+        else:
+            words = magic_item_text.split()
+        # iterate through item name by sequentially stripping first word and checking for existence in item bases
+        for i in range(len(words)):
+            temp_name = ' '.join(words[i:]).strip()
+            if base_items().get(temp_name):
+                base_item_str = temp_name
+                break
+        # failed to find, now try with string correction
+        if not base_item_str:
+            for i in range(len(words)):
+                temp_name = ' '.join(words[i:]).strip()
+                if (res := fuzzy_base_item_match(temp_name)) != temp_name:
+                    base_item_str = res
+                    break
+    else:
+        if base_items().get(magic_item_text):
+            base_item_str = magic_item_text
+        elif (res := fuzzy_base_item_match(magic_item_text)) != magic_item_text:
+            base_item_str = res
+
+    if not base_item_str:
+        Logger.error(f"Could not find base item for {magic_item_text}, {item_is_identified}")
+        return None
+    return get_base(base_item_str)
 
 
 def magic_item_is_identified(magic_item_name):

@@ -206,6 +206,7 @@ def _fix_regexps(ocr_output: str, repeat_count: int = 0) -> str:
 def _check_known_errors(text):
     for key in ERROR_RESOLUTION_MAP:
         if key in text:
+            Logger.debug(f"_check_known_errors: {key} -> {ERROR_RESOLUTION_MAP[key]}")
             text = text.replace(key, ERROR_RESOLUTION_MAP[key])
     return text
 
@@ -214,7 +215,7 @@ def _ocr_result_dictionary_check(
     confidences: list,
     word_list: dict = all_words(),
     normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.90
+    ocr_confidence_threshold: float = 0.99
     ) -> str:
     confidences = [x/100 for x in confidences]
     if all(x >= ocr_confidence_threshold for x in confidences):

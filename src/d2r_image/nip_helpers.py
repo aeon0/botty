@@ -3,15 +3,8 @@ from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pa
 from d2r_image.data_models import HoveredItem, ItemQuality
 from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
 from d2r_image.processing_data import Runeword
-from utils.misc import find_best_match
-from d2r_image.strings_store import all_words, base_items
 from rapidfuzz.string_metric import levenshtein
 
-def correct_item_name(name):
-    res = find_best_match(name.lower(), list(map(str.lower, list(all_words().keys()))))
-    if res.score_normalized >= 0.6:
-        return res.match
-    return name
 
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
@@ -52,17 +45,7 @@ def parse_item(quality, item, _call_count=1):
     base_name = base_name.upper().replace(' ', '')
     base_item = None
     if quality == ItemQuality.Magic.value:
-        # * correct words if word isn't in the all_words dict
-        all = all_words()
-        corrected_name = ""
-        for word in cleaned_lines[0].split(" "):
-            if len(word) <= 1: continue
-            if all.get(word):
-                corrected_name += f"{word} "
-            else:
-                print(f"{word} not found in all_words")
-                corrected_name += f"{correct_item_name(word)} "
-        base_item = find_base_item_from_magic_item_text(corrected_name, item_is_identified)
+        base_item = find_base_item_from_magic_item_text(cleaned_lines[0], item_is_identified)
     else:
         if quality == ItemQuality.Crafted.value and is_rune(base_name):
             base_item = get_rune(base_name)
