@@ -660,7 +660,7 @@ NIP_ALIAS_STAT_PATTERNS = {
 "{:d} to Fire Wall (Sorceress only)": [
     "107,51"
 ],
-"{:d} to Enchant Fire (Sorceress only)": [
+"{:d} to Enchant (Sorceress only)": [
     "107,52"
 ],
 "{:d} to Chain Lightning (Sorceress only)": [
