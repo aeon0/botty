@@ -296,6 +296,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         log_item(item_box, item_properties)
                         # decide whether to keep item
                         keep, expression = should_keep(item_properties.as_dict())
+                        box.keep = keep
                         if keep:
                             Logger.debug(f"Keep {item_name}. Expression: {expression}")
                             sell = False
