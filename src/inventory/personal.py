@@ -263,9 +263,19 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
                 sell = Config().char["sell_junk"] and item_can_be_traded
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
-
-                # * Check if the item is unidentified, and if it needs to be identified.
                 need_id = None
+                keep = None
+
+                box = BoxInfo(
+                    img = item_box.img,
+                    pos = (x_m, y_m),
+                    column = slot[2],
+                    row = slot[1],
+                    need_id = need_id,
+                    sell = sell,
+                    keep = keep
+                )
+
                 tome_state = None
                 try:
                     if (is_unidentified and should_id(item_properties.as_dict())):
@@ -294,16 +304,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         else:
                             Logger.debug(f"Discarding {item_name}")
 
-                        box = BoxInfo(
-                            img = item_box.img,
-                            pos = (x_m, y_m),
-                            column = slot[2],
-                            row = slot[1],
-                            need_id = need_id,
-                            sell = sell,
-                            keep = keep
-                        )
-
+                        
                         # sell if not keeping item, vendor is open, and item type can be traded
                         if vendor_open and item_can_be_traded and not (keep or need_id):
                             box.sell = True
@@ -329,6 +330,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     # * Drop item.
                     Logger.info(f"Dropping {item_name}. Failed with AttributeError {e}")
                     transfer_items([box], action = "drop")
+
+
         if failed:
             log_item_fail(hovered_item, slot)
 
