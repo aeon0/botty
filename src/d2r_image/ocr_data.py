@@ -34,5 +34,5 @@ ERROR_RESOLUTION_MAP = {
     'I0 RUNE': 'IO RUNE',
     '1IST RUNE': 'IST RUNE',
     'JAR RUNE': 'JAH RUNE',
-    'YO': "TO"
+    'YO': 'TO'
 }
