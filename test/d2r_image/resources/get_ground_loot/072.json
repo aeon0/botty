@@ -26,8 +26,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -56,8 +56,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -86,8 +86,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -116,8 +116,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -146,8 +146,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -176,8 +176,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -206,8 +206,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -236,8 +236,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -266,8 +266,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -296,8 +296,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -326,8 +326,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -356,8 +356,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -386,8 +386,8 @@
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -419,8 +419,8 @@
       "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -452,8 +452,8 @@
       "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -485,8 +485,8 @@
       "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -518,8 +518,8 @@
       "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -569,8 +569,8 @@
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -692,8 +692,8 @@
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -781,8 +781,8 @@
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -811,8 +811,8 @@
       "NTIPAliasQuality": 8,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -841,8 +841,8 @@
       "NTIPAliasQuality": 8,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -871,8 +871,8 @@
       "NTIPAliasQuality": 8,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -901,8 +901,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -931,8 +931,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -961,8 +961,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -991,8 +991,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -1021,8 +1021,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -1051,8 +1051,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -1081,8 +1081,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     },
     {
@@ -1111,8 +1111,8 @@
       "NTIPAliasQuality": 10,
       "NTIPAliasFlag": {
         "0x10": true,
-        "0x4000000": true,
-        "0x400000": true
+        "0x4000000": false,
+        "0x400000": false
       }
     }
   ]

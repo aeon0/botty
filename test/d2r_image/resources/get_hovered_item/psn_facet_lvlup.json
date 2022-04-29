@@ -1,7 +1,7 @@
 {
   "Name": "Rainbow Facet",
   "Quality": "unique",
-  "Text": "RAINBOW FACET |JEWEL |CAN BE INSERTED INTO SOCKETED ITEMS |REQUIRED LEVEL: 49 |100% CHANCE TO CAST LEVEL 23 VENOM WHEN YOU LEVEL-UP |+37 POISON DAMAGE OVER 2 SECONDS |+5% TO POISON SKILL DAMAGE |-5% TO ENEMY POISON RESISTANCE",
+  "Text": "RAINBOW FACET|JEWEL|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 49|100% CHANCE TO CAST LEVEL 23 VENOM WHEN YOU LEVEL-UP|+37 POISON DAMAGE OVER 2 SECONDS|+5% TO POISON SKILL DAMAGE|-5% TO ENEMY POISON RESISTANCE|CTRL + LEFT CLICK TO DROP",
   "BaseItem": {
     "DisplayName": "Jewel",
     "NTIPAliasClassID": 643,
@@ -111,7 +111,15 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,
   "NTIPAliasStat": {
-    "336": -5
+    "57": 37,
+    "59": 2,
+    "199": {
+      "chance": 100,
+      "level": 23,
+      "skill": "VENOM"
+    },
+    "336": -5,
+    "332": 5
   },
   "NTIPAliasFlag": {
     "0x10": true,

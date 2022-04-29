@@ -1,7 +1,7 @@
 {
   "Name": "Rainbow Facet",
   "Quality": "unique",
-  "Text": "RAINBOW FACET |JEWEL |CAN BE INSERTED INTO SOCKETED ITEMS |REQUIRED LEVEL: 49 |100% CHANCE TO CAST LEVEL 37 BLIZZARD WHEN YOU DIE |ADDS 24-38 COLD DAMAGE |+5% TO COLD SKILL DAMAGE |-5% TO ENEMY COLD RESISTANCE",
+  "Text": "RAINBOW FACET|JEWEL|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 49|100% CHANCE TO CAST LEVEL 37 BLIZZARD WHEN YOU DIE|ADDS 24-38 COLD DAMAGE|+5% TO COLD SKILL DAMAGE|-5% TO ENEMY COLD RESISTANCE|CTRL + LEFT CLICK TO DROP",
   "BaseItem": {
     "DisplayName": "Jewel",
     "NTIPAliasClassID": 643,
@@ -111,6 +111,14 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,
   "NTIPAliasStat": {
+    "54": 24,
+    "55": 38,
+    "197": {
+      "chance": 100,
+      "level": 37,
+      "skill": "BLIZZARD"
+    },
+    "331": 5,
     "335": -5
   },
   "NTIPAliasFlag": {
