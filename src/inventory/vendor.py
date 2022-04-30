@@ -118,6 +118,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             wait(0.4, 0.6)
             if is_visible(ScreenObjects.NotEnoughGold):
                 Logger.warning(f"Out of gold, could not purchase {template_name}")
+                keyboard.send('shift', do_release=True)
                 keyboard.send("esc")
                 return False
             keyboard.send('shift', do_release=True)
