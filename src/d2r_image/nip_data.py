@@ -1265,7 +1265,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "250"
     ],
     "{:d} Enhanced Defense": [
-        "16"
+        "16,0"
     ],
     "{:d} Enhanced Defense (Based on Character Level)": [
         "215"
