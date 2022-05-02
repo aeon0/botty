@@ -233,18 +233,3 @@ def find_best_match(in_str: str, str_list: list[str]) -> BestMatchResult:
     best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
     best_lev_normalized = 1 - best_lev / max(1, len(in_str))
     return BestMatchResult(best_match, best_lev, best_lev_normalized)
-
-if __name__ == "__main__":
-    import keyboard
-    from screen import start_detecting_window, grab, stop_detecting_window
-    start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
-    print("Go to D2R window and press f11 to start")
-    keyboard.wait("f11")
-    from config import Config
-
-    while 1:
-        img = grab()
-        a, b = color_filter(img, Config().colors["gray"])
-        cv2.imshow('test', b)
-        key = cv2.waitKey(3000)

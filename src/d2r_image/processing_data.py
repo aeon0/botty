@@ -6,7 +6,7 @@ HUD_MASK = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
 HUD_MASK = cv2.threshold(HUD_MASK, 1, 255, cv2.THRESH_BINARY)[1]
 
 ITEM_COLORS = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
-GAUS_FILTER = (21, 1)
+GAUS_FILTER = (19, 1)
 EXPECTED_HEIGHT_RANGE = [round(num) for num in [x / 1.5 for x in [14, 40]]]
 EXPECTED_WIDTH_RANGE = [round(num) for num in [x / 1.5 for x in [60, 1280]]]
 BOX_EXPECTED_WIDTH_RANGE = [200, 900]

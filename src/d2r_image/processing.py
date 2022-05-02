@@ -118,7 +118,7 @@ if __name__ == "__main__":
     import os
     from screen import start_detecting_window, stop_detecting_window, grab
     from d2r_image import processing as d2r_image
-    from d2r_image.demo import draw_items_on_image_data
+    from d2r_image.demo import draw_items_on_image_data, gen_truth_from_ground_loot
     from nip.transpile import should_keep, should_pickup
     import json
     from logger import Logger
@@ -126,6 +126,8 @@ if __name__ == "__main__":
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
     Logger.info("Move to d2r window and press f11")
     keyboard.wait("f11")
+
+    gen_truth = False
 
     while 1:
         img = grab().copy()
@@ -145,5 +147,7 @@ if __name__ == "__main__":
                         Logger.debug(f"Pick {item.Quality} {item.BaseItem['DisplayName']}?: {should_pickup(item.as_dict())}")
                         Logger.debug(item)
                 draw_items_on_image_data(all_loot.items, img)
+                if gen_truth:
+                    gen_truth_from_ground_loot(all_loot.items, img)
         cv2.imshow("res", img)
         cv2.waitKey(3000)
