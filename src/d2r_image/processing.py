@@ -51,7 +51,7 @@ def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "
         x, y, w, h = cv2.boundingRect(cntr)
         cropped_item = image[y:y+h + 30, x:x+w] # * + 30 so we can see the bottom text, and open the image in and hold it in front of processing.py and see how it does..
         avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-        mostly_dark = 0 < avg < 20
+        mostly_dark = 0 < avg < 30
         contains_black = np.min(cropped_item) < 14
         contains_white = np.max(cropped_item) > 250
         contains_orange = False

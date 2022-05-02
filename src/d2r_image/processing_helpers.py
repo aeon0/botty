@@ -44,7 +44,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
             cropped_item = filtered_img[y:y+h, x:x+w]
             avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
             contains_black = np.min(cropped_item) < 14
-            mostly_dark = avg < 25
+            mostly_dark = avg < 35
             if contains_black and mostly_dark:
                 # double-check item color
                 color_averages = []
