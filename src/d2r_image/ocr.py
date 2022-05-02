@@ -24,7 +24,7 @@ def image_to_text(
     check_known_errors: bool = True,
     correct_words: bool = True,
     word_match_threshold: float = 0.5
-) -> list[str]:
+) -> list[OcrResult]:
     """
     Uses Tesseract to read image(s)
     :param images (required): image or list of images to read in OpenCV format.

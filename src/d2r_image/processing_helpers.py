@@ -64,6 +64,11 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
     results = image_to_text(cluster_images, model="engd2r_inv_th_fast", psm=7)
+    for result in results:
+        if "SUPERIOR" in result.text:
+            result.text = f'SUPERIOR {fuzzy_base_item_match(result.text.split(" ", 1)[1], 0.1)}'
+        else:
+            result.text = fuzzy_base_item_match(result.text, 0.1)
     for count, cluster in enumerate(item_clusters):
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
