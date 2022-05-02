@@ -74,15 +74,15 @@ def grab() -> np.ndarray:
     global cached_img
     global last_grab
     # with 25fps we have 40ms per frame. If we check for 20ms range to make sure we can still get each frame if we want.
-    if cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.02:
-        with cached_img_lock:
-            return cached_img
+    if cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.04:
+        return cached_img
     else:
-        last_grab = time.perf_counter()
+        with cached_img_lock:
+            last_grab = time.perf_counter()
         img = np.array(sct.grab(monitor_roi))
         with cached_img_lock:
             cached_img = img[:, :, :3]
-            return cached_img
+        return cached_img
 
 # TODO: Move the below funcs to utils(?)
 
