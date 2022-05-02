@@ -1,17 +1,23 @@
-import cv2
-import threading
-from copy import deepcopy
-from screen import convert_screen_to_monitor, grab
-from typing import Union
-from dataclasses import dataclass
-import numpy as np
-from logger import Logger
-import time
+"""Helper classes to find templates in images."""
+
 import os
+import threading
+import time
+
+import cv2
+import numpy as np
+
+from copy import deepcopy
+from dataclasses import dataclass
+from typing import Union
+
+from screen import convert_screen_to_monitor, grab
+from logger import Logger
 from config import Config
 from utils.misc import cut_roi, load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter
 
 template_finder_lock = threading.Lock()
+
 
 @dataclass
 class TemplateMatch:
@@ -20,6 +26,7 @@ class TemplateMatch:
     center: tuple[float, float] = None
     region: list[float] = None
     valid: bool = False
+
 
 class TemplateFinder:
     """
@@ -63,8 +70,97 @@ class TemplateFinder:
                     ]
         return cls._instance
 
+    @staticmethod
+    def _make_template(template, match, scale, roi, normalize_monitor) -> TemplateMatch:
+        """Helper function to make a TemplateMatch object from ."""
+        rx, ry, rw, rh = roi
+        template_match = TemplateMatch()
+        rec = [
+            int((match[1] + rx) // scale),
+            int((match[0] + ry) // scale),
+            int(template.shape[1] // scale),
+            int(template.shape[0] // scale)
+        ]
+        ref_point = roi_center(rec)
+
+        if normalize_monitor:
+            rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
+        else:
+            template_match.center = ref_point
+            template_match.region = rec
+            template_match.valid = True
+        return template_match
+
     def get_template(self, key):
         return cv2.cvtColor(self._templates[key][0], cv2.COLOR_BGRA2BGR)
+
+    def search_v2(
+            self,
+            image: np.ndarray,
+            template_name: str = None,
+            template_image: np.ndarray = None,
+            threshold: float = 0.88,
+            roi: list[float] = None,
+            normalize_monitor: bool = False,
+            use_grayscale: bool = False,
+            color_match: list = False,
+    ) -> list[TemplateMatch]:
+        """Look for matches for a template inside an image.
+
+        :param image: The image to find the template in.
+        :param template_name: The name of the template to load to look for in the image.
+        :param template_image: An already loaded template to look for in the image.
+        :param threshold: The confidence threshold to consider a match valid.
+        :param roi: Optional region of the image to look for templates in.
+        :param normalize_monitor: Return monitor coordinates instead of input image coordinates.
+        :param use_grayscale: Whether the match should be in grayscale.
+        :param color_match: Pass a color to be used as a filter for the template and image.
+
+        :returns results: All templates found in the specified region.
+        """
+        results = []
+        if template_name:
+            scale = self._templates[template_name][2]
+            mask = self._templates[template_name][3]
+            if color_match:
+                templates = [color_filter(self._templates[template_name][0], color_match)[1]]
+                image = color_filter(image, color_match)[1]
+            else:
+                templates = [self._templates[template_name][use_grayscale]]
+        elif template_image is not None:
+            if not color_match:
+                templates = [template_image]
+            else:
+                templates = [color_filter(template_image, color_match)[1]]
+            scale = 1.0
+            mask = None
+        else:
+            raise ValueError('We need either a template_name or template_image to search for.')
+        if use_grayscale:
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            templates = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in templates]
+        # Default ROI to full image if not specified.
+        roi = roi if roi is not None else [0, 0, image.shape[1], image.shape[0]]
+        if scale != 1:
+            image: np.ndarray = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+            roi = [val * scale for val in roi]
+        # Crop image to region of interest.
+        rx, ry, rw, rh = roi
+        image = image[ry:ry + rh, rx:rx + rw]
+
+        for idx, template in enumerate(templates):
+            if image.shape[0] > template.shape[0] and image.shape[1] > template.shape[1]:
+                res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED, mask=mask)
+                res = np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
+                matches = np.where(res >= threshold)
+                matches = [pos for pos in zip(*matches)]
+                for coords in matches:
+                    # TODO: The TemplateMatch class should be able to construct itself with this information.
+                    template_match = self._make_template(template, coords, scale, roi, normalize_monitor)
+                    template_match.name = template_name
+                    template_match.score = res[coords[0]][coords[1]]
+                    results.append(template_match)
+        return results
 
     def search(
         self,
@@ -79,7 +175,7 @@ class TemplateFinder:
     ) -> TemplateMatch:
         """
         Search for a template in an image
-        :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
+        :param ref: Either key of an already loaded template, list of such keys, or an image which is used as template.
         :param inp_img: Image in which the template will be searched
         :param threshold: Threshold which determines if a template is found or not
         :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
@@ -172,7 +268,7 @@ class TemplateFinder:
                     ref_point = roi_center(rec)
 
                     if normalize_monitor:
-                        ref_point =  convert_screen_to_monitor(ref_point)
+                        ref_point = convert_screen_to_monitor(ref_point)
                         rec[0], rec[1] = convert_screen_to_monitor((rec[0], rec[1]))
                     if best_match:
                         scores[count] = max_val
@@ -188,9 +284,11 @@ class TemplateFinder:
                         return template_match
 
         if len(scores) > 0 and max(scores) > 0:
-            idx=scores.index(max(scores))
-            try: template_match.name = names[idx]
-            except: pass
+            idx = scores.index(max(scores))
+            try:
+                template_match.name = names[idx]
+            except:
+                pass
             template_match.center = ref_points[idx]
             template_match.score = scores[idx]
             template_match.region = recs[idx]

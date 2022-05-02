@@ -17,17 +17,6 @@ from utils.custom_mouse import mouse
 from utils.misc import wait
 
 
-def exit(run_obj):
-    run_time = str(datetime.timedelta(seconds=round(time.time() - run_obj.start_time)))
-    Logger.info("Exiting shopping mall...")
-    print(
-        "STATS \truns \t\ttime \titems_evaluated \titems_bought\n"
-        f"\t{run_obj.run_count} \t\t{run_time}"
-        f"\t\t{run_obj.items_evaluated} \t\t\t{run_obj.items_bought}"
-    )
-    os._exit(0)
-
-
 class DrognanShopper:
     """
     Shop at Drognan for Items.
@@ -157,3 +146,13 @@ class DrognanShopper:
         mouse.press(button="left")
         wait(time_held - 0.05, time_held + 0.05)
         mouse.release(button="left")
+
+    def exit(self):
+        run_time = str(datetime.timedelta(seconds=round(time.time() - self.start_time)))
+        Logger.info("Exiting shopping mall...")
+        print(
+            "STATS \truns \t\ttime \titems_evaluated \titems_bought\n"
+            f"\t{self.run_count} \t\t{run_time}"
+            f"\t\t{self.items_evaluated} \t\t\t{self.items_bought}"
+        )
+        os._exit(0)

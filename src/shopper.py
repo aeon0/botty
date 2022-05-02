@@ -1,18 +1,23 @@
-from beautifultable import BeautifulTable
+"""Main program to automate shopping items from merchants."""
 import logging
-import traceback
-import keyboard
-import time
 import os
-from shop.anya import AnyaShopper
-from shop.drognan import DrognanShopper
+import time
+import traceback
+
+import keyboard
+from beautifultable import BeautifulTable
+
 from config import Config
 from logger import Logger
+from shop.anya import AnyaShopper
+from shop.drognan import DrognanShopper
 from version import __version__
-from screen import start_detecting_window, stop_detecting_window
+from screen import start_detecting_window
+from screen import stop_detecting_window
 
 
 def main():
+    """Main shopper loop."""
     if Config().advanced_options["logg_lvl"] == "info":
         Logger.init(logging.INFO)
     elif Config().advanced_options["logg_lvl"] == "debug":
@@ -20,7 +25,7 @@ def main():
     else:
         print(f"ERROR: Unkown logg_lvl {Config().advanced_options['logg_lvl']}. Must be one of [info, debug]")
 
-    keyboard.add_hotkey(Config().advanced_options["exit_key"], lambda: Logger.info(f'Force Exit') or os._exit(1))
+    keyboard.add_hotkey(Config().advanced_options["exit_key"], lambda: Logger.info('Force Exit') or os._exit(1))
 
     print(f"============ Shop {__version__} [name: {Config().general['name']}] ============")
     table = BeautifulTable()
@@ -31,24 +36,24 @@ def main():
     print(table)
     print("\n")
 
-    while 1:
+    merchant = None
+    while not merchant:
         if keyboard.is_pressed("f10"):
             merchant = DrognanShopper()
-            merchant.run()
-            break
-        if keyboard.is_pressed("f11"):
+        elif keyboard.is_pressed("f11"):
             merchant = AnyaShopper()
-            merchant.run()
-            break
-        time.sleep(0.02)
+    keyboard.unhook_all_hotkeys()
+    keyboard.add_hotkey(Config().advanced_options["exit_key"], merchant.exit)
+    merchant.run()
+
 
 if __name__ == "__main__":
-    # To avoid cmd just closing down, except any errors and add a input() to the end
+    # To avoid cmd just closing down, except any errors and add an input() call at the end.
     try:
         start_detecting_window()
         time.sleep(2)
         main()
-    except:
+    except:  # pylint: disable=bare-except
         traceback.print_exc()
     print("Press Enter to exit ...")
     input()

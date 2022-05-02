@@ -228,6 +228,7 @@ class mouse:
         else:
             _winmouse.move_to(x, y)
 
+    @staticmethod
     def move(x, y, absolute: bool = True, randomize: Union[int, Tuple[int, int]] = 5, delay_factor: Tuple[float, float] = [0.9, 1.1]):
         from_point = _mouse.get_position()
         dist = math.dist((x, y), from_point)
