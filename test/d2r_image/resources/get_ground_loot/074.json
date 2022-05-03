@@ -1,0 +1,1238 @@
+{
+  "items": [
+    {
+      "BoundingBox": {
+        "x": 421,
+        "y": 406,
+        "w": 121,
+        "h": 21
+      },
+      "Name": "Ancient Axe",
+      "Quality": "gray",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 608,
+        "y": 209,
+        "w": 210,
+        "h": 21
+      },
+      "Name": "Ancient Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 521,
+        "y": 125,
+        "w": 235,
+        "h": 21
+      },
+      "Name": "Ancient Sword",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 646,
+        "y": 347,
+        "w": 215,
+        "h": 22
+      },
+      "Name": "Ancient Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 601,
+        "y": 309,
+        "w": 153,
+        "h": 22
+      },
+      "Name": "Thawing Potion",
+      "Quality": "normal",
+      "Text": "THAWING POTION",
+      "BaseItem": {
+        "DisplayName": "Thawing Potion",
+        "NTIPAliasClassID": 517,
+        "NTIPAliasType": 81,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 81,
+      "NTIPAliasClassID": 517,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 680,
+        "y": 288,
+        "w": 146,
+        "h": 22
+      },
+      "Name": "Ancient Sword",
+      "Quality": "normal",
+      "Text": "ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 406,
+        "y": 271,
+        "w": 235,
+        "h": 22
+      },
+      "Name": "Ancient Sword",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1017,
+        "y": 167,
+        "w": 126,
+        "h": 21
+      },
+      "Name": "Ancient Axe",
+      "Quality": "normal",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1050,
+        "y": 146,
+        "w": 63,
+        "h": 21
+      },
+      "Name": "Topaz",
+      "Quality": "normal",
+      "Text": "TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Topaz",
+        "NTIPAliasClassID": 564,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 564,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 630,
+        "y": 146,
+        "w": 173,
+        "h": 21
+      },
+      "Name": "Tome of Identify",
+      "Quality": "normal",
+      "Text": "TOME OF IDENTIFY",
+      "BaseItem": {
+        "DisplayName": "Tome of Identify",
+        "NTIPAliasClassID": 519,
+        "NTIPAliasType": 18,
+        "dimensions": [
+          1,
+          2
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 18,
+      "NTIPAliasClassID": 519,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 384,
+        "y": 146,
+        "w": 203,
+        "h": 21
+      },
+      "Name": "Tome of Town Portal",
+      "Quality": "normal",
+      "Text": "TOME OF TOWN PORTAL",
+      "BaseItem": {
+        "DisplayName": "Tome of Town Portal",
+        "NTIPAliasClassID": 518,
+        "NTIPAliasType": 18,
+        "dimensions": [
+          1,
+          2
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 18,
+      "NTIPAliasClassID": 518,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 833,
+        "y": 145,
+        "w": 185,
+        "h": 22
+      },
+      "Name": "Super Mana Potion",
+      "Quality": "normal",
+      "Text": "SUPER MANA POTION",
+      "BaseItem": {
+        "DisplayName": "Super Mana Potion",
+        "NTIPAliasClassID": 596,
+        "NTIPAliasType": 77,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 77,
+      "NTIPAliasClassID": 596,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1031,
+        "y": 124,
+        "w": 155,
+        "h": 22
+      },
+      "Name": "Stamina Potion",
+      "Quality": "normal",
+      "Text": "STAMINA POTION",
+      "BaseItem": {
+        "DisplayName": "Stamina Potion",
+        "NTIPAliasClassID": 513,
+        "NTIPAliasType": 79,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 79,
+      "NTIPAliasClassID": 513,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 786,
+        "y": 124,
+        "w": 215,
+        "h": 22
+      },
+      "Name": "Super Healing Potion",
+      "Quality": "normal",
+      "Text": "SUPER HEALING POTION",
+      "BaseItem": {
+        "DisplayName": "Super Healing Potion",
+        "NTIPAliasClassID": 591,
+        "NTIPAliasType": 76,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 76,
+      "NTIPAliasClassID": 591,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 469,
+        "y": 103,
+        "w": 182,
+        "h": 22
+      },
+      "Name": "Arbalest",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR ARBALEST",
+      "BaseItem": {
+        "DisplayName": "Arbalest",
+        "NTIPAliasClassID": 169,
+        "NTIPAliasType": 35,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 30,
+          "73": 30,
+          "23": 14,
+          "24": 27
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "LANGERBRISER"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 35,
+      "NTIPAliasClassID": 169,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 603,
+        "y": 424,
+        "w": 146,
+        "h": 22
+      },
+      "Name": "Ancient Sword",
+      "Quality": "magic",
+      "Text": "ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 364,
+        "y": 338,
+        "w": 126,
+        "h": 22
+      },
+      "Name": "Ancient Axe",
+      "Quality": "magic",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 652,
+        "y": 187,
+        "w": 126,
+        "h": 22
+      },
+      "Name": "Ancient Axe",
+      "Quality": "rare",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 373,
+        "y": 309,
+        "w": 146,
+        "h": 22
+      },
+      "Name": "Ancient Sword",
+      "Quality": "set",
+      "Text": "ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 594,
+        "y": 229,
+        "w": 126,
+        "h": 22
+      },
+      "Name": "Ancient Axe",
+      "Quality": "set",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 421,
+        "y": 229,
+        "w": 126,
+        "h": 22
+      },
+      "Name": "The Minotaur",
+      "Quality": "unique",
+      "Text": "ANCIENT AXE",
+      "BaseItem": {
+        "DisplayName": "Ancient Axe",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "23": 43,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "THEMINOTAUR"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": {
+        "DisplayName": "The Minotaur",
+        "NTIPAliasClassID": 102,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "113": {
+            "min": 2,
+            "max": 2
+          },
+          "118": {
+            "min": 1,
+            "max": 1
+          },
+          "0": {
+            "min": 15,
+            "max": 20
+          },
+          "150": {
+            "min": 50,
+            "max": 50
+          },
+          "136": {
+            "min": 30,
+            "max": 30
+          },
+          "21": 20,
+          "22": 30,
+          "25": {
+            "min": 140,
+            "max": 200
+          }
+        }
+      },
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 102,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 373,
+        "y": 166,
+        "w": 146,
+        "h": 22
+      },
+      "Name": "The Atlantean",
+      "Quality": "unique",
+      "Text": "ANCIENT SWORD",
+      "BaseItem": {
+        "DisplayName": "Ancient Sword",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 44,
+          "73": 44,
+          "21": 18,
+          "22": 43,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "THEATLANTEAN"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": {
+        "DisplayName": "The Atlantean",
+        "NTIPAliasClassID": 125,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "72": 100,
+          "73": 100,
+          "31": {
+            "min": 75,
+            "max": 75
+          },
+          "0": {
+            "min": 16,
+            "max": 16
+          },
+          "2": {
+            "min": 12,
+            "max": 12
+          },
+          "3": {
+            "min": 8,
+            "max": 8
+          },
+          "25": {
+            "min": 200,
+            "max": 250
+          },
+          "83,3": {
+            "min": 2,
+            "max": 2
+          },
+          "119": {
+            "min": 50,
+            "max": 50
+          }
+        }
+      },
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 125,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 570,
+        "y": 166,
+        "w": 293,
+        "h": 22
+      },
+      "Name": "Twisted Essence of Suffering",
+      "Quality": "crafted",
+      "Text": "TWISTED ESSENCE OF SUFFERING",
+      "BaseItem": {
+        "DisplayName": "Twisted Essence of Suffering",
+        "NTIPAliasClassID": 654,
+        "NTIPAliasType": 39,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 39,
+      "NTIPAliasClassID": 654,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 8,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 631,
+        "y": 387,
+        "w": 93,
+        "h": 21
+      },
+      "Name": "TAL RUNE",
+      "Quality": "rune",
+      "Text": "TAL RUNE",
+      "BaseItem": {
+        "DisplayName": "Tal Rune",
+        "NTIPAliasClassID": 616,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 616,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 453,
+        "y": 377,
+        "w": 103,
+        "h": 21
+      },
+      "Name": "THUL RUNE",
+      "Quality": "rune",
+      "Text": "THUL RUNE",
+      "BaseItem": {
+        "DisplayName": "Thul Rune",
+        "NTIPAliasClassID": 619,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 619,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 422,
+        "y": 251,
+        "w": 86,
+        "h": 21
+      },
+      "Name": "UM RUNE",
+      "Quality": "rune",
+      "Text": "UM RUNE",
+      "BaseItem": {
+        "DisplayName": "Um Rune",
+        "NTIPAliasClassID": 631,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 631,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 551,
+        "y": 250,
+        "w": 96,
+        "h": 22
+      },
+      "Name": "ZOD RUNE",
+      "Quality": "rune",
+      "Text": "ZOD RUNE",
+      "BaseItem": {
+        "DisplayName": "Zod Rune",
+        "NTIPAliasClassID": 642,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 642,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 475,
+        "y": 208,
+        "w": 96,
+        "h": 22
+      },
+      "Name": "SUR RUNE",
+      "Quality": "rune",
+      "Text": "SUR RUNE",
+      "BaseItem": {
+        "DisplayName": "Sur Rune",
+        "NTIPAliasClassID": 638,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 638,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 516,
+        "y": 188,
+        "w": 93,
+        "h": 21
+      },
+      "Name": "TIR RUNE",
+      "Quality": "rune",
+      "Text": "TIR RUNE",
+      "BaseItem": {
+        "DisplayName": "Tir Rune",
+        "NTIPAliasClassID": 612,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 612,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 892,
+        "y": 167,
+        "w": 96,
+        "h": 21
+      },
+      "Name": "VEX RUNE",
+      "Quality": "rune",
+      "Text": "VEX RUNE",
+      "BaseItem": {
+        "DisplayName": "Vex Rune",
+        "NTIPAliasClassID": 635,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 635,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    }
+  ]
+}

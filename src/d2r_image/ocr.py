@@ -11,7 +11,7 @@ from logger import Logger
 
 def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
-    model: str = "engd2r_inv_th",
+    model: str = "eng_inconsolata_inv_th",
     psm: int = 3,
     word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,

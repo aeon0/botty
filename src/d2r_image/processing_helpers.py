@@ -68,7 +68,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                         clean_img=cleaned_img[y:y+h, x:x+w]
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
-    results = image_to_text(cluster_images, model="engd2r_inv_th_fast", psm=7)
+    results = image_to_text(cluster_images, model="eng_inconsolata_inv_th_fast", psm=7)
     for count, cluster in enumerate(item_clusters):
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
@@ -392,7 +392,7 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
             for item in items_by_quality[quality]:
                 quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
                 result = d2data_lookup.get_base(normalized_text)
-                print(f"{quality_keyword} {normalized_text} {result}")
+                #print(f"{quality_keyword} {normalized_text} {result}")
                 if not result:
                     gold_match = gold_regex.search(item['text'])
                     if gold_match:

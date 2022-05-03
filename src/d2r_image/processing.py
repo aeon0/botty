@@ -34,7 +34,7 @@ def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> Union[Groun
 
 import traceback #TODO REMOV THIS
 
-def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "engd2r_inv_th_fast") -> tuple[HoveredItem, ItemText]:
+def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "eng_inconsolata_inv_th_fast") -> tuple[HoveredItem, ItemText]:
     """
     Crops visible item description boxes / tooltips
     :inp_img: image from hover over item of interest.
