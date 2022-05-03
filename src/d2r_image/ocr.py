@@ -225,7 +225,6 @@ def _ocr_result_dictionary_check(
     for line_cnt, line in enumerate(words_by_lines):
         new_line = []
         for word_cnt, word in enumerate(line):
-            print(line)
             total_word_count += 1 # increment before skip check to maintain relationship with confidences
             # if the word was incorporated in the previous word as a combined substitution, skip
             if skip_next:
