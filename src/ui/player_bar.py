@@ -28,8 +28,7 @@ def get_experience():
         digits_only = False,
         fix_regexps = False,
         check_known_errors = False,
-        correct_words = False,
-        word_match_threshold = 0.5
+        correct_words = False
     )[0]
 
     split_text = ocr_result.text.split(' ')

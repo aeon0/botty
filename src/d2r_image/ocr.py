@@ -1,8 +1,6 @@
-from copy import deepcopy
 from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
-import re
 from utils.misc import erode_to_black, find_best_match
 from typing import List, Union
 from d2r_image.data_models import OcrResult
@@ -24,7 +22,6 @@ def image_to_text(
     fix_regexps: bool = True,
     check_known_errors: bool = True,
     correct_words: bool = True,
-    word_match_threshold: float = 0.5
 ) -> list[OcrResult]:
     """
     Uses Tesseract to read image(s)
@@ -42,8 +39,7 @@ def image_to_text(
     :param digits_only: only look for digits
     :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
     :param check_known_errors: check for predefined common errors and replace
-    :param correct_words: check dictionary of words and match closest match if proximity is greater than word_match_threshold
-    :param word_match_threshold: (see correct_words)
+    :param correct_words: check dictionary of words and match closest match
     :return: Returns an OcrResult object
     """
     if type(images) == np.ndarray:
