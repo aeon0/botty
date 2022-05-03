@@ -1,3 +1,4 @@
+from copy import deepcopy
 from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
@@ -92,7 +93,6 @@ def image_to_text(
                 text = _check_known_errors(text)
             if correct_words:
                 text = _ocr_result_dictionary_check(text, word_confidences)
-                text = text.replace(' NEWLINEHERE ', '\n')
             results.append(OcrResult(
                 original_text=original_text,
                 text=text,
@@ -211,48 +211,76 @@ def _check_known_errors(text):
                 Logger.debug(f"_check_known_errors: {key} -> {ERROR_RESOLUTION_MAP[key]}")
     return text
 
+def _contains_characters(word):
+    return any(c.isalpha() for c in word)
 
 def _ocr_result_dictionary_check(
     original_text: str,
     confidences: list,
     word_list: set = all_words(),
-    normalized_lev_threshold: float = 0.6,
-    ocr_confidence_threshold: float = 0.99
+    normalized_lev_threshold: float = 0.6
     ) -> str:
     confidences = [x/100 for x in confidences]
-    if all(x >= ocr_confidence_threshold for x in confidences):
-        return original_text
-    #print(f"{original_text} {confidences}")
-    text = original_text.replace('\n', ' NEWLINEHERE ')
-    corrected_text = ""
-    word_count = 0
-    for word in map(str.strip, text.split(' ')):
-        if not word:
-            continue
-        elif word == "NEWLINEHERE":
-            corrected_text += "\n"
-        else:
-            try:
-                # print(word, confidences[word_count])
-                if confidences[word_count] <= ocr_confidence_threshold:
-                    contains_characters = any(c.isalpha() for c in word)
-                    if contains_characters and not word in word_list:
-                        result = find_best_match(word, list(word_list))
-                        if (result.score_normalized) >= (normalized_lev_threshold):
-                            corrected_text += f"{result.match} "
-                            Logger.debug(f"_ocr_result_dictionary_check: Replacing {word} (OCR confidence {round(confidences[word_count]*100)}%) with {result.match}, similarity={result.score_normalized*100:.1f}%")
-                        else:
-                            corrected_text += f"{word} "
-                    else:
-                        corrected_text += f"{word} "
+    words_by_lines = [line.strip().split(' ') for line in original_text.split('\n')]
+    total_word_count = -1
+    new_text = ""
+    saved_result = ""
+    skip_next = False
+    for line_cnt, line in enumerate(words_by_lines):
+        new_line = []
+        for word_cnt, word in enumerate(line):
+            print(line)
+            total_word_count += 1 # increment before skip check to maintain relationship with confidences
+            # if the word was incorporated in the previous word as a combined substitution, skip
+            if skip_next:
+                skip_next = False 
+                continue
+            # if word exists in list or is non-alphabetical, keep
+            if word in word_list or not _contains_characters(word):
+                new_line.append(word)
+                continue
+            # fuzzy match the word
+            # if the word has already been calculated on a lookahead check, used stored result
+            if saved_result:
+                result = saved_result
+                saved_result = ""
+            else:            
+                result = find_best_match(word, list(word_list))
+            # if the word is the last word on the line don't lookahead
+            if word_cnt == (len(line) - 1):
+                if result.score_normalized >= normalized_lev_threshold:
+                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match}, similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    new_line.append(result.match)
                 else:
-                    corrected_text += f"{word} "
-                word_count += 1
-            except IndexError:
-                # bizarre word_count index exceeded sometimes... can't reproduce and words otherwise seem to match up
-                Logger.error(f"_ocr_result_dictionary_check: IndexError for word: {word}, index: {word_count}, text: {text}")
-                return text
-            except Exception as e:
-                Logger.error(f"_ocr_result_dictionary_check: Exception on word: {word}, index: {word_count}, text: {text}, exception: {e}")
-                return text
-    return corrected_text.strip().replace(" \n", "\n")
+                    new_line.append(word)
+                continue 
+            # if the word is not the last word, try lookahead in case of misread character -> space
+            next_word = line[word_cnt + 1]
+            # if next word is in wordlist or doesn't contain characters, save current word
+            if next_word in word_list or not _contains_characters(word):
+                if result.score_normalized >= normalized_lev_threshold:
+                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match}, similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    new_line.append(result.match)
+                else:
+                    new_line.append(word)
+                continue 
+            # fuzzy match the next word and a combination of both current and next words
+            next_result = find_best_match(next_word, list(word_list))
+            combined_result = find_best_match(f"{word} {next_word}", list(word_list))
+            if combined_result.score < (result.score + next_result.score):
+                # combined lev score is superior to sum of individual lev scores, replace with combined string
+                skip_next = True
+                Logger.debug(f'_ocr_result_dictionary_check: change "{word} {next_word}" -> {combined_result.match}, similarity: {combined_result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%, {int(confidences[total_word_count+1]*100)}%')
+                new_line.append(combined_result.match)
+            else:
+                if result.score_normalized >= normalized_lev_threshold:
+                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match}, similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    new_line.append(result.match)
+                else:
+                    new_line.append(word)
+                # save next_result for next iteration
+                saved_result = next_result 
+        new_text += f"{' '.join(new_line)}"
+        if line_cnt < (len(words_by_lines) - 1):
+            new_text += "\n" 
+    return new_text
