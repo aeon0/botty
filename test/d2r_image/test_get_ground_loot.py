@@ -42,7 +42,7 @@ def generate_ground_loot_json(image_filename):
     for item in d2_items:
         ground_expected.items.append(item)
     ground_expected_json = ground_expected.to_json()
-    print(ground_expected_json)
+    #print(ground_expected_json)
 
 
 # generate_ground_loot_json('ground7.png')

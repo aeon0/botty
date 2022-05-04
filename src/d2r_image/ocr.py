@@ -1,8 +1,6 @@
-from copy import deepcopy
 from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
-import re
 from utils.misc import erode_to_black, find_best_match
 from typing import List, Union
 from d2r_image.data_models import OcrResult
@@ -12,7 +10,7 @@ from logger import Logger
 
 def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
-    model: str = "engd2r_inv_th",
+    model: str = "eng_inconsolata_inv_th",
     psm: int = 3,
     word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,
@@ -24,8 +22,7 @@ def image_to_text(
     fix_regexps: bool = True,
     check_known_errors: bool = True,
     correct_words: bool = True,
-    word_match_threshold: float = 0.5
-) -> list[str]:
+) -> list[OcrResult]:
     """
     Uses Tesseract to read image(s)
     :param images (required): image or list of images to read in OpenCV format.
@@ -42,8 +39,7 @@ def image_to_text(
     :param digits_only: only look for digits
     :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
     :param check_known_errors: check for predefined common errors and replace
-    :param correct_words: check dictionary of words and match closest match if proximity is greater than word_match_threshold
-    :param word_match_threshold: (see correct_words)
+    :param correct_words: check dictionary of words and match closest match
     :return: Returns an OcrResult object
     """
     if type(images) == np.ndarray:
@@ -229,7 +225,6 @@ def _ocr_result_dictionary_check(
     for line_cnt, line in enumerate(words_by_lines):
         new_line = []
         for word_cnt, word in enumerate(line):
-            print(line)
             total_word_count += 1 # increment before skip check to maintain relationship with confidences
             # if the word was incorporated in the previous word as a combined substitution, skip
             if skip_next:
