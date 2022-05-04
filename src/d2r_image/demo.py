@@ -5,14 +5,9 @@ import keyboard
 import os
 import json
 import dataclasses
-import unicodedata
-import re
-
-from utils.misc import cut_roi
 
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
-from d2r_image.processing_helpers import clean_img
 from d2r_image.data_models import ItemQuality, ItemQualityKeyword
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -36,7 +31,6 @@ debug_line_map[ItemQuality.Crafted.value] = (0, 160, 219)
 debug_line_map[ItemQuality.Rune.value] = (0, 160, 219)
 debug_line_map[ItemQuality.Runeword.value] = (126, 170, 184)
 
-gen_truth = False
 
 def get_ground_loot():
     print('Loading demo ground images. This may take a few seconds...\n')
@@ -56,12 +50,10 @@ def get_ground_loot():
             ground_loot_list = processing.get_ground_loot(image_data)
             end = time.time()
             elapsed = round(end-start, 2)
-            print(f'Processed {image_name} in {elapsed} seconds')
+            # print(f'Processed {image} in {elapsed} seconds')
             total_elapsed_time += elapsed
             if ground_loot_list.items:
                 draw_items_on_image_data(ground_loot_list.items, image_data)
-                if gen_truth:
-                    gen_truth_from_ground_loot(ground_loot_list.items, image)
                 filename_base=image_name.lower()[:-4]
                 cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
                 with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
@@ -127,31 +119,3 @@ def draw_items_on_image_data(items, image):
             debug_line_map[item.Quality],
             1
         )
-
-def gen_truth_from_ground_loot(items, image):
-    def slugify(value, allow_unicode=False):
-        """
-        Taken from https://github.com/django/django/blob/master/django/utils/text.py
-        Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
-        dashes to single dashes. Remove characters that aren't alphanumerics,
-        underscores, or hyphens. Convert to lowercase. Also strip leading and
-        trailing whitespace, dashes, and underscores.
-        """
-        value = str(value)
-        if allow_unicode:
-            value = unicodedata.normalize('NFKC', value)
-        else:
-            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-        value = re.sub(r'[^\w\s-]', '', value.lower())
-        return re.sub(r'[-\s]+', '-', value).strip('-_')
-
-    image = clean_img(image)
-    for item in items:
-        x, y, w, h = item.BoundingBox.values()
-        item_drop = cut_roi(image, [x, y, w, h])
-        item_drop = clean_img(item_drop)
-        item_slug = slugify({f"{item.Name} {item.Quality}"})
-        filename = f"loot_screenshots/ocr_{item_slug}"
-        with open(f"{filename}.gt.txt", 'w') as f:
-            f.write(item.Text.rstrip())
-        cv2.imwrite(f"{filename}.png", item_drop)

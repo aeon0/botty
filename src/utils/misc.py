@@ -233,3 +233,7 @@ def find_best_match(in_str: str, str_list: list[str]) -> BestMatchResult:
     best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
     best_lev_normalized = 1 - best_lev / max(1, len(in_str))
     return BestMatchResult(best_match, best_lev, best_lev_normalized)
+
+# if __name__ == "__main__":
+    # print(find_d2r_window())
+    # print(find_d2r_window())

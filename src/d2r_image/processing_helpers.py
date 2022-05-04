@@ -12,8 +12,8 @@ from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.d2data_lookup import fuzzy_base_item_match
 from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK
-from d2r_image.strings_store import all_words, base_items
-from utils.misc import color_filter, erode_to_black, find_best_match
+from d2r_image.strings_store import base_items
+from utils.misc import color_filter, erode_to_black
 
 from logger import Logger
 from config import Config
@@ -28,13 +28,8 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
     for key in ITEM_COLORS:
         _, filtered_img = color_filter(cleaned_img, Config().colors[key])
         filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-        gaus = GAUS_FILTER
-        if key == "gray":
-            # white text has some gray on border of glyphs, erode
-            filtered_img_gray = cv2.erode(filtered_img_gray, np.ones((2, 1), 'uint8'), None, iterations=1)
-            gaus = (GAUS_FILTER[0] + 4, GAUS_FILTER[1])
         blured_img = np.clip(cv2.GaussianBlur(
-            filtered_img_gray, gaus, cv2.BORDER_DEFAULT), 0, 255)
+            filtered_img_gray, GAUS_FILTER, cv2.BORDER_DEFAULT), 0, 255)
         contours = cv2.findContours(
             blured_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
@@ -49,7 +44,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
             cropped_item = filtered_img[y:y+h, x:x+w]
             avg = int(np.average(filtered_img_gray[y:y+h, x:x+w]))
             contains_black = np.min(cropped_item) < 14
-            mostly_dark = avg < 35
+            mostly_dark = avg < 25
             if contains_black and mostly_dark:
                 # double-check item color
                 color_averages = []
@@ -68,7 +63,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                         clean_img=cleaned_img[y:y+h, x:x+w]
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
-    results = image_to_text(cluster_images, model="eng_inconsolata_inv_th_fast", psm=7)
+    results = image_to_text(cluster_images, model="engd2r_inv_th_fast", psm=7)
     for count, cluster in enumerate(item_clusters):
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
@@ -97,7 +92,7 @@ def get_items_by_quality(crop_result):
     for item in crop_result:
         quality = None
         if item.quality.value == ItemQuality.Orange.value:
-            is_rune = ' RUNE' in item.ocr_result.text
+            is_rune = 'RUNE' in item.ocr_result.text
             if is_rune:
                 quality = ItemQuality.Rune
             else:
@@ -272,9 +267,8 @@ def find_base_and_remove_items_without_a_base(items_by_quality) -> dict:
         if quality in [ItemQuality.Gray.value, ItemQuality.Normal.value, ItemQuality.Magic]:
             gray_normal_magic_removed.update(set_gray_and_normal_and_magic_base_items(items_by_quality))
         for item in items_by_quality[quality]:
-            quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
-            if not normalized_text in base_items() and not any(chr.isdigit() for chr in item['text']) and not gold_regex.search(item['text']):
-                item['text'] = f"{quality_keyword} {fuzzy_base_item_match(normalized_text)}".strip()
+            if not item['text'] in base_items() and not any(chr.isdigit() for chr in item['text']) and not gold_regex.search(item['text']):
+                item['text'] = fuzzy_base_item_match(item['text'])
             if 'base' not in item:
                 if quality == ItemQuality.Magic.value:
                     base = d2data_lookup.get_base(item['text'])
@@ -392,7 +386,6 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
             for item in items_by_quality[quality]:
                 quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
                 result = d2data_lookup.get_base(normalized_text)
-                #print(f"{quality_keyword} {normalized_text} {result}")
                 if not result:
                     gold_match = gold_regex.search(item['text'])
                     if gold_match:
@@ -401,11 +394,7 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
                         break
                     else:
                         # fuzzy match
-                        new_string = ""
-                        if quality_keyword:
-                            new_string += f"{quality_keyword} "
-                        new_string += f"{fuzzy_base_item_match(normalized_text)}"
-                        item['text'] = new_string.strip()
+                        item['text'] = fuzzy_base_item_match(item['text'])
                         quality_keyword, normalized_text = get_normalized_normal_gray_item_text(item['text'])
                         result = d2data_lookup.get_base(normalized_text)
                 if result:
@@ -426,7 +415,6 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
                         if quality not in items_to_remove:
                             items_to_remove[quality] = []
                         items_to_remove[quality].append(item)
-                        print(f'remove {item}')
         elif quality == ItemQuality.Magic.value:
             for item in items_by_quality[quality]:
                 item_is_identified = d2data_lookup.magic_item_is_identified(item['text'])
@@ -510,31 +498,3 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
             except Exception as e:
                 Logger.error(f'failed on item: {item} with error {e}')
     return ground_item_list
-
-if __name__ == "__main__":
-    import keyboard
-    from screen import start_detecting_window, grab, stop_detecting_window
-    start_detecting_window()
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
-    print("Go to D2R window and press f11 to start")
-    keyboard.wait("f11")
-    from config import Config
-
-    while 1:
-        img_o = grab()
-
-        img = img_o[:, :, :]
-        # In order to not filter out highlighted items, change their color to black
-        highlight_mask = color_filter(img, Config().colors["item_highlight"])[0]
-        img[highlight_mask > 0] = (0, 0, 0)
-        img = erode_to_black(img, 14)
-
-        _, filtered_img = color_filter(img, Config().colors["gray"])
-        filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-
-        eroded_img_gray = cv2.erode(filtered_img_gray, np.ones((2, 1), 'uint8'), None, iterations=1)
-
-        blured_img = np.clip(cv2.GaussianBlur(eroded_img_gray, (17, 1), cv2.BORDER_DEFAULT), 0, 255)
-
-        cv2.imshow('test', blured_img)
-        key = cv2.waitKey(3000)

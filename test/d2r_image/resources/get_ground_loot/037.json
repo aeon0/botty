@@ -2,10 +2,10 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 359,
-        "y": 394,
-        "w": 175,
-        "h": 21
+        "x": 590,
+        "y": 430,
+        "w": 182,
+        "h": 22
       },
       "Name": "Greaves",
       "Quality": "SUPERIOR",
@@ -51,10 +51,112 @@
     },
     {
       "BoundingBox": {
-        "x": 382,
-        "y": 230,
-        "w": 206,
+        "x": 521,
+        "y": 366,
+        "w": 90,
         "h": 21
+      },
+      "Name": "Greaves",
+      "Quality": "gray",
+      "Text": "GREAVES",
+      "BaseItem": {
+        "DisplayName": "Greaves",
+        "NTIPAliasClassID": 343,
+        "NTIPAliasType": 15,
+        "NTIPAliasStatProps": {
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 12,
+            "max": 15
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "SIGONSSABOT"
+        ],
+        "uniques": [
+          "TEARHAUNCH"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 15,
+      "NTIPAliasClassID": 343,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 424,
+        "y": 226,
+        "w": 128,
+        "h": 21
+      },
+      "Name": "Great Helm",
+      "Quality": "gray",
+      "Text": "GREAT HELM",
+      "BaseItem": {
+        "DisplayName": "Great Helm",
+        "NTIPAliasClassID": 310,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 30,
+            "max": 35
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "SIGONSVISOR"
+        ],
+        "uniques": [
+          "HOWLTUSK"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 310,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 671,
+        "y": 181,
+        "w": 220,
+        "h": 22
       },
       "Name": "Great Helm",
       "Quality": "SUPERIOR",
@@ -104,10 +206,10 @@
     },
     {
       "BoundingBox": {
-        "x": 416,
-        "y": 188,
-        "w": 216,
-        "h": 21
+        "x": 408,
+        "y": 181,
+        "w": 238,
+        "h": 22
       },
       "Name": "Grand Crown",
       "Quality": "SUPERIOR",
@@ -157,156 +259,9 @@
     },
     {
       "BoundingBox": {
-        "x": 642,
-        "y": 167,
-        "w": 146,
-        "h": 21
-      },
-      "Name": "Great Hauberk",
-      "Quality": "gray",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 805,
-        "y": 147,
-        "w": 127,
-        "h": 20
-      },
-      "Name": "Grand Crown",
-      "Quality": "gray",
-      "Text": "GRAND CROWN",
-      "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
-        ],
-        "uniques": [
-          "CROWNOFTHIEVES"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 450,
-        "y": 372,
-        "w": 146,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "normal",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 559,
-        "y": 309,
-        "w": 235,
+        "x": 594,
+        "y": 159,
+        "w": 251,
         "h": 22
       },
       "Name": "Great Hauberk",
@@ -351,10 +306,110 @@
     },
     {
       "BoundingBox": {
-        "x": 541,
-        "y": 250,
-        "w": 116,
+        "x": 994,
+        "y": 138,
+        "w": 146,
+        "h": 21
+      },
+      "Name": "Grand Crown",
+      "Quality": "gray",
+      "Text": "GRAND CROWN",
+      "BaseItem": {
+        "DisplayName": "Grand Crown",
+        "NTIPAliasClassID": 357,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 78,
+            "max": 113
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "HWANINSSPLENDOR"
+        ],
+        "uniques": [
+          "CROWNOFTHIEVES"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 357,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 555,
+        "y": 307,
+        "w": 251,
         "h": 22
+      },
+      "Name": "Great Hauberk",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GREAT HAUBERK",
+      "BaseItem": {
+        "DisplayName": "Great Hauberk",
+        "NTIPAliasClassID": 436,
+        "NTIPAliasType": 3,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 395,
+            "max": 501
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 3,
+      "NTIPAliasClassID": 436,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 538,
+        "y": 248,
+        "w": 129,
+        "h": 21
       },
       "Name": "Great Helm",
       "Quality": "normal",
@@ -404,112 +459,10 @@
     },
     {
       "BoundingBox": {
-        "x": 628,
-        "y": 229,
-        "w": 175,
-        "h": 22
-      },
-      "Name": "Greaves",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 933,
-        "y": 166,
-        "w": 205,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 817,
-        "y": 166,
-        "w": 86,
-        "h": 22
+        "x": 674,
+        "y": 226,
+        "w": 91,
+        "h": 21
       },
       "Name": "Greaves",
       "Quality": "normal",
@@ -555,9 +508,56 @@
     },
     {
       "BoundingBox": {
-        "x": 501,
-        "y": 145,
-        "w": 275,
+        "x": 810,
+        "y": 138,
+        "w": 160,
+        "h": 21
+      },
+      "Name": "Great Hauberk",
+      "Quality": "normal",
+      "Text": "GREAT HAUBERK",
+      "BaseItem": {
+        "DisplayName": "Great Hauberk",
+        "NTIPAliasClassID": 436,
+        "NTIPAliasType": 3,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 395,
+            "max": 501
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 3,
+      "NTIPAliasClassID": 436,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 498,
+        "y": 137,
+        "w": 289,
         "h": 22
       },
       "Name": "Griffon Headdress",
@@ -602,10 +602,63 @@
     },
     {
       "BoundingBox": {
-        "x": 710,
-        "y": 384,
-        "w": 86,
-        "h": 22
+        "x": 597,
+        "y": 279,
+        "w": 128,
+        "h": 21
+      },
+      "Name": "Great Helm",
+      "Quality": "magic",
+      "Text": "GREAT HELM",
+      "BaseItem": {
+        "DisplayName": "Great Helm",
+        "NTIPAliasClassID": 310,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 30,
+            "max": 35
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "SIGONSVISOR"
+        ],
+        "uniques": [
+          "HOWLTUSK"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 310,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 483,
+        "y": 270,
+        "w": 90,
+        "h": 21
       },
       "Name": "Greaves",
       "Quality": "magic",
@@ -651,63 +704,10 @@
     },
     {
       "BoundingBox": {
-        "x": 388,
-        "y": 347,
-        "w": 116,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "magic",
-      "Text": "GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 993,
-        "y": 124,
-        "w": 186,
-        "h": 22
+        "x": 1030,
+        "y": 116,
+        "w": 197,
+        "h": 21
       },
       "Name": "Griffon Headdress",
       "Quality": "magic",
@@ -751,10 +751,10 @@
     },
     {
       "BoundingBox": {
-        "x": 838,
-        "y": 124,
-        "w": 126,
-        "h": 22
+        "x": 859,
+        "y": 116,
+        "w": 146,
+        "h": 21
       },
       "Name": "Grand Crown",
       "Quality": "magic",
@@ -804,110 +804,10 @@
     },
     {
       "BoundingBox": {
-        "x": 565,
-        "y": 405,
-        "w": 146,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "rare",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 536,
-        "y": 351,
-        "w": 126,
-        "h": 22
-      },
-      "Name": "Grand Crown",
-      "Quality": "rare",
-      "Text": "GRAND CROWN",
-      "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
-        ],
-        "uniques": [
-          "CROWNOFTHIEVES"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 599,
-        "y": 280,
-        "w": 116,
-        "h": 22
+        "x": 367,
+        "y": 337,
+        "w": 128,
+        "h": 21
       },
       "Name": "Great Helm",
       "Quality": "rare",
@@ -957,10 +857,106 @@
     },
     {
       "BoundingBox": {
-        "x": 695,
-        "y": 347,
-        "w": 116,
-        "h": 22
+        "x": 406,
+        "y": 308,
+        "w": 90,
+        "h": 21
+      },
+      "Name": "Greaves",
+      "Quality": "rare",
+      "Text": "GREAVES",
+      "BaseItem": {
+        "DisplayName": "Greaves",
+        "NTIPAliasClassID": 343,
+        "NTIPAliasType": 15,
+        "NTIPAliasStatProps": {
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 12,
+            "max": 15
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "SIGONSSABOT"
+        ],
+        "uniques": [
+          "TEARHAUNCH"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 15,
+      "NTIPAliasClassID": 343,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 983,
+        "y": 160,
+        "w": 159,
+        "h": 21
+      },
+      "Name": "Great Hauberk",
+      "Quality": "rare",
+      "Text": "GREAT HAUBERK",
+      "BaseItem": {
+        "DisplayName": "Great Hauberk",
+        "NTIPAliasClassID": 436,
+        "NTIPAliasType": 3,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 395,
+            "max": 501
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 3,
+      "NTIPAliasClassID": 436,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 693,
+        "y": 346,
+        "w": 128,
+        "h": 21
       },
       "Name": "Sigon's Visor",
       "Quality": "set",
@@ -1024,10 +1020,57 @@
     },
     {
       "BoundingBox": {
-        "x": 480,
-        "y": 271,
-        "w": 86,
-        "h": 22
+        "x": 486,
+        "y": 204,
+        "w": 159,
+        "h": 21
+      },
+      "Name": "Great Hauberk",
+      "Quality": "set",
+      "Text": "GREAT HAUBERK",
+      "BaseItem": {
+        "DisplayName": "Great Hauberk",
+        "NTIPAliasClassID": 436,
+        "NTIPAliasType": 3,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 395,
+            "max": 501
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 3,
+      "NTIPAliasClassID": 436,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 869,
+        "y": 160,
+        "w": 90,
+        "h": 21
       },
       "Name": "Sigon's Sabot",
       "Quality": "set",
@@ -1087,57 +1130,10 @@
     },
     {
       "BoundingBox": {
-        "x": 488,
-        "y": 208,
-        "w": 146,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "set",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 468,
-        "y": 124,
-        "w": 186,
-        "h": 22
+        "x": 467,
+        "y": 116,
+        "w": 197,
+        "h": 21
       },
       "Name": "Griffon Headdress",
       "Quality": "set",
@@ -1181,10 +1177,10 @@
     },
     {
       "BoundingBox": {
-        "x": 541,
-        "y": 330,
-        "w": 116,
-        "h": 22
+        "x": 481,
+        "y": 394,
+        "w": 129,
+        "h": 21
       },
       "Name": "Howltusk",
       "Quality": "unique",
@@ -1264,10 +1260,10 @@
     },
     {
       "BoundingBox": {
-        "x": 403,
-        "y": 309,
-        "w": 86,
-        "h": 22
+        "x": 712,
+        "y": 385,
+        "w": 91,
+        "h": 21
       },
       "Name": "Tearhaunch",
       "Quality": "unique",
@@ -1347,10 +1343,10 @@
     },
     {
       "BoundingBox": {
-        "x": 411,
-        "y": 166,
-        "w": 146,
-        "h": 22
+        "x": 408,
+        "y": 160,
+        "w": 160,
+        "h": 21
       },
       "Name": "Great Hauberk",
       "Quality": "unique",
@@ -1394,10 +1390,10 @@
     },
     {
       "BoundingBox": {
-        "x": 683,
-        "y": 124,
-        "w": 126,
-        "h": 22
+        "x": 687,
+        "y": 116,
+        "w": 147,
+        "h": 21
       },
       "Name": "Crown of Thieves",
       "Quality": "unique",

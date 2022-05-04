@@ -2,10 +2,10 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 675,
-        "y": 347,
-        "w": 156,
-        "h": 22
+        "x": 465,
+        "y": 394,
+        "w": 163,
+        "h": 21
       },
       "Name": "Healing Potion",
       "Quality": "normal",
@@ -32,9 +32,9 @@
     },
     {
       "BoundingBox": {
-        "x": 584,
-        "y": 309,
-        "w": 185,
+        "x": 585,
+        "y": 307,
+        "w": 191,
         "h": 22
       },
       "Name": "Flawless Sapphire",
@@ -62,9 +62,9 @@
     },
     {
       "BoundingBox": {
-        "x": 500,
-        "y": 272,
-        "w": 46,
+        "x": 504,
+        "y": 270,
+        "w": 47,
         "h": 21
       },
       "Name": "Key",
@@ -92,10 +92,10 @@
     },
     {
       "BoundingBox": {
-        "x": 456,
-        "y": 250,
-        "w": 56,
-        "h": 22
+        "x": 457,
+        "y": 248,
+        "w": 62,
+        "h": 21
       },
       "Name": "Gold",
       "Quality": "normal",
@@ -122,10 +122,10 @@
     },
     {
       "BoundingBox": {
-        "x": 484,
-        "y": 208,
-        "w": 155,
-        "h": 22
+        "x": 483,
+        "y": 204,
+        "w": 166,
+        "h": 21
       },
       "Name": "Flawless Topaz",
       "Quality": "normal",
@@ -152,10 +152,10 @@
     },
     {
       "BoundingBox": {
-        "x": 436,
-        "y": 187,
-        "w": 175,
-        "h": 22
+        "x": 432,
+        "y": 182,
+        "w": 192,
+        "h": 21
       },
       "Name": "Flawless Emerald",
       "Quality": "normal",
@@ -182,10 +182,10 @@
     },
     {
       "BoundingBox": {
-        "x": 885,
-        "y": 166,
-        "w": 206,
-        "h": 22
+        "x": 907,
+        "y": 160,
+        "w": 229,
+        "h": 21
       },
       "Name": "Greater Mana Potion",
       "Quality": "normal",
@@ -212,10 +212,10 @@
     },
     {
       "BoundingBox": {
-        "x": 999,
-        "y": 145,
-        "w": 175,
-        "h": 22
+        "x": 1007,
+        "y": 138,
+        "w": 194,
+        "h": 21
       },
       "Name": "Flawless Diamond",
       "Quality": "normal",
@@ -242,10 +242,10 @@
     },
     {
       "BoundingBox": {
-        "x": 824,
-        "y": 145,
-        "w": 145,
-        "h": 22
+        "x": 829,
+        "y": 138,
+        "w": 154,
+        "h": 21
       },
       "Name": "Flawless Ruby",
       "Quality": "normal",
@@ -272,9 +272,9 @@
     },
     {
       "BoundingBox": {
-        "x": 639,
-        "y": 145,
-        "w": 155,
+        "x": 643,
+        "y": 137,
+        "w": 162,
         "h": 22
       },
       "Name": "Flawless Skull",
@@ -302,39 +302,9 @@
     },
     {
       "BoundingBox": {
-        "x": 646,
-        "y": 125,
-        "w": 135,
-        "h": 21
-      },
-      "Name": "Flawed Topaz",
-      "Quality": "normal",
-      "Text": "FLAWED TOPAZ",
-      "BaseItem": {
-        "DisplayName": "Flawed Topaz",
-        "NTIPAliasClassID": 563,
-        "NTIPAliasType": 101,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 101,
-      "NTIPAliasClassID": 563,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 811,
-        "y": 124,
-        "w": 215,
+        "x": 827,
+        "y": 116,
+        "w": 223,
         "h": 22
       },
       "Name": "Light Healing Potion",
@@ -362,10 +332,40 @@
     },
     {
       "BoundingBox": {
-        "x": 431,
-        "y": 124,
-        "w": 182,
-        "h": 22
+        "x": 653,
+        "y": 116,
+        "w": 150,
+        "h": 21
+      },
+      "Name": "Flawed Topaz",
+      "Quality": "normal",
+      "Text": "FLAWED TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Flawed Topaz",
+        "NTIPAliasClassID": 563,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 563,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 426,
+        "y": 116,
+        "w": 204,
+        "h": 21
       },
       "Name": "Flawless Amethyst",
       "Quality": "normal",
@@ -392,10 +392,10 @@
     },
     {
       "BoundingBox": {
-        "x": 682,
-        "y": 260,
+        "x": 687,
+        "y": 257,
         "w": 66,
-        "h": 21
+        "h": 23
       },
       "Name": "Jewel",
       "Quality": "magic",
@@ -425,10 +425,10 @@
     },
     {
       "BoundingBox": {
-        "x": 730,
-        "y": 166,
-        "w": 126,
-        "h": 22
+        "x": 737,
+        "y": 160,
+        "w": 146,
+        "h": 21
       },
       "Name": "Grand Charm",
       "Quality": "magic",
@@ -458,10 +458,10 @@
     },
     {
       "BoundingBox": {
-        "x": 576,
-        "y": 166,
-        "w": 125,
-        "h": 22
+        "x": 573,
+        "y": 160,
+        "w": 139,
+        "h": 21
       },
       "Name": "Large Charm",
       "Quality": "magic",
@@ -491,10 +491,10 @@
     },
     {
       "BoundingBox": {
-        "x": 682,
-        "y": 209,
+        "x": 687,
+        "y": 204,
         "w": 66,
-        "h": 21
+        "h": 23
       },
       "Name": "Jewel",
       "Quality": "rare",
@@ -524,10 +524,10 @@
     },
     {
       "BoundingBox": {
-        "x": 652,
-        "y": 229,
-        "w": 126,
-        "h": 22
+        "x": 645,
+        "y": 226,
+        "w": 147,
+        "h": 21
       },
       "Name": "Gheed's Fortune",
       "Quality": "unique",
@@ -575,10 +575,10 @@
     },
     {
       "BoundingBox": {
-        "x": 451,
-        "y": 166,
+        "x": 456,
+        "y": 160,
         "w": 66,
-        "h": 22
+        "h": 23
       },
       "Name": "Rainbow Facet",
       "Quality": "unique",
@@ -698,9 +698,9 @@
     },
     {
       "BoundingBox": {
-        "x": 1056,
-        "y": 124,
-        "w": 125,
+        "x": 1075,
+        "y": 116,
+        "w": 139,
         "h": 22
       },
       "Name": "Hellfire Torch",
@@ -787,10 +787,10 @@
     },
     {
       "BoundingBox": {
-        "x": 603,
-        "y": 432,
-        "w": 146,
-        "h": 22
+        "x": 604,
+        "y": 431,
+        "w": 154,
+        "h": 21
       },
       "Name": "Key of Terror",
       "Quality": "crafted",
@@ -818,9 +818,9 @@
     {
       "BoundingBox": {
         "x": 655,
-        "y": 386,
-        "w": 196,
-        "h": 22
+        "y": 385,
+        "w": 205,
+        "h": 21
       },
       "Name": "Key of Destruction",
       "Quality": "crafted",
@@ -847,10 +847,10 @@
     },
     {
       "BoundingBox": {
-        "x": 383,
-        "y": 309,
-        "w": 126,
-        "h": 22
+        "x": 385,
+        "y": 308,
+        "w": 132,
+        "h": 21
       },
       "Name": "Key of Hate",
       "Quality": "crafted",
@@ -877,40 +877,10 @@
     },
     {
       "BoundingBox": {
-        "x": 500,
-        "y": 395,
-        "w": 85,
-        "h": 22
-      },
-      "Name": "IO RUNE",
-      "Quality": "rune",
-      "Text": "IO RUNE",
-      "BaseItem": {
-        "DisplayName": "Io Rune",
-        "NTIPAliasClassID": 625,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 625,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 518,
-        "y": 367,
-        "w": 86,
-        "h": 22
+        "x": 519,
+        "y": 366,
+        "w": 94,
+        "h": 21
       },
       "Name": "KO RUNE",
       "Quality": "rune",
@@ -937,39 +907,9 @@
     },
     {
       "BoundingBox": {
-        "x": 380,
-        "y": 338,
-        "w": 95,
-        "h": 22
-      },
-      "Name": "IST RUNE",
-      "Quality": "rune",
-      "Text": "IST RUNE",
-      "BaseItem": {
-        "DisplayName": "Ist Rune",
-        "NTIPAliasClassID": 633,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 633,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 609,
-        "y": 281,
-        "w": 96,
+        "x": 706,
+        "y": 346,
+        "w": 103,
         "h": 21
       },
       "Name": "HEL RUNE",
@@ -997,69 +937,9 @@
     },
     {
       "BoundingBox": {
-        "x": 551,
-        "y": 250,
-        "w": 96,
-        "h": 22
-      },
-      "Name": "GUL RUNE",
-      "Quality": "rune",
-      "Text": "GUL RUNE",
-      "BaseItem": {
-        "DisplayName": "Gul Rune",
-        "NTIPAliasClassID": 634,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 634,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 436,
-        "y": 230,
-        "w": 96,
-        "h": 21
-      },
-      "Name": "JAH RUNE",
-      "Quality": "rune",
-      "Text": "JAH RUNE",
-      "BaseItem": {
-        "DisplayName": "Jah Rune",
-        "NTIPAliasClassID": 640,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 640,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 641,
-        "y": 188,
-        "w": 95,
+        "x": 574,
+        "y": 344,
+        "w": 100,
         "h": 21
       },
       "Name": "ITH RUNE",
@@ -1087,9 +967,129 @@
     },
     {
       "BoundingBox": {
-        "x": 514,
-        "y": 146,
-        "w": 95,
+        "x": 383,
+        "y": 337,
+        "w": 97,
+        "h": 21
+      },
+      "Name": "IST RUNE",
+      "Quality": "rune",
+      "Text": "IST RUNE",
+      "BaseItem": {
+        "DisplayName": "Ist Rune",
+        "NTIPAliasClassID": 633,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 633,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 617,
+        "y": 279,
+        "w": 89,
+        "h": 21
+      },
+      "Name": "IO RUNE",
+      "Quality": "rune",
+      "Text": "IO RUNE",
+      "BaseItem": {
+        "DisplayName": "Io Rune",
+        "NTIPAliasClassID": 625,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 625,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 551,
+        "y": 248,
+        "w": 105,
+        "h": 21
+      },
+      "Name": "GUL RUNE",
+      "Quality": "rune",
+      "Text": "GUL RUNE",
+      "BaseItem": {
+        "DisplayName": "Gul Rune",
+        "NTIPAliasClassID": 634,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 634,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 438,
+        "y": 226,
+        "w": 101,
+        "h": 23
+      },
+      "Name": "JAH RUNE",
+      "Quality": "rune",
+      "Text": "JAH RUNE",
+      "BaseItem": {
+        "DisplayName": "Jah Rune",
+        "NTIPAliasClassID": 640,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 640,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 513,
+        "y": 138,
+        "w": 106,
         "h": 21
       },
       "Name": "LEM RUNE",
