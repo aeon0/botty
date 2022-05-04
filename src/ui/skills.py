@@ -76,7 +76,7 @@ def get_skill_charges(img: np.ndarray = None):
     mask, _ = color_filter(img, Config().colors["skill_charges"])
     ocr_result = ocr.image_to_text(
         images = mask,
-        model = "eng_inconsolata_inv_th",
+        model = "engd2r_inv_th",
         psm = 7,
         word_list = "",
         scale = 1.4,
@@ -87,7 +87,8 @@ def get_skill_charges(img: np.ndarray = None):
         digits_only = True,
         fix_regexps = False,
         check_known_errors = False,
-        correct_words = False
+        correct_words = False,
+        word_match_threshold = 0.5
     )[0]
     try:
         return int(ocr_result.text)

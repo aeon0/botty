@@ -50,7 +50,7 @@ def save_char_template():
         char_template = cut_roi(img, [x, y, w, h])
         ocr_result = ocr.image_to_text(
             images = char_template,
-            model = "eng_inconsolata_inv_th",
+            model = "engd2r_ui",
             psm = 6,
             scale = 1.2,
             crop_pad = False,

@@ -19,7 +19,7 @@ def get_experience():
     crop = cut_roi(img, Config().ui_roi["xp_bar_text"])
     ocr_result = ocr.image_to_text(
         images = crop,
-        model = "eng_inconsolata_inv_th",
+        model = "engd2r_inv_th",
         psm = 7,
         scale = 1.3,
         crop_pad = True,
@@ -28,7 +28,8 @@ def get_experience():
         digits_only = False,
         fix_regexps = False,
         check_known_errors = False,
-        correct_words = False
+        correct_words = False,
+        word_match_threshold = 0.5
     )[0]
 
     split_text = ocr_result.text.split(' ')
