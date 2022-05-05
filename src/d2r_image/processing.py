@@ -31,11 +31,9 @@ def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> Union[Groun
 import traceback #TODO REMOV THIS
 
 def get_hovered_item(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -> tuple[HoveredItem, ItemText]:
-    res = crop_item_tooltip(image, model)
+    res, quality = crop_item_tooltip(image, model)
     parsed_item = None
     if res.ocr_result:
-        if "SUPERIOR" in res.ocr_result.text[:10]:
-            quality = ItemQuality.Superior.value
         try:
             parsed_item = parse_item(quality, res.ocr_result.text)
         except Exception as e:
