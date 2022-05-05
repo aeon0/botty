@@ -4,6 +4,7 @@ import numpy as np
 import re
 import time
 import math
+import copy
 
 from d2r_image.data_models import GroundItem, GroundItemList, ItemQuality, ItemQualityKeyword, ItemText
 from d2r_image.nip_data import NTIP_ALIAS_QUALITY_MAP
@@ -11,12 +12,15 @@ from d2r_image.ocr import image_to_text
 from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.d2data_lookup import fuzzy_base_item_match
-from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK
+from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK, BOX_EXPECTED_HEIGHT_RANGE, BOX_EXPECTED_WIDTH_RANGE
 from d2r_image.strings_store import all_words, base_items
 from utils.misc import color_filter, erode_to_black, find_best_match
+from d2r_image.ocr import image_to_text
 
+from utils.misc import color_filter, cut_roi
 from logger import Logger
 from config import Config
+from template_finder import TemplateFinder
 
 gold_regex = re.compile(r'(^[0-9]+)\sGOLD')
 
@@ -73,8 +77,72 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
 
+def crop_item_tooltip(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -> tuple(ItemText, str):
+    """
+    Crops visible item description boxes / tooltips
+    :inp_img: image from hover over item of interest.
+    :model: which ocr model to use
+    """
+    res = ItemText()
+    quality = None
+    black_mask = color_filter(image, Config().colors["black"])[0]
+    contours = cv2.findContours(
+        black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours = contours[0] if len(contours) == 2 else contours[1]
+    for cntr in contours:
+        x, y, w, h = cv2.boundingRect(cntr)
+        cropped_item = image[y:y+h + 30, x:x+w] # * + 30 so we can see the bottom text, and open the image in and hold it in front of processing.py and see how it does..
+        avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
+        mostly_dark = 0 < avg < 35
+        contains_black = np.min(cropped_item) < 14
+        contains_white = np.max(cropped_item) > 250
+        contains_orange = False
+        if not contains_white:
+            # check for orange (like key of destruction, etc.)
+            orange_mask, _ = color_filter(cropped_item, Config().colors["orange"])
+            contains_orange = np.min(orange_mask) > 0
+        expected_height = BOX_EXPECTED_HEIGHT_RANGE[0] < h < BOX_EXPECTED_HEIGHT_RANGE[1]
+        expected_width = BOX_EXPECTED_WIDTH_RANGE[0] < w < BOX_EXPECTED_WIDTH_RANGE[1]
+        # padded height because footer isn't included in contour
+        left_inv = Config().ui_roi["left_inventory"]
+        overlaps_left_inventory = not (
+            x+w < left_inv[0] or left_inv[0]+left_inv[2] < x or y+h+50+10 < left_inv[1] or left_inv[1]+left_inv[3] < y)
+        right_inv = Config().ui_roi["right_inventory"]
+        overlaps_right_inventory = not (
+            x+w < right_inv[0] or right_inv[0]+right_inv[2] < x or y+h+50+10 < right_inv[1] or right_inv[1]+right_inv[3] < y)
+        if contains_black and (contains_white or contains_orange) \
+            and mostly_dark and expected_height and expected_width \
+            and (overlaps_right_inventory or overlaps_left_inventory):
+            footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
+            found_footer = TemplateFinder().search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
+            if found_footer:
+                res.ocr_result = image_to_text(cropped_item, psm=6, model=model)[0]
+                first_row = cut_roi(copy.deepcopy(cropped_item), (0, 0, w, 26))
+                if _contains_color(first_row, "green"):
+                    quality = ItemQuality.Set.value
+                elif _contains_color(first_row, "gold"):
+                    quality = ItemQuality.Unique.value
+                elif _contains_color(first_row, "yellow"):
+                    quality = ItemQuality.Rare.value
+                elif _contains_color(first_row, "blue"):
+                    quality = ItemQuality.Magic.value
+                elif _contains_color(first_row, "orange"):
+                    quality = ItemQuality.Crafted.value
+                elif _contains_color(first_row, "white"):
+                    quality = ItemQuality.Normal.value
+                elif _contains_color(first_row, "gray"):
+                    if "SUPERIOR" in res.ocr_result.text[:10]:
+                        quality = ItemQuality.Superior.value
+                    else:
+                        quality = ItemQuality.Gray.value
+                else:
+                    quality = ItemQuality.Normal.value
+                res.roi = [x, y, w, h]
+                res.img = cropped_item
+                break
+    return res, quality
 
-def contains_color(img: np.ndarray, color: str) -> bool:
+def _contains_color(img: np.ndarray, color: str) -> bool:
     mask = color_filter(img, Config().colors[color])[0]
     return np.average(mask) > 0
 

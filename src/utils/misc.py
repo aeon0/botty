@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from decimal import InvalidOperation
-from re import RegexFlag
 import time
 import random
 import ctypes
 import numpy as np
 from copy import deepcopy
+import unicodedata
+import re
 
 from pyparsing import Regex
 
@@ -233,3 +234,19 @@ def find_best_match(in_str: str, str_list: list[str]) -> BestMatchResult:
     best_match, best_lev, _ = extractOne(in_str, str_list, scorer=levenshtein)
     best_lev_normalized = 1 - best_lev / max(1, len(in_str))
     return BestMatchResult(best_match, best_lev, best_lev_normalized)
+
+def slugify(value, allow_unicode=False):
+    """
+    Taken from https://github.com/django/django/blob/master/django/utils/text.py
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
+    dashes to single dashes. Remove characters that aren't alphanumerics,
+    underscores, or hyphens. Convert to lowercase. Also strip leading and
+    trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower())
+    return re.sub(r'[-\s]+', '-', value).strip('-_')

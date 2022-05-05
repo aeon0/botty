@@ -5,10 +5,8 @@ import keyboard
 import os
 import json
 import dataclasses
-import unicodedata
-import re
 
-from utils.misc import cut_roi
+from utils.misc import cut_roi, slugify
 
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
@@ -132,21 +130,6 @@ def draw_items_on_image_data(items, image):
         )
 
 def gen_truth_from_ground_loot(items, image):
-    def slugify(value, allow_unicode=False):
-        """
-        Taken from https://github.com/django/django/blob/master/django/utils/text.py
-        Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
-        dashes to single dashes. Remove characters that aren't alphanumerics,
-        underscores, or hyphens. Convert to lowercase. Also strip leading and
-        trailing whitespace, dashes, and underscores.
-        """
-        value = str(value)
-        if allow_unicode:
-            value = unicodedata.normalize('NFKC', value)
-        else:
-            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-        value = re.sub(r'[^\w\s-]', '', value.lower())
-        return re.sub(r'[-\s]+', '-', value).strip('-_')
 
     image = clean_img(image)
     for item in items:
