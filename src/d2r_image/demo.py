@@ -87,20 +87,23 @@ def get_hovered_items():
     resource_paths = ['get_hovered_item']
     for resource_path in resource_paths:
         base_dir = f'test/d2r_image/resources/{resource_path}'
-        for image_name in os.listdir(base_dir):
+        files = os.listdir(base_dir)
+        for cnt, image_name in enumerate(files):
             if not image_name.lower().endswith('.png'):
                 continue
             image_data = cv2.imread(f"{base_dir}/{image_name}")
             image = deepcopy(image_data)
             start = time.time()
             item, res = processing.get_hovered_item(image)
+            end = time.time()
+            elapsed = round(end-start, 2)
+            total_elapsed_time += elapsed
             if res.roi is not None:
                 x, y, w, h = res.roi
                 cv2.rectangle(image_data, (x, y), (x+w, y+h), (0, 255, 0), 1)
-            end = time.time()
-            elapsed = round(end-start, 2)
-            # print(f'Processed {image} in {elapsed} seconds')
-            total_elapsed_time += elapsed
+                print(f'Processed {image_name} {cnt+1}/{len(files)} in {elapsed} seconds')
+            else:
+                print(f'Failed: {image_name} {cnt+1}/{len(files)}')
             if item and item.BaseItem:
                 filename_base=image_name.lower()[:-4]
                 cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)

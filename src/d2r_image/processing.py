@@ -50,7 +50,7 @@ def get_hovered_item(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -
         x, y, w, h = cv2.boundingRect(cntr)
         cropped_item = image[y:y+h + 30, x:x+w] # * + 30 so we can see the bottom text, and open the image in and hold it in front of processing.py and see how it does..
         avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-        mostly_dark = 0 < avg < 30
+        mostly_dark = 0 < avg < 35
         contains_black = np.min(cropped_item) < 14
         contains_white = np.max(cropped_item) > 250
         contains_orange = False
@@ -61,7 +61,7 @@ def get_hovered_item(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -
         expected_height = BOX_EXPECTED_HEIGHT_RANGE[0] < h < BOX_EXPECTED_HEIGHT_RANGE[1]
         expected_width = BOX_EXPECTED_WIDTH_RANGE[0] < w < BOX_EXPECTED_WIDTH_RANGE[1]
         # padded height because footer isn't included in contour
-        left_inv = Config().ui_roi["right_inventory"]
+        left_inv = Config().ui_roi["left_inventory"]
         overlaps_left_inventory = not (
             x+w < left_inv[0] or left_inv[0]+left_inv[2] < x or y+h+50+10 < left_inv[1] or left_inv[1]+left_inv[3] < y)
         right_inv = Config().ui_roi["right_inventory"]
