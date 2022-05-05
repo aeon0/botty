@@ -34,11 +34,10 @@ def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> Union[Groun
 
 import traceback #TODO REMOV THIS
 
-def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "eng_inconsolata_inv_th_fast") -> tuple[HoveredItem, ItemText]:
+def get_hovered_item(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -> tuple[HoveredItem, ItemText]:
     """
     Crops visible item description boxes / tooltips
     :inp_img: image from hover over item of interest.
-    :inventory_side: enter either "left" for stash/vendor region or "right" for user inventory region
     :model: which ocr model to use
     """
     res = ItemText()
@@ -61,11 +60,16 @@ def get_hovered_item(image: np.ndarray, inventory_side: str = "right", model = "
             contains_orange = np.min(orange_mask) > 0
         expected_height = BOX_EXPECTED_HEIGHT_RANGE[0] < h < BOX_EXPECTED_HEIGHT_RANGE[1]
         expected_width = BOX_EXPECTED_WIDTH_RANGE[0] < w < BOX_EXPECTED_WIDTH_RANGE[1]
-        box2 = Config().ui_roi[f"{inventory_side}_inventory"]
         # padded height because footer isn't included in contour
-        overlaps_inventory = False if (
-            x+w < box2[0] or box2[0]+box2[2] < x or y+h+50+10 < box2[1] or box2[1]+box2[3] < y) else True
-        if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
+        left_inv = Config().ui_roi["right_inventory"]
+        overlaps_left_inventory = not (
+            x+w < left_inv[0] or left_inv[0]+left_inv[2] < x or y+h+50+10 < left_inv[1] or left_inv[1]+left_inv[3] < y)
+        right_inv = Config().ui_roi["right_inventory"]
+        overlaps_right_inventory = not (
+            x+w < right_inv[0] or right_inv[0]+right_inv[2] < x or y+h+50+10 < right_inv[1] or right_inv[1]+right_inv[3] < y)
+        if contains_black and (contains_white or contains_orange) \
+            and mostly_dark and expected_height and expected_width \
+            and (overlaps_right_inventory or overlaps_left_inventory):
             footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
             found_footer = TemplateFinder().search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
             if found_footer:
