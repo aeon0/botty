@@ -56,7 +56,7 @@ class Hammerdin(IChar):
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        can_teleport = (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and skills.is_right_skill_active()
+        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
@@ -69,7 +69,7 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         # If no teleport available -> Activate Concentration. Why? The bot will accidentally click on monsters and already cast hammers.
         else:
@@ -83,7 +83,7 @@ class Hammerdin(IChar):
         return True
 
     def kill_eldritch(self) -> bool:
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if self.capabilities.can_teleport_natively:
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         # If no teleport available -> Activate Concentration. Why? The bot will accidentally click on monsters and already cast hammers.
@@ -121,7 +121,7 @@ class Hammerdin(IChar):
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if self.capabilities.can_teleport_natively:
             # Back to center stairs and more hammers
             self._pather.traverse_nodes([226], self, timeout=2.5, do_pre_move=False, force_tp=True, use_tp_charge=True)
             self._cast_hammers(atk_len)
