@@ -68,7 +68,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                         color=key,
                         quality=QUALITY_COLOR_MAP[key],
                         roi=[x, y, w, h],
-                        img=cropped_item,
+                        img=inp_img[y:y+h, x:x+w],
                         clean_img=cleaned_img[y:y+h, x:x+w]
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
