@@ -1,0 +1,100 @@
+{
+  "Name": "Carrion Wind",
+  "Quality": "unique",
+  "Text": "CARRION WIND|RING|REQUIRED LEVEL: 60|8% CHANCE TO CAST LEVEL 13 TWISTER ON STRIKING|10% CHANCE TO CAST LEVEL 10 POISON NOVA WHEN STRUCK|8% LIFE STOLEN PER HIT|+106 DEFENSE VS. MISSILE|POISON RESIST +55%|+10% DAMAGE TAKEN GOES TO MANA|LEVEL 21 POISON CREEPER (12/15 CHARGES)|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Ring",
+    "NTIPAliasClassID": 522,
+    "NTIPAliasType": 10,
+    "dimensions": [
+      1,
+      1
+    ],
+    "sets": [
+      "ANGELICHALO",
+      "CATHANSSEAL"
+    ],
+    "uniques": [
+      "NAGELRING",
+      "MANALDHEAL",
+      "THESTONEOFJORDAN",
+      "CONSTRICTINGRING",
+      "BULKATHOSWEDDINGBAND",
+      "DWARFSTAR",
+      "RAVENFROST",
+      "NATURESPEACE",
+      "WISPPROJECTOR",
+      "CARRIONWIND"
+    ]
+  },
+  "Item": {
+    "DisplayName": "Carrion Wind",
+    "NTIPAliasClassID": 522,
+    "NTIPAliasType": 10,
+    "NTIPAliasStatProps": {
+      "32": {
+        "min": 100,
+        "max": 160
+      },
+      "60": {
+        "min": 6,
+        "max": 9
+      },
+      "45": {
+        "min": 55,
+        "max": 55
+      },
+      "201": {
+        "chance": 10,
+        "level": 10,
+        "skill": "Poison Nova"
+      },
+      "204": {
+        "charges": 15,
+        "level": 21,
+        "skill": "Plague Poppy"
+      },
+      "198": {
+        "chance": 8,
+        "level": 13,
+        "skill": "Twister"
+      },
+      "114": {
+        "min": 10,
+        "max": 10
+      }
+    }
+  },
+  "NTIPAliasIdName": "CARRIONWIND",
+  "NTIPAliasType": 10,
+  "NTIPAliasClassID": 522,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "204": {
+      "level": 21,
+      "skill": "POISON CREEPER",
+      "current": 12,
+      "max": 15
+    },
+    "45": 55,
+    "32": 106,
+    "196": {
+      "chance": 8,
+      "level": 13,
+      "skill": "TWISTER"
+    },
+    "201": {
+      "chance": 10,
+      "level": 10,
+      "skill": "POISON NOVA"
+    },
+    "114": 10,
+    "60": 8
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

@@ -77,7 +77,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
 
-def crop_item_tooltip(image: np.ndarray, model = "eng_inconsolata_inv_th_fast") -> tuple(ItemText, str):
+def crop_item_tooltip(image: np.ndarray, model: str = "eng_inconsolata_inv_th_fast") -> tuple[ItemText, str]:
     """
     Crops visible item description boxes / tooltips
     :inp_img: image from hover over item of interest.

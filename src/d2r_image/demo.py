@@ -10,8 +10,8 @@ from utils.misc import cut_roi, slugify
 
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
-from d2r_image.processing_helpers import clean_img
-from d2r_image.data_models import ItemQuality, ItemQualityKeyword
+from d2r_image.processing_helpers import clean_img, crop_text_clusters
+from d2r_image.data_models import ItemQuality, ItemQualityKeyword, ItemText
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -100,6 +100,8 @@ def get_hovered_items():
                 x, y, w, h = res.roi
                 cv2.rectangle(image_data, (x, y), (x+w, y+h), (0, 255, 0), 1)
                 print(f'Processed {image_name} {cnt+1}/{len(files)} in {elapsed} seconds')
+                if gen_truth:
+                    gen_truth_from_hovered_item(cut_roi(image, res.roi))
             else:
                 print(f'Failed: {image_name} {cnt+1}/{len(files)}')
             if item and item.BaseItem:
@@ -141,3 +143,27 @@ def gen_truth_from_ground_loot(items, image):
         with open(f"{filename}.gt.txt", 'w') as f:
             f.write(item.Text.rstrip())
         cv2.imwrite(f"{filename}.png", item_drop)
+
+def gen_truth_from_hovered_item(tooltip_img):
+    contours = crop_text_clusters(tooltip_img)
+    for contour in contours:
+        contour : ItemText
+        basename = f"generated/ground-truth/{time.strftime('%Y%m%d_%H%M%S')}"
+        cv2.imshow(time.strftime('%Y%m%d_%H%M%S'), contour.img)
+        cv2.waitKey(1)
+        print(f"new template: {basename} = ")
+        print(f"Enter true text:")
+        truth = input()
+        if truth:
+            if truth == "a":
+                string_to_write = contour.ocr_result.text
+            else:
+                string_to_write = truth
+            with open(f"{basename}.gt.txt", 'w') as f:
+                f.write(string_to_write)
+            cv2.imwrite(f"{basename}.png", template_img)
+            cv2.destroyAllWindows()
+            cv2.waitKey(1)
+            print(f"saved {basename}")
+        else:
+            print(f"skipped {basename}")    

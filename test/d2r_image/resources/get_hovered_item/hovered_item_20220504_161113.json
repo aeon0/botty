@@ -1,0 +1,34 @@
+{
+  "Name": "Burning Essence of Terror",
+  "Quality": "crafted",
+  "Text": "BURNING ESSENCE OF TERROR|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Burning Essence of Terror",
+    "NTIPAliasClassID": 656,
+    "NTIPAliasType": 39,
+    "dimensions": [
+      1,
+      1
+    ]
+  },
+  "Item": {
+    "DisplayName": "Burning Essence of Terror",
+    "NTIPAliasClassID": 656,
+    "NTIPAliasType": 39,
+    "dimensions": [
+      1,
+      1
+    ]
+  },
+  "NTIPAliasIdName": "BURNINGESSENCEOFTERROR",
+  "NTIPAliasType": 39,
+  "NTIPAliasClassID": 656,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 8,
+  "NTIPAliasStat": {},
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}
