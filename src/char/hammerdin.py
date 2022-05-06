@@ -51,18 +51,12 @@ class Hammerdin(IChar):
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
-
     def pre_move(self):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
+        can_teleport = (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and skills.is_right_skill_active()
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
@@ -75,27 +69,29 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively:
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             self._pather.traverse_nodes_fixed("pindle_end", self)
+        # If no teleport available -> Activate Concentration. Why? The bot will accidentally click on monsters and already cast hammers.
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+            keyboard.send(self._skill_hotkeys["concentration"])
+            wait(0.05, 0.15)
+            # Traverse without pre_move, because we don't want to activate vigor when walking!
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
 
     def kill_eldritch(self) -> bool:
-        if self.capabilities.can_teleport_natively:
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
+        # If no teleport available -> Activate Concentration. Why? The bot will accidentally click on monsters and already cast hammers.
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
+            keyboard.send(self._skill_hotkeys["concentration"])
+            wait(0.05, 0.15)
+            # Traverse without pre_move, because we don't want to activate vigor when walking!
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -103,10 +99,10 @@ class Hammerdin(IChar):
         return True
 
     def kill_shenk(self):
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
+        # Activate Concentration, because we might accidentally cast Hammers while moving around.
+        keyboard.send(self._skill_hotkeys["concentration"])
+        wait(0.05, 0.15)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -114,20 +110,20 @@ class Hammerdin(IChar):
         return True
 
     def kill_council(self) -> bool:
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.05, 0.15)
+        # Activate Concentration, because we might accidentally cast Hammers while moving around.
+        keyboard.send(self._skill_hotkeys["concentration"])
+        wait(0.05, 0.15)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, do_pre_move=False, force_tp=True, use_tp_charge=True)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+            self._pather.traverse_nodes([226], self, timeout=2.5, do_pre_move=False, force_tp=True, use_tp_charge=True)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
