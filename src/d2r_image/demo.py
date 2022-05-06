@@ -1,4 +1,5 @@
 from copy import deepcopy
+from email.mime import base
 import time
 import cv2
 import keyboard
@@ -77,6 +78,9 @@ def get_ground_loot():
     print('Press f12 to quit')
 
 def get_hovered_items():
+    if gen_truth and not os.path.exists("generated"):
+        os.system("mkdir generated")
+        os.system(f"cd generated && mkdir ground-truth")
     print('Loading demo hover images. This may take a few seconds...\n')
     all_image_data = []
     all_images = []
@@ -145,25 +149,28 @@ def gen_truth_from_ground_loot(items, image):
         cv2.imwrite(f"{filename}.png", item_drop)
 
 def gen_truth_from_hovered_item(tooltip_img):
-    contours = crop_text_clusters(tooltip_img)
+    contours = crop_text_clusters(tooltip_img, 5)
     for contour in contours:
         contour : ItemText
-        basename = f"generated/ground-truth/{time.strftime('%Y%m%d_%H%M%S')}"
-        cv2.imshow(time.strftime('%Y%m%d_%H%M%S'), contour.img)
+        basename = f"generated/ground-truth/{slugify(contour.ocr_result.text)}_{contour.color}"
+        if os.path.exists(f"{basename}.png"):
+            print(f"{basename} already exists, skip")
+            continue
+        cv2.imshow(basename, contour.clean_img)
         cv2.waitKey(1)
-        print(f"new template: {basename} = ")
-        print(f"Enter true text:")
+        print(f"new template: {contour.ocr_result.text}")
+        print(f"Enter 'a' to accept or enter true text:")
         truth = input()
         if truth:
             if truth == "a":
-                string_to_write = contour.ocr_result.text
+                string_to_write = contour.ocr_result.text.upper()
             else:
-                string_to_write = truth
+                string_to_write = truth.upper()
             with open(f"{basename}.gt.txt", 'w') as f:
                 f.write(string_to_write)
-            cv2.imwrite(f"{basename}.png", template_img)
-            cv2.destroyAllWindows()
+            cv2.imwrite(f"{basename}.png", contour.clean_img)
             cv2.waitKey(1)
             print(f"saved {basename}")
         else:
-            print(f"skipped {basename}")    
+            print(f"skipped {basename}")
+        cv2.destroyAllWindows()
