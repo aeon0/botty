@@ -207,15 +207,24 @@ class Transmute:
             Logger.info(f"Skipping transmutes. Force: {force}, Game#: {self._game_stats._game_counter}")
             return None
         transmute_gems=Config().configs["transmute"]["parser"]["transmute"]
+        gemsToTransmute=[]
+        gemsToPutBack=[]
+        gemLoggerName=""
         for gem in transmute_gems:
+            gemLoggerName+=gem+" "
             if gem == "chipped":
-                self._run_gem_transmutes(CHIPPED_GEMS,FLAWED_GEMS,"chipped")
+                gemsToTransmute+=CHIPPED_GEMS
+                gemsToPutBack+=FLAWED_GEMS
             if gem == "flawed":
-                self._run_gem_transmutes(FLAWED_GEMS,STANDARD_GEMS,"flawed")
+                gemsToTransmute+=FLAWED_GEMS
+                gemsToPutBack+=STANDARD_GEMS
             if gem == "standard":
-                self._run_gem_transmutes(STANDARD_GEMS,FLAWLESS_GEMS,"standard")
+                gemsToTransmute+=STANDARD_GEMS
+                gemsToPutBack+=FLAWLESS_GEMS
             if gem == "flawless":
-                self._run_gem_transmutes(FLAWLESS_GEMS,PERFECT_GEMS,"flawless")
+                gemsToTransmute+=FLAWLESS_GEMS
+                gemsToPutBack+=PERFECT_GEMS
+        self._run_gem_transmutes(gemsToTransmute,gemsToPutBack,gemLoggerName)
 
     def check_cube_empty(self,gemsToTransmute) -> bool:
         self.open_cube()
@@ -227,7 +236,7 @@ class Transmute:
         return self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=gemsToTransmute)
 
     def _run_gem_transmutes(self, gemsToTransmute,gemsToPutBack, gemLoggerName) -> None:
-        Logger.info(f"Starting {gemLoggerName} gem transmute")
+        Logger.info(f"Starting {gemLoggerName}gem transmute")
         self._last_game = self._game_stats._game_counter
         s = self.inspect_stash(gemsToTransmute)
         algorithm = SimpleGemPicking(s)
@@ -241,7 +250,7 @@ class Transmute:
                     Logger.warning("Some items detected in the cube. Skipping transmute")
                     break
                 if next_batch is None:
-                    Logger.info(f"No more {gemLoggerName} gems to cube")
+                    Logger.info(f"No more {gemLoggerName}gems to cube")
                     break
                 for tab, gem, x, y in next_batch:
                     self.pick_from_stash_at(tab, x, y)
@@ -260,5 +269,4 @@ class Transmute:
             else:
                 self.put_back_all_gems(s,gemsToTransmute,gemsToPutBack)
                 break
-        Logger.info(f"Finished {gemLoggerName} gem transmute")
-        return
+        Logger.info(f"Finished {gemLoggerName}gem transmute")
