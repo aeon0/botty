@@ -76,7 +76,7 @@ class Hammerdin(IChar):
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.05, 0.15)
             # Traverse without pre_move, because we don't want to activate vigor when walking!
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
