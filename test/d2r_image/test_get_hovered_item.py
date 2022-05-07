@@ -5,19 +5,16 @@ from d2r_image import processing
 from d2r_image.data_models import HoveredItem
 
 
-@pytest.mark.parametrize("filename, inventory_side, expected_file", [
-    ('cold_facet_die.png', 'right', 'cold_facet_die.json'),
-    ('fire_facet_die.png', 'right', 'fire_facet_die.json'),
-    ('psn_facet_lvlup.png', 'right', 'psn_facet_lvlup.json'),
-    ('rare_orb_sell_larzuk.png', 'right', 'rare_orb_sell_larzuk.json'),
-    ('rare_ring.png', 'right', 'rare_ring.json'),
-    ('spirit.png', 'right', 'spirit.json'),
-    ('torch.png', 'right', 'torch.json'),
-    ('unid_rare_dagger.png', 'right', 'unid_rare_dagger.json'),
-    ('war_travs.png', 'right', 'war_travs.json'),
-    ('zod.png', 'right', 'zod.json'),
+@pytest.mark.parametrize("filename, expected_file", [
+    ('hovered_item_20220504_160228.png', 'hovered_item_20220504_160228.json'),
+    ('hovered_item_20220504_160419.png', 'hovered_item_20220504_160419.json'),
+    ('hovered_item_20220504_161007.png', 'hovered_item_20220504_161007.json'),
+    ('hovered_item_20220504_161026.png', 'hovered_item_20220504_161026.json'),
+    ('hovered_item_20220504_161113.png', 'hovered_item_20220504_161113.json'),
+    ('hovered_item_20220504_161131.png', 'hovered_item_20220504_161131.json'),
+    ('hovered_item_20220504_161338.png', 'hovered_item_20220504_161338.json'),
 ])
-def test_hovered_item(filename: str, inventory_side: str, expected_file: str):
+def test_hovered_item(filename: str, expected_file: str):
     image_path = os.path.join(
         os.path.dirname(__file__),
         'resources',
@@ -29,6 +26,6 @@ def test_hovered_item(filename: str, inventory_side: str, expected_file: str):
         'resources',
         'get_hovered_item',
         expected_file)
-    result, _ = processing.get_hovered_item(image, inventory_side)
+    result, _ = processing.get_hovered_item(image)
     expected = HoveredItem.from_json(open(expected_items_path).read())
     assert result == expected

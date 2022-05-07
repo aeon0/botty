@@ -1,0 +1,107 @@
+{
+  "Name": "Hellfire Torch",
+  "Quality": "unique",
+  "Text": "HELLFIRE TORCH|LARGE CHARM|KEEP IN INVENTORY TO GAIN BONUS|REQUIRED LEVEL: 75|5% CHANCE TO CAST LEVEL 10 FIRESTORM ON STRIKING|+3 TO SORCERESS SKILL LEVELS|+19 TO ALL ATTRIBUTES|ALL RESISTANCES +10|+8 TO LIGHT RADIUS|LEVEL 30 HYDRA (1/10 CHARGES)|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Large Charm",
+    "NTIPAliasClassID": 604,
+    "NTIPAliasType": 83,
+    "dimensions": [
+      1,
+      2
+    ],
+    "uniques": [
+      "HELLFIRETORCH"
+    ]
+  },
+  "Item": {
+    "DisplayName": "Hellfire Torch",
+    "NTIPAliasClassID": 604,
+    "NTIPAliasType": 83,
+    "NTIPAliasStatProps": {
+      "83": {
+        "min": 3,
+        "max": 3
+      },
+      "0": {
+        "min": 10,
+        "max": 20
+      },
+      "1": {
+        "min": 10,
+        "max": 20
+      },
+      "2": {
+        "min": 10,
+        "max": 20
+      },
+      "3": {
+        "min": 10,
+        "max": 20
+      },
+      "39": {
+        "min": 10,
+        "max": 20
+      },
+      "43": {
+        "min": 10,
+        "max": 20
+      },
+      "41": {
+        "min": 10,
+        "max": 20
+      },
+      "45": {
+        "min": 10,
+        "max": 20
+      },
+      "89": {
+        "min": 8,
+        "max": 8
+      },
+      "198": {
+        "chance": 25,
+        "level": 10,
+        "skill": "Firestorm"
+      },
+      "204": {
+        "charges": 10,
+        "level": 30,
+        "skill": "Hydra"
+      }
+    }
+  },
+  "NTIPAliasIdName": "HELLFIRETORCH",
+  "NTIPAliasType": 83,
+  "NTIPAliasClassID": 604,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "39": 10,
+    "41": 10,
+    "43": 10,
+    "45": 10,
+    "204": {
+      "level": 30,
+      "skill": "HYDRA",
+      "current": 1,
+      "max": 10
+    },
+    "89": 8,
+    "83,1": 3,
+    "0": 19,
+    "1": 19,
+    "2": 19,
+    "3": 19,
+    "196": {
+      "chance": 5,
+      "level": 10,
+      "skill": "FIRESTORM"
+    }
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

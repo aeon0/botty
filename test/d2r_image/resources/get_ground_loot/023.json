@@ -2,10 +2,10 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 354,
-        "y": 391,
-        "w": 193,
-        "h": 22
+        "x": 589,
+        "y": 433,
+        "w": 170,
+        "h": 21
       },
       "Name": "War Axe",
       "Quality": "SUPERIOR",
@@ -50,9 +50,150 @@
     },
     {
       "BoundingBox": {
-        "x": 638,
-        "y": 385,
-        "w": 84,
+        "x": 456,
+        "y": 251,
+        "w": 56,
+        "h": 21
+      },
+      "Name": "Wand",
+      "Quality": "gray",
+      "Text": "WAND",
+      "BaseItem": {
+        "DisplayName": "Wand",
+        "NTIPAliasClassID": 10,
+        "NTIPAliasType": 25,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 1
+          },
+          "72": 15,
+          "73": 15,
+          "21": 2,
+          "22": 4,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "TORCHOFIRO"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 25,
+      "NTIPAliasClassID": 10,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 441,
+        "y": 209,
+        "w": 160,
+        "h": 21
+      },
+      "Name": "Voulge",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR VOULGE",
+      "BaseItem": {
+        "DisplayName": "Voulge",
+        "NTIPAliasClassID": 58,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "23": 6,
+          "24": 21,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STEELGOAD"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 58,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 598,
+        "y": 188,
+        "w": 235,
+        "h": 21
+      },
+      "Name": "Walking Stick",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR WALKING STICK",
+      "BaseItem": {
+        "DisplayName": "Walking Stick",
+        "NTIPAliasClassID": 259,
+        "NTIPAliasType": 26,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "23": 69,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 26,
+      "NTIPAliasClassID": 259,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 992,
+        "y": 146,
+        "w": 71,
         "h": 21
       },
       "Name": "Voulge",
@@ -98,385 +239,13 @@
     },
     {
       "BoundingBox": {
-        "x": 408,
-        "y": 225,
-        "w": 162,
-        "h": 22
-      },
-      "Name": "Wand",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 684,
-        "y": 204,
-        "w": 71,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "gray",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 641,
-        "y": 181,
-        "w": 157,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "gray",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 440,
-        "y": 181,
-        "w": 175,
-        "h": 22
-      },
-      "Name": "Voulge",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR VOULGE",
-      "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 751,
-        "y": 115,
-        "w": 248,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 449,
-        "y": 369,
-        "w": 157,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "normal",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 557,
-        "y": 307,
-        "w": 248,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 568,
-        "y": 248,
-        "w": 71,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "normal",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 437,
-        "y": 248,
-        "w": 102,
+        "x": 851,
+        "y": 125,
+        "w": 81,
         "h": 21
       },
       "Name": "War Axe",
-      "Quality": "normal",
+      "Quality": "gray",
       "Text": "WAR AXE",
       "BaseItem": {
         "DisplayName": "War Axe",
@@ -518,9 +287,54 @@
     },
     {
       "BoundingBox": {
-        "x": 623,
-        "y": 225,
-        "w": 193,
+        "x": 676,
+        "y": 125,
+        "w": 146,
+        "h": 21
+      },
+      "Name": "Walking Stick",
+      "Quality": "gray",
+      "Text": "WALKING STICK",
+      "BaseItem": {
+        "DisplayName": "Walking Stick",
+        "NTIPAliasClassID": 259,
+        "NTIPAliasType": 26,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "23": 69,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 26,
+      "NTIPAliasClassID": 259,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 628,
+        "y": 405,
+        "w": 175,
         "h": 22
       },
       "Name": "War Axe",
@@ -566,9 +380,198 @@
     },
     {
       "BoundingBox": {
-        "x": 853,
-        "y": 159,
-        "w": 162,
+        "x": 590,
+        "y": 368,
+        "w": 96,
+        "h": 21
+      },
+      "Name": "War Club",
+      "Quality": "normal",
+      "Text": "WAR CLUB",
+      "BaseItem": {
+        "DisplayName": "War Club",
+        "NTIPAliasClassID": 116,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 53,
+          "24": 78,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BLOODTREESTUMP"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 116,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 559,
+        "y": 309,
+        "w": 235,
+        "h": 22
+      },
+      "Name": "Walking Stick",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR WALKING STICK",
+      "BaseItem": {
+        "DisplayName": "Walking Stick",
+        "NTIPAliasClassID": 259,
+        "NTIPAliasType": 26,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "23": 69,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 26,
+      "NTIPAliasClassID": 259,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 672,
+        "y": 260,
+        "w": 86,
+        "h": 21
+      },
+      "Name": "War Axe",
+      "Quality": "normal",
+      "Text": "WAR AXE",
+      "BaseItem": {
+        "DisplayName": "War Axe",
+        "NTIPAliasClassID": 4,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 26,
+          "73": 26,
+          "21": 10,
+          "22": 18,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "RAKESCAR"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 4,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 571,
+        "y": 251,
+        "w": 56,
+        "h": 21
+      },
+      "Name": "Wand",
+      "Quality": "normal",
+      "Text": "WAND",
+      "BaseItem": {
+        "DisplayName": "Wand",
+        "NTIPAliasClassID": 10,
+        "NTIPAliasType": 25,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 1
+          },
+          "72": 15,
+          "73": 15,
+          "21": 2,
+          "22": 4,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "TORCHOFIRO"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 25,
+      "NTIPAliasClassID": 10,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 936,
+        "y": 166,
+        "w": 145,
         "h": 22
       },
       "Name": "Wand",
@@ -614,9 +617,9 @@
     },
     {
       "BoundingBox": {
-        "x": 542,
-        "y": 137,
-        "w": 201,
+        "x": 546,
+        "y": 166,
+        "w": 185,
         "h": 22
       },
       "Name": "War Club",
@@ -662,57 +665,54 @@
     },
     {
       "BoundingBox": {
-        "x": 548,
-        "y": 346,
-        "w": 110,
-        "h": 21
+        "x": 817,
+        "y": 145,
+        "w": 146,
+        "h": 22
       },
-      "Name": "War Club",
-      "Quality": "magic",
-      "Text": "WAR CLUB",
+      "Name": "Walking Stick",
+      "Quality": "normal",
+      "Text": "WALKING STICK",
       "BaseItem": {
-        "DisplayName": "War Club",
-        "NTIPAliasClassID": 116,
-        "NTIPAliasType": 31,
+        "DisplayName": "Walking Stick",
+        "NTIPAliasClassID": 259,
+        "NTIPAliasType": 26,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 2
           },
-          "72": 60,
-          "73": 60,
-          "23": 53,
-          "24": 78,
+          "72": 20,
+          "73": 20,
+          "23": 69,
+          "24": 85,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "BLOODTREESTUMP"
-        ],
-        "NTIPAliasClass": 1
+        "NTIPAliasClass": 2
       },
       "Item": null,
-      "NTIPAliasType": 31,
-      "NTIPAliasClassID": 116,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 4,
+      "NTIPAliasType": 26,
+      "NTIPAliasClassID": 259,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
-        "0x10": false,
+        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 415,
-        "y": 346,
-        "w": 71,
+        "x": 514,
+        "y": 396,
+        "w": 56,
         "h": 21
       },
       "Name": "Wand",
@@ -758,9 +758,9 @@
     },
     {
       "BoundingBox": {
-        "x": 706,
-        "y": 257,
-        "w": 102,
+        "x": 480,
+        "y": 272,
+        "w": 86,
         "h": 21
       },
       "Name": "War Axe",
@@ -807,9 +807,9 @@
     {
       "BoundingBox": {
         "x": 638,
-        "y": 160,
-        "w": 84,
-        "h": 21
+        "y": 208,
+        "w": 76,
+        "h": 22
       },
       "Name": "Voulge",
       "Quality": "magic",
@@ -854,9 +854,9 @@
     },
     {
       "BoundingBox": {
-        "x": 1022,
-        "y": 115,
-        "w": 157,
+        "x": 642,
+        "y": 145,
+        "w": 146,
         "h": 22
       },
       "Name": "Walking Stick",
@@ -899,9 +899,57 @@
     },
     {
       "BoundingBox": {
-        "x": 626,
-        "y": 279,
-        "w": 71,
+        "x": 551,
+        "y": 124,
+        "w": 96,
+        "h": 22
+      },
+      "Name": "War Club",
+      "Quality": "magic",
+      "Text": "WAR CLUB",
+      "BaseItem": {
+        "DisplayName": "War Club",
+        "NTIPAliasClassID": 116,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 53,
+          "24": 78,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BLOODTREESTUMP"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 116,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 399,
+        "y": 339,
+        "w": 56,
         "h": 21
       },
       "Name": "Wand",
@@ -947,10 +995,103 @@
     },
     {
       "BoundingBox": {
-        "x": 745,
-        "y": 160,
-        "w": 84,
+        "x": 403,
+        "y": 310,
+        "w": 86,
         "h": 21
+      },
+      "Name": "War Axe",
+      "Quality": "rare",
+      "Text": "WAR AXE",
+      "BaseItem": {
+        "DisplayName": "War Axe",
+        "NTIPAliasClassID": 4,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 26,
+          "73": 26,
+          "21": 10,
+          "22": 18,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "RAKESCAR"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 4,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 760,
+        "y": 166,
+        "w": 146,
+        "h": 22
+      },
+      "Name": "Walking Stick",
+      "Quality": "rare",
+      "Text": "WALKING STICK",
+      "BaseItem": {
+        "DisplayName": "Walking Stick",
+        "NTIPAliasClassID": 259,
+        "NTIPAliasType": 26,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "23": 69,
+          "24": 85,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 26,
+      "NTIPAliasClassID": 259,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 1097,
+        "y": 145,
+        "w": 76,
+        "h": 22
       },
       "Name": "Voulge",
       "Quality": "rare",
@@ -995,102 +1136,9 @@
     },
     {
       "BoundingBox": {
-        "x": 1038,
-        "y": 159,
-        "w": 157,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "rare",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 722,
-        "y": 346,
-        "w": 71,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "set",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 476,
-        "y": 270,
-        "w": 102,
+        "x": 441,
+        "y": 375,
+        "w": 86,
         "h": 21
       },
       "Name": "War Axe",
@@ -1136,9 +1184,57 @@
     },
     {
       "BoundingBox": {
-        "x": 487,
-        "y": 203,
-        "w": 157,
+        "x": 725,
+        "y": 348,
+        "w": 56,
+        "h": 21
+      },
+      "Name": "Wand",
+      "Quality": "set",
+      "Text": "WAND",
+      "BaseItem": {
+        "DisplayName": "Wand",
+        "NTIPAliasClassID": 10,
+        "NTIPAliasType": 25,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 1
+          },
+          "72": 15,
+          "73": 15,
+          "21": 2,
+          "22": 4,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "TORCHOFIRO"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 25,
+      "NTIPAliasClassID": 10,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 488,
+        "y": 229,
+        "w": 146,
         "h": 22
       },
       "Name": "Walking Stick",
@@ -1181,10 +1277,10 @@
     },
     {
       "BoundingBox": {
-        "x": 510,
-        "y": 116,
-        "w": 110,
-        "h": 21
+        "x": 513,
+        "y": 145,
+        "w": 96,
+        "h": 22
       },
       "Name": "War Club",
       "Quality": "set",
@@ -1229,10 +1325,86 @@
     },
     {
       "BoundingBox": {
-        "x": 568,
-        "y": 423,
-        "w": 71,
-        "h": 21
+        "x": 485,
+        "y": 347,
+        "w": 76,
+        "h": 22
+      },
+      "Name": "Steelgoad",
+      "Quality": "unique",
+      "Text": "VOULGE",
+      "BaseItem": {
+        "DisplayName": "Voulge",
+        "NTIPAliasClassID": 58,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "23": 6,
+          "24": 21,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STEELGOAD"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": {
+        "DisplayName": "Steelgoad",
+        "NTIPAliasClassID": 58,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "112": {
+            "min": 96,
+            "max": 96
+          },
+          "141": {
+            "min": 30,
+            "max": 30
+          },
+          "19": {
+            "min": 30,
+            "max": 30
+          },
+          "39": 5,
+          "43": 5,
+          "41": 5,
+          "45": 5,
+          "25": {
+            "min": 60,
+            "max": 80
+          },
+          "72": 20,
+          "73": 40
+        }
+      },
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 58,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 629,
+        "y": 280,
+        "w": 56,
+        "h": 22
       },
       "Name": "Torch of Iro",
       "Quality": "unique",
@@ -1305,10 +1477,10 @@
     },
     {
       "BoundingBox": {
-        "x": 399,
-        "y": 308,
-        "w": 102,
-        "h": 21
+        "x": 710,
+        "y": 238,
+        "w": 86,
+        "h": 22
       },
       "Name": "Rakescar",
       "Quality": "unique",
@@ -1387,9 +1559,9 @@
     },
     {
       "BoundingBox": {
-        "x": 410,
-        "y": 159,
-        "w": 157,
+        "x": 411,
+        "y": 187,
+        "w": 146,
         "h": 22
       },
       "Name": "Walking Stick",
@@ -1423,82 +1595,6 @@
       "NTIPAliasType": 26,
       "NTIPAliasClassID": 259,
       "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 7,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 643,
-        "y": 116,
-        "w": 84,
-        "h": 21
-      },
-      "Name": "Steelgoad",
-      "Quality": "unique",
-      "Text": "VOULGE",
-      "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Steelgoad",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "112": {
-            "min": 96,
-            "max": 96
-          },
-          "141": {
-            "min": 30,
-            "max": 30
-          },
-          "19": {
-            "min": 30,
-            "max": 30
-          },
-          "39": 5,
-          "43": 5,
-          "41": 5,
-          "45": 5,
-          "25": {
-            "min": 60,
-            "max": 80
-          },
-          "72": 20,
-          "73": 40
-        }
-      },
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,

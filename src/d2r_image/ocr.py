@@ -1,8 +1,6 @@
-from copy import deepcopy
 from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
-import re
 from utils.misc import erode_to_black, find_best_match
 from typing import List, Union
 from d2r_image.data_models import OcrResult
@@ -12,7 +10,7 @@ from logger import Logger
 
 def image_to_text(
     images: Union[np.ndarray, List[np.ndarray]],
-    model: str = "engd2r_inv_th",
+    model: str = "eng_inconsolata_inv_th",
     psm: int = 3,
     word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,
@@ -24,8 +22,7 @@ def image_to_text(
     fix_regexps: bool = True,
     check_known_errors: bool = True,
     correct_words: bool = True,
-    word_match_threshold: float = 0.5
-) -> list[str]:
+) -> list[OcrResult]:
     """
     Uses Tesseract to read image(s)
     :param images (required): image or list of images to read in OpenCV format.
@@ -42,8 +39,7 @@ def image_to_text(
     :param digits_only: only look for digits
     :param fix_regexps: use regex for various cases of common errors (I <-> 1, etc.)
     :param check_known_errors: check for predefined common errors and replace
-    :param correct_words: check dictionary of words and match closest match if proximity is greater than word_match_threshold
-    :param word_match_threshold: (see correct_words)
+    :param correct_words: check dictionary of words and match closest match
     :return: Returns an OcrResult object
     """
     if type(images) == np.ndarray:
@@ -187,6 +183,23 @@ def _fix_regexps(ocr_output: str, repeat_count: int = 0) -> str:
             text = text.replace('\nS ', '\n5 ')
             continue
         break
+    # case: a solitary O; e.g., " O TO 5 DEFENSE"
+    cnt = 0
+    while True:
+        cnt += 1
+        if cnt > 30:
+            # logging.error(f"Error ' I ' -> ' 1 ' on {ocr_output}")
+            break
+        if (pattern := " O ") in text:
+            text = text.replace(pattern, " 0 ")
+            continue
+        elif (pattern := ' O\n') in text:
+            text = text.replace(pattern, ' 0\n')
+            continue
+        elif (pattern := '\nO ') in text:
+            text = text.replace(pattern, '\n0 ')
+            continue
+        break
     # case: consecutive I's; e.g., "DEFENSE: II"
     repeat = False
     cnt = 0
@@ -229,14 +242,17 @@ def _ocr_result_dictionary_check(
     for line_cnt, line in enumerate(words_by_lines):
         new_line = []
         for word_cnt, word in enumerate(line):
-            print(line)
             total_word_count += 1 # increment before skip check to maintain relationship with confidences
             # if the word was incorporated in the previous word as a combined substitution, skip
             if skip_next:
-                skip_next = False 
+                skip_next = False
                 continue
             # if word exists in list or is non-alphabetical, keep
             if word in word_list or not _contains_characters(word):
+                new_line.append(word)
+                continue
+            # if the word is bounded by single quotes, then it's likely a runeword e.g. 'taltireth'
+            if word.startswith("'") and word.endswith("'") and len(word) > 1:
                 new_line.append(word)
                 continue
             # fuzzy match the word
@@ -244,7 +260,7 @@ def _ocr_result_dictionary_check(
             if saved_result:
                 result = saved_result
                 saved_result = ""
-            else:            
+            else:
                 result = find_best_match(word, list(word_list))
             # if the word is the last word on the line don't lookahead
             if word_cnt == (len(line) - 1):
@@ -253,7 +269,7 @@ def _ocr_result_dictionary_check(
                     new_line.append(result.match)
                 else:
                     new_line.append(word)
-                continue 
+                continue
             # if the word is not the last word, try lookahead in case of misread character -> space
             next_word = line[word_cnt + 1]
             # if next word is in wordlist or doesn't contain characters, save current word
@@ -263,7 +279,7 @@ def _ocr_result_dictionary_check(
                     new_line.append(result.match)
                 else:
                     new_line.append(word)
-                continue 
+                continue
             # fuzzy match the next word and a combination of both current and next words
             next_result = find_best_match(next_word, list(word_list))
             combined_result = find_best_match(f"{word} {next_word}", list(word_list))
@@ -279,8 +295,8 @@ def _ocr_result_dictionary_check(
                 else:
                     new_line.append(word)
                 # save next_result for next iteration
-                saved_result = next_result 
+                saved_result = next_result
         new_text += f"{' '.join(new_line)}"
         if line_cnt < (len(words_by_lines) - 1):
-            new_text += "\n" 
+            new_text += "\n"
     return new_text

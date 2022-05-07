@@ -36,5 +36,6 @@ ERROR_RESOLUTION_MAP = {
     'JAR RUNE': 'JAH RUNE',
     'YO': 'TO',
     'QU AB': 'QUHAB',
-    'QUAB': 'QUHAB'
+    'QUAB': 'QUHAB',
+    ' :': ':'
 }

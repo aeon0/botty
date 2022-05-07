@@ -1,0 +1,91 @@
+{
+  "Name": "Tal Rasha's Horadric Crest",
+  "Quality": "set",
+  "Text": "TAL RASHA'S HORADRIC CREST|DEATH MASK|DEFENSE: 114|DURABILITY: 14 OF 20|REQUIRED STRENGTH: 55|REQUIRED LEVEL: 66|10% MANA STOLEN PER HIT|10% LIFE STOLEN PER HIT|+45 DEFENSE|+60 TO LIFE|+30 TO MANA|ALL RESISTANCES +15|TAL RASHA'S WRAPPINGS|TAL RASHA'S HORADRIC CREST|TAL RASHA'S GUARDIANSHIP|TAL RASHA'S LIDLESS EYE|TAL RASHA'S ADJUDICATION|TAL RASHA'S FINE-SPUN CLOTH|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Death Mask",
+    "NTIPAliasClassID": 358,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 3
+      },
+      "72": 20,
+      "73": 20,
+      "31": {
+        "min": 54,
+        "max": 86
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "sets": [
+      "TALRASHASHORADRICCREST"
+    ],
+    "uniques": [
+      "BLACKHORNSFACE"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": {
+    "DisplayName": "Tal Rasha's Horadric Crest",
+    "NTIPAliasClassID": 358,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "8": {
+        "min": 30,
+        "max": 30
+      },
+      "6": {
+        "min": 60,
+        "max": 60
+      },
+      "31": {
+        "min": 45,
+        "max": 45
+      },
+      "39": 15,
+      "43": 15,
+      "41": 15,
+      "45": 15,
+      "60": {
+        "min": 10,
+        "max": 10
+      },
+      "62": {
+        "min": 10,
+        "max": 10
+      }
+    }
+  },
+  "NTIPAliasIdName": "TALRASHASHORADRICCREST",
+  "NTIPAliasType": 37,
+  "NTIPAliasClassID": 358,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 5,
+  "NTIPAliasStat": {
+    "39": 15,
+    "41": 15,
+    "43": 15,
+    "45": 15,
+    "31": 45,
+    "72": 14,
+    "73": 20,
+    "7": 60,
+    "9": 30,
+    "60": 10,
+    "62": 10
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}
