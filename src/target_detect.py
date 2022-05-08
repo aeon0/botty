@@ -15,7 +15,8 @@ def _sort_targets_by_dist(targets):
     return targets.sort(key=lambda pos: _dist_to_center(pos))
 
 def _ignore_targets_within_radius(targets, ignore_radius:int=0):
-    return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
+    if targets:
+        return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
 def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
