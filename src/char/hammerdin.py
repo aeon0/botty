@@ -121,7 +121,7 @@ class Hammerdin(IChar):
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.capabilities.can_teleport_natively:
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Back to center stairs and more hammers
             self._pather.traverse_nodes([226], self, timeout=2.5, do_pre_move=False, force_tp=True, use_tp_charge=True)
             self._cast_hammers(atk_len)
