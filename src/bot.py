@@ -5,11 +5,13 @@ import time
 import os
 import random
 import cv2
+import math
 from copy import copy
 from typing import Union
 from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
+from utils.misc import wait, hms
 
 from game_stats import GameStats
 from logger import Logger
@@ -83,16 +85,13 @@ class Bot:
         self._town_manager = TownManager(a1, a2, a3, a4, a5)
 
         # Create runs
-        if Config().routes["run_shenk"] and not Config().routes["run_eldritch"]:
-            Logger.error("Running shenk without eldtritch is not supported. Either run none or both")
-            os._exit(1)
         self._do_runs = {
-            "run_trav": Config().routes["run_trav"],
-            "run_pindle": Config().routes["run_pindle"],
-            "run_shenk": Config().routes["run_shenk"] or Config().routes["run_eldritch"],
-            "run_nihlathak": Config().routes["run_nihlathak"],
-            "run_arcane": Config().routes["run_arcane"],
-            "run_diablo": Config().routes["run_diablo"],
+            "run_trav": Config().routes.get("run_trav"),
+            "run_pindle": Config().routes.get("run_pindle"),
+            "run_shenk": Config().routes.get("run_eldritch") or Config().routes.get("run_eldritch_shenk"),
+            "run_nihlathak": Config().routes.get("run_nihlathak"),
+            "run_arcane": Config().routes.get("run_arcane"),
+            "run_diablo": Config().routes.get("run_diablo"),
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
@@ -118,6 +117,7 @@ class Bot:
         self._current_threads = []
         self._ran_no_pickup = False
         self._previous_run_failed = False
+        self._timer = time.time()
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
@@ -230,6 +230,19 @@ class Bot:
 
     def on_start_from_town(self):
         self._curr_loc = self._town_manager.wait_for_town_spawn()
+
+        # Handle picking up corpse in case of death
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
+            self._previous_run_failed = True
+            view.pickup_corpse()
+            wait_until_hidden(ScreenObjects.Corpse)
+            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        self._char.discover_capabilities()
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+            keybind = self._char._skill_hotkeys["teleport"]
+            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
             cur_game_ip = get_d2r_game_ip()
@@ -251,6 +264,9 @@ class Bot:
                 Logger.info("Activated /nopickup")
             else:
                 Logger.error("Failed to detect if /nopickup command was applied or not")
+
+        self._game_stats.log_exp()
+
         self.trigger_or_stop("maintenance")
 
     def on_maintenance(self):
@@ -260,18 +276,6 @@ class Bot:
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
-
-        # Handle picking up corpse in case of death
-        if (corpse_present := is_visible(ScreenObjects.Corpse)):
-            self._previous_run_failed = True
-            view.pickup_corpse()
-            wait_until_hidden(ScreenObjects.Corpse)
-            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = self._char._skill_hotkeys["teleport"]
-            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
 
         # Look at belt to figure out how many pots need to be picked up
         belt.update_pot_needs()
@@ -402,6 +406,29 @@ class Bot:
         view.save_and_exit()
         set_pause_state(True)
         self._game_stats.log_end_game(failed=failed)
+
+        if Config().general["max_runtime_before_break_m"] and Config().general["break_length_m"]:
+            elapsed_time = time.time() - self._timer
+            Logger.debug(f'Session length = {math.ceil(elapsed_time/60)} minutes, max_runtime_before_break_m {Config().general["max_runtime_before_break_m"]}.')
+
+            if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
+                break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
+                Logger.info(break_msg)
+                self._messenger.send_message(break_msg)
+                if not self._pausing:
+                    self.toggle_pause()
+
+                wait(Config().general["break_length_m"]*60)
+
+                break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
+                Logger.info(break_msg)
+                self._messenger.send_message(break_msg)
+                if self._pausing:
+                    self.toggle_pause()
+
+                self._timer = time.time()
+
+
         self._do_runs = copy(self._do_runs_reset)
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
@@ -425,6 +452,7 @@ class Bot:
     # ==================================
     def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
         self._game_stats._run_counter += 1
+        self._game_stats.log_exp()
         # either fill member variables with result data or mark run as failed
         failed_run = True
         if res:
@@ -441,7 +469,7 @@ class Bot:
     def on_run_pindle(self):
         res = False
         self._do_runs["run_pindle"] = False
-        self._game_stats.update_location("Pin" if Config().general['discord_status_condensed'] else "Pindle")
+        self._game_stats.update_location("Pin")
         self._curr_loc = self._pindle.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -454,13 +482,13 @@ class Bot:
         self._curr_loc = self._shenk.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
-            res = self._shenk.battle(Config().routes["run_shenk"], not self._pre_buffed, self._game_stats)
+            res = self._shenk.battle(Config().routes.get("run_eldritch_shenk"), not self._pre_buffed, self._game_stats)
         self._ending_run_helper(res)
 
     def on_run_trav(self):
         res = False
         self._do_runs["run_trav"] = False
-        self._game_stats.update_location("Trav" if Config().general['discord_status_condensed'] else "Travincal")
+        self._game_stats.update_location("Trav")
         self._curr_loc = self._trav.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -470,7 +498,7 @@ class Bot:
     def on_run_nihlathak(self):
         res = False
         self._do_runs["run_nihlathak"] = False
-        self._game_stats.update_location("Nihl" if Config().general['discord_status_condensed'] else "Nihlathak")
+        self._game_stats.update_location("Nihl")
         self._curr_loc = self._nihlathak.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -480,7 +508,7 @@ class Bot:
     def on_run_arcane(self):
         res = False
         self._do_runs["run_arcane"] = False
-        self._game_stats.update_location("Arc" if Config().general['discord_status_condensed'] else "Arcane")
+        self._game_stats.update_location("Arc")
         self._curr_loc = self._arcane.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)
@@ -490,7 +518,7 @@ class Bot:
     def on_run_diablo(self):
         res = False
         self._do_runs["run_diablo"] = False
-        self._game_stats.update_location("Dia" if Config().general['discord_status_condensed'] else "Diablo")
+        self._game_stats.update_location("Dia")
         self._curr_loc = self._diablo.approach(self._curr_loc)
         if self._curr_loc:
             set_pause_state(False)

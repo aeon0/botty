@@ -7,7 +7,11 @@ import random
 import math
 import time
 from typing import Union, Tuple
-
+import screen
+from config import Config
+from utils.misc import is_in_roi
+from logger import Logger
+from template_finder import TemplateFinder
 
 def isNumeric(val):
     return isinstance(val, (float, int, np.int32, np.int64, np.float32, np.float64))
@@ -255,12 +259,33 @@ class mouse:
             _mouse.move(point[0], point[1], duration=delta)
 
     @staticmethod
+    def _is_clicking_safe():
+        # Because of reports that botty lost equiped items, let's check if the inventory is open, and if it is, restrict the mouse move
+        mouse_pos = screen.convert_monitor_to_screen(_mouse.get_position())
+        is_inventory_open = TemplateFinder().search(
+            "INVENTORY_GOLD_BTN",
+            screen.grab(),
+            threshold=0.8,
+            roi=Config().ui_roi["gold_btn"],
+            use_grayscale=True
+        ).valid
+        if is_inventory_open:
+            is_in_equipped_area = is_in_roi(Config().ui_roi["equipped_inventory_area"], mouse_pos)
+            is_in_restricted_inventory_area = is_in_roi(Config().ui_roi["restricted_inventory_area"], mouse_pos)
+            if is_in_restricted_inventory_area or is_in_equipped_area:
+                Logger.error("Mouse wants to click in equipped area. Cancel action.")
+                return False
+        return True
+
+    @staticmethod
     def click(button):
-        _mouse.click(button)
+        if button != "left" or mouse._is_clicking_safe():
+            _mouse.click(button)
 
     @staticmethod
     def press(button):
-        _mouse.press(button)
+        if button != "left" or mouse._is_clicking_safe():
+            _mouse.press(button)
 
     @staticmethod
     def release(button):
@@ -274,9 +299,21 @@ class mouse:
     def wheel(delta):
         _mouse.wheel(delta)
 
+
 if __name__ == "__main__":
-    mouse.move(100, 100)
-    time.sleep(2)
-    mouse.move(200, 200)
-    time.sleep(2)
-    mouse.move(1800, 800)
+    import os
+    import keyboard
+    keyboard.add_hotkey('f12', lambda: os._exit(1))
+    keyboard.wait("f11")
+    screen.find_and_set_window_position()
+    move_to_ok = screen.convert_screen_to_monitor((400, 420))
+    move_to_bad_equiped = screen.convert_screen_to_monitor((900, 170))
+    move_to_bad_inventory = screen.convert_screen_to_monitor((1200, 400))
+    mouse.move(*move_to_ok)
+    mouse.click("left")
+    time.sleep(1)
+    mouse.move(*move_to_bad_equiped)
+    mouse.click("left")
+    time.sleep(1)
+    mouse.move(*move_to_bad_inventory)
+    mouse.click("left")

@@ -329,7 +329,7 @@ class Poison_Necro(IChar):
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
@@ -341,7 +341,7 @@ class Poison_Necro(IChar):
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
@@ -355,7 +355,7 @@ class Poison_Necro(IChar):
                 keyboard.send(self._skill_hotkeys["corpse_explosion"])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-                cast_pos_monitor = screen.convert_abs_to_monitor(x, y)
+                cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
                 mouse.move(*cast_pos_monitor)
                 mouse.press(button="right")
                 wait(0.075, 0.1)
@@ -414,7 +414,7 @@ class Poison_Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
         self.poison_nova(2.0)
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         pos_m = screen.convert_abs_to_monitor((0, 170))
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -431,12 +431,12 @@ class Poison_Necro(IChar):
         self._summon_count()
         self._summon_stat()
 
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, time_out=0.6, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         return True
 
 
     def kill_shenk(self) -> bool:
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, time_out=1.0)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
         #pos_m = self._screen.convert_abs_to_monitor((50, 0))
         #self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
@@ -462,7 +462,7 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((0, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, time_out=2.5, force_tp=True, use_tp_charge=True)       
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)       
         pos_m = screen.convert_abs_to_monitor((50, 0))
         self.walk(pos_m, force_move=True)
         #self._lower_res((-50, 0), spray=10)
@@ -483,7 +483,7 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((-100, 200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([226], self, time_out=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
         pos_m = screen.convert_abs_to_monitor((0, 30))
         self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
@@ -501,7 +501,7 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((-200, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, time_out=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
         pos_m = screen.convert_abs_to_monitor((20, -50))
         self.walk(pos_m, force_move=True)
         self.poison_nova(2.0)
@@ -518,7 +518,7 @@ class Poison_Necro(IChar):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, time_out=0.8, do_pre_move=True)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=True)
         pos_m = screen.convert_abs_to_monitor((20, 20))
         self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)

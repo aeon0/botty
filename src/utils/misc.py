@@ -25,6 +25,9 @@ import psutil
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
 
+def close_down_bnet_launcher():
+    subprocess.call(["taskkill","/F","/IM","Battle.net.exe"], stderr=subprocess.DEVNULL)
+
 @dataclass
 class WindowSpec:
     title_regex: 'Union[str, None]' = None

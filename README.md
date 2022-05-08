@@ -39,13 +39,12 @@ Check out the [development.md](development.md) docu for infos on how to build fr
 All botty configuration files are located in the __config__ folder. To ease the switch to new botty versions, you can also overwrite any of the .ini fields in a **custom.ini** file. When a new version of botty is released you just copy the file to the new version without having to port all your **params.ini** changes to the new version. Example:
 
 ```ini
-; custom.ini - overwrites 3 params in the params.ini
+; custom.ini - overwrites 2 params in the params.ini
 [general]
 name=MyCustomName
 
 [routes]
-run_pindle=1
-run_shenk=0
+order=run_pindle, run_eldritch 
 ```
 
 | [general]                | Descriptions              |
@@ -59,7 +58,6 @@ run_shenk=0
 | difficulty               | Set to `normal` `nightmare` or `hell` for game difficulty. |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images). |
 | discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
-| discord_status_condensed | Toggles condensed view of Discord status messages. 0 Full text, 1 Condensed text.
 | info_screenshots         | If `1`, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while. |
 | loot_screenshots         | If `1`, the bot takes a screenshot with timestamp everytime he presses `show_items` button and saves it to `loot_screenshots` folder. Remember to clear them once in a while... |
 | saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |
@@ -68,13 +66,7 @@ run_shenk=0
 
 | [routes]     | Descriptions                                                             |
 | ------------ | ------------------------------------------------------------------------ |
-| run_trav     | Run Trav in each new game. Select "1" to run it "0" to leave it out. Specific trav gear is suggested |
-| run_pindle   | Run Pindle in each new game. Select "1" to run it "0" to leave it out.   |
-| run_eldritch | Run Eldritch in each new game. Select "1" to run it "0" to leave it out. |
-| run_shenk    | Run shenk in each new game. Select "1" to run it "0" to leave it out.    |
-| run_nihlathak | Run Nihlathak in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
-| run_arcane   | Run Arcane Sanctuary in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
-| run_diablo   | Run Diablo in each new game. Select "1" to run it "0" to leave it out. (Teleport required) |
+| order        | List of runs botty should do. These will be run in the the order listed unless `randomize_runs` is set to 1. Possible runs: </br> run_trav, run_pindle, run_eldritch, run_eldritch_shenk, run_nihlathak (requires teleport), run_arcane (requires teleport), run_diablo (requires teleport, only hammardin)
 
 | [char]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|

@@ -144,7 +144,8 @@ class Transmute:
             self.pick_from_inventory_at(x, y)
 
     def select_tab_with_enough_space(self, s: Stash) -> None:
-        tabs_priority = Config()._transmute_config["stash_destination"]
+        tabs_priority = Config().configs["transmute"]["parser"]["stash_destination"]
+        Config().configs["transmute"]["parser"]["stash_destination"]
         for tab in tabs_priority:
             if s.get_empty_on_tab(tab) > 0:
                 common.select_tab(tab)
@@ -152,7 +153,7 @@ class Transmute:
 
     def put_back_all_gems(self, s: Stash) -> None:
         Logger.info(
-            f'Putting back gems in the following stash tabs (by priority): {Config()._transmute_config["stash_destination"]}')
+            f'Putting back gems in the following stash tabs (by priority): {Config().configs["transmute"]["parser"]["stash_destination"]}')
         perfect_gems = self.inspect_inventory_area(
             PERFECT_GEMS + FLAWLESS_GEMS)
 
@@ -162,7 +163,8 @@ class Transmute:
                 self.pick_from_inventory_at(*perfect_gems.pop(gem))
 
     def should_transmute(self) -> bool:
-        every_x_game = Config()._transmute_config["transmute_every_x_game"]
+        every_x_game = Config().configs["transmute"]["parser"]["transmute_every_x_game"]
+        
         if every_x_game is None or every_x_game == "" or int(every_x_game) <= 0:
             return False
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
