@@ -10,6 +10,7 @@ import cv2
 import time
 import numpy as np
 from dataclasses import dataclass
+import json
 
 from config import Config
 from utils.misc import wait, is_in_roi, mask_by_roi
@@ -303,7 +304,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         elif need_id:
                             Logger.debug(f"Need to ID {item_name}")
                         else:
-                            Logger.debug(f"Discarding {item_name}")
+                            Logger.debug(f"Discarding {json.dumps(item_properties.as_dict(), indent = 4)}")
 
                         
                         # sell if not keeping item, vendor is open, and item type can be traded
