@@ -73,7 +73,10 @@ class LightSorc(Sorceress):
             self._chain_lightning(cast_pos_abs, spray=90)
         # Move to items
         wait(self._cast_duration, self._cast_duration + 0.2)
-        self._pather.traverse_nodes_fixed("eldritch_end", self)
+        pos_m = convert_abs_to_monitor((70, -200))
+        self.pre_move()
+        self.move(pos_m, force_move=True)        
+        self._pather.traverse_nodes(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END)
         return True
 
     def kill_shenk(self) -> bool:
