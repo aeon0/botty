@@ -47,12 +47,19 @@ def save_and_exit() -> bool:
         y_pos = (highlight.center[1] - roi[1]) / roi[3]
         if y_pos > 0.6:
             keyboard.send("up")
-            time.sleep(0.02)
+            wait(.10)
             keyboard.send("up")
-            time.sleep(0.02)
-            keyboard.send("down")  
-            time.sleep(0.02)          
-            keyboard.send("enter")
+            wait(.10)
+            keyboard.send("down")
+            wait(.10)
+        elif y_pos < 0.4:
+            keyboard.send("up")
+            wait(.10)
+            keyboard.send("up")
+            wait(.10)
+            keyboard.send("down")
+            wait(.10)  
+        keyboard.send("enter")
         # if center icon on player bar disappears then save/exit was successful
         if not (success := wait_until_hidden(ScreenObjects.InGame, 3)):
             Logger.debug("Failed to find or click save/exit button")
