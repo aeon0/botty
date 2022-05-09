@@ -158,7 +158,7 @@ def find_nip_pattern_match(item_lines):
         if pattern not in NIP_RE_PATTERNS:
             NIP_PATTERNS[pattern] = compile_pattern(pattern)
         for line in item_lines:
-            result = NIP_PATTERNS[pattern].parse(line.replace('%', ''))
+            result = NIP_PATTERNS[pattern].parse(line)
             if result:
                 # if len(keys) != len(match.groups(1)):
                 #     raise Exception('Mismatch between regex groups and configured NIP keys')
