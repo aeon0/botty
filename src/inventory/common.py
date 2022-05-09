@@ -123,7 +123,7 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
     img = np.pad(img, pad_width=[(8, 8),(8, 8),(0, 0)], mode='constant')
     ocr_result = ocr.image_to_text(
         images = img,
-        model = "eng_inconsolata_inv_th_fast",
+        model = "hover-eng_inconsolata_inv_th_fast",
         psm = 13,
         scale = 1.2,
         crop_pad = False,

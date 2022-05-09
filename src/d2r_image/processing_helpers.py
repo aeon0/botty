@@ -72,12 +72,12 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                         clean_img=cleaned_img[y:y+h, x:x+w]
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
-    results = image_to_text(cluster_images, model="eng_inconsolata_inv_th_fast", psm=7, erode=True)
+    results = image_to_text(cluster_images, model="ground-eng_inconsolata_inv_th_fast", psm=7, erode=True)
     for count, cluster in enumerate(item_clusters):
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
 
-def crop_item_tooltip(image: np.ndarray, model: str = "eng_inconsolata_inv_th_fast") -> tuple[ItemText, str]:
+def crop_item_tooltip(image: np.ndarray, model: str = "hover-eng_inconsolata_inv_th_fast") -> tuple[ItemText, str]:
     """
     Crops visible item description boxes / tooltips
     :inp_img: image from hover over item of interest.

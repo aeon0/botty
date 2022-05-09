@@ -19,7 +19,7 @@ def get_experience():
     crop = cut_roi(img, Config().ui_roi["xp_bar_text"])
     ocr_result = ocr.image_to_text(
         images = crop,
-        model = "eng_inconsolata_inv_th",
+        model = "ground-eng_inconsolata_inv_th_fast",
         psm = 7,
         scale = 1.3,
         crop_pad = True,
