@@ -160,26 +160,6 @@ def find_nip_pattern_match(item_lines):
         for line in item_lines:
             result = NIP_PATTERNS[pattern].parse(line)
             if result:
-                # if len(keys) != len(match.groups(1)):
-                #     raise Exception('Mismatch between regex groups and configured NIP keys')
-                if len(result.fixed) > 1 and len(keys) == 1:
-                    response = None
-                    if 'CHARGES' in line:
-                        response = {
-                            'level': result.fixed[0],
-                            'skill': result.fixed[1],
-                            'current': result.fixed[2],
-                            'max': result.fixed[3]
-                        }
-                    elif 'CHANCE' in line:
-                        response = {
-                            'chance': result.fixed[0],
-                            'level': result.fixed[1],
-                            'skill': result.fixed[2]
-                        }
-                    if response:
-                        nip_alias_stat[keys[0]] = response
-                        continue
                 for i in range(len(keys)):
                     key = keys[i]
                     if isinstance(key, list):
