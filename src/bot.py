@@ -340,6 +340,7 @@ class Bot:
         if keep_items or personal.get_inventory_gold_full():
             Logger.info("Stashing items")
             self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
+            sell_items = any([item.sell for item in result_items]) if result_items else None
             Logger.info("Running transmutes")
             self._transmute.run_transmutes(force=False)
             common.close()
