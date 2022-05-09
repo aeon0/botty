@@ -229,10 +229,11 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             failed = True
         else:
             if item_box.ocr_result:
-                if "dimensions" in item_properties.BaseItem:
+                if item_properties is not None and hasattr(item_properties, 'BaseItem') and "dimensions" in item_properties.BaseItem:
                     positions = common.dimensions_to_slots(item_properties.BaseItem["dimensions"], (slot[1], slot[2]))
                     already_detected_slots.update(positions)
                 else:
+                    Logger.error(f"personal.inspect_items(): unable to determine dimensions for slot {slot}")
                     # determine the item's ROI in inventory
                     cnt=0
                     while True:
@@ -306,7 +307,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         else:
                             Logger.debug(f"Discarding {json.dumps(item_properties.as_dict(), indent = 4)}")
 
-                        
+
                         # sell if not keeping item, vendor is open, and item type can be traded
                         if vendor_open and item_can_be_traded and not (keep or need_id):
                             box.sell = True
