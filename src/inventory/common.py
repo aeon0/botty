@@ -1,3 +1,5 @@
+from typing import Union
+from xmlrpc.client import Boolean
 from config import Config
 import cv2
 import numpy as np
@@ -49,14 +51,17 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > 16.0
 
-def close(img: np.ndarray = None) -> np.ndarray:
+def close(img: Union[np.ndarray, None]=None, force: Union[Boolean, None]=False) -> Union[np.ndarray, Boolean]:
+    if force:
+        keyboard.send("space") # * Pressing spacebar when a menu is up closes it, pressing spacebar when no menu does nothing, unlike esc which opens the main menu
+        return True
     img = grab() if img is None else img
     if is_visible(ScreenObjects.RightPanel, img) or is_visible(ScreenObjects.LeftPanel, img):
-        keyboard.send("esc")
+        keyboard.send("space")
         if not wait_until_hidden(ScreenObjects.RightPanel, 1) and not wait_until_hidden(ScreenObjects.LeftPanel, 1):
             success = view.return_to_play()
             if not success:
-                return None
+                return False
     return img
 
 def calc_item_roi(img_pre, img_post):

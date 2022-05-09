@@ -341,7 +341,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
     if close_window:
         if not is_visible(ScreenObjects.RightPanel, img):
             center_mouse()
-        common.close()
+        common.close(force=True)
     return boxes
 
 def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) -> list:
