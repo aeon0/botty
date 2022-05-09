@@ -4,10 +4,10 @@ from template_finder import TemplateFinder
 from utils.misc import is_in_roi
 
 @pytest.mark.parametrize("template1_path, template2_path, template3_path, screen_path, expected_roi", [(
-    "test/assets/stash_slot_empty.png", # plain stash slot
-    "test/assets/stash_slot_slash.png", # stash slot but has a drawn slash
-    "test/assets/stash_slot_cross.png", # stash slot but has a drawn X
-    "test/assets/stash_slots.png", # image with three normal squares and one square with draw slash (matching empty_slot-mess)
+    "test/assets/stash_slot_empty.png", # empty stash slot
+    "test/assets/stash_slot_slash.png", # empty stash slot but has a drawn slash
+    "test/assets/stash_slot_cross.png", # empty stash slot but has a drawn X
+    "test/assets/stash_slots.png", # image with three empty slots and one slot with a draw slash
     [38, 0, 38, 38]) # region of slash
 ])
 def test_match_behavior(template1_path, template2_path, template3_path, screen_path, expected_roi):
@@ -25,9 +25,9 @@ def test_match_behavior(template1_path, template2_path, template3_path, screen_p
     assert match.score != 1
     """
     Test best match
-    - searches first for slash, which perfectly matches on image
-    - also searches for cross, which doesn't perfectly match
+    - searches first for cross, which doesn't perfectly match
+    - searches next for slash, which perfectly matches on image
     - test passes if the center of the template match lies within the expected region of the slash
     """
-    match = TemplateFinder().search([slash, cross], image, threshold=0.6, best_match=True)
+    match = TemplateFinder().search([cross, slash], image, threshold=0.6, best_match=True)
     assert is_in_roi(expected_roi, match.center)
