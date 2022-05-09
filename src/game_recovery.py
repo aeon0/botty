@@ -33,7 +33,7 @@ class GameRecovery:
                 time.sleep(1)
                 continue
             # check for save/exit button
-            if is_visible(ScreenObjects.SaveAndExit):
+            if is_visible(ScreenObjects.GameMenu):
                 view.save_and_exit()
                 continue
             # maybe we are in-game in stash/inventory, press escape

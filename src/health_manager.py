@@ -57,19 +57,15 @@ class HealthManager:
         if self._callback is not None:
             self._callback()
             self._callback = None
+        # clean up key presses that might be pressed in the run_thread
+        keyboard.release(Config().char["stand_still"])
+        keyboard.release(Config().char["show_items"])
+        mouse.release(button="left")
+        mouse.release(button="right")
+        view.save_and_exit()
         if Config().general["info_screenshots"]:
             self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
             cv2.imwrite(self._last_chicken_screenshot, img)
-        # clean up key presses that might be pressed in the run_thread
-        keyboard.release(Config().char["stand_still"])
-        wait(0.02, 0.05)
-        keyboard.release(Config().char["show_items"])
-        wait(0.02, 0.05)
-        mouse.release(button="left")
-        wait(0.02, 0.05)
-        mouse.release(button="right")
-        time.sleep(0.01)
-        view.save_and_exit()
         self._did_chicken = True
         set_pause_state(True)
 

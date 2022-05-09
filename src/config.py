@@ -36,6 +36,7 @@ class Config:
     trapsin = {}
     barbarian = {}
     poison_necro = {}
+    bone_necro = {}
     necro = {}
     basic = {}
     basic_ranged = {}
@@ -129,6 +130,7 @@ class Config:
             "message_api_type": self._select_val("general", "message_api_type"),
             "custom_message_hook": self._select_val("general", "custom_message_hook"),
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
+            "discord_log_chicken": bool(int(self._select_val("general", "discord_log_chicken"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
@@ -260,6 +262,10 @@ class Config:
         self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
         if "poison_necro" in self.configs["custom"]["parser"]:
             self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
+            
+        self.bone_necro = self.configs["config"]["parser"]["bone_necro"]
+        if "bone_necro" in self.configs["custom"]["parser"]:
+            self.bone_necro.update(self.configs["custom"]["parser"]["bone_necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),
