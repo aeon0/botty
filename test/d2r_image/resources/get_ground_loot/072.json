@@ -393,9 +393,9 @@
     {
       "BoundingBox": {
         "x": 682,
-        "y": 260,
+        "y": 259,
         "w": 66,
-        "h": 21
+        "h": 22
       },
       "Name": "Jewel",
       "Quality": "magic",

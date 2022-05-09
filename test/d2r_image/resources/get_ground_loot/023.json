@@ -711,9 +711,9 @@
     {
       "BoundingBox": {
         "x": 514,
-        "y": 396,
+        "y": 395,
         "w": 56,
-        "h": 21
+        "h": 22
       },
       "Name": "Wand",
       "Quality": "magic",
@@ -759,9 +759,9 @@
     {
       "BoundingBox": {
         "x": 480,
-        "y": 272,
+        "y": 271,
         "w": 86,
-        "h": 21
+        "h": 22
       },
       "Name": "War Axe",
       "Quality": "magic",
