@@ -12,16 +12,16 @@ from utils.misc import is_in_roi
 ])
 def test_match_behavior(template1_path, template2_path, template3_path, screen_path, expected_roi):
     image = cv2.imread(screen_path)
-    template1 = cv2.imread(template1_path)
-    template2 = cv2.imread(template2_path)
-    template3 = cv2.imread(template3_path)
+    empty = cv2.imread(template1_path)
+    slash = cv2.imread(template2_path)
+    cross = cv2.imread(template3_path)
     """
     Test first match
     - searches first for cross, which doesn't perfectly match but should reach above threshold
     - if cross matches above threshold as expected, then it won't bother to search for slash, which has a perfect match on the image
     - test passes if the template match score is not perfect
     """
-    match = TemplateFinder().search([template3, template2], image, threshold=0.6)
+    match = TemplateFinder().search([cross, slash], image, threshold=0.6)
     assert match.score != 1
     """
     Test best match
@@ -29,5 +29,5 @@ def test_match_behavior(template1_path, template2_path, template3_path, screen_p
     - also searches for cross, which doesn't perfectly match
     - test passes if the center of the template match lies within the expected region of the slash
     """
-    match = TemplateFinder().search([template2, template3], image, threshold=0.6, best_match=True)
+    match = TemplateFinder().search([slash, cross], image, threshold=0.6, best_match=True)
     assert is_in_roi(expected_roi, match.center)
