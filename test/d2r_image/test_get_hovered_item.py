@@ -13,6 +13,7 @@ from d2r_image.data_models import HoveredItem
     ('hovered_item_20220504_161113.png', 'hovered_item_20220504_161113.json'),
     ('hovered_item_20220504_161131.png', 'hovered_item_20220504_161131.json'),
     ('hovered_item_20220504_161338.png', 'hovered_item_20220504_161338.json'),
+    ('positional_ring.png', 'positional_ring.json'),
 ])
 def test_hovered_item(filename: str, expected_file: str):
     image_path = os.path.join(

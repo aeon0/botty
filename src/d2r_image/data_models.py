@@ -9,6 +9,7 @@ from dataclasses_json import dataclass_json
 class OcrResult:
     text: str = None
     original_text: str = None
+    #processed_img: np.ndarray = None
     word_confidences: list = None
     mean_confidence: float = None
 

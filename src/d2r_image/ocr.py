@@ -15,7 +15,7 @@ def image_to_text(
     word_list: str = "assets/word_lists/all_words.txt",
     scale: float = 1.0,
     crop_pad: bool = True,
-    erode: bool = True,
+    erode: bool = False,
     invert: bool = True,
     threshold: int = 25,
     digits_only: bool = False,
@@ -92,6 +92,7 @@ def image_to_text(
             results.append(OcrResult(
                 original_text=original_text,
                 text=text,
+                #processed_img=processed_img,
                 word_confidences=word_confidences,
                 mean_confidence=api.MeanTextConf()
             ))

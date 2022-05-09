@@ -13,8 +13,8 @@ from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.d2data_lookup import fuzzy_base_item_match
 from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK, BOX_EXPECTED_HEIGHT_RANGE, BOX_EXPECTED_WIDTH_RANGE
-from d2r_image.strings_store import all_words, base_items
-from utils.misc import color_filter, erode_to_black, find_best_match
+from d2r_image.strings_store import base_items
+from utils.misc import color_filter, erode_to_black
 from d2r_image.ocr import image_to_text
 
 from utils.misc import color_filter, cut_roi
@@ -72,7 +72,7 @@ def crop_text_clusters(inp_img: np.ndarray, padding_y: int = 5) -> list[ItemText
                         clean_img=cleaned_img[y:y+h, x:x+w]
                     ))
     cluster_images = [key["clean_img"] for key in item_clusters]
-    results = image_to_text(cluster_images, model="eng_inconsolata_inv_th_fast", psm=7)
+    results = image_to_text(cluster_images, model="eng_inconsolata_inv_th_fast", psm=7, erode=True)
     for count, cluster in enumerate(item_clusters):
         setattr(cluster, "ocr_result", results[count])
     return item_clusters
@@ -581,6 +581,7 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
 
 if __name__ == "__main__":
     import keyboard
+    import os
     from screen import start_detecting_window, grab, stop_detecting_window
     start_detecting_window()
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
@@ -588,21 +589,24 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from config import Config
 
+    # while 1:
+    #     img_o = grab()
+    #     img = img_o[:, :, :]
+    #     # In order to not filter out highlighted items, change their color to black
+    #     highlight_mask = color_filter(img, Config().colors["item_highlight"])[0]
+    #     img[highlight_mask > 0] = (0, 0, 0)
+    #     img = erode_to_black(img, 14)
+    #     _, filtered_img = color_filter(img, Config().colors["gray"])
+    #     filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
+    #     eroded_img_gray = cv2.erode(filtered_img_gray, np.ones((2, 1), 'uint8'), None, iterations=1)
+    #     blured_img = np.clip(cv2.GaussianBlur(eroded_img_gray, (17, 1), cv2.BORDER_DEFAULT), 0, 255)
+    #     cv2.imshow('test', blured_img)
+    #     key = cv2.waitKey(3000)
+
     while 1:
         img_o = grab()
-
-        img = img_o[:, :, :]
-        # In order to not filter out highlighted items, change their color to black
-        highlight_mask = color_filter(img, Config().colors["item_highlight"])[0]
-        img[highlight_mask > 0] = (0, 0, 0)
-        img = erode_to_black(img, 14)
-
-        _, filtered_img = color_filter(img, Config().colors["gray"])
-        filtered_img_gray = cv2.cvtColor(filtered_img, cv2.COLOR_BGR2GRAY)
-
-        eroded_img_gray = cv2.erode(filtered_img_gray, np.ones((2, 1), 'uint8'), None, iterations=1)
-
-        blured_img = np.clip(cv2.GaussianBlur(eroded_img_gray, (17, 1), cv2.BORDER_DEFAULT), 0, 255)
-
-        cv2.imshow('test', blured_img)
-        key = cv2.waitKey(3000)
+        tooltip = crop_item_tooltip(img_o)
+        print(tooltip)
+        cv2.imshow('test', tooltip[0].img)
+        #cv2.imshow('test', tooltip[0].ocr_result.processed_img)
+        key = cv2.waitKey(20000)

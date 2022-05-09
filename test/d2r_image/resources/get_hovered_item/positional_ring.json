@@ -1,0 +1,42 @@
+{
+  "Name": "Ring",
+  "Quality": "rare",
+  "Text": "RING|UNIDENTIFIED|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Ring",
+    "NTIPAliasClassID": 522,
+    "NTIPAliasType": 10,
+    "dimensions": [
+      1,
+      1
+    ],
+    "sets": [
+      "ANGELICHALO",
+      "CATHANSSEAL"
+    ],
+    "uniques": [
+      "NAGELRING",
+      "MANALDHEAL",
+      "THESTONEOFJORDAN",
+      "CONSTRICTINGRING",
+      "BULKATHOSWEDDINGBAND",
+      "DWARFSTAR",
+      "RAVENFROST",
+      "NATURESPEACE",
+      "WISPPROJECTOR",
+      "CARRIONWIND"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "RING",
+  "NTIPAliasType": 10,
+  "NTIPAliasClassID": 522,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": null,
+  "NTIPAliasFlag": {
+    "0x10": false,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}
