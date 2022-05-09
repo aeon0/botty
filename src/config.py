@@ -45,6 +45,7 @@ class Config:
     trapsin = {}
     barbarian = {}
     poison_necro = {}
+    bone_necro = {}
     necro = {}
     basic = {}
     basic_ranged = {}
@@ -351,6 +352,10 @@ class Config:
         self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
         if "poison_necro" in self.configs["custom"]["parser"]:
             self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
+            
+        self.bone_necro = self.configs["config"]["parser"]["bone_necro"]
+        if "bone_necro" in self.configs["custom"]["parser"]:
+            self.bone_necro.update(self.configs["custom"]["parser"]["bone_necro"])
 
         self.advanced_options = {
             "pathing_delay_factor": min(max(int(self._select_val("advanced_options", "pathing_delay_factor")), 1), 10),

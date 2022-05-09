@@ -10,7 +10,7 @@ from char.capabilities import CharacterCapabilities
 from ui_manager import is_visible, wait_until_visible
 from ui import skills
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi, color_filter
+from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
 from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
@@ -27,6 +27,7 @@ class IChar:
         self._ocr = Ocr()
         # Add a bit to be on the save side
         self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
+        self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self.capabilities = None
 
     def _discover_capabilities(self) -> CharacterCapabilities:
@@ -274,6 +275,43 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
+                
+                
+    def vec_to_monitor(self, target):
+        circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
+        return convert_abs_to_monitor(circle_pos_screen)
+        
+    def cast_in_arc(self, ability: str, cast_pos_abs: Tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+        #scale cast time by damage_scaling
+        time_in_s *= self.damage_scaling
+        Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
+        if not self._skill_hotkeys[ability]:
+            raise ValueError(f"You did not set {ability} hotkey!")
+        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(self._skill_hotkeys[ability])
+        wait(0.02, 0.08)
+
+        target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+        mouse.move(*target,delay_factor=[0.95, 1.05])
+        if hold:
+            mouse.press(button="right")
+        start = time.time()
+        while (time.time() - start) < time_in_s:
+            target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            if hold:
+                mouse.move(*target,delay_factor=[3, 8])
+            if not hold:
+                mouse.move(*target,delay_factor=[.2, .4])
+                wait(0.02, 0.04)
+                mouse.press(button="right")
+                wait(0.02, 0.06)
+                mouse.release(button="right")
+                wait(self._cast_duration, self._cast_duration)
+                
+        if hold:
+            mouse.release(button="right")
+        keyboard.send(Config().char["stand_still"], do_press=False)
+    
 
     def pre_buff(self):
         pass
