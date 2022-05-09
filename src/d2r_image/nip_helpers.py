@@ -4,7 +4,7 @@ from d2r_image.data_models import HoveredItem, ItemQuality
 from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
-
+import re
 
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
@@ -190,9 +190,11 @@ def find_nip_pattern_match(item_lines):
                             nip_alias_stat[key] = result.fixed[i]
                         else:
                             nip_alias_stat[key] = True
-    for key in nip_alias_stat:
-        if "188," in key: # * There is a mod with the tabskill mod (tab skill means a + to skills of one of the chars skill I.E sorc has Fire skills, paladins have Combat skills, and druids have Summoning skills)
-            nip_alias_stat['188'] = nip_alias_stat[key]
-            break
+    for key in nip_alias_stat.copy(): # it don't like when I change the dict while iterating
+        # find stats like 83,3=2 (+2 to paladins skills) and also add 83=2
+        found_group = re.search(r'(\d+),', key)
+        if found_group:
+            nip_alias_stat[found_group.group(0)] = nip_alias_stat[key]
+        
 
     return nip_alias_stat
