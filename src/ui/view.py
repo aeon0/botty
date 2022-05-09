@@ -41,15 +41,18 @@ def save_and_exit() -> bool:
     while attempts < 2 and not success:
         # if exit button isn't detected already, press escape
         while not (highlight := detect_screen_object(ScreenObjects.GameMenu)).valid:
-            wait(0.10)
             keyboard.send("esc")
             time.sleep(0.02)
         roi = Config().ui_roi[ScreenObjects.GameMenu.roi]
         y_pos = (highlight.center[1] - roi[1]) / roi[3]
         if y_pos > 0.6:
             keyboard.send("up")
-            time.sleep(0.005)
-        keyboard.send("enter")
+            time.sleep(0.02)
+            keyboard.send("up")
+            time.sleep(0.02)
+            keyboard.send("down")  
+            time.sleep(0.02)          
+            keyboard.send("enter")
         # if center icon on player bar disappears then save/exit was successful
         if not (success := wait_until_hidden(ScreenObjects.InGame, 3)):
             Logger.debug("Failed to find or click save/exit button")
