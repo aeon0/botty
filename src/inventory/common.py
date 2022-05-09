@@ -1,5 +1,4 @@
 from typing import Union
-from xmlrpc.client import Boolean
 from config import Config
 import cv2
 import numpy as np
@@ -51,7 +50,7 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > 16.0
 
-def close(img: Union[np.ndarray, None]=None, force: Union[Boolean, None]=False) -> Union[np.ndarray, Boolean]:
+def close(img: Union[np.ndarray, None]=None, force: Union[bool, None]=False) -> Union[np.ndarray, bool]:
     if force:
         keyboard.send("space") # * Pressing spacebar when a menu is up closes it, pressing spacebar when no menu does nothing, unlike esc which opens the main menu
         return True
