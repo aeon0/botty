@@ -15,14 +15,15 @@ def test_match_behavior(template1_path, template2_path, template3_path, screen_p
     empty = cv2.imread(template1_path)
     slash = cv2.imread(template2_path)
     cross = cv2.imread(template3_path)
+    threshold=0.6
     """
     Test first match
     - searches first for cross, which doesn't perfectly match but should reach above threshold
     - if cross matches above threshold as expected, then it won't bother to search for slash, which has a perfect match on the image
     - test passes if the template match score is not perfect
     """
-    match = TemplateFinder().search([cross, slash], image, threshold=0.6)
-    assert match.score != 1
+    match = TemplateFinder().search([cross, slash], image, threshold)
+    assert threshold <= match.score < 1
     """
     Test best match
     - searches first for cross, which doesn't perfectly match
