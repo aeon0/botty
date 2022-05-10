@@ -207,6 +207,7 @@ class Hammerdin(IChar):
             pos_m = convert_abs_to_monitor((0, 0))
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
+            print("mercwait")
             if mob_check(info_ss=True):
                 mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                 self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -309,7 +310,7 @@ class Hammerdin(IChar):
                     wait(0.3, 0.6)
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([673], self): return False # , time_out=3): # Re-adjust itself and continues to attack
+            if not self._pather.traverse_nodes([673], self): return False # , timeout=3): # Re-adjust itself and continues to attack
 
         elif location == "entrance1_02": #node 673
             ### APPROACH ###
@@ -349,7 +350,7 @@ class Hammerdin(IChar):
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([675], self): return False#, time_out=3) # Re-adjust itself
+            if not self._pather.traverse_nodes([675], self): return False#, timeout=3) # Re-adjust itself
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
             if not self._pather.traverse_nodes([676], self): return False#, timeout=3)
 
@@ -468,9 +469,9 @@ class Hammerdin(IChar):
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
+                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([609], self): return False#, time_out=3)
+            if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
 
         ####################
         # PENT TRASH TO SEAL
@@ -922,7 +923,7 @@ class Hammerdin(IChar):
                     wait(0.3, 0.6)
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([655], self): return False # , time_out=3):
+                if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -946,7 +947,7 @@ class Hammerdin(IChar):
                     wait(0.3, 0.6)
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([652], self): return False # , time_out=3):
+                if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -1025,7 +1026,7 @@ class Hammerdin(IChar):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
-            if not self._pather.traverse_nodes([664, 665], self): return False # , time_out=3):
+            if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
 
         else:
             ### APPROACH ###
@@ -1062,7 +1063,7 @@ class Hammerdin(IChar):
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([611], self, time_out=3)
+            self._pather.traverse_nodes([611], self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
@@ -1095,7 +1096,7 @@ class Hammerdin(IChar):
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([623], self, time_out=3)
+            self._pather.traverse_nodes([623], self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1149,18 +1150,18 @@ class Hammerdin(IChar):
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, time_out=3)
+            self._pather.traverse_nodes(nodes1, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, time_out=3)
+            self._pather.traverse_nodes(nodes2, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, time_out=3)
+            self._pather.traverse_nodes(nodes3, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
                 wait(0.1, 0.2)
@@ -1190,18 +1191,18 @@ class Hammerdin(IChar):
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, time_out=3)
+            self._pather.traverse_nodes(nodes1, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, time_out=3)
+            self._pather.traverse_nodes(nodes2, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, time_out=3)
+            self._pather.traverse_nodes(nodes3, self, timeout=3)
             if mob_check(info_ss=True):
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
                 wait(0.1, 0.2)
