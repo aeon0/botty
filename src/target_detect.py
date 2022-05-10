@@ -7,6 +7,10 @@ from math import dist
 from utils.misc import color_filter
 import json
 
+FILTER_RANGES=[
+    {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
+    {"erode": 1, "blur": 3, "lh": 110, "ls": 169, "lv": 50, "uh": 120, "us": 255, "uv": 255} # frozen
+]
 
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
@@ -18,22 +22,27 @@ def _ignore_targets_within_radius(targets, ignore_radius:int=0):
     if targets:
         return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
-
 def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-    filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
-    pos_markers = []
-    filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
-    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(pos_markers), 150)
+    combo_image = np.zeros(img.shape, np.uint8)
+    combo_markers = []
+    for filter in FILTER_RANGES:
+        filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+        filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        combo_image = cv2.add(combo_image, filterimage)
+        if pos_markers:
+            combo_markers.extend(pos_markers)
+    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", combo_image)
+    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(combo_markers), 150)
     if not filtered_targets:
         Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
-        return False
     else:
-        pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
-        pos_m = convert_abs_to_monitor(pos_m)
-        Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
+        # disabled screen operations to allow pytest to use this function
+        # pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
+        # pos_m = convert_abs_to_monitor(pos_m)
+        # Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
+        Logger.debug("Mobcheck: Found Mobs, attacking now!")
         if info_ss:
             #draw an arrow on a screenshot where a mob was found
             pt2 = (640,360)
@@ -42,7 +51,7 @@ def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
             input = np.ascontiguousarray(img)
             cv2.arrowedLine(input, pt2, pt1, line_type=cv2.LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
             cv2.imwrite(f"./info_screenshots/info_mob_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", input)
-        return True
+    return len(filtered_targets)
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
     """
@@ -98,8 +107,8 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     img = img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     if mask_hud:
-        _hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        img = cv2.bitwise_and(img, img, mask=_hud_mask)
+        hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
+        img = cv2.bitwise_and(img, img, mask=hud_mask)
     if mask_char: img = cv2.rectangle(img, (600,250), (700,400), (0,0,0), -1) # black out character by drawing a black box above him (e.g. ignore set glow)
     if erode:
         kernel = np.ones((erode, erode), 'uint8')
@@ -168,6 +177,8 @@ class LiveViewer:
             self.settings = json.loads(f.read())
         self.hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         self.hud_mask = cv2.threshold(self.hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
+        self.use_existing_image = False
+        self.existing_image_path = "test/assets/mobs.png"
         self.setup()
         self.live_view()
 
@@ -189,7 +200,10 @@ class LiveViewer:
         cv2.createTrackbar('invert', 'Settings', self.settings['invert'], 1, self.value_update)
 
     def value_update(self, ignore: bool = False):
-        self.image = grab()
+        if not self.use_existing_image:
+            self.image = grab()
+        else:
+            self.image = cv2.imread(self.existing_image_path)
         self.image = cv2.bitwise_and(self.image, self.image, mask=self.hud_mask)
         # black out character
         self.image = cv2.rectangle(self.image, (550,250), (700,400), (0,0,0), -1)
