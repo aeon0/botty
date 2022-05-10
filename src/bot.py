@@ -312,7 +312,7 @@ class Bot:
                 if not self._curr_loc:
                     return self.trigger_or_stop("end_game", failed=True)
                 # recheck inventory
-                items = personal.inspect_items(game_stats=self._game_stats)
+                items = personal.inspect_items(game_stats=self._game_stats, close_window=True)
         keep_items = any([item.keep for item in items]) if items else None
         sell_items = any([item.sell for item in items]) if items else None
 
