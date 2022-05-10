@@ -18,15 +18,15 @@ def _ignore_targets_within_radius(targets, ignore_radius:int=0):
     if targets:
         return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
+
 def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
     img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, erode=0, dilate=2, blur=4, lh=35, ls=0, lv=43, uh=133, us=216, uv=255, bright=255, contrast=139, thresh=10, invert=0) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
     pos_markers = []
-    filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles to avoid having small objects (WP candles) or spells misinterpreted as mobs
+    filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", filterimage)
-    sorted_targets = _sort_targets_by_dist(pos_markers)
-    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(pos_markers), 15) #15 was 150
+    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(pos_markers), 150)
     if not filtered_targets:
         Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
         return False
