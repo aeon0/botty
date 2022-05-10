@@ -19,14 +19,15 @@ def _sort_targets_by_dist(targets):
     return sorted(targets, key=lambda pos: _dist_to_center(pos))
 
 def _ignore_targets_within_radius(targets, ignore_radius:int=0):
-    if targets:
-        return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
+    return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
 def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
-    img = grab() if img is None else img
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     combo_image = np.zeros(img.shape, np.uint8)
     combo_markers = []
+    filtered_targets = []
+
+    img = grab() if img is None else img
+    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     for filter in FILTER_RANGES:
         filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
         filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
@@ -34,7 +35,9 @@ def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
         if pos_markers:
             combo_markers.extend(pos_markers)
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", combo_image)
-    filtered_targets = _ignore_targets_within_radius(_sort_targets_by_dist(combo_markers), 150)
+    if combo_markers:
+        sorted_targets = _sort_targets_by_dist(combo_markers)
+        filtered_targets = _ignore_targets_within_radius(sorted_targets, 150)
     if not filtered_targets:
         Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
     else:
