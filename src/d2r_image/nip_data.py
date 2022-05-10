@@ -130,7 +130,11 @@ NIP_ALIAS_STAT_PATTERNS = {
         "46"
     ],
     "All Resistances +{:d}": [
-        "6969"
+        "6969",
+        "39",
+        "41",
+        "43",
+        "45"
     ],
     "+{:d} Fire Absorb": [
         "142"
@@ -4453,7 +4457,11 @@ NIP_ALIAS_STAT_PATTERNS = {
         "49"
     ],
     "+{:d} to all Attributes": [
-        "420"
+        "420",
+        "0",
+        "2",
+        "3",
+        "1"
     ],
     "+{:d}% to Experience Gained": [
         "85"
