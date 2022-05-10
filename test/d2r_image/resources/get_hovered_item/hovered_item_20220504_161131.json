@@ -25,7 +25,9 @@
   "NTIPAliasClassID": 619,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 10,
-  "NTIPAliasStat": {},
+  "NTIPAliasStat": {
+    "92": 23
+  },
   "NTIPAliasFlag": {
     "0x10": true,
     "0x400000": false,
