@@ -71,26 +71,15 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,
   "NTIPAliasStat": {
-    "204": {
-      "level": 21,
-      "skill": "POISON CREEPER",
-      "current": 12,
-      "max": 15
-    },
-    "45": 55,
     "32": 106,
-    "196": {
-      "chance": 8,
-      "level": 13,
-      "skill": "TWISTER"
-    },
-    "201": {
-      "chance": 10,
-      "level": 10,
-      "skill": "POISON NOVA"
-    },
     "114": 10,
-    "60": 8
+    "45": 55,
+    "60": 8,
+    "198,240": 8,
+    "201,92": 10,
+    "92": 60,
+    "198,": 8,
+    "201,": 10
   },
   "NTIPAliasFlag": {
     "0x10": true,
