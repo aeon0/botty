@@ -12,7 +12,7 @@ def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
 
 def _sort_targets_by_dist(targets):
-    return targets.sort(key=lambda pos: _dist_to_center(pos))
+    return sorted(targets, key=lambda pos: _dist_to_center(pos))
 
 def _ignore_targets_within_radius(targets, ignore_radius:int=0):
     if targets:
