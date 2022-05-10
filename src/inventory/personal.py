@@ -65,7 +65,9 @@ def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
         common.close()
     if items:
         return True
+    common.close(force=True) # Close the inventory if it is empty
     return False
+
 
 def stash_all_items(items: list = None):
     """
