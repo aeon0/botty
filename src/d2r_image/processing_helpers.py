@@ -466,7 +466,7 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
                     if gold_match:
                         item['base'] = d2data_lookup.get_consumable('GOLD')
                         item['amount'] = gold_match.group(1)
-                        break
+                        continue
                     else:
                         # fuzzy match
                         new_string = ""
