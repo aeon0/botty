@@ -174,7 +174,7 @@ def find_nip_pattern_match(item_lines):
         # find stats like 83,3=2 (+2 to paladins skills) and also add 83=2
         found_group = re.search(r'(\d+),', key)
         if found_group:
-            nip_alias_stat[found_group.group(0)] = nip_alias_stat[key]
+            nip_alias_stat[found_group.group(1)] = nip_alias_stat[key]
         
 
     return nip_alias_stat
