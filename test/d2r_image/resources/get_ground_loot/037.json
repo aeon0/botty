@@ -257,6 +257,36 @@
     },
     {
       "BoundingBox": {
+        "x": 1069,
+        "y": 529,
+        "w": 105,
+        "h": 21
+      },
+      "Name": "7296 GOLD",
+      "Quality": "normal",
+      "Text": "7296 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
         "x": 449,
         "y": 372,
         "w": 148,
@@ -596,6 +626,36 @@
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
         "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 25,
+        "y": 135,
+        "w": 107,
+        "h": 21
+      },
+      "Name": "2976 GOLD",
+      "Quality": "normal",
+      "Text": "2976 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
         "0x4000000": false,
         "0x400000": false
       }
