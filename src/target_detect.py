@@ -22,11 +22,10 @@ def _ignore_targets_within_radius(targets, ignore_radius:int=0):
     return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
 
 def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
+    img = grab() if img is None else img
     combo_image = np.zeros(img.shape, np.uint8)
     combo_markers = []
     filtered_targets = []
-
-    img = grab() if img is None else img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     for filter in FILTER_RANGES:
         filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
