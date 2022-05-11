@@ -1,0 +1,312 @@
+{
+  "items": [
+    {
+      "BoundingBox": {
+        "x": 642,
+        "y": 379,
+        "w": 97,
+        "h": 21
+      },
+      "Name": "240 GOLD",
+      "Quality": "normal",
+      "Text": "240 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 594,
+        "y": 350,
+        "w": 197,
+        "h": 21
+      },
+      "Name": "Scroll of Identify",
+      "Quality": "normal",
+      "Text": "SCROLL OF IDENTIFY",
+      "BaseItem": {
+        "DisplayName": "Scroll of Identify",
+        "NTIPAliasClassID": 530,
+        "NTIPAliasType": 22,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 22,
+      "NTIPAliasClassID": 530,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 414,
+        "y": 282,
+        "w": 257,
+        "h": 21
+      },
+      "Name": "Full Rejuvenation Potion",
+      "Quality": "normal",
+      "Text": "FULL REJUVENATION POTION",
+      "BaseItem": {
+        "DisplayName": "Full Rejuvenation Potion",
+        "NTIPAliasClassID": 516,
+        "NTIPAliasType": 78,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 78,
+      "NTIPAliasClassID": 516,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 528,
+        "y": 261,
+        "w": 187,
+        "h": 21
+      },
+      "Name": "Super Mana Potion",
+      "Quality": "normal",
+      "Text": "SUPER MANA POTION",
+      "BaseItem": {
+        "DisplayName": "Super Mana Potion",
+        "NTIPAliasClassID": 596,
+        "NTIPAliasType": 77,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 77,
+      "NTIPAliasClassID": 596,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 328,
+        "y": 240,
+        "w": 238,
+        "h": 21
+      },
+      "Name": "Greater Healing Potion",
+      "Quality": "normal",
+      "Text": "GREATER HEALING POTION",
+      "BaseItem": {
+        "DisplayName": "Greater Healing Potion",
+        "NTIPAliasClassID": 590,
+        "NTIPAliasType": 76,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 76,
+      "NTIPAliasClassID": 590,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 550,
+        "y": 219,
+        "w": 217,
+        "h": 21
+      },
+      "Name": "Super Healing Potion",
+      "Quality": "normal",
+      "Text": "SUPER HEALING POTION",
+      "BaseItem": {
+        "DisplayName": "Super Healing Potion",
+        "NTIPAliasClassID": 591,
+        "NTIPAliasType": 76,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 76,
+      "NTIPAliasClassID": 591,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 546,
+        "y": 198,
+        "w": 97,
+        "h": 21
+      },
+      "Name": "244 GOLD",
+      "Quality": "normal",
+      "Text": "244 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 398,
+        "y": 337,
+        "w": 167,
+        "h": 21
+      },
+      "Name": "Full Plate Mail",
+      "Quality": "rare",
+      "Text": "FULL PLATE MAIL",
+      "BaseItem": {
+        "DisplayName": "Full Plate Mail",
+        "NTIPAliasClassID": 325,
+        "NTIPAliasType": 3,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 70,
+          "73": 70,
+          "31": {
+            "min": 150,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "sets": [
+          "TANCREDSSPINE"
+        ],
+        "uniques": [
+          "GOLDSKIN"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 3,
+      "NTIPAliasClassID": 325,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 436,
+        "y": 308,
+        "w": 128,
+        "h": 22
+      },
+      "Name": "Wrist Spike",
+      "Quality": "rare",
+      "Text": "WRIST SPIKE",
+      "BaseItem": {
+        "DisplayName": "Wrist Spike",
+        "NTIPAliasClassID": 183,
+        "NTIPAliasType": 67,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 56,
+          "73": 56,
+          "21": 13,
+          "22": 27,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 67,
+      "NTIPAliasClassID": 183,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    }
+  ]
+}
