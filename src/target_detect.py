@@ -6,11 +6,20 @@ from logger import Logger
 from math import dist
 from utils.misc import color_filter
 import json
+from dataclasses import dataclass
 
 FILTER_RANGES=[
     {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
     {"erode": 1, "blur": 3, "lh": 110, "ls": 169, "lv": 50, "uh": 120, "us": 255, "uv": 255} # frozen
 ]
+
+@dataclass
+class TargetInfo:
+    roi: tuple = None
+    center: tuple = None
+    center_monitor: tuple = None
+    distance: int = 0
+
 
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
@@ -169,7 +178,6 @@ def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20,
                 cv2.drawMarker(img, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
                 mark = [int(center_x), int(center_y)]
                 pos_marker.append(mark)
-    img = img
     if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return img, pos_rectangles, pos_marker
 
