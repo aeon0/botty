@@ -177,7 +177,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                self._cast_holy_bolt(cast_pos_abs=pos_mob, spray=80, time_in_s=atk_len)
+                
                 wait(self._cast_duration, self._cast_duration + 0.2)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
@@ -196,11 +196,11 @@ class FoHdin(Paladin):
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -216,11 +216,11 @@ class FoHdin(Paladin):
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -237,11 +237,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -262,11 +262,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -281,11 +281,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -301,11 +301,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -323,12 +323,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
-                self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -344,11 +343,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -366,11 +365,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -391,11 +390,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -417,14 +416,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.2)
-                self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -446,12 +442,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -465,12 +460,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -484,12 +478,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -507,11 +500,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -526,11 +519,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -544,11 +537,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -572,11 +565,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -590,11 +583,11 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -614,11 +607,11 @@ class FoHdin(Paladin):
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -633,16 +626,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._cast_hammers(0.5, "cleansing")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -657,21 +645,20 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._cast_hammers(0.5, "cleansing")
-                ### LOOT ###
-                self._picked_up_items |= self._pickit.pick_up_items(self)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             ### APPROACH ###
@@ -704,17 +691,13 @@ class FoHdin(Paladin):
             Logger.debug("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
             if not self._pather.traverse_nodes([622], self): return False
-            wait(1)#give merc the chance to activate holy freeze
+            ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                ### ATTACK ###
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -729,11 +712,11 @@ class FoHdin(Paladin):
             # if not self._pather.traverse_nodes([623,624], self): return False #
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -875,11 +858,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -899,11 +882,11 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -950,24 +933,7 @@ class FoHdin(Paladin):
             ### LOOT ###
             # we loot at boss
             Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-            """
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            """
+
 
         elif location == "C2-G_seal2":
             ### APPROACH ###
@@ -975,22 +941,19 @@ class FoHdin(Paladin):
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-                self._cast_hammers(Config().char["atk_len_diablo_infector"])
-                self._cast_hammers(0.8, "redemption")
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"])
-                self._cast_hammers(0.8, "redemption")
-                self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"])
-                wait(0.1, 0.15)
-                self._cast_hammers(1.2, "redemption")
-                ### LOOT ###
-                self._picked_up_items |= self._pickit.pick_up_items(self)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_infector"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+
             if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
 
         else:
@@ -998,11 +961,11 @@ class FoHdin(Paladin):
             Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -1022,17 +985,19 @@ class FoHdin(Paladin):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2)
@@ -1055,25 +1020,27 @@ class FoHdin(Paladin):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
-                wait(0.1, 0.15)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -1109,29 +1076,44 @@ class FoHdin(Paladin):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                wait(0.1, 0.2)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
@@ -1150,29 +1132,44 @@ class FoHdin(Paladin):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
             if not Config().char['cs_mob_detect'] or mob_check():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-                self._cast_hammers(1, "redemption")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
             if not Config().char['cs_mob_detect'] or mob_check():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                wait(0.1, 0.2)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -1198,16 +1195,15 @@ class FoHdin(Paladin):
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(Config().char["atk_len_diablo_infector"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_mob = [0,0]
+                atk_len = int(Config().char["atk_len_diablo_infector"]*2)
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)                
+                wait(self._cast_duration, self._cast_duration + 0.2)                
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -1227,13 +1223,12 @@ class FoHdin(Paladin):
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         Logger.debug("Attacking Diablo at position 1/1")
-        self._cast_hammers(Config().char["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((60, 30), Config().char["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), Config().char["atk_len_diablo"])
-        wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption")
+        if not Config().char['cs_mob_detect'] or mob_check():
+            pos_mob = [0,0]
+            atk_len = int(Config().char["atk_len_diablo"]*2)
+            self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+            
+            wait(self._cast_duration, self._cast_duration + 0.2)
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
