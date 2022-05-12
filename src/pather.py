@@ -746,7 +746,7 @@ if __name__ == "__main__":
     start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
-    from char.hammerdin import Hammerdin
+    from char.paladin.hammerdin import Hammerdin
     from item.pickit import PickIt
     pather = Pather()
 

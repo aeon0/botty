@@ -1,29 +1,27 @@
+#import random
 import keyboard
-from ui import skills
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from utils.custom_mouse import mouse
-from char import IChar, CharacterCapabilities
-from template_finder import TemplateFinder
-from pather import Pather
+from char.paladin import Paladin
 from logger import Logger
-from screen import convert_abs_to_monitor
 from config import Config
 from utils.misc import wait
 import time
+from pather import Location
+
+from ui import skills
+from char import IChar, CharacterCapabilities
+from template_finder import TemplateFinder
 from pather import Pather, Location
-import cv2 #for Diablo
-from item.pickit import PickIt #for Diablo
-import numpy as np
+#import numpy as np
 from target_detect import mob_check
+#import cv2 #for Diablo
+#from item.pickit import PickIt #for Diablo
 
-
-class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
+class Hammerdin(Paladin):
+    def __init__(self, *args, **kwargs):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys)
-        self._pather = pather
-        self._do_pre_move = True
-        self._pickit = pickit #for Diablo
-        self._picked_up_items = False #for Diablo
+        super().__init__(*args, **kwargs)
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
@@ -45,6 +43,7 @@ class Hammerdin(IChar):
             wait(0.01, 0.05)
             keyboard.send(Config().char["stand_still"], do_press=False)
 
+    """
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
@@ -68,7 +67,7 @@ class Hammerdin(IChar):
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
-
+    """
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()

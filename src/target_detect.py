@@ -44,7 +44,7 @@ def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
         #pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
         #pos_m = convert_abs_to_monitor(pos_m)
         #Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
-        Logger.debug('\033[92m' + "Mobcheck: Found Mob attacking now!" + '\033[0m')
+        Logger.debug('\033[92m' + "Mobcheck: Found Mob attacking now at:! " + '\033[0m')
         if info_ss:
             #draw an arrow on a screenshot where a mob was found
             pt2 = (640,360)
@@ -53,7 +53,8 @@ def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
             input = np.ascontiguousarray(img)
             cv2.arrowedLine(input, pt2, pt1, line_type=cv2.LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
             cv2.imwrite(f"./info_screenshots/info_mob_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", input)
-    return len(filtered_targets)
+    #return len(filtered_targets)
+    return filtered_targets
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
     """
