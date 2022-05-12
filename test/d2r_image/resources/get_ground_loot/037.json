@@ -2,184 +2,27 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 359,
-        "y": 394,
-        "w": 175,
+        "x": 527,
+        "y": 396,
+        "w": 101,
         "h": 21
       },
-      "Name": "Greaves",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 382,
-        "y": 230,
-        "w": 206,
-        "h": 21
-      },
-      "Name": "Great Helm",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 416,
-        "y": 188,
-        "w": 216,
-        "h": 21
-      },
-      "Name": "Grand Crown",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GRAND CROWN",
-      "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
-        ],
-        "uniques": [
-          "CROWNOFTHIEVES"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 642,
-        "y": 167,
-        "w": 146,
-        "h": 21
-      },
-      "Name": "Great Hauberk",
+      "Name": "Giant Axe",
       "Quality": "gray",
-      "Text": "GREAT HAUBERK",
+      "Text": "GIANT AXE",
       "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
+        "DisplayName": "Giant Axe",
+        "NTIPAliasClassID": 9,
+        "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
+          "23": 22,
+          "24": 45,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -189,11 +32,62 @@
           2,
           3
         ],
+        "uniques": [
+          "HUMONGOUS"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 9,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 502,
+        "y": 339,
+        "w": 156,
+        "h": 21
+      },
+      "Name": "Giant Thresher",
+      "Quality": "gray",
+      "Text": "GIANT THRESHER",
+      "BaseItem": {
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STORMSPIRE"
+        ],
         "NTIPAliasClass": 2
       },
       "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
       "NTIPAliasClass": 2,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -204,226 +98,46 @@
     },
     {
       "BoundingBox": {
-        "x": 805,
-        "y": 147,
-        "w": 127,
-        "h": 20
+        "x": 594,
+        "y": 224,
+        "w": 126,
+        "h": 21
       },
-      "Name": "Grand Crown",
+      "Name": "Giant Sword",
       "Quality": "gray",
-      "Text": "GRAND CROWN",
+      "Text": "GIANT SWORD",
       "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 3
+            "max": 4
           },
           "72": 50,
           "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
-        ],
-        "uniques": [
-          "CROWNOFTHIEVES"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 1069,
-        "y": 529,
-        "w": 105,
-        "h": 21
-      },
-      "Name": "7296 GOLD",
-      "Quality": "normal",
-      "Text": "7296 GOLD",
-      "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
         "dimensions": [
           1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 449,
-        "y": 372,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "normal",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 558,
-        "y": 309,
-        "w": 237,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 540,
-        "y": 250,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "normal",
-      "Text": "GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
+          4
         ],
         "uniques": [
-          "HOWLTUSK"
+          "KINEMILSAWL"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -434,406 +148,77 @@
     },
     {
       "BoundingBox": {
-        "x": 627,
-        "y": 229,
-        "w": 177,
-        "h": 22
-      },
-      "Name": "Greaves",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 932,
-        "y": 166,
-        "w": 207,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 816,
-        "y": 166,
-        "w": 88,
-        "h": 22
-      },
-      "Name": "Greaves",
-      "Quality": "normal",
-      "Text": "GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 500,
-        "y": 145,
-        "w": 277,
-        "h": 22
-      },
-      "Name": "Griffon Headdress",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GRIFFON HEADDRESS",
-      "BaseItem": {
-        "DisplayName": "Griffon Headdress",
-        "NTIPAliasClassID": 469,
-        "NTIPAliasType": 72,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 20,
-          "73": 20,
-          "31": {
-            "min": 46,
-            "max": 68
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 72,
-      "NTIPAliasClassID": 469,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 25,
-        "y": 135,
-        "w": 107,
+        "x": 473,
+        "y": 164,
+        "w": 215,
         "h": 21
       },
-      "Name": "2976 GOLD",
-      "Quality": "normal",
-      "Text": "2976 GOLD",
+      "Name": "Giant Sword",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GIANT SWORD",
       "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 709,
-        "y": 384,
-        "w": 88,
-        "h": 22
-      },
-      "Name": "Greaves",
-      "Quality": "magic",
-      "Text": "GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 387,
-        "y": 347,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "magic",
-      "Text": "GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 992,
-        "y": 124,
-        "w": 188,
-        "h": 22
-      },
-      "Name": "Griffon Headdress",
-      "Quality": "magic",
-      "Text": "GRIFFON HEADDRESS",
-      "BaseItem": {
-        "DisplayName": "Griffon Headdress",
-        "NTIPAliasClassID": 469,
-        "NTIPAliasType": 72,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 20,
-          "73": 20,
-          "31": {
-            "min": 46,
-            "max": 68
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 72,
-      "NTIPAliasClassID": 469,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 837,
-        "y": 124,
-        "w": 128,
-        "h": 22
-      },
-      "Name": "Grand Crown",
-      "Quality": "magic",
-      "Text": "GRAND CROWN",
-      "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
+            "max": 4
           },
           "72": 50,
           "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 712,
+        "y": 143,
+        "w": 190,
+        "h": 21
+      },
+      "Name": "Giant Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GIANT AXE",
+      "BaseItem": {
+        "DisplayName": "Giant Axe",
+        "NTIPAliasClassID": 9,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
           },
+          "72": 50,
+          "73": 50,
+          "23": 22,
+          "24": 45,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -841,23 +226,68 @@
         },
         "dimensions": [
           2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
+          3
         ],
         "uniques": [
-          "CROWNOFTHIEVES"
+          "HUMONGOUS"
         ],
-        "NTIPAliasClass": 1
+        "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 4,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 9,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
-        "0x10": false,
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 688,
+        "y": 101,
+        "w": 245,
+        "h": 21
+      },
+      "Name": "Giant Thresher",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GIANT THRESHER",
+      "BaseItem": {
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STORMSPIRE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
@@ -865,44 +295,27 @@
     {
       "BoundingBox": {
         "x": 564,
-        "y": 405,
-        "w": 148,
-        "h": 22
+        "y": 497,
+        "w": 116,
+        "h": 21
       },
-      "Name": "Great Hauberk",
-      "Quality": "rare",
-      "Text": "GREAT HAUBERK",
+      "Name": "10512 GOLD",
+      "Quality": "normal",
+      "Text": "10512 GOLD",
       "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
         "dimensions": [
-          2,
-          3
-        ],
-        "NTIPAliasClass": 2
+          1,
+          1
+        ]
       },
       "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 6,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -911,254 +324,212 @@
     },
     {
       "BoundingBox": {
-        "x": 535,
-        "y": 351,
+        "x": 453,
+        "y": 367,
+        "w": 217,
+        "h": 22
+      },
+      "Name": "Giant Sword",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GIANT SWORD",
+      "BaseItem": {
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 588,
+        "y": 309,
+        "w": 177,
+        "h": 22
+      },
+      "Name": "Gladius",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GLADIUS",
+      "BaseItem": {
+        "DisplayName": "Gladius",
+        "NTIPAliasClassID": 118,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 24,
+          "73": 24,
+          "21": 8,
+          "22": 22,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "uniques": [
+          "BLOODLETTER"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 118,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 540,
+        "y": 261,
+        "w": 158,
+        "h": 22
+      },
+      "Name": "Giant Thresher",
+      "Quality": "normal",
+      "Text": "GIANT THRESHER",
+      "BaseItem": {
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STORMSPIRE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 534,
+        "y": 184,
+        "w": 247,
+        "h": 22
+      },
+      "Name": "Giant Thresher",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GIANT THRESHER",
+      "BaseItem": {
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STORMSPIRE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 716,
+        "y": 163,
         "w": 128,
         "h": 22
       },
-      "Name": "Grand Crown",
-      "Quality": "rare",
-      "Text": "GRAND CROWN",
+      "Name": "Giant Sword",
+      "Quality": "normal",
+      "Text": "GIANT SWORD",
       "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
-        ],
-        "uniques": [
-          "CROWNOFTHIEVES"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 598,
-        "y": 280,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Great Helm",
-      "Quality": "rare",
-      "Text": "GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 694,
-        "y": 347,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Sigon's Visor",
-      "Quality": "set",
-      "Text": "GREAT HELM",
-      "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 3
-          },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
-        ],
-        "uniques": [
-          "HOWLTUSK"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Sigon's Visor",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "8": {
-            "min": 30,
-            "max": 30
-          },
-          "31": {
-            "min": 25,
-            "max": 25
-          }
-        }
-      },
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 479,
-        "y": 271,
-        "w": 88,
-        "h": 22
-      },
-      "Name": "Sigon's Sabot",
-      "Quality": "set",
-      "Text": "GREAVES",
-      "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Sigon's Sabot",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "96": {
-            "min": 20,
-            "max": 20
-          },
-          "43": {
-            "min": 40,
-            "max": 40
-          }
-        }
-      },
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 487,
-        "y": 208,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "set",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
@@ -1166,26 +537,79 @@
           },
           "72": 50,
           "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
-          },
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          3
+          1,
+          4
         ],
-        "NTIPAliasClass": 2
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 5,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 516,
+        "y": 453,
+        "w": 128,
+        "h": 22
+      },
+      "Name": "Giant Sword",
+      "Quality": "magic",
+      "Text": "GIANT SWORD",
+      "BaseItem": {
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -1194,29 +618,27 @@
     },
     {
       "BoundingBox": {
-        "x": 467,
-        "y": 124,
-        "w": 188,
+        "x": 501,
+        "y": 100,
+        "w": 158,
         "h": 22
       },
-      "Name": "Griffon Headdress",
-      "Quality": "set",
-      "Text": "GRIFFON HEADDRESS",
+      "Name": "Giant Thresher",
+      "Quality": "magic",
+      "Text": "GIANT THRESHER",
       "BaseItem": {
-        "DisplayName": "Griffon Headdress",
-        "NTIPAliasClassID": 469,
-        "NTIPAliasType": 72,
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 3
+            "max": 6
           },
-          "72": 20,
-          "73": 20,
-          "31": {
-            "min": 46,
-            "max": 68
-          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1224,15 +646,18 @@
         },
         "dimensions": [
           2,
-          2
+          4
         ],
-        "NTIPAliasClass": 1
+        "uniques": [
+          "STORMSPIRE"
+        ],
+        "NTIPAliasClass": 2
       },
       "Item": null,
-      "NTIPAliasType": 72,
-      "NTIPAliasClassID": 469,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 5,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -1242,28 +667,26 @@
     {
       "BoundingBox": {
         "x": 540,
-        "y": 330,
-        "w": 118,
+        "y": 288,
+        "w": 158,
         "h": 22
       },
-      "Name": "Howltusk",
-      "Quality": "unique",
-      "Text": "GREAT HELM",
+      "Name": "Giant Thresher",
+      "Quality": "rare",
+      "Text": "GIANT THRESHER",
       "BaseItem": {
-        "DisplayName": "Great Helm",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 3
+            "max": 6
           },
-          "72": 40,
-          "73": 40,
-          "31": {
-            "min": 30,
-            "max": 35
-          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1271,51 +694,18 @@
         },
         "dimensions": [
           2,
-          2
-        ],
-        "sets": [
-          "SIGONSVISOR"
+          4
         ],
         "uniques": [
-          "HOWLTUSK"
+          "STORMSPIRE"
         ],
-        "NTIPAliasClass": 0
+        "NTIPAliasClass": 2
       },
-      "Item": {
-        "DisplayName": "Howltusk",
-        "NTIPAliasClassID": 310,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-          "35": {
-            "min": 2,
-            "max": 2
-          },
-          "78": {
-            "min": 3,
-            "max": 3
-          },
-          "16,0": {
-            "min": 80,
-            "max": 80
-          },
-          "114": {
-            "min": 35,
-            "max": 35
-          },
-          "81": {
-            "min": 1,
-            "max": 1
-          },
-          "112": {
-            "min": 33,
-            "max": 33
-          }
-        }
-      },
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 310,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 7,
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -1324,101 +714,18 @@
     },
     {
       "BoundingBox": {
-        "x": 402,
-        "y": 309,
-        "w": 88,
+        "x": 555,
+        "y": 142,
+        "w": 128,
         "h": 22
       },
-      "Name": "Tearhaunch",
-      "Quality": "unique",
-      "Text": "GREAVES",
+      "Name": "Giant Sword",
+      "Quality": "rare",
+      "Text": "GIANT SWORD",
       "BaseItem": {
-        "DisplayName": "Greaves",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "72": 24,
-          "73": 24,
-          "31": {
-            "min": 12,
-            "max": 15
-          },
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          2
-        ],
-        "sets": [
-          "SIGONSSABOT"
-        ],
-        "uniques": [
-          "TEARHAUNCH"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Tearhaunch",
-        "NTIPAliasClassID": 343,
-        "NTIPAliasType": 15,
-        "NTIPAliasStatProps": {
-          "31": {
-            "min": 35,
-            "max": 35
-          },
-          "0": {
-            "min": 5,
-            "max": 5
-          },
-          "2": {
-            "min": 5,
-            "max": 5
-          },
-          "96": {
-            "min": 20,
-            "max": 20
-          },
-          "39": 10,
-          "43": 10,
-          "41": 10,
-          "45": 10,
-          "16,0": {
-            "min": 60,
-            "max": 80
-          },
-          "107,115": {
-            "min": 2,
-            "max": 2
-          }
-        }
-      },
-      "NTIPAliasType": 15,
-      "NTIPAliasClassID": 343,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 7,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 410,
-        "y": 166,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Great Hauberk",
-      "Quality": "unique",
-      "Text": "GREAT HAUBERK",
-      "BaseItem": {
-        "DisplayName": "Great Hauberk",
-        "NTIPAliasClassID": 436,
-        "NTIPAliasType": 3,
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
@@ -1426,10 +733,58 @@
           },
           "72": 50,
           "73": 50,
-          "31": {
-            "min": 395,
-            "max": 501
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 705,
+        "y": 121,
+        "w": 108,
+        "h": 22
+      },
+      "Name": "Giant Axe",
+      "Quality": "rare",
+      "Text": "GIANT AXE",
+      "BaseItem": {
+        "DisplayName": "Giant Axe",
+        "NTIPAliasClassID": 9,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
           },
+          "72": 50,
+          "73": 50,
+          "23": 22,
+          "24": 45,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1439,12 +794,193 @@
           2,
           3
         ],
+        "uniques": [
+          "HUMONGOUS"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 9,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 808,
+        "y": 202,
+        "w": 128,
+        "h": 22
+      },
+      "Name": "Giant Sword",
+      "Quality": "set",
+      "Text": "GIANT SWORD",
+      "BaseItem": {
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 578,
+        "y": 79,
+        "w": 158,
+        "h": 22
+      },
+      "Name": "Giant Thresher",
+      "Quality": "set",
+      "Text": "GIANT THRESHER",
+      "BaseItem": {
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "STORMSPIRE"
+        ],
         "NTIPAliasClass": 2
       },
       "Item": null,
-      "NTIPAliasType": 3,
-      "NTIPAliasClassID": 436,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
       "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 497,
+        "y": 424,
+        "w": 128,
+        "h": 22
+      },
+      "Name": "Kinemil's Awl",
+      "Quality": "unique",
+      "Text": "GIANT SWORD",
+      "BaseItem": {
+        "DisplayName": "Giant Sword",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "21": 3,
+          "22": 16,
+          "23": 9,
+          "24": 28,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          4
+        ],
+        "uniques": [
+          "KINEMILSAWL"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": {
+        "DisplayName": "Kinemil's Awl",
+        "NTIPAliasClassID": 35,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "19": {
+            "min": 100,
+            "max": 150
+          },
+          "8": {
+            "min": 20,
+            "max": 20
+          },
+          "48": {
+            "min": 6,
+            "max": 6
+          },
+          "49": {
+            "min": 20,
+            "max": 40
+          },
+          "25": {
+            "min": 80,
+            "max": 100
+          },
+          "107,102": {
+            "min": 6,
+            "max": 6
+          }
+        }
+      },
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 35,
+      "NTIPAliasClass": 0,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -1454,29 +990,27 @@
     },
     {
       "BoundingBox": {
-        "x": 682,
-        "y": 124,
-        "w": 128,
+        "x": 520,
+        "y": 121,
+        "w": 158,
         "h": 22
       },
-      "Name": "Crown of Thieves",
+      "Name": "Stormspire",
       "Quality": "unique",
-      "Text": "GRAND CROWN",
+      "Text": "GIANT THRESHER",
       "BaseItem": {
-        "DisplayName": "Grand Crown",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
+        "DisplayName": "Giant Thresher",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 3
+            "max": 6
           },
-          "72": 50,
-          "73": 50,
-          "31": {
-            "min": 78,
-            "max": 113
-          },
+          "72": 55,
+          "73": 55,
+          "23": 40,
+          "24": 114,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1484,54 +1018,54 @@
         },
         "dimensions": [
           2,
-          2
-        ],
-        "sets": [
-          "HWANINSSPLENDOR"
+          4
         ],
         "uniques": [
-          "CROWNOFTHIEVES"
+          "STORMSPIRE"
         ],
-        "NTIPAliasClass": 1
+        "NTIPAliasClass": 2
       },
       "Item": {
-        "DisplayName": "Crown of Thieves",
-        "NTIPAliasClassID": 357,
-        "NTIPAliasType": 37,
+        "DisplayName": "Stormspire",
+        "NTIPAliasClassID": 258,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
-          "2": {
-            "min": 25,
-            "max": 25
-          },
-          "60": {
-            "min": 9,
-            "max": 12
-          },
-          "6": {
+          "41": {
             "min": 50,
             "max": 50
           },
-          "8": {
-            "min": 35,
-            "max": 35
+          "201": {
+            "chance": 2,
+            "level": null,
+            "skill": "Charged Bolt"
           },
-          "39": {
-            "min": 33,
-            "max": 33
+          "25": {
+            "min": 150,
+            "max": 250
           },
-          "16,0": {
-            "min": 160,
-            "max": 200
+          "0": {
+            "min": 10,
+            "max": 10
           },
-          "79": {
-            "min": 80,
-            "max": 100
+          "93": {
+            "min": 30,
+            "max": 30
+          },
+          "152": {
+            "min": 1,
+            "max": 1
+          },
+          "50": 1,
+          "51": 237,
+          "128": {
+            "min": 27,
+            "max": 27
           }
         }
       },
-      "NTIPAliasType": 37,
-      "NTIPAliasClassID": 357,
-      "NTIPAliasClass": 1,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 258,
+      "NTIPAliasClass": 2,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,

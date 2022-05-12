@@ -2,75 +2,27 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 589,
-        "y": 433,
-        "w": 170,
+        "x": 508,
+        "y": 358,
+        "w": 145,
         "h": 21
       },
-      "Name": "War Axe",
+      "Name": "Dirk",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WAR AXE",
+      "Text": "SUPERIOR DIRK",
       "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "RAKESCAR"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 456,
-        "y": 251,
-        "w": 56,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "gray",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
+        "DisplayName": "Dirk",
+        "NTIPAliasClassID": 40,
+        "NTIPAliasType": 32,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
             "max": 1
           },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
+          "72": 20,
+          "73": 20,
+          "21": 3,
+          "22": 9,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -81,61 +33,13 @@
           2
         ],
         "uniques": [
-          "TORCHOFIRO"
+          "THEDIGGLER"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 441,
-        "y": 209,
-        "w": 160,
-        "h": 21
-      },
-      "Name": "Voulge",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR VOULGE",
-      "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
+      "NTIPAliasType": 32,
+      "NTIPAliasClassID": 40,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -146,120 +50,27 @@
     },
     {
       "BoundingBox": {
-        "x": 598,
-        "y": 188,
-        "w": 235,
+        "x": 656,
+        "y": 329,
+        "w": 112,
         "h": 21
       },
-      "Name": "Walking Stick",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 992,
-        "y": 146,
-        "w": 71,
-        "h": 21
-      },
-      "Name": "Voulge",
+      "Name": "Double Axe",
       "Quality": "gray",
-      "Text": "VOULGE",
+      "Text": "DOUBLE AXE",
       "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 851,
-        "y": 125,
-        "w": 81,
-        "h": 21
-      },
-      "Name": "War Axe",
-      "Quality": "gray",
-      "Text": "WAR AXE",
-      "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
         "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 5
           },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -269,14 +80,17 @@
           2,
           3
         ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
         "uniques": [
-          "RAKESCAR"
+          "BLADEBONE"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
+      "NTIPAliasClassID": 2,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -287,42 +101,45 @@
     },
     {
       "BoundingBox": {
-        "x": 676,
-        "y": 125,
-        "w": 146,
+        "x": 578,
+        "y": 262,
+        "w": 157,
         "h": 21
       },
-      "Name": "Walking Stick",
+      "Name": "Divine Scepter",
       "Quality": "gray",
-      "Text": "WALKING STICK",
+      "Text": "DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 2
+            "max": 5
           },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           3
         ],
-        "NTIPAliasClass": 2
+        "uniques": [
+          "HANDOFBLESSEDLIGHT"
+        ],
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": true,
@@ -332,14 +149,161 @@
     },
     {
       "BoundingBox": {
-        "x": 1069,
-        "y": 529,
-        "w": 105,
+        "x": 458,
+        "y": 203,
+        "w": 245,
         "h": 21
       },
-      "Name": "7296 GOLD",
+      "Name": "Divine Scepter",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR DIVINE SCEPTER",
+      "BaseItem": {
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 5
+          },
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "HANDOFBLESSEDLIGHT"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 666,
+        "y": 141,
+        "w": 57,
+        "h": 20
+      },
+      "Name": "Dirk",
+      "Quality": "gray",
+      "Text": "DIRK",
+      "BaseItem": {
+        "DisplayName": "Dirk",
+        "NTIPAliasClassID": 40,
+        "NTIPAliasType": 32,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 1
+          },
+          "72": 20,
+          "73": 20,
+          "21": 3,
+          "22": 9,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          2
+        ],
+        "uniques": [
+          "THEDIGGLER"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 32,
+      "NTIPAliasClassID": 40,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 517,
+        "y": 98,
+        "w": 200,
+        "h": 21
+      },
+      "Name": "Double Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR DOUBLE AXE",
+      "BaseItem": {
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 5
+          },
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
+        "uniques": [
+          "BLADEBONE"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 2,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 564,
+        "y": 497,
+        "w": 116,
+        "h": 21
+      },
+      "Name": "19065 GOLD",
       "Quality": "normal",
-      "Text": "7296 GOLD",
+      "Text": "19065 GOLD",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -362,27 +326,27 @@
     },
     {
       "BoundingBox": {
-        "x": 627,
-        "y": 405,
-        "w": 177,
-        "h": 22
+        "x": 560,
+        "y": 300,
+        "w": 118,
+        "h": 21
       },
-      "Name": "War Axe",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WAR AXE",
+      "Name": "Double Axe",
+      "Quality": "normal",
+      "Text": "DOUBLE AXE",
       "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
         "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 5
           },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -392,14 +356,68 @@
           2,
           3
         ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
         "uniques": [
-          "RAKESCAR"
+          "BLADEBONE"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
+      "NTIPAliasClassID": 2,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 554,
+        "y": 223,
+        "w": 207,
+        "h": 22
+      },
+      "Name": "Double Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR DOUBLE AXE",
+      "BaseItem": {
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 5
+          },
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
+        "uniques": [
+          "BLADEBONE"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 2,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -410,27 +428,27 @@
     },
     {
       "BoundingBox": {
-        "x": 589,
-        "y": 368,
-        "w": 98,
-        "h": 21
+        "x": 685,
+        "y": 160,
+        "w": 158,
+        "h": 22
       },
-      "Name": "War Club",
+      "Name": "Divine Scepter",
       "Quality": "normal",
-      "Text": "WAR CLUB",
+      "Text": "DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "War Club",
-        "NTIPAliasClassID": 116,
-        "NTIPAliasType": 31,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 5
           },
-          "72": 60,
-          "73": 60,
-          "23": 53,
-          "24": 78,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -438,16 +456,16 @@
         },
         "dimensions": [
           2,
-          4
+          3
         ],
         "uniques": [
-          "BLOODTREESTUMP"
+          "HANDOFBLESSEDLIGHT"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 31,
-      "NTIPAliasClassID": 116,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -458,72 +476,27 @@
     },
     {
       "BoundingBox": {
-        "x": 558,
-        "y": 309,
-        "w": 237,
+        "x": 979,
+        "y": 118,
+        "w": 247,
         "h": 22
       },
-      "Name": "Walking Stick",
+      "Name": "Divine Scepter",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WALKING STICK",
+      "Text": "SUPERIOR DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 2
+            "max": 5
           },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 671,
-        "y": 260,
-        "w": 88,
-        "h": 21
-      },
-      "Name": "War Axe",
-      "Quality": "normal",
-      "Text": "WAR AXE",
-      "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -534,17 +507,160 @@
           3
         ],
         "uniques": [
-          "RAKESCAR"
+          "HANDOFBLESSEDLIGHT"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 744,
+        "y": 118,
+        "w": 208,
+        "h": 22
+      },
+      "Name": "Double Bow",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR DOUBLE BOW",
+      "BaseItem": {
+        "DisplayName": "Double Bow",
+        "NTIPAliasClassID": 164,
+        "NTIPAliasType": 27,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 36,
+          "73": 36,
+          "23": 11,
+          "24": 26
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "ENDLESSHAIL"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 27,
+      "NTIPAliasClassID": 164,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 725,
+        "y": 181,
+        "w": 158,
+        "h": 22
+      },
+      "Name": "Divine Scepter",
+      "Quality": "magic",
+      "Text": "DIVINE SCEPTER",
+      "BaseItem": {
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 5
+          },
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "HANDOFBLESSEDLIGHT"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 521,
+        "y": 139,
+        "w": 118,
+        "h": 22
+      },
+      "Name": "Double Axe",
+      "Quality": "magic",
+      "Text": "DOUBLE AXE",
+      "BaseItem": {
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 5
+          },
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
+        "uniques": [
+          "BLADEBONE"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
+      "NTIPAliasClassID": 2,
       "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
+      "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
-        "0x10": true,
+        "0x10": false,
         "0x4000000": false,
         "0x400000": false
       }
@@ -552,26 +668,26 @@
     {
       "BoundingBox": {
         "x": 570,
-        "y": 251,
+        "y": 386,
         "w": 58,
-        "h": 21
+        "h": 22
       },
-      "Name": "Wand",
-      "Quality": "normal",
-      "Text": "WAND",
+      "Name": "Dirk",
+      "Quality": "rare",
+      "Text": "DIRK",
       "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
+        "DisplayName": "Dirk",
+        "NTIPAliasClassID": 40,
+        "NTIPAliasType": 32,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
             "max": 1
           },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
+          "72": 20,
+          "73": 20,
+          "21": 3,
+          "22": 9,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -582,92 +698,44 @@
           2
         ],
         "uniques": [
-          "TORCHOFIRO"
+          "THEDIGGLER"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
+      "NTIPAliasType": 32,
+      "NTIPAliasClassID": 40,
       "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
+      "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
-        "0x10": true,
+        "0x10": false,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 935,
-        "y": 166,
-        "w": 147,
+        "x": 540,
+        "y": 181,
+        "w": 158,
         "h": 22
       },
-      "Name": "Wand",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WAND",
+      "Name": "Divine Scepter",
+      "Quality": "rare",
+      "Text": "DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 1
+            "max": 5
           },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 545,
-        "y": 166,
-        "w": 187,
-        "h": 22
-      },
-      "Name": "War Club",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR WAR CLUB",
-      "BaseItem": {
-        "DisplayName": "War Club",
-        "NTIPAliasClassID": 116,
-        "NTIPAliasType": 31,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 60,
-          "73": 60,
-          "23": 53,
-          "24": 78,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -675,93 +743,18 @@
         },
         "dimensions": [
           2,
-          4
+          3
         ],
         "uniques": [
-          "BLOODTREESTUMP"
+          "HANDOFBLESSEDLIGHT"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 31,
-      "NTIPAliasClassID": 116,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
       "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 816,
-        "y": 145,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "normal",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 25,
-        "y": 135,
-        "w": 107,
-        "h": 21
-      },
-      "Name": "2976 GOLD",
-      "Quality": "normal",
-      "Text": "2976 GOLD",
-      "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
+      "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -770,75 +763,27 @@
     },
     {
       "BoundingBox": {
-        "x": 513,
-        "y": 395,
-        "w": 58,
+        "x": 750,
+        "y": 97,
+        "w": 118,
         "h": 22
       },
-      "Name": "Wand",
-      "Quality": "magic",
-      "Text": "WAND",
+      "Name": "Double Axe",
+      "Quality": "rare",
+      "Text": "DOUBLE AXE",
       "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 479,
-        "y": 271,
-        "w": 88,
-        "h": 22
-      },
-      "Name": "War Axe",
-      "Quality": "magic",
-      "Text": "WAR AXE",
-      "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
         "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 5
           },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -848,16 +793,19 @@
           2,
           3
         ],
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
         "uniques": [
-          "RAKESCAR"
+          "BLADEBONE"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
+      "NTIPAliasClassID": 2,
       "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
+      "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -866,27 +814,27 @@
     },
     {
       "BoundingBox": {
-        "x": 637,
-        "y": 208,
-        "w": 78,
+        "x": 501,
+        "y": 415,
+        "w": 158,
         "h": 22
       },
-      "Name": "Voulge",
-      "Quality": "magic",
-      "Text": "VOULGE",
+      "Name": "Divine Scepter",
+      "Quality": "set",
+      "Text": "DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 5
           },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -894,487 +842,16 @@
         },
         "dimensions": [
           2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 641,
-        "y": 145,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "magic",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
           3
         ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 550,
-        "y": 124,
-        "w": 98,
-        "h": 22
-      },
-      "Name": "War Club",
-      "Quality": "magic",
-      "Text": "WAR CLUB",
-      "BaseItem": {
-        "DisplayName": "War Club",
-        "NTIPAliasClassID": 116,
-        "NTIPAliasType": 31,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 60,
-          "73": 60,
-          "23": 53,
-          "24": 78,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
         "uniques": [
-          "BLOODTREESTUMP"
+          "HANDOFBLESSEDLIGHT"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 31,
-      "NTIPAliasClassID": 116,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 398,
-        "y": 339,
-        "w": 58,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "rare",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 402,
-        "y": 310,
-        "w": 88,
-        "h": 21
-      },
-      "Name": "War Axe",
-      "Quality": "rare",
-      "Text": "WAR AXE",
-      "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "RAKESCAR"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 759,
-        "y": 166,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "rare",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 1096,
-        "y": 145,
-        "w": 78,
-        "h": 22
-      },
-      "Name": "Voulge",
-      "Quality": "rare",
-      "Text": "VOULGE",
-      "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "STEELGOAD"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 440,
-        "y": 375,
-        "w": 88,
-        "h": 21
-      },
-      "Name": "War Axe",
-      "Quality": "set",
-      "Text": "WAR AXE",
-      "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "RAKESCAR"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 724,
-        "y": 348,
-        "w": 58,
-        "h": 21
-      },
-      "Name": "Wand",
-      "Quality": "set",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 487,
-        "y": 229,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Walking Stick",
-      "Quality": "set",
-      "Text": "WALKING STICK",
-      "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 2
-          },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          3
-        ],
-        "NTIPAliasClass": 2
-      },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 512,
-        "y": 145,
-        "w": 98,
-        "h": 22
-      },
-      "Name": "War Club",
-      "Quality": "set",
-      "Text": "WAR CLUB",
-      "BaseItem": {
-        "DisplayName": "War Club",
-        "NTIPAliasClassID": 116,
-        "NTIPAliasType": 31,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 60,
-          "73": 60,
-          "23": 53,
-          "24": 78,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          4
-        ],
-        "uniques": [
-          "BLOODTREESTUMP"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 31,
-      "NTIPAliasClassID": 116,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 5,
       "NTIPAliasFlag": {
@@ -1385,27 +862,27 @@
     },
     {
       "BoundingBox": {
-        "x": 484,
-        "y": 347,
-        "w": 78,
+        "x": 598,
+        "y": 118,
+        "w": 118,
         "h": 22
       },
-      "Name": "Steelgoad",
-      "Quality": "unique",
-      "Text": "VOULGE",
+      "Name": "Berserker's Hatchet",
+      "Quality": "set",
+      "Text": "DOUBLE AXE",
       "BaseItem": {
-        "DisplayName": "Voulge",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 5
           },
-          "72": 50,
-          "73": 50,
-          "23": 6,
-          "24": 21,
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1413,122 +890,35 @@
         },
         "dimensions": [
           2,
-          4
+          3
+        ],
+        "sets": [
+          "BERSERKERSHATCHET"
         ],
         "uniques": [
-          "STEELGOAD"
+          "BLADEBONE"
         ],
         "NTIPAliasClass": 0
       },
       "Item": {
-        "DisplayName": "Steelgoad",
-        "NTIPAliasClassID": 58,
-        "NTIPAliasType": 34,
+        "DisplayName": "Berserker's Hatchet",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
-          "112": {
-            "min": 96,
-            "max": 96
-          },
-          "141": {
+          "119": {
             "min": 30,
             "max": 30
           },
-          "19": {
-            "min": 30,
-            "max": 30
-          },
-          "39": 5,
-          "43": 5,
-          "41": 5,
-          "45": 5,
-          "25": {
-            "min": 60,
-            "max": 80
-          },
-          "72": 20,
-          "73": 40
-        }
-      },
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 58,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 7,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 628,
-        "y": 280,
-        "w": 58,
-        "h": 22
-      },
-      "Name": "Torch of Iro",
-      "Quality": "unique",
-      "Text": "WAND",
-      "BaseItem": {
-        "DisplayName": "Wand",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 15,
-          "73": 15,
-          "21": 2,
-          "22": 4,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "TORCHOFIRO"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Torch of Iro",
-        "NTIPAliasClassID": 10,
-        "NTIPAliasType": 25,
-        "NTIPAliasStatProps": {
-          "83,2": {
-            "min": 1,
-            "max": 1
-          },
-          "60": {
-            "min": 6,
-            "max": 6
-          },
-          "48": 5,
-          "49": 9,
-          "89": {
-            "min": 3,
-            "max": 3
-          },
-          "1": {
-            "min": 10,
-            "max": 10
-          },
-          "27": {
+          "62": {
             "min": 5,
             "max": 5
           }
         }
       },
-      "NTIPAliasType": 25,
-      "NTIPAliasClassID": 10,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 2,
       "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 7,
+      "NTIPAliasQuality": 5,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -1537,27 +927,27 @@
     },
     {
       "BoundingBox": {
-        "x": 709,
-        "y": 238,
-        "w": 88,
+        "x": 501,
+        "y": 453,
+        "w": 158,
         "h": 22
       },
-      "Name": "Rakescar",
+      "Name": "Hand of Blessed Light",
       "Quality": "unique",
-      "Text": "WAR AXE",
+      "Text": "DIVINE SCEPTER",
       "BaseItem": {
-        "DisplayName": "War Axe",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
+        "DisplayName": "Divine Scepter",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 5
           },
-          "72": 26,
-          "73": 26,
-          "21": 10,
-          "22": 18,
+          "72": 70,
+          "73": 70,
+          "21": 16,
+          "22": 38,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1568,48 +958,59 @@
           3
         ],
         "uniques": [
-          "RAKESCAR"
+          "HANDOFBLESSEDLIGHT"
         ],
-        "NTIPAliasClass": 0
+        "NTIPAliasClass": 1
       },
       "Item": {
-        "DisplayName": "Rakescar",
-        "NTIPAliasClassID": 4,
-        "NTIPAliasType": 28,
+        "DisplayName": "Hand of Blessed Light",
+        "NTIPAliasClassID": 110,
+        "NTIPAliasType": 24,
         "NTIPAliasStatProps": {
-          "57": {
-            "min": 128,
-            "max": 128
-          },
-          "58": {
-            "min": 128,
-            "max": 128
-          },
-          "59": {
-            "min": 75,
-            "max": 75
-          },
-          "19": {
-            "min": 50,
-            "max": 50
-          },
-          "45": {
-            "min": 50,
-            "max": 50
+          "83,3": {
+            "min": 2,
+            "max": 2
           },
           "25": {
-            "min": 75,
-            "max": 150
+            "min": 130,
+            "max": 160
           },
-          "93": {
-            "min": 30,
-            "max": 30
+          "119": {
+            "min": 100,
+            "max": 100
+          },
+          "31": {
+            "min": 50,
+            "max": 50
+          },
+          "27": {
+            "min": 15,
+            "max": 15
+          },
+          "89": {
+            "min": 4,
+            "max": 4
+          },
+          "21": 20,
+          "22": 45,
+          "107,101": {
+            "min": 4,
+            "max": 4
+          },
+          "107,121": {
+            "min": 2,
+            "max": 2
+          },
+          "198": {
+            "chance": 5,
+            "level": 4,
+            "skill": "Fist of the Heavens"
           }
         }
       },
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 4,
-      "NTIPAliasClass": 0,
+      "NTIPAliasType": 24,
+      "NTIPAliasClassID": 110,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -1619,42 +1020,82 @@
     },
     {
       "BoundingBox": {
-        "x": 410,
-        "y": 187,
-        "w": 148,
+        "x": 540,
+        "y": 160,
+        "w": 118,
         "h": 22
       },
-      "Name": "Walking Stick",
+      "Name": "Bladebone",
       "Quality": "unique",
-      "Text": "WALKING STICK",
+      "Text": "DOUBLE AXE",
       "BaseItem": {
-        "DisplayName": "Walking Stick",
-        "NTIPAliasClassID": 259,
-        "NTIPAliasType": 26,
+        "DisplayName": "Double Axe",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 2
+            "max": 5
           },
-          "72": 20,
-          "73": 20,
-          "23": 69,
-          "24": 85,
+          "72": 24,
+          "73": 24,
+          "21": 5,
+          "22": 13,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           3
         ],
-        "NTIPAliasClass": 2
+        "sets": [
+          "BERSERKERSHATCHET"
+        ],
+        "uniques": [
+          "BLADEBONE"
+        ],
+        "NTIPAliasClass": 0
       },
-      "Item": null,
-      "NTIPAliasType": 26,
-      "NTIPAliasClassID": 259,
-      "NTIPAliasClass": 2,
+      "Item": {
+        "DisplayName": "Bladebone",
+        "NTIPAliasClassID": 2,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "122": {
+            "min": 100,
+            "max": 100
+          },
+          "124": {
+            "min": 40,
+            "max": 40
+          },
+          "93": {
+            "min": 20,
+            "max": 20
+          },
+          "31": {
+            "min": 20,
+            "max": 20
+          },
+          "48": {
+            "min": 8,
+            "max": 8
+          },
+          "49": {
+            "min": 12,
+            "max": 12
+          },
+          "25": {
+            "min": 30,
+            "max": 50
+          }
+        }
+      },
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 2,
+      "NTIPAliasClass": 0,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,

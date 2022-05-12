@@ -2,579 +2,708 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 1069,
-        "y": 529,
-        "w": 105,
-        "h": 21
+        "x": 590,
+        "y": 417,
+        "w": 57,
+        "h": 20
       },
-      "Name": "7296 GOLD",
-      "Quality": "normal",
-      "Text": "7296 GOLD",
+      "Name": "Naga",
+      "Quality": "gray",
+      "Text": "NAGA",
       "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
+        "DisplayName": "Naga",
+        "NTIPAliasClassID": 97,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 26,
+          "73": 26,
+          "21": 16,
+          "22": 45,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
         "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 674,
-        "y": 347,
-        "w": 158,
-        "h": 22
-      },
-      "Name": "Healing Potion",
-      "Quality": "normal",
-      "Text": "HEALING POTION",
-      "BaseItem": {
-        "DisplayName": "Healing Potion",
-        "NTIPAliasClassID": 589,
-        "NTIPAliasType": 76,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 76,
-      "NTIPAliasClassID": 589,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 583,
-        "y": 309,
-        "w": 187,
-        "h": 22
-      },
-      "Name": "Flawless Sapphire",
-      "Quality": "normal",
-      "Text": "FLAWLESS SAPPHIRE",
-      "BaseItem": {
-        "DisplayName": "Flawless Sapphire",
-        "NTIPAliasClassID": 570,
-        "NTIPAliasType": 100,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 100,
-      "NTIPAliasClassID": 570,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 499,
-        "y": 272,
-        "w": 48,
-        "h": 21
-      },
-      "Name": "Key",
-      "Quality": "normal",
-      "Text": "KEY",
-      "BaseItem": {
-        "DisplayName": "Key",
-        "NTIPAliasClassID": 543,
-        "NTIPAliasType": 41,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 41,
-      "NTIPAliasClassID": 543,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 455,
-        "y": 250,
-        "w": 58,
-        "h": 22
-      },
-      "Name": "Gold",
-      "Quality": "normal",
-      "Text": "GOLD",
-      "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 483,
-        "y": 208,
-        "w": 157,
-        "h": 22
-      },
-      "Name": "Flawless Topaz",
-      "Quality": "normal",
-      "Text": "FLAWLESS TOPAZ",
-      "BaseItem": {
-        "DisplayName": "Flawless Topaz",
-        "NTIPAliasClassID": 565,
-        "NTIPAliasType": 101,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 101,
-      "NTIPAliasClassID": 565,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 435,
-        "y": 187,
-        "w": 177,
-        "h": 22
-      },
-      "Name": "Flawless Emerald",
-      "Quality": "normal",
-      "Text": "FLAWLESS EMERALD",
-      "BaseItem": {
-        "DisplayName": "Flawless Emerald",
-        "NTIPAliasClassID": 575,
-        "NTIPAliasType": 98,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 98,
-      "NTIPAliasClassID": 575,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 884,
-        "y": 166,
-        "w": 208,
-        "h": 22
-      },
-      "Name": "Greater Mana Potion",
-      "Quality": "normal",
-      "Text": "GREATER MANA POTION",
-      "BaseItem": {
-        "DisplayName": "Greater Mana Potion",
-        "NTIPAliasClassID": 595,
-        "NTIPAliasType": 77,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 77,
-      "NTIPAliasClassID": 595,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 998,
-        "y": 145,
-        "w": 177,
-        "h": 22
-      },
-      "Name": "Flawless Diamond",
-      "Quality": "normal",
-      "Text": "FLAWLESS DIAMOND",
-      "BaseItem": {
-        "DisplayName": "Flawless Diamond",
-        "NTIPAliasClassID": 585,
-        "NTIPAliasType": 97,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 97,
-      "NTIPAliasClassID": 585,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 823,
-        "y": 145,
-        "w": 147,
-        "h": 22
-      },
-      "Name": "Flawless Ruby",
-      "Quality": "normal",
-      "Text": "FLAWLESS RUBY",
-      "BaseItem": {
-        "DisplayName": "Flawless Ruby",
-        "NTIPAliasClassID": 580,
-        "NTIPAliasType": 99,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 99,
-      "NTIPAliasClassID": 580,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 638,
-        "y": 145,
-        "w": 157,
-        "h": 22
-      },
-      "Name": "Flawless Skull",
-      "Quality": "normal",
-      "Text": "FLAWLESS SKULL",
-      "BaseItem": {
-        "DisplayName": "Flawless Skull",
-        "NTIPAliasClassID": 600,
-        "NTIPAliasType": 102,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 102,
-      "NTIPAliasClassID": 600,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 25,
-        "y": 135,
-        "w": 107,
-        "h": 21
-      },
-      "Name": "2976 GOLD",
-      "Quality": "normal",
-      "Text": "2976 GOLD",
-      "BaseItem": {
-        "DisplayName": "Gold",
-        "NTIPAliasClassID": 523,
-        "NTIPAliasType": 4,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 4,
-      "NTIPAliasClassID": 523,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 645,
-        "y": 125,
-        "w": 137,
-        "h": 21
-      },
-      "Name": "Flawed Topaz",
-      "Quality": "normal",
-      "Text": "FLAWED TOPAZ",
-      "BaseItem": {
-        "DisplayName": "Flawed Topaz",
-        "NTIPAliasClassID": 563,
-        "NTIPAliasType": 101,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 101,
-      "NTIPAliasClassID": 563,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 810,
-        "y": 124,
-        "w": 217,
-        "h": 22
-      },
-      "Name": "Light Healing Potion",
-      "Quality": "normal",
-      "Text": "LIGHT HEALING POTION",
-      "BaseItem": {
-        "DisplayName": "Light Healing Potion",
-        "NTIPAliasClassID": 588,
-        "NTIPAliasType": 76,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 76,
-      "NTIPAliasClassID": 588,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 430,
-        "y": 124,
-        "w": 184,
-        "h": 22
-      },
-      "Name": "Flawless Amethyst",
-      "Quality": "normal",
-      "Text": "FLAWLESS AMETHYST",
-      "BaseItem": {
-        "DisplayName": "Flawless Amethyst",
-        "NTIPAliasClassID": 560,
-        "NTIPAliasType": 96,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 96,
-      "NTIPAliasClassID": 560,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 682,
-        "y": 259,
-        "w": 67,
-        "h": 22
-      },
-      "Name": "Jewel",
-      "Quality": "magic",
-      "Text": "JEWEL",
-      "BaseItem": {
-        "DisplayName": "Jewel",
-        "NTIPAliasClassID": 643,
-        "NTIPAliasType": 58,
-        "dimensions": [
-          1,
-          1
-        ],
-        "uniques": [
-          "RAINBOWFACET"
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 58,
-      "NTIPAliasClassID": 643,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 729,
-        "y": 166,
-        "w": 128,
-        "h": 22
-      },
-      "Name": "Grand Charm",
-      "Quality": "magic",
-      "Text": "GRAND CHARM",
-      "BaseItem": {
-        "DisplayName": "Grand Charm",
-        "NTIPAliasClassID": 605,
-        "NTIPAliasType": 84,
-        "dimensions": [
-          1,
+          2,
           3
         ],
         "uniques": [
-          "GHEEDSFORTUNE"
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 84,
-      "NTIPAliasClassID": 605,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 575,
-        "y": 166,
-        "w": 127,
-        "h": 22
-      },
-      "Name": "Large Charm",
-      "Quality": "magic",
-      "Text": "LARGE CHARM",
-      "BaseItem": {
-        "DisplayName": "Large Charm",
-        "NTIPAliasClassID": 604,
-        "NTIPAliasType": 83,
-        "dimensions": [
-          1,
-          2
+          "GUARDIANNAGA"
         ],
-        "uniques": [
-          "HELLFIRETORCH"
-        ]
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 83,
-      "NTIPAliasClassID": 604,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 4,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 97,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
-        "0x10": false,
+        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 681,
-        "y": 209,
-        "w": 68,
+        "x": 566,
+        "y": 358,
+        "w": 100,
         "h": 21
       },
-      "Name": "Jewel",
-      "Quality": "rare",
-      "Text": "JEWEL",
+      "Name": "Ogre Maul",
+      "Quality": "gray",
+      "Text": "OGRE MAUL",
       "BaseItem": {
-        "DisplayName": "Jewel",
-        "NTIPAliasClassID": 643,
-        "NTIPAliasType": 58,
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 647,
+        "y": 243,
+        "w": 91,
+        "h": 21
+      },
+      "Name": "Ogre Axe",
+      "Quality": "gray",
+      "Text": "OGRE AXE",
+      "BaseItem": {
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 527,
+        "y": 204,
+        "w": 180,
+        "h": 21
+      },
+      "Name": "Ogre Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR OGRE AXE",
+      "BaseItem": {
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 862,
+        "y": 162,
+        "w": 145,
+        "h": 21
+      },
+      "Name": "Naga",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR NAGA",
+      "BaseItem": {
+        "DisplayName": "Naga",
+        "NTIPAliasClassID": 97,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 26,
+          "73": 26,
+          "21": 16,
+          "22": 45,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "GUARDIANNAGA"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 97,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 702,
+        "y": 120,
+        "w": 189,
+        "h": 21
+      },
+      "Name": "Ogre Maul",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 589,
+        "y": 503,
+        "w": 108,
+        "h": 21
+      },
+      "Name": "4778 GOLD",
+      "Quality": "normal",
+      "Text": "4778 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 506,
+        "y": 386,
+        "w": 187,
+        "h": 22
+      },
+      "Name": "Ogre Axe",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR OGRE AXE",
+      "BaseItem": {
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 612,
+        "y": 328,
+        "w": 207,
+        "h": 22
+      },
+      "Name": "Oil Potion",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR OIL POTION",
+      "BaseItem": {
+        "DisplayName": "Oil Potion",
+        "NTIPAliasClassID": 81,
+        "NTIPAliasType": 38,
+        "NTIPAliasStatProps": {
+          "72": 2,
+          "73": 2,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
         "dimensions": [
           1,
           1
         ],
-        "uniques": [
-          "RAINBOWFACET"
-        ]
+        "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 58,
-      "NTIPAliasClassID": 643,
-      "NTIPAliasClass": null,
+      "NTIPAliasType": 38,
+      "NTIPAliasClassID": 81,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 603,
+        "y": 280,
+        "w": 108,
+        "h": 22
+      },
+      "Name": "Ogre Maul",
+      "Quality": "normal",
+      "Text": "OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 752,
+        "y": 182,
+        "w": 98,
+        "h": 22
+      },
+      "Name": "Ogre Axe",
+      "Quality": "normal",
+      "Text": "OGRE AXE",
+      "BaseItem": {
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 636,
+        "y": 161,
+        "w": 197,
+        "h": 22
+      },
+      "Name": "Ogre Maul",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 570,
+        "y": 472,
+        "w": 98,
+        "h": 22
+      },
+      "Name": "Ogre Axe",
+      "Quality": "magic",
+      "Text": "OGRE AXE",
+      "BaseItem": {
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 641,
+        "y": 98,
+        "w": 108,
+        "h": 22
+      },
+      "Name": "Ogre Maul",
+      "Quality": "magic",
+      "Text": "OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 603,
+        "y": 307,
+        "w": 108,
+        "h": 22
+      },
+      "Name": "Ogre Maul",
+      "Quality": "rare",
+      "Text": "OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
       "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -584,49 +713,94 @@
     },
     {
       "BoundingBox": {
-        "x": 651,
-        "y": 229,
-        "w": 128,
+        "x": 627,
+        "y": 182,
+        "w": 98,
         "h": 22
       },
-      "Name": "Gheed's Fortune",
-      "Quality": "unique",
-      "Text": "GRAND CHARM",
+      "Name": "Ogre Axe",
+      "Quality": "rare",
+      "Text": "OGRE AXE",
       "BaseItem": {
-        "DisplayName": "Grand Charm",
-        "NTIPAliasClassID": 605,
-        "NTIPAliasType": 84,
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
         "dimensions": [
-          1,
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 700,
+        "y": 140,
+        "w": 59,
+        "h": 22
+      },
+      "Name": "Naga",
+      "Quality": "rare",
+      "Text": "NAGA",
+      "BaseItem": {
+        "DisplayName": "Naga",
+        "NTIPAliasClassID": 97,
+        "NTIPAliasType": 28,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 26,
+          "73": 26,
+          "21": 16,
+          "22": 45,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
           3
         ],
         "uniques": [
-          "GHEEDSFORTUNE"
-        ]
+          "GUARDIANNAGA"
+        ],
+        "NTIPAliasClass": 1
       },
-      "Item": {
-        "DisplayName": "Gheed's Fortune",
-        "NTIPAliasClassID": 605,
-        "NTIPAliasType": 84,
-        "NTIPAliasStatProps": {
-          "80": {
-            "min": 20,
-            "max": 40
-          },
-          "79": {
-            "min": 80,
-            "max": 160
-          },
-          "87": {
-            "min": 10,
-            "max": 15
-          }
-        }
-      },
-      "NTIPAliasType": 84,
-      "NTIPAliasClassID": 605,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 7,
+      "Item": null,
+      "NTIPAliasType": 28,
+      "NTIPAliasClassID": 97,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
         "0x4000000": false,
@@ -635,422 +809,133 @@
     },
     {
       "BoundingBox": {
-        "x": 450,
-        "y": 166,
-        "w": 68,
+        "x": 740,
+        "y": 221,
+        "w": 98,
         "h": 22
       },
-      "Name": "Rainbow Facet",
-      "Quality": "unique",
-      "Text": "JEWEL",
+      "Name": "Ogre Axe",
+      "Quality": "set",
+      "Text": "OGRE AXE",
       "BaseItem": {
-        "DisplayName": "Jewel",
-        "NTIPAliasClassID": 643,
-        "NTIPAliasType": 58,
-        "dimensions": [
-          1,
-          1
-        ],
-        "uniques": [
-          "RAINBOWFACET"
-        ]
-      },
-      "Item": {
-        "DisplayName": "Rainbow Facet",
-        "NTIPAliasClassID": 643,
-        "NTIPAliasType": 58,
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
-          "57": 37,
-          "58": 37,
-          "336": {
-            "min": 3,
-            "max": 5
-          },
-          "332": {
-            "min": 3,
-            "max": 5
-          },
-          "199": [
-            {
-              "chance": 100,
-              "level": 43,
-              "skill": "Frost Nova"
-            },
-            {
-              "chance": 100,
-              "level": 29,
-              "skill": "Blaze"
-            },
-            {
-              "chance": 100,
-              "level": 41,
-              "skill": "Nova"
-            },
-            {
-              "chance": 100,
-              "level": 23,
-              "skill": "Venom"
-            }
-          ],
-          "197": [
-            {
-              "min": 100,
-              "max": 37,
-              "par": "Blizzard"
-            },
-            {
-              "min": 100,
-              "max": 31,
-              "par": "Meteor"
-            },
-            {
-              "min": 100,
-              "max": 47,
-              "par": "Chain Lightning"
-            },
-            {
-              "min": 100,
-              "max": 51,
-              "par": "Poison Nova"
-            }
-          ],
-          "50": 1,
-          "51": 74,
-          "334": {
-            "min": 3,
-            "max": 5
-          },
-          "330": {
-            "min": 3,
-            "max": 5
-          },
-          "54": 24,
-          "55": 38,
-          "335": {
-            "min": 3,
-            "max": 5
-          },
-          "331": {
-            "min": 3,
-            "max": 5
-          },
-          "48": 17,
-          "49": 45,
-          "333": {
-            "min": 3,
-            "max": 5
-          },
-          "329": {
-            "min": 3,
-            "max": 5
-          }
-        }
-      },
-      "NTIPAliasType": 58,
-      "NTIPAliasClassID": 643,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 7,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 1055,
-        "y": 124,
-        "w": 127,
-        "h": 22
-      },
-      "Name": "Hellfire Torch",
-      "Quality": "unique",
-      "Text": "LARGE CHARM",
-      "BaseItem": {
-        "DisplayName": "Large Charm",
-        "NTIPAliasClassID": 604,
-        "NTIPAliasType": 83,
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "HELLFIRETORCH"
-        ]
-      },
-      "Item": {
-        "DisplayName": "Hellfire Torch",
-        "NTIPAliasClassID": 604,
-        "NTIPAliasType": 83,
-        "NTIPAliasStatProps": {
-          "83": {
-            "min": 3,
+          "194": {
+            "min": 0,
             "max": 3
           },
-          "0": {
-            "min": 10,
-            "max": 20
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 565,
+        "y": 140,
+        "w": 108,
+        "h": 22
+      },
+      "Name": "Immortal King's Stone Crusher",
+      "Quality": "set",
+      "Text": "OGRE MAUL",
+      "BaseItem": {
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
           },
-          "1": {
-            "min": 10,
-            "max": 20
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": {
+        "DisplayName": "Immortal King's Stone Crusher",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "152": {
+            "min": 1,
+            "max": 1
           },
-          "2": {
-            "min": 10,
-            "max": 20
+          "93": {
+            "min": 40,
+            "max": 40
           },
-          "3": {
-            "min": 10,
-            "max": 20
+          "121": {
+            "min": 200,
+            "max": 200
           },
-          "39": {
-            "min": 10,
-            "max": 20
+          "122": {
+            "min": 200,
+            "max": 200
           },
-          "43": {
-            "min": 10,
-            "max": 20
+          "136": {
+            "min": 35,
+            "max": 40
           },
-          "41": {
-            "min": 10,
-            "max": 20
+          "25": {
+            "min": 200,
+            "max": 200
           },
-          "45": {
-            "min": 10,
-            "max": 20
-          },
-          "89": {
-            "min": 8,
-            "max": 8
-          },
-          "198": {
-            "chance": 25,
-            "level": 10,
-            "skill": "Firestorm"
-          },
-          "204": {
-            "charges": 10,
-            "level": 30,
-            "skill": "Hydra"
+          "194": {
+            "min": 2,
+            "max": 2
           }
         }
       },
-      "NTIPAliasType": 83,
-      "NTIPAliasClassID": 604,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 7,
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 5,
       "NTIPAliasFlag": {
         "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 602,
-        "y": 432,
-        "w": 148,
-        "h": 22
-      },
-      "Name": "Key of Terror",
-      "Quality": "crafted",
-      "Text": "KEY OF TERROR",
-      "BaseItem": {
-        "DisplayName": "Key of Terror",
-        "NTIPAliasClassID": 647,
-        "NTIPAliasType": 39,
-        "dimensions": [
-          1,
-          2
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 39,
-      "NTIPAliasClassID": 647,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 8,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 654,
-        "y": 386,
-        "w": 198,
-        "h": 22
-      },
-      "Name": "Key of Destruction",
-      "Quality": "crafted",
-      "Text": "KEY OF DESTRUCTION",
-      "BaseItem": {
-        "DisplayName": "Key of Destruction",
-        "NTIPAliasClassID": 649,
-        "NTIPAliasType": 39,
-        "dimensions": [
-          1,
-          2
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 39,
-      "NTIPAliasClassID": 649,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 8,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 382,
-        "y": 309,
-        "w": 128,
-        "h": 22
-      },
-      "Name": "Key of Hate",
-      "Quality": "crafted",
-      "Text": "KEY OF HATE",
-      "BaseItem": {
-        "DisplayName": "Key of Hate",
-        "NTIPAliasClassID": 648,
-        "NTIPAliasType": 39,
-        "dimensions": [
-          1,
-          2
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 39,
-      "NTIPAliasClassID": 648,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 8,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 499,
-        "y": 395,
-        "w": 87,
-        "h": 22
-      },
-      "Name": "IO RUNE",
-      "Quality": "rune",
-      "Text": "IO RUNE",
-      "BaseItem": {
-        "DisplayName": "Io Rune",
-        "NTIPAliasClassID": 625,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 625,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 517,
-        "y": 367,
-        "w": 88,
-        "h": 22
-      },
-      "Name": "KO RUNE",
-      "Quality": "rune",
-      "Text": "KO RUNE",
-      "BaseItem": {
-        "DisplayName": "Ko Rune",
-        "NTIPAliasClassID": 627,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 627,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 379,
-        "y": 338,
-        "w": 97,
-        "h": 22
-      },
-      "Name": "IST RUNE",
-      "Quality": "rune",
-      "Text": "IST RUNE",
-      "BaseItem": {
-        "DisplayName": "Ist Rune",
-        "NTIPAliasClassID": 633,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 633,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 608,
-        "y": 281,
-        "w": 98,
-        "h": 21
-      },
-      "Name": "HEL RUNE",
-      "Quality": "rune",
-      "Text": "HEL RUNE",
-      "BaseItem": {
-        "DisplayName": "Hel Rune",
-        "NTIPAliasClassID": 624,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 624,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
@@ -1058,119 +943,153 @@
     {
       "BoundingBox": {
         "x": 550,
-        "y": 250,
+        "y": 443,
         "w": 98,
         "h": 22
       },
-      "Name": "GUL RUNE",
-      "Quality": "rune",
-      "Text": "GUL RUNE",
+      "Name": "Bonehew",
+      "Quality": "unique",
+      "Text": "OGRE AXE",
       "BaseItem": {
-        "DisplayName": "Gul Rune",
-        "NTIPAliasClassID": 634,
-        "NTIPAliasType": 74,
+        "DisplayName": "Ogre Axe",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 50,
+          "73": 50,
+          "23": 28,
+          "24": 145,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
         "dimensions": [
-          1,
-          1
-        ]
+          2,
+          4
+        ],
+        "uniques": [
+          "BONEHEW"
+        ],
+        "NTIPAliasClass": 2
       },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 634,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
+      "Item": {
+        "DisplayName": "Bonehew",
+        "NTIPAliasClassID": 253,
+        "NTIPAliasType": 34,
+        "NTIPAliasStatProps": {
+          "25": {
+            "min": 270,
+            "max": 320
+          },
+          "93": {
+            "min": 30,
+            "max": 30
+          },
+          "204": {
+            "charges": 30,
+            "level": 14,
+            "skill": "Corpse Explosion"
+          },
+          "198": {
+            "chance": 50,
+            "level": 16,
+            "skill": "Bone Spear"
+          },
+          "117": {
+            "min": 1,
+            "max": 1
+          },
+          "194": {
+            "min": 2,
+            "max": 2
+          }
+        }
+      },
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 253,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
-        "0x10": true,
+        "0x10": false,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 435,
-        "y": 230,
-        "w": 98,
-        "h": 21
+        "x": 565,
+        "y": 119,
+        "w": 108,
+        "h": 22
       },
-      "Name": "JAH RUNE",
-      "Quality": "rune",
-      "Text": "JAH RUNE",
+      "Name": "Windhammer",
+      "Quality": "unique",
+      "Text": "OGRE MAUL",
       "BaseItem": {
-        "DisplayName": "Jah Rune",
-        "NTIPAliasClassID": 640,
-        "NTIPAliasType": 74,
+        "DisplayName": "Ogre Maul",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 60,
+          "73": 60,
+          "23": 77,
+          "24": 106,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
         "dimensions": [
-          1,
-          1
-        ]
+          2,
+          4
+        ],
+        "sets": [
+          "IMMORTALKINGSSTONECRUSHER"
+        ],
+        "uniques": [
+          "WINDHAMMER"
+        ],
+        "NTIPAliasClass": 2
       },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 640,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
+      "Item": {
+        "DisplayName": "Windhammer",
+        "NTIPAliasClassID": 219,
+        "NTIPAliasType": 31,
+        "NTIPAliasStatProps": {
+          "25": {
+            "min": 180,
+            "max": 230
+          },
+          "136": {
+            "min": 50,
+            "max": 50
+          },
+          "93": {
+            "min": 60,
+            "max": 60
+          },
+          "198": {
+            "chance": 33,
+            "level": 22,
+            "skill": "Twister"
+          }
+        }
+      },
+      "NTIPAliasType": 31,
+      "NTIPAliasClassID": 219,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 640,
-        "y": 188,
-        "w": 97,
-        "h": 21
-      },
-      "Name": "ITH RUNE",
-      "Quality": "rune",
-      "Text": "ITH RUNE",
-      "BaseItem": {
-        "DisplayName": "Ith Rune",
-        "NTIPAliasClassID": 615,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 615,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 513,
-        "y": 146,
-        "w": 97,
-        "h": 21
-      },
-      "Name": "LEM RUNE",
-      "Quality": "rune",
-      "Text": "LEM RUNE",
-      "BaseItem": {
-        "DisplayName": "Lem Rune",
-        "NTIPAliasClassID": 629,
-        "NTIPAliasType": 74,
-        "dimensions": [
-          1,
-          1
-        ]
-      },
-      "Item": null,
-      "NTIPAliasType": 74,
-      "NTIPAliasClassID": 629,
-      "NTIPAliasClass": null,
-      "NTIPAliasQuality": 10,
-      "NTIPAliasFlag": {
-        "0x10": true,
+        "0x10": false,
         "0x4000000": false,
         "0x400000": false
       }
