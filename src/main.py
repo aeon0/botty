@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from re import X
 import keyboard
 import os
 from beautifultable import BeautifulTable
