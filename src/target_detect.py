@@ -38,13 +38,13 @@ def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
         sorted_targets = _sort_targets_by_dist(combo_markers)
         filtered_targets = _ignore_targets_within_radius(sorted_targets, 150)
     if not filtered_targets:
-        Logger.info('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
+        Logger.debug('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
     else:
         # disabled screen operations to allow pytest to use this function
-        # pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
-        # pos_m = convert_abs_to_monitor(pos_m)
-        # Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
-        Logger.debug("Mobcheck: Found Mobs, attacking now!")
+        #pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
+        #pos_m = convert_abs_to_monitor(pos_m)
+        #Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
+        Logger.debug('\033[92m' + "Mobcheck: Found Mob attacking now!" + '\033[0m')
         if info_ss:
             #draw an arrow on a screenshot where a mob was found
             pt2 = (640,360)

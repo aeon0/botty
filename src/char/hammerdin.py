@@ -207,7 +207,7 @@ class Hammerdin(IChar):
             pos_m = convert_abs_to_monitor((0, 0))
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
-            print("mercwait")
+            #print("mercwait")
             if not Config().char['cs_mob_detect'] or mob_check():
 
                 mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -737,7 +737,7 @@ class Hammerdin(IChar):
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             ### APPROACH ###
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.info("A2-Y: Hop!")
+            Logger.debug("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
             if not self._pather.traverse_nodes([622], self): return False
             wait(1)#give merc the chance to activate holy freeze
@@ -1031,7 +1031,7 @@ class Hammerdin(IChar):
 
         else:
             ### APPROACH ###
-            Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
+            Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
             if not Config().char['cs_mob_detect'] or mob_check():
                 pos_m = convert_abs_to_monitor((0, 0))
@@ -1117,7 +1117,7 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.info(seal_layout + ": Hop!")
+            Logger.debug(seal_layout + ": Hop!")
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
@@ -1129,7 +1129,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True
 
@@ -1223,7 +1223,7 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True
 
@@ -1252,7 +1252,7 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
             return False
         return True
 
