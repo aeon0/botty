@@ -5,13 +5,15 @@ from char import IChar, CharacterCapabilities
 from template_finder import TemplateFinder
 from pather import Pather
 from logger import Logger
-from screen import convert_abs_to_monitor, grab
+from screen import convert_abs_to_monitor
 from config import Config
 from utils.misc import wait
 import time
 from pather import Pather, Location
 import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
+import numpy as np
+from target_detect import mob_check
 
 
 class Hammerdin(IChar):
@@ -180,19 +182,20 @@ class Hammerdin(IChar):
         if location == "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
             ### APPROACH
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.5, 1.0) #clear seal from corpses
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.5, 1.0) #clear seal from corpses
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ################
         # CLEAR CS TRASH
@@ -203,19 +206,23 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([603], self, timeout=3): return False #calibrate after static path
             pos_m = convert_abs_to_monitor((0, 0))
             ### ATTACK ###
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            ### LOOT ###
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            wait(1)#give merc the chance to activate holy freeze
+            #print("mercwait")
+            if not Config().char['cs_mob_detect'] or mob_check():
+
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                ### LOOT ###
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
 
 
@@ -223,37 +230,41 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([604], self, timeout=3): return False  #threshold=0.8 (ex 601)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            wait(1)#give merc the chance to activate holy freeze
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            wait(1)#give merc the chance to activate holy freeze
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
             ### APPROACH ###
@@ -261,19 +272,20 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
             if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             #Move to Layout Check
             if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
             self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # 671 -> LC Hall2
@@ -285,57 +297,60 @@ class Hammerdin(IChar):
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , timeout=3): # Re-adjust itself and continues to attack
 
         elif location == "entrance1_02": #node 673
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
             if not self._pather.traverse_nodes([674], self): return False#, timeout=3)
 
         elif location == "entrance1_03": #node 674
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([675], self): return False#, timeout=3) # Re-adjust itself
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
             if not self._pather.traverse_nodes([676], self): return False#, timeout=3)
@@ -343,39 +358,41 @@ class Hammerdin(IChar):
         elif location == "entrance1_04": #node 676- Hall3
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
-            self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
+                self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         # TRASH LAYOUT B
 
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_02": #node 682
             ### APPROACH ###
@@ -384,19 +401,20 @@ class Hammerdin(IChar):
             wait (0.2, 0.5)
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_03": #node 683
             ### APPROACH ###
@@ -408,19 +426,20 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "entrance2_04": #node 686 - Hall3
             ### APPROACH ###
@@ -433,25 +452,26 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
             if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.2)
-            self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.2)
+                self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
+                self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
 
         ####################
@@ -461,56 +481,59 @@ class Hammerdin(IChar):
         elif location == "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-            self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
+                self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###############
         # LAYOUT CHECKS
@@ -519,41 +542,57 @@ class Hammerdin(IChar):
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
             ### APPROACH ###
             ### ATTACK ###
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+            #Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ##################
         # PENT BEFORE SEAL
@@ -568,36 +607,38 @@ class Hammerdin(IChar):
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
 
         ###########
         # SEAL A1-L
@@ -607,17 +648,19 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([611], self): return False # , timeout=3):
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            wait(1)#give merc the chance to activate holy freeze
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -625,22 +668,23 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
             ### ATTACK ###
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._cast_hammers(0.5, "cleansing")
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -648,21 +692,22 @@ class Hammerdin(IChar):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._cast_hammers(0.5, "cleansing")
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._cast_hammers(0.5, "cleansing")
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             ### APPROACH ###
@@ -692,24 +737,26 @@ class Hammerdin(IChar):
         elif location == "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
             ### APPROACH ###
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.info("A2-Y: Hop!")
+            Logger.debug("A2-Y: Hop!")
             #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
             if not self._pather.traverse_nodes([622], self): return False
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            wait(1)#give merc the chance to activate holy freeze
+            if not Config().char['cs_mob_detect'] or mob_check():
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### ATTACK ###
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -717,17 +764,18 @@ class Hammerdin(IChar):
             ### APPROACH ###
             # if not self._pather.traverse_nodes([623,624], self): return False #
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             # we loot at boss
 
@@ -862,46 +910,48 @@ class Hammerdin(IChar):
             wait(0.1,0.3)
             if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
 
         elif location == "C1-F_seal2":
             ### APPROACH ###
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
 
         ###########
         # SEAL C2-G
@@ -961,40 +1011,42 @@ class Hammerdin(IChar):
             seal_layout="C2-G"
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(Config().char["atk_len_diablo_infector"])
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"])
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"])
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
+                self._cast_hammers(Config().char["atk_len_diablo_infector"])
+                self._cast_hammers(0.8, "redemption")
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"])
+                self._cast_hammers(0.8, "redemption")
+                self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"])
+                wait(0.1, 0.15)
+                self._cast_hammers(1.2, "redemption")
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
 
         else:
             ### APPROACH ###
-            Logger.debug("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
+            Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            self._cast_hammers(0.75, "redemption")
-            self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                self._cast_hammers(0.75, "redemption")
+                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
 
 
@@ -1005,23 +1057,25 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, timeout=3)
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            self._cast_hammers(1, "redemption")
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2)
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            wait(0.3, 1.2)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+                self._cast_hammers(1, "redemption")
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                wait(0.3, 1.2)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
@@ -1036,31 +1090,34 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, timeout=3)
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
-            wait(0.1, 0.15)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
+                wait(0.1, 0.15)
+                self._cast_hammers(2, "redemption")
+                self._cast_hammers(1, "cleansing")
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([624], self): return False
             if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.info(seal_layout + ": Hop!")
+            Logger.debug(seal_layout + ": Hop!")
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.3, 0.6)
@@ -1072,7 +1129,7 @@ class Hammerdin(IChar):
             if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True
 
@@ -1087,26 +1144,30 @@ class Hammerdin(IChar):
             nodes3 = [632]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.2)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+                wait(0.1, 0.2)
+                self._cast_hammers(2, "redemption")
+                self._cast_hammers(1, "cleansing")
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
@@ -1124,29 +1185,33 @@ class Hammerdin(IChar):
             nodes3 = [641]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                pos_m = convert_abs_to_monitor((0, 0))
+                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-            self._cast_hammers(1, "redemption")
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
+                self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-            wait(0.1, 0.2)
-            self._cast_hammers(2, "redemption")
-            self._cast_hammers(1, "cleansing")
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
+            if not Config().char['cs_mob_detect'] or mob_check():
+                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+                wait(0.1, 0.2)
+                self._cast_hammers(2, "redemption")
+                self._cast_hammers(1, "cleansing")
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
             #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -1158,7 +1223,7 @@ class Hammerdin(IChar):
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
             return False
         return True
 
@@ -1187,10 +1252,9 @@ class Hammerdin(IChar):
             Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
 
         else:
-            Logger.debug(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
+            Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
             return False
         return True
-
 
 
     def kill_diablo(self) -> bool:
