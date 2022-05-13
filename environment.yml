@@ -23,6 +23,7 @@ dependencies:
     - pytest
     - pytest-env
     - pytest-pythonpath
+    - pytest-mock
     - graphviz
     - psutil
     - cryptography
