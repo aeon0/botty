@@ -15,6 +15,6 @@ class TestSmoke:
         Logger.remove_file_logger()
 
     def test_smoke(self):
-        screen = ScreenMock()
+        screen = ScreenMock("test/assets/hero_select.png")
         game_stats = GameStats()
         bot = Bot(game_stats)
