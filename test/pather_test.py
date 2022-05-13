@@ -2,7 +2,6 @@ import pytest
 from logger import Logger
 from pather import Pather
 import screen
-import cv2
 
 
 class TestPather:
@@ -19,8 +18,8 @@ class TestPather:
         ((500, 400), False),
         ((400, 1300), True),
     ])
-    def test_adjust_abs_range_to_screen(self, test_input, expected, mocker):
-        mocker.patch.object(screen, 'monitor_roi', {'left': 0, 'top': 0, 'width': 1280, 'height': 720})
+    def test_adjust_abs_range_to_screen(self, test_input, expected):
+        screen.set_window_position(0, 0)
         should_be_adapted = expected
         pos_abs = screen.convert_screen_to_abs(test_input)
         new_pos_abs = self.pather._adjust_abs_range_to_screen(pos_abs)
