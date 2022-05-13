@@ -41,7 +41,6 @@ def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_ma
                     ))
     if targets:
         targets = sorted(targets, key=lambda obj: obj.distance)
-    print(targets)
     return targets
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
