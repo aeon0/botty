@@ -94,7 +94,7 @@ class AnyaShopper:
 
             # 20 IAS gloves have a unique color so we can skip all others
             ias_glove = TemplateFinder(True).search(
-                ref=load_template(asset_folder + "ias_gloves.png", 1.0),
+                ref=load_template(asset_folder + "ias_gloves.png"),
                 inp_img=img,
                 threshold=0.96,
                 roi=Config().ui_roi["left_inventory"],
@@ -109,7 +109,7 @@ class AnyaShopper:
                 if self.look_for_plus_3_gloves is True:
                     gg_gloves = TemplateFinder(True).search(
                         ref=load_template(
-                            asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
+                            asset_folder + "gg_gloves.png" # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
                         inp_img=img,
                         threshold=0.80
@@ -126,7 +126,7 @@ class AnyaShopper:
                     if self.look_for_plus_2_gloves is True:
                         g_gloves = TemplateFinder(True).search(
                             ref=load_template(
-                                asset_folder + "g_gloves.png", 1.0
+                                asset_folder + "g_gloves.png"
                             ),
                             inp_img=img,
                             threshold=0.80
