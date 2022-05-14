@@ -4,7 +4,7 @@ from screen import grab
 from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import wait
 from ui_manager import ScreenObjects, is_visible
 
@@ -75,7 +75,7 @@ class A5(IAct):
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        success = TemplateFinder().search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], timeout=20).valid
+        success = template_finder.search_and_wait(["A5_TOWN_1", "A5_TOWN_0"], timeout=20).valid
         if success:
             return Location.A5_TOWN_START
         return False

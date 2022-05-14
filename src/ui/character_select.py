@@ -2,7 +2,7 @@ from utils.custom_mouse import mouse
 from utils.misc import cut_roi, roi_center, wait, is_in_roi
 from config import Config
 from screen import convert_screen_to_monitor, grab
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import wait
 from logger import Logger
 from ocr import Ocr
@@ -91,16 +91,15 @@ def select_char():
             if scrolls_attempts > 0:
                 img = grab()
             # TODO: can cleanup logic here, can we utilize a generic ScreenObject or use custom locator?
-            desired_char = TemplateFinder().search(last_char_template, img, roi = Config().ui_roi["character_select"], threshold = 0.8, normalize_monitor = False)
+            desired_char = template_finder.search(last_char_template, img, roi = Config().ui_roi["character_select"], threshold = 0.8)
             if desired_char.valid:
-                print(f"{match.region} {desired_char.center}")
+                #print(f"{match.region} {desired_char.center}")
                 if is_in_roi(match.region, desired_char.center) and scrolls_attempts == 0:
                     Logger.debug("Saved character template found and already highlighted, continue")
                     return
                 else:
                     Logger.debug("Selecting saved character")
-                    pos = convert_screen_to_monitor(desired_char.center)
-                    mouse.move(*pos)
+                    mouse.move(*desired_char.center_monitor)
                     wait(0.4, 0.6)
                     mouse.click(button="left")
                     wait(0.4), 0.6

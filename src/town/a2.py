@@ -4,7 +4,7 @@ from screen import grab
 from npc_manager import Npc, open_npc_menu, press_npc_btn
 from pather import Pather, Location
 from typing import Union
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import wait
 from ui_manager import ScreenObjects, is_visible
 
@@ -67,7 +67,7 @@ class A2(IAct):
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Union[Location, bool]:
-        template_match = TemplateFinder().search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19"], timeout=20)
+        template_match = template_finder.search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19"], timeout=20)
         if template_match.valid:
             self._pather.traverse_nodes((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
             return Location.A2_FARA_STASH
