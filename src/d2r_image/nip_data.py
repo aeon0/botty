@@ -21,7 +21,7 @@ NTIP_ALIAS_QUALITY_MAP = {
 }
 
 NIP_ALIAS_STAT_PATTERNS = {
-    "+{:d} Defense": [
+    "Defense: {:d}": [
         "31"
     ],
     "+{:d} Defense vs. Missile": [
