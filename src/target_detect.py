@@ -1,60 +1,47 @@
 import cv2
 import numpy as np
 import time
-from screen import grab, convert_screen_to_abs, convert_abs_to_monitor
+from screen import convert_screen_to_monitor, grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
 from math import dist
 from utils.misc import color_filter
 import json
+from dataclasses import dataclass
 
 FILTER_RANGES=[
     {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
     {"erode": 1, "blur": 3, "lh": 110, "ls": 169, "lv": 50, "uh": 120, "us": 255, "uv": 255} # frozen
 ]
 
+@dataclass
+class TargetInfo:
+    roi: tuple = None
+    center: tuple = None
+    center_monitor: tuple = None
+    distance: int = 0
+
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
 
-def _sort_targets_by_dist(targets):
-    return sorted(targets, key=lambda pos: _dist_to_center(pos))
-
-def _ignore_targets_within_radius(targets, ignore_radius:int=0):
-    return [pos for pos in targets if _dist_to_center(pos) > ignore_radius] #ignore targets that are too close
-
-def mob_check(img: np.ndarray = None, info_ss: bool = False) -> bool:
+def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_max: int = 1280) -> list[TargetInfo]:
     img = grab() if img is None else img
-    combo_image = np.zeros(img.shape, np.uint8)
-    combo_markers = []
-    filtered_targets = []
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+    targets = []
     for filter in FILTER_RANGES:
         filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
-        filterimage, _, pos_markers = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
-        combo_image = cv2.add(combo_image, filterimage)
-        if pos_markers:
-            combo_markers.extend(pos_markers)
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_mob__filtered" + time.strftime("%Y%m%d_%H%M%S") + ".png", combo_image)
-    if combo_markers:
-        sorted_targets = _sort_targets_by_dist(combo_markers)
-        filtered_targets = _ignore_targets_within_radius(sorted_targets, 150)
-    if not filtered_targets:
-        Logger.debug('\033[93m' + "Mobcheck: no Mob detected" + '\033[0m')
-    else:
-        # disabled screen operations to allow pytest to use this function
-        #pos_m = convert_screen_to_abs(filtered_targets[0]) #nearest marker
-        #pos_m = convert_abs_to_monitor(pos_m)
-        #Logger.debug('\033[92m' + "Mobcheck: Found Mob at " + str(pos_m) + " attacking now!" + '\033[0m')
-        Logger.debug('\033[92m' + "Mobcheck: Found Mob attacking now at:! " + '\033[0m')
-        if info_ss:
-            #draw an arrow on a screenshot where a mob was found
-            pt2 = (640,360)
-            x1, y1 = filtered_targets[0]
-            pt1 = (int(x1),int(y1))
-            input = np.ascontiguousarray(img)
-            cv2.arrowedLine(input, pt2, pt1, line_type=cv2.LINE_4, thickness=2, tipLength=0.3, color=(255, 0, 255))
-            cv2.imwrite(f"./info_screenshots/info_mob_add_line" + time.strftime("%Y%m%d_%H%M%S") + ".png", input)
-    #return len(filtered_targets)
-    return filtered_targets
+        filterimage, rectangles, positions = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        if positions:
+            for cnt, position in enumerate(positions):
+                distance = _dist_to_center(position)
+                if radius_min <= _dist_to_center(position) <= radius_max:
+                    targets.append(TargetInfo(
+                        roi = rectangles[cnt],
+                        center = position,
+                        center_monitor = convert_screen_to_monitor(position),
+                        distance = distance
+                    ))
+    if targets:
+        targets = sorted(targets, key=lambda obj: obj.distance)
+    return targets
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
     """
@@ -149,8 +136,8 @@ def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20,
     """
     #add rectangles
     n_labels, _, stats, _ = cv2.connectedComponentsWithStats(threshz)
-    pos_rectangles = []
-    pos_marker = []
+    rectangles = []
+    markers = []
     for i in range(1, n_labels):
         if stats[i, cv2.CC_STAT_AREA] >= rect_min_size <= rect_max_size:
             x = stats[i, cv2.CC_STAT_LEFT]
@@ -158,21 +145,15 @@ def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20,
             w = stats[i, cv2.CC_STAT_WIDTH]
             h = stats[i, cv2.CC_STAT_HEIGHT]
             cv2.rectangle(img, (x, y), (x + w, y + h), color=line_color, thickness=1)
-            rect = [int(x), int(y), int(w), int(h)]
-            pos_rectangles.append(rect)
-            if marker:#draw crosshairs on center of rectangle.
-                #line_color = (0, 255, 0)
-                #line_type = cv2.LINE_4
-                #marker_color = (255, 0, 255)
-                #marker_type = cv2.MARKER_CROSS
+            rect = (int(x), int(y), int(w), int(h))
+            rectangles.append(rect)
+            if marker:
                 center_x = x + int(w/2)
                 center_y = y + int(h/2)
                 cv2.drawMarker(img, (center_x, center_y), color=marker_color, markerType=marker_type, markerSize=15, thickness=2)
-                mark = [int(center_x), int(center_y)]
-                pos_marker.append(mark)
-    img = img
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_add_markers" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
-    return img, pos_rectangles, pos_marker
+                mark = (int(center_x), int(center_y))
+                markers.append(mark)
+    return img, rectangles, markers
 
 class LiveViewer:
     def __init__(self):
