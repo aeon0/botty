@@ -133,6 +133,9 @@ class FoHdin(Paladin):
      ########################################################################################
 
     def kill_cs_trash(self, location:str) -> bool:
+        if not Config().char['cs_mob_detect']:
+            Logger.error("This run requires 'cs_mob_detect' to be set to 1")
+            return False
 
         ###########
         # SEALDANCE
@@ -142,26 +145,21 @@ class FoHdin(Paladin):
             ### APPROACH
             ### ATTACK ###
             if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                #counter = 1
-                #while get_visible_targets() or counter < 5:
-                    #teleport to center to reset merc
-                if len(get_visible_targets()) is None:
-                    print("No Mob")
-                else:
-                    nearest_mob_pos_abs = convert_screen_to_abs(get_visible_targets()) #get coordinates of nearest mob
-                    print (nearest_mob_pos_abs)
-                    for _ in range(int(Config().char["atk_len_cs_trashmobs"])*2):
-                        self._cast_foh(nearest_mob_pos_abs, spray=11)
-                        self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_cs_trashmobs"])*2)
-                    wait(self._cast_duration, self._cast_duration + 0.2)
-                        #counter = counter + 1
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.5, 1.0) #clear seal from corpses
+
+            if (targets := get_visible_targets()):
+                nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
+                print (nearest_mob_pos_abs)
+                for _ in range(int(Config().char["atk_len_cs_trashmobs"])*2):
+                    self._cast_foh(nearest_mob_pos_abs, spray=11)
+                    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_cs_trashmobs"])*2)
+                wait(self._cast_duration, self._cast_duration + 0.2)
+                    #counter = counter + 1
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2)
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.5, 1.0) #clear seal from corpses
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -177,7 +175,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
@@ -199,7 +197,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -219,7 +217,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -240,7 +238,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -265,7 +263,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -284,7 +282,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -304,7 +302,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -326,7 +324,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -346,7 +344,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -368,7 +366,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -393,7 +391,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -419,7 +417,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -445,7 +443,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -463,7 +461,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -481,7 +479,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -503,7 +501,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -522,7 +520,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -540,7 +538,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -568,7 +566,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -586,7 +584,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -610,7 +608,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -629,7 +627,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -648,7 +646,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -658,7 +656,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
                 ### LOOT ###
                 self._picked_up_items |= self._pickit.pick_up_items(self)
-                
+
 
         elif location == "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
             ### APPROACH ###
@@ -696,7 +694,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -715,7 +713,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -861,7 +859,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -885,7 +883,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -946,7 +944,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_infector"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -964,7 +962,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -988,7 +986,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, timeout=3)
@@ -996,7 +994,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -1023,7 +1021,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, timeout=3)
@@ -1031,7 +1029,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
@@ -1039,7 +1037,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1079,7 +1077,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1090,7 +1088,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1101,7 +1099,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1112,7 +1110,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
@@ -1135,7 +1133,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1146,7 +1144,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1157,7 +1155,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1168,7 +1166,7 @@ class FoHdin(Paladin):
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-                
+
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
@@ -1199,8 +1197,8 @@ class FoHdin(Paladin):
             if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_infector"]*2)
-                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)                
-                wait(self._cast_duration, self._cast_duration + 0.2)                
+                self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
+                wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -1227,7 +1225,7 @@ class FoHdin(Paladin):
             pos_mob = [0,0]
             atk_len = int(Config().char["atk_len_diablo"]*2)
             self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
-            
+
             wait(self._cast_duration, self._cast_duration + 0.2)
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
