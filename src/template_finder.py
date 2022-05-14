@@ -23,11 +23,6 @@ class Template:
     alpha_mask: np.ndarray = None
 
 @dataclass
-class TemplateSearch(Template):
-    roi: list = None
-    color_filter: list = None
-
-@dataclass
 class TemplateMatch:
     name: str = None
     score: float = -1.0
