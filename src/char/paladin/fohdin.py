@@ -67,6 +67,31 @@ class FoHdin(Paladin):
             wait(0.01, 0.05)
             keyboard.send(Config().char["stand_still"], do_press=False)
 
+    #for nihlathak
+    def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
+        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
+            keyboard.send(self._skill_hotkeys[aura])
+            wait(0.05, 0.1)
+            keyboard.send(Config().char["stand_still"], do_release=False)
+            wait(0.05, 0.1)
+            if self._skill_hotkeys["blessed_hammer"]:
+                keyboard.send(self._skill_hotkeys["blessed_hammer"])
+            wait(0.05, 0.1)
+            start = time.time()
+            while (time.time() - start) < time_in_s:
+                wait(0.06, 0.08)
+                mouse.press(button="left")
+                wait(0.1, 0.2)
+                mouse.release(button="left")
+            wait(0.01, 0.05)
+            keyboard.send(Config().char["stand_still"], do_press=False)
+
+    #for nihalthak
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+        pos_m = convert_abs_to_monitor(abs_move)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_hammers(atk_len)
 
     def kill_pindle(self) -> bool:
         if not Config().char['cs_mob_detect'] or get_visible_targets():
@@ -109,7 +134,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -139,7 +164,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -169,7 +194,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -198,7 +223,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -255,7 +280,7 @@ class FoHdin(Paladin):
                 #wait(self._cast_duration, self._cast_duration + 0.2)
                 if (targets := get_visible_targets()):
                     nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                     #print (nearest_mob_pos_abs)
                     for _ in range(atk_len_dur):
                     #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -290,7 +315,7 @@ class FoHdin(Paladin):
                 #wait(self._cast_duration, self._cast_duration + 0.2)
                 if (targets := get_visible_targets()):
                     nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                     #print (nearest_mob_pos_abs)
                     for _ in range(atk_len_dur):
                     #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -363,7 +388,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -421,7 +446,7 @@ class FoHdin(Paladin):
         return True
     """
 
-
+    """
     #aggressive version, right into the face!
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
@@ -441,7 +466,7 @@ class FoHdin(Paladin):
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
                 Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
                     self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -458,7 +483,22 @@ class FoHdin(Paladin):
         else:
             Logger.debug("No Mob found, moving on")
         return True
-
+    """
+    #we just use hammers :)
+    def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        # Move close to nihlathak
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
+        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
+        pos_m = convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        self._cast_hammers(Config().char["atk_len_nihlathak"] * 0.4)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), Config().char["atk_len_nihlathak"] * 0.3)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-30, -15), Config().char["atk_len_nihlathak"] * 0.4)
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption")
+        return True
 
     def kill_summoner(self) -> bool:
         # Attack
