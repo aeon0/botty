@@ -524,6 +524,7 @@ class FoHdin(Paladin):
         :param atk_len_factor: Multiplier (int) for the Param atk_len to adapt length for locations with large number of mobs
         Returns True
         """
+        self._cast_foh((0,0), spray=11) #never wrong to cast a FOH on yourself :)
         atk_len = int(Config().char[atk_len])*atk_len_factor
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
         if (targets := get_visible_targets()):
@@ -1196,7 +1197,7 @@ class FoHdin(Paladin):
             return False
         return True
 
-    """
+    
     #no aura effect on dia. not good for mob detection
     def kill_diablo(self) -> bool:
         ### APPROACH ###
@@ -1208,7 +1209,7 @@ class FoHdin(Paladin):
         atk_len = "atk_len_diablo"
         atk_len_dur = int(Config().char[atk_len])*atk_len_factor
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-        nearest_mob_pos_abs = [0,0]
+        nearest_mob_pos_abs = [100,-100] #hardcoded dia pos.
         Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + "times!" +'\033[0m')
         for _ in range(atk_len_dur):
             self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -1220,11 +1221,14 @@ class FoHdin(Paladin):
         if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.5, 1.0) #clear area from corpses & heal
+        #
+        Logger.debug("Lets mobcheck for safety reasons & hope in that second we have posion nova active")
+        self.cs_trash_atk_seq("atk_len_diablo", 1)
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
-        """
-
+        
+    """
     def kill_diablo(self) -> bool:
         ### APPROACH ###
         ### ATTACK ###
@@ -1241,3 +1245,4 @@ class FoHdin(Paladin):
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
+    """
