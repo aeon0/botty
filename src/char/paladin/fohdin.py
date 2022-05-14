@@ -14,7 +14,7 @@ from pather import Location
 #import cv2 #for Diablo
 #from item.pickit import PickIt #for Diablo
 #import numpy as np
-from target_detect import mob_check
+from target_detect import get_visible_targets, TargetInfo
 
 class FoHdin(Paladin):
     def __init__(self, *args, **kwargs):
@@ -67,10 +67,10 @@ class FoHdin(Paladin):
             keyboard.send(Config().char["stand_still"], do_press=False)
 
     def kill_pindle(self) -> bool:
-        if not Config().char['cs_mob_detect'] or mob_check():
-            #while mob_check():
-            #if mob_check() is not None:
-            #    cast_pos_abs = convert_screen_to_abs(mob_check()) #get coordinates of nearest mob
+        if not Config().char['cs_mob_detect'] or get_visible_targets():
+            #while get_visible_targets():
+            #if get_visible_targets() is not None:
+            #    cast_pos_abs = convert_screen_to_abs(get_visible_targets()) #get coordinates of nearest mob
             #    #cast_pos_abs = convert_abs_to_monitor(pos_m)
             #    print(cast_pos_abs)
             #    for _ in range(int(Config().char["atk_len_pindle"])):
@@ -81,7 +81,7 @@ class FoHdin(Paladin):
             #    print("no Mob detected :(")
                 pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
                 cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-                #nearest_mob_pos_abs = convert_screen_to_abs(mob_check(info_ss=True)) #get coordinates of nearest mob
+                #nearest_mob_pos_abs = convert_screen_to_abs(get_visible_targets()) #get coordinates of nearest mob
                 #print (nearest_mob_pos_abs)
                 for _ in range(int(Config().char["atk_len_pindle"])):
                     self._cast_foh(cast_pos_abs, spray=11)
@@ -142,14 +142,14 @@ class FoHdin(Paladin):
             ### APPROACH
             ### ATTACK ###
             if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 #counter = 1
-                #while mob_check() or counter < 5:
+                #while get_visible_targets() or counter < 5:
                     #teleport to center to reset merc
-                if len(mob_check(info_ss=True)) is None:
+                if len(get_visible_targets()) is None:
                     print("No Mob")
                 else:
-                    nearest_mob_pos_abs = convert_screen_to_abs(mob_check(info_ss=True)) #get coordinates of nearest mob
+                    nearest_mob_pos_abs = convert_screen_to_abs(get_visible_targets()) #get coordinates of nearest mob
                     print (nearest_mob_pos_abs)
                     for _ in range(int(Config().char["atk_len_cs_trashmobs"])*2):
                         self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -173,7 +173,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             if not self._pather.traverse_nodes([603], self, timeout=3): return False #calibrate after static path
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -195,7 +195,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([604], self, timeout=3): return False  #threshold=0.8 (ex 601)
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -215,7 +215,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -236,7 +236,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
             if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -261,7 +261,7 @@ class FoHdin(Paladin):
         elif location == "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -280,7 +280,7 @@ class FoHdin(Paladin):
         elif location == "entrance1_02": #node 673
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -300,7 +300,7 @@ class FoHdin(Paladin):
         elif location == "entrance1_03": #node 674
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -322,7 +322,7 @@ class FoHdin(Paladin):
         elif location == "entrance1_04": #node 676- Hall3
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -342,7 +342,7 @@ class FoHdin(Paladin):
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -364,7 +364,7 @@ class FoHdin(Paladin):
             wait (0.2, 0.5)
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -389,7 +389,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
             if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -415,7 +415,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
             if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -441,7 +441,7 @@ class FoHdin(Paladin):
         elif location == "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -459,7 +459,7 @@ class FoHdin(Paladin):
         elif location == "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -477,7 +477,7 @@ class FoHdin(Paladin):
         elif location == "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -499,7 +499,7 @@ class FoHdin(Paladin):
         elif location == "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -518,7 +518,7 @@ class FoHdin(Paladin):
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -536,7 +536,7 @@ class FoHdin(Paladin):
         elif location == "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -564,7 +564,7 @@ class FoHdin(Paladin):
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -582,7 +582,7 @@ class FoHdin(Paladin):
         elif location == "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -606,7 +606,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([611], self): return False # , timeout=3):
             ### ATTACK ###
             wait(1)#give merc the chance to activate holy freeze
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -625,7 +625,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -644,7 +644,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -692,7 +692,7 @@ class FoHdin(Paladin):
             #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
             if not self._pather.traverse_nodes([622], self): return False
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -711,7 +711,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             # if not self._pather.traverse_nodes([623,624], self): return False #
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -857,7 +857,7 @@ class FoHdin(Paladin):
             wait(0.1,0.3)
             if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -881,7 +881,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
             if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -942,7 +942,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("dia_c2g_663", self)
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_infector"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -960,7 +960,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
             ### ATTACK ###
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_cs_trashmobs"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -984,7 +984,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -992,7 +992,7 @@ class FoHdin(Paladin):
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([611], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1019,7 +1019,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1027,7 +1027,7 @@ class FoHdin(Paladin):
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
             self._pather.traverse_nodes([623], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1035,7 +1035,7 @@ class FoHdin(Paladin):
                 wait(self._cast_duration, self._cast_duration + 0.2)
             Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
             if not self._pather.traverse_nodes([624], self): return False
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_vizier"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1075,7 +1075,7 @@ class FoHdin(Paladin):
             nodes3 = [632]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1086,7 +1086,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1097,7 +1097,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1108,7 +1108,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1131,7 +1131,7 @@ class FoHdin(Paladin):
             nodes3 = [641]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1142,7 +1142,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1153,7 +1153,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1164,7 +1164,7 @@ class FoHdin(Paladin):
                     wait(0.3, 0.6)
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_deseis"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
@@ -1196,7 +1196,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("dia_c1f_652", self)
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            if not Config().char['cs_mob_detect'] or mob_check():
+            if not Config().char['cs_mob_detect'] or get_visible_targets():
                 pos_mob = [0,0]
                 atk_len = int(Config().char["atk_len_diablo_infector"]*2)
                 self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)                
@@ -1223,7 +1223,7 @@ class FoHdin(Paladin):
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         Logger.debug("Attacking Diablo at position 1/1")
-        if not Config().char['cs_mob_detect'] or mob_check():
+        if not Config().char['cs_mob_detect'] or get_visible_targets():
             pos_mob = [0,0]
             atk_len = int(Config().char["atk_len_diablo"]*2)
             self._cast_foh(cast_pos_abs=pos_mob, time_in_s=atk_len, spray=11)
