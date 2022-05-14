@@ -29,7 +29,7 @@ class NIPExpression:
     transpiled: str
     should_pickup: str
 
-def find_unqiue_or_set_base(unique_or_set_name) -> Tuple[str, str]:
+def find_unique_or_set_base(unique_or_set_name) -> Tuple[str, str]:
     unique_or_set_name = unique_or_set_name.lower()
     for key in UniqueAndSetData:
         if UniqueAndSetData[key].get("uniques"):
@@ -139,7 +139,7 @@ def transpile(tokens, isPickedUpPhase=False):
         elif token.type == TokenType.UNKNOWN:
             if tokens[i - 2].type == TokenType.IDNAME:
                 if isPickedUpPhase:
-                    base, quality = find_unqiue_or_set_base(token.value)
+                    base, quality = find_unique_or_set_base(token.value)
                     expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
                 else:
                     expression += f"(str('{token.value}').lower())"
