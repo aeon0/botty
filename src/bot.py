@@ -21,7 +21,7 @@ from template_finder import TemplateFinder
 from char import IChar
 from pickit import PickIt
 from pather import Pather, Location
-from char.sorceress import LightSorc, BlizzSorc, NovaSorc
+from char.sorceress import LightSorc, BlizzSorc, NovaSorc,HydraSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
@@ -57,6 +57,8 @@ class Bot:
             self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
         elif Config().char["type"] == "nova_sorc":
             self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
+        elif Config().char["type"] == "hydra_sorc":
+            self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
         elif Config().char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
         elif Config().char["type"] == "trapsin":

@@ -747,8 +747,15 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
+    from item.pickit import PickIt
     pather = Pather()
 
-    display_all_nodes(pather, "SHENK")
+    #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
+    #char.discover_capabilities()
 
-    stop_detecting_window()
+    #display_all_nodes(pather, "ELD")
+    #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
+    #pather.traverse_nodes_fixed("dia_trash_c", char)
+    #display_all_nodes(pather, "SHENK")
+    #pather.traverse_nodes([141,142,143], char)
+    #stop_detecting_window()

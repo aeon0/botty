@@ -104,6 +104,7 @@ order=run_pindle, run_eldritch
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
 | kill_cs_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
 | cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
+| cs_mob_detect | If 1, it will attempt to use holy freeze from merc / conviction aura / poison to detect nearby mobs to help speed-up CS run.
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
@@ -149,6 +150,11 @@ order=run_pindle, run_eldritch
 | [nova_sorc]   | Descriptions                                                                  |
 | ------------- | ----------------------------------------------------------------------------- |
 | nova          | Required Hotkey for Nova (must be bound to right skill)                       |
+
+| [hydra_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| fire_ball     | Optional Hotkey for (must be bound to left skill)                             |
+| hydra         | Required Hotkey for Hydra (must be bound to right skill)                      |
 
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |

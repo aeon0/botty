@@ -32,6 +32,7 @@ class Config:
     blizz_sorc = {}
     light_sorc = {}
     nova_sorc = {}
+    hydra_sorc = {}
     hammerdin = {}
     trapsin = {}
     barbarian = {}
@@ -202,6 +203,7 @@ class Config:
             "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
             "kill_cs_trash": bool(int(self._select_val("char", "kill_cs_trash"))),
             "cs_town_visits": bool(int(self._select_val("char", "cs_town_visits"))),
+            "cs_mob_detect": bool(int(self._select_val("char", "cs_mob_detect"))),
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
@@ -226,6 +228,11 @@ class Config:
         if "nova_sorc" in self.configs["custom"]["parser"]:
             self.nova_sorc.update(dict(self.configs["custom"]["parser"]["nova_sorc"]))
         self.nova_sorc.update(sorc_base_cfg)
+        # hydra sorc
+        self.hydra_sorc = dict(self.configs["config"]["parser"]["hydra_sorc"])
+        if "hydra_sorc" in self.configs["custom"]["parser"]:
+            self.hydra_sorc.update(dict(self.configs["custom"]["parser"]["hydra_sorc"]))
+        self.hydra_sorc.update(sorc_base_cfg)
 
         # Palandin config
         self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
