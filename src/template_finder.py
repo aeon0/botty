@@ -184,14 +184,14 @@ def search_and_wait(
         Logger.debug(f"Waiting for templates: {ref}")
     start = time.time()
     template_match = TemplateMatch()
-    while (expired := time.time() - start < timeout):
+    while (time_remains := time.time() - start < timeout):
         img = grab()
         is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
         if not is_loading_black_roi or "LOADING" in ref:
             template_match = search(ref, img, roi=roi, threshold=threshold, use_grayscale=use_grayscale, color_match=color_match)
             if template_match.valid:
                 break
-    if expired:
+    if not time_remains:
         Logger.debug(f"Could not find desired templates")
     else:
         Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
