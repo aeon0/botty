@@ -52,7 +52,7 @@ def _templates() -> dict[Template]:
         file_name: str = os.path.basename(file_path)
         if file_name.lower().endswith('.png'):
             key = file_name[:-4].upper()
-            template_img = load_template(file_path, True)
+            template_img = load_template(file_path)
             templates[key] = Template(
                 name = key,
                 img_bgra = template_img,
@@ -67,27 +67,25 @@ def get_template(key):
 
 def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Template]:
     templates = []
-    ref = ref.upper()
     if type(ref) != list:
         ref = [ref]
     for i in ref:
         # if the reference is a string, then it's a reference to a named template asset
         if type(i) == str:
-            templates.append(_templates()[i])
+            templates.append(_templates()[i.upper()])
         # if the reference is an image, append new Template class object
         elif type(i) == np.ndarray:
             templates.append(Template(
-                img_bgr = ref,
-                img_bgra = cv2.cvtColor(ref, cv2.COLOR_BGR2BGRA),
-                img_gray = cv2.cvtColor(ref, cv2.COLOR_BGRA2GRAY),
-                alpha_mask = alpha_to_mask(ref)                    
+                img_bgr = i,
+                img_gray = cv2.cvtColor(i, cv2.COLOR_BGR2GRAY),
+                alpha_mask = alpha_to_mask(i)                    
             ))
     return templates
 
-def _grayscale_template_and_image(template: Template, img: np.ndarray) -> tuple(np.ndarray, np.ndarray):
+def _grayscale_template_and_image(template: Template, img: np.ndarray) -> tuple[np.ndarray]:
     return template.img_gray, cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-def _color_filter_template_and_image(template: Template, img: np.ndarray, color_match: list = None) -> tuple(np.ndarray, np.ndarray):
+def _color_filter_template_and_image(template: Template, img: np.ndarray, color_match: list = None) -> tuple[np.ndarray]:
     return color_filter(template.img_bgr, color_match)[1], color_filter(img, color_match)[1]
 
 def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: list = None, color_match: list = None, use_grayscale: bool = False) -> TemplateMatch:
@@ -106,8 +104,10 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
         template_img, img = _color_filter_template_and_image(template.img_bgr, img, color_match)
     elif use_grayscale:
         template_img, img = _grayscale_template_and_image(template.img_bgr, img)
+    else:
+        template_img = template.img_bgr
 
-    if not (img.shape[0] > img.shape[0] and img.shape[1] > img.shape[1]):
+    if not (img.shape[0] > template_img.shape[0] and img.shape[1] > template_img.shape[1]):
         Logger.error(f"Image shape and template shape are incompatible: {template.name}")
     else:
         res = cv2.matchTemplate(img, template_img, cv2.TM_CCOEFF_NORMED, mask = template.alpha_mask)
@@ -117,8 +117,8 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
         # save rectangle corresponding to matched region
         rec_x = int((max_pos[0] + rx))
         rec_y = int((max_pos[1] + ry))
-        rec_w = int(template.shape[1])
-        rec_h = int(template.shape[0])
+        rec_w = int(template_img.shape[1])
+        rec_h = int(template_img.shape[0])
         template_match.region = [rec_x, rec_y, rec_w, rec_h]
         template_match.region_monitor = [*convert_screen_to_monitor((rec_x, rec_y)), rec_w, rec_h]
         template_match.center = roi_center(template_match.region)
@@ -177,7 +177,8 @@ def search_and_wait(
     """
     Helper function that will loop and keep searching for a template
     :param timeout: After this amount of time the search will stop and it will return [False, None]
-    Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for TemplateFinder.search()
+    :returns a TemplateMatch object
     """
     if not suppress_debug:
         Logger.debug(f"Waiting for templates: {ref}")
@@ -207,14 +208,8 @@ def search_all(
 ) -> list[TemplateMatch]:
     """
     Returns a list of all templates scoring above set threshold on the screen 
-    :param ref: Either key of a already loaded template, list of such keys, or a image which is used as template
-    :param inp_img: Image in which the template will be searched
-    :param threshold: Threshold which determines if a template is found or not
-    :param roi: Region of Interest of the inp_img to restrict search area. Format [left, top, width, height]
-    :param use_grayscale: Use grayscale template matching for speed up
-    :param color_match: Pass a color to be used by misc.color_filter to filter both image of interest and template image (format Config().colors["color"])
-    :param best_match: If list input, will search for list of templates by best match. Default behavior is first match.
-    :return: Returns a TemplateMatch object with a valid flag
+    :Other params are the same as for TemplateFinder.search()
+    :return: Returns a list of TemplateMatch objects
     """
     templates = _process_template_refs(ref)
     matches = []

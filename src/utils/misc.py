@@ -180,10 +180,10 @@ def hms(seconds: int):
     s = seconds % 3600 % 60
     return '{:02d}:{:02d}:{:02d}'.format(h, m, s)
 
-def load_template(path, alpha: bool = False):
+def load_template(path):
     if os.path.isfile(path):
         try:
-            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
+            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
             return template_img
         except Exception as e:
             print(e)

@@ -76,7 +76,7 @@ class NodeRecorder:
                     template_path = f"generated/templates/{self._run_name}/{ref_point_name}.png"
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
-                    template_img = load_template(template_path, False)
+                    template_img = load_template(template_path)
                     template_finder._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
             elif e.name == "f7":
                 self.ref_points = {}
