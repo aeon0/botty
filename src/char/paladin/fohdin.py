@@ -535,7 +535,7 @@ class FoHdin(Paladin):
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len) + "times!" +'\033[0m')
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len) + "seconds!" +'\033[0m')
                 #print (nearest_mob_pos_abs)
                 for _ in range(atk_len):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
@@ -1196,7 +1196,8 @@ class FoHdin(Paladin):
             return False
         return True
 
-
+    """
+    #no aura effect on dia. not good for mob detection
     def kill_diablo(self) -> bool:
         ### APPROACH ###
         ### ATTACK ###
@@ -1207,18 +1208,36 @@ class FoHdin(Paladin):
         atk_len = "atk_len_diablo"
         atk_len_dur = int(Config().char[atk_len])*atk_len_factor
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-        nearest_mob_pos_abs = [750,250]
-        Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len) + "times!" +'\033[0m')
-        for _ in range(atk_len):
+        nearest_mob_pos_abs = [0,0]
+        Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + "times!" +'\033[0m')
+        for _ in range(atk_len_dur):
             self._cast_foh(nearest_mob_pos_abs, spray=11)
-            Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len) + "times!" +'\033[0m')
-            self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len)
+            Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + "seconds!" +'\033[0m')
+            self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
         if self._skill_hotkeys["cleansing"]:
             keyboard.send(self._skill_hotkeys["cleansing"])
         wait(0.1, 0.2) #clear yourself from curses
         if self._skill_hotkeys["redemption"]:
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.5, 1.0) #clear area from corpses & heal
+        ### LOOT ###
+        self._picked_up_items |= self._pickit.pick_up_items(self)
+        return True
+        """
+
+    def kill_diablo(self) -> bool:
+        ### APPROACH ###
+        ### ATTACK ###
+        pos_m = convert_abs_to_monitor((0, 0))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        Logger.debug("Attacking Diablo at position 1/1")
+        self._cast_hammers(Config().char["atk_len_diablo"])
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((60, 30), Config().char["atk_len_diablo"])
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((-60, -30), Config().char["atk_len_diablo"])
+        wait(0.1, 0.15)
+        self._cast_hammers(1.2, "redemption")
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
