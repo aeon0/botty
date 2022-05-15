@@ -1,7 +1,11 @@
 from enum import Enum
+from typing import Tuple
+import os
+import uuid
 import time
 import keyboard
 import cv2
+from numpy import ndarray
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
@@ -37,11 +41,16 @@ class PickIt:
         self.timeout = 30 # * The we should be in the pickit phase
 
 
+    def log_data(self, items: list, img, counter, _uuid):
+        os.makedirs(f"pickit_screenshots/ground_items/{_uuid}", exist_ok=True)
+        cv2.imwrite(f"pickit_screenshots/ground_items/{_uuid }/{counter}.png", img)
+
+
     def move_cursor_to_hud(self): # * Avoid highlighting the items
         pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
         mouse.move(*pos_m, delay_factor=(0.1, 0.2))
 
-    def grab_items(self) -> list:
+    def grab_items(self) -> Tuple[list, ndarray]:
         def sort_by_distance(item): # * sets some extra item data since we already looping
             item.ScreenX, item.ScreenY = (item.BoundingBox["x"] + item.BoundingBox["w"] // 2, item.BoundingBox["y"] + item.BoundingBox["h"] // 2)
             item.MonitorX, item.MonitorY = convert_screen_to_monitor((item.ScreenX, item.ScreenY))
@@ -53,7 +62,7 @@ class PickIt:
         img = grab()
         items = d2r_image.get_ground_loot(img).items.copy()
         items.sort(key=sort_by_distance)
-        return items
+        return items, img
 
     def reset_state(self):
         """Reset the pickit state"""
@@ -126,13 +135,18 @@ class PickIt:
         time.sleep(0.2)
         pickit_phase_start = time.time()
 
-        items = self.grab_items()
+        items, img = self.grab_items()
+        counter = 1
+        _uuid = uuid.uuid4()
+        self.log_data(items, img, counter, _uuid)
         i = 0
         while i < len(items) and time.time() - pickit_phase_start < self.timeout:
             if self.picked_up_item: # * Picked up an item, get dropped item data again and reset the loop
                 #self.move_cursor_to_hud()
                 time.sleep(0.5)
-                items = self.grab_items()
+                items, img = self.grab_items()
+                counter += 1
+                self.log_data(items, img, counter, _uuid)
                 i=0
 
 
