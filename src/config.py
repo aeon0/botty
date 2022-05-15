@@ -134,6 +134,7 @@ class Config:
             "discord_log_chicken": bool(int(self._select_val("general", "discord_log_chicken"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "pickit_screenshots": bool(int(self._select_val("general", "pickit_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
         }
