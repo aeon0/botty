@@ -12,7 +12,7 @@ from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
 from template_finder import TemplateFinder
 from utils.custom_mouse import mouse
-from utils.misc import wait, load_template
+from utils.misc import wait, load_template, mask_by_roi
 
 from messages import Messenger
 
@@ -156,10 +156,8 @@ class AnyaShopper:
                     template_match = TemplateFinder(True).search(claw_keys, claws_img, roi=self.roi_vendor, best_match=True)
                     if template_match.valid:
                         claw_pos.append(template_match.center)
-                        # black out rectangle from image for future iterations
-                        rec = template_match.region
-                        blackout = np.zeros((rec[3], rec[2], 3))
-                        claws_img[rec[1]:(rec[1]+blackout.shape[0]), rec[0]:(rec[0]+blackout.shape[1])] = blackout
+                        # mask out rectangle from image for future iterations
+                        claws_img = mask_by_roi(claws_img, template_match.region, "inverse")
                     else:
                         claws_remaining = False
 
