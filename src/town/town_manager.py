@@ -1,3 +1,4 @@
+import keyboard
 from typing import Union
 import template_finder
 from config import Config
@@ -162,7 +163,9 @@ class TownManager:
         # check if we can Identify in current act
         if self._acts[curr_act].can_identify():
             success = self._acts[curr_act].identify(curr_loc)
-            view.return_to_play()
+            wait(0.2)
+            # close cain dialog so inventory key is not blocked
+            keyboard.send("esc")
             return success
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
