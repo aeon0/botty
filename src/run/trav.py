@@ -42,8 +42,17 @@ class Trav:
         if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("trav_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
-                return False
+            if not self._pather.traverse_nodes([220, 221, 222, 223], self._char): return False
+            #self._char.kill_council_one()
+            #picked_up_items = self._pickit.pick_up_items(self._char)
+            #if not self._pather.traverse_nodes([223], self._char): return False
+            if not self._pather.traverse_nodes([224], self._char): return False
+            self._char.kill_council_two()
+            if not self._pather.traverse_nodes([224], self._char): return False
+            #if not self._pather.traverse_nodes([225], self._char): return False
+            self._char.kill_council_three()
+            if not self._pather.traverse_nodes([226], self._char): return False
+            if not self._pather.traverse_nodes([226], self._char): return False
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char)
         wait(0.2, 0.3)
