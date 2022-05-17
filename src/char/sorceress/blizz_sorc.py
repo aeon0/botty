@@ -73,7 +73,7 @@ class BlizzSorc(Sorceress):
         self.move(pos_m, force_move=True)
         self._blizzard((-50, -50), spray=10)
         self._cast_static()
-        wait(0.75)        
+        wait(0.75)
         #move down
         pos_m = convert_abs_to_monitor((0, 85))
         self.pre_move()
@@ -225,9 +225,9 @@ class BlizzSorc(Sorceress):
             nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], grab())
             if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0])
-                wait(0.8)
+                wait(0.5)
                 self._blizzard(cast_pos_abs, spray=0)
-                wait(0.3)
+                wait(0.2)
                 is_nihl = template_finder.search(["NIHL_BAR"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 nihl_immune = template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 if is_nihl:
@@ -235,11 +235,10 @@ class BlizzSorc(Sorceress):
                     if nihl_immune:
                         Logger.info("Cold Immune! - Exiting")
                         return True
-        wait(0.8)
+        wait(0.5)
         self._cast_static()
         self._blizzard(cast_pos_abs, spray=15)
         # Move to items
-        wait(1.3)
         self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         return True
 

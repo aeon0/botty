@@ -9,7 +9,7 @@ from utils.misc import wait, cut_roi, image_is_equal
 from logger import Logger
 from config import Config
 from screen import grab, convert_abs_to_monitor
-import template_finder 
+import template_finder
 from template_finder import TemplateMatch
 from dataclasses import dataclass
 from messages import Messenger
@@ -105,11 +105,11 @@ class ScreenObjects:
     ServerError=ScreenObject(
         ref=["SERVER_ISSUES"]
     )
-    GameMenu=ScreenObject(
-        ref=["GAME_MENU_HIGHLIGHT"],
-        roi="game_menu_left",
-        best_match=True,
-        threshold=0.95,
+    SaveAndExit=ScreenObject(
+        ref=["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"],
+        roi="save_and_exit",
+        threshold=0.85,
+        use_grayscale=True
     )
     NeedRepair=ScreenObject(
         ref="REPAIR_NEEDED",
