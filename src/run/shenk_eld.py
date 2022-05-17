@@ -39,12 +39,15 @@ class ShenkEld:
             return False
         if do_pre_buff:
             self._char.pre_buff()
-        if self._char.capabilities.can_teleport_natively:
-            self._pather.traverse_nodes_fixed("eldritch_safe_dist", self._char)
-        else:
+            self._char.pre_buff_bone_armor()
+            #            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
+            #(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
             if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST), self._char, force_move=True):
                 return False
-        self._char.kill_eldritch()
+            #if not self._pather.traverse_nodes([120, 121, 122], self._char): return False            
+            self._char.kill_eld_one()
+            if not self._pather.traverse_nodes([121], self._char): return False            
+            self._char.kill_eld_two()
         loc = Location.A5_ELDRITCH_END
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)
@@ -55,9 +58,28 @@ class ShenkEld:
             game_stats.update_location("Shk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
-            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
-                return False
+            #if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
+            if not self._pather.traverse_nodes([121, 120, 143, 144, 145], self._char): return False
+            #if not self._pather.traverse_nodes([142], self._char): return False
+            #if not self._pather.traverse_nodes([143], self._char): return False
+            #if not self._pather.traverse_nodes([144], self._char): return False
+            self._char.kill_shenk_stair_one()
+            if not self._pather.traverse_nodes([145], self._char): return False
+            if not self._pather.traverse_nodes([146], self._char): return False
+            self._char.kill_shenk_stair_two()
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+            if not self._pather.traverse_nodes([146], self._char): return False
+            if not self._pather.traverse_nodes([147], self._char): return False
+            self._char.kill_shenk_stair_three()
+            picked_up_items |= self._pickit.pick_up_items(self._char)
+            if not self._pather.traverse_nodes([147], self._char): return False
+            if not self._pather.traverse_nodes([148], self._char): return False
+            self._char.kill_shenk_stair_four()
+            if not self._pather.traverse_nodes([148], self._char): return False
+            if not self._pather.traverse_nodes([149], self._char): return False
             self._char.kill_shenk()
+            if not self._pather.traverse_nodes([149], self._char): return False
+            self._char.kill_shenk_cleanup()
             loc = Location.A5_SHENK_END
             wait(1.9, 2.4) # sometimes merc needs some more time to kill shenk...
             picked_up_items |= self._pickit.pick_up_items(self._char)
