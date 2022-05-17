@@ -167,8 +167,9 @@ def search_and_wait(
     roi: list[float] = None,
     timeout: float = None,
     threshold: float = 0.68,
-    color_match: list = False,
     use_grayscale: bool = False,
+    color_match: list = False,
+    best_match: bool = False,
     suppress_debug: bool = False,
 ) -> TemplateMatch:
     """
@@ -185,7 +186,7 @@ def search_and_wait(
         img = grab()
         is_loading_black_roi = np.average(img[:, 0:Config().ui_roi["loading_left_black"][2]]) < 1.0
         if not is_loading_black_roi or "LOADING" in ref:
-            template_match = search(ref, img, roi=roi, threshold=threshold, use_grayscale=use_grayscale, color_match=color_match)
+            template_match = search(ref, img, roi=roi, threshold=threshold, use_grayscale=use_grayscale, color_match=color_match, best_match=best_match)
             if template_match.valid:
                 break
     if not time_remains:

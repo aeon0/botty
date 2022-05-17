@@ -113,7 +113,7 @@ class Diablo:
             Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, timeout=0.1, telekinesis=True)
             wait(i*0.5)
-            found = template_finder.search_and_wait(seal_opentemplates, threshold=0.75, timeout=0.1, best_match=True, take_ss=False).valid
+            found = template_finder.search_and_wait(seal_opentemplates, threshold=0.75, timeout=0.1).valid
             if found:
                 Logger.info(seal_layout +": is open - "+'\033[92m'+" open"+'\033[0m')
                 break
@@ -143,7 +143,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
+            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1, suppress_debug=True).valid
             if not found: self._pather.traverse_nodes_fixed(path, self._char)
         if not found:
             if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -161,10 +161,10 @@ class Diablo:
 
         if not self._pather.traverse_nodes([605], self._char): return False
         templates = ["DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_51","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55"]
-        if template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, best_match=False, take_ss=False).valid:
+        if template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1).valid:
             Logger.debug("CS Trash (A): Layout_check step 1/2: Layout A templates found")
             templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"]
-            if not template_finder.search_and_wait(templates, threshold=0.8, timeout=0.5, best_match=True, take_ss=False).valid:
+            if not template_finder.search_and_wait(templates, threshold=0.8, timeout=0.5).valid:
                 Logger.debug("CS Trash (A): Layout_check step 2/2: Layout B templates NOT found - "+'\033[95m'+"all fine, proceeding with Layout A"+'\033[0m')
                 entrance1_layout = "CS Trash (A):"
                 #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance1_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -185,7 +185,7 @@ class Diablo:
         else:
             Logger.debug("CS Trash (B): Layout_check step 1/2: Layout A templates NOT found")
             templates = ["DIABLO_ENTRANCE2_55", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_15","DIABLO_ENTRANCE2_56"]
-            if  template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, best_match=False, take_ss=False).valid:
+            if  template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1).valid:
                 Logger.debug("CS Trash (B): Layout_check step 2/2: Layout B templates found - "+'\033[96m'+"all fine, proceeding with Layout B"+'\033[0m')
                 entrance2_layout = "CS Trash (B):"
                 #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + entrance2_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -214,7 +214,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
+            found = template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, suppress_debug=True).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
@@ -235,7 +235,7 @@ class Diablo:
         templates = ["DIABLO_CS_ENTRANCE_0", "DIABLO_CS_ENTRANCE_2", "DIABLO_CS_ENTRANCE_3"]
         start_time = time.time()
         while not found and time.time() - start_time < 10:
-            found = template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
+            found = template_finder.search_and_wait(templates, threshold=0.8, timeout=0.1, suppress_debug=True).valid
             if not found:
                 self._pather.traverse_nodes_fixed("diablo_wp_entrance_loop", self._char)
         if not found:
@@ -251,7 +251,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1, best_match=True, take_ss=False, suppress_debug=True).valid
+            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1, suppress_debug=True).valid
             if not found: self._pather.traverse_nodes_fixed("diablo_wp_pentagram_loop", self._char)
         if not found:
             if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_diablo_wp_pentagram_loop_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -288,7 +288,7 @@ class Diablo:
         templates = ["DIA_NEW_PENT_TP", "DIA_NEW_PENT_0", "DIA_NEW_PENT_1", "DIA_NEW_PENT_2"]
         start_time = time.time()
         while not found and time.time() - start_time < 15:
-            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1, best_match=True, take_ss=False).valid
+            found = template_finder.search_and_wait(templates, threshold=0.83, timeout=0.1).valid
             if not found: self._pather.traverse_nodes_fixed(loop_path, self._char)
         if not found:
             if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_failed_loop_pentagram_" + path + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -370,12 +370,12 @@ class Diablo:
             if not self._pather.traverse_nodes(calibration_node, self._char, threshold=calibration_threshold,): return False
         #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_LC_" + sealname + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         #check1 using primary templates
-        if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.1, best_match=True, take_ss=False).valid:
+        if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.1).valid:
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
             #cross-check for confirmation
             if not confirmation_node == None:
                 if not self._pather.traverse_nodes(confirmation_node, self._char, threshold=calibration_threshold,): return False
-            if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.1, best_match=True, take_ss=False).valid:
+            if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.1).valid:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at" f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 return False
@@ -387,7 +387,7 @@ class Diablo:
             #cross-check for confirmation
             if not confirmation_node2 == None:
                 if not self._pather.traverse_nodes(confirmation_node2, self._char, threshold=calibration_threshold,): return False
-            if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.1, best_match=True, take_ss=False).valid:
+            if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.1).valid:
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
                 if not self._seal(*params_seal2): return False
             else:
