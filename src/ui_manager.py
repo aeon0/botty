@@ -279,22 +279,22 @@ def is_visible(screen_object: ScreenObject, img: np.ndarray = None) -> bool:
     return detect_screen_object(screen_object, img).valid
 
 def wait_until_visible(screen_object: ScreenObject, timeout: float = 30) -> TemplateMatch:
-    if not (match := wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
+    if not (match := _wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
         Logger.debug(f"{screen_object.ref} not found after {timeout} seconds")
     return match
 
 def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3) -> bool:
-    if not (hidden := wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
+    if not (hidden := _wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
         Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
     return hidden
 
 def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3) -> bool:
     roi = roi if roi is not None else [0, 0, img.shape[0]-1, img.shape[1] -1]
-    if not (change := wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
+    if not (change := _wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
         Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
     return change
 
-def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
+def _wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
     start = time.time()
     while (time.time() - start) < timeout:
         res = func()
