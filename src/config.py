@@ -278,6 +278,7 @@ class Config:
             "fill_shared_stash_first": bool(int(self._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),
             "cta_available": bool(int(self._select_val("char", "cta_available"))),
+            "clay_golem_buff": bool(int(self._select_val("char", "clay_golem_buff"))),
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
