@@ -105,7 +105,7 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
         template_img = template.img_bgr
 
     if not (img.shape[0] > template_img.shape[0] and img.shape[1] > template_img.shape[1]):
-        Logger.error(f"Image shape and template shape are incompatible: {template.name}")
+        Logger.error(f"Image shape and template shape are incompatible: {template.name}. Image: {img.shape}, Template: {template_img.shape}")
     else:
         res = cv2.matchTemplate(img, template_img, cv2.TM_CCOEFF_NORMED, mask = template.alpha_mask)
         np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
@@ -165,7 +165,7 @@ def search(
 def search_and_wait(
     ref: Union[str, list[str]],
     roi: list[float] = None,
-    timeout: float = None,
+    timeout: float = 30,
     threshold: float = 0.68,
     use_grayscale: bool = False,
     color_match: list = False,

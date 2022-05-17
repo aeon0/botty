@@ -43,7 +43,7 @@ class TownManager:
             location = Location.A1_TOWN_START
         return location
 
-    def wait_for_town_spawn(self, timeout: float = None) -> Location:
+    def wait_for_town_spawn(self, timeout: float = 30) -> Location:
         """Wait for the char to spawn in town after starting a new game
         :param timeout: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within timeout time
