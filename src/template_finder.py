@@ -12,7 +12,7 @@ from config import Config
 from utils.misc import cut_roi, load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter, mask_by_roi
 from functools import cache
 
-template_finder_lock = threading.Lock()
+templates_lock = threading.Lock()
 
 @dataclass
 class Template:
@@ -63,7 +63,8 @@ def _templates() -> dict[Template]:
     return templates
 
 def get_template(key):
-    return _templates()[key].img_bgr
+    with templates_lock:
+        return _templates()[key].img_bgr
 
 def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Template]:
     templates = []
@@ -78,15 +79,9 @@ def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Templ
             templates.append(Template(
                 img_bgr = i,
                 img_gray = cv2.cvtColor(i, cv2.COLOR_BGR2GRAY),
-                alpha_mask = alpha_to_mask(i)                    
+                alpha_mask = alpha_to_mask(i)
             ))
     return templates
-
-def _grayscale_template_and_image(template: Template, img: np.ndarray) -> tuple[np.ndarray]:
-    return template.img_gray, cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-def _color_filter_template_and_image(template: Template, img: np.ndarray, color_match: list = None) -> tuple[np.ndarray]:
-    return color_filter(template.img_bgr, color_match)[1], color_filter(img, color_match)[1]
 
 def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: list = None, color_match: list = None, use_grayscale: bool = False) -> TemplateMatch:
     inp_img = inp_img if inp_img is not None else grab()
@@ -101,9 +96,11 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
 
     # filter for desired color or make grayscale
     if color_match:
-        template_img, img = _color_filter_template_and_image(template.img_bgr, img, color_match)
+        template_img,  = color_filter(template.img_bgr, color_match)[1],
+        img = color_filter(img, color_match)[1]
     elif use_grayscale:
-        template_img, img = _grayscale_template_and_image(template.img_bgr, img)
+        template_img = template.img_gray
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     else:
         template_img = template.img_bgr
 
@@ -207,7 +204,7 @@ def search_all(
     color_match: list = False,
 ) -> list[TemplateMatch]:
     """
-    Returns a list of all templates scoring above set threshold on the screen 
+    Returns a list of all templates scoring above set threshold on the screen
     :Other params are the same as for TemplateFinder.search()
     :return: Returns a list of TemplateMatch objects
     """
