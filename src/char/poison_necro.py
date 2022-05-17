@@ -15,6 +15,7 @@ import numpy as np
 import time
 import os
 from ui_manager import ScreenObjects
+from utils.misc import wait, cut_roi, is_in_roi, color_filter
 
 class Poison_Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -29,12 +30,29 @@ class Poison_Necro(IChar):
         self._pather.offset_node(102, [15, 0])
         self._pather.offset_node(103, [15, 0])
         self._pather.offset_node(101, [100,-5])
+
+        #Eldritch Offset
+        self._pather.offset_node(122, [-50, -15])
+        self._pather.offset_node(121, [-50,-105])
+
+        #shenk
+        self._pather.offset_node(145, [-100, -80])
+        #self._pather.offset_node(146, [-30, -20])
+        #self._pather.offset_node(147, [-20, -20])
+        self._pather.offset_node(148, [100, 50])
+        #self._pather.offset_node(149, [-150,-150])
+
+        #trav
+        self._pather.offset_node(229, [100, 50])
         
         #Diablo
         self._pather.offset_node(644, [150, -70])
         self._pather.offset_node(610620, [50, 50])
         self._pather.offset_node(631, [-50, 50])
         self._pather.offset_node(656, [-70, -50])
+
+        self._pather.offset_node(122, [-70, 75])
+        self._pather.offset_node(123, [-40, 75])
 
         self._shenk_dead = 0
         self._skeletons_count=0
@@ -91,6 +109,11 @@ class Poison_Necro(IChar):
             if template_match.valid:
                 self._revive_count=count
 
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+        pos_m = convert_abs_to_monitor(abs_move)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self.poison_nova(atk_len)
 
     def poison_nova(self, time_in_s: float):
         if not self._skill_hotkeys["poison_nova"]:
@@ -246,6 +269,28 @@ class Poison_Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
+    def _pre_buff_necro(self):
+        # Save current skill img
+        skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
+        # Try to switch weapons and select bo until we find the skill on the right skill slot
+        start = time.time()
+        switch_sucess = False
+        while time.time() - start < 4:
+            keyboard.send(self._skill_hotkeys["bone_armor"])
+            mouse.press(button="right")
+            wait(0.02, 0.05)
+            mouse.release(button="right")
+            wait(0.1, 0.19)
+            break
+
+    def pre_buff_bone_armor(self):
+        #only CTA if pre trav
+        if Config().char["clay_golem_buff"]:
+            self._pre_buff_necro()         
+        if self._shenk_dead==1:
+            Logger.info("trav buff?")
+            #self._heart_of_wolverine()
+        Logger.info("prebuff/bone armor")
 
     def pre_buff(self):
         #only CTA if pre trav
@@ -254,7 +299,7 @@ class Poison_Necro(IChar):
         if self._shenk_dead==1:
             Logger.info("trav buff?")
             #self._heart_of_wolverine()
-        Logger.info("prebuff/cta")
+        Logger.info("prebuff/cta")        
 
 
     def _heart_of_wolverine(self):
@@ -273,13 +318,19 @@ class Poison_Necro(IChar):
 
 
     def bone_armor(self):
-        if self._skill_hotkeys["bone_armor"]:
-            keyboard.send(self._skill_hotkeys["bone_armor"])
+        #if self._skill_hotkeys["bone_armor"]:
+        #    wait(0.04, 0.1)
+        #    keyboard.send(self._skill_hotkeys["bone_armor"])
+        #    wait(0.04, 0.1)
+        #    mouse.click(button="right")
+        #    wait(self._cast_duration)
+        if self._skill_hotkeys["clay_golem"]:
+            keyboard.send(self._skill_hotkeys["clay_golem"])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["clay_golem"]:
-            keyboard.send(self._skill_hotkeys["clay_golem"])
+            wait(0.04, 0.1)
+            keyboard.send(self._skill_hotkeys["bone_armor"])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
@@ -401,119 +452,232 @@ class Poison_Necro(IChar):
         self.poison_nova(3.0)
         return True
 
-    def kill_eldritch(self) -> bool:
-        pos_m = screen.convert_abs_to_monitor((0, -100))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
+    def kill_eld_one(self) -> bool:
+            self._clay_golem()
+            #pos_m = convert_abs_to_monitor((0, -50))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #pos_m = convert_abs_to_monitor((0, 50))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #self.bone_armor()
+
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #pos_m = convert_abs_to_monitor((0, -100))
+            #self.pre_move()
+            #wait(self._cast_duration, self._cast_duration +.1)
+            self.poison_nova(3.0)
+            wait(self._cast_duration, self._cast_duration +.1)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=100,cast_end_angle=0,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
+                # move a bit back
+            #pos_m = convert_abs_to_monitor((0, 50))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            self.poison_nova(1.5)
+            wait(self._cast_duration, self._cast_duration +.1)
+            #pos_m = convert_abs_to_monitor((0, -100))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #self.poison_nova(3.0)
+            #pos_m = convert_abs_to_monitor((0, -100))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=0.5)
+            #pos_m = convert_abs_to_monitor((0, -75))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=1.0)
+            #pos_m = convert_abs_to_monitor((-75, 0))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.5)
+            #self._summon_count()
+            #self._summon_stat()
+
+
+
+    def kill_eld_two(self) -> bool:
+            self.poison_nova(.50)
+            wait(self._cast_duration, self._cast_duration +.1)
+            #pos_m = convert_abs_to_monitor((0, -100))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            #wait(self._cast_duration, self._cast_duration +.1)
+            #self.poison_nova(3.0)
+            #pos_m = convert_abs_to_monitor((0, -100))
+            #self.pre_move()
+            #self.move(pos_m, force_move=True)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=30,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=1.0)
+            pos_m = convert_abs_to_monitor((0, -20))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(self._cast_duration, self._cast_duration +.1)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=30,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=1.0) 
+            pos_m = convert_abs_to_monitor((0, -30))
+            self.pre_move()
+            self.move(pos_m, force_move=True)
+            wait(self._cast_duration, self._cast_duration +.1)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=30,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.80) 
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=30,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=1.0)
+
+
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
+            return True           
+
+    def kill_shenk_stair_one(self) -> bool:
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=0,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)
+        self.poison_nova(2.0)
+        wait(self._cast_duration, self._cast_duration +.1)
         self.bone_armor()
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=1,cast_div=1,cast_v_div=1,cast_spell='raise_revive',delay=1.1,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        pos_m = convert_abs_to_monitor((80, 150))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+    def kill_shenk_stair_two(self) -> bool:
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=0,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)
         self.poison_nova(2.0)
-        self._summon_stat()
-        # move a bit back
-        pos_m = screen.convert_abs_to_monitor((0, 50))
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=1,cast_div=1,cast_v_div=1,cast_spell='raise_mage',delay=1.1,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        pos_m = convert_abs_to_monitor((20, 150))
         self.pre_move()
         self.move(pos_m, force_move=True)
+    def kill_shenk_stair_three(self) -> bool:
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=180,cast_end_angle=0,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)
         self.poison_nova(2.0)
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
-        pos_m = screen.convert_abs_to_monitor((0, 170))
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=1,cast_div=1,cast_v_div=1,cast_spell='raise_skeleton',delay=1.1,offset=.8)
+        pos_m = convert_abs_to_monitor((-50, 150))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=1.0)
-        pos_m = screen.convert_abs_to_monitor((-75, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.5)
-        self._summon_count()
-        self._summon_stat()
-
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
-        return True
-
+    def kill_shenk_stair_four(self) -> bool:
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=0,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)
+        self.poison_nova(2.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.bone_armor()
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=270,cast_end_angle=1,cast_div=4,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.8)
+        self._pather.offset_node(149, (-125, -225))
 
     def kill_shenk(self) -> bool:
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
+        #self._pather.adapt_path((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST),[141, 142, 143, 144, 145])
+        #self._pather.adapt_path((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), [149])
+        #self._pather.traverse_nodes([141], self, timeout=2.5, force_tp=False)
+        #self._pather.traverse_nodes([142], self, timeout=2.5, force_tp=False)
         #pos_m = self._screen.convert_abs_to_monitor((50, 0))
         #self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
+        #self.poison_nova(3.0)        
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=360,cast_end_angle=180,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(3.0)
-        pos_m = screen.convert_abs_to_monitor((0, -50))
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=360,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=1.0)
+        pos_m = convert_abs_to_monitor((0, 20))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=10,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((-20, -20))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.8)
-        self._summon_count()
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=360,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.9)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=360,cast_end_angle=180,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.8)
+        self._pather.offset_node(149, (125, 225))
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=360,cast_end_angle=180,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
         #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+   
+    def kill_shenk_cleanup(self) -> bool:
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=.8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.9)
+
         return True
+
+
+        #pos_m = screen.convert_abs_to_monitor((75, 75))
+        #self.pre_move()
+        #self.move(pos_m, force_move=True)
+        #wait(self._cast_duration, self._cast_duration +.1)
+        self.poison_nova(2.0)
+        return True
+
+    def kill_council_one(self) -> bool:
+        self.bone_armor()
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=200,cast_end_angle=90,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.1,offset=1.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+
+    def kill_council_two(self) -> bool:
+        self.bone_armor()
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=140,cast_end_angle=240,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.1,offset=1.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.poison_nova(2.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=150,cast_end_angle=290,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.1,offset=1.0) 
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=150,cast_end_angle=290,cast_div=6,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.poison_nova(2.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=150,cast_end_angle=290,cast_div=6,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8) 
+
+    def kill_council_three(self) -> bool:
+        self._pather.offset_node(224, (300, 150))
+        self._pather.traverse_nodes([224], self, timeout=2.5, force_tp=False, use_tp_charge=False)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=180,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.1,offset=1.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.poison_nova(2.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=40,cast_end_angle=110,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        #self.poison_nova(3.0)
+        #wait(self._cast_duration, self._cast_duration +.1)                      
 
 
     def kill_council(self) -> bool:
-        pos_m = screen.convert_abs_to_monitor((0, -200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)       
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.walk(pos_m, force_move=True)
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=90,cast_end_angle=90,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.1,offset=1.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        wait(1.0)
+        self._pather.offset_node(226, (-300, -100))
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=False, use_tp_charge=False)
         #self._lower_res((-50, 0), spray=10)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)  
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=40,cast_end_angle=110,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=40,cast_end_angle=110,cast_div=5,cast_v_div=2,cast_spell='raise_skeleton',delay=1.2,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        wait(1.0)
+        self._pather.offset_node(226, (-100, -50))
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=False, use_tp_charge=False)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)  
-        self.poison_nova(2.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((200, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        pos_m = screen.convert_abs_to_monitor((30, -50))
-        self.walk(pos_m, force_move=True)
-        self.poison_nova(2.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        #wait(self._cast_duration, self._cast_duration +.2)
-        pos_m = screen.convert_abs_to_monitor((-200, 200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        pos_m = screen.convert_abs_to_monitor((-100, 200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
-        pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        wait(0.5)
-        self.poison_nova(4.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        #wait(self._cast_duration, self._cast_duration +.2)
-        #self.poison_nova(2.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=0.5,offset=1.8)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_mage',delay=1.2,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((-200, -200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
-        pos_m = screen.convert_abs_to_monitor((20, -50))
-        self.walk(pos_m, force_move=True)
-        self.poison_nova(2.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        pos_m = screen.convert_abs_to_monitor((-30, -20))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.2,offset=.8)
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self.bone_armor()
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.2,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._pather.offset_node(226, (400, 150))
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=False, use_tp_charge=False)
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=False, use_tp_charge=False)
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=False, use_tp_charge=False)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)  
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._pather.traverse_nodes([301], self, timeout=2.5, force_tp=False, use_tp_charge=False)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=90,cast_end_angle=90,cast_div=1,cast_v_div=2,cast_spell='lower_res',delay=1.0)  
+        self.poison_nova(3.0)
+        wait(self._cast_duration, self._cast_duration +.1)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=40,cast_end_angle=180,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
@@ -526,7 +690,7 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((50, 0))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=7200,cast_div=2,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=2,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
         wait(self._cast_duration, self._cast_duration +.2)
         self.poison_nova(3.0)
         return True 
