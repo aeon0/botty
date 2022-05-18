@@ -706,7 +706,7 @@ if __name__ == "__main__":
             display_img = img.copy()
             template_map = {}
             template_scores = {}
-            for template_type in template_finder.stored_templates().keys():
+            for template_type in template_finder._templates:
                 if filter is None or filter in template_type:
                     template_match = template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
