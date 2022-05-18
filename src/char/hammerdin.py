@@ -2,7 +2,6 @@ import keyboard
 from ui import skills
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
-import template_finder
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor
@@ -10,9 +9,7 @@ from config import Config
 from utils.misc import wait
 import time
 from pather import Pather, Location
-import cv2 #for Diablo
 from pickit import PickIt #for Diablo
-import numpy as np
 from target_detect import get_visible_targets
 
 

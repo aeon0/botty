@@ -175,7 +175,7 @@ def search_and_wait(
     """
     Helper function that will loop and keep searching for a template
     :param timeout: After this amount of time the search will stop and it will return [False, None]
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :returns a TemplateMatch object
     """
     if not suppress_debug:
@@ -206,7 +206,7 @@ def search_all(
 ) -> list[TemplateMatch]:
     """
     Returns a list of all templates scoring above set threshold on the screen
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
     templates = _process_template_refs(ref)
