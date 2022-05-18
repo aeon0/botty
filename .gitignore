@@ -23,6 +23,7 @@ config/custom.*.ini
 info_screenshots/
 item_error_screenshots/
 loot_screenshots/
+pickit_screenshots/
 stats/
 .venv
 *.bak
