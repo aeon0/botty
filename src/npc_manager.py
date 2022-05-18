@@ -246,7 +246,7 @@ def open_npc_menu(npc_key: Npc) -> bool:
             if res.valid:
                 is_unique = True
                 for r in results:
-                    if (abs(r["pos"][0] - res.center[0]) + abs(r["pos"][1] - res.center[1])) < 22:
+                    if (abs(r["pos"][0] - res.center_monitor[0]) + abs(r["pos"][1] - res.center_monitor[1])) < 22:
                         is_unique = False
                         break
                 if is_unique:
@@ -254,9 +254,9 @@ def open_npc_menu(npc_key: Npc) -> bool:
                     if attempts == 0 and "poses" in npcs[npc_key]:
                         # find distance between template match and nearest pose (([x2] - x1)**2 + (y2 - y1)**2)
                         for pose in npcs[npc_key]["poses"]:
-                            dist = sqrt((res.center[0] - pose[0])**2 + (res.center[1] - pose[1])**2)
+                            dist = sqrt((res.center_monitor[0] - pose[0])**2 + (res.center_monitor[1] - pose[1])**2)
                             min_dist = dist if dist < min_dist else min_dist
-                    results.append({"pos": res.center, "score": res.score, "combo": min_dist / (res.score**2)})
+                    results.append({"pos": res.center_monitor, "score": res.score, "combo": min_dist / (res.score**2)})
         # sort by composite of template match score and distance to NPC pose
         results = sorted(results, key=lambda r: r["combo"])
         for result in results:
