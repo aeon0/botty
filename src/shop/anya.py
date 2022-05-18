@@ -147,10 +147,9 @@ class AnyaShopper:
                 claw_pos = []
                 img = grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
-                for ck in claw_keys:
-                    template_match = template_finder.search(ck, img, roi=self.roi_vendor)
-                    if template_match.valid:
-                        claw_pos.append(template_match.center_monitor)
+                template_matches = template_finder.search_all(claw_keys, img, roi=self.roi_vendor)
+                for template_match in template_matches:
+                    claw_pos.append(template_match.center_monitor)
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
