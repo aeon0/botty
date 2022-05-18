@@ -51,7 +51,7 @@ class DiscordEmbeds(GenericApi):
         e.description=(f"Died at {location}")
         e.set_thumbnail(url=f"{self._psnURL}33L5e3600.png")
         e.set_image(url="attachment://death.png")
-        self._send_embed(e, self._webhook)
+        self._send_embed(e, self._webhook, file)
 
     def send_chicken(self, location, image_path):
         file = self._add_file(image_path, "chicken.png")
@@ -60,7 +60,7 @@ class DiscordEmbeds(GenericApi):
         e.description=(f"chickened at {location}")
         e.set_thumbnail(url=f"{self._psnURL}39Ldf113b.png")
         e.set_image(url="attachment://chicken.png")
-        self._send_embed(e, self._webhook)
+        self._send_embed(e, self._webhook, file)
 
     def send_stash(self):
         e = discord.Embed(title=f"{Config().general['name']} has a full stash!", color=Color.dark_grey())
