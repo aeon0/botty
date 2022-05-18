@@ -1,7 +1,7 @@
 from screen import grab, convert_monitor_to_screen, convert_abs_to_screen
 import cv2
 from config import Config
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import load_template, cut_roi
 import mouse
 import keyboard
@@ -30,7 +30,7 @@ class NodeRecorder:
         self._half_height = Config().ui_pos["screen_height"] // 2
         self._curr_state = 0
         self._upper_left = None
-        TemplateFinder()._templates = {}
+        template_finder._templates = {}
         self._pather_code_file = "generated/pather_generated.py"
         self.ref_points = {}
         self.nodes = {}
@@ -44,8 +44,8 @@ class NodeRecorder:
 
     def find_templates(self, img):
         ref_points = {}
-        for key in TemplateFinder()._templates:
-            found = TemplateFinder().search(key, img, use_grayscale=False, threshold=0.77)
+        for key in template_finder._templates:
+            found = template_finder.search(key, img, use_grayscale=False, threshold=0.77)
             if found.valid:
                 ref_points[key] = found.center
         return ref_points
@@ -76,8 +76,8 @@ class NodeRecorder:
                     template_path = f"generated/templates/{self._run_name}/{ref_point_name}.png"
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
-                    template_img = load_template(template_path, 1.0, False)
-                    TemplateFinder()._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
+                    template_img = load_template(template_path)
+                    template_finder._templates[ref_point_name] = [template_img, cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY), 1.0, None]
             elif e.name == "f7":
                 self.ref_points = {}
             else:

@@ -2,7 +2,7 @@ import subprocess
 import os, sys
 import keyboard
 from bot import Bot
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import wait, set_d2r_always_on_top
 from screen import get_offset_state, grab
 from config import Config
@@ -40,7 +40,7 @@ def restart_game(d2_path):
         wait(0.5, 1.0)
 
 
-    while not TemplateFinder().search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
+    while not template_finder.search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
         attempts += 1

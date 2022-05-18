@@ -10,7 +10,7 @@ import time
 import numpy as np
 from dataclasses import dataclass
 
-from template_finder import TemplateFinder
+import template_finder
 from config import Config
 from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
@@ -194,7 +194,7 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
                 found_subprops=[]
                 for subprop in prop:
                     try:
-                        template_match = TemplateFinder().search(subprop, img, threshold=0.95)
+                        template_match = template_finder.search(subprop, img, threshold=0.95)
                     except:
                         Logger.error(f"{found_item.name}: can't find template file for required {prop}, ignore just in case")
                         template_match = lambda: None; template_match.valid = True
@@ -212,7 +212,7 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
                     break
             else:
                 try:
-                    template_match = TemplateFinder().search(prop, img, threshold=0.95)
+                    template_match = template_finder.search(prop, img, threshold=0.95)
                 except:
                     Logger.error(f"{found_item.name}: can't find template file for required {prop}, ignore just in case")
                     template_match = lambda: None; template_match.valid = True
@@ -236,7 +236,7 @@ def keep_item(item_box: ItemText = None, found_item: Item = None, do_logging: bo
         found_props = []
         for prop in exclude_props:
             try:
-                template_match = TemplateFinder().search(prop, img, threshold=0.97)
+                template_match = template_finder.search(prop, img, threshold=0.97)
             except:
                 Logger.error(f"{found_item.name}: can't find template file for exclusion {prop}, ignore just in case")
                 template_match = lambda: None; template_match.valid = False

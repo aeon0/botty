@@ -14,7 +14,7 @@ from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
 from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
-from template_finder import TemplateFinder
+import template_finder
 from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
@@ -88,10 +88,10 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:
-            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
+            template_match = template_finder.search(template_type, grab(), threshold=threshold)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
-                mouse.move(*template_match.center)
+                mouse.move(*template_match.center_monitor)
                 wait(0.2, 0.3)
                 mouse.click(button="left")
                 # check the successfunction for 2 sec, if not found, try again
@@ -129,10 +129,9 @@ class IChar:
         mouse.move(x + w/2, y + h / 2)
         mouse.click("left")
         wait(0.3)
-        match = TemplateFinder().search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
+        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
+            mouse.move(*match.center_monitor)
             wait(0.3)
             keyboard.send(hotkey)
             wait(0.3)
@@ -222,7 +221,7 @@ class IChar:
                     consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
-                pos = template_match.center
+                pos = template_match.center_monitor
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
@@ -357,7 +356,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from utils.misc import cut_roi
     from config import Config
-    from template_finder import TemplateFinder
+    import template_finder
     from ocr import Ocr
     from ui import skills
 

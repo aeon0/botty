@@ -111,6 +111,6 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    from template_finder import TemplateFinder
+    import template_finder
 
     return_to_play()

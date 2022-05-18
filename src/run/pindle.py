@@ -4,7 +4,7 @@ from logger import Logger
 from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
-from template_finder import TemplateFinder
+import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait
 from ui import loading
@@ -38,7 +38,7 @@ class Pindle:
 
     def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
         # Kill Pindle
-        if not TemplateFinder().search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, timeout=20).valid:
+        if not template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, timeout=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

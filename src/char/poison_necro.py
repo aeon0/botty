@@ -1,7 +1,7 @@
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
-from template_finder import TemplateFinder
+import template_finder
 from pather import Pather
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
@@ -49,7 +49,7 @@ class Poison_Necro(IChar):
         roi = [640,0,640,720]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
@@ -67,7 +67,7 @@ class Poison_Necro(IChar):
         img = grab()
         max_rev = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['REV_BASE'],
             img,
             threshold=0.6,
@@ -81,7 +81,7 @@ class Poison_Necro(IChar):
 
         for count in range(1,max_rev):
             rev_num = "REV_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [rev_num],
                 img,
                 threshold=0.66,
@@ -109,7 +109,7 @@ class Poison_Necro(IChar):
         img = grab()
         max_skeles = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SKELE_BASE'],
             img,
             threshold=0.6,
@@ -123,7 +123,7 @@ class Poison_Necro(IChar):
 
         for count in range(1,max_skeles):
             skele_num = "SKELE_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [skele_num],
                 img,
                 threshold=0.66,
@@ -137,7 +137,7 @@ class Poison_Necro(IChar):
         roi = [15,14,400,45]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['CLAY'],
             img,
             threshold=0.6,

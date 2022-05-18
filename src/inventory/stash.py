@@ -1,4 +1,4 @@
-from template_finder import TemplateFinder
+import template_finder
 from screen import grab, convert_screen_to_monitor
 from config import Config
 import os

@@ -4,7 +4,7 @@ from logger import Logger
 from pather import Location, Pather
 from typing import Union
 from item.pickit import PickIt
-from template_finder import TemplateFinder
+import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait
 from dataclasses import dataclass
@@ -42,13 +42,13 @@ class Arcane:
         # Check if we arrived at platform
         templates_platform = ["ARC_PLATFORM_1", "ARC_PLATFORM_2", "ARC_PLATFORM_3", "ARC_CENTER"]
         tempaltes_summoner = ["ARC_ALTAR", "ARC_ALTAR3", "ARC_END_STAIRS", "ARC_END_STAIRS_2"]
-        match_platform = TemplateFinder().search_and_wait(templates_platform, threshold=0.55, timeout=0.5, use_grayscale=True, take_ss=False)
-        match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, timeout=0.5, use_grayscale=True, take_ss=False)
+        match_platform = template_finder.search_and_wait(templates_platform, threshold=0.55, timeout=0.5, use_grayscale=True)
+        match_summoner = template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, timeout=0.5, use_grayscale=True)
         if not match_platform.valid and not match_summoner.valid:
             # We might have arrived at summoner, move up stairs with static traverse
             self._pather.traverse_nodes_fixed(traverse_to_summoner, self._char)
             # try to match summoner again
-            match_summoner = TemplateFinder().search_and_wait(tempaltes_summoner, threshold=0.79, timeout=1.0, use_grayscale=True, take_ss=False)
+            match_summoner = template_finder.search_and_wait(tempaltes_summoner, threshold=0.79, timeout=1.0, use_grayscale=True)
         if match_summoner.valid:
             if self._pather.traverse_nodes([461], self._char, timeout=2.2, force_tp=True):
                 return True
