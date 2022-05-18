@@ -36,18 +36,24 @@ def save_and_exit() -> bool:
     Performes save and exit action from within game
     :return: Bool if action was successful
     """
+    # if exit button isn't detected already, press escape
     attempts = 1
     success = False
-    while attempts < 2 and not success:
-        # if exit button isn't detected already, press escape
-        while not (highlight := detect_screen_object(ScreenObjects.GameMenu)).valid:
+    while attempts <= 2 and not success:
+        if not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
             keyboard.send("esc")
-            time.sleep(0.1)
-        keyboard.send("up,up,down+enter")
-        # if center icon on player bar disappears then save/exit was successful
-        if not (success := wait_until_hidden(ScreenObjects.InGame, 3)):
-            Logger.debug("Failed to find or click save/exit button")
+            # wait for exit button to appear
+            exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 3)
+        # if exit button is found, double click it to be sure
+        if exit_button.valid:
+            select_screen_object_match(exit_button, delay_factor=(0.02, 0.05))
+            wait(0.02, 0.05)
+            mouse.click(button="left")
+            # if center icon on player bar disappears then save/exit was successful
+            success = wait_until_hidden(ScreenObjects.InGame, 3)
         attempts += 1
+    if not success:
+        Logger.debug("Failed to find or click save/exit button")
     return success
 
 def dismiss_skills_icon() -> bool:
@@ -72,7 +78,7 @@ def move_to_corpse():
     mouse.move(*pos)
 
 def return_to_play() -> bool:
-    substrings = ["NPC", "Panel", "GameMenu"]
+    substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()
     start=time.time()
     while (elapsed := (time.time() - start) < 8):
@@ -105,6 +111,6 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    from template_finder import TemplateFinder
+    import template_finder
 
     return_to_play()

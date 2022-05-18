@@ -2,7 +2,7 @@ import keyboard
 from ui import skills
 from utils.custom_mouse import mouse
 from char import IChar
-from template_finder import TemplateFinder
+import template_finder
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
@@ -192,7 +192,7 @@ class Basic_Ranged(IChar):
 if __name__ == "__main__":
     import os
     import keyboard
-    from template_finder import TemplateFinder
+    import template_finder
     from pather import Pather
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
     keyboard.wait("f11")

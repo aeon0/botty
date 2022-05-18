@@ -4,7 +4,7 @@ import numpy as np
 import time
 import parse
 from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
+import template_finder
 from inventory import personal
 from utils.misc import wait
 from screen import grab
@@ -106,12 +106,11 @@ def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int
 def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool:
     img = personal.open(img)
     if item_type.lower() in ["tp", "id"]:
-        match = TemplateFinder().search(
+        match = template_finder.search(
             [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
             img,
             roi = Config().ui_roi["restricted_inventory_area"],
             best_match = True,
-            normalize_monitor=True
             )
         if match.valid:
             if match.name == f"{item_type.upper()}_TOME_RED":
@@ -122,13 +121,13 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
             Logger.debug(f"update_tome_key_needs: could not find {item_type}")
             return False
     elif item_type.lower() in ["key"]:
-        match = TemplateFinder().search("INV_KEY", img, roi = Config().ui_roi["restricted_inventory_area"], normalize_monitor = True)
+        match = template_finder.search("INV_KEY", img, roi = Config().ui_roi["restricted_inventory_area"])
         if not match.valid:
             return False
     else:
         Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
         return False
-    mouse.move(*match.center, randomize=4, delay_factor=[0.5, 0.7])
+    mouse.move(*match.center_monitor, randomize=4, delay_factor=[0.5, 0.7])
     wait(0.2, 0.2)
     hovered_item = grab()
     # get the item description box

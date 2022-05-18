@@ -6,7 +6,7 @@ import numpy as np
 from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
-from template_finder import TemplateFinder
+import template_finder
 from ui_manager import wait_until_visible, ScreenObjects
 from d2r_image import ocr
 
@@ -16,7 +16,7 @@ def is_left_skill_selected(template_list: list[str]) -> bool:
     """
     skill_left_ui_roi = Config().ui_roi["skill_left"]
     for template in template_list:
-        if TemplateFinder().search(template, grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
+        if template_finder.search(template, grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
             return True
     return False
 
@@ -61,7 +61,7 @@ def is_right_skill_selected(template_list: list[str]) -> bool:
     """
     skill_right_ui_roi = Config().ui_roi["skill_right"]
     for template in template_list:
-        if TemplateFinder().search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
+        if template_finder.search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
             return True
     return False
 

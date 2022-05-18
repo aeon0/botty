@@ -17,11 +17,11 @@ from game_stats import GameStats
 from logger import Logger
 from config import Config
 from screen import grab
-from template_finder import TemplateFinder
+import template_finder
 from char import IChar
 from pickit import PickIt
 from pather import Pather, Location
-from char.sorceress import LightSorc, BlizzSorc, NovaSorc
+from char.sorceress import LightSorc, BlizzSorc, NovaSorc,HydraSorc
 from char.trapsin import Trapsin
 from char.hammerdin import Hammerdin
 from char.barbarian import Barbarian
@@ -57,6 +57,8 @@ class Bot:
             self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
         elif Config().char["type"] == "nova_sorc":
             self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
+        elif Config().char["type"] == "hydra_sorc":
+            self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
         elif Config().char["type"] == "hammerdin":
             self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
         elif Config().char["type"] == "trapsin":
@@ -206,7 +208,7 @@ class Bot:
             "select_character": Bot._MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
         })
-        match = TemplateFinder().search_and_wait(list(transition_to_screens.keys()), best_match=True)
+        match = template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
         self.trigger_or_stop(transition_to_screens[match.name])
 
     def on_select_character(self):

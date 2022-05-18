@@ -13,6 +13,6 @@ class TestUtilsMisc:
         ("some/random/path/that/not/a/file.png", False),
     ])
     def test_load_template(self, path: str, should_be_success: bool):
-        template_img = load_template(path, 1.0, alpha=True)
+        template_img = load_template(path)
         success = template_img is not None
         assert(success == should_be_success)

@@ -2,7 +2,7 @@ import time
 import os
 import numpy as np
 import keyboard
-from template_finder import TemplateFinder
+import template_finder
 from config import Config
 from screen import grab
 from ui_manager import ScreenObjects, center_mouse, is_visible, wait_until_hidden
@@ -35,12 +35,12 @@ class Npc:
 
 npcs = {
     Npc.QUAL_KEHK: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("QUAL_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("QUAL_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("QUAL_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("QUAL_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "resurrect": {
-                "white": color_filter(TemplateFinder().get_template("RESURRECT"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("RESURRECT"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["QUAL_0", "QUAL_45", "QUAL_45_B", "QUAL_90", "QUAL_135", "QUAL_135_B", "QUAL_135_C", "QUAL_180", "QUAL_180_B", "QUAL_225", "QUAL_225_B", "QUAL_270", "QUAL_315"],
@@ -48,12 +48,12 @@ npcs = {
         "poses": [[350, 140], [310, 268], [385, 341], [481, 196], [502, 212], [771, 254]]
     },
     Npc.MALAH: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("MALAH_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("MALAH_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("MALAH_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("MALAH_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["MALAH_FRONT", "MALAH_BACK", "MALAH_45", "MALAH_SIDE", "MALAH_SIDE_2"],
@@ -61,12 +61,12 @@ npcs = {
         "poses": [[445, 485], [526, 473], [602, 381], [623, 368], [641, 323], [605, 300], [622, 272], [638, 284], [677, 308], [710, 288]]
     },
     Npc.LARZUK: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("LARZUK_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("LARZUK_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("LARZUK_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("LARZUK_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade_repair": {
-                "white": color_filter(TemplateFinder().get_template("TRADE_REPAIR"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE_REPAIR"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
         "roi": [570, 70, (1038-570), (290-70)],
@@ -74,35 +74,35 @@ npcs = {
         "poses": [[733, 192], [911, 143]]
     },
     Npc.ANYA: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("ANYA_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("ANYA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("ANYA_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("ANYA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["ANYA_FRONT", "ANYA_BACK", "ANYA_SIDE"]
     },
     Npc.TYRAEL: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("TYRAEL_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("TYRAEL_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("TYRAEL_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("TYRAEL_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "resurrect": {
-                "white": color_filter(TemplateFinder().get_template("RESURRECT"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("RESURRECT"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
             }
         },
         "roi": [569, 86, (852-569), (357-86)],
         "template_group": ["TYRAEL_1", "TYRAEL_2"]
     },
     Npc.ORMUS: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("ORMUS_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("ORMUS_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("ORMUS_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("ORMUS_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "roi": [444, 13, (816-444), (331-13)],
@@ -110,82 +110,82 @@ npcs = {
         "template_group": ["ORMUS_0", "ORMUS_1", "ORMUS_2", "ORMUS_3", "ORMUS_4", "ORMUS_5"]
     },
     Npc.FARA: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("FARA_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("FARA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("FARA_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("FARA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade_repair": {
-                "white": color_filter(TemplateFinder().get_template("TRADE_REPAIR"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE_REPAIR"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["FARA_LIGHT_1", "FARA_LIGHT_2", "FARA_LIGHT_3", "FARA_LIGHT_4", "FARA_LIGHT_5", "FARA_LIGHT_6", "FARA_LIGHT_7", "FARA_LIGHT_8", "FARA_LIGHT_9", "FARA_MEDIUM_1", "FARA_MEDIUM_2", "FARA_MEDIUM_3", "FARA_MEDIUM_4", "FARA_MEDIUM_5", "FARA_MEDIUM_6", "FARA_MEDIUM_7", "FARA_DARK_1", "FARA_DARK_2", "FARA_DARK_3", "FARA_DARK_4", "FARA_DARK_5", "FARA_DARK_6", "FARA_DARK_7"]
     },
     Npc.DROGNAN: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("DROGNAN_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("DROGNAN_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("DROGNAN_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("DROGNAN_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["DROGNAN_FRONT", "DROGNAN_LEFT", "DROGNAN_RIGHT_SIDE"]
     },
     Npc.LYSANDER: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("LYSANDER_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("LYSANDER_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("LYSANDER_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("LYSANDER_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["LYSANDER_FRONT", "LYSANDER_BACK", "LYSANDER_SIDE", "LYSANDER_SIDE_2"]
     },
     Npc.CAIN: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("CAIN_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("CAIN_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("CAIN_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("CAIN_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "identify": {
-                "white": color_filter(TemplateFinder().get_template("IDENTIFY"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("IDENTIFY_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("IDENTIFY"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("IDENTIFY_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["CAIN_0", "CAIN_1", "CAIN_2", "CAIN_3"]
     },
     Npc.JAMELLA: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("JAMELLA_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("JAMELLA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("JAMELLA_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("JAMELLA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             },
             "gamble": {
-                "white": color_filter(TemplateFinder().get_template("GAMBLE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("GAMBLE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("GAMBLE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("GAMBLE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["JAMELLA_FRONT", "JAMELLA_BACK", "JAMELLA_SIDE", "JAMELLA_SIDE_2", "JAMELLA_SIDE_3", "JAMELLA_DRAWING"]
     },
     Npc.HALBU: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("HALBU_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("HALBU_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("HALBU_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("HALBU_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade_repair": {
-                "white": color_filter(TemplateFinder().get_template("TRADE_REPAIR"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE_REPAIR"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["HALBU_FRONT", "HALBU_BACK", "HALBU_SIDE", "HALBU_SIDE_2"]
     },
     Npc.AKARA: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("AKARA_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("AKARA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("AKARA_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("AKARA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade": {
-                "white": color_filter(TemplateFinder().get_template("TRADE"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_BLUE"), Config().colors["blue"])[1],
             }
         },
         "roi": [603, 176, (1002-603), (478-176)],
@@ -193,12 +193,12 @@ npcs = {
         "template_group": ["AKARA_FRONT", "AKARA_BACK", "AKARA_SIDE", "AKARA_SIDE_2"]
     },
     Npc.CHARSI: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("CHARSI_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("CHARSI_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("CHARSI_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("CHARSI_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "trade_repair": {
-                "white": color_filter(TemplateFinder().get_template("TRADE_REPAIR"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("TRADE_REPAIR"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("TRADE_REPAIR_BLUE"), Config().colors["blue"])[1],
             }
         },
         "roi": [249, 76, (543-249), (363-76)],
@@ -206,12 +206,12 @@ npcs = {
         "template_group": ["CHARSI_FRONT", "CHARSI_BACK", "CHARSI_SIDE", "CHARSI_SIDE_2", "CHARSI_SIDE_3"]
     },
     Npc.KASHYA: {
-        "name_tag_white": color_filter(TemplateFinder().get_template("KASHYA_NAME_TAG_WHITE"), Config().colors["white"])[1],
-        "name_tag_gold": color_filter(TemplateFinder().get_template("KASHYA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
+        "name_tag_white": color_filter(template_finder.get_template("KASHYA_NAME_TAG_WHITE"), Config().colors["white"])[1],
+        "name_tag_gold": color_filter(template_finder.get_template("KASHYA_NAME_TAG_GOLD"), Config().colors["gold"])[1],
         "action_btns": {
             "resurrect": {
-                "white": color_filter(TemplateFinder().get_template("RESURRECT"), Config().colors["white"])[1],
-                "blue": color_filter(TemplateFinder().get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
+                "white": color_filter(template_finder.get_template("RESURRECT"), Config().colors["white"])[1],
+                "blue": color_filter(template_finder.get_template("RESURRECT_BLUE"), Config().colors["blue"])[1],
             }
         },
         "template_group": ["KASHYA_FRONT", "KASHYA_BACK", "KASHYA_SIDE", "KASHYA_SIDE_2"]
@@ -242,11 +242,11 @@ def open_npc_menu(npc_key: Npc) -> bool:
                 roi_npc = npcs[npc_key]["roi"]
             else:
                 roi_npc = roi_npc_search
-            res = TemplateFinder().search(key, img, threshold=0.35, roi=roi_npc, normalize_monitor=True)
+            res = template_finder.search(key, img, threshold=0.35, roi=roi_npc)
             if res.valid:
                 is_unique = True
                 for r in results:
-                    if (abs(r["pos"][0] - res.center[0]) + abs(r["pos"][1] - res.center[1])) < 22:
+                    if (abs(r["pos"][0] - res.center_monitor[0]) + abs(r["pos"][1] - res.center_monitor[1])) < 22:
                         is_unique = False
                         break
                 if is_unique:
@@ -254,9 +254,9 @@ def open_npc_menu(npc_key: Npc) -> bool:
                     if attempts == 0 and "poses" in npcs[npc_key]:
                         # find distance between template match and nearest pose (([x2] - x1)**2 + (y2 - y1)**2)
                         for pose in npcs[npc_key]["poses"]:
-                            dist = sqrt((res.center[0] - pose[0])**2 + (res.center[1] - pose[1])**2)
+                            dist = sqrt((res.center_monitor[0] - pose[0])**2 + (res.center_monitor[1] - pose[1])**2)
                             min_dist = dist if dist < min_dist else min_dist
-                    results.append({"pos": res.center, "score": res.score, "combo": min_dist / (res.score**2)})
+                    results.append({"pos": res.center_monitor, "score": res.score, "combo": min_dist / (res.score**2)})
         # sort by composite of template match score and distance to NPC pose
         results = sorted(results, key=lambda r: r["combo"])
         for result in results:
@@ -266,14 +266,14 @@ def open_npc_menu(npc_key: Npc) -> bool:
             img = escape_dialogue(img)
             _, filtered_inp_w = color_filter(img, Config().colors["white"])
             _, filtered_inp_g = color_filter(img, Config().colors["gold"])
-            res_w = TemplateFinder().search(npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
-            res_g = TemplateFinder().search(npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
+            res_w = template_finder.search(npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
+            res_g = template_finder.search(npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
             if res_w:
                 mouse.click(button="left")
                 attempts += 1
                 wait(0.7, 1.0)
                 _, filtered_inp = color_filter(grab(), Config().colors["gold"])
-                res = TemplateFinder().search(npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
+                res = template_finder.search(npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
                 if res:
                     return True
             elif res_g:
@@ -285,21 +285,19 @@ def press_npc_btn(npc_key: Npc, action_btn_key: str):
     img = grab()
     img = escape_dialogue(img)
     _, filtered_inp_w = color_filter(img, Config().colors["white"])
-    res = TemplateFinder().search(
+    res = template_finder.search(
         npcs[npc_key]["action_btns"][action_btn_key]["white"],
-        filtered_inp_w, 0.85, roi=Config().ui_roi["cut_skill_bar"],
-        normalize_monitor=True
+        filtered_inp_w, 0.85, roi=Config().ui_roi["cut_skill_bar"]
     )
     if not res.valid and "blue" in npcs[npc_key]["action_btns"][action_btn_key]:
         # search for highlighted / blue action btn
         _, filtered_inp_b = color_filter(img, Config().colors["blue"])
-        res = TemplateFinder().search(
+        res = template_finder.search(
             npcs[npc_key]["action_btns"][action_btn_key]["blue"],
-            filtered_inp_b, 0.85, roi=Config().ui_roi["cut_skill_bar"],
-            normalize_monitor=True
+            filtered_inp_b, 0.85, roi=Config().ui_roi["cut_skill_bar"]
         )
     if res.valid:
-        mouse.move(*res.center, randomize=3, delay_factor=[1.0, 1.5])
+        mouse.move(*res.center_monitor, randomize=3, delay_factor=[1.0, 1.5])
         wait(0.2, 0.4)
         mouse.click(button="left")
         center_mouse()

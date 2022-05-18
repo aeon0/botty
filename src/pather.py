@@ -12,7 +12,7 @@ from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
-from template_finder import TemplateFinder
+import template_finder
 from char import IChar
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
 
@@ -571,7 +571,7 @@ class Pather:
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             [*node],
             img,
             best_match=False,
@@ -706,9 +706,9 @@ if __name__ == "__main__":
             display_img = img.copy()
             template_map = {}
             template_scores = {}
-            for template_type in TemplateFinder()._templates:
+            for template_type in template_finder._templates:
                 if filter is None or filter in template_type:
-                    template_match = TemplateFinder().search(template_type, img, use_grayscale=True, threshold=0.78)
+                    template_match = template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.center
                         template_scores[template_type] = template_match.score
@@ -747,8 +747,15 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
+    from item.pickit import PickIt
     pather = Pather()
 
-    display_all_nodes(pather, "SHENK")
+    #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
+    #char.discover_capabilities()
 
-    stop_detecting_window()
+    #display_all_nodes(pather, "ELD")
+    #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
+    #pather.traverse_nodes_fixed("dia_trash_c", char)
+    #display_all_nodes(pather, "SHENK")
+    #pather.traverse_nodes([141,142,143], char)
+    #stop_detecting_window()

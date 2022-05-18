@@ -1,7 +1,8 @@
 import cv2
 import pytest
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import is_in_roi
+import screen
 
 @pytest.mark.parametrize("template1_path, template2_path, template3_path, screen_path, expected_roi", [(
     "test/assets/stash_slot_empty.png", # empty stash slot
@@ -11,6 +12,7 @@ from utils.misc import is_in_roi
     [38, 0, 38, 38]) # region of slash
 ])
 def test_match_behavior(template1_path, template2_path, template3_path, screen_path, expected_roi):
+    screen.set_window_position(0, 0)
     image = cv2.imread(screen_path)
     empty = cv2.imread(template1_path)
     slash = cv2.imread(template2_path)
@@ -22,7 +24,7 @@ def test_match_behavior(template1_path, template2_path, template3_path, screen_p
     - if cross matches above threshold as expected, then it won't bother to search for slash, which has a perfect match on the image
     - test passes if the template match score is not perfect
     """
-    match = TemplateFinder().search([cross, slash], image, threshold)
+    match = template_finder.search([cross, slash], image, threshold)
     assert threshold <= match.score < 1
     """
     Test best match
@@ -30,5 +32,12 @@ def test_match_behavior(template1_path, template2_path, template3_path, screen_p
     - searches next for slash, which perfectly matches on image
     - test passes if the center of the template match lies within the expected region of the slash
     """
-    match = TemplateFinder().search([cross, slash], image, threshold=0.6, best_match=True)
+    match = template_finder.search([cross, slash], image, threshold=0.6, best_match=True)
     assert is_in_roi(expected_roi, match.center)
+    """
+    Test all matches
+    - searches for empty slots with high threshold
+    - test passes if 3 matches result
+    """
+    matches = template_finder.search_all(empty, image, threshold=0.98)
+    assert len(matches) == 3

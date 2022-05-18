@@ -1,7 +1,6 @@
 from enum import Enum
 import time
 import keyboard
-import cv2
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
@@ -188,7 +187,6 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.hammerdin import Hammerdin
-    from template_finder import TemplateFinder
     from pather import Pather
     import keyboard
 

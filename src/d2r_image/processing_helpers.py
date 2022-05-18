@@ -20,7 +20,7 @@ from d2r_image.ocr import image_to_text
 from utils.misc import color_filter, cut_roi
 from logger import Logger
 from config import Config
-from template_finder import TemplateFinder
+import template_finder
 
 gold_regex = re.compile(r'(^[0-9]+)\sGOLD')
 
@@ -114,7 +114,7 @@ def crop_item_tooltip(image: np.ndarray, model: str = "hover-eng_inconsolata_inv
             and mostly_dark and expected_height and expected_width \
             and (overlaps_right_inventory or overlaps_left_inventory):
             footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
-            found_footer = TemplateFinder().search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
+            found_footer = template_finder.search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
             if found_footer:
                 res.ocr_result = image_to_text(cropped_item, psm=6, model=model)[0]
                 first_row = cut_roi(copy.deepcopy(cropped_item), (0, 0, w, 26))

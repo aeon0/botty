@@ -11,7 +11,7 @@ from utils.misc import wait
 from version import __version__
 from logger import Logger
 from game_stats import GameStats
-from template_finder import TemplateFinder
+import template_finder
 import numpy as np
 import keyboard
 import cv2
@@ -67,7 +67,7 @@ class Transmute:
     def open_cube(self):
         common.select_tab(0)
         if (match := detect_screen_object(ScreenObjects.CubeInventory)).valid:
-            mouse.move(*match.center)
+            mouse.move(*match.center_monitor)
             self._wait()
             mouse.click("right")
             self._wait()
@@ -107,7 +107,7 @@ class Transmute:
             slot_img = img[y_start:y_end, x_start:x_end]
             if not self._is_slot_empty(slot_img[+4:-4, +4:-4], treshold=36):
                 result.set_empty((column, row))
-            match = TemplateFinder().search(
+            match = template_finder.search(
                 known_items, slot_img, threshold=0.91, best_match=True)
 
             if match.valid:

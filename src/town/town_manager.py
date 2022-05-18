@@ -1,5 +1,5 @@
 from typing import Union
-from template_finder import TemplateFinder
+import template_finder
 from config import Config
 from pather import Location
 from logger import Logger
@@ -43,12 +43,12 @@ class TownManager:
             location = Location.A1_TOWN_START
         return location
 
-    def wait_for_town_spawn(self, timeout: float = None) -> Location:
+    def wait_for_town_spawn(self, timeout: float = 30) -> Location:
         """Wait for the char to spawn in town after starting a new game
         :param timeout: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within timeout time
         """
-        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, best_match=True, timeout=timeout)
+        template_match = template_finder.search_and_wait(TOWN_MARKERS, best_match=True, timeout=timeout)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None

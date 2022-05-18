@@ -6,7 +6,7 @@ import keyboard
 import time
 import itertools
 from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
+import template_finder
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables
@@ -95,12 +95,12 @@ def dimensions_to_slots(dimensions: list, row_col: tuple) -> list:
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()
-    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True, normalize_monitor = True)).valid:
+    if (tome_found := template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True)).valid:
         if tome_found.name == f"{tome_type.upper()}_TOME":
             state = "ok"
         else:
             state = "empty"
-        position = tome_found.center
+        position = tome_found.center_monitor
     else:
         state = position = None
     return state, position
