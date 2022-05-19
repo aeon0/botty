@@ -8,6 +8,7 @@ from config import Config
 from utils.misc import wait
 import time
 from pather import Location
+import random
 
 from ui import skills
 from char import IChar, CharacterCapabilities
@@ -34,6 +35,28 @@ class Hammerdin(Paladin):
             if self._skill_hotkeys["blessed_hammer"]:
                 keyboard.send(self._skill_hotkeys["blessed_hammer"])
             wait(0.05, 0.1)
+            start = time.time()
+            while (time.time() - start) < time_in_s:
+                wait(0.06, 0.08)
+                mouse.press(button="left")
+                wait(0.1, 0.2)
+                mouse.release(button="left")
+            wait(0.01, 0.05)
+            keyboard.send(Config().char["stand_still"], do_press=False)
+
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, time_in_s: float = 4, aura: str = "conviction"):
+        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
+            keyboard.send(self._skill_hotkeys[aura])
+            wait(0.05, 0.1)
+            keyboard.send(Config().char["stand_still"], do_release=False)
+            wait(0.05, 0.1)
+            if self._skill_hotkeys["holy_bolt"]:
+                keyboard.send(self._skill_hotkeys["holy_bolt"])
+            wait(0.05, 0.1)
+            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+            pos_m = convert_abs_to_monitor((x, y))
+            mouse.move(*pos_m, delay_factor=[0.3, 0.6])
             start = time.time()
             while (time.time() - start) < time_in_s:
                 wait(0.06, 0.08)
@@ -137,6 +160,17 @@ class Hammerdin(Paladin):
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
         self._cast_hammers(1.6, "redemption")
+        Logger.debug("Checking for stray mobs")
+        if (targets := get_visible_targets()):
+            Logger.debug("I checked for mobs, seems to still be there let's use holy bolt.")
+            cast_pos_abs = convert_screen_to_abs(targets[0].center)
+            for _ in atk_len:
+                self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
+                if (targets := get_visible_targets()):
+                    Logger.debug("I checked for mobs agian, seems to still be there lets use holy bolt a final time.")
+                    cast_pos_abs = convert_screen_to_abs(targets[0].center)
+                    for _ in atk_len:
+                        self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:

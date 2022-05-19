@@ -1,4 +1,4 @@
-from screen import grab, convert_monitor_to_screen, convert_abs_to_screen
+from screen import grab, convert_monitor_to_screen, convert_abs_to_screen, convert_screen_to_abs
 import cv2
 from config import Config
 from template_finder import TemplateFinder
