@@ -1,0 +1,59 @@
+{
+  "Name": "SHADOW SCARAB",
+  "Quality": "rare",
+  "Text": "SHADOW SCARAB|AMULET|REQUIRED LEVEL: 19|+10% FASTER CAST RATE|COLD RESIST +30%|FIRE RESIST +10%|MAGIC DAMAGE REDUCED BY 3|POISON LENGTH REDUCED BY 25%|10% BETTER CHANCE OF GETTING MAGIC ITEMS|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Amulet",
+    "NTIPAliasClassID": 520,
+    "NTIPAliasType": 12,
+    "dimensions": [
+      1,
+      1
+    ],
+    "sets": [
+      "ANGELICWINGS",
+      "ARCANNASSIGN",
+      "CATHANSSIGIL",
+      "CIVERBSICON",
+      "IRATHASCOLLAR",
+      "TALRASHASADJUDICATION",
+      "TANCREDSWEIRD",
+      "TELLINGOFBEADS",
+      "VIDALASSNARE"
+    ],
+    "uniques": [
+      "NOKOZANRELIC",
+      "THEEYEOFETLICH",
+      "THEMAHIMOAKCURIO",
+      "THECATSEYE",
+      "THERISINGSUN",
+      "CRESCENTMOON",
+      "MARASKALEIDOSCOPE",
+      "ATMASSCARAB",
+      "HIGHLORDSWRATH",
+      "SARACENSCHANCE",
+      "SERAPHSHYMN",
+      "METALGRID"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "SHADOWSCARAB",
+  "NTIPAliasType": 12,
+  "NTIPAliasClassID": 520,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "35": 3,
+    "39": 10,
+    "43": 30,
+    "80": 10,
+    "105": 10,
+    "110": 25,
+    "92": 19
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

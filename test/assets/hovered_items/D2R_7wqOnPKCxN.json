@@ -1,0 +1,47 @@
+{
+  "Name": "GALE STINGER",
+  "Quality": "rare",
+  "Text": "GALE STINGER|ARBALEST|TWO-HAND DAMAGE: 14 TO 28|REQUIRED DEXTERITY: 61|REQUIRED STRENGTH: 52|REQUIRED LEVEL: 60|CROSSBOW CLASS - NORMAL ATTACK SPEED|+1 TO MAXIMUM DAMAGE|ADDS 1-29 LIGHTNING DAMAGE|ADDS 35-116 COLD DAMAGE|+150 POISON DAMAGE OVER 5 SECONDS|LIGHTNING RESIST +26%|LEVEL 8 MULTIPLE SHOT (60/60 CHARGES)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Arbalest",
+    "NTIPAliasClassID": 169,
+    "NTIPAliasType": 35,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 3
+      },
+      "72": 30,
+      "73": 30,
+      "23": 14,
+      "24": 27
+    },
+    "dimensions": [
+      2,
+      3
+    ],
+    "uniques": [
+      "LANGERBRISER"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": null,
+  "NTIPAliasIdName": "GALESTINGER",
+  "NTIPAliasType": 35,
+  "NTIPAliasClassID": 169,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "41": 26,
+    "50": 1,
+    "54": 35,
+    "204,12": 8,
+    "92": 60,
+    "204": 8
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

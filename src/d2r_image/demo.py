@@ -6,13 +6,15 @@ import keyboard
 import os
 import json
 import dataclasses
-
+import screen
 from utils.misc import cut_roi, slugify
 
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
 from d2r_image.processing_helpers import clean_img, crop_text_clusters
 from d2r_image.data_models import ItemQuality, ItemQualityKeyword, ItemText
+
+screen.set_window_position(0, 0)
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -43,9 +45,9 @@ def get_ground_loot():
     all_images = []
     total_elapsed_time = 0
     demo_image_count = 0
-    resource_paths = ['get_ground_loot']
+    resource_paths = ['ground_loot']
     for resource_path in resource_paths:
-        base_dir = f'test/d2r_image/resources/{resource_path}'
+        base_dir = f'test/assets/{resource_path}'
         for image_name in os.listdir(base_dir):
             if not image_name.lower().endswith('.png'):
                 continue
@@ -61,7 +63,7 @@ def get_ground_loot():
                 draw_items_on_image_data(ground_loot_list.items, image_data)
                 if gen_truth:
                     gen_truth_from_ground_loot(ground_loot_list.items, image)
-                filename_base=image_name.lower()[:-4]
+                filename_base=image_name[:-4]
                 cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
                 with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
                     json.dump(ground_loot_list, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)
@@ -86,9 +88,9 @@ def get_hovered_items():
     all_images = []
     total_elapsed_time = 0
     demo_image_count = 0
-    resource_paths = ['get_hovered_item']
+    resource_paths = ['hovered_items']
     for resource_path in resource_paths:
-        base_dir = f'test/d2r_image/resources/{resource_path}'
+        base_dir = f'test/assets/{resource_path}'
         files = os.listdir(base_dir)
         for cnt, image_name in enumerate(files):
             if not image_name.lower().endswith('.png'):
@@ -109,7 +111,7 @@ def get_hovered_items():
             else:
                 print(f'Failed: {image_name} {cnt+1}/{len(files)}')
             if item and item.BaseItem:
-                filename_base=image_name.lower()[:-4]
+                filename_base=image_name[:-4]
                 cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
                 with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
                     json.dump(item, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)

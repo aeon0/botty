@@ -1,0 +1,51 @@
+{
+  "Name": "ROSE BRANDED GLADIUS OF FIRE BOLT",
+  "Quality": "magic",
+  "Text": "ROSE BRANDED GLADIUS OF FIRE BOLT|ONE-HAND DAMAGE: 8 TO 22|DURABILITY: 24 OF 24|REQUIRED STRENGTH: 25|REQUIRED LEVEL: 45|SWORD CLASS - FAST ATTACK SPEED|+3 TO COMBAT SKILLS (PALADIN ONLY)|LEVEL 6 FIRE BOLT (35/35 CHARGES)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Gladius",
+    "NTIPAliasClassID": 118,
+    "NTIPAliasType": 30,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 24,
+      "73": 24,
+      "21": 8,
+      "22": 22,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      3
+    ],
+    "uniques": [
+      "BLOODLETTER"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": null,
+  "NTIPAliasIdName": "ROSEBRANDEDGLADIUSOFFIREBOLT",
+  "NTIPAliasType": 30,
+  "NTIPAliasClassID": 118,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "73": 24,
+    "188,9": 3,
+    "204,36": 6,
+    "92": 45,
+    "188": 3,
+    "204": 6
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

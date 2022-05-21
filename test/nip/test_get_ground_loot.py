@@ -5,7 +5,7 @@ from d2r_image import processing
 from d2r_image.data_models import D2ItemList, GroundItemList
 from functools import cache
 
-PATH='test/d2r_image/resources/get_ground_loot'
+PATH='test/assets/ground_loot'
 
 @cache
 def load_ground_loot():
@@ -33,8 +33,8 @@ def test_ground_loot():
 def generate_ground_loot_json(image_filename):
     image_path = os.path.join(
         os.path.dirname(__file__),
-        'resources',
-        'get_ground_loot',
+        'assets',
+        'ground_loot',
         image_filename)
     image = cv2.imread(image_path)
     d2_items = processing.get_ground_loot(image)

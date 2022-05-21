@@ -1,0 +1,93 @@
+{
+  "Name": "Vampire Gaze",
+  "Quality": "unique",
+  "Text": "VAMPIRE GAZE|GRIM HELM|DEFENSE: 252|DURABILITY: 40 OF 40|REQUIRED STRENGTH: 58|REQUIRED LEVEL: 41|ADDS 6-22 COLD DAMAGE|8% MANA STOLEN PER HIT|8% LIFE STOLEN PER HIT|+100% ENHANCED DEFENSE|15% SLOWER STAMINA DRAIN|DAMAGE REDUCED BY 15%|MAGIC DAMAGE REDUCED BY 20|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Grim Helm",
+    "NTIPAliasClassID": 395,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 40,
+      "73": 40,
+      "31": {
+        "min": 60,
+        "max": 125
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "sets": [
+      "NATALYASTOTEM"
+    ],
+    "uniques": [
+      "VAMPIREGAZE"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": {
+    "DisplayName": "Vampire Gaze",
+    "NTIPAliasClassID": 395,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "62": {
+        "min": 6,
+        "max": 8
+      },
+      "60": {
+        "min": 6,
+        "max": 8
+      },
+      "154": {
+        "min": 15,
+        "max": 15
+      },
+      "36": {
+        "min": 15,
+        "max": 20
+      },
+      "35": {
+        "min": 10,
+        "max": 15
+      },
+      "16,0": {
+        "min": 100,
+        "max": 100
+      },
+      "54": 6,
+      "55": 22
+    }
+  },
+  "NTIPAliasIdName": "VAMPIREGAZE",
+  "NTIPAliasType": 37,
+  "NTIPAliasClassID": 395,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "31": 252,
+    "36": 15,
+    "16": 100,
+    "35": 20,
+    "73": 40,
+    "62": 8,
+    "60": 8,
+    "154": 15,
+    "194": 1,
+    "54": 6,
+    "92": 41
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

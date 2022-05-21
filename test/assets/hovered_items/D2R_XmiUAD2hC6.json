@@ -1,0 +1,43 @@
+{
+  "Name": "CRUEL GHOST GLAIVE OF PROPOGATION",
+  "Quality": "magic",
+  "Text": "CRUEL GHOST GLAIVE OF PROPOGATION|THROW DAMAGE: 180 TO 508|ONE-HAND DAMAGE: 112 TO 360|QUANTITY: 106 OF 120|REQUIRED DEXTERITY: 127|REQUIRED STRENGTH: 79|REQUIRED LEVEL: 59|JAVELIN CLASS - NORMAL ATTACK SPEED|INDESTRUCTIBLE|+300% ENHANCED DAMAGE|REPLENISHES QUANTITY|ETHEREAL (CANNOT BE REPAIRED)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Ghost Glaive",
+    "NTIPAliasClassID": 246,
+    "NTIPAliasType": 44,
+    "NTIPAliasStatProps": {
+      "72": 16,
+      "73": 16,
+      "21": 19,
+      "22": 60,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      4
+    ],
+    "uniques": [
+      "WRAITHFLIGHT"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": null,
+  "NTIPAliasIdName": "CRUELGHOSTGLAIVEOFPROPOGATION",
+  "NTIPAliasType": 44,
+  "NTIPAliasClassID": 246,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "253": true,
+    "92": 59
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": true,
+    "0x4000000": false
+  }
+}

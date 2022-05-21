@@ -1,0 +1,73 @@
+{
+  "Name": "Unearthed Wand",
+  "Quality": "normal",
+  "Text": "UNEARTHED WAND|ONE-HAND DAMAGE: 22 TO 28|REQUIRED STRENGTH: 25|REQUIRED LEVEL: 64|STAFF CLASS - FAST ATTACK SPEED|INDESTRUCTIBLE|+50% DAMAGE TO UNDEAD|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Unearthed Wand",
+    "NTIPAliasClassID": 209,
+    "NTIPAliasType": 25,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 18,
+      "73": 18,
+      "21": 22,
+      "22": 28,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      2
+    ],
+    "uniques": [
+      "DEATHSWEB"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Unearthed Wand",
+    "NTIPAliasClassID": 209,
+    "NTIPAliasType": 25,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 18,
+      "73": 18,
+      "21": 22,
+      "22": 28,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      2
+    ],
+    "uniques": [
+      "DEATHSWEB"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "NTIPAliasIdName": "UNEARTHEDWAND",
+  "NTIPAliasType": 25,
+  "NTIPAliasClassID": 209,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 2,
+  "NTIPAliasStat": {
+    "122": 50,
+    "92": 64
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

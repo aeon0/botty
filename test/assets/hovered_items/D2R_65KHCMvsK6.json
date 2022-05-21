@@ -1,0 +1,56 @@
+{
+  "Name": "MARSHAL'S MIGHTY SCEPTER OF THE APPRENTICE",
+  "Quality": "magic",
+  "Text": "MARSHAL'S MIGHTY SCEPTER OF THE APPRENTICE|ONE-HAND DAMAGE: 40 TO 52|DURABILITY: 50 OF 50|REQUIRED DEXTERITY: 65|REQUIRED STRENGTH: 125|REQUIRED LEVEL: 46|MACE CLASS - FAST ATTACK SPEED|+3 TO OFFENSIVE AURAS (PALADIN ONLY)|+10% FASTER CAST RATE|+3 TO CONVICTION (PALADIN ONLY)|+3 TO FIST OF THE HEAVENS (PALADIN ONLY)|+3 TO HOLY SHOCK (PALADIN ONLY)|+50% DAMAGE TO UNDEAD|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Mighty Scepter",
+    "NTIPAliasClassID": 211,
+    "NTIPAliasType": 24,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 50,
+      "73": 50,
+      "21": 40,
+      "22": 52,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      3
+    ],
+    "uniques": [
+      "HEAVENSLIGHT",
+      "THEREDEEMER"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": null,
+  "NTIPAliasIdName": "MARSHALSMIGHTYSCEPTEROFTHEAPPRENTICE",
+  "NTIPAliasType": 24,
+  "NTIPAliasClassID": 211,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "73": 50,
+    "105": 10,
+    "122": 50,
+    "107,118": 3,
+    "107,121": 3,
+    "107,123": 3,
+    "188,10": 3,
+    "92": 46,
+    "107": 3,
+    "188": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

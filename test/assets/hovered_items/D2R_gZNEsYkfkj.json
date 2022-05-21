@@ -1,0 +1,50 @@
+{
+  "Name": "JEWELER'S RONDACHE OF DEFLECTING",
+  "Quality": "magic",
+  "Text": "JEWELER'S RONDACHE OF DEFLECTING|DEFENSE: 18|CHANCE TO BLOCK: 60%|DURABILITY: 30 OF 30|(PALADIN ONLY)|REQUIRED STRENGTH: 26|REQUIRED LEVEL: 47|+30% FASTER BLOCK RATE|20% INCREASED CHANCE OF BLOCKING|SOCKETED (4)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Rondache",
+    "NTIPAliasClassID": 409,
+    "NTIPAliasType": 70,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 4
+      },
+      "72": 30,
+      "73": 30,
+      "31": {
+        "min": 10,
+        "max": 18
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "NTIPAliasClass": 0
+  },
+  "Item": null,
+  "NTIPAliasIdName": "JEWELERSRONDACHEOFDEFLECTING",
+  "NTIPAliasType": 70,
+  "NTIPAliasClassID": 409,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "31": 18,
+    "20": 20,
+    "73": 30,
+    "102": 30,
+    "194": 4,
+    "92": 47
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

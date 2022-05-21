@@ -1,0 +1,60 @@
+{
+  "Name": "GRIM EYE",
+  "Quality": "rare",
+  "Text": "GRIM EYE|AMULET|REQUIRED LEVEL: 67|+2 TO SORCERESS SKILL LEVELS|+10% FASTER CAST RATE|+26 TO STRENGTH|+20 TO ENERGY|+90 TO MANA|+12% DAMAGE TAKEN GOES TO MANA|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Amulet",
+    "NTIPAliasClassID": 520,
+    "NTIPAliasType": 12,
+    "dimensions": [
+      1,
+      1
+    ],
+    "sets": [
+      "ANGELICWINGS",
+      "ARCANNASSIGN",
+      "CATHANSSIGIL",
+      "CIVERBSICON",
+      "IRATHASCOLLAR",
+      "TALRASHASADJUDICATION",
+      "TANCREDSWEIRD",
+      "TELLINGOFBEADS",
+      "VIDALASSNARE"
+    ],
+    "uniques": [
+      "NOKOZANRELIC",
+      "THEEYEOFETLICH",
+      "THEMAHIMOAKCURIO",
+      "THECATSEYE",
+      "THERISINGSUN",
+      "CRESCENTMOON",
+      "MARASKALEIDOSCOPE",
+      "ATMASSCARAB",
+      "HIGHLORDSWRATH",
+      "SARACENSCHANCE",
+      "SERAPHSHYMN",
+      "METALGRID"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "GRIMEYE",
+  "NTIPAliasType": 12,
+  "NTIPAliasClassID": 520,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "0": 26,
+    "1": 20,
+    "9": 90,
+    "114": 12,
+    "83,1": 2,
+    "105": 10,
+    "92": 67,
+    "83": 2
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

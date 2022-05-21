@@ -1,0 +1,45 @@
+{
+  "Name": "JADE BALLISTA OF MAGIC ARROW",
+  "Quality": "magic",
+  "Text": "JADE BALLISTA OF MAGIC ARROW|TWO-HAND DAMAGE: 33 TO 55|REQUIRED DEXTERITY: 80|REQUIRED STRENGTH: 110|REQUIRED LEVEL: 41|CROSSBOW CLASS - VERY SLOW ATTACK SPEED|POISON RESIST +26%|LEVEL 10 MAGIC ARROW (67/67 CHARGES)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Ballista",
+    "NTIPAliasClassID": 171,
+    "NTIPAliasType": 35,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 50,
+      "73": 50,
+      "23": 33,
+      "24": 55
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "BURIZADOKYANON"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": null,
+  "NTIPAliasIdName": "JADEBALLISTAOFMAGICARROW",
+  "NTIPAliasType": 35,
+  "NTIPAliasClassID": 171,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "45": 26,
+    "204,6": 10,
+    "92": 41,
+    "204": 10
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "Name": "Phase Blade",
+  "Quality": "normal",
+  "Text": "PHASE BLADE|ONE-HAND DAMAGE: 31 TO 35|REQUIRED DEXTERITY: 136|REQUIRED STRENGTH: 25|REQUIRED LEVEL: 54|SWORD CLASS - VERY FAST ATTACK SPEED|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Phase Blade",
+    "NTIPAliasClassID": 225,
+    "NTIPAliasType": 30,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "21": 31,
+      "22": 35
+    },
+    "dimensions": [
+      2,
+      3
+    ],
+    "uniques": [
+      "LIGHTSABRE",
+      "AZUREWRATH"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Phase Blade",
+    "NTIPAliasClassID": 225,
+    "NTIPAliasType": 30,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "21": 31,
+      "22": 35
+    },
+    "dimensions": [
+      2,
+      3
+    ],
+    "uniques": [
+      "LIGHTSABRE",
+      "AZUREWRATH"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "NTIPAliasIdName": "PHASEBLADE",
+  "NTIPAliasType": 30,
+  "NTIPAliasClassID": 225,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 2,
+  "NTIPAliasStat": {
+    "92": 54
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "Name": "ARCHER'S GRAND MATRON BOW OF ALACRITY",
+  "Quality": "magic",
+  "Text": "ARCHER'S GRAND MATRON BOW OF ALACRITY|TWO-HAND DAMAGE: 14 TO 72|(AMAZON ONLY)|REQUIRED DEXTERITY: 152|REQUIRED STRENGTH: 108|REQUIRED LEVEL: 58|BOW CLASS - VERY FAST ATTACK SPEED|+6 TO BOW AND CROSSBOW SKILLS (AMAZON ONLY)|+20% INCREASED ATTACK SPEED|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Grand Matron Bow",
+    "NTIPAliasClassID": 302,
+    "NTIPAliasType": 85,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 5
+      },
+      "72": 55,
+      "73": 55,
+      "23": 14,
+      "24": 72
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "sets": [
+      "MAVINASCASTER"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": null,
+  "NTIPAliasIdName": "ARCHERSGRANDMATRONBOWOFALACRITY",
+  "NTIPAliasType": 85,
+  "NTIPAliasClassID": 302,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "93": 20,
+    "188,0": 6,
+    "92": 58,
+    "188": 6
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

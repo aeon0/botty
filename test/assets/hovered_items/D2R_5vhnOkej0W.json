@@ -1,0 +1,52 @@
+{
+  "Name": "CHAOS GRASP",
+  "Quality": "rare",
+  "Text": "CHAOS GRASP|RING|REQUIRED LEVEL: 60|+10% FASTER CAST RATE|+15 TO DEXTERITY|+40 TO LIFE|COLD RESIST +11%|LIGHTNING RESIST +41%|FIRE RESIST +11%|POISON RESIST +11%|10% BETTER CHANCE OF GETTING MAGIC ITEMS|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Ring",
+    "NTIPAliasClassID": 522,
+    "NTIPAliasType": 10,
+    "dimensions": [
+      1,
+      1
+    ],
+    "sets": [
+      "ANGELICHALO",
+      "CATHANSSEAL"
+    ],
+    "uniques": [
+      "NAGELRING",
+      "MANALDHEAL",
+      "THESTONEOFJORDAN",
+      "CONSTRICTINGRING",
+      "BULKATHOSWEDDINGBAND",
+      "DWARFSTAR",
+      "RAVENFROST",
+      "NATURESPEACE",
+      "WISPPROJECTOR",
+      "CARRIONWIND"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "CHAOSGRASP",
+  "NTIPAliasType": 10,
+  "NTIPAliasClassID": 522,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "2": 15,
+    "7": 40,
+    "39": 11,
+    "41": 41,
+    "43": 11,
+    "45": 11,
+    "80": 10,
+    "105": 10,
+    "92": 60
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

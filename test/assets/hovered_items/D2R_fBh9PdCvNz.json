@@ -1,0 +1,72 @@
+{
+  "Name": "Lochaber Axe",
+  "Quality": "normal",
+  "Text": "LOCHABER AXE|TWO-HAND DAMAGE: 6 TO 58|REQUIRED STRENGTH: 80|REQUIRED LEVEL: 21|POLEARM CLASS - SLOW ATTACK SPEED|INDESTRUCTIBLE|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Lochaber Axe",
+    "NTIPAliasClassID": 150,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 3
+      },
+      "72": 50,
+      "73": 50,
+      "23": 6,
+      "24": 58,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "THEMEATSCRAPER"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": {
+    "DisplayName": "Lochaber Axe",
+    "NTIPAliasClassID": 150,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 3
+      },
+      "72": 50,
+      "73": 50,
+      "23": 6,
+      "24": 58,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "THEMEATSCRAPER"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "NTIPAliasIdName": "LOCHABERAXE",
+  "NTIPAliasType": 34,
+  "NTIPAliasClassID": 150,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 2,
+  "NTIPAliasStat": {
+    "92": 21
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

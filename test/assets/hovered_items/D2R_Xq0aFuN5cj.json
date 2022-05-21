@@ -1,0 +1,110 @@
+{
+  "Name": "Andariel's Visage",
+  "Quality": "unique",
+  "Text": "ANDARIEL'S VISAGE|DEMONHEAD|DEFENSE: 387|DURABILITY: 20 OF 20|REQUIRED STRENGTH: 102|REQUIRED LEVEL: 83|15% CHANCE TO CAST LEVEL 15 POISON NOVA WHEN STRUCK|+2 TO ALL SKILLS|+20% INCREASED ATTACK SPEED|10% LIFE STOLEN PER HIT|+150% ENHANCED DEFENSE|+30 TO STRENGTH|+10% TO MAXIMUM POISON RESIST|FIRE RESIST -30%|POISON RESIST +70%|LEVEL 3 VENOM (20/20 CHARGES)|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Demonhead",
+    "NTIPAliasClassID": 428,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 3
+      },
+      "72": 20,
+      "73": 20,
+      "31": {
+        "min": 101,
+        "max": 154
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "uniques": [
+      "ANDARIELSVISAGE"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Andariel's Visage",
+    "NTIPAliasClassID": 428,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "16,0": {
+        "min": 100,
+        "max": 150
+      },
+      "45": {
+        "min": 70,
+        "max": 70
+      },
+      "127": {
+        "min": 2,
+        "max": 2
+      },
+      "46": {
+        "min": 10,
+        "max": 10
+      },
+      "93": {
+        "min": 20,
+        "max": 20
+      },
+      "0": {
+        "min": 25,
+        "max": 30
+      },
+      "201": {
+        "chance": 15,
+        "level": 15,
+        "skill": "Poison Nova"
+      },
+      "204": {
+        "charges": 20,
+        "level": 3,
+        "skill": "Venom"
+      },
+      "60": {
+        "min": 8,
+        "max": 10
+      },
+      "39": {
+        "min": -30,
+        "max": -30
+      }
+    }
+  },
+  "NTIPAliasIdName": "ANDARIELSVISAGE",
+  "NTIPAliasType": 37,
+  "NTIPAliasClassID": 428,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "31": 387,
+    "16": 150,
+    "0": 30,
+    "45": 70,
+    "46": 10,
+    "73": 20,
+    "93": 20,
+    "60": 10,
+    "127": 2,
+    "201,92": 15,
+    "194": 1,
+    "204,278": 3,
+    "92": 83,
+    "201": 15,
+    "204": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

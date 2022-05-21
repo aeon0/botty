@@ -1,0 +1,105 @@
+{
+  "Name": "Harlequin Crest",
+  "Quality": "unique",
+  "Text": "HARLEQUIN CREST|SHAKO|DEFENSE: 141|DURABILITY: 12 OF 12|REQUIRED STRENGTH: 50|REQUIRED LEVEL: 62|+2 TO ALL SKILLS|+2 TO ALL ATTRIBUTES|+148 TO LIFE (BASED ON CHARACTER LEVEL)|+148 TO MANA (BASED ON CHARACTER LEVEL)|DAMAGE REDUCED BY 10%|50% BETTER CHANCE OF GETTING MAGIC ITEMS|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Shako",
+    "NTIPAliasClassID": 422,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 12,
+      "73": 12,
+      "31": {
+        "min": 98,
+        "max": 141
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "uniques": [
+      "HARLEQUINCREST"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Harlequin Crest",
+    "NTIPAliasClassID": 422,
+    "NTIPAliasType": 37,
+    "NTIPAliasStatProps": {
+      "127": {
+        "min": 2,
+        "max": 2
+      },
+      "216": {
+        "min": null,
+        "max": null,
+        "par": 12
+      },
+      "217": {
+        "min": null,
+        "max": null,
+        "par": 12
+      },
+      "80": {
+        "min": 50,
+        "max": 50
+      },
+      "36": {
+        "min": 10,
+        "max": 10
+      },
+      "0": {
+        "min": 2,
+        "max": 2
+      },
+      "2": {
+        "min": 2,
+        "max": 2
+      },
+      "3": {
+        "min": 2,
+        "max": 2
+      },
+      "1": {
+        "min": 2,
+        "max": 2
+      }
+    }
+  },
+  "NTIPAliasIdName": "HARLEQUINCREST",
+  "NTIPAliasType": 37,
+  "NTIPAliasClassID": 422,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "31": 141,
+    "36": 10,
+    "73": 12,
+    "80": 50,
+    "127": 2,
+    "194": 1,
+    "216": 148,
+    "217": 148,
+    "420": 2,
+    "0": 2,
+    "2": 2,
+    "3": 2,
+    "1": 2,
+    "92": 62
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

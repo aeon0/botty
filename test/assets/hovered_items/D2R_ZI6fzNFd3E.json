@@ -1,0 +1,61 @@
+{
+  "Name": "SKULL WEAVER",
+  "Quality": "rare",
+  "Text": "SKULL WEAVER|BONE WAND|ONE-HAND DAMAGE: 3 TO 7|DURABILITY: 15 OF 15|REQUIRED LEVEL: 52|STAFF CLASS - VERY FAST ATTACK SPEED|+2 TO NECROMANCER SKILL LEVELS|+20% FASTER CAST RATE|+3 TO BONE SPIRIT (NECROMANCER ONLY)|+3 TO IRON GOLEM (NECROMANCER ONLY)|+3 TO BONE SPEAR (NECROMANCER ONLY)|+20 TO ENERGY|REPLENISH LIFE +5|+76 TO MANA|+50% DAMAGE TO UNDEAD|SOCKETED (2)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Bone Wand",
+    "NTIPAliasClassID": 12,
+    "NTIPAliasType": 25,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 15,
+      "73": 15,
+      "21": 3,
+      "22": 7,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      2
+    ],
+    "sets": [
+      "SANDERSSUPERSTITION"
+    ],
+    "uniques": [
+      "GRAVENSPINE"
+    ],
+    "NTIPAliasClass": 0
+  },
+  "Item": null,
+  "NTIPAliasIdName": "SKULLWEAVER",
+  "NTIPAliasType": 25,
+  "NTIPAliasClassID": 12,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "1": 20,
+    "9": 76,
+    "73": 15,
+    "74": 5,
+    "83,2": 2,
+    "105": 20,
+    "122": 50,
+    "107,84": 3,
+    "107,93": 3,
+    "194": 2,
+    "92": 52,
+    "83": 2,
+    "107": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

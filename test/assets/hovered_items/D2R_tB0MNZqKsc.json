@@ -1,0 +1,54 @@
+{
+  "Name": "JEWELER'S PRESERVED HEAD OF DEFLECTING",
+  "Quality": "magic",
+  "Text": "JEWELER'S PRESERVED HEAD OF DEFLECTING|DEFENSE: 5|CHANCE TO BLOCK: 48%|DURABILITY: 20 OF 20|(NECROMANCER ONLY)|REQUIRED STRENGTH: 12|REQUIRED LEVEL: 47|+30% FASTER BLOCK RATE|20% INCREASED CHANCE OF BLOCKING|ADDS 25-50 POISON DAMAGE OVER 4 SECONDS|+3 TO POISON NOVA (NECROMANCER ONLY)|+3 TO IRON GOLEM (NECROMANCER ONLY)|+3 TO POISON EXPLOSION (NECROMANCER ONLY)|SOCKETED (2)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Preserved Head",
+    "NTIPAliasClassID": 413,
+    "NTIPAliasType": 69,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 20,
+      "73": 20,
+      "31": {
+        "min": 2,
+        "max": 5
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "NTIPAliasClass": 0
+  },
+  "Item": null,
+  "NTIPAliasIdName": "JEWELERSPRESERVEDHEADOFDEFLECTING",
+  "NTIPAliasType": 69,
+  "NTIPAliasClassID": 413,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "31": 5,
+    "20": 20,
+    "73": 20,
+    "102": 30,
+    "107,83": 3,
+    "107,92": 3,
+    "194": 2,
+    "57": 25,
+    "92": 47,
+    "107": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

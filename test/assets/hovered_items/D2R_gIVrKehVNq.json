@@ -1,0 +1,241 @@
+{
+  "Name": "Ormus' Robes",
+  "Quality": "unique",
+  "Text": "ORMUS' ROBES|DUSK SHROUD|DEFENSE: 482|DURABILITY: 20 OF 20|REQUIRED STRENGTH: 77|REQUIRED LEVEL: 75|+20% FASTER CAST RATE|+15% TO COLD SKILL DAMAGE|+15% TO LIGHTNING SKILL DAMAGE|+15% TO FIRE SKILL DAMAGE|+3 TO FROZEN ORB (SORCERESS ONLY)|+20 DEFENSE|REGENERATE MANA 15%|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Dusk Shroud",
+    "NTIPAliasClassID": 429,
+    "NTIPAliasType": 3,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 4
+      },
+      "72": 20,
+      "73": 20,
+      "31": {
+        "min": 361,
+        "max": 467
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      3
+    ],
+    "sets": [
+      "DARKADHERENT"
+    ],
+    "uniques": [
+      "ORMUSROBES"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Ormus' Robes",
+    "NTIPAliasClassID": 429,
+    "NTIPAliasType": 3,
+    "NTIPAliasStatProps": {
+      "31": {
+        "min": 10,
+        "max": 20
+      },
+      "105": {
+        "min": 20,
+        "max": 20
+      },
+      "329": {
+        "min": 10,
+        "max": 15
+      },
+      "331": {
+        "min": 10,
+        "max": 15
+      },
+      "330": {
+        "min": 10,
+        "max": 15
+      },
+      "27": {
+        "min": 10,
+        "max": 15
+      },
+      "107,36": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,37": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,38": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,39": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,40": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,41": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,42": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,43": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,44": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,45": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,46": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,47": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,48": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,49": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,50": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,51": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,52": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,53": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,54": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,55": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,56": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,57": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,58": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,59": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,60": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,61": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,62": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,63": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,64": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      },
+      "107,65": {
+        "min": 36,
+        "max": 60,
+        "par": "Unsummon"
+      }
+    }
+  },
+  "NTIPAliasIdName": "ORMUSROBES",
+  "NTIPAliasType": 3,
+  "NTIPAliasClassID": 429,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "31": 482,
+    "73": 20,
+    "27": 15,
+    "105": 20,
+    "107,64": 3,
+    "194": 1,
+    "329": 15,
+    "330": 15,
+    "331": 15,
+    "92": 75,
+    "107": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

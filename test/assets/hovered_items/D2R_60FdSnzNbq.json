@@ -1,0 +1,72 @@
+{
+  "Name": "Giant Thresher",
+  "Quality": "superior",
+  "Text": "SUPERIOR GIANT THRESHER|TWO-HAND DAMAGE: 60 TO 171|REQUIRED DEXTERITY: 130|REQUIRED STRENGTH: 178|REQUIRED LEVEL: 66|POLEARM CLASS - NORMAL ATTACK SPEED|INDESTRUCTIBLE|ETHEREAL (CANNOT BE REPAIRED)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Giant Thresher",
+    "NTIPAliasClassID": 258,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 55,
+      "73": 55,
+      "23": 40,
+      "24": 114,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "STORMSPIRE"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Giant Thresher",
+    "NTIPAliasClassID": 258,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 55,
+      "73": 55,
+      "23": 40,
+      "24": 114,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "STORMSPIRE"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "NTIPAliasIdName": "SUPERIORGIANTTHRESHER",
+  "NTIPAliasType": 34,
+  "NTIPAliasClassID": 258,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 3,
+  "NTIPAliasStat": {
+    "92": 66
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": true,
+    "0x4000000": false
+  }
+}

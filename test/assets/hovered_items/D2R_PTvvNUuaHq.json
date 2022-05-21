@@ -1,0 +1,88 @@
+{
+  "Name": "Doombringer",
+  "Quality": "unique",
+  "Text": "DOOMBRINGER|CHAMPION SWORD|TWO-HAND DAMAGE: 278 TO 390|REQUIRED DEXTERITY: 103|REQUIRED STRENGTH: 163|REQUIRED LEVEL: 69|SWORD CLASS - FAST ATTACK SPEED|INDESTRUCTIBLE|8% CHANCE TO CAST LEVEL 3 WEAKEN ON STRIKING|+250% ENHANCED DAMAGE|ADDS 30-100 DAMAGE|40% BONUS TO ATTACK RATING|7% LIFE STOLEN PER HIT|INCREASE MAXIMUM LIFE 20%|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Champion Sword",
+    "NTIPAliasClassID": 232,
+    "NTIPAliasType": 30,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 4
+      },
+      "72": 40,
+      "73": 40,
+      "21": 24,
+      "22": 54,
+      "23": 71,
+      "24": 83,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      1,
+      4
+    ],
+    "uniques": [
+      "DOOMBRINGER"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Doombringer",
+    "NTIPAliasClassID": 232,
+    "NTIPAliasType": 30,
+    "NTIPAliasStatProps": {
+      "76": {
+        "min": 20,
+        "max": 20
+      },
+      "25": {
+        "min": 180,
+        "max": 250
+      },
+      "119": {
+        "min": 40,
+        "max": 40
+      },
+      "152": {
+        "min": 1,
+        "max": 1
+      },
+      "21": 30,
+      "22": 100,
+      "198": {
+        "chance": 8,
+        "level": 3,
+        "skill": "Weaken"
+      },
+      "60": {
+        "min": 5,
+        "max": 7
+      }
+    }
+  },
+  "NTIPAliasIdName": "DOOMBRINGER",
+  "NTIPAliasType": 30,
+  "NTIPAliasClassID": 232,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "76": 20,
+    "60": 7,
+    "119": 40,
+    "198,72": 8,
+    "194": 1,
+    "21": 30,
+    "92": 69,
+    "198": 8
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

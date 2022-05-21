@@ -1,0 +1,50 @@
+{
+  "Name": "GHOUL SLAYER",
+  "Quality": "rare",
+  "Text": "GHOUL SLAYER|ANCIENT AXE|TWO-HAND DAMAGE: 288 TO 591|DURABILITY: 26 OF 26|REQUIRED STRENGTH: 115|REQUIRED LEVEL: 48|AXE CLASS - FAST ATTACK SPEED|+40% INCREASED ATTACK SPEED|+350% ENHANCED DAMAGE|+20 TO MAXIMUM DAMAGE|+550 TO ATTACK RATING|REPAIRS 1 DURABILITY IN 20 SECONDS|ETHEREAL (CANNOT BE REPAIRED)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Ancient Axe",
+    "NTIPAliasClassID": 102,
+    "NTIPAliasType": 28,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 50,
+      "73": 50,
+      "23": 43,
+      "24": 85,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      3
+    ],
+    "uniques": [
+      "THEMINOTAUR"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": null,
+  "NTIPAliasIdName": "GHOULSLAYER",
+  "NTIPAliasType": 28,
+  "NTIPAliasClassID": 102,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "19": 550,
+    "73": 26,
+    "93": 40,
+    "252": 20,
+    "92": 48
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": true,
+    "0x4000000": false
+  }
+}

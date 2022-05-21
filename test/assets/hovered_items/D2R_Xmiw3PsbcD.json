@@ -1,0 +1,73 @@
+{
+  "Name": "Cryptic Axe",
+  "Quality": "gray",
+  "Text": "CRYPTIC AXE|TWO-HAND DAMAGE: 49 TO 225|DURABILITY: 33 OF 33|REQUIRED DEXTERITY: 93|REQUIRED STRENGTH: 155|REQUIRED LEVEL: 59|POLEARM CLASS - SLOW ATTACK SPEED|ETHEREAL (CANNOT BE REPAIRED), SOCKETED (4)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Cryptic Axe",
+    "NTIPAliasClassID": 256,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 5
+      },
+      "72": 65,
+      "73": 65,
+      "23": 33,
+      "24": 150,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "TOMBREAVER"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "Cryptic Axe",
+    "NTIPAliasClassID": 256,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 5
+      },
+      "72": 65,
+      "73": 65,
+      "23": 33,
+      "24": 150,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "TOMBREAVER"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "NTIPAliasIdName": "CRYPTICAXE",
+  "NTIPAliasType": 34,
+  "NTIPAliasClassID": 256,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 1,
+  "NTIPAliasStat": {
+    "73": 33,
+    "92": 59
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": true,
+    "0x4000000": false
+  }
+}

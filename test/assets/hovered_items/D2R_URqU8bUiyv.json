@@ -1,0 +1,45 @@
+{
+  "Name": "ARCHER'S HYDRA BOW OF ALACRITY",
+  "Quality": "magic",
+  "Text": "ARCHER'S HYDRA BOW OF ALACRITY|TWO-HAND DAMAGE: 10 TO 68|REQUIRED DEXTERITY: 167|REQUIRED STRENGTH: 134|REQUIRED LEVEL: 63|BOW CLASS - VERY FAST ATTACK SPEED|+3 TO BOW AND CROSSBOW SKILLS (AMAZON ONLY)|+20% INCREASED ATTACK SPEED|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Hydra Bow",
+    "NTIPAliasClassID": 271,
+    "NTIPAliasType": 27,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 55,
+      "73": 55,
+      "23": 10,
+      "24": 68
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "WINDFORCE"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": null,
+  "NTIPAliasIdName": "ARCHERSHYDRABOWOFALACRITY",
+  "NTIPAliasType": 27,
+  "NTIPAliasClassID": 271,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "93": 20,
+    "188,0": 3,
+    "92": 63,
+    "188": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

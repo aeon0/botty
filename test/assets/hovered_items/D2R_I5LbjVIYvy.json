@@ -1,0 +1,88 @@
+{
+  "Name": "The Reaper's Toll",
+  "Quality": "unique",
+  "Text": "THE REAPER'S TOLL|THRESHER|TWO-HAND DAMAGE: 40 TO 479|DURABILITY: 65 OF 65|REQUIRED DEXTERITY: 89|REQUIRED STRENGTH: 114|REQUIRED LEVEL: 75|POLEARM CLASS - NORMAL ATTACK SPEED|33% CHANCE TO CAST LEVEL 1 DECREPIFY ON STRIKING|+240% ENHANCED DAMAGE|IGNORE TARGET'S DEFENSE|ADDS 4-44 COLD DAMAGE|15% LIFE STOLEN PER HIT|+33% DEADLY STRIKE|REQUIREMENTS -25%|SOCKETED (1)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Thresher",
+    "NTIPAliasClassID": 255,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 5
+      },
+      "72": 65,
+      "73": 65,
+      "23": 12,
+      "24": 141,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "THEREAPERSTOLL"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": {
+    "DisplayName": "The Reaper's Toll",
+    "NTIPAliasClassID": 255,
+    "NTIPAliasType": 34,
+    "NTIPAliasStatProps": {
+      "25": {
+        "min": 190,
+        "max": 240
+      },
+      "198": {
+        "chance": 33,
+        "level": 1,
+        "skill": "Decrepify"
+      },
+      "115": {
+        "min": 1,
+        "max": 1
+      },
+      "60": {
+        "min": 11,
+        "max": 15
+      },
+      "91": {
+        "min": -25,
+        "max": -25
+      },
+      "141": {
+        "min": 33,
+        "max": 33
+      },
+      "54": 4,
+      "55": 44
+    }
+  },
+  "NTIPAliasIdName": "THEREAPERSTOLL",
+  "NTIPAliasType": 34,
+  "NTIPAliasClassID": 255,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "73": 65,
+    "60": 15,
+    "91": 25,
+    "115": true,
+    "141": 33,
+    "198,87": 33,
+    "194": 1,
+    "54": 4,
+    "92": 75,
+    "198": 33
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

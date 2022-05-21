@@ -1,0 +1,84 @@
+{
+  "Name": "Chance Guards",
+  "Quality": "unique",
+  "Text": "CHANCE GUARDS|CHAIN GLOVES|DEFENSE: 28|DURABILITY: 16 OF 16|REQUIRED STRENGTH: 25|REQUIRED LEVEL: 15|+25 TO ATTACK RATING|+30% ENHANCED DEFENSE|+15 DEFENSE|200% EXTRA GOLD FROM MONSTERS|40% BETTER CHANCE OF GETTING MAGIC ITEMS|+2 TO LIGHT RADIUS|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Chain Gloves",
+    "NTIPAliasClassID": 336,
+    "NTIPAliasType": 16,
+    "NTIPAliasStatProps": {
+      "72": 16,
+      "73": 16,
+      "31": {
+        "min": 8,
+        "max": 9
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "sets": [
+      "CLEGLAWSPINCERS"
+    ],
+    "uniques": [
+      "CHANCEGUARDS"
+    ],
+    "NTIPAliasClass": 0
+  },
+  "Item": {
+    "DisplayName": "Chance Guards",
+    "NTIPAliasClassID": 336,
+    "NTIPAliasType": 16,
+    "NTIPAliasStatProps": {
+      "79": {
+        "min": 200,
+        "max": 200
+      },
+      "80": {
+        "min": 25,
+        "max": 40
+      },
+      "19": {
+        "min": 25,
+        "max": 25
+      },
+      "31": {
+        "min": 15,
+        "max": 15
+      },
+      "89": {
+        "min": 2,
+        "max": 2
+      },
+      "16,0": {
+        "min": 20,
+        "max": 30
+      }
+    }
+  },
+  "NTIPAliasIdName": "CHANCEGUARDS",
+  "NTIPAliasType": 16,
+  "NTIPAliasClassID": 336,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 7,
+  "NTIPAliasStat": {
+    "31": 28,
+    "16": 30,
+    "19": 25,
+    "73": 16,
+    "79": 200,
+    "80": 40,
+    "89": 2,
+    "92": 15
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

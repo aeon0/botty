@@ -1,0 +1,67 @@
+{
+  "Name": "GHOUL EMBLEM",
+  "Quality": "rare",
+  "Text": "GHOUL EMBLEM|CANTOR TROPHY|DEFENSE: 145|CHANCE TO BLOCK: 45%|DURABILITY: 11 OF 11|(NECROMANCER ONLY)|REQUIRED STRENGTH: 40|REQUIRED LEVEL: 36|+2 TO POISON AND BONE SKILLS (NECROMANCER ONLY)|+15% FASTER BLOCK RATE|10% INCREASED CHANCE OF BLOCKING|ADDS 13-28 POISON DAMAGE OVER 4 SECONDS|+3 TO BONE SPIRIT (NECROMANCER ONLY)|+3 TO BONE SPEAR (NECROMANCER ONLY)|+3 TO BONE WALL (NECROMANCER ONLY)|+49 DEFENSE (BASED ON CHARACTER LEVEL)|ALL RESISTANCES +20|HALF FREEZE DURATION|REPAIRS 1 DURABILITY IN 20 SECONDS|ETHEREAL (CANNOT BE REPAIRED)|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Cantor Trophy",
+    "NTIPAliasClassID": 486,
+    "NTIPAliasType": 69,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 2
+      },
+      "72": 20,
+      "73": 20,
+      "31": {
+        "min": 50,
+        "max": 64
+      },
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      2
+    ],
+    "sets": [
+      "TRANGOULSWING"
+    ],
+    "NTIPAliasClass": 1
+  },
+  "Item": null,
+  "NTIPAliasIdName": "GHOULEMBLEM",
+  "NTIPAliasType": 69,
+  "NTIPAliasClassID": 486,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "31": 145,
+    "20": 10,
+    "6969": 20,
+    "39": 20,
+    "41": 20,
+    "43": 20,
+    "45": 20,
+    "73": 11,
+    "102": 15,
+    "118": true,
+    "107,78": 3,
+    "107,84": 3,
+    "107,93": 3,
+    "188,7": 2,
+    "57": 13,
+    "214": 49,
+    "252": 20,
+    "92": 36,
+    "107": 3,
+    "188": 2
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": true,
+    "0x4000000": false
+  }
+}

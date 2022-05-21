@@ -1,0 +1,59 @@
+{
+  "Name": "SKULL SPELL",
+  "Quality": "rare",
+  "Text": "SKULL SPELL|ARCHON STAFF|TWO-HAND DAMAGE: 83 TO 99|DURABILITY: 26 OF 26|REQUIRED STRENGTH: 34|REQUIRED LEVEL: 66|STAFF CLASS - NORMAL ATTACK SPEED|+2 TO SORCERESS SKILL LEVELS|+20% INCREASED ATTACK SPEED|+20% FASTER CAST RATE|+3 TO COLD MASTERY (SORCERESS ONLY)|+3 TO FROZEN ORB (SORCERESS ONLY)|+3 TO GLACIAL SPIKE (SORCERESS ONLY)|+20 TO ENERGY|+76 TO MANA|+10% DAMAGE TAKEN GOES TO MANA|+50% DAMAGE TO UNDEAD|CTRL + LEFT CLICK TO DROP",
+  "BaseItem": {
+    "DisplayName": "Archon Staff",
+    "NTIPAliasClassID": 263,
+    "NTIPAliasType": 26,
+    "NTIPAliasStatProps": {
+      "194": {
+        "min": 0,
+        "max": 6
+      },
+      "72": 26,
+      "73": 26,
+      "23": 83,
+      "24": 99,
+      "0x400000": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "dimensions": [
+      2,
+      4
+    ],
+    "uniques": [
+      "MANGSONGSLESSON"
+    ],
+    "NTIPAliasClass": 2
+  },
+  "Item": null,
+  "NTIPAliasIdName": "SKULLSPELL",
+  "NTIPAliasType": 26,
+  "NTIPAliasClassID": 263,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "1": 20,
+    "9": 76,
+    "114": 10,
+    "73": 26,
+    "93": 20,
+    "83,1": 2,
+    "105": 20,
+    "122": 50,
+    "107,55": 3,
+    "107,64": 3,
+    "107,65": 3,
+    "92": 66,
+    "83": 2,
+    "107": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}
