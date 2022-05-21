@@ -235,6 +235,11 @@ class ScreenObjects:
         roi="left_inventory",
         threshold=0.8,
     )
+        Corpse=ScreenObject(
+        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
+        roi="corpse",
+        threshold=0.8
+    )
     NotEnoughGold=ScreenObject(
         ref="NOT_ENOUGH_GOLD",
         threshold=0.9,
