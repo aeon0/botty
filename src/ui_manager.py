@@ -177,7 +177,7 @@ class ScreenObjects:
         threshold=0.9
     )
     Corpse=ScreenObject(
-        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
+        ref=["CORPSE", "CORPSE_2", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
         roi="corpse",
         threshold=0.8
     )
@@ -234,11 +234,6 @@ class ScreenObjects:
         ref="STASH_EMPTY_SLOT",
         roi="left_inventory",
         threshold=0.8,
-    )
-        Corpse=ScreenObject(
-        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
-        roi="corpse",
-        threshold=0.8
     )
     NotEnoughGold=ScreenObject(
         ref="NOT_ENOUGH_GOLD",
