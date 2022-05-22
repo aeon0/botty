@@ -99,8 +99,9 @@ class Hammerdin(Paladin):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively:
-            self._pather.traverse_nodes_fixed("pindle_end", self)
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+            #self._pather.traverse_nodes_fixed("pindle_end", self)
+            if not self._pather.traverse_nodes([104], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True): return False
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
@@ -108,7 +109,12 @@ class Hammerdin(Paladin):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
+        self._cast_hammers(0.8, "redemption")
+        self._move_and_attack((30, 15), Config().char["atk_len_pindle"] * 0.5) #a bit to bottom right for making sure missing hammers have a chance to hit
+        if not self._pather.traverse_nodes([104], self, timeout=1.0, do_pre_move=self._do_pre_move): return False #go back to Pindle_End (104) to porperly cast TP so no failed run occurs.
         self._cast_hammers(1.6, "redemption")
+        
+        
         return True
 
     def kill_eldritch(self) -> bool:
@@ -164,13 +170,14 @@ class Hammerdin(Paladin):
         if (targets := get_visible_targets()):
             Logger.debug("I checked for mobs, seems to still be there let's use holy bolt.")
             cast_pos_abs = convert_screen_to_abs(targets[0].center)
-            for _ in atk_len:
+            atk_len = int(atk_len)
+            self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
+            if (targets := get_visible_targets()):
+                Logger.debug("I checked for mobs agian, seems to still be there lets use holy bolt a final time.")
+                cast_pos_abs = convert_screen_to_abs(targets[0].center)
                 self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
-                if (targets := get_visible_targets()):
-                    Logger.debug("I checked for mobs agian, seems to still be there lets use holy bolt a final time.")
-                    cast_pos_abs = convert_screen_to_abs(targets[0].center)
-                    for _ in atk_len:
-                        self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
+        else:
+            Logger.debug("No mobs detected")
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
