@@ -48,7 +48,6 @@ def find_unique_or_set_base(unique_or_set_name) -> Tuple[str, str]:
 def transpile(tokens, isPickedUpPhase=False):
     expression = ""
     section_start = True
-    print(tokens)
     for i, token in enumerate(tokens):
         if section_start:
             expression += "("
@@ -384,7 +383,6 @@ def _test_nip_expression(item_data, raw_nip_expression):
     return False
 
 
-
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
 nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
@@ -401,69 +399,75 @@ if os.path.isfile(os.path.join(nip_path, '.nipignore')):
                 if remove_file in nip_file_paths:
                     nip_file_paths.remove(remove_file)
 
-# num_files = 0
-# # load all nip expressions
-# if len(nip_file_paths) > 0:
-#     num_files = len(nip_file_paths)
-#     for nip_file_path in nip_file_paths:
-#         load_nip_expressions(nip_file_path)
-# # fallback to default nip file if no custom nip files specified or existing files are excluded
-# else:
-#     num_files = 1
-#     load_nip_expressions(default_nip_file_path)
-#     Logger.warning("No .nip files in config/nip/, fallback to default.nip")
-# Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
+num_files = 0
+# load all nip expressions
+if len(nip_file_paths) > 0:
+    num_files = len(nip_file_paths)
+    for nip_file_path in nip_file_paths:
+        load_nip_expressions(nip_file_path)
+# fallback to default nip file if no custom nip files specified or existing files are excluded
+else:
+    num_files = 1
+    load_nip_expressions(default_nip_file_path)
+    Logger.warning("No .nip files in config/nip/, fallback to default.nip")
+Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
 
 
 if __name__ == "__main__":
     item_data = {
-	'Name': 'Blade Talons',
-	'Quality': 'rare',
-	'Text': 'BLADE TALONS',
-	'BaseItem': {
-		'DisplayName': 'Blade Talons',
-		'NTIPAliasClassID': 180,
-		'NTIPAliasType': 67,
-		'NTIPAliasStatProps': {
-			'194': {
-				'min': 0,
-				'max': 3
-			},
-			'72': 69,
-			'73': 69,
-			'21': 10,
-			'22': 14,
-			'0x400000': {
-				'min': 0,
-				'max': 1
-			}
-		},
-		'dimensions': [1, 3],
-		'NTIPAliasClass': 0
-	},
-	'Item': None,
-	'NTIPAliasType': 67,
-	'NTIPAliasClassID': 180,
-	'NTIPAliasClass': 0,
-	'NTIPAliasQuality': 6,
-	'NTIPAliasFlag': {
-		'0x10': False,
-		'0x4000000': False,
-		'0x400000': False
-	}
-} 
-    print(transpile_nip_expression("[quality] == normal"))
-    # print(transpile_nip_expression("[class] == normal"))
-    # print(transpile_nip_expression("[quality] == rare"))
-    # print(transpile_nip_expression("[name] == MightyScepter # [skillConviction] >= 3"))
+        "Name": "IMP STINGER",
+        "Quality": "rare",
+        "Text": "IMP STINGER|BLADE BOW|TWO-HAND DAMAGE: 36 TO 76|REQUIRED DEXTERITY: 119|REQUIRED STRENGTH: 76|REQUIRED LEVEL: 45|BOW CLASS - VERY FAST ATTACK SPEED|+10% INCREASED ATTACK SPEED|+75% ENHANCED DAMAGE|+5 TO MAXIMUM DAMAGE|+113 TO ATTACK RATING|+191% DAMAGE TO UNDEAD|+186 TO ATTACK RATING AGAINST UNDEAD|4% LIFE STOLEN PER HIT",
+        "BaseItem": {
+            "DisplayName": "Blade Bow",
+            "NTIPAliasClassID": 265,
+            "NTIPAliasType": 27,
+            "NTIPAliasStatProps": {
+                "194": {
+                    "min": 0,
+                    "max": 4
+                },
+                "72": 32,
+                "73": 32,
+                "23": 21,
+                "24": 41
+            },
+            "dimensions": [
+                2,
+                3
+            ],
+            "NTIPAliasClass": 2
+        },
+        "Item": None,
+        "NTIPAliasIdName": "IMPSTINGER",
+        "NTIPAliasType": 27,
+        "NTIPAliasClassID": 265,
+        "NTIPAliasClass": None,
+        "NTIPAliasQuality": 6,
+        "NTIPAliasStat": {
+            "21": 36,
+            "22": 5,
+            "122": 191,
+            "19": 113,
+            "124": 186,
+            "18": 75,
+            "93": 10,
+            "60": 4
+        },
+        "NTIPAliasFlag": {
+            "0x10": 1,
+            "0x400000": 0,
+            "0x4000000": 0
+        }
+    }
     # print(eval("(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))or(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['shadowbow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('93', 0)))>=(20.0)"))
 
-    # ex = '[name] == matriarchalbow || [name] == grandmatronbow || [name] == spiderbow || [name] == bladebow || [name] == shadowbow && [quality] == rare # [ias] >= 10'
-    # print(transpile_nip_expression(ex))
-    # print(
-    #         _test_nip_expression(item_data, ex)
+    ex = '[name] == matriarchalbow || [name] == grandmatronbow || [name] == spiderbow || [name] == bladebow || [name] == shadowbow && [quality] == rare # [ias] >= 10'
+    print(transpile_nip_expression(ex))
+    print(
+            _test_nip_expression(item_data, ex)
 
-    # )
+    )
     # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(11.0)))
 
     # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(1.0)))
