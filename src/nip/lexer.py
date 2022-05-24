@@ -199,15 +199,15 @@ class Lexer:
                 lookup_key += self.current_token
         # Converts stuff like ethereal to NTIPAliasFlag['ethereal']
         if self.current_section == NipSections.PROP:
-            if lookup_key in NTIPAliasClass:
+            if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:
                 return Token(TokenType.NTIPAliasClass, lookup_key)
-            elif lookup_key in NTIPAliasQuality:
+            elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.QUALITY:
                 return Token(TokenType.NTIPAliasQuality, lookup_key)
             elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.NAME:
                 return Token(TokenType.NTIPAliasClassID, lookup_key)
-            elif lookup_key in NTIPAliasFlag:
+            elif lookup_key in NTIPAliasFlag and self.tokens[-2].type == TokenType.FLAG:
                 return Token(TokenType.NTIPAliasFlag, lookup_key)
-            elif lookup_key in NTIPAliasType:
+            elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType._TYPE:
                 return Token(TokenType.NTIPAliasType, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, lookup_key)
