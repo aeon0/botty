@@ -5,9 +5,10 @@ from d2r_image import processing
 from d2r_image.data_models import HoveredItem
 from functools import cache
 from keep_item_test_cases import NIP_TESTS
-from nip.transpile import _test_nip_expression
+from nip.transpile import _test_nip_expression, transpile_nip_expression
 import screen
 from dataclasses import dataclass
+
 
 PATH='test/assets/hovered_items'
 screen.set_window_position(0, 0)
@@ -16,6 +17,7 @@ screen.set_window_position(0, 0)
 class ExpressionTest():
     basename: str = None
     expression: str = None
+    transpiled: str = None
     read_json: dict = None
     expected_result: bool = False
 
@@ -40,7 +42,8 @@ def expressions_test_list() -> list[ExpressionTest]:
                 basename=key,
                 read_json=load_hovered_items()[key].as_dict(),
                 expression=val[0],
-                expected_result=val[1]
+                expected_result=val[1],
+                transpiled=transpile_nip_expression(val[0])
             ))
     return expressions
 
@@ -53,5 +56,9 @@ def test_hovered_item(hovered_item: list[str, dict]):
 
 @pytest.mark.parametrize('expression_test', expressions_test_list())
 def test_keep_item(expression_test: ExpressionTest):
-    print(f"{expression_test}")
+    print(f"\nImage: {expression_test.basename}")
+    print(f"Read item: {expression_test.read_json}")
+    print(f"Expression: {expression_test.expression}")
+    print(f"Transpiled: {expression_test.transpiled}")
+    print(f"Expected result: {expression_test.expected_result}\n")
     assert _test_nip_expression(expression_test.read_json, expression_test.expression) == expression_test.expected_result

@@ -79,8 +79,16 @@ NIP_TESTS = {
             True
         ),
         (
-            "[name] == PhaseBlade && [quality] == normal && [flag] != ethereal",
+            "[name] == PhaseBlade && [quality] == normal && [flag] == ethereal",
             False
+        ),
+        (
+            "[name] == PhaseBlade && [quality] == normal",
+            True
+        ),
+        (
+            "[name] == PhaseBlade",
+            True
         ),
         (
             "[type] == weapon",
@@ -129,7 +137,7 @@ NIP_TESTS = {
             True
         ),
         (
-            "[name] == Ring && [quality] == rare # [lightresist] >= 30 [maxhp] >= 40",
+            "[name] == Ring && [quality] == rare # [lightresist] >= 30 && [maxhp] >= 40",
             True
         ),
         (
@@ -179,6 +187,22 @@ NIP_TESTS = {
             True
         ),
         (
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
+            True
+        ),
+        (
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemaddskilltab] >= 2",
+            True
+        ),
+        (
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemreplenishdurability] >= 1",
+            True
+        ),
+        (
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [poisonmindam] >= 32 && [poisonmaxdam] >= 72",
+            True
+        ),
+        (
             "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80",
             True
         ),
@@ -208,6 +232,26 @@ NIP_TESTS = {
             "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [coldmindam] >= 35 && [coldmaxdam] >= 116 && [lightresist] >= 26 && [poisonmindam] >= 308 && [plusmaxdamage] >= 1 && [lightmindam] >= 1 && [lightmaxdam] >= 29 && [itemchargedskill] == 12",
             True
         ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [coldmindam] >= 35 && [coldmaxdam] >= 116",
+            True
+        ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [plusmaxdamage] >= 1",
+            True
+        ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [lightmindam] >= 1 && [lightmaxdam] >= 29 && [itemchargedskill] == 12",
+            True
+        ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [itemchargedskill] == 12",
+            True
+        ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal",
+            True
+        ),
     ],
     # giant thresher eth
     "D2R_60FdSnzNbq": [
@@ -222,11 +266,43 @@ NIP_TESTS = {
             "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [itemaddskilltab] >= 3 && [fcr] >= 10 && [skillHolyShock] >= 3 && [skillFistoftheHeavens] >= 3 && [skillConviction] >= 3",
             True
         ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [itemaddskilltab] >= 3",
+            True
+        ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [fcr] >= 10",
+            True
+        ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [skillHolyShock] >= 3 && [skillFistoftheHeavens] >= 3 && [skillConviction] >= 3",
+            True
+        ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [skillHolyShock] >= 3",
+            True
+        ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [skillFistoftheHeavens] >= 3",
+            True
+        ),
+        (
+            "[name] == MightyScepter && [quality] == magic && [flag] != ethereal # [skillConviction] >= 3",
+            True
+        ),
     ],
     # riphook
     "D2R_a6D8Kmv3uT": [
         (
             "[Name] == Razorbow && [quality] == unique # [enhanceddamage] >= 220 && [lifeleech] >= 10",
+            True
+        ),
+        (
+            "[Name] == Razorbow && [quality] == unique # [lifeleech] >= 10",
+            True
+        ),
+        (
+            "[Name] == Razorbow && [quality] == unique # [enhanceddamage] >= 220",
             True
         ),
     ],
@@ -555,8 +631,24 @@ NIP_TESTS = {
             True
         ),
         (
-            "[type] == auricshields && [quality] == rare && [flag] != ethereal # [enhanceddefense] >= 100 && [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80 && [itemaddskilltab] >= 1 && [itemskillongethit] == 48 && [toblock] >= 20 && [fbr] >= 30 && [itemreplenishdurability] >= 1",
+            "[name] == AncientShield && [quality] == rare && [flag] != ethereal # [itemskillongethit] == 48",
             True
+        ),
+        (
+            "[name] == AncientShield && [quality] == rare && [flag] != ethereal # [fbr] >= 30",
+            True
+        ),
+        (
+            "[name] == AncientShield && [quality] == rare && [flag] != ethereal # [toblock] >= 20",
+            True
+        ),
+        (
+            "[name] == AncientShield && [quality] == rare && [flag] != ethereal # [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80",
+            True
+        ),
+        (
+            "[type] == assassinclaws",
+            False
         ),
     ],
     # wizardspike
@@ -680,6 +772,30 @@ NIP_TESTS = {
             "[name] == BoneWand && [quality] == rare && [flag] != ethereal # [sockets] >= 2 && [maxmana] >= 76 && [necromancerskills] >= 2 && [fcr] >= 20 && [hpregen] >= 5 && [energy] >= 20 && [skillBoneSpirit] >= 3 && [skillIronGolem] >= 3 && [skillBoneSpear] >= 3",
             True
         ),
+        (
+            "[name] == BoneWand # [necromancerskills] >= 2",
+            True
+        ),
+        (
+            "[name] == BoneWand # [hpregen] >= 5 && [energy] >= 20",
+            True
+        ),
+        (
+            "[name] == BoneWand # [skillBoneSpirit] >= 3 && [skillIronGolem] >= 3 && [skillBoneSpear] >= 3",
+            True
+        ),
+        (
+            "[name] == BoneWand # [skillBoneSpirit] >= 3",
+            True
+        ),
+        (
+            "[name] == BoneWand # [skillIronGolem] >= 3",
+            True
+        ),
+        (
+            "[name] == BoneWand # [skillBoneSpear] >= 3",
+            True
+        ),
     ],
     # griffs
     "D2R_zKf6cKX5gZ": [
@@ -705,7 +821,7 @@ NIP_TESTS = {
     # carrion wind
     "hovered_item_20220504_160419": [
         (
-            "[type] == ring && [quality] == unique # [lifeleech] >= 9 // carrion wind",
+            "[type] == ring && [quality] == unique # [lifeleech] >= 8 // carrion wind",
             True
         ),
     ],
