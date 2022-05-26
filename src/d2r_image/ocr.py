@@ -235,7 +235,7 @@ def _ocr_result_dictionary_check(
     normalized_lev_threshold: float = 0.6
     ) -> str:
     confidences = [x/100 for x in confidences]
-    words_by_lines = [line.strip().split(' ') for line in original_text.split('\n')]
+    words_by_lines = [line.strip().split(' ') for line in original_text.splitlines()]
     total_word_count = -1
     new_text = ""
     saved_result = ""

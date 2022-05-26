@@ -10,7 +10,7 @@ def parse_item(quality, item, _call_count=1):
     item_is_identified = True
     item_is_ethereal = False
     item_modifiers = {}
-    lines = item.split('\n')
+    lines = item.splitlines()
     cleaned_lines = []
 
 
