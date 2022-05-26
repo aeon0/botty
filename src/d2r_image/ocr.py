@@ -218,7 +218,7 @@ def _fix_regexps(ocr_output: str, repeat_count: int = 0) -> str:
 
 
 def _check_known_errors(text):
-    for word in text.split(" "):
+    for word in text.split():
         for key in ERROR_RESOLUTION_MAP:
             if key == word:
                 text = text.replace(key, ERROR_RESOLUTION_MAP[key])
@@ -235,7 +235,7 @@ def _ocr_result_dictionary_check(
     normalized_lev_threshold: float = 0.6
     ) -> str:
     confidences = [x/100 for x in confidences]
-    words_by_lines = [line.strip().split(' ') for line in original_text.splitlines()]
+    words_by_lines = [line.strip().split() for line in original_text.splitlines()]
     total_word_count = -1
     new_text = ""
     saved_result = ""

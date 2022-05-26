@@ -83,7 +83,7 @@ if __name__ == "__main__":
                 for item in all_loot.items:
                     if item:
                         Logger.debug(f"Pick {item.Quality} {item.BaseItem['DisplayName']}?: {should_pickup(item.as_dict())}")
-                        Logger.debug(item)
+                        Logger.debug(item.as_dict())
                 draw_items_on_image_data(all_loot.items, img)
                 if gen_truth:
                     gen_truth_from_ground_loot(all_loot.items, img)

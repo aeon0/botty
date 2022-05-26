@@ -8,7 +8,7 @@ from d2r_image import ocr, processing_helpers, d2data_lookup
     ("SUPERIOR QU AB", 'SUPERIOR QUHAB')
 ])
 def test_wordwise_check(ocr_string, expected_string):
-    confidences = [0.5 for x in ocr_string.split(" ")]
+    confidences = [0.5 for x in ocr_string.split()]
     result = ocr._ocr_result_dictionary_check(ocr_string, confidences)
     assert result == expected_string
 
