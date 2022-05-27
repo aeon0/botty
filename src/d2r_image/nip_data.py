@@ -20,7 +20,7 @@ NTIP_ALIAS_QUALITY_MAP = {
     ItemQuality.Rune.value: 10,
 }
 
-NIP_ALIAS_STAT_PATTERNS = {
+NIP_ALIAS_STAT_PATTERNS =  {
     "Defense: {:d}": [
         "31"
     ],
@@ -130,13 +130,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "46"
     ],
     "All Resistances +{:d}": [
-        [
-            "6969",
-            "39",
-            "41",
-            "43",
-            "45"
-        ]
+        "6969"
     ],
     "+{:d} Fire Absorb": [
         "142"
@@ -399,7 +393,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Immolation Arrow (Amazon only)": [
         "107,27"
     ],
-    "+{:d} to Dopplezon (Amazon only)": [
+    "+{:d} to Decoy (Amazon only)": [
         "107,28"
     ],
     "+{:d} to Evade (Amazon only)": [
@@ -570,7 +564,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Bone Spear (Necromancer only)": [
         "107,84"
     ],
-    "+{:d} to BloodGolem (Necromancer only)": [
+    "+{:d} to Blood Golem (Necromancer only)": [
         "107,85"
     ],
     "+{:d} to Attract (Necromancer only)": [
@@ -585,7 +579,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Summon Resist (Necromancer only)": [
         "107,89"
     ],
-    "+{:d} to IronGolem (Necromancer only)": [
+    "+{:d} to Iron Golem (Necromancer only)": [
         "107,90"
     ],
     "+{:d} to Lower Resist (Necromancer only)": [
@@ -597,7 +591,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Bone Spirit (Necromancer only)": [
         "107,93"
     ],
-    "+{:d} to FireGolem (Necromancer only)": [
+    "+{:d} to Fire Golem (Necromancer only)": [
         "107,94"
     ],
     "+{:d} to Revive (Necromancer only)": [
@@ -717,7 +711,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Double Swing (Barbarian only)": [
         "107,133"
     ],
-    "+{:d} to Pole Arm Mastery (Barbarian only)": [
+    "+{:d} to Polearm Mastery (Barbarian only)": [
         "107,134"
     ],
     "+{:d} to Throwing Mastery (Barbarian only)": [
@@ -786,13 +780,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Raven (Druid only)": [
         "107,221"
     ],
-    "+{:d} to Plague Poppy (Druid only)": [
+    "+{:d} to Poison Creeper (Druid only)": [
         "107,222"
     ],
-    "+{:d} to Wearwolf (Druid only)": [
+    "+{:d} to Werewolf (Druid only)": [
         "107,223"
     ],
-    "+{:d} to Shape Shifting (Druid only)": [
+    "+{:d} to Lycanthropy (Druid only)": [
         "107,224"
     ],
     "+{:d} to Firestorm (Druid only)": [
@@ -804,7 +798,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Summon Spirit Wolf (Druid only)": [
         "107,227"
     ],
-    "+{:d} to Wearbear (Druid only)": [
+    "+{:d} to Werebear (Druid only)": [
         "107,228"
     ],
     "+{:d} to Molten Boulder (Druid only)": [
@@ -813,7 +807,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Arctic Blast (Druid only)": [
         "107,230"
     ],
-    "+{:d} to Cycle of Life (Druid only)": [
+    "+{:d} to Carrion Vine (Druid only)": [
         "107,231"
     ],
     "+{:d} to Feral Rage (Druid only)": [
@@ -822,7 +816,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Maul (Druid only)": [
         "107,233"
     ],
-    "+{:d} to Eruption (Druid only)": [
+    "+{:d} to Fissure (Druid only)": [
         "107,234"
     ],
     "+{:d} to Cyclone Armor (Druid only)": [
@@ -831,7 +825,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Heart of Wolverine (Druid only)": [
         "107,236"
     ],
-    "+{:d} to Summon Fenris (Druid only)": [
+    "+{:d} to Summon Dire Wolf (Druid only)": [
         "107,237"
     ],
     "+{:d} to Rabies (Druid only)": [
@@ -843,7 +837,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Twister (Druid only)": [
         "107,240"
     ],
-    "+{:d} to Vines (Druid only)": [
+    "+{:d} to Solar Creeper (Druid only)": [
         "107,241"
     ],
     "+{:d} to Hunger (Druid only)": [
@@ -873,7 +867,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Hurricane (Druid only)": [
         "107,250"
     ],
-    "+{:d} to Fire Trauma (Assassin only)": [
+    "+{:d} to Fire Blast (Assassin only)": [
         "107,251"
     ],
     "+{:d} to Claw Mastery (Assassin only)": [
@@ -888,13 +882,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Dragon Talon (Assassin only)": [
         "107,255"
     ],
-    "+{:d} to Shock Field (Assassin only)": [
+    "+{:d} to Shock Web (Assassin only)": [
         "107,256"
     ],
     "+{:d} to Blade Sentinel (Assassin only)": [
         "107,257"
     ],
-    "+{:d} to Quickness (Assassin only)": [
+    "+{:d} to Burst of Speed (Assassin only)": [
         "107,258"
     ],
     "+{:d} to Fists of Fire (Assassin only)": [
@@ -906,7 +900,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Charged Bolt Sentry (Assassin only)": [
         "107,261"
     ],
-    "+{:d} to Wake of Fire Sentry (Assassin only)": [
+    "+{:d} to Wake of Fire (Assassin only)": [
         "107,262"
     ],
     "+{:d} to Weapon Block (Assassin only)": [
@@ -936,7 +930,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Lightning Sentry (Assassin only)": [
         "107,271"
     ],
-    "+{:d} to Inferno Sentry (Assassin only)": [
+    "+{:d} to Wake of Inferno (Assassin only)": [
         "107,272"
     ],
     "+{:d} to Mind Blast (Assassin only)": [
@@ -960,7 +954,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Shadow Master (Assassin only)": [
         "107,279"
     ],
-    "+{:d} to Royal Strike (Assassin only)": [
+    "+{:d} to Phoenix Strike (Assassin only)": [
         "107,280"
     ],
     "{:d} to Bow and Crossbow Skills (Amazon Only)": [
@@ -1092,7 +1086,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Immolation Arrow Aura When Equipped": [
         "151,27"
     ],
-    "Level {:d} Dopplezon Aura When Equipped": [
+    "Level {:d} Decoy Aura When Equipped": [
         "151,28"
     ],
     "Level {:d} Evade Aura When Equipped": [
@@ -1263,7 +1257,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Bone Spear Aura When Equipped": [
         "151,84"
     ],
-    "Level {:d} BloodGolem Aura When Equipped": [
+    "Level {:d} Blood Golem Aura When Equipped": [
         "151,85"
     ],
     "Level {:d} Attract Aura When Equipped": [
@@ -1278,7 +1272,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Summon Resist Aura When Equipped": [
         "151,89"
     ],
-    "Level {:d} IronGolem Aura When Equipped": [
+    "Level {:d} Iron Golem Aura When Equipped": [
         "151,90"
     ],
     "Level {:d} Lower Resist Aura When Equipped": [
@@ -1290,7 +1284,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Bone Spirit Aura When Equipped": [
         "151,93"
     ],
-    "Level {:d} FireGolem Aura When Equipped": [
+    "Level {:d} Fire Golem Aura When Equipped": [
         "151,94"
     ],
     "Level {:d} Revive Aura When Equipped": [
@@ -1410,7 +1404,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Double Swing Aura When Equipped": [
         "151,133"
     ],
-    "Level {:d} Pole Arm Mastery Aura When Equipped": [
+    "Level {:d} Polearm Mastery Aura When Equipped": [
         "151,134"
     ],
     "Level {:d} Throwing Mastery Aura When Equipped": [
@@ -1479,13 +1473,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Raven Aura When Equipped": [
         "151,221"
     ],
-    "Level {:d} Plague Poppy Aura When Equipped": [
+    "Level {:d} Poison Creeper Aura When Equipped": [
         "151,222"
     ],
-    "Level {:d} Wearwolf Aura When Equipped": [
+    "Level {:d} Werewolf Aura When Equipped": [
         "151,223"
     ],
-    "Level {:d} Shape Shifting Aura When Equipped": [
+    "Level {:d} Lycanthropy Aura When Equipped": [
         "151,224"
     ],
     "Level {:d} Firestorm Aura When Equipped": [
@@ -1497,7 +1491,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Summon Spirit Wolf Aura When Equipped": [
         "151,227"
     ],
-    "Level {:d} Wearbear Aura When Equipped": [
+    "Level {:d} Werebear Aura When Equipped": [
         "151,228"
     ],
     "Level {:d} Molten Boulder Aura When Equipped": [
@@ -1506,7 +1500,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Arctic Blast Aura When Equipped": [
         "151,230"
     ],
-    "Level {:d} Cycle of Life Aura When Equipped": [
+    "Level {:d} Carrion Vine Aura When Equipped": [
         "151,231"
     ],
     "Level {:d} Feral Rage Aura When Equipped": [
@@ -1515,7 +1509,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Maul Aura When Equipped": [
         "151,233"
     ],
-    "Level {:d} Eruption Aura When Equipped": [
+    "Level {:d} Fissure Aura When Equipped": [
         "151,234"
     ],
     "Level {:d} Cyclone Armor Aura When Equipped": [
@@ -1524,7 +1518,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Heart of Wolverine Aura When Equipped": [
         "151,236"
     ],
-    "Level {:d} Summon Fenris Aura When Equipped": [
+    "Level {:d} Summon Dire Wolf Aura When Equipped": [
         "151,237"
     ],
     "Level {:d} Rabies Aura When Equipped": [
@@ -1536,7 +1530,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Twister Aura When Equipped": [
         "151,240"
     ],
-    "Level {:d} Vines Aura When Equipped": [
+    "Level {:d} Solar Creeper Aura When Equipped": [
         "151,241"
     ],
     "Level {:d} Hunger Aura When Equipped": [
@@ -1566,7 +1560,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Hurricane Aura When Equipped": [
         "151,250"
     ],
-    "Level {:d} Fire Trauma Aura When Equipped": [
+    "Level {:d} Fire Blast Aura When Equipped": [
         "151,251"
     ],
     "Level {:d} Claw Mastery Aura When Equipped": [
@@ -1581,13 +1575,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Dragon Talon Aura When Equipped": [
         "151,255"
     ],
-    "Level {:d} Shock Field Aura When Equipped": [
+    "Level {:d} Shock Web Aura When Equipped": [
         "151,256"
     ],
     "Level {:d} Blade Sentinel Aura When Equipped": [
         "151,257"
     ],
-    "Level {:d} Quickness Aura When Equipped": [
+    "Level {:d} Burst of Speed Aura When Equipped": [
         "151,258"
     ],
     "Level {:d} Fists of Fire Aura When Equipped": [
@@ -1599,7 +1593,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Charged Bolt Sentry Aura When Equipped": [
         "151,261"
     ],
-    "Level {:d} Wake of Fire Sentry Aura When Equipped": [
+    "Level {:d} Wake of Fire Aura When Equipped": [
         "151,262"
     ],
     "Level {:d} Weapon Block Aura When Equipped": [
@@ -1629,7 +1623,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Lightning Sentry Aura When Equipped": [
         "151,271"
     ],
-    "Level {:d} Inferno Sentry Aura When Equipped": [
+    "Level {:d} Wake of Inferno Aura When Equipped": [
         "151,272"
     ],
     "Level {:d} Mind Blast Aura When Equipped": [
@@ -1653,7 +1647,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Shadow Master Aura When Equipped": [
         "151,279"
     ],
-    "Level {:d} Royal Strike Aura When Equipped": [
+    "Level {:d} Phoenix Strike Aura When Equipped": [
         "151,280"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow on attack": [
@@ -1722,7 +1716,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow on attack": [
         "195,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon on attack": [
+    "{:d}% Chance to cast level {:d} Decoy on attack": [
         "195,28"
     ],
     "{:d}% Chance to cast level {:d} Evade on attack": [
@@ -1893,7 +1887,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear on attack": [
         "195,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem on attack": [
+    "{:d}% Chance to cast level {:d} Blood Golem on attack": [
         "195,85"
     ],
     "{:d}% Chance to cast level {:d} Attract on attack": [
@@ -1908,7 +1902,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist on attack": [
         "195,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem on attack": [
+    "{:d}% Chance to cast level {:d} Iron Golem on attack": [
         "195,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist on attack": [
@@ -1920,7 +1914,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit on attack": [
         "195,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem on attack": [
+    "{:d}% Chance to cast level {:d} Fire Golem on attack": [
         "195,94"
     ],
     "{:d}% Chance to cast level {:d} Revive on attack": [
@@ -2040,7 +2034,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing on attack": [
         "195,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery on attack": [
         "195,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery on attack": [
@@ -2109,13 +2103,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven on attack": [
         "195,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy on attack": [
+    "{:d}% Chance to cast level {:d} Poison Creeper on attack": [
         "195,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf on attack": [
+    "{:d}% Chance to cast level {:d} Werewolf on attack": [
         "195,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting on attack": [
+    "{:d}% Chance to cast level {:d} Lycanthropy on attack": [
         "195,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm on attack": [
@@ -2127,7 +2121,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf on attack": [
         "195,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear on attack": [
+    "{:d}% Chance to cast level {:d} Werebear on attack": [
         "195,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder on attack": [
@@ -2136,7 +2130,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast on attack": [
         "195,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life on attack": [
+    "{:d}% Chance to cast level {:d} Carrion Vine on attack": [
         "195,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage on attack": [
@@ -2145,7 +2139,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul on attack": [
         "195,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption on attack": [
+    "{:d}% Chance to cast level {:d} Fissure on attack": [
         "195,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor on attack": [
@@ -2154,7 +2148,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine on attack": [
         "195,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris on attack": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf on attack": [
         "195,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies on attack": [
@@ -2166,7 +2160,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister on attack": [
         "195,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines on attack": [
+    "{:d}% Chance to cast level {:d} Solar Creeper on attack": [
         "195,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger on attack": [
@@ -2196,7 +2190,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane on attack": [
         "195,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma on attack": [
+    "{:d}% Chance to cast level {:d} Fire Blast on attack": [
         "195,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery on attack": [
@@ -2211,13 +2205,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon on attack": [
         "195,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field on attack": [
+    "{:d}% Chance to cast level {:d} Shock Web on attack": [
         "195,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel on attack": [
         "195,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness on attack": [
+    "{:d}% Chance to cast level {:d} Burst of Speed on attack": [
         "195,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire on attack": [
@@ -2229,7 +2223,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry on attack": [
         "195,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry on attack": [
+    "{:d}% Chance to cast level {:d} Wake of Fire on attack": [
         "195,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block on attack": [
@@ -2259,7 +2253,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry on attack": [
         "195,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry on attack": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno on attack": [
         "195,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast on attack": [
@@ -2283,7 +2277,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master on attack": [
         "195,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike on attack": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike on attack": [
         "195,280"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow on striking": [
@@ -2352,7 +2346,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow on striking": [
         "198,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon on striking": [
+    "{:d}% Chance to cast level {:d} Decoy on striking": [
         "198,28"
     ],
     "{:d}% Chance to cast level {:d} Evade on striking": [
@@ -2523,7 +2517,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear on striking": [
         "198,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem on striking": [
+    "{:d}% Chance to cast level {:d} Blood Golem on striking": [
         "198,85"
     ],
     "{:d}% Chance to cast level {:d} Attract on striking": [
@@ -2538,7 +2532,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist on striking": [
         "198,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem on striking": [
+    "{:d}% Chance to cast level {:d} Iron Golem on striking": [
         "198,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist on striking": [
@@ -2550,7 +2544,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit on striking": [
         "198,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem on striking": [
+    "{:d}% Chance to cast level {:d} Fire Golem on striking": [
         "198,94"
     ],
     "{:d}% Chance to cast level {:d} Revive on striking": [
@@ -2670,7 +2664,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing on striking": [
         "198,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery on striking": [
         "198,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery on striking": [
@@ -2739,13 +2733,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven on striking": [
         "198,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy on striking": [
+    "{:d}% Chance to cast level {:d} Poison Creeper on striking": [
         "198,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf on striking": [
+    "{:d}% Chance to cast level {:d} Werewolf on striking": [
         "198,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting on striking": [
+    "{:d}% Chance to cast level {:d} Lycanthropy on striking": [
         "198,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm on striking": [
@@ -2757,7 +2751,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf on striking": [
         "198,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear on striking": [
+    "{:d}% Chance to cast level {:d} Werebear on striking": [
         "198,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder on striking": [
@@ -2766,7 +2760,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast on striking": [
         "198,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life on striking": [
+    "{:d}% Chance to cast level {:d} Carrion Vine on striking": [
         "198,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage on striking": [
@@ -2775,7 +2769,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul on striking": [
         "198,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption on striking": [
+    "{:d}% Chance to cast level {:d} Fissure on striking": [
         "198,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor on striking": [
@@ -2784,7 +2778,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine on striking": [
         "198,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris on striking": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf on striking": [
         "198,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies on striking": [
@@ -2796,7 +2790,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister on striking": [
         "198,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines on striking": [
+    "{:d}% Chance to cast level {:d} Solar Creeper on striking": [
         "198,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger on striking": [
@@ -2826,7 +2820,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane on striking": [
         "198,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma on striking": [
+    "{:d}% Chance to cast level {:d} Fire Blast on striking": [
         "198,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery on striking": [
@@ -2841,13 +2835,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon on striking": [
         "198,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field on striking": [
+    "{:d}% Chance to cast level {:d} Shock Web on striking": [
         "198,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel on striking": [
         "198,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness on striking": [
+    "{:d}% Chance to cast level {:d} Burst of Speed on striking": [
         "198,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire on striking": [
@@ -2859,7 +2853,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry on striking": [
         "198,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry on striking": [
+    "{:d}% Chance to cast level {:d} Wake of Fire on striking": [
         "198,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block on striking": [
@@ -2889,7 +2883,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry on striking": [
         "198,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry on striking": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno on striking": [
         "198,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast on striking": [
@@ -2913,7 +2907,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master on striking": [
         "198,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike on striking": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike on striking": [
         "198,280"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow when struck": [
@@ -2982,7 +2976,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow when struck": [
         "201,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon when struck": [
+    "{:d}% Chance to cast level {:d} Decoy when struck": [
         "201,28"
     ],
     "{:d}% Chance to cast level {:d} Evade when struck": [
@@ -3153,7 +3147,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear when struck": [
         "201,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem when struck": [
+    "{:d}% Chance to cast level {:d} Blood Golem when struck": [
         "201,85"
     ],
     "{:d}% Chance to cast level {:d} Attract when struck": [
@@ -3168,7 +3162,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist when struck": [
         "201,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem when struck": [
+    "{:d}% Chance to cast level {:d} Iron Golem when struck": [
         "201,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist when struck": [
@@ -3180,7 +3174,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit when struck": [
         "201,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem when struck": [
+    "{:d}% Chance to cast level {:d} Fire Golem when struck": [
         "201,94"
     ],
     "{:d}% Chance to cast level {:d} Revive when struck": [
@@ -3300,7 +3294,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing when struck": [
         "201,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when struck": [
         "201,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery when struck": [
@@ -3369,13 +3363,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven when struck": [
         "201,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy when struck": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when struck": [
         "201,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf when struck": [
+    "{:d}% Chance to cast level {:d} Werewolf when struck": [
         "201,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting when struck": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when struck": [
         "201,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm when struck": [
@@ -3387,7 +3381,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf when struck": [
         "201,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear when struck": [
+    "{:d}% Chance to cast level {:d} Werebear when struck": [
         "201,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder when struck": [
@@ -3396,7 +3390,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast when struck": [
         "201,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life when struck": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when struck": [
         "201,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage when struck": [
@@ -3405,7 +3399,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul when struck": [
         "201,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption when struck": [
+    "{:d}% Chance to cast level {:d} Fissure when struck": [
         "201,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor when struck": [
@@ -3414,7 +3408,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine when struck": [
         "201,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris when struck": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when struck": [
         "201,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies when struck": [
@@ -3426,7 +3420,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister when struck": [
         "201,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines when struck": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when struck": [
         "201,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger when struck": [
@@ -3456,7 +3450,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane when struck": [
         "201,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma when struck": [
+    "{:d}% Chance to cast level {:d} Fire Blast when struck": [
         "201,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery when struck": [
@@ -3471,13 +3465,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon when struck": [
         "201,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field when struck": [
+    "{:d}% Chance to cast level {:d} Shock Web when struck": [
         "201,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel when struck": [
         "201,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness when struck": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when struck": [
         "201,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire when struck": [
@@ -3489,7 +3483,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry when struck": [
         "201,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry when struck": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when struck": [
         "201,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block when struck": [
@@ -3519,7 +3513,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry when struck": [
         "201,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry when struck": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when struck": [
         "201,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast when struck": [
@@ -3543,29 +3537,37 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master when struck": [
         "201,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike when struck": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when struck": [
         "201,280"
     ],
     "Socketed ({:d})": [
         "194"
     ],
     "Adds {:d}-{:d} Fire Damage": [
-        "48"
+        "48",
+        "49"
     ],
     "Adds {:d}-{:d} Lightning Damage": [
-        "50"
+        "50",
+        "51"
     ],
     "Adds {:d}-{:d} Magic Damage": [
-        "52"
+        "52",
+        "53"
     ],
     "Adds {:d}-{:d} Cold Damage": [
-        "54"
+        "54",
+        "55",
+        "56"
     ],
     "Adds {:d}-{:d} Poison Damage Over {:d} Seconds": [
-        "57"
+        "57",
+        "58",
+        "59"
     ],
     "Adds {:d}-{:d} Damage": [
-        "21"
+        "21",
+        "22"
     ],
     "+{:d} Defense (Based on Character Level)": [
         "214"
@@ -3591,9 +3593,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Dexterity (Based on Character Level)": [
         "221"
     ],
-    "+{:d} to Energy (Based on Character Level)": [
-        "222"
-    ],
     "+{:d} to Vitality (Based on Character Level)": [
         "223"
     ],
@@ -3602,18 +3601,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "{:d}% Bonus to Attack Rating (Based on Character Level)": [
         "225"
-    ],
-    "+{:d} to Maximum Cold Damage (Based on Character Level)": [
-        "226"
-    ],
-    "+{:d} to Maximum Fire Damage (Based on Character Level)": [
-        "227"
-    ],
-    "+{:d} to Maximum Lightning Damage (Based on Character Level)": [
-        "228"
-    ],
-    "+{:d} to Maximum Poison Damage (Based on Character Level)": [
-        "229"
     ],
     "Cold Resist +{:d}% (Based on Character Level)": [
         "230"
@@ -3632,12 +3619,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "Absorbs Fire Damage (Based on Character Level)": [
         "235"
-    ],
-    "Absorbs Lightning Damage (Based on Character Level)": [
-        "236"
-    ],
-    "Absorbs Poison Damage (Based on Character Level)": [
-        "237"
     ],
     "Attacker Takes Damage of {:d} (Based on Character Level)": [
         "238"
@@ -3665,15 +3646,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "+{:d} to Attack Rating against Undead (Based on Character Level)": [
         "246"
-    ],
-    "{:d}% Chance of Crushing Blow (Based on Character Level)": [
-        "247"
-    ],
-    "{:d}% Chance of Open Wounds (Based on Character Level)": [
-        "248"
-    ],
-    "+{:d} Kick Damage (Based on Character Level)": [
-        "249"
     ],
     "{:d}% Deadly Strike (Based on Character Level)": [
         "250"
@@ -3873,7 +3845,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Immolation Arrow ({:d}/{:d} Charges)": [
         "204,27"
     ],
-    "Level {:d} Dopplezon ({:d}/{:d} Charges)": [
+    "Level {:d} Decoy ({:d}/{:d} Charges)": [
         "204,28"
     ],
     "Level {:d} Evade ({:d}/{:d} Charges)": [
@@ -4044,7 +4016,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Bone Spear ({:d}/{:d} Charges)": [
         "204,84"
     ],
-    "Level {:d} BloodGolem ({:d}/{:d} Charges)": [
+    "Level {:d} Blood Golem ({:d}/{:d} Charges)": [
         "204,85"
     ],
     "Level {:d} Attract ({:d}/{:d} Charges)": [
@@ -4059,7 +4031,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Summon Resist ({:d}/{:d} Charges)": [
         "204,89"
     ],
-    "Level {:d} IronGolem ({:d}/{:d} Charges)": [
+    "Level {:d} Iron Golem ({:d}/{:d} Charges)": [
         "204,90"
     ],
     "Level {:d} Lower Resist ({:d}/{:d} Charges)": [
@@ -4071,7 +4043,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Bone Spirit ({:d}/{:d} Charges)": [
         "204,93"
     ],
-    "Level {:d} FireGolem ({:d}/{:d} Charges)": [
+    "Level {:d} Fire Golem ({:d}/{:d} Charges)": [
         "204,94"
     ],
     "Level {:d} Revive ({:d}/{:d} Charges)": [
@@ -4191,7 +4163,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Double Swing ({:d}/{:d} Charges)": [
         "204,133"
     ],
-    "Level {:d} Pole Arm Mastery ({:d}/{:d} Charges)": [
+    "Level {:d} Polearm Mastery ({:d}/{:d} Charges)": [
         "204,134"
     ],
     "Level {:d} Throwing Mastery ({:d}/{:d} Charges)": [
@@ -4260,13 +4232,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Raven ({:d}/{:d} Charges)": [
         "204,221"
     ],
-    "Level {:d} Plague Poppy ({:d}/{:d} Charges)": [
+    "Level {:d} Poison Creeper ({:d}/{:d} Charges)": [
         "204,222"
     ],
-    "Level {:d} Wearwolf ({:d}/{:d} Charges)": [
+    "Level {:d} Werewolf ({:d}/{:d} Charges)": [
         "204,223"
     ],
-    "Level {:d} Shape Shifting ({:d}/{:d} Charges)": [
+    "Level {:d} Lycanthropy ({:d}/{:d} Charges)": [
         "204,224"
     ],
     "Level {:d} Firestorm ({:d}/{:d} Charges)": [
@@ -4278,7 +4250,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Summon Spirit Wolf ({:d}/{:d} Charges)": [
         "204,227"
     ],
-    "Level {:d} Wearbear ({:d}/{:d} Charges)": [
+    "Level {:d} Werebear ({:d}/{:d} Charges)": [
         "204,228"
     ],
     "Level {:d} Molten Boulder ({:d}/{:d} Charges)": [
@@ -4287,7 +4259,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Arctic Blast ({:d}/{:d} Charges)": [
         "204,230"
     ],
-    "Level {:d} Cycle of Life ({:d}/{:d} Charges)": [
+    "Level {:d} Carrion Vine ({:d}/{:d} Charges)": [
         "204,231"
     ],
     "Level {:d} Feral Rage ({:d}/{:d} Charges)": [
@@ -4296,7 +4268,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Maul ({:d}/{:d} Charges)": [
         "204,233"
     ],
-    "Level {:d} Eruption ({:d}/{:d} Charges)": [
+    "Level {:d} Fissure ({:d}/{:d} Charges)": [
         "204,234"
     ],
     "Level {:d} Cyclone Armor ({:d}/{:d} Charges)": [
@@ -4305,7 +4277,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Heart of Wolverine ({:d}/{:d} Charges)": [
         "204,236"
     ],
-    "Level {:d} Summon Fenris ({:d}/{:d} Charges)": [
+    "Level {:d} Summon Dire Wolf ({:d}/{:d} Charges)": [
         "204,237"
     ],
     "Level {:d} Rabies ({:d}/{:d} Charges)": [
@@ -4317,7 +4289,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Twister ({:d}/{:d} Charges)": [
         "204,240"
     ],
-    "Level {:d} Vines ({:d}/{:d} Charges)": [
+    "Level {:d} Solar Creeper ({:d}/{:d} Charges)": [
         "204,241"
     ],
     "Level {:d} Hunger ({:d}/{:d} Charges)": [
@@ -4347,7 +4319,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Hurricane ({:d}/{:d} Charges)": [
         "204,250"
     ],
-    "Level {:d} Fire Trauma ({:d}/{:d} Charges)": [
+    "Level {:d} Fire Blast ({:d}/{:d} Charges)": [
         "204,251"
     ],
     "Level {:d} Claw Mastery ({:d}/{:d} Charges)": [
@@ -4362,13 +4334,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Dragon Talon ({:d}/{:d} Charges)": [
         "204,255"
     ],
-    "Level {:d} Shock Field ({:d}/{:d} Charges)": [
+    "Level {:d} Shock Web ({:d}/{:d} Charges)": [
         "204,256"
     ],
     "Level {:d} Blade Sentinel ({:d}/{:d} Charges)": [
         "204,257"
     ],
-    "Level {:d} Quickness ({:d}/{:d} Charges)": [
+    "Level {:d} Burst of Speed ({:d}/{:d} Charges)": [
         "204,258"
     ],
     "Level {:d} Fists of Fire ({:d}/{:d} Charges)": [
@@ -4380,7 +4352,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Charged Bolt Sentry ({:d}/{:d} Charges)": [
         "204,261"
     ],
-    "Level {:d} Wake of Fire Sentry ({:d}/{:d} Charges)": [
+    "Level {:d} Wake of Fire ({:d}/{:d} Charges)": [
         "204,262"
     ],
     "Level {:d} Weapon Block ({:d}/{:d} Charges)": [
@@ -4410,7 +4382,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Lightning Sentry ({:d}/{:d} Charges)": [
         "204,271"
     ],
-    "Level {:d} Inferno Sentry ({:d}/{:d} Charges)": [
+    "Level {:d} Wake of Inferno ({:d}/{:d} Charges)": [
         "204,272"
     ],
     "Level {:d} Mind Blast ({:d}/{:d} Charges)": [
@@ -4434,7 +4406,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Shadow Master ({:d}/{:d} Charges)": [
         "204,279"
     ],
-    "Level {:d} Royal Strike ({:d}/{:d} Charges)": [
+    "Level {:d} Phoenix Strike ({:d}/{:d} Charges)": [
         "204,280"
     ],
     "+{:d}% to Fire Skill Damage": [
@@ -4450,22 +4422,15 @@ NIP_ALIAS_STAT_PATTERNS = {
         "332"
     ],
     "Adds {:d}-{:d} Fire/Lightning/Cold Damage": [
-        "48"
-    ],
-    "+{:d} to Minimum Fire/Lightning/Cold Damage": [
-        "48"
-    ],
-    "+{:d} to Maximum Fire/Lightning/Cold Damage": [
-        "49"
+        "48",
+        "49",
+        "50",
+        "51",
+        "54",
+        "55"
     ],
     "+{:d} to all Attributes": [
-        [
-            "420",
-            "0",
-            "2",
-            "3",
-            "1"
-        ]
+        "420"
     ],
     "+{:d}% to Experience Gained": [
         "85"
@@ -4478,12 +4443,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "Slain Monsters Rest in Peace": [
         "108"
-    ],
-    "{:d}% to Attack Rating versus [Monster Type]": [
-        "179"
-    ],
-    "{:d}% to Damage versus [Monster Type]": [
-        "180"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow when you Kill an Enemy": [
         "196,6"
@@ -4551,7 +4510,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow when you Kill an Enemy": [
         "196,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Decoy when you Kill an Enemy": [
         "196,28"
     ],
     "{:d}% Chance to cast level {:d} Evade when you Kill an Enemy": [
@@ -4722,7 +4681,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear when you Kill an Enemy": [
         "196,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Kill an Enemy": [
         "196,85"
     ],
     "{:d}% Chance to cast level {:d} Attract when you Kill an Enemy": [
@@ -4737,7 +4696,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist when you Kill an Enemy": [
         "196,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Kill an Enemy": [
         "196,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist when you Kill an Enemy": [
@@ -4749,7 +4708,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit when you Kill an Enemy": [
         "196,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Kill an Enemy": [
         "196,94"
     ],
     "{:d}% Chance to cast level {:d} Revive when you Kill an Enemy": [
@@ -4869,7 +4828,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing when you Kill an Enemy": [
         "196,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Kill an Enemy": [
         "196,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery when you Kill an Enemy": [
@@ -4938,13 +4897,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven when you Kill an Enemy": [
         "196,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Kill an Enemy": [
         "196,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Kill an Enemy": [
         "196,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Kill an Enemy": [
         "196,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm when you Kill an Enemy": [
@@ -4956,7 +4915,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Kill an Enemy": [
         "196,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Werebear when you Kill an Enemy": [
         "196,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder when you Kill an Enemy": [
@@ -4965,7 +4924,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast when you Kill an Enemy": [
         "196,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Kill an Enemy": [
         "196,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage when you Kill an Enemy": [
@@ -4974,7 +4933,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul when you Kill an Enemy": [
         "196,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fissure when you Kill an Enemy": [
         "196,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor when you Kill an Enemy": [
@@ -4983,7 +4942,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine when you Kill an Enemy": [
         "196,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Kill an Enemy": [
         "196,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies when you Kill an Enemy": [
@@ -4995,7 +4954,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister when you Kill an Enemy": [
         "196,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Kill an Enemy": [
         "196,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger when you Kill an Enemy": [
@@ -5025,7 +4984,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane when you Kill an Enemy": [
         "196,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Kill an Enemy": [
         "196,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery when you Kill an Enemy": [
@@ -5040,13 +4999,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon when you Kill an Enemy": [
         "196,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Kill an Enemy": [
         "196,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel when you Kill an Enemy": [
         "196,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Kill an Enemy": [
         "196,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire when you Kill an Enemy": [
@@ -5058,7 +5017,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Kill an Enemy": [
         "196,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Kill an Enemy": [
         "196,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block when you Kill an Enemy": [
@@ -5088,7 +5047,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry when you Kill an Enemy": [
         "196,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Kill an Enemy": [
         "196,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast when you Kill an Enemy": [
@@ -5112,7 +5071,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master when you Kill an Enemy": [
         "196,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Kill an Enemy": [
         "196,280"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow when you Die": [
@@ -5181,7 +5140,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow when you Die": [
         "197,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon when you Die": [
+    "{:d}% Chance to cast level {:d} Decoy when you Die": [
         "197,28"
     ],
     "{:d}% Chance to cast level {:d} Evade when you Die": [
@@ -5352,7 +5311,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear when you Die": [
         "197,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem when you Die": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Die": [
         "197,85"
     ],
     "{:d}% Chance to cast level {:d} Attract when you Die": [
@@ -5367,7 +5326,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist when you Die": [
         "197,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem when you Die": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Die": [
         "197,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist when you Die": [
@@ -5379,7 +5338,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit when you Die": [
         "197,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Die": [
         "197,94"
     ],
     "{:d}% Chance to cast level {:d} Revive when you Die": [
@@ -5499,7 +5458,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing when you Die": [
         "197,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Die": [
         "197,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery when you Die": [
@@ -5568,13 +5527,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven when you Die": [
         "197,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Die": [
         "197,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf when you Die": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Die": [
         "197,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting when you Die": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Die": [
         "197,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm when you Die": [
@@ -5586,7 +5545,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Die": [
         "197,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear when you Die": [
+    "{:d}% Chance to cast level {:d} Werebear when you Die": [
         "197,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder when you Die": [
@@ -5595,7 +5554,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast when you Die": [
         "197,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life when you Die": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Die": [
         "197,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage when you Die": [
@@ -5604,7 +5563,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul when you Die": [
         "197,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption when you Die": [
+    "{:d}% Chance to cast level {:d} Fissure when you Die": [
         "197,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor when you Die": [
@@ -5613,7 +5572,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine when you Die": [
         "197,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris when you Die": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Die": [
         "197,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies when you Die": [
@@ -5625,7 +5584,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister when you Die": [
         "197,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines when you Die": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Die": [
         "197,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger when you Die": [
@@ -5655,7 +5614,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane when you Die": [
         "197,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Die": [
         "197,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery when you Die": [
@@ -5670,13 +5629,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon when you Die": [
         "197,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field when you Die": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Die": [
         "197,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel when you Die": [
         "197,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness when you Die": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Die": [
         "197,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire when you Die": [
@@ -5688,7 +5647,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Die": [
         "197,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry when you Die": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Die": [
         "197,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block when you Die": [
@@ -5718,7 +5677,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry when you Die": [
         "197,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry when you Die": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Die": [
         "197,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast when you Die": [
@@ -5742,7 +5701,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master when you Die": [
         "197,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Die": [
         "197,280"
     ],
     "{:d}% Chance to cast level {:d} Magic Arrow when you Level-Up": [
@@ -5811,7 +5770,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Immolation Arrow when you Level-Up": [
         "199,27"
     ],
-    "{:d}% Chance to cast level {:d} Dopplezon when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Decoy when you Level-Up": [
         "199,28"
     ],
     "{:d}% Chance to cast level {:d} Evade when you Level-Up": [
@@ -5982,7 +5941,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spear when you Level-Up": [
         "199,84"
     ],
-    "{:d}% Chance to cast level {:d} BloodGolem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Level-Up": [
         "199,85"
     ],
     "{:d}% Chance to cast level {:d} Attract when you Level-Up": [
@@ -5997,7 +5956,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Resist when you Level-Up": [
         "199,89"
     ],
-    "{:d}% Chance to cast level {:d} IronGolem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Level-Up": [
         "199,90"
     ],
     "{:d}% Chance to cast level {:d} Lower Resist when you Level-Up": [
@@ -6009,7 +5968,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Bone Spirit when you Level-Up": [
         "199,93"
     ],
-    "{:d}% Chance to cast level {:d} FireGolem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Level-Up": [
         "199,94"
     ],
     "{:d}% Chance to cast level {:d} Revive when you Level-Up": [
@@ -6129,7 +6088,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Double Swing when you Level-Up": [
         "199,133"
     ],
-    "{:d}% Chance to cast level {:d} Pole Arm Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Level-Up": [
         "199,134"
     ],
     "{:d}% Chance to cast level {:d} Throwing Mastery when you Level-Up": [
@@ -6198,13 +6157,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Raven when you Level-Up": [
         "199,221"
     ],
-    "{:d}% Chance to cast level {:d} Plague Poppy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Level-Up": [
         "199,222"
     ],
-    "{:d}% Chance to cast level {:d} Wearwolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Level-Up": [
         "199,223"
     ],
-    "{:d}% Chance to cast level {:d} Shape Shifting when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Level-Up": [
         "199,224"
     ],
     "{:d}% Chance to cast level {:d} Firestorm when you Level-Up": [
@@ -6216,7 +6175,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Level-Up": [
         "199,227"
     ],
-    "{:d}% Chance to cast level {:d} Wearbear when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werebear when you Level-Up": [
         "199,228"
     ],
     "{:d}% Chance to cast level {:d} Molten Boulder when you Level-Up": [
@@ -6225,7 +6184,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Arctic Blast when you Level-Up": [
         "199,230"
     ],
-    "{:d}% Chance to cast level {:d} Cycle of Life when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Level-Up": [
         "199,231"
     ],
     "{:d}% Chance to cast level {:d} Feral Rage when you Level-Up": [
@@ -6234,7 +6193,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Maul when you Level-Up": [
         "199,233"
     ],
-    "{:d}% Chance to cast level {:d} Eruption when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fissure when you Level-Up": [
         "199,234"
     ],
     "{:d}% Chance to cast level {:d} Cyclone Armor when you Level-Up": [
@@ -6243,7 +6202,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Heart of Wolverine when you Level-Up": [
         "199,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Fenris when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Level-Up": [
         "199,237"
     ],
     "{:d}% Chance to cast level {:d} Rabies when you Level-Up": [
@@ -6255,7 +6214,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Twister when you Level-Up": [
         "199,240"
     ],
-    "{:d}% Chance to cast level {:d} Vines when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Level-Up": [
         "199,241"
     ],
     "{:d}% Chance to cast level {:d} Hunger when you Level-Up": [
@@ -6285,7 +6244,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Hurricane when you Level-Up": [
         "199,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Trauma when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Level-Up": [
         "199,251"
     ],
     "{:d}% Chance to cast level {:d} Claw Mastery when you Level-Up": [
@@ -6300,13 +6259,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Dragon Talon when you Level-Up": [
         "199,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Field when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Level-Up": [
         "199,256"
     ],
     "{:d}% Chance to cast level {:d} Blade Sentinel when you Level-Up": [
         "199,257"
     ],
-    "{:d}% Chance to cast level {:d} Quickness when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Level-Up": [
         "199,258"
     ],
     "{:d}% Chance to cast level {:d} Fists of Fire when you Level-Up": [
@@ -6318,7 +6277,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Level-Up": [
         "199,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Level-Up": [
         "199,262"
     ],
     "{:d}% Chance to cast level {:d} Weapon Block when you Level-Up": [
@@ -6348,7 +6307,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Lightning Sentry when you Level-Up": [
         "199,271"
     ],
-    "{:d}% Chance to cast level {:d} Inferno Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Level-Up": [
         "199,272"
     ],
     "{:d}% Chance to cast level {:d} Mind Blast when you Level-Up": [
@@ -6372,7 +6331,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Shadow Master when you Level-Up": [
         "199,279"
     ],
-    "{:d}% Chance to cast level {:d} Royal Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Level-Up": [
         "199,280"
     ],
     "Required Level: {:d}": [
@@ -6444,7 +6403,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Immolation Arrow": [
         "97,27"
     ],
-    "+{:d} to Dopplezon": [
+    "+{:d} to Decoy": [
         "97,28"
     ],
     "+{:d} to Evade": [
@@ -6615,7 +6574,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Bone Spear": [
         "97,84"
     ],
-    "+{:d} to BloodGolem": [
+    "+{:d} to Blood Golem": [
         "97,85"
     ],
     "+{:d} to Attract": [
@@ -6630,7 +6589,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Summon Resist": [
         "97,89"
     ],
-    "+{:d} to IronGolem": [
+    "+{:d} to Iron Golem": [
         "97,90"
     ],
     "+{:d} to Lower Resist": [
@@ -6642,7 +6601,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Bone Spirit": [
         "97,93"
     ],
-    "+{:d} to FireGolem": [
+    "+{:d} to Fire Golem": [
         "97,94"
     ],
     "+{:d} to Revive": [
@@ -6762,7 +6721,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Double Swing": [
         "97,133"
     ],
-    "+{:d} to Pole Arm Mastery": [
+    "+{:d} to Polearm Mastery": [
         "97,134"
     ],
     "+{:d} to Throwing Mastery": [
@@ -6831,13 +6790,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Raven": [
         "97,221"
     ],
-    "+{:d} to Plague Poppy": [
+    "+{:d} to Poison Creeper": [
         "97,222"
     ],
-    "+{:d} to Wearwolf": [
+    "+{:d} to Werewolf": [
         "97,223"
     ],
-    "+{:d} to Shape Shifting": [
+    "+{:d} to Lycanthropy": [
         "97,224"
     ],
     "+{:d} to Firestorm": [
@@ -6849,7 +6808,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Summon Spirit Wolf": [
         "97,227"
     ],
-    "+{:d} to Wearbear": [
+    "+{:d} to Werebear": [
         "97,228"
     ],
     "+{:d} to Molten Boulder": [
@@ -6858,7 +6817,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Arctic Blast": [
         "97,230"
     ],
-    "+{:d} to Cycle of Life": [
+    "+{:d} to Carrion Vine": [
         "97,231"
     ],
     "+{:d} to Feral Rage": [
@@ -6867,7 +6826,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Maul": [
         "97,233"
     ],
-    "+{:d} to Eruption": [
+    "+{:d} to Fissure": [
         "97,234"
     ],
     "+{:d} to Cyclone Armor": [
@@ -6876,7 +6835,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Heart of Wolverine": [
         "97,236"
     ],
-    "+{:d} to Summon Fenris": [
+    "+{:d} to Summon Dire Wolf": [
         "97,237"
     ],
     "+{:d} to Rabies": [
@@ -6888,7 +6847,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Twister": [
         "97,240"
     ],
-    "+{:d} to Vines": [
+    "+{:d} to Solar Creeper": [
         "97,241"
     ],
     "+{:d} to Hunger": [
@@ -6918,7 +6877,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Hurricane": [
         "97,250"
     ],
-    "+{:d} to Fire Trauma": [
+    "+{:d} to Fire Blast": [
         "97,251"
     ],
     "+{:d} to Claw Mastery": [
@@ -6933,13 +6892,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Dragon Talon": [
         "97,255"
     ],
-    "+{:d} to Shock Field": [
+    "+{:d} to Shock Web": [
         "97,256"
     ],
     "+{:d} to Blade Sentinel": [
         "97,257"
     ],
-    "+{:d} to Quickness": [
+    "+{:d} to Burst of Speed": [
         "97,258"
     ],
     "+{:d} to Fists of Fire": [
@@ -6951,7 +6910,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Charged Bolt Sentry": [
         "97,261"
     ],
-    "+{:d} to Wake of Fire Sentry": [
+    "+{:d} to Wake of Fire": [
         "97,262"
     ],
     "+{:d} to Weapon Block": [
@@ -6981,7 +6940,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Lightning Sentry": [
         "97,271"
     ],
-    "+{:d} to Inferno Sentry": [
+    "+{:d} to Wake of Inferno": [
         "97,272"
     ],
     "+{:d} to Mind Blast": [
@@ -7005,7 +6964,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Shadow Master": [
         "97,279"
     ],
-    "+{:d} to Royal Strike": [
+    "+{:d} to Phoenix Strike": [
         "97,280"
     ],
     "+{:d} to Barbarian Skill Levels": [
