@@ -95,22 +95,35 @@ class FoHdin(Paladin):
 
 
     def kill_pindle(self) -> bool:
-            pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
-            cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-            Logger.debug("Lets use the standard attack pattern w/o mob detection first")
-            for _ in range(int(Config().char["atk_len_pindle"])):
-                self._cast_foh(cast_pos_abs, spray=11)
-            wait(self._cast_duration, self._cast_duration + 0.2)
-            if (targets := get_visible_targets()):
-                Logger.debug("I checked for mobs, seems to still be there lets use holy bolt.")
-                cast_pos_abs = convert_screen_to_abs(targets[0].center)
-                for _ in range(int(Config().char["atk_len_pindle"])):
-                    self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_pindle"])/2)
-                    if (targets := get_visible_targets()):
-                        Logger.debug("I checked for mobs agian, seems to still be there lets use FOH a final time.")
-                        cast_pos_abs = convert_screen_to_abs(targets[0].center)
-                        for _ in range(int(Config().char["atk_len_pindle"])):
-                            self._cast_foh(cast_pos_abs, spray=11)
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+            Logger.debug("Slightly retreating, so the Merc gets charged")
+            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False): return False
+            Logger.debug("Doing one Teleport to safe_dist to grab our Merc")
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True): return False
+            Logger.debug("Slightly retreating, so the Merc gets charged")
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False, use_tp_charge=False): return False
+        else:
+            if not self._do_pre_move:
+                keyboard.send(self._skill_hotkeys["conviction"])
+                wait(0.05, 0.15)
+            self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move)
+        pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
+        cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
+        Logger.debug("Lets use the standard attack pattern w/o mob detection first")
+        for _ in range(int(Config().char["atk_len_pindle"])):
+            self._cast_foh(cast_pos_abs, spray=11)
+        wait(self._cast_duration, self._cast_duration + 0.2)
+        self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_pindle"]) * 0.5)
+        if (targets := get_visible_targets()):
+            Logger.debug("I checked for mobs, seems to still be there lets use holy bolt.")
+            cast_pos_abs = convert_screen_to_abs(targets[0].center)
+            for _ in range(int(Config().char["atk_len_pindle"]* 0.5)):
+                self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_pindle"]) * 0.25)
+                if (targets := get_visible_targets()):
+                    Logger.debug("I checked for mobs again, seems to still be there lets use FOH a final time.")
+                    cast_pos_abs = convert_screen_to_abs(targets[0].center)
+                    for _ in range(int(Config().char["atk_len_pindle"])):
+                        self._cast_foh(cast_pos_abs, spray=11)
 
             if self.capabilities.can_teleport_natively:
                 self._pather.traverse_nodes_fixed("pindle_end", self)
