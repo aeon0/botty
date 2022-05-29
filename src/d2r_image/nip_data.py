@@ -207,8 +207,8 @@ NIP_ALIAS_STAT_PATTERNS =  {
     "+{:d} to Sorceress Skill Levels": [
         "83,1"
     ],
-    "+{:d}  to Barbarian Skill Levels": [
-        "83"
+    "+{:d} to Barbarian Skill Levels": [
+        "83,4"
     ],
     "+{:d} to Light Radius": [
         "89"
@@ -6966,9 +6966,6 @@ NIP_ALIAS_STAT_PATTERNS =  {
     ],
     "+{:d} to Phoenix Strike": [
         "97,280"
-    ],
-    "+{:d} to Barbarian Skill Levels": [
-        "83,4"
     ],
     "+{:d} to not Consume Quantity": [
         "205"
