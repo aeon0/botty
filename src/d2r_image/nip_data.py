@@ -20,7 +20,7 @@ NTIP_ALIAS_QUALITY_MAP = {
     ItemQuality.Rune.value: 10,
 }
 
-NIP_ALIAS_STAT_PATTERNS =  {
+NIP_ALIAS_STAT_PATTERNS = {
     "Defense: {:d}": [
         "31"
     ],
@@ -3557,8 +3557,7 @@ NIP_ALIAS_STAT_PATTERNS =  {
     ],
     "Adds {:d}-{:d} Cold Damage": [
         "54",
-        "55",
-        "56"
+        "55"
     ],
     "Adds {:d}-{:d} Poison Damage Over {:d} Seconds": [
         "57",
@@ -4423,11 +4422,7 @@ NIP_ALIAS_STAT_PATTERNS =  {
     ],
     "Adds {:d}-{:d} Fire/Lightning/Cold Damage": [
         "48",
-        "49",
-        "50",
-        "51",
-        "54",
-        "55"
+        "49"
     ],
     "+{:d} to all Attributes": [
         "420"
