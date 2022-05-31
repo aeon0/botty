@@ -1,10 +1,21 @@
 from parse import compile as compile_pattern
 from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pattern_match, find_set_item_by_name, find_unique_item_by_name, get_base, get_rune, is_base, is_rune, is_consumable, get_consumable, get_by_name
 from d2r_image.data_models import HoveredItem, ItemQuality
-from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NIP_PATTERNS, NIP_RE_PATTERNS
+from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
 import re
+from logger import Logger
+
+from parse import compile
+from functools import cache
+
+@cache
+def compiled_nip_patterns():
+    nip_patterns = {}
+    for pattern in NIP_ALIAS_STAT_PATTERNS.keys():
+        nip_patterns[pattern] = compile(pattern)
+    return nip_patterns
 
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
@@ -151,30 +162,36 @@ def parse_item(quality, item, _call_count=1):
         }
     )
 
-
 def find_nip_pattern_match(item_lines):
     nip_alias_stat = {}
-    for pattern, keys in NIP_ALIAS_STAT_PATTERNS.items():
-        if pattern not in NIP_RE_PATTERNS:
-            NIP_PATTERNS[pattern] = compile_pattern(pattern)
-        for line in item_lines:
-            result = NIP_PATTERNS[pattern].parse(line)
+
+    for line in item_lines:
+        #print(f"  line: {line}")
+        for pattern, ntip_alias_keys in NIP_ALIAS_STAT_PATTERNS.items():
+            result = compiled_nip_patterns()[pattern].parse(line)
             if result:
-                for i in range(len(keys)):
-                    key = keys[i]
-                    if isinstance(key, list):
-                        for split_key in key:
-                            nip_alias_stat[split_key] = result.fixed[i]
-                    else:
-                        if result.fixed:
-                            nip_alias_stat[key] = result.fixed[i]
+                #print(f"  ntip_alias_keys: {ntip_alias_keys}")
+                #print(f"  result: {result}")
+                for item_prop_cnt, item_prop in enumerate(result.fixed):
+                    #print(f"    item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                    try:
+                        if isinstance(ntip_alias_keys[item_prop_cnt], list):
+                            for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
+                                nip_alias_stat[sub_alias_key] = item_prop
                         else:
-                            nip_alias_stat[key] = True
+                            if result.fixed:
+                                nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
+                            else:
+                                nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = True
+                    except IndexError:
+                        # more item properties than read fields, skip
+                        Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                    except Exception as e:
+                        Logger.error(f"error {e}\n  on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                break
     for key in nip_alias_stat.copy(): # it don't like when I change the dict while iterating
         # find stats like 83,3=2 (+2 to paladins skills) and also add 83=2
         found_group = re.search(r'(\d+),', key)
         if found_group:
             nip_alias_stat[found_group.group(1)] = nip_alias_stat[key]
-        
-
     return nip_alias_stat

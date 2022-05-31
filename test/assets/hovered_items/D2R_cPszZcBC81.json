@@ -62,7 +62,7 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,
   "NTIPAliasStat": {
-    "122": 50
+    "122": "50"
   },
   "NTIPAliasFlag": {
     "0x10": true,

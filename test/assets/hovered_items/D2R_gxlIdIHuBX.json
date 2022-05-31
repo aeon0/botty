@@ -32,10 +32,10 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,
   "NTIPAliasStat": {
-    "93": 20,
-    "188,0": 6,
-    "92": 58,
-    "188": 6
+    "92": "58",
+    "188,0": "+6",
+    "93": "20",
+    "188": "+6"
   },
   "NTIPAliasFlag": {
     "0x10": true,

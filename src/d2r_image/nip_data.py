@@ -1,9 +1,6 @@
 from d2r_image.data_models import ItemQuality, ItemQualityKeyword
 
 
-NIP_RE_PATTERNS = {}
-NIP_PATTERNS = {}
-
 NTIP_ALIAS_QUALITY_MAP = {
     ItemQualityKeyword.LowQuality.value: 1,
     ItemQualityKeyword.Crude.value: 1,
@@ -161,6 +158,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "149"
     ],
     "Durability: {} of {}": [
+        "72",
         "73"
     ],
     "Increase Maximum Durability {}%": [
