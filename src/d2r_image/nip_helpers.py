@@ -1,7 +1,7 @@
 from parse import compile as compile_pattern
 from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pattern_match, find_set_item_by_name, find_unique_item_by_name, get_base, get_rune, is_base, is_rune, is_consumable, get_consumable, get_by_name
 from d2r_image.data_models import HoveredItem, ItemQuality
-from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS
+from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
 import re
@@ -97,26 +97,13 @@ def parse_item(quality, item, _call_count=1):
             found_item = find_set_item_by_name(base_item['sets'][0].replace('_', ' ').upper(), True)
         elif quality == ItemQuality.Unique.value and len(base_item['uniques']) == 1:
             found_item = find_unique_item_by_name(base_item['uniques'][0].replace('_', ' ').upper(), True)
-    ntip_alias_quality_map = {
-        ItemQuality.Rune.value: 10,
-        ItemQuality.Runeword.value: 9,
-        ItemQuality.Crafted.value: 8,
-        ItemQuality.Unique.value: 7,
-        ItemQuality.Rare.value: 6,
-        ItemQuality.Set.value: 5,
-        ItemQuality.Magic.value: 4,
-        ItemQuality.Superior.value: 3,
-        ItemQuality.Normal.value: 2,
-        ItemQuality.Gray.value: 1
-        # TODO Add support for lowquality
-    }
     # print("base_item", base_item)
 
     # nip_item = Nip(
     #     NTIPAliasType=base_item['NTIPAliasType'],
     #     NTIPAliasClassID = base_item['NTIPAliasClassID'],
     #     NTIPAliasClass = None if 'item_class' not in base_item else 2 if base_item['item_class'] == 'elite' else 1 if base_item['item_class'] == 'exceptional' else 0,
-    #     NTIPAliasQuality=ntip_alias_quality_map[quality],
+    #     NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[quality],
     #     NTIPAliasStat=ntip_alias_stat,
     #     NTIPAliasFlag={
     #         '0x10': item_is_identified,
@@ -153,7 +140,7 @@ def parse_item(quality, item, _call_count=1):
         NTIPAliasType=base_item['NTIPAliasType'],
         NTIPAliasClassID=base_item['NTIPAliasClassID'],
         NTIPAliasClass = None if 'item_class' not in base_item else 2 if base_item['item_class'] == 'elite' else 1 if base_item['item_class'] == 'exceptional' else 0,
-        NTIPAliasQuality=ntip_alias_quality_map[quality],
+        NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[quality],
         NTIPAliasStat=ntip_alias_stat,
         NTIPAliasFlag={
             '0x10': item_is_identified,
@@ -170,10 +157,10 @@ def find_nip_pattern_match(item_lines):
         for pattern, ntip_alias_keys in NIP_ALIAS_STAT_PATTERNS.items():
             result = compiled_nip_patterns()[pattern].parse(line)
             if result:
-                #print(f"  ntip_alias_keys: {ntip_alias_keys}")
-                #print(f"  result: {result}")
+                #print(f"    ntip_alias_keys: {ntip_alias_keys}")
+                #print(f"    result: {result}")
                 for item_prop_cnt, item_prop in enumerate(result.fixed):
-                    #print(f"    item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                    #print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
                     try:
                         if isinstance(ntip_alias_keys[item_prop_cnt], list):
                             for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
@@ -195,3 +182,15 @@ def find_nip_pattern_match(item_lines):
         if found_group:
             nip_alias_stat[found_group.group(1)] = nip_alias_stat[key]
     return nip_alias_stat
+
+def _handle_skill_properties():
+    # '195' = itemskillonattack
+    # '196' = itemskillonkill
+    # '197' = itemskillondeath
+    # '198' = itemskillonhit
+    # '199' = itemskillonlevelup
+    # '201' = itemskillongethit
+    # '204 = itemchargedskill
+
+
+    pass

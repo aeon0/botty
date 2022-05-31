@@ -60,7 +60,7 @@
   "NTIPAliasType": 34,
   "NTIPAliasClassID": 256,
   "NTIPAliasClass": null,
-  "NTIPAliasQuality": 1,
+  "NTIPAliasQuality": 2,
   "NTIPAliasStat": {
     "72": 33,
     "73": 33,

@@ -30,6 +30,10 @@ class ItemQuality(Enum):
     Runeword = 'runeword'
     Orange = 'orange'
     Superior = 'superior'
+    LowQuality = 'lowquality'
+    Cracked = 'lowquality'
+    Crude = 'lowquality'
+    Damaged = 'lowquality'
 
 
 @dataclass

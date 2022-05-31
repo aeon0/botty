@@ -209,7 +209,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
 
             if is_invalid_maxquantity_lookup:
                 raise NipSyntaxErrorSection(token, "maxquantity")
-    
+
     # * Further syntax validation
     for i, token in enumerate(all_tokens):
         if token.type == TokenType.EQ:
@@ -475,7 +475,7 @@ if __name__ == "__main__":
     # print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
     # print(transpile_nip_expression("[name] == keyofterror"))
     # print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
-    
+
 
     # for i, test in enumerate(transpile_tests):
     #     try:
@@ -485,7 +485,7 @@ if __name__ == "__main__":
     #         print("Failed to transpile:", test["raw"])
     #         print(transpile_nip_expression(test["raw"]), end="\n\n")
 
-    
+
     # print("\n")
 
     # for i, test in enumerate(syntax_error_tests):
